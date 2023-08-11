@@ -1,0 +1,51 @@
+<!-- mybatis-config.xml -->
+<configuration>
+    <!-- Define type aliases for your entity classes -->
+    <typeAliases>
+        <typeAlias type="com.controlcenter.controlcenter.User" alias="User"/>
+        <!-- Add more type aliases if needed -->
+    </typeAliases>
+
+    <!-- Optional settings -->
+
+    <!-- Specify a custom type handler if needed -->
+    <!--
+    <typeHandlers>
+        <typeHandler handler="com.example.mybatis.CustomTypeHandler"/>
+    </typeHandlers>
+    -->
+
+    <!-- Specify global settings like cache and naming strategy if needed -->
+    <!--
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    -->
+
+    <!-- Specify mappers using classpath resources (if using XML-based mappings) -->
+    <mappers>
+        <mapper resource="./mappers/UserMapper.xml"/>
+        <!-- Add more mapper resources if needed -->
+    </mappers>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${spring.datasource.driver-class-name}"/>
+                <property name="url" value="${spring.datasource.url}"/>
+                <property name="username" value="${spring.datasource.username}"/>
+                <property name="password" value="${spring.datasource.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+   
+
+    <!-- Specify mappers using package scanning (if using interface-based mappings) -->
+    
+    <!-- <mappers>
+        <package name="com.controlcenter.controlcenter.dao"/>
+    </mappers> -->
+   
+</configuration>

@@ -1,0 +1,18 @@
+<!-- YourEntityMapper.xml -->
+<mapper namespace="com.controlcenter.controlcenter.dao.UserMapper">
+    <!-- <select id="findById" parameterType="java.lang.Long" resultType="com.example.entity.YourEntity">
+        SELECT * FROM your_entity_table WHERE id = #{id}
+    </select> -->
+
+    <select id="findAll" resultType="com.controlcenter.controlcenter.model.User">
+        SELECT * FROM user
+    </select>
+
+    <!-- <insert id="save" parameterType="com.example.entity.YourEntity">
+        INSERT INTO your_entity_table (name) VALUES (#{name})
+    </insert>
+
+    <delete id="delete" parameterType="com.example.entity.YourEntity">
+        DELETE FROM your_entity_table WHERE id = #{id}
+    </delete> -->
+</mapper>
