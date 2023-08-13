@@ -1,10 +1,10 @@
 <!-- mybatis-config.xml -->
 <configuration>
     <!-- Define type aliases for your entity classes -->
-    <typeAliases>
+    <!-- <typeAliases>
         <typeAlias type="com.controlcenter.controlcenter.User" alias="User"/>
-        <!-- Add more type aliases if needed -->
-    </typeAliases>
+        Add more type aliases if needed
+    </typeAliases> -->
 
     <!-- Optional settings -->
 
@@ -23,27 +23,27 @@
     </settings>
     -->
 
-    <!-- Specify mappers using classpath resources (if using XML-based mappings) -->
-    <mappers>
-        <mapper resource="./mappers/UserMapper.xml"/>
-        <!-- Add more mapper resources if needed -->
-    </mappers>
-
+   <!-- Database environment configuration -->
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="${spring.datasource.driver-class-name}"/>
-                <property name="url" value="${spring.datasource.url}"/>
-                <property name="username" value="${spring.datasource.username}"/>
-                <property name="password" value="${spring.datasource.password}"/>
+                <!-- DataSource configuration goes here -->
+                <property name="driver" value="${jdbc.driver}" />
+                <property name="url" value="${jdbc.url}" />
+                <property name="username" value="${jdbc.username}" />
+                <property name="password" value="${jdbc.password}" />
             </dataSource>
         </environment>
     </environments>
    
+   <!-- Specify mappers using classpath resources (if using XML-based mappings) -->
+    <mappers>
+        <mapper resource="mappers/UserMapper.xml"/>
+        <!-- Add more mapper resources if needed -->
+    </mappers>
 
     <!-- Specify mappers using package scanning (if using interface-based mappings) -->
-    
     <!-- <mappers>
         <package name="com.controlcenter.controlcenter.dao"/>
     </mappers> -->

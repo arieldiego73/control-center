@@ -3,7 +3,7 @@ package com.controlcenter.controlcenter.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.dao.UserMapper;
+import com.controlcenter.controlcenter.dao.UserDAOImpl;
 import com.controlcenter.controlcenter.model.User;
 
 import java.util.List;
@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/api")
 public class UserController {
 
-    private final UserMapper userMapper;
+    private UserDAOImpl userDAOImpl;
 
     @Autowired
-    public UserController(UserMapper userMapper) {
-        this.userMapper = userMapper;
+    public UserController(UserDAOImpl userDAOImpl) {
+        this.userDAOImpl = userDAOImpl;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userMapper.findAll();
+        List<User> users = userDAOImpl.findAll();
         return ResponseEntity.ok(users);
     }
     
