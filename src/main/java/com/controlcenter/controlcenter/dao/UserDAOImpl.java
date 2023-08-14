@@ -24,9 +24,19 @@ public class UserDAOImpl implements UserDAO {
         return userMapper.findAll();
     }
 
-     @Override
+    @Override
     public User getUserById(Long id) {
         return userMapper.getUserById(id);
+    }
+
+    @Override
+    public void insertUser(User user) {
+        userMapper.insertUser(user);
+    }
+
+    @Override
+    public void insertUserBatch(List<User> users) {
+        userMapper.insertUserBatch(users);
     }
 
     // @Override

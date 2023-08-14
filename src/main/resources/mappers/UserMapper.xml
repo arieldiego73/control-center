@@ -12,6 +12,15 @@
     <select id="getUserById" parameterType="long" resultType="com.controlcenter.controlcenter.model.User">
         SELECT * FROM user WHERE id = #{id};
     </select>
+    <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.User">
+        INSERT INTO user(name, salary) VALUES (#{name}, #{salary});
+    </insert>
+    <insert id="insertUserBatch" parameterType="java.util.List">
+        INSERT INTO user(name, salary) VALUES
+        <foreach collection="list" item="user" separator=",">
+            (#{user.name}, #{user.salary})
+        </foreach>
+    </insert>
 
     <!-- <insert id="save" parameterType="com.example.entity.YourEntity">
         INSERT INTO your_entity_table (name) VALUES (#{name})
