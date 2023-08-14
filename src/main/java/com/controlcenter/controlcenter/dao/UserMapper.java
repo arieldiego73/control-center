@@ -9,4 +9,5 @@ import com.controlcenter.controlcenter.model.User;
 @Mapper
 public interface UserMapper {
     List<User> findAll();
+    User getUserById(Long id);
 }

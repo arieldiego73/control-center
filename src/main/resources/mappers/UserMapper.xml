@@ -9,6 +9,9 @@
     <select id="findAll" resultType="com.controlcenter.controlcenter.model.User">
         SELECT * FROM user;
     </select>
+    <select id="getUserById" parameterType="long" resultType="com.controlcenter.controlcenter.model.User">
+        SELECT * FROM user WHERE id = #{id};
+    </select>
 
     <!-- <insert id="save" parameterType="com.example.entity.YourEntity">
         INSERT INTO your_entity_table (name) VALUES (#{name})

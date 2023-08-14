@@ -8,9 +8,9 @@ import com.controlcenter.controlcenter.model.User;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -19,7 +19,6 @@ public class UserController {
 
     private UserDAOImpl userDAOImpl;
 
-    @Autowired
     public UserController(UserDAOImpl userDAOImpl) {
         this.userDAOImpl = userDAOImpl;
     }
@@ -28,6 +27,12 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userDAOImpl.findAll();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userDAOImpl.getUserById(id);
+        return ResponseEntity.ok(user);
     }
     
 }

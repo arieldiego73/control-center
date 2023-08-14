@@ -2,7 +2,6 @@ package com.controlcenter.controlcenter.dao;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.model.User;
@@ -11,7 +10,6 @@ import com.controlcenter.controlcenter.model.User;
 public class UserDAOImpl implements UserDAO {
     private UserMapper userMapper;
 
-    @Autowired
     public UserDAOImpl(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
@@ -24,6 +22,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> findAll() {
         return userMapper.findAll();
+    }
+
+     @Override
+    public User getUserById(Long id) {
+        return userMapper.getUserById(id);
     }
 
     // @Override
