@@ -31,34 +31,14 @@ const LoginPage = () => {
 				justifyContent: "center",
 			}}
 		>
-			<Box sx={{ width: "100%" }}>
-				{/* FOR BIG IMAGE ON THE LEFT */}
-				<Grid container>
+			<Box>
+				<Grid container style={{ backgroundColor: "#f00" }}>
 					<CssBaseline />
-					<Grid
-						item
-						xs={false}
-						sm={4}
-						md={7}
-						sx={{
-							backgroundImage:
-								"url(https://source.unsplash.com/random)",
-							backgroundRepeat: "no-repeat",
-							backgroundColor: (t) =>
-								t.palette.mode === "light"
-									? t.palette.grey[50]
-									: t.palette.grey[900],
-							backgroundSize: "cover",
-							backgroundPosition: "center",
-						}}
-					/>
 
 					{/* FOR LOGIN */}
 					<Grid
 						item
-						xs={12}
-						sm={8}
-						md={5}
+						md={12}
 						component={Paper}
 						style={{
 							boxShadow:
@@ -75,7 +55,11 @@ const LoginPage = () => {
 								alignItems: "center",
 							}}
 						>
-							<Typography component="h1" variant="h3">
+							<Typography
+								component="h1"
+								variant="h2"
+								style={{ fontWeight: "700" }}
+							>
 								Welcome!
 							</Typography>
 							<Box
