@@ -16,6 +16,6 @@
     </bean>
 
     <!-- MyBatis Mapper Scanner -->
-    <mybatis:scan base-package="com.controlcenter.controlcenter.dao"/>
+    <mybatis:scan base-package="com.controlcenter.controlcenter.mapper"/>
 
 </beans>

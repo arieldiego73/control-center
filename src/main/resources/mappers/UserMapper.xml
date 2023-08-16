@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.controlcenter.controlcenter.dao.UserMapper">
+<mapper namespace="com.controlcenter.controlcenter.mapper.UserMapper">
     <!-- <select id="findById" parameterType="java.lang.Long" resultType="com.example.entity.YourEntity">
         SELECT * FROM your_entity_table WHERE id = #{id}
     </select> -->
