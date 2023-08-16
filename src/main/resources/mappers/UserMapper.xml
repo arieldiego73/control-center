@@ -7,18 +7,18 @@
     </select> -->
 
     <select id="findAll" resultType="com.controlcenter.controlcenter.model.User">
-        SELECT * FROM user;
+        SELECT * FROM tbl_user;
     </select>
     <select id="getUserById" parameterType="long" resultType="com.controlcenter.controlcenter.model.User">
-        SELECT * FROM user WHERE id = #{id};
+        SELECT * FROM tbl_user WHERE id = #{id};
     </select>
     <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.User">
-        INSERT INTO user(name, salary) VALUES (#{name}, #{salary});
+        INSERT INTO tbl_user(username, password) VALUES (#{username}, #{password});
     </insert>
     <insert id="insertUserBatch" parameterType="java.util.List">
-        INSERT INTO user(name, salary) VALUES
+        INSERT INTO user(username, password) VALUES
         <foreach collection="list" item="user" separator=",">
-            (#{user.name}, #{user.salary})
+            (#{user.username}, #{user.password})
         </foreach>
     </insert>
 

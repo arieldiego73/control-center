@@ -3,7 +3,9 @@ package com.controlcenter.controlcenter.controller;
 import com.controlcenter.controlcenter.model.User;
 import com.controlcenter.controlcenter.service.UserDAOImpl;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private UserDAOImpl userDAOImpl;
+
+  @Autowired
+  private PasswordEncoder passEnc;
 
   public UserController(UserDAOImpl userDAOImpl) {
     this.userDAOImpl = userDAOImpl;
@@ -35,7 +40,16 @@ public class UserController {
 
   @PostMapping("/user/create")
   public String createUser(@RequestBody User user) {
-    userDAOImpl.insertUser(user);
+    User userHashed = new User();
+
+    userHashed.setUsername(user.getUsername());
+    userHashed.setPassword(passEnc.encode(user.getPassword()));
+
+    // System.out.println(
+    //   passEnc.matches("pass1235555", userHashed.getPassword())
+    // );
+
+    userDAOImpl.insertUser(userHashed);
     return "User created successfully";
   }
 
