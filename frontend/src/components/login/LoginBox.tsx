@@ -53,12 +53,15 @@ const LoginPage = () => {
 				backgroundImage: `url(${bg})`,
 				backgroundSize: "cover",
 				backgroundPosition: "center",
-     			backgroundRepeat: "no-repeat"
+     			backgroundRepeat: "no-repeat",
 			}}
 		>
-			<Box sx={{ 
-				width: "35%"
-				}}>
+			{/* <Box sx={{ 
+				width: "35%",
+				border: "1px solid black"
+				}}
+				
+			> */}
 				{/* <Grid
 					container
 					style={{ backgroundColor: "#f00", padding: "5rem" }}
@@ -76,39 +79,59 @@ const LoginPage = () => {
 						}}
 						square
 					> */}
+				{/* Login box with shadow*/}
 				<Box
+					// style={{
+					// 	maxHeight: "300px",
+					// 	paddingTop: "10%"
+					// }}
 					sx={{
-						borderColor: "red",
-						borderWidth: "10px",
 						my: 10,
 						mx: 4,
-						p: 8,
+						p: 6,
 						display: "flex",
 						borderRadius: '20px',
 						flexDirection: "column",
 						alignItems: "center",
 						//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
-						boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px"
+						boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
+						height: "400px", 
+						width: "15%",
+						border: "1px solid red"
 					}}
 				>
+					{/* Container of logo */}
 					<Box
 						component='img'
 						src ={logo}
 						sx={{ 
 							height: "100px", 
-							width: "auto" 
+							width: "90%",
+							border: "1px solid blue",
+							// '@media (width: 720px)': {
+							// 	maxWidth: "50%",
+							// },
+							// '@media (width: 520px)': {
+							// 	maxWidth: "50%",
+							// }
 						}}
 					>
 					</Box>
+					{/* Container of username, pass, login btn, about us */}
 					<Box
 						component="form"
 						noValidate
 						// onSubmit={handleSubmit}
 						onSubmit={handleLogin}
-						sx={{ mt: 1 }}
+						sx={{ 
+							mt: 1,
+							height: "320px", 
+							width: "120%",
+							border: "1px solid pink"
+						}}
 					>
 						<TextField
-							margin="normal"
+							margin="dense"
 							required
 							fullWidth
 							id="username"
@@ -120,7 +143,7 @@ const LoginPage = () => {
 							onChange={(e) => setUsername(e.target.value)}
 						/>
 						<TextField
-							margin="normal"
+							margin="dense"
 							required
 							fullWidth
 							name="password"
@@ -131,18 +154,14 @@ const LoginPage = () => {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 						/>
-						{/* <FormControlLabel
-							control={
-								<Checkbox value="remember" color="primary" />
-							}
-							label="Remember me"
-						/> */}
 						<Button
 							type="submit"
 							fullWidth
 							variant="contained"
-							//</Box></Box>alignItems: "center",
-							sx={{ mt: 3, mb: 2 }}
+							sx={{ 
+								mt: 3,
+								mb: 2
+							}}
 						>
 							LOG IN
 						</Button>
@@ -155,27 +174,16 @@ const LoginPage = () => {
 								e.currentTarget.style.backgroundColor = 'transparent';
 							}}
 							sx={{ 
-								mt: 8
+								mt: "15%"
 							}}
-							// </Box></Box>alignItems: "center",
 						>
 							About Us
 						</Button>
-						{/* <Typography
-							
-							sx={{ 
-								fontWeight: "200",
-								fontSize: "20px",
-								alignItems: "center"
-							}}
-						>
-							About Us
-						</Typography> */}
 					</Box>
 				</Box>
 				{/* </Grid> */}
 				{/* </Grid> */}
-			</Box>
+			{/* </Box> */}
 		</Box>
 	);
 };
