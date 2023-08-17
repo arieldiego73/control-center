@@ -6,7 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 // import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 // import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
+import logo from "../../Assets/Logo1.png";
 import { Container } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
@@ -50,7 +50,7 @@ const LoginPage = () => {
 				justifyContent: "center",
 			}}
 		>
-			<Box sx={{ width: "50%" }}>
+			<Box sx={{ width: "40%" }}>
 				{/* <Grid
 					container
 					style={{ backgroundColor: "#f00", padding: "5rem" }}
@@ -79,13 +79,15 @@ const LoginPage = () => {
 						boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
 					}}
 				>
-					<Typography
-						component="h1"
-						variant="h2"
-						style={{ fontWeight: "700" }}
+				<Box
+						component='img'
+						src ={logo}
+						sx={{ 
+							height: "100px", 
+							width: "auto" 
+						}}
 					>
-						Welcome!
-					</Typography>
+					</Box>
 					<Box
 						component="form"
 						noValidate
