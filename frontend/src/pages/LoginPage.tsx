@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import LoginBox from "../components/LoginBox";
+import LoginBox from "../components/login/LoginBox";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getUsersFetch } from "../redux/state/userState";
