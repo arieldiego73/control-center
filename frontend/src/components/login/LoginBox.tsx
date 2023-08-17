@@ -1,13 +1,14 @@
 import Button from "@mui/material/Button";
 // import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+//import FormControlLabel from "@mui/material/FormControlLabel";
+//import Checkbox from "@mui/material/Checkbox";
 // import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 // import Grid from "@mui/material/Grid";
 import logo from "../../Assets/Logo1.png";
-import { Container } from "@mui/material";
+import bg from "../../Assets/bg2.png";
+//import { Container } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 // import { login } from "../redux/saga/sessionSaga";
@@ -38,19 +39,26 @@ const LoginPage = () => {
 		dispatch(login({ username, password }));
 	};
 
+
 	return (
-		<Container
+		<Box
 			component="main"
 			maxWidth="lg"
 			style={{
 				minHeight: "100vh",
-				width: "100%",
+				minWidth: "100vw",
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
+				backgroundImage: `url(${bg})`,
+				backgroundSize: "cover",
+				backgroundPosition: "center",
+     			backgroundRepeat: "no-repeat"
 			}}
 		>
-			<Box sx={{ width: "40%" }}>
+			<Box sx={{ 
+				width: "35%"
+				}}>
 				{/* <Grid
 					container
 					style={{ backgroundColor: "#f00", padding: "5rem" }}
@@ -70,16 +78,20 @@ const LoginPage = () => {
 					> */}
 				<Box
 					sx={{
+						borderColor: "red",
+						borderWidth: "10px",
 						my: 10,
 						mx: 4,
 						p: 8,
 						display: "flex",
+						borderRadius: '20px',
 						flexDirection: "column",
 						alignItems: "center",
-						boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+						//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
+						boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px"
 					}}
 				>
-				<Box
+					<Box
 						component='img'
 						src ={logo}
 						sx={{ 
@@ -119,26 +131,52 @@ const LoginPage = () => {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 						/>
-						<FormControlLabel
+						{/* <FormControlLabel
 							control={
 								<Checkbox value="remember" color="primary" />
 							}
 							label="Remember me"
-						/>
+						/> */}
 						<Button
 							type="submit"
 							fullWidth
 							variant="contained"
+							//</Box></Box>alignItems: "center",
 							sx={{ mt: 3, mb: 2 }}
 						>
-							Log In
+							LOG IN
 						</Button>
+						<Button
+							type="submit"
+							fullWidth
+							variant="text"
+							disableTouchRipple
+							onMouseOver={(e) => {
+								e.currentTarget.style.backgroundColor = 'transparent';
+							}}
+							sx={{ 
+								mt: 8
+							}}
+							// </Box></Box>alignItems: "center",
+						>
+							About Us
+						</Button>
+						{/* <Typography
+							
+							sx={{ 
+								fontWeight: "200",
+								fontSize: "20px",
+								alignItems: "center"
+							}}
+						>
+							About Us
+						</Typography> */}
 					</Box>
 				</Box>
 				{/* </Grid> */}
 				{/* </Grid> */}
 			</Box>
-		</Container>
+		</Box>
 	);
 };
 
