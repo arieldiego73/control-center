@@ -10,8 +10,9 @@ import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { login } from "../redux/saga/sessionSaga";
-import { RootState } from "../redux/store/store";
+// import { login } from "../redux/saga/sessionSaga";
+import { login } from "../../redux/saga/sessionSaga";
+import { RootState } from "../../redux/store/store";
 
 const LoginPage = () => {
 	// const handleSubmit = (event: React.FormEvent) => {
