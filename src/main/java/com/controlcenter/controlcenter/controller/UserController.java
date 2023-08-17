@@ -58,4 +58,22 @@ public class UserController {
     userDAOImpl.insertUserBatch(user);
     return "Multiple users created successfully";
   }
+
+  @PostMapping("/user/login")
+  public ResponseEntity<User> getUserByUsernameAndPassword(
+    @RequestBody User user
+  ) {
+    User userFromDB = userDAOImpl.getUserByUsername(user);
+    boolean isMatched = passEnc.matches(
+      user.getPassword(),
+      userFromDB.getPassword()
+    );
+    if (isMatched) {
+      return ResponseEntity.ok(userFromDB);
+    } else {
+      user.setUsername("mali");
+      user.setPassword("error");
+      return ResponseEntity.ok(user);
+    }
+  }
 }

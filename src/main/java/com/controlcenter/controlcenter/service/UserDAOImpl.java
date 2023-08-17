@@ -39,6 +39,11 @@ public class UserDAOImpl implements UserDAO {
   public void insertUserBatch(List<User> users) {
     userMapper.insertUserBatch(users);
   }
+
+  @Override
+  public User getUserByUsername(User user) {
+    return userMapper.getUserByUsername(user);
+  }
   // @Override
   // public void save(YourEntity entity) {
   //     yourEntityMapper.save(entity);
