@@ -3,18 +3,11 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import logo from "../../Assets/Logo1.png";
 import bg from "../../Assets/bg3.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
-import { RootState } from "../../redux/store/store";
-// import { setUser } from "../../redux/state/sessionState";
 
 const LoginBox = () => {
-	useSelector((state: RootState) => {
-		// console.log("Is logged in? =>", state.sessionReducer.user !== null);
-		console.log("the logged user => ", state.sessionReducer.user);
-	});
-
 	const dispatch = useDispatch();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -25,18 +18,6 @@ const LoginBox = () => {
 			dispatch(login({ username, password }));
 		}
 	};
-
-	const loggedUser = useSelector((state: RootState) => {
-		return state.sessionReducer.user;
-	});
-
-	/* VALIDATE IF A USER IS LOGGED IN */
-	if (loggedUser?.username === null || loggedUser?.username === undefined) {
-		console.log("NO USER IS LOGGED IN!");
-	} else {
-		console.log(loggedUser?.username, "IS LOGGED IN!");
-	}
-	console.log("the logged user => ", loggedUser?.username);
 
 	return (
 		<Box
