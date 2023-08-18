@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import logo from "../../Assets/Logo1.png";
-import bg from "../../Assets/bg2.png";
+import bg from "../../Assets/bg3.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
