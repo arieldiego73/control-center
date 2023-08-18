@@ -64,16 +64,20 @@ public class UserController {
     @RequestBody User user
   ) {
     User userFromDB = userDAOImpl.getUserByUsername(user);
-    boolean isMatched = passEnc.matches(
-      user.getPassword(),
-      userFromDB.getPassword()
-    );
-    if (isMatched) {
-      return ResponseEntity.ok(userFromDB);
+    User nullUser = new User(); // for incorrect input
+    if (userFromDB != null) {
+      boolean isMatched = passEnc.matches(
+        user.getPassword(),
+        userFromDB.getPassword()
+      );
+
+      if (isMatched) {
+        return ResponseEntity.ok(userFromDB);
+      } else {
+        return ResponseEntity.accepted().body(nullUser);
+      }
     } else {
-      user.setUsername("mali");
-      user.setPassword("error");
-      return ResponseEntity.ok(user);
+      return ResponseEntity.accepted().body(nullUser);
     }
   }
 }
