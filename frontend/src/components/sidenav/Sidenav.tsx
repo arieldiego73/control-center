@@ -59,7 +59,7 @@ export const Sidenav = () => {
   return (
     <div>
       <TopNav />
-      <div style={{ backgroundColor: 'transparent', width: '90px', height: '845px' }}>
+      <div style={{ backgroundColor: 'transparent', width: '90px', height: '100%' }}>
         <div>
           <div className={classes.dashboard} style={{ paddingTop: '80%', flexDirection: 'column', display: 'flex' }}>
             <IconButton

@@ -95,7 +95,7 @@ const LoginBox = () => {
 					boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
 					height: "400px",
 					width: "15%",
-					border: "1px solid red",
+					// border: "1px solid red",
 				}}
 			>
 				{/* Container of logo */}
@@ -105,7 +105,7 @@ const LoginBox = () => {
 					sx={{
 						height: "100px",
 						width: "90%",
-						border: "1px solid blue",
+						//border: "1px solid blue",
 						// '@media (width: 720px)': {
 						// 	maxWidth: "50%",
 						// },
@@ -124,7 +124,7 @@ const LoginBox = () => {
 						mt: 1,
 						height: "320px",
 						width: "120%",
-						border: "1px solid pink",
+						//border: "1px solid pink",
 					}}
 				>
 					<TextField
