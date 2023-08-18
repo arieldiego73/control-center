@@ -1,7 +1,8 @@
 package com.controlcenter.controlcenter.controller;
 
 import com.controlcenter.controlcenter.model.User;
-import com.controlcenter.controlcenter.service.UserDAOImpl;
+import com.controlcenter.controlcenter.service.UserService;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,27 +15,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class UserController {
 
-  private UserDAOImpl userDAOImpl;
+  @Autowired
+  private UserService userService;
 
   @Autowired
   private PasswordEncoder passEnc;
 
-  public UserController(UserDAOImpl userDAOImpl) {
-    this.userDAOImpl = userDAOImpl;
-  }
-
   @GetMapping("/all")
   public ResponseEntity<List<User>> getAllUsers() {
-    List<User> users = userDAOImpl.findAll();
+    List<User> users = userService.findAll();
     return ResponseEntity.ok(users);
   }
 
   @GetMapping("/user/{id}")
   public ResponseEntity<User> getUserById(@PathVariable Long id) {
-    User user = userDAOImpl.getUserById(id);
+    User user = userService.getUserById(id);
     return ResponseEntity.ok(user);
   }
 
@@ -49,13 +47,13 @@ public class UserController {
     //   passEnc.matches("pass1235555", userHashed.getPassword())
     // );
 
-    userDAOImpl.insertUser(userHashed);
+    userService.insertUser(userHashed);
     return "User created successfully";
   }
 
   @PostMapping("/user/createBatch")
   public String createUser(@RequestBody List<User> user) {
-    userDAOImpl.insertUserBatch(user);
+    userService.insertUserBatch(user);
     return "Multiple users created successfully";
   }
 
@@ -63,7 +61,7 @@ public class UserController {
   public ResponseEntity<User> getUserByUsernameAndPassword(
     @RequestBody User user
   ) {
-    User userFromDB = userDAOImpl.getUserByUsername(user);
+    User userFromDB = userService.getUserByUsername(user);
     User nullUser = new User(); // for incorrect input
     if (userFromDB != null) {
       boolean isMatched = passEnc.matches(
