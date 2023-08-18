@@ -13,7 +13,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @SpringBootApplication
 @MappedTypes(User.class)
-@MapperScan("com.controlcenter.controlcenter.mapper")
+@MapperScan("com.controlcenter.controlcenter.dao")
 public class ControlcenterApplication {
 
   public static void main(String[] args) {
