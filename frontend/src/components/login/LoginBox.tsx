@@ -10,15 +10,6 @@ import { RootState } from "../../redux/store/store";
 // import { setUser } from "../../redux/state/sessionState";
 
 const LoginBox = () => {
-	// const handleSubmit = (event: React.FormEvent) => {
-	// 	event.preventDefault();
-	// 	const data = new FormData(event.currentTarget as HTMLFormElement);
-	// 	console.log({
-	// 		email: data.get("username"),
-	// 		password: data.get("password"),
-	// 	});
-	// };
-
 	useSelector((state: RootState) => {
 		// console.log("Is logged in? =>", state.sessionReducer.user !== null);
 		console.log("the logged user => ", state.sessionReducer.user);
