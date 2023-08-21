@@ -7,14 +7,56 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
 import { RootState } from "../../redux/store/store";
+import { makeStyles } from '@material-ui/core';
 // import { setUser } from "../../redux/state/sessionState";
 
+const userStyle = makeStyles ({
+	background : {
+		minHeight: "100vh",
+		minWidth: "100vw",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundImage: `url(${bg})`,
+		backgroundSize: "cover",
+		backgroundPosition: "center",
+		backgroundRepeat: "no-repeat",
+			
+	},
+	loginCard : {
+		my: 10,
+		mx: 4,
+		p: 6,
+		display: "flex",
+		//borderRadius: "20px",
+		flexDirection: "column",
+		alignItems: "center",
+		//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
+		//boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
+		height: "400px",
+		width: "20%",
+		padding: "50px",
+		border: "1px solid rgba(100, 100, 111, 0.2)"
+	},
+	logo : {
+		height: "90px",
+		width: "90%",
+		//border: "1px solid blue"
+	},
+	loginForm : {
+		mt: 1,
+		height: "320px",
+		width: "100%",
+		//border: "1px solid pink"
+	}
+
+});
 const LoginBox = () => {
 	useSelector((state: RootState) => {
 		// console.log("Is logged in? =>", state.sessionReducer.user !== null);
 		console.log("the logged user => ", state.sessionReducer.user);
 	});
-
+	const classes = userStyle()
 	const dispatch = useDispatch();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -42,77 +84,16 @@ const LoginBox = () => {
 		<Box
 			component="main"
 			maxWidth="lg"
-			style={{
-				minHeight: "100vh",
-				minWidth: "100vw",
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "center",
-				backgroundImage: `url(${bg})`,
-				backgroundSize: "cover",
-				backgroundPosition: "center",
-				backgroundRepeat: "no-repeat",
-			}}
+			className={classes.background}
 		>
-			{/* <Box sx={{ 
-				width: "35%",
-				border: "1px solid black"
-				}}
-				
-			> */}
-			{/* <Grid
-					container
-					style={{ backgroundColor: "#f00", padding: "5rem" }}
-				> */}
-			{/* <CssBaseline /> */}
-
-			{/* FOR LOGIN */}
-			{/* <Grid
-						item
-						md={12}
-						component={Paper}
-						style={{
-							boxShadow:
-								"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-						}}
-						square
-					> */}
-			{/* Login box with shadow*/}
 			<Box
-				// style={{
-				// 	maxHeight: "300px",
-				// 	paddingTop: "10%"
-				// }}
-				sx={{
-					my: 10,
-					mx: 4,
-					p: 6,
-					display: "flex",
-					borderRadius: "20px",
-					flexDirection: "column",
-					alignItems: "center",
-					//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
-					boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
-					height: "400px",
-					width: "15%",
-					border: "1px solid red",
-				}}
+				className={classes.loginCard}
 			>
 				{/* Container of logo */}
 				<Box
 					component="img"
 					src={logo}
-					sx={{
-						height: "100px",
-						width: "90%",
-						border: "1px solid blue",
-						// '@media (width: 720px)': {
-						// 	maxWidth: "50%",
-						// },
-						// '@media (width: 520px)': {
-						// 	maxWidth: "50%",
-						// }
-					}}
+					className={classes.logo}
 				></Box>
 				{/* Container of username, pass, login btn, about us */}
 				<Box
@@ -120,12 +101,7 @@ const LoginBox = () => {
 					noValidate
 					// onSubmit={handleSubmit}
 					onSubmit={handleLogin}
-					sx={{
-						mt: 1,
-						height: "320px",
-						width: "120%",
-						border: "1px solid pink",
-					}}
+					className={classes.loginForm}
 				>
 					<TextField
 						margin="dense"
