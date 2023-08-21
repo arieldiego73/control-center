@@ -2,8 +2,10 @@ package com.controlcenter.controlcenter.dao;
 
 import com.controlcenter.controlcenter.model.User;
 import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface UserDAO {
+@Mapper
+public interface UserDao {
   List<User> findAll();
   User getUserById(Long id);
   void insertUser(User user);
