@@ -1,9 +1,9 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import logo from "../../Assets/Logo1.png";
-import bg from "../../Assets/bg3.png";
-import { useDispatch } from "react-redux";
+import logo from "../../Assets/logo (blue).png";
+import bg from "../../Assets/bg4.png";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
 import { RootState } from "../../redux/store/store";
@@ -12,8 +12,8 @@ import { makeStyles } from '@material-ui/core';
 
 const userStyle = makeStyles ({
 	background : {
-		minHeight: "100vh",
-		minWidth: "100vw",
+		minHeight: "100%",
+		minWidth: "100%",
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
@@ -21,12 +21,13 @@ const userStyle = makeStyles ({
 		backgroundSize: "cover",
 		backgroundPosition: "center",
 		backgroundRepeat: "no-repeat",
-			
+		//border: "1px solid rgba(100, 100, 111, 0.2)"
 	},
 	loginCard : {
-		my: 10,
-		mx: 4,
-		p: 6,
+		// my: 10,
+		// mx: 4,
+		// p: 6,
+		margin: "8.8%",
 		display: "flex",
 		//borderRadius: "20px",
 		flexDirection: "column",
@@ -36,11 +37,13 @@ const userStyle = makeStyles ({
 		height: "400px",
 		width: "20%",
 		padding: "50px",
+		backgroundColor: "#fff",
 		border: "1px solid rgba(100, 100, 111, 0.2)"
 	},
 	logo : {
-		height: "90px",
+		height: "80px",
 		width: "90%",
+		marginBottom: "30px"
 		//border: "1px solid blue"
 	},
 	loginForm : {
@@ -68,7 +71,7 @@ const LoginBox = () => {
 		}
 	};
 
-	return (
+	return (	
 		<Box
 			component="main"
 			maxWidth="lg"
@@ -76,41 +79,12 @@ const LoginBox = () => {
 		>
 			<Box
 				className={classes.loginCard}
-				// style={{
-				// 	maxHeight: "300px",
-				// 	paddingTop: "10%"
-				// }}
-				sx={{
-					my: 10,
-					mx: 4,
-					p: 6,
-					display: "flex",
-					borderRadius: "20px",
-					flexDirection: "column",
-					alignItems: "center",
-					//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
-					boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
-					height: "400px",
-					width: "15%",
-					// border: "1px solid red",
-				}}
 			>
 				{/* Container of logo */}
 				<Box
 					component="img"
 					src={logo}
 					className={classes.logo}
-					sx={{
-						height: "100px",
-						width: "90%",
-						//border: "1px solid blue",
-						// '@media (width: 720px)': {
-						// 	maxWidth: "50%",
-						// },
-						// '@media (width: 520px)': {
-						// 	maxWidth: "50%",
-						// }
-					}}
 				></Box>
 				{/* Container of username, pass, login btn, about us */}
 				<Box
@@ -119,12 +93,6 @@ const LoginBox = () => {
 					// onSubmit={handleSubmit}
 					onSubmit={handleLogin}
 					className={classes.loginForm}
-					sx={{
-						mt: 1,
-						height: "320px",
-						width: "120%",
-						//border: "1px solid pink",
-					}}
 				>
 					<TextField
 						margin="dense"
@@ -178,9 +146,6 @@ const LoginBox = () => {
 					</Button>
 				</Box>
 			</Box>
-			{/* </Grid> */}
-			{/* </Grid> */}
-			{/* </Box> */}
 		</Box>
 	);
 };
