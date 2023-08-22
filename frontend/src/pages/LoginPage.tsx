@@ -26,11 +26,7 @@ const LoginPage = () => {
 
 	/* VALIDATE IF A USER IS LOGGED IN */
 	useEffect(() => {
-		if (loggedUser === null) {
-			console.log("NO USER IS LOGGED IN!");
-		} else {
-			console.log(loggedUser);
-			console.log(loggedUser, "IS LOGGED IN!");
+		if (loggedUser !== null) {
 			navigate("/dashboard");
 		}
 	});

@@ -6,7 +6,7 @@ import { createAction } from "@reduxjs/toolkit";
 // Simulate API call
 const apiLogin = async (username: string, password: string): Promise<any> => {
 	try {
-		const response = await fetch("http://localhost:8080/api/user/login", {
+		const response = await fetch("http://localhost:8080/user/login", {
 			method: "POST",
 			body: JSON.stringify({ username, password }),
 			headers: {
