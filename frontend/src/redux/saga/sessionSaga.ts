@@ -16,7 +16,7 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
 
 		if (response.ok) {
 			const data = await response.json();
-			return data;
+			return data.username;
 		} else {
 			console.log("Login failed");
 		}
