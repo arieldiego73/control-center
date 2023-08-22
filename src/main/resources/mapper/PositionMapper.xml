@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.controlcenter.controlcenter.dao.PositionDao">
+    <!-- <select id="findById" parameterType="java.lang.Long" resultType="com.example.entity.YourEntity">
+        SELECT * FROM your_entity_table WHERE id = #{id}
+    </select> -->
+
+    <select id="getAllPosition" resultType="com.controlcenter.controlcenter.model.Position">
+        SELECT * FROM tbl_position_mst;
+    </select>
+    <!-- <select id="getUserById" parameterType="long" resultType="com.controlcenter.controlcenter.model.User">
+        SELECT * FROM tbl_user WHERE id = #{id};
+    </select>
+    <select id="getUserByUsername" resultType="com.controlcenter.controlcenter.model.User">
+        SELECT *
+        FROM tbl_user
+        WHERE username COLLATE utf8mb4_bin = #{username}
+    </select>
+    <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.User">
+        INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id)
+        VALUES (#{emp_id}, #{username}, #{password}, #{position_id}, #{dept_id}, #{section_id}, #{status_code}, #{img_src}, #{reg_id}, #{update_id});
+    </insert> -->
+    <!-- <insert id="insertUserBatch" parameterType="java.util.List">
+        INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id) VALUES
+        <foreach collection="list" item="user" separator=",">
+            (#{emp_id}, #{username}, #{password}, #{position_id}, #{dept_id}, #{section_id}, #{status_code}, #{img_src}, #{reg_id}, #{update_id})
+        </foreach>
+    </insert> -->
+
+    <!-- <insert id="save" parameterType="com.example.entity.YourEntity">
+        INSERT INTO your_entity_table (name) VALUES (#{name})
+    </insert>
+
+    <delete id="delete" parameterType="com.example.entity.YourEntity">
+        DELETE FROM your_entity_table WHERE id = #{id}
+    </delete> -->
+</mapper>
