@@ -6,12 +6,13 @@ import bg from "../../Assets/bg4.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
-import { RootState } from "../../redux/store/store";
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from "@material-ui/core";
 // import { setUser } from "../../redux/state/sessionState";
 
-const userStyle = makeStyles ({
-	background : {
+const userStyle = makeStyles({
+	background: {
+		// minHeight: "100vh",
+		// minWidth: "100vw",
 		minHeight: "100%",
 		minWidth: "100%",
 		display: "flex",
@@ -23,7 +24,7 @@ const userStyle = makeStyles ({
 		backgroundRepeat: "no-repeat",
 		//border: "1px solid rgba(100, 100, 111, 0.2)"
 	},
-	loginCard : {
+	loginCard: {
 		// my: 10,
 		// mx: 4,
 		// p: 6,
@@ -40,26 +41,22 @@ const userStyle = makeStyles ({
 		backgroundColor: "#fff",
 		border: "1px solid rgba(100, 100, 111, 0.2)"
 	},
-	logo : {
+	logo: {
+		//height: "90px",
 		height: "80px",
 		width: "90%",
 		marginBottom: "30px"
 		//border: "1px solid blue"
 	},
-	loginForm : {
+	loginForm: {
 		mt: 1,
 		height: "320px",
 		width: "100%",
 		//border: "1px solid pink"
-	}
-
+	},
 });
 const LoginBox = () => {
-	useSelector((state: RootState) => {
-		// console.log("Is logged in? =>", state.sessionReducer.user !== null);
-		console.log("the logged user => ", state.sessionReducer.user);
-	});
-	const classes = userStyle()
+	const classes = userStyle();
 	const dispatch = useDispatch();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -71,7 +68,7 @@ const LoginBox = () => {
 		}
 	};
 
-	return (	
+	return (
 		<Box
 			component="main"
 			maxWidth="lg"
@@ -146,6 +143,7 @@ const LoginBox = () => {
 					</Button>
 				</Box>
 			</Box>
+		</Box>
 		</Box>
 	);
 };
