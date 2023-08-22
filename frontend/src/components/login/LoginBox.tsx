@@ -1,13 +1,56 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import logo from "../../Assets/Logo1.png";
-import bg from "../../Assets/bg3.png";
-import { useDispatch } from "react-redux";
+import logo from "../../Assets/logo (blue).png";
+import bg from "../../Assets/bg4.png";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
+import { makeStyles } from "@material-ui/core";
+import { Checkbox, Container, FormControlLabel, Grid, Link, Typography } from "@mui/material";
+// import { setUser } from "../../redux/state/sessionState";
 
+const userStyle = makeStyles({
+	background: {
+		height: "100vh",
+		minWidth: "100vw",
+		display: "flex !important",
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundImage: `url(${bg})`,
+		backgroundSize: "cover",
+		backgroundPosition: "center",
+		backgroundRepeat: "no-repeat",
+		//border: "1px solid rgba(100, 100, 111, 0.2)"
+	},
+	loginCard: {
+		display: "flex",
+		//borderRadius: "20px",
+		flexDirection: "column",
+		alignItems: "center",
+		//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
+		//boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
+		height: "400px",
+		width: "20%",
+		padding: "50px",
+		backgroundColor: "#fff",
+		margin: "auto",
+		border: "1px solid rgba(100, 100, 111, 0.2)"
+	},
+	logo: {
+		width: "90%",
+		marginBottom: "30px"
+		//border: "1px solid blue"
+	},
+	loginForm: {
+		mt: 1,
+		height: "320px",
+		width: "100%",
+		//border: "1px solid pink"
+	},
+});
 const LoginBox = () => {
+	const classes = userStyle();
 	const dispatch = useDispatch();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -20,118 +63,50 @@ const LoginBox = () => {
 	};
 
 	return (
-		<Box
-			component="main"
-			maxWidth="lg"
-			style={{
-				minHeight: "100vh",
-				minWidth: "100vw",
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "center",
-				backgroundImage: `url(${bg})`,
-				backgroundSize: "cover",
-				backgroundPosition: "center",
-				backgroundRepeat: "no-repeat",
-			}}
+		<Container
+			className={classes.background}
 		>
-			{/* <Box sx={{ 
-				width: "35%",
-				border: "1px solid black"
-				}}
-				
-			> */}
-			{/* <Grid
-					container
-					style={{ backgroundColor: "#f00", padding: "5rem" }}
-				> */}
-			{/* <CssBaseline /> */}
-
-			{/* FOR LOGIN */}
-			{/* <Grid
-						item
-						md={12}
-						component={Paper}
-						style={{
-							boxShadow:
-								"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-						}}
-						square
-					> */}
-			{/* Login box with shadow*/}
 			<Box
-				// style={{
-				// 	maxHeight: "300px",
-				// 	paddingTop: "10%"
-				// }}
-				sx={{
-					my: 10,
-					mx: 4,
-					p: 6,
-					display: "flex",
-					borderRadius: "20px",
-					flexDirection: "column",
-					alignItems: "center",
-					//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
-					boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
-					height: "400px",
-					width: "15%",
-					// border: "1px solid red",
-				}}
+				className={classes.loginCard}
 			>
 				{/* Container of logo */}
 				<Box
 					component="img"
 					src={logo}
-					sx={{
-						height: "100px",
-						width: "90%",
-						//border: "1px solid blue",
-						// '@media (width: 720px)': {
-						// 	maxWidth: "50%",
-						// },
-						// '@media (width: 520px)': {
-						// 	maxWidth: "50%",
-						// }
-					}}
+					className={classes.logo}
 				></Box>
 				{/* Container of username, pass, login btn, about us */}
 				<Box
 					component="form"
 					noValidate
-					// onSubmit={handleSubmit}
 					onSubmit={handleLogin}
-					sx={{
-						mt: 1,
-						height: "320px",
-						width: "120%",
-						//border: "1px solid pink",
-					}}
+					className={classes.loginForm}
+					sx={{ mt: 1 }}
 				>
 					<TextField
-						margin="dense"
-						required
-						fullWidth
-						id="username"
-						label="Username"
-						name="username"
-						autoComplete="username"
-						autoFocus
-						value={username}
+							margin="normal"
+							required
+							fullWidth
+							id="email"
+							label="Email Address"
+							name="email"
+							autoComplete="email"
+							autoFocus
+							value={username}
 						onChange={(e) => setUsername(e.target.value)}
-					/>
-					<TextField
-						margin="dense"
-						required
-						fullWidth
-						name="password"
-						label="Password"
-						type="password"
-						id="password"
-						autoComplete="current-password"
-						value={password}
+						/>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							name="password"
+							label="Password"
+							type="password"
+							id="password"
+							autoComplete="current-password"
+							value={password}
 						onChange={(e) => setPassword(e.target.value)}
-					/>
+						/>
 					<Button
 						type="submit"
 						fullWidth
@@ -144,7 +119,6 @@ const LoginBox = () => {
 						LOG IN
 					</Button>
 					<Button
-						type="submit"
 						fullWidth
 						variant="text"
 						disableTouchRipple
@@ -152,18 +126,13 @@ const LoginBox = () => {
 							e.currentTarget.style.backgroundColor =
 								"transparent";
 						}}
-						sx={{
-							mt: "15%",
-						}}
+						sx={{ mt: 3, mb: 2 }}
 					>
 						About Us
 					</Button>
 				</Box>
 			</Box>
-			{/* </Grid> */}
-			{/* </Grid> */}
-			{/* </Box> */}
-		</Box>
+		</Container>
 	);
 };
 
