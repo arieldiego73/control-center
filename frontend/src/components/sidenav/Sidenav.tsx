@@ -7,15 +7,13 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-
-
-
+import Style from './Sidenav.module.css'
 
 const useStyles = makeStyles((theme) => ({
   iconButton: {
     backgroundColor: 'transparent',
     transition: 'background-color 0.3s ease',
-    padding: '20%',
+    padding: '10%',
     '&:hover': {
       backgroundColor: '#2466A2',
       '& svg': {
@@ -39,44 +37,39 @@ export const Sidenav = () => {
   const classes = useStyles();
 
   return (
+    <body>
     <div>
       <TopNav />
-  
-      <div style={{ backgroundColor: 'transparent', width: '90px', marginLeft: '1%' }}>
+
+    {/* DIV CONTAINER OF BUTTONS */}
+    <div className={Style.sideNavContainer}> 
+
+    {/* BUTTONS */}
+      <div>
         <div>
-          <div style={{ 
-            marginTop: '60%',
-            flexDirection: 'column', 
-            display: 'flex', 
-            alignItems:'center', 
-            justifyContent: 'center', 
-            border:'1px solid red', 
-          }}>
-            <IconButton className={classes.iconButton}>
-              <DashboardIcon style={{ fontSize: '45px' }} />
-            </IconButton>
-            <div style={{ }}>
+          <div className={Style.buttonContainer}>
+            <div className={Style.iconContainer}>
+                <IconButton className={classes.iconButton}>
+                <DashboardIcon style={{ height: '1.25vw' , width: '1.25vw', padding: '0.5vw'}} />
+              </IconButton>
+            </div>
+             <div className={Style.buttonText}>
               <span className={`${classes.boldText} boldText`}>
                 Dashboard
               </span>
-            </div>
+             </div>
           </div>
         </div>
       </div>
-      <div style={{ backgroundColor: 'transparent', width: '90px', marginLeft: '1%' }}>
+      <div>
         <div>
-          <div style={{ 
-            marginTop: '60%',
-            flexDirection: 'column', 
-            display: 'flex', 
-            alignItems:'center', 
-            justifyContent: 'center', 
-            border:'1px solid red', 
-          }}>
+        <div className={Style.buttonContainer}>
+        <div className={Style.iconContainer}>
             <IconButton className={classes.iconButton}>
-              <PersonOutlineIcon style={{ fontSize: '45px' }} />
+              <PersonOutlineIcon style={{ height: '1.25vw' , width: '1.25vw', padding: '0.5vw'}} />
             </IconButton>
-            <div style={{  }}>
+        </div>
+            <div className={Style.buttonText}>
               <span className={`${classes.boldText} boldText`}>
                 User
               </span>
@@ -84,20 +77,15 @@ export const Sidenav = () => {
           </div>
         </div>
       </div>
-      <div style={{ backgroundColor: 'transparent', width: '90px', marginLeft: '1%' }}>
+      <div style={{ backgroundColor: 'transparent', width: '100%', marginLeft: '1%' }}>
         <div>
-          <div style={{ 
-            marginTop: '60%',
-            flexDirection: 'column', 
-            display: 'flex', 
-            alignItems:'center', 
-            justifyContent: 'center', 
-            border:'1px solid red', 
-          }}>
+        <div className={Style.buttonContainer}>
+        <div className={Style.iconContainer}>
             <IconButton className={classes.iconButton}>
-              <AccountTreeOutlinedIcon style={{ fontSize: '45px' }} />
+              <AccountTreeOutlinedIcon style={{ height: '1.25vw' , width: '1.25vw', padding: '0.5vw'}} />
             </IconButton>
-            <div style={{  }}>
+        </div>
+            <div className={Style.buttonText}>
               <span className={`${classes.boldText} boldText`}>
                 Project
               </span>
@@ -105,20 +93,15 @@ export const Sidenav = () => {
           </div>
         </div>
       </div>
-      <div style={{ backgroundColor: 'transparent', width: '90px', marginLeft: '1%' }}>
+      <div>
         <div>
-          <div style={{ 
-            marginTop: '60%',
-            flexDirection: 'column', 
-            display: 'flex', 
-            alignItems:'center', 
-            justifyContent: 'center', 
-            border:'1px solid red', 
-          }}>
+        <div className={Style.buttonContainer}>
+        <div className={Style.iconContainer}>
             <IconButton className={classes.iconButton}>
-              <PersonSearchOutlinedIcon style={{ fontSize: '45px' }} />
+              <PersonSearchOutlinedIcon style={{ height: '1.25vw' , width: '1.25vw', padding: '0.5vw'}} />
             </IconButton>
-            <div style={{  }}>
+        </div>
+            <div className={Style.buttonText}>
               <span className={`${classes.boldText} boldText`}>
                 Role
               </span>
@@ -126,20 +109,15 @@ export const Sidenav = () => {
           </div>
         </div>
       </div>
-      <div style={{ backgroundColor: 'transparent', width: '90px', marginLeft: '1%' }}>
+      <div>
         <div>
-          <div style={{ 
-            marginTop: '60%',
-            flexDirection: 'column', 
-            display: 'flex', 
-            alignItems:'center', 
-            justifyContent: 'center', 
-            border:'1px solid red', 
-          }}>
+        <div className={Style.buttonContainer}>
+        <div className={Style.iconContainer}>
             <IconButton className={classes.iconButton}>
-              <MoreHorizIcon style={{ fontSize: '45px' }} />
+              <MoreHorizIcon style={{ height: '1.25vw' , width: '1.25vw', padding: '0.5vw'}} />
             </IconButton>
-            <div style={{ }}>
+        </div>
+            <div className={Style.buttonText}>
               <span className={`${classes.boldText} boldText`}>
                 Other
               </span>
@@ -147,10 +125,11 @@ export const Sidenav = () => {
           </div>
         </div>
       </div>
-
-
-
     </div>
+    </div>
+
+
+    </body>
   );
 };
 
