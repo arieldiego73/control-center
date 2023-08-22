@@ -4,8 +4,8 @@ import LoginPage from "./pages/LoginPage";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import TopNav from "./components/topnav/Topnav";
 import { Sidenav } from "./components/sidenav/Sidenav";
+import Userhandler from "./components/user/Userhandler";
 import Userpage from "./components/user/Userpage";
-import UserTable from "./components/user/Usertable";
 
 function App() {
 	return (
@@ -15,8 +15,8 @@ function App() {
 				<Route path="/Dashboard" Component={Dashboard} />
 				<Route path="/TopNav" Component={TopNav} />
 				<Route path="/Sidenav" Component={Sidenav} />
+				<Route path="/Userhandler" Component={Userhandler} />
 				<Route path="/Userpage" Component={Userpage} />
-				<Route path="/UserTable" Component={UserTable} />
 			</Routes>
 		</BrowserRouter>
 	);

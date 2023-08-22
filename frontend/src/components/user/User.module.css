@@ -1,0 +1,35 @@
+.mainHolder{
+    padding-left: 5%;
+}
+.iconHolder{
+    flex:1;
+    padding-left: 7;
+}
+.contentHolder{
+    margin: 20;
+}
+.searcBar1 {
+    justify-Content: "center";
+    align-Content: "center";
+    align-Items: "center";
+}
+.searchBarHolder1 {
+    margin-Top: 10;
+    margin-Bottom: 10;
+    padding-Right: "10px"
+}
+.searchBarHolder2{
+    margin-Top: 10;
+    margin-Bottom: 10;
+}
+.searchButton {
+    padding-Left: "50%";
+}
+.subHeader{
+    flex-Direction: "row";
+    background-Color: "#dce0e0";
+    padding-Top: "5";
+    padding-Left: "5";
+    display: "flex";
+    border: "1px solid black";
+}
