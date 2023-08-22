@@ -18,14 +18,15 @@
         WHERE username = #{username}
     </select>
     <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.User">
-        INSERT INTO tbl_user(username, password) VALUES (#{username}, #{password});
+        INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id)
+        VALUES (#{emp_id}, #{username}, #{password}, #{position_id}, #{dept_id}, #{section_id}, #{status_code}, #{img_src}, #{reg_id}, #{update_id});
     </insert>
-    <insert id="insertUserBatch" parameterType="java.util.List">
-        INSERT INTO user(username, password) VALUES
+    <!-- <insert id="insertUserBatch" parameterType="java.util.List">
+        INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id) VALUES
         <foreach collection="list" item="user" separator=",">
-            (#{user.username}, #{user.password})
+            (#{emp_id}, #{username}, #{password}, #{position_id}, #{dept_id}, #{section_id}, #{status_code}, #{img_src}, #{reg_id}, #{update_id})
         </foreach>
-    </insert>
+    </insert> -->
 
     <!-- <insert id="save" parameterType="com.example.entity.YourEntity">
         INSERT INTO your_entity_table (name) VALUES (#{name})

@@ -2,7 +2,6 @@ package com.controlcenter.controlcenter.controller;
 
 import com.controlcenter.controlcenter.model.User;
 import com.controlcenter.controlcenter.service.UserService;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,26 +35,24 @@ public class UserController {
     return ResponseEntity.ok(user);
   }
 
-  @PostMapping("/user/create")
+  @PostMapping("/create")
   public String createUser(@RequestBody User user) {
-    User userHashed = new User();
-
-    userHashed.setUsername(user.getUsername());
+    User userHashed = user;
     userHashed.setPassword(passEnc.encode(user.getPassword()));
 
-    // System.out.println(
-    //   passEnc.matches("pass1235555", userHashed.getPassword())
-    // );
-
-    userService.insertUser(userHashed);
-    return "User created successfully";
+    try {
+      userService.insertUser(userHashed);
+      return "User created successfully";
+    } catch (Exception e) {
+      return e.getMessage();
+    }
   }
 
-  @PostMapping("/user/createBatch")
-  public String createUser(@RequestBody List<User> user) {
-    userService.insertUserBatch(user);
-    return "Multiple users created successfully";
-  }
+  // @PostMapping("/createBatch")
+  // public String createUser(@RequestBody List<User> user) {
+  //   userService.insertUserBatch(user);
+  //   return "Multiple users created successfully";
+  // }
 
   @PostMapping("/user/login")
   public ResponseEntity<User> getUserByUsernameAndPassword(

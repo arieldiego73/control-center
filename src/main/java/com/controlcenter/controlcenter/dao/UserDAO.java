@@ -9,6 +9,6 @@ public interface UserDao {
   List<User> findAll();
   User getUserById(Long id);
   void insertUser(User user);
-  void insertUserBatch(List<User> users);
+  // void insertUserBatch(List<User> users);
   User getUserByUsername(User user);
 }

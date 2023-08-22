@@ -3,15 +3,15 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import logo from "../../Assets/Logo1.png";
 import bg from "../../Assets/bg3.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
 import { RootState } from "../../redux/store/store";
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from "@material-ui/core";
 // import { setUser } from "../../redux/state/sessionState";
 
-const userStyle = makeStyles ({
-	background : {
+const userStyle = makeStyles({
+	background: {
 		minHeight: "100vh",
 		minWidth: "100vw",
 		display: "flex",
@@ -21,9 +21,8 @@ const userStyle = makeStyles ({
 		backgroundSize: "cover",
 		backgroundPosition: "center",
 		backgroundRepeat: "no-repeat",
-			
 	},
-	loginCard : {
+	loginCard: {
 		my: 10,
 		mx: 4,
 		p: 6,
@@ -36,27 +35,26 @@ const userStyle = makeStyles ({
 		height: "400px",
 		width: "20%",
 		padding: "50px",
-		border: "1px solid rgba(100, 100, 111, 0.2)"
+		border: "1px solid rgba(100, 100, 111, 0.2)",
 	},
-	logo : {
+	logo: {
 		height: "90px",
 		width: "90%",
 		//border: "1px solid blue"
 	},
-	loginForm : {
+	loginForm: {
 		mt: 1,
 		height: "320px",
 		width: "100%",
 		//border: "1px solid pink"
-	}
-
+	},
 });
 const LoginBox = () => {
 	useSelector((state: RootState) => {
 		// console.log("Is logged in? =>", state.sessionReducer.user !== null);
 		console.log("the logged user => ", state.sessionReducer.user);
 	});
-	const classes = userStyle()
+	const classes = userStyle();
 	const dispatch = useDispatch();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -69,11 +67,7 @@ const LoginBox = () => {
 	};
 
 	return (
-		<Box
-			component="main"
-			maxWidth="lg"
-			className={classes.background}
-		>
+		<Box component="main" maxWidth="lg" className={classes.background}>
 			<Box
 				className={classes.loginCard}
 				// style={{
