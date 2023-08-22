@@ -3,12 +3,11 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import logo from "../../Assets/logo (blue).png";
 import bg from "../../Assets/bg4.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
 import { makeStyles } from "@material-ui/core";
-import { Checkbox, Container, FormControlLabel, Grid, Link, Typography } from "@mui/material";
-// import { setUser } from "../../redux/state/sessionState";
+import { Container } from "@mui/material";
 
 const userStyle = makeStyles({
 	background: {
@@ -35,11 +34,11 @@ const userStyle = makeStyles({
 		padding: "50px",
 		backgroundColor: "#fff",
 		margin: "auto",
-		border: "1px solid rgba(100, 100, 111, 0.2)"
+		border: "1px solid rgba(100, 100, 111, 0.2)",
 	},
 	logo: {
 		width: "90%",
-		marginBottom: "30px"
+		marginBottom: "30px",
 		//border: "1px solid blue"
 	},
 	loginForm: {
@@ -63,18 +62,10 @@ const LoginBox = () => {
 	};
 
 	return (
-		<Container
-			className={classes.background}
-		>
-			<Box
-				className={classes.loginCard}
-			>
+		<Container className={classes.background}>
+			<Box className={classes.loginCard}>
 				{/* Container of logo */}
-				<Box
-					component="img"
-					src={logo}
-					className={classes.logo}
-				></Box>
+				<Box component="img" src={logo} className={classes.logo}></Box>
 				{/* Container of username, pass, login btn, about us */}
 				<Box
 					component="form"
@@ -84,29 +75,29 @@ const LoginBox = () => {
 					sx={{ mt: 1 }}
 				>
 					<TextField
-							margin="normal"
-							required
-							fullWidth
-							id="email"
-							label="Email Address"
-							name="email"
-							autoComplete="email"
-							autoFocus
-							value={username}
+						margin="normal"
+						required
+						fullWidth
+						id="email"
+						label="Email Address"
+						name="email"
+						autoComplete="email"
+						autoFocus
+						value={username}
 						onChange={(e) => setUsername(e.target.value)}
-						/>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							name="password"
-							label="Password"
-							type="password"
-							id="password"
-							autoComplete="current-password"
-							value={password}
+					/>
+					<TextField
+						margin="normal"
+						required
+						fullWidth
+						name="password"
+						label="Password"
+						type="password"
+						id="password"
+						autoComplete="current-password"
+						value={password}
 						onChange={(e) => setPassword(e.target.value)}
-						/>
+					/>
 					<Button
 						type="submit"
 						fullWidth

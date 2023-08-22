@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { useNavigate } from "react-router-dom";
+import { Sidenav } from "../sidenav/Sidenav";
 
 export const Dashboard = () => {
 	const navigate = useNavigate();
@@ -18,5 +19,12 @@ export const Dashboard = () => {
 		}
 	});
 
-	return <div>HELLO</div>;
+	return (
+		<div>
+			<Sidenav />
+			<center>
+				<h1>Hello, {loggedUser?.username}</h1>
+			</center>
+		</div>
+	);
 };

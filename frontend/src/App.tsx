@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import TopNav from "./components/topnav/Topnav";
 import { Sidenav } from "./components/sidenav/Sidenav";
-import Userpage from "./components/user/Userpage"; 
+import Userpage from "./components/user/Userpage";
 import UserTable from "./components/user/Usertable";
 
 function App() {
