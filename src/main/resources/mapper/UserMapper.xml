@@ -15,7 +15,7 @@
     <select id="getUserByUsername" resultType="com.controlcenter.controlcenter.model.User">
         SELECT *
         FROM tbl_user
-        WHERE username = #{username}
+        WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
     <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.User">
         INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id)
