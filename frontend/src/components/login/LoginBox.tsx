@@ -3,10 +3,9 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import logo from "../../Assets/Logo1.png";
 import bg from "../../Assets/bg3.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
-import { RootState } from "../../redux/store/store";
 import { makeStyles } from "@material-ui/core";
 // import { setUser } from "../../redux/state/sessionState";
 
@@ -50,10 +49,6 @@ const userStyle = makeStyles({
 	},
 });
 const LoginBox = () => {
-	useSelector((state: RootState) => {
-		// console.log("Is logged in? =>", state.sessionReducer.user !== null);
-		console.log("the logged user => ", state.sessionReducer.user);
-	});
 	const classes = userStyle();
 	const dispatch = useDispatch();
 	const [username, setUsername] = useState("");

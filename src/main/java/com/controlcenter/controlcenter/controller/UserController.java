@@ -54,7 +54,7 @@ public class UserController {
   //   return "Multiple users created successfully";
   // }
 
-  @PostMapping("/user/login")
+  @PostMapping("/login")
   public ResponseEntity<User> getUserByUsernameAndPassword(
     @RequestBody User user
   ) {
