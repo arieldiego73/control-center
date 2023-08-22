@@ -7,15 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
 import { makeStyles } from "@material-ui/core";
+import { Checkbox, Container, FormControlLabel, Grid, Link, Typography } from "@mui/material";
 // import { setUser } from "../../redux/state/sessionState";
 
 const userStyle = makeStyles({
 	background: {
-		// minHeight: "100vh",
-		// minWidth: "100vw",
-		minHeight: "100%",
-		minWidth: "100%",
-		display: "flex",
+		height: "100vh",
+		minWidth: "100vw",
+		display: "flex !important",
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundImage: `url(${bg})`,
@@ -25,10 +24,6 @@ const userStyle = makeStyles({
 		//border: "1px solid rgba(100, 100, 111, 0.2)"
 	},
 	loginCard: {
-		// my: 10,
-		// mx: 4,
-		// p: 6,
-		margin: "8.8%",
 		display: "flex",
 		//borderRadius: "20px",
 		flexDirection: "column",
@@ -39,11 +34,10 @@ const userStyle = makeStyles({
 		width: "20%",
 		padding: "50px",
 		backgroundColor: "#fff",
+		margin: "auto",
 		border: "1px solid rgba(100, 100, 111, 0.2)"
 	},
 	logo: {
-		//height: "90px",
-		height: "80px",
 		width: "90%",
 		marginBottom: "30px"
 		//border: "1px solid blue"
@@ -69,9 +63,7 @@ const LoginBox = () => {
 	};
 
 	return (
-		<Box
-			component="main"
-			maxWidth="lg"
+		<Container
 			className={classes.background}
 		>
 			<Box
@@ -87,34 +79,34 @@ const LoginBox = () => {
 				<Box
 					component="form"
 					noValidate
-					// onSubmit={handleSubmit}
 					onSubmit={handleLogin}
 					className={classes.loginForm}
+					sx={{ mt: 1 }}
 				>
 					<TextField
-						margin="dense"
-						required
-						fullWidth
-						id="username"
-						label="Username"
-						name="username"
-						autoComplete="username"
-						autoFocus
-						value={username}
+							margin="normal"
+							required
+							fullWidth
+							id="email"
+							label="Email Address"
+							name="email"
+							autoComplete="email"
+							autoFocus
+							value={username}
 						onChange={(e) => setUsername(e.target.value)}
-					/>
-					<TextField
-						margin="dense"
-						required
-						fullWidth
-						name="password"
-						label="Password"
-						type="password"
-						id="password"
-						autoComplete="current-password"
-						value={password}
+						/>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							name="password"
+							label="Password"
+							type="password"
+							id="password"
+							autoComplete="current-password"
+							value={password}
 						onChange={(e) => setPassword(e.target.value)}
-					/>
+						/>
 					<Button
 						type="submit"
 						fullWidth
@@ -127,7 +119,6 @@ const LoginBox = () => {
 						LOG IN
 					</Button>
 					<Button
-						type="submit"
 						fullWidth
 						variant="text"
 						disableTouchRipple
@@ -135,16 +126,13 @@ const LoginBox = () => {
 							e.currentTarget.style.backgroundColor =
 								"transparent";
 						}}
-						sx={{
-							mt: "15%",
-						}}
+						sx={{ mt: 3, mb: 2 }}
 					>
 						About Us
 					</Button>
 				</Box>
 			</Box>
-		</Box>
-		</Box>
+		</Container>
 	);
 };
 
