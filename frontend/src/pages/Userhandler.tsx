@@ -1,7 +1,7 @@
 import Logo from "../../Assets/Logo1.png";
 import User from '../../Assets/userImage.png'
-import { Sidenav } from "../sidenav/Sidenav";
-import Userpage from "./Userpage";
+import { Sidenav } from "../components/sidenav/Sidenav";
+import Userpage from "../components/user/Userpage";
 
 export default function Userhandler (){
     return(

@@ -69,10 +69,10 @@ public class UserController {
       if (isMatched) {
         return ResponseEntity.ok(userFromDB);
       } else {
-        return ResponseEntity.accepted().body(nullUser);
+        return ResponseEntity.badRequest().body(nullUser);
       }
     } else {
-      return ResponseEntity.accepted().body(nullUser);
+      return ResponseEntity.badRequest().body(nullUser);
     }
   }
 }

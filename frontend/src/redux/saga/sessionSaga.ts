@@ -18,7 +18,7 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
 			const data = await response.json();
 			return { username: data.username };
 		} else {
-			console.log("Login failed");
+			return null;
 		}
 	} catch (error) {
 		console.error("An error occurred:", error);
