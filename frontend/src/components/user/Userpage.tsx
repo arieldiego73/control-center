@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import UserTable from "./UserTable";
 import UserStyle from "./User.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsersFetch } from "../../redux/state/userState";
 import { RootState } from "../../redux/store/store";
+import { Button } from "@material-ui/core";
+import { Add, AccountCircleOutlined } from "@mui/icons-material";
 
 export default function Userpage() {
 	const data = useSelector((state: RootState) => state.userReducer.users);
@@ -36,7 +37,7 @@ export default function Userpage() {
 				}}
 			>
 				<div className={UserStyle.iconHolder}>
-					<AccountCircleOutlinedIcon style={{ fontSize: "60px" }} />
+					<AccountCircleOutlined style={{ fontSize: "60px" }} />
 				</div>
 
 				<div
@@ -60,6 +61,16 @@ export default function Userpage() {
 			</div>
 
 			<div className={UserStyle.contentHolder}>
+				<div style={{ textAlign: "right", marginBottom: "6px" }}>
+					<Button
+						variant="contained"
+						color="primary"
+						startIcon={<Add />}
+						style={{ textTransform: "none" }}
+					>
+						Add User
+					</Button>
+				</div>
 				{/* Start of Header */}
 				<div
 					style={{
@@ -160,103 +171,6 @@ export default function Userpage() {
 						</div>
 					</div>
 				</div>
-
-				{/* Start of Sub Header */}
-				{/* <div
-					style={{
-						flexDirection: "row",
-						backgroundColor: "#dce0e0",
-						paddingTop: "5",
-						paddingLeft: "5",
-						display: "flex",
-						border: "1px solid black",
-					}}
-				>
-					<div style={{ flex: 1, marginLeft: 15, marginRight: 15 }}>
-						<text
-							style={{
-								fontSize: 16,
-								color: "black",
-								fontWeight: "600",
-							}}
-						>
-							{" "}
-							Username{" "}
-						</text>
-					</div>
-					<div style={{ flex: 1, marginLeft: 15, marginRight: 15 }}>
-						<text
-							style={{
-								fontSize: 16,
-								color: "black",
-								fontWeight: "600",
-							}}
-						>
-							{" "}
-							first Name{" "}
-						</text>
-					</div>
-					<div style={{ flex: 1, marginLeft: 15, marginRight: 15 }}>
-						<text
-							style={{
-								fontSize: 16,
-								color: "black",
-								fontWeight: "600",
-							}}
-						>
-							{" "}
-							Last Name{" "}
-						</text>
-					</div>
-					<div style={{ flex: 1, marginLeft: 15, marginRight: 15 }}>
-						<text
-							style={{
-								fontSize: 16,
-								color: "black",
-								fontWeight: "600",
-							}}
-						>
-							{" "}
-							Email{" "}
-						</text>
-					</div>
-					<div style={{ flex: 1, marginLeft: 15, marginRight: 15 }}>
-						<text
-							style={{
-								fontSize: 16,
-								color: "black",
-								fontWeight: "600",
-							}}
-						>
-							{" "}
-							Business Unit{" "}
-						</text>
-					</div>
-					<div style={{ flex: 1, marginLeft: 15, marginRight: 15 }}>
-						<text
-							style={{
-								fontSize: 16,
-								color: "black",
-								fontWeight: "600",
-							}}
-						>
-							{" "}
-							Department{" "}
-						</text>
-					</div>
-					<div style={{ flex: 1, marginLeft: 15, marginRight: 15 }}>
-						<text
-							style={{
-								fontSize: 16,
-								color: "black",
-								fontWeight: "600",
-							}}
-						>
-							{" "}
-							Created{" "}
-						</text>
-					</div>
-				</div> */}
 
 				{/* Start of Table */}
 				<div

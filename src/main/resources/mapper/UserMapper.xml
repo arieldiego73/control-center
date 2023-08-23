@@ -10,7 +10,7 @@
         SELECT * FROM tbl_user;
     </select>
     <select id="getUserById" parameterType="long" resultType="com.controlcenter.controlcenter.model.User">
-        SELECT * FROM tbl_user WHERE id = #{id};
+        SELECT * FROM tbl_user WHERE emp_id = #{id};
     </select>
     <select id="getUserByUsername" resultType="com.controlcenter.controlcenter.model.User">
         SELECT *
