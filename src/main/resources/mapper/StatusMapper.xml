@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapper for tbl Status   -->
+<mapper namespace="com.controlcenter.controlcenter.dao.StatusDao">
+
+<!-- Fetch Data -->
+    <select id="getAllStatus" resultType="com.controlcenter.controlcenter.model.Status">
+        SELECT *
+         FROM tbl_status_mst
+        WHERE del_flag = 0;
+    </select>
+
+<!-- Add Data -->
+    <insert id="addStatus" parameterType="com.controlcenter.controlcenter.model.Status">
+        INSERT INTO tbl_status_mst(status_code, status_name, reg_id, update_id)
+             VALUES (#{Status_code}, #{status_name}, #{reg_id}, #{update_id});
+    </insert>
+    
+<!-- Update Data -->
+    <update id="editStatusInfo" parameterType="map">
+        UPDATE tbl_Status_mst
+           SET status_code=#{status.status_code}, Status_name=#{status.status_name}, reg_id=#{Status.reg_id}, update_id=#{update_id}
+         WHERE Status_code = #{code}
+    </update>
+
+<!-- Logical Delete Data -->
+    <update id="logicalDeleteStatus" parameterType="map">
+        UPDATE tbl_Status_mst
+           SET del_flag=1
+        WHERE status_code = #{code}
+    </update>
+
+</mapper>
