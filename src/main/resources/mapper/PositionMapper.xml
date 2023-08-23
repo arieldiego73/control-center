@@ -7,20 +7,34 @@
     </select> -->
 
     <select id="getAllPosition" resultType="com.controlcenter.controlcenter.model.Position">
-        SELECT * FROM tbl_position_mst;
+        SELECT * 
+          FROM tbl_position_mst
+         WHERE del_flag = 0;
     </select>
     <!-- <select id="getUserById" parameterType="long" resultType="com.controlcenter.controlcenter.model.User">
         SELECT * FROM tbl_user WHERE id = #{id};
-    </select>
-    <select id="getUserByUsername" resultType="com.controlcenter.controlcenter.model.User">
+    </select> -->
+    <!-- <select id="getUserByUsername" resultType="com.controlcenter.controlcenter.model.User">
         SELECT *
         FROM tbl_user
         WHERE username COLLATE utf8mb4_bin = #{username}
-    </select>
-    <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.User">
-        INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id)
-        VALUES (#{emp_id}, #{username}, #{password}, #{position_id}, #{dept_id}, #{section_id}, #{status_code}, #{img_src}, #{reg_id}, #{update_id});
-    </insert> -->
+    </select> -->
+    <insert id="addPosition" parameterType="com.controlcenter.controlcenter.model.Position">
+        INSERT INTO tbl_position_mst(position_name, position_sh_name, reg_id, update_id)
+             VALUES (#{position_name}, #{position_sh_name}, #{reg_id}, #{update_id});
+    </insert>
+
+    <update id="editPositionInfo" parameterType="map">
+        UPDATE tbl_position_mst
+           SET position_name=#{position.position_name}, position_sh_name=#{position.position_sh_name}
+         WHERE position_id = #{id}
+    </update>
+
+    <update id="logicalDeletePosition" parameterType="map">
+        UPDATE tbl_position_mst
+           SET del_flag=#{position.del_flag}
+         WHERE position_id = #{id}
+    </update>
     <!-- <insert id="insertUserBatch" parameterType="java.util.List">
         INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id) VALUES
         <foreach collection="list" item="user" separator=",">
