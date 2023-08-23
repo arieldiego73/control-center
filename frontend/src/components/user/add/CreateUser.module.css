@@ -1,19 +1,66 @@
-.mainContainer{
-    background: red;
+
+.mainContainer {
+    position: fixed;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
+    flex-direction: column;
+    height: 89vh; /* if 90, sasakto s pinaka browser, di makikita difference (10vh yung topnav)*/
+    width: 92vw; /* if 93, sasakto s pinaka browser, di makikita difference (7vh yung sidenav)*/
+    top: 10vh; /* Bale height + top = 99vh (if 100, di makita difference)*/
+    left: 7vw; /* Bale width + left = 99vw (if 100, di makita difference)*/
+}
+
+.breadCrumbs{
+    color: red;
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0 2vw;
+    width: 95%;
+}
+.breadCrumbs p{
+    font-size: small;
+    padding: 0;
+    margin: 0;
 }
 .contentContainer{
-    background: green;
+    border: 1px solid black;
+    width: 97%;
+    height: 75%;
+    position: relative;
+    top: 3%;
+    padding: 1%;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80%;
-    width: 80%;
-    position: relative;
-    top: 3vw;
-    left: 3vw;
 }
+.heading{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 1vw;
+    height: 8%;
+    width: 98%;
+    margin: 1%;
+}
+.mainForm {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    border: 1px solid rgb(30, 0, 255);
+}
+
+.formRow2, .formRow3, .formRow5, .formRow6, .formRow7{
+    display: flex;
+    gap: 2vw;
+}
+.formRow5 Button, .formRow7 Button{
+    height: 2rem;
+    margin-top: 3.5vh;
+    border: 1px solid green;
+}
+
+.formRow7{
+    align-self: flex-end;
+}
+

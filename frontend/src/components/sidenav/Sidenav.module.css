@@ -1,15 +1,14 @@
 
 .sideNavContainer {
-    width: 5%;
+    width: 7vw;
     height: 100vh;
-    padding: 0 1%;
+    /* padding: 0 1%; */
     display: flex;
     flex-direction: column;
     background:white;
     position: fixed;
-    top: 5vw;
+    top: 10vh;
 }
-
 .buttonContainer {
     flex-direction: column;
     display: flex;

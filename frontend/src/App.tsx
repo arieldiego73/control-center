@@ -17,7 +17,7 @@ function App() {
 				<Route path="/dashboard" Component={Dashboard} />
 				<Route path="/userhandler" Component={Userhandler} />
 				<Route path="/createuser" Component={CreateUserHandler} />
-				
+				<Route path="/sidenav" Component={Sidenav} />
 			</Routes>
 		</BrowserRouter>
 	);

@@ -1,12 +1,3 @@
-.wholeContainer{
-    background: linear-gradient(#2a7ebb, #579ed1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    z-index: 1;
-    width: 100vw;
-}
 .topNavContainer{
     background: linear-gradient(#2a7ebb, #579ed1);
     display: flex;
@@ -15,6 +6,7 @@
     position: fixed;
     z-index: 1;
     width: 100%;
+    height: 10vh;
 }
 .logoContainer{
     margin-left: 1%;
@@ -42,21 +34,20 @@
     display: flex;
     flex-direction: column;
     align-items: end;
-    gap: 0.1vw;
+    justify-content: center;
     width: 100%;
-    height: 100%;
-}
-.infoContainer text{
-    color: white;
-    text-align: center;
+    height: 100%    ;
+    color: rgb(227, 223, 223);
 }
 .Username{
     font-weight: 700;
     font-size: 1vw;
+    margin: 0;
 }
 .Position{
     font-weight: 300;
     font-size: 0.7vw;
+    margin: 0;
 }
 .imageContainer{
     margin-right: 1%;
