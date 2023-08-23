@@ -6,6 +6,7 @@ import { getUsersFetch } from "../../redux/state/userState";
 import { RootState } from "../../redux/store/store";
 import { Button } from "@material-ui/core";
 import { Add, AccountCircleOutlined } from "@mui/icons-material";
+import { Link } from 'react-router-dom';
 
 export default function Userpage() {
 	const data = useSelector((state: RootState) => state.userReducer.users);
@@ -62,14 +63,17 @@ export default function Userpage() {
 
 			<div className={UserStyle.contentHolder}>
 				<div style={{ textAlign: "right", marginBottom: "6px" }}>
-					<Button
-						variant="contained"
-						color="primary"
-						startIcon={<Add />}
-						style={{ textTransform: "none" }}
-					>
-						Add User
-					</Button>
+					<Link to="/createuser" style={{ textDecoration: 'none' }}>
+						<Button
+							variant="contained"
+							color="primary"
+							startIcon={<Add />}
+							style={{ textTransform: "none" }}
+						>
+							Add User
+						</Button>
+					</Link>
+						
 				</div>
 				{/* Start of Header */}
 				<div
