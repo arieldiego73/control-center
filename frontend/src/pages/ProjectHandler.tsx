@@ -1,7 +1,7 @@
 import { Sidenav } from "../components/sidenav/Sidenav";
-import Userpage from "../components/user/Userpage";
+import Project from "../components/project/Project";
 
-export default function Userhandler() {
+export default function ProjectHandler() {
 	return (
 		<div style={{ flexDirection: "column", display: "flex" }}>
 			<div>
@@ -16,7 +16,7 @@ export default function Userhandler() {
 					paddingRight: "5%",
 				}}
 			>
-				<Userpage />
+				<Project />
 			</div>
 		</div>
 	);

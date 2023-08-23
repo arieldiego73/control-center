@@ -11,34 +11,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.Position;
-import com.controlcenter.controlcenter.service.PositionService;
+import com.controlcenter.controlcenter.model.Section;
+import com.controlcenter.controlcenter.service.SectionService;
 
 @RestController
-@RequestMapping("/position")
+@RequestMapping("/section")
 
-public class PositionController {
-    
+public class SectionController {
+       
     @Autowired
-    public PositionService positionService;
+    public SectionService sectionService;
 
     @GetMapping("/all")
-    public List<Position> getAllPosition() {
-        return positionService.getAllPosition();
+    public List<Section> getAllSection() {
+        return sectionService.getAllSection();
     }
 
     @PostMapping("/add")
-    public String addPosition(@RequestBody Position position) {
-        return positionService.addPosition(position);
+    public String addSection(@RequestBody Section section){
+        return sectionService.addSection(section);
     }
 
     @PutMapping("/edit/{id}")
-    public String editPositionInfo(@PathVariable String id, @RequestBody Position position) {
-        return positionService.editPositionInfo(id, position);
+    public String editSectionInfo(@PathVariable String id, @RequestBody Section section) {
+        return sectionService.editSectionInfo(id, section);
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeltePosition(@PathVariable String id) {
-        return positionService.logicalDeletePosition(id);
+    public String logicalDeleteSection(@PathVariable String id) {
+        return sectionService.logicalDeleteSection(id);
     }
 }

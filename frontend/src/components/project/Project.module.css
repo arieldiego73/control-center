@@ -1,0 +1,76 @@
+
+.mainContainer {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    /* height: 89vh; if 90, sasakto s pinaka browser, di makikita difference (10vh yung topnav) */
+    width: 92vw; /* if 93, sasakto s pinaka browser, di makikita difference (7vh yung sidenav)*/
+    top: 10vh; /* Bale height + top = 99vh (if 100, di makita difference)*/
+    left: 7vw; /* Bale width + left = 99vw (if 100, di makita difference)*/
+    border: 1px solid red;
+    align-items: center;
+}
+.mainContainer h4{
+    color: red;
+    position: relative;
+    height: 5%;
+    border: 1px solid red;
+  
+}
+.mainContainer h6{
+    color: red;
+    position: relative;
+    top: 0;
+    left: 0;
+    border: 1px solid green;
+    margin: 5px;
+    padding: 1vh;
+    height: 2%;
+}
+.contentContainer{
+    /* border: 1px solid black; */
+    width: 97%;
+    height: 75%;
+    position: relative;
+    top: 3%;
+    align-self: center;
+}
+
+/* ///////// */
+
+.mainHolder{
+    padding-left: 5%;
+}
+.iconHolder{
+    flex:1;
+    padding-left: 7;
+}
+.contentHolder{
+    margin: 20;
+}
+.searchBar1 { 
+    /* justify-Content: "center";
+    align-Content: "center";
+    align-Items: "center"; */
+   
+}
+.searchBarHolder1 {
+    margin-Top: 10;
+    margin-Bottom: 10;
+    padding-Right: 5px;
+    display: flex;
+    margin-bottom: 5px;
+}
+.searchBarHolder2{
+    margin-Top: 10;
+    margin-Bottom: 10;
+}
+
+.subHeader{
+    flex-Direction: "row";
+    background-Color: "#dce0e0";
+    padding-Top: "5";
+    padding-Left: "5";
+    display: "flex";
+    border: "1px solid black";
+}

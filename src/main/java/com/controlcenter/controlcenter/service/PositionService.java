@@ -6,4 +6,7 @@ import com.controlcenter.controlcenter.model.Position;
 
 public interface PositionService {
     public List<Position> getAllPosition();
+    public String addPosition(Position position);
+    public String editPositionInfo(String id, Position position);
+    public String logicalDeletePosition(String id);
 }

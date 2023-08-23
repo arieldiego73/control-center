@@ -7,13 +7,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Position {
-    private Long position_id;
-    private String position_name;
-    private String position_sh_name;
+
+public class Status {
+    private String status_code;
+    private String status_name;
     private int del_flag;
     private String reg_id;
     private Timestamp reg_date;
     private String update_id;
     private Timestamp update_date;
+    
 }
