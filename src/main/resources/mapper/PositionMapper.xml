@@ -16,14 +16,14 @@
 
     <update id="editPositionInfo" parameterType="map">
         UPDATE tbl_position_mst
-           SET position_name=#{position.position_name}, position_sh_name=#{position.position_sh_name}
+           SET position_name=#{position.position_name}, position_sh_name=#{position.position_sh_name}, reg_id=#{position.reg_id}, update_id=#{position.update_id}
          WHERE position_id = #{id}
     </update>
 
-    <update id="logicalDeletePosition" parameterType="map">
+    <update id="logicalDeletePosition">
         UPDATE tbl_position_mst
-           SET del_flag=#{position.del_flag}
+           SET del_flag=1
          WHERE position_id = #{id}
     </update>
-    
+
 </mapper>

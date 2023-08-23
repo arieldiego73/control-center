@@ -48,15 +48,9 @@ public class PositionServiceImpl implements PositionService{
     }
 
     @Override
-    public String logicalDeletePosition(String id, Position position) {
+    public String logicalDeletePosition(String id) {
         try {
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("position", position);
-
-            
-            position.setDel_flag(1);
-            positionDao.logicalDeletePosition(paramMap);
+            positionDao.logicalDeletePosition(id);
 
             return "Position Deleted Successfully";
         } catch (Exception e) {

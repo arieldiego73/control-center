@@ -11,33 +11,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.Position;
-import com.controlcenter.controlcenter.service.PositionService;
+import com.controlcenter.controlcenter.model.Role;
+import com.controlcenter.controlcenter.service.RoleService;
 
 @RestController
-@RequestMapping("/position")
-public class PositionController {
+@RequestMapping("/role")
+public class RoleController {
     
     @Autowired
-    public PositionService positionService;
+    public RoleService roleService;
 
     @GetMapping("/all")
-    public List<Position> getAllPosition() {
-        return positionService.getAllPosition();
+    public List<Role> getAllRole() {
+        return roleService.getAllRole();
     }
 
     @PostMapping("/add")
-    public String addPosition(@RequestBody Position position) {
-        return positionService.addPosition(position);
+    public String addRole(@RequestBody Role role) {
+        return roleService.addRole(role);
     }
 
     @PutMapping("/edit/{id}")
-    public String editPositionInfo(@PathVariable String id, @RequestBody Position position) {
-        return positionService.editPositionInfo(id, position);
+    public String editRoleInfo(@PathVariable String id, @RequestBody Role role) {
+        return roleService.editRoleInfo(id, role);
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeltePosition(@PathVariable String id) {
-        return positionService.logicalDeletePosition(id);
+    public String logicalDeleteRole(@PathVariable String id) {
+        return roleService.logicalDeleteRole(id);
     }
 }
