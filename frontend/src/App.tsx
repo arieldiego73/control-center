@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import TopNav from "./components/topnav/Topnav";
 import { Sidenav } from "./components/sidenav/Sidenav";
-import Userhandler from "./components/user/Userhandler";
+import Userhandler from "./pages/Userhandler";
 import Userpage from "./components/user/Userpage";
 
 function App() {
@@ -12,11 +12,9 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" Component={LoginPage} />
-				<Route path="/Dashboard" Component={Dashboard} />
-				<Route path="/TopNav" Component={TopNav} />
-				<Route path="/Sidenav" Component={Sidenav} />
-				<Route path="/Userhandler" Component={Userhandler} />
-				<Route path="/Userpage" Component={Userpage} />
+				<Route path="/dashboard" Component={Dashboard} />
+				<Route path="/userhandler" Component={Userhandler} />
+				
 			</Routes>
 		</BrowserRouter>
 	);
