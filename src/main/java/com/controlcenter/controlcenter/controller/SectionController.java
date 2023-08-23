@@ -27,19 +27,18 @@ public class SectionController {
         return sectionService.getAllSection();
     }
 
-    @PostMapping("/addSection")
+    @PostMapping("/add")
     public String addSection(@RequestBody Section section){
         return sectionService.addSection(section);
     }
 
-    @PutMapping("/editSectionInfo/{id}")
+    @PutMapping("/edit/{id}")
     public String editSectionInfo(@PathVariable String id, @RequestBody Section section) {
         return sectionService.editSectionInfo(id, section);
     }
 
-    @PutMapping("/logicalDeleteSection/{id}")
+    @PutMapping("/delete/{id}")
     public String logicalDeleteSection(@PathVariable String id, @RequestBody Section section) {
-        return sectionService.logicalDeleteSection(id, section);
+        return sectionService.logicalDeleteSection(id);
     }
-
 }
