@@ -1,0 +1,19 @@
+.mainContainer{
+    background: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+}
+.contentContainer{
+    background: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+    width: 80%;
+    position: relative;
+    top: 3vw;
+    left: 3vw;
+}

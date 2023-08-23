@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import Usertable from "./Usertable";
-import Style from "./User.module.css";
-//  clasname={Style.kineme}
+import UserStyle from "./User.module.css";
+
 
 export default function Userpage() {
   const data = [
@@ -22,9 +22,9 @@ export default function Userpage() {
   };
 
   return (
-    <div className={Style.mainHolder}>
+    <div className={UserStyle.mainHolder}>
       <div style={{ flexDirection: "row", display: "flex", paddingLeft: "1%" }}>
-        <div className={Style.iconHolder}>
+        <div className={UserStyle.iconHolder}>
           <AccountCircleOutlinedIcon style={{ fontSize: "60px" }} />
         </div>
 
@@ -42,61 +42,47 @@ export default function Userpage() {
         </div>
       </div>
 
-      <div className={Style.contentHolder}>
+      <div className={UserStyle.contentHolder}>
         
         {/* Start of Header */}
         <div
           style={{
             flexDirection: "row",
             backgroundColor: "white",
-            paddingBottom: 5,
             display: "flex",
             border: "1px solid black",
             alignSelf: "center",
             justifyContent: "center",
           }}
         >
-          {/* Start of first search bar */}
-        <div className={Style.searchBar1}>
-            <div  className={Style.searchBarHolder1}>
-                <input
-                type="text"
-                placeholder="Name"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ padding: 5, fontSize: 16 }}
-                />
+          <div style={{flexDirection: 'column', display:'flex', paddingTop: '1%', paddingBottom:'1%', alignItems: "center", justifyContent: "center"}}>
+            <div style={{ display: "flex", flexDirection: "row", gap: "12px" }}>
+            <div className={UserStyle.searchBar1}>
+                {/* Start of first search bar */}
+                <div  className={UserStyle.searchBarHolder1}>
+                    <input
+                    type="text"
+                    placeholder="Name"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{ padding: 5, fontSize: 16 }}
+                    />
+                </div>
+
+                <div  className={UserStyle.searchBarHolder2}>
+                  <input
+                    type="text"
+                    placeholder="Position"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{ padding: 5, fontSize: 16 }}
+                  />
+                </div>
             </div>
 
-            <div  className={Style.searchBarHolder2}>
-              <input
-                type="text"
-                placeholder="Position"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ padding: 5, fontSize: 16 }}
-              />
-            </div>
-
-            <div  className={Style.searchButton}>
-              <button
-                onClick={handleSearch}
-                style={{
-                  backgroundColor: "#2466A2",
-                  border: "1px solid black",
-                  color: "white",
-                  height: "30px",
-                  width: "90%",
-                }}
-              >
-                Search
-              </button>
-            </div>
-        </div>
-
-        {/* Start of second search bar */}
-        <div className={Style.searchBar1}>
-                <div  className={Style.searchBarHolder1}>
+            {/* Start of second search bar */}
+            <div className={UserStyle.searcBar1}>
+              <div  className={UserStyle.searchBarHolder1}>
                 <input
                     type="text"
                     placeholder="Name"
@@ -104,9 +90,9 @@ export default function Userpage() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{ padding: 5, fontSize: 16 }}
                 />
-                </div>
+              </div>
 
-                <div  className={Style.searchBarHolder2}>
+              <div  className={UserStyle.searchBarHolder2}>
                 <input
                     type="text"
                     placeholder="Position"
@@ -114,23 +100,29 @@ export default function Userpage() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{ padding: 5, fontSize: 16 }}
                 />
-                </div>
-
-                <div  className={Style.searchButton}>
-                <button
-                    onClick={handleSearch}
-                    style={{
-                    backgroundColor: "#2466A2",
-                    border: "1px solid black",
-                    color: "white",
-                    height: "30px",
-                    width: "90%",
-                    }}
-                >
-                    Search
-                </button>
-                </div>
+              </div>
             </div>
+            </div>
+
+            <div style={{ marginTop: "24px" }}>
+            <button
+              onClick={handleSearch}
+              style={{
+                backgroundColor: "#2466A2",
+                border: "1px solid black",
+                color: "white",
+                height: "30px",
+                width: "100%",
+                padding: "0 32px"
+              }}
+            >
+              Search
+            </button>
+          </div>
+          </div>
+         
+          
+          
         </div>
 
         {/* Start of Sub Header */}
