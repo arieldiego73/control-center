@@ -7,7 +7,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import Style from './Sidenav.module.css'
+import SidenavStyle from './Sidenav.module.css'
 
 const useStyles = makeStyles((theme) => ({
 	iconButton: {
@@ -43,16 +43,16 @@ export const Sidenav = () => {
 
 				
 				{/* DIV CONTAINER OF BUTTONS */}
-				<div className={Style.sideNavContainer}>
+				<div className={SidenavStyle.sideNavContainer}>
 
 					{/* BUTTONS */}
 					<div>
 						<div>
-							<div className={Style.buttonContainer}>
+							<div className={SidenavStyle.buttonContainer}>
 								<IconButton className={classes.iconButton}>
 									<DashboardIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
 								</IconButton>
-								<div className={Style.buttonText}>
+								<div className={SidenavStyle.buttonText}>
 									<span className={`${classes.boldText} boldText`}>
 										Dashboard
 									</span>
@@ -62,11 +62,11 @@ export const Sidenav = () => {
 					</div>
 					<div>
 						<div>
-							<div className={Style.buttonContainer}>
+							<div className={SidenavStyle.buttonContainer}>
 								<IconButton className={classes.iconButton}>
 									<PersonOutlineIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
 								</IconButton>
-								<div className={Style.buttonText}>
+								<div className={SidenavStyle.buttonText}>
 									<span className={`${classes.boldText} boldText`}>
 										User
 									</span>
@@ -76,11 +76,11 @@ export const Sidenav = () => {
 					</div>
 					<div>
 						<div>
-							<div className={Style.buttonContainer}>
+							<div className={SidenavStyle.buttonContainer}>
 								<IconButton className={classes.iconButton}>
 									<AccountTreeOutlinedIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
 								</IconButton>
-								<div className={Style.buttonText}>
+								<div className={SidenavStyle.buttonText}>
 									<span className={`${classes.boldText} boldText`}>
 										Project
 									</span>
@@ -90,11 +90,11 @@ export const Sidenav = () => {
 					</div>
 					<div>
 						<div>
-							<div className={Style.buttonContainer}>
+							<div className={SidenavStyle.buttonContainer}>
 								<IconButton className={classes.iconButton}>
 									<PersonSearchOutlinedIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
 								</IconButton>
-								<div className={Style.buttonText}>
+								<div className={SidenavStyle.buttonText}>
 									<span className={`${classes.boldText} boldText`}>
 										Role
 									</span>
@@ -104,11 +104,11 @@ export const Sidenav = () => {
 					</div>
 					<div>
 						<div>
-							<div className={Style.buttonContainer}>
+							<div className={SidenavStyle.buttonContainer}>
 								<IconButton className={classes.iconButton}>
 									<MoreHorizIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
 								</IconButton>
-								<div className={Style.buttonText}>
+								<div className={SidenavStyle.buttonText}>
 									<span className={`${classes.boldText} boldText`}>
 										Other
 									</span>

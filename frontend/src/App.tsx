@@ -6,6 +6,8 @@ import TopNav from "./components/topnav/Topnav";
 import { Sidenav } from "./components/sidenav/Sidenav";
 import Userhandler from "./pages/Userhandler";
 import Userpage from "./components/user/Userpage";
+import CreateUser from "./components/user/add/CreateUser";
+import CreateUserHandler from "./pages/CreateUserHandler";
 
 function App() {
 	return (
@@ -14,6 +16,7 @@ function App() {
 				<Route path="/" Component={LoginPage} />
 				<Route path="/dashboard" Component={Dashboard} />
 				<Route path="/userhandler" Component={Userhandler} />
+				<Route path="/createuser" Component={CreateUserHandler} />
 				
 			</Routes>
 		</BrowserRouter>

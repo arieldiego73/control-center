@@ -1,20 +1,20 @@
 import Logo from "../../Assets/Logo1.png";
 import User from "../../Assets/userImage.png";
-import Style from "./Topnav.module.css";
+import TopnavStyle from "./Topnav.module.css";
 
 export default function TopNav() {
 	return (
-		<div className={Style.topNavContainer}>
-			<div className={Style.logoContainer}>
+		<div className={TopnavStyle.topNavContainer}>
+			<div className={TopnavStyle.logoContainer}>
 				<img alt="" src={Logo} />
 			</div>
 
-			<div className={Style.userContainer}>
-				<div className={Style.infoContainer}>
-					<text className={Style.Username}>Username</text>
-					<text className={Style.Position}> Design Engineer Trainee </text>
+			<div className={TopnavStyle.userContainer}>
+				<div className={TopnavStyle.infoContainer}>
+					<text className={TopnavStyle.Username}>Username</text>
+					<text className={TopnavStyle.Position}> Design Engineer Trainee </text>
 				</div>
-				<div className={Style.imageContainer}>
+				<div className={TopnavStyle.imageContainer}>
 					<img alt="" src={User} />
 				</div>
 			</div>

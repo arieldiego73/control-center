@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import Usertable from "./Usertable";
-import Style from "./User.module.css";
+import UserStyle from "./User.module.css";
 
 
 export default function Userpage() {
@@ -22,9 +22,9 @@ export default function Userpage() {
   };
 
   return (
-    <div className={Style.mainHolder}>
+    <div className={UserStyle.mainHolder}>
       <div style={{ flexDirection: "row", display: "flex", paddingLeft: "1%" }}>
-        <div className={Style.iconHolder}>
+        <div className={UserStyle.iconHolder}>
           <AccountCircleOutlinedIcon style={{ fontSize: "60px" }} />
         </div>
 
@@ -42,7 +42,7 @@ export default function Userpage() {
         </div>
       </div>
 
-      <div className={Style.contentHolder}>
+      <div className={UserStyle.contentHolder}>
         
         {/* Start of Header */}
         <div
@@ -57,9 +57,9 @@ export default function Userpage() {
         >
           <div style={{flexDirection: 'column', display:'flex', paddingTop: '1%', paddingBottom:'1%', alignItems: "center", justifyContent: "center"}}>
             <div style={{ display: "flex", flexDirection: "row", gap: "12px" }}>
-            <div className={Style.searchBar1}>
+            <div className={UserStyle.searchBar1}>
                 {/* Start of first search bar */}
-                <div  className={Style.searchBarHolder1}>
+                <div  className={UserStyle.searchBarHolder1}>
                     <input
                     type="text"
                     placeholder="Name"
@@ -69,7 +69,7 @@ export default function Userpage() {
                     />
                 </div>
 
-                <div  className={Style.searchBarHolder2}>
+                <div  className={UserStyle.searchBarHolder2}>
                   <input
                     type="text"
                     placeholder="Position"
@@ -81,8 +81,8 @@ export default function Userpage() {
             </div>
 
             {/* Start of second search bar */}
-            <div className={Style.searcBar1}>
-              <div  className={Style.searchBarHolder1}>
+            <div className={UserStyle.searcBar1}>
+              <div  className={UserStyle.searchBarHolder1}>
                 <input
                     type="text"
                     placeholder="Name"
@@ -92,7 +92,7 @@ export default function Userpage() {
                 />
               </div>
 
-              <div  className={Style.searchBarHolder2}>
+              <div  className={UserStyle.searchBarHolder2}>
                 <input
                     type="text"
                     placeholder="Position"
