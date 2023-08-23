@@ -11,7 +11,7 @@ import com.controlcenter.controlcenter.model.Section;
 @Mapper
 public interface SectionDao {
     List<Section> getAllSection();
-    void addSection(Section section0);
+    void addSection(Section section);
     void editSectionInfo(Map<String, Object> paramMap);
-    void logicalDeleteSection(Map<String, Object> paramMap);
+    void logicalDeleteSection(String id);
 }

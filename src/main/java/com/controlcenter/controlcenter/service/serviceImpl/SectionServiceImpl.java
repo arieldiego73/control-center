@@ -48,15 +48,10 @@ public class SectionServiceImpl implements SectionService{
     }
 
     @Override
-    public String logicalDeleteSection(String id, Section section) {
+    public String logicalDeleteSection(String id) {
         try {
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("section", section);
-
-            
-            section.setDel_flag(1);
-            sectionDao.logicalDeleteSection(paramMap);
+        
+            sectionDao.logicalDeleteSection(id);
 
             return "Section Deleted Successfully";
         } catch (Exception e) {
