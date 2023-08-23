@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import UserTable from "./UserTable";
 import UserStyle from "./User.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsersFetch } from "../../redux/state/userState";
 import { RootState } from "../../redux/store/store";
+import { Button } from "@material-ui/core";
+import { Add, AccountCircleOutlined } from "@mui/icons-material";
 
 export default function Userpage() {
 	const data = useSelector((state: RootState) => state.userReducer.users);
@@ -36,7 +37,7 @@ export default function Userpage() {
 				}}
 			>
 				<div className={UserStyle.iconHolder}>
-					<AccountCircleOutlinedIcon style={{ fontSize: "60px" }} />
+					<AccountCircleOutlined style={{ fontSize: "60px" }} />
 				</div>
 
 				<div
@@ -60,6 +61,16 @@ export default function Userpage() {
 			</div>
 
 			<div className={UserStyle.contentHolder}>
+				<div style={{ textAlign: "right", marginBottom: "6px" }}>
+					<Button
+						variant="contained"
+						color="primary"
+						startIcon={<Add />}
+						style={{ textTransform: "none" }}
+					>
+						Add User
+					</Button>
+				</div>
 				{/* Start of Header */}
 				<div
 					style={{

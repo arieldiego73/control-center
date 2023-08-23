@@ -94,18 +94,22 @@ export default function UserTable() {
 	};
 
 	return (
-		<Paper sx={{ width: "100%", overflow: "hidden" }}>
-			<TableContainer sx={{ maxHeight: 500 }}>
+		<Paper sx={{ width: "100%", overflow: "hidden", borderRadius: "0" }}>
+			<TableContainer sx={{ maxHeight: 410 }}>
 				<Table stickyHeader aria-label="sticky table">
 					<TableHead>
-						<TableRow
-							sx={{ backgroundColor: "red", color: "white" }}
-						>
+						<TableRow>
 							{columns.map((column) => (
 								<TableCell
 									key={column.id}
 									align={column.align}
-									style={{ minWidth: column.minWidth }}
+									style={{
+										minWidth: column.minWidth,
+										backgroundColor: "#bcbcbc",
+										color: "#000",
+										fontWeight: "800",
+										textTransform: "uppercase",
+									}}
 								>
 									{column.label}
 								</TableCell>
