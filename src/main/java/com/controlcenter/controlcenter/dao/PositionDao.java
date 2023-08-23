@@ -12,5 +12,5 @@ public interface PositionDao {
     List<Position> getAllPosition();
     void addPosition(Position position);
     void editPositionInfo(Map<String, Object> paramMap);
-    void logicalDeletePosition(Map<String, Object> paramMap);
+    void logicalDeletePosition(String id);
 }

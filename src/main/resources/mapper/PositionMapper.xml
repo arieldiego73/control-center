@@ -2,23 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.controlcenter.controlcenter.dao.PositionDao">
-    <!-- <select id="findById" parameterType="java.lang.Long" resultType="com.example.entity.YourEntity">
-        SELECT * FROM your_entity_table WHERE id = #{id}
-    </select> -->
 
     <select id="getAllPosition" resultType="com.controlcenter.controlcenter.model.Position">
         SELECT * 
           FROM tbl_position_mst
          WHERE del_flag = 0;
     </select>
-    <!-- <select id="getUserById" parameterType="long" resultType="com.controlcenter.controlcenter.model.User">
-        SELECT * FROM tbl_user WHERE id = #{id};
-    </select> -->
-    <!-- <select id="getUserByUsername" resultType="com.controlcenter.controlcenter.model.User">
-        SELECT *
-        FROM tbl_user
-        WHERE username COLLATE utf8mb4_bin = #{username}
-    </select> -->
+
     <insert id="addPosition" parameterType="com.controlcenter.controlcenter.model.Position">
         INSERT INTO tbl_position_mst(position_name, position_sh_name, reg_id, update_id)
              VALUES (#{position_name}, #{position_sh_name}, #{reg_id}, #{update_id});
@@ -26,27 +16,14 @@
 
     <update id="editPositionInfo" parameterType="map">
         UPDATE tbl_position_mst
-           SET position_name=#{position.position_name}, position_sh_name=#{position.position_sh_name}
+           SET position_name=#{position.position_name}, position_sh_name=#{position.position_sh_name}, reg_id=#{position.reg_id}, update_id=#{position.update_id}
          WHERE position_id = #{id}
     </update>
 
-    <update id="logicalDeletePosition" parameterType="map">
+    <update id="logicalDeletePosition">
         UPDATE tbl_position_mst
-           SET del_flag=#{position.del_flag}
+           SET del_flag=1
          WHERE position_id = #{id}
     </update>
-    <!-- <insert id="insertUserBatch" parameterType="java.util.List">
-        INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id) VALUES
-        <foreach collection="list" item="user" separator=",">
-            (#{emp_id}, #{username}, #{password}, #{position_id}, #{dept_id}, #{section_id}, #{status_code}, #{img_src}, #{reg_id}, #{update_id})
-        </foreach>
-    </insert> -->
 
-    <!-- <insert id="save" parameterType="com.example.entity.YourEntity">
-        INSERT INTO your_entity_table (name) VALUES (#{name})
-    </insert>
-
-    <delete id="delete" parameterType="com.example.entity.YourEntity">
-        DELETE FROM your_entity_table WHERE id = #{id}
-    </delete> -->
 </mapper>
