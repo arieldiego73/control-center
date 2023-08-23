@@ -11,8 +11,8 @@ export default function TopNav() {
 
 			<div className={Style.userContainer}>
 				<div className={Style.infoContainer}>
-					<text> Username</text>
-					<text> Design Engineer Trainee </text>
+					<text className={Style.Username}>Username</text>
+					<text className={Style.Position}> Design Engineer Trainee </text>
 				</div>
 				<div className={Style.imageContainer}>
 					<img alt="" src={User} />
