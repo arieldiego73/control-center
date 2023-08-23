@@ -8,23 +8,24 @@
 .contentHolder{
     margin: 20;
 }
-.searcBar1 {
+.searcBar1 { 
     justify-Content: "center";
     align-Content: "center";
     align-Items: "center";
+   
 }
 .searchBarHolder1 {
     margin-Top: 10;
     margin-Bottom: 10;
-    padding-Right: "10px"
+    padding-Right: 5px;
+    display: flex;
+    margin-bottom: 5px;
 }
 .searchBarHolder2{
     margin-Top: 10;
     margin-Bottom: 10;
 }
-.searchButton {
-    padding-Left: "50%";
-}
+
 .subHeader{
     flex-Direction: "row";
     background-Color: "#dce0e0";
