@@ -16,6 +16,7 @@ import com.controlcenter.controlcenter.service.PositionService;
 
 @RestController
 @RequestMapping("/position")
+
 public class PositionController {
     
     @Autowired
