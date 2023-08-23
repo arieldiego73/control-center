@@ -15,7 +15,7 @@
 <!-- Add Data -->
     <insert id="addStatus" parameterType="com.controlcenter.controlcenter.model.Status">
         INSERT INTO tbl_status_mst(status_code, status_name, reg_id, update_id)
-             VALUES (#{Status_code}, #{status_name}, #{reg_id}, #{update_id});
+             VALUES (#{status_code}, #{status_name}, #{reg_id}, #{update_id});
     </insert>
     
 <!-- Update Data -->
