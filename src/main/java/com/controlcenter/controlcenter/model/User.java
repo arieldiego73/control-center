@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class User {
 
+  //User Model
   private Long emp_id;
   private String username;
   private String password;
@@ -23,4 +24,6 @@ public class User {
   private Timestamp reg_date;
   private String update_id;
   private Timestamp update_date;
+
+  
 }
