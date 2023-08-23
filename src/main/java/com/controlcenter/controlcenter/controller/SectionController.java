@@ -38,7 +38,7 @@ public class SectionController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteSection(@PathVariable String id, @RequestBody Section section) {
+    public String logicalDeleteSection(@PathVariable String id) {
         return sectionService.logicalDeleteSection(id);
     }
 }
