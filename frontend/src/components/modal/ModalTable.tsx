@@ -82,8 +82,8 @@ export default function ModalTable() {
 	  
 	  
 	return (
-		<Paper sx={{ width: "100%", overflow: "hidden" }}>
-			<TableContainer sx={{ maxHeight: 200 }}>
+		<Paper sx={{ width: "100%", overflow: "hidden"}}>
+			<TableContainer sx={{ maxHeight: 400}}>
 				<Table stickyHeader aria-label="sticky table">
 					<TableHead>
 						<TableRow
