@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapper for tbl project   -->
+<mapper namespace="com.controlcenter.controlcenter.dao.ProjectDao">
+
+<!-- Fetch Data -->
+    <select id="getAllProject" resultType="com.controlcenter.controlcenter.model.Project">
+        SELECT *
+         FROM tbl_project_mst
+        WHERE del_flag = 0;
+    </select>
+
+<!-- Add Data -->
+    <insert id="addProject" parameterType="com.controlcenter.controlcenter.model.Project">
+        INSERT INTO tbl_project_mst(proj_name, proj_code, proj_description, start_date, end_date, reg_id, update_id)
+             VALUES (#{proj_name},#{proj_code}, #{proj_description}, #{start_date}, #{end_date}, #{reg_id}, #{update_id});
+    </insert>
+    
+<!-- Update Data -->
+    <update id="editProjectInfo" parameterType="map">
+        UPDATE tbl_project_mst
+           SET proj_name=#{project.proj_name}, proj_code=#{project.proj_code}, proj_description=#{project.proj_description},
+            start_date=#{project.start_date}, end_date=#{project.end_date}, reg_id=#{project.reg_id}, update_id=#{project.update_id}
+        WHERE proj_id = #{id}
+    </update>
+
+<!-- Logical Delete Data -->
+    <update id="logicalDeleteProject" parameterType="map">
+        UPDATE tbl_project_mst
+           SET del_flag=1
+        WHERE proj_id = #{id}
+    </update>
+
+</mapper>
