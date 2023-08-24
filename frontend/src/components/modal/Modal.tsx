@@ -109,7 +109,7 @@ const Modal: React.FC<popupProps> = (props) => {
 							<div >
 								<input
 									type="text"
-									placeholder="Business Unit"
+									placeholder="Name"
 									value={searchQuery}
 									onChange={(e) =>
 										setSearchQuery(e.target.value)
@@ -121,7 +121,7 @@ const Modal: React.FC<popupProps> = (props) => {
 							<div>
 								<input
 									type="text"
-									placeholder="Department"
+									placeholder="Position"
 									value={searchQuery}
 									onChange={(e) =>
 										setSearchQuery(e.target.value)

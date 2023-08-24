@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapper for tbl UserProject   -->
+<mapper namespace="com.controlcenter.controlcenter.dao.UserProjectDao">
+
+<!-- Fetch Data -->
+    <select id="getAllUserProject" resultType="com.controlcenter.controlcenter.model.UserProject">
+        SELECT *
+         FROM tbl_user_project
+        WHERE del_flag = 0;
+    </select>
+
+<!-- Add Data -->
+    <insert id="addUserProject" parameterType="com.controlcenter.controlcenter.model.UserProject">
+        INSERT INTO tbl_user_project(emp_id, proj_id, reg_id, update_id)
+             VALUES (#{emp_id}, #{proj_id}, #{reg_id}, #{update_id});
+    </insert>
+    
+<!-- Update Data -->
+    <update id="editUserProjectInfo" parameterType="map">
+        UPDATE tbl_user_project
+           SET emp_id=#{userproject.emp_id}, proj_id=#{userproject.proj_id}, reg_id=#{userproject.reg_id}, update_id=#{userproject.update_id}
+         WHERE upid = #{id}
+    </update>
+
+<!-- Logical Delete Data -->
+    <update id="logicalDeleteUserProject" parameterType="map">
+        UPDATE tbl_user_project
+           SET del_flag=1
+        WHERE upid = #{id}
+    </update>
+
+</mapper>
