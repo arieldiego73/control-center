@@ -12,11 +12,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 
 export default function Project() {
-  // const [showModal, setShowModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  // const openModal = () => {searchBarHolder1
-  //   setShowModal(showModal=>!showModal);
-  // };
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
 
   const data = useSelector((state: RootState) => state.userReducer.users);
   const dispatch = useDispatch();
@@ -46,9 +51,9 @@ export default function Project() {
         </h4>
       </div>
 
-      <div style={{ width: "97%", border: "1px solid-red" }}>
+      <div className={ProjectStyle.midContent}>
         BreadCrumbs to ha! // Eto din // 3rd breadcrumb
-        <div style={{ textAlign: "right", marginBottom: "8px" }}>
+        <div style={{ textAlign: "right" }}>
           <Link to="/userhandler" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
@@ -65,18 +70,6 @@ export default function Project() {
       <div className={ProjectStyle.contentContainer}>
         <div className={ProjectStyle.contentHolder}>
           {/* Start of Header */}
-          <div
-            style={{
-              flexDirection: "row",
-              backgroundColor: "transparent",
-              display: "flex",
-              // border: "1px solid black",
-              alignSelf: "center",
-              justifyContent: "center",
-              borderTopRightRadius: " 5px",
-              borderTopLeftRadius: "5px",
-            }}
-          >
             <div
               style={{
                 flexDirection: "column",
@@ -87,14 +80,7 @@ export default function Project() {
                 justifyContent: "center",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: "12px",
-                  alignItems: "right",
-                }}
-              >
+              <div className={ProjectStyle.searchBarContainer}>
                 <div>
                   {/* Start of first search bar */}
                   <div className={ProjectStyle.searchBarHolder1}>
@@ -162,7 +148,7 @@ export default function Project() {
                 </div>
               </div>
 
-              <div style={{ marginTop: "24px" }}>
+              <div className={ProjectStyle.buttonContainer}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -173,21 +159,16 @@ export default function Project() {
                 </Button>
               </div>
             </div>
-          </div>
-
-          {/* Start of Table */}
-          <div
-            style={{
-              backgroundColor: "transparent",
-
-              borderBottomLeftRadius: "8px",
-              borderBottomRightRadius: "8px",
-            }}
-          >
-            <ProjectTable />
+        
+            {/* Start of Table */}
+            <div className={ProjectStyle.tableContainer}>
+              <ProjectTable />
+            </div>
+            
           </div>
         </div>
+
+        
       </div>
-    </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import ModuleStyle from './Modal.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { faUserGroup, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { getUsersFetch } from '../../redux/state/userState';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
@@ -9,7 +9,13 @@ import ModalTable from './ModalTable';
 import Button from "@mui/material/Button"; 
 import SearchIcon from '@mui/icons-material/Search';
 
-export default function Modal() {
+interface popupProps {
+	isOpen: boolean;
+	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+
+const Modal: React.FC<popupProps> = (props) => {
 	// const [showModal, setShowModal] = useState(false);
 
 	// const openModal = () => {
@@ -153,6 +159,17 @@ export default function Modal() {
 					<ModalTable />
 				</div>
 			</div>
+
+			
+			<FontAwesomeIcon
+                      icon={faTimes}
+                      className={ModuleStyle.clearIcon} // Apply appropriate CSS class for positioning
+					  onClick={() => { props.setIsOpen(false) }} // Clear the input when X icon is clicked
+                    />
+
+
+
+
 		</div>
 
 
@@ -162,3 +179,5 @@ export default function Modal() {
 
   );
 }
+
+export default Modal;
