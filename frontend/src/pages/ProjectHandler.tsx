@@ -4,9 +4,6 @@ import Project from "../components/project/Project";
 export default function ProjectHandler() {
 	return (
 		<div style={{ flexDirection: "column", display: "flex" }}>
-			<div>
-				<Sidenav />
-			</div>
 			<div
 				style={{
 					position: "absolute",
@@ -18,6 +15,8 @@ export default function ProjectHandler() {
 			>
 				<Project />
 			</div>
+
+			<Sidenav />
 		</div>
 	);
 }
