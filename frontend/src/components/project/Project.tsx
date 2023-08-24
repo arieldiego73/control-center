@@ -1,180 +1,193 @@
-import React, {useState, useEffect} from 'react';
-import ProjectStyle from './Project.module.css'
+import React, { useState, useEffect } from "react";
+import ProjectStyle from "./Project.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { getUsersFetch } from '../../redux/state/userState';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store/store';
-import ProjectTable from './ProjectTable';
-import Button from "@mui/material/Button"; 
+import { getUsersFetch } from "../../redux/state/userState";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+import ProjectTable from "./ProjectTable";
+import Button from "@mui/material/Button";
 import { Add } from "@mui/icons-material";
-import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
-
+import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom";
 
 export default function Project() {
+  // const [showModal, setShowModal] = useState(false);
+
+  // const openModal = () => {searchBarHolder1
+  //   setShowModal(showModal=>!showModal);
+  // };
+
   const data = useSelector((state: RootState) => state.userReducer.users);
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(getUsersFetch());
-	}, [dispatch]);
+  useEffect(() => {
+    dispatch(getUsersFetch());
+  }, [dispatch]);
 
-	console.log(data);
+  console.log(data);
 
-	const [searchQuery, setSearchQuery] = useState("");
-	const [filteredData, setFilteredData] = useState(data);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState(data);
 
-	const handleSearch = () => {
-		// const filtered = data.filter((item) =>
-		// 	item.name.toLowerCase().includes(searchQuery.toLowerCase())
-		// );
-		// setFilteredData(filtered);
-	};
+  const handleSearch = () => {
+    // const filtered = data.filter((item) =>
+    // 	item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
+    // setFilteredData(filtered);
+  };
 
   return (
     <div className={ProjectStyle.mainContainer}>
-      
-      <div style={{ width: "97%", }}> 
-        <h4 >
-          <FontAwesomeIcon icon={faUser} size="3x" color='black'/> 
-          <span style={{fontSize: '40px', color:'black'}}> PROJECT </span>
+      <div style={{ width: "97%" }}>
+        <h4>
+          <FontAwesomeIcon icon={faUser} size="3x" color="black" />
+          <span style={{ fontSize: "40px", color: "black" }}> PROJECT </span>
         </h4>
       </div>
-     
 
-      <div style={{  width: '97%', border: '1px solid-red'}}>
-       BreadCrumbs to ha! // Eto din // 3rd breadcrumb
-          <div style={{textAlign:'right', marginBottom: "8px"}}>
-			<Link to="/userhandler" style={{ textDecoration: 'none' }}>
-				<Button
-					variant="contained"
-					color="primary"
-					startIcon={<Add />}
-					style={{ textTransform: "none" }}
-				>
-					Add Project
-				</Button>
-			</Link>
-
-          </div>
-   
+      <div style={{ width: "97%", border: "1px solid-red" }}>
+        BreadCrumbs to ha! // Eto din // 3rd breadcrumb
+        <div style={{ textAlign: "right", marginBottom: "8px" }}>
+          <Link to="/userhandler" style={{ textDecoration: "none" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Add />}
+              style={{ textTransform: "none" }}
+            >
+              Add Project
+            </Button>
+          </Link>
+        </div>
       </div>
-    
 
       <div className={ProjectStyle.contentContainer}>
-      
-
-			<div className={ProjectStyle.contentHolder}>
-				{/* Start of Header */}
-				<div
-					style={{
-						flexDirection: "row",
-						backgroundColor: "white",
-						display: "flex",
-						border: "1px solid black",
-						alignSelf: "center",
-						justifyContent: "center",
-					}}
-				>
-					<div
-						style={{
-							flexDirection: "column",
-							display: "flex",
-							paddingTop: "1%",
-							paddingBottom: "1%",
-							alignItems: "center",
-							justifyContent: "center",
-						}}
-					>
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								gap: "12px",
-                alignItems:'right'
-							}}
-						>
-							<div >
-								{/* Start of first search bar */}
-								<div className={ProjectStyle.searchBarHolder1}>
-									<input
-										type="text"
-										placeholder="Name"
-										value={searchQuery}
-										onChange={(e) =>
-											setSearchQuery(e.target.value)
-										}
-										style={{ padding: 5, fontSize: 16, backgroundColor:'#dce0e0'}}
-									/>
-								</div>
-
-								<div className={ProjectStyle.searchBarHolder2}>
-									<input
-										type="text"
-										placeholder="Position"
-										value={searchQuery}
-										onChange={(e) =>
-											setSearchQuery(e.target.value)
-										}
-										style={{ padding: 5, fontSize: 16,  backgroundColor:'#dce0e0' }}
-									/>
-								</div>
-							</div>
-
-							{/* Start of second search bar */}
-							<div className={ProjectStyle.searcBar1}>
-								<div className={ProjectStyle.searchBarHolder1}>
-									<input
-										type="text"
-										placeholder="Business Unit"
-										value={searchQuery}
-										onChange={(e) =>
-											setSearchQuery(e.target.value)
-										}
-										style={{ padding: 5, fontSize: 16, backgroundColor:'#dce0e0' }}
-									/>
-								</div>
-
-								<div className={ProjectStyle.searchBarHolder2}>
-									<input
-										type="text"
-										placeholder="Department"
-										value={searchQuery}
-										onChange={(e) =>
-											setSearchQuery(e.target.value)
-										}
-										style={{ padding: 5, fontSize: 16,  backgroundColor:'#dce0e0' }}
-									/>
-								</div>
-							</div>
-						</div>
-
-						<div style={{ marginTop: "24px" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<SearchIcon />}
-                style={{ textTransform: "none" }}
+        <div className={ProjectStyle.contentHolder}>
+          {/* Start of Header */}
+          <div
+            style={{
+              flexDirection: "row",
+              backgroundColor: "transparent",
+              display: "flex",
+              // border: "1px solid black",
+              alignSelf: "center",
+              justifyContent: "center",
+              borderTopRightRadius: " 5px",
+              borderTopLeftRadius: "5px",
+            }}
+          >
+            <div
+              style={{
+                flexDirection: "column",
+                display: "flex",
+                paddingTop: "1%",
+                paddingBottom: "1%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "12px",
+                  alignItems: "right",
+                }}
               >
-                Search
-              </Button>
-						</div>
-					</div>
-				</div>
+                <div>
+                  {/* Start of first search bar */}
+                  <div className={ProjectStyle.searchBarHolder1}>
+                    <input
+                      type="text"
+                      placeholder="Name"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      style={{
+                        padding: 5,
+                        fontSize: 16,
+                        backgroundColor: "#dce0e0",
+                        borderRadius: "10px",
+                      }}
+                    />
+                  </div>
 
-				{/* Start of Table */}
-				<div
-					style={{
-						backgroundColor: "white",
-						border: "1px solid black",
-					}}
-				>
-					<ProjectTable />
-				</div>
-			</div>
-		</div>
+                  <div className={ProjectStyle.searchBarHolder2}>
+                    <input
+                      type="text"
+                      placeholder="Position"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      style={{
+                        padding: 5,
+                        fontSize: 16,
+                        backgroundColor: "#dce0e0",
+                        borderRadius: "10px",
+                      }}
+                    />
+                  </div>
+                </div>
 
+                {/* Start of second search bar */}
+                <div className={ProjectStyle.searcBar1}>
+                  <div className={ProjectStyle.searchBarHolder1}>
+                    <input
+                      type="text"
+                      placeholder="Business Unit"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      style={{
+                        padding: 5,
+                        fontSize: 16,
+                        backgroundColor: "#dce0e0",
+                        borderRadius: "10px",
+                      }}
+                    />
+                  </div>
+
+                  <div className={ProjectStyle.searchBarHolder2}>
+                    <input
+                      type="text"
+                      placeholder="Department"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      style={{
+                        padding: 5,
+                        fontSize: 16,
+                        backgroundColor: "#dce0e0",
+                        borderRadius: "10px",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ marginTop: "24px" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<SearchIcon />}
+                  style={{ textTransform: "none" }}
+                >
+                  Search
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Start of Table */}
+          <div
+            style={{
+              backgroundColor: "transparent",
+
+              borderBottomLeftRadius: "8px",
+              borderBottomRightRadius: "8px",
+            }}
+          >
+            <ProjectTable />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

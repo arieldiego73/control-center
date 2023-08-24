@@ -4,25 +4,16 @@
     display: flex;
     flex-direction: column;
     /* height: 89vh; if 90, sasakto s pinaka browser, di makikita difference (10vh yung topnav) */
-    width: 92vw; /* if 93, sasakto s pinaka browser, di makikita difference (7vh yung sidenav)*/
+    width: 40vw; /* if 93, sasakto s pinaka browser, di makikita difference (7vh yung sidenav)*/
     top: 10vh; /* Bale height + top = 99vh (if 100, di makita difference)*/
     left: 7vw; /* Bale width + left = 99vw (if 100, di makita difference)*/
-
+    
     align-items: center;
-    background-image: url(../../Assets//bg5.jpeg);
-    background-size: cover;
-    background-repeat: no-repeat;
+    
+}
 
-}
-.mainContainer h4{
- 
-    position: relative;
-    height: 5%;
-  
-  
-}
 .mainContainer h6{
- 
+    color: red;
     position: relative;
     top: 0;
     left: 0;
@@ -32,12 +23,13 @@
     height: 2%;
 }
 .contentContainer{
-    /* border: 1px solid black; */
+
     width: 97%;
     height: 75%;
-    position: relative;
+
     top: 3%;
-    align-self: center;
+
+    text-align: right;
 }
 
 /* ///////// */
@@ -49,27 +41,10 @@
     flex:1;
     padding-left: 7;
 }
-.contentHolder{
-    margin: 20;
-    background: rgba( 255, 255, 255, 0.05 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 20px );
-    -webkit-backdrop-filter: blur( 3px );
-    border-radius: 10px;
-}
 
 .searchBarHolder1 {
-    margin-Top: 10;
-    margin-Bottom: 10;
-    padding-Right: 5px;
-    display: flex;
     margin-bottom: 5px;
 }
-.searchBarHolder2{
-    margin-Top: 10;
-    margin-Bottom: 10;
-}
-
 .subHeader{
     flex-Direction: "row";
     background-Color: "#dce0e0";

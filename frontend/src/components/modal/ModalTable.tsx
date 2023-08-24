@@ -9,7 +9,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
 interface Column {
-	id: "name" | "code" | "population" | "size" | "density";
+	id: "fname" | "lname" | "position";
 	label: string;
 	minWidth?: number;
 	align?: "right";
@@ -17,47 +17,34 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-	{ id: "name", label: "Name", minWidth: 170 },
-	{ id: "code", label: "ISO\u00a0Code", minWidth: 100 },
+	{ id: "fname", label: "First Name", minWidth: 170 },
+	{ id: "lname", label: "Last Name", minWidth: 100 },
 	{
-		id: "population",
-		label: "Population",
+		id: "position",
+		label: "Position",
 		minWidth: 170,
 		align: "right",
 		format: (value: number) => value.toLocaleString("en-US"),
 	},
-	{
-		id: "size",
-		label: "Size\u00a0(km\u00b2)",
-		minWidth: 170,
-		align: "right",
-		format: (value: number) => value.toLocaleString("en-US"),
-	},
-	{
-		id: "density",
-		label: "Density",
-		minWidth: 170,
-		align: "right",
-		format: (value: number) => value.toFixed(2),
-	},
+
 ];
 
 interface Data {
-	name: string;
-	code: string;
-	population: number;
+	fname: string;
+	lname: string;
+	position: number;
 	size: number;
 	density: number;
 }
 
 function createData(
-	name: string,
-	code: string,
-	population: number,
+	fname: string,
+	lname: string,
+	position: number,
 	size: number
 ): Data {
-	const density = population / size;
-	return { name, code, population, size, density };
+	const density = position / size;
+	return { fname, lname, position, size, density };
 }
 
 const rows = [
@@ -78,7 +65,7 @@ const rows = [
 	createData("Brazil", "BR", 210147125, 8515767),
 ];
 
-export default function ProjectTable() {
+export default function ModalTable() {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -95,17 +82,18 @@ export default function ProjectTable() {
 	  
 	  
 	return (
-		<Paper sx={{ width: "100%", overflow: "hidden",backgroundColor:'transparent' }}>
-			<TableContainer sx={{ maxHeight: 410, }}>
+		<Paper sx={{ width: "100%", overflow: "hidden" }}>
+			<TableContainer sx={{ maxHeight: 200 }}>
 				<Table stickyHeader aria-label="sticky table">
-					<TableHead sx={{backgroundColor:'transparent', zIndex:'1'}}>
+					<TableHead>
 						<TableRow
+							sx={{ backgroundColor: "red", color: "white" }}
 						>
 							{columns.map((column) => (
 								<TableCell
 									key={column.id}
 									align={column.align}
-									style={{ minWidth: column.minWidth, backgroundColor:'white', fontWeight:'bold'}}
+									style={{ minWidth: column.minWidth }}
 								>
 									{column.label}
 								</TableCell>
@@ -124,7 +112,7 @@ export default function ProjectTable() {
 										hover
 										role="checkbox"
 										tabIndex={-1}
-										key={row.code}
+										key={row.lname}
 									>
 										{columns.map((column) => {
 											const value = row[column.id];
