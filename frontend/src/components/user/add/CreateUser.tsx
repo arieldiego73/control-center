@@ -3,7 +3,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import CreateUserStyle from "./CreateUser.module.css"
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Box, FormControl, FormLabel, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, makeStyles } from '@mui/material';
+import { Box, FormControl, FormLabel, InputAdornment, MenuItem, Select, SelectChangeEvent, } from '@mui/material';
 import React from "react";
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
@@ -39,7 +39,7 @@ export default function CreateUser() {
                 <div className={CreateUserStyle.heading}>
                     <FontAwesomeIcon icon={faUser} size="2x" color='black' />
                     <div className={CreateUserStyle.textContainer}>
-                        <span style={{ fontSize: "40px", color: "black" }}> Add New User </span>
+                        <span style={{ fontSize: "4vh", color: "black" }}> Add New User </span>
                     </div>
                 </div>
                 <div className={CreateUserStyle.breadCrumbs}>
