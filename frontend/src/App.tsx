@@ -16,7 +16,7 @@ function App() {
 				<Route path="/userhandler" Component={Userhandler} />
 				<Route path="/createuser" Component={CreateUserHandler} />
 				<Route path="/project" Component={ProjectHandler} />
-				<Route path="/sidenav" Component={Sidenav} />
+	
 			</Routes>
 		</BrowserRouter>
 	);

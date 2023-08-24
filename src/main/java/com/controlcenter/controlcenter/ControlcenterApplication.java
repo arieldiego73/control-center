@@ -1,6 +1,5 @@
 package com.controlcenter.controlcenter;
 
-import com.controlcenter.controlcenter.model.User;
 import org.apache.ibatis.type.MappedTypes;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import com.controlcenter.controlcenter.model.User;
 
 @SpringBootApplication
 @MappedTypes(User.class)
