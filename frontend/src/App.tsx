@@ -6,6 +6,7 @@ import Userhandler from "./pages/Userhandler";
 import CreateUserHandler from "./pages/CreateUserHandler";
 import ProjectHandler from "./pages/ProjectHandler";
 import Modal from "./components/modal/Modal";
+import popUp from "./components/for testing/popUp";
 import RoleHandler from "./pages/RoleHandler";
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
 				<Route path="/userhandler" Component={Userhandler} />
 				<Route path="/createuser" Component={CreateUserHandler} />
 				<Route path="/project" Component={ProjectHandler} />
-				<Route path="/modal" Component={Modal} />
+				{/* <Route path="/modal" Component={Modal} /> */}
+				<Route path="/test" Component={popUp} />
 				<Route path="/role" Component={RoleHandler} />
 			</Routes>
 		</BrowserRouter>
