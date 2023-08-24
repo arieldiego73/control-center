@@ -17,7 +17,6 @@ function App() {
 				<Route path="/createuser" Component={CreateUserHandler} />
 				<Route path="/project" Component={ProjectHandler} />
 				<Route path="/modal" Component={Modal} />
-	
 			</Routes>
 		</BrowserRouter>
 	);

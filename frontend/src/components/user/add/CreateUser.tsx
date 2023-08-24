@@ -13,10 +13,13 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import { Add } from "@mui/icons-material";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import bg from '../../../../src/Assets/bg4.png'
+import Breadcrumb from '../../breadcrumbs/breadcrumbs';
+
 
 export default function CreateUser() {
 
+
+    //FOR DROPDOWN CONFIG (DEPARTMENT)
     const [age, setAge] = React.useState('');
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -24,17 +27,23 @@ export default function CreateUser() {
     };
 
 
+    const breadcrumbItems = [
+        { label: 'Login Page', href: '/' },
+        { label: 'Dashboard', href: '/dashboard' },
+        { label: 'Users', href: '/userhandler' },
+    ];
+
     return (
 
         <div className={CreateUserStyle.mainContainer}>
                 <div className={CreateUserStyle.heading}>
                     <FontAwesomeIcon icon={faUser} size="2x" color='black' />
                     <div className={CreateUserStyle.textContainer}>
-                        <h3>Add New User</h3>
+                        <span style={{ fontSize: "40px", color: "black" }}> Add New User </span>
                     </div>
                 </div>
                 <div className={CreateUserStyle.breadCrumbs}>
-                    <p>BreadCrumbs to ha! // Eto din // 3rd breadcrumb</p>
+                     <p>SAMPLE BREADCRUMBS LANG TO<Breadcrumb items={breadcrumbItems} /></p>
                 </div>
 
                 <div className={CreateUserStyle.contentContainer}>
