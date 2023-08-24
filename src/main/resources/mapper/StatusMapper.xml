@@ -21,7 +21,7 @@
 <!-- Update Data -->
     <update id="editStatusInfo" parameterType="map">
         UPDATE tbl_status_mst
-           SET status_code=#{status.status_code}, status_name=#{status.status_name}, reg_id=#{status.reg_id}, update_id=#{update_id}
+           SET status_name=#{status.status_name}, reg_id=#{status.reg_id}, update_id=#{status.update_id}
          WHERE status_code = #{code}
     </update>
 
