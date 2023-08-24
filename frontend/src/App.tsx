@@ -5,7 +5,6 @@ import { Dashboard } from "./components/dashboard/Dashboard";
 import Userhandler from "./pages/Userhandler";
 import CreateUserHandler from "./pages/CreateUserHandler";
 import ProjectHandler from "./pages/ProjectHandler";
-import { Sidenav } from "./components/sidenav/Sidenav";
 
 function App() {
 	return (
@@ -16,7 +15,6 @@ function App() {
 				<Route path="/userhandler" Component={Userhandler} />
 				<Route path="/createuser" Component={CreateUserHandler} />
 				<Route path="/project" Component={ProjectHandler} />
-	
 			</Routes>
 		</BrowserRouter>
 	);

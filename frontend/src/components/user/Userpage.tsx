@@ -6,7 +6,7 @@ import { getUsersFetch } from "../../redux/state/userState";
 import { RootState } from "../../redux/store/store";
 import { Button } from "@material-ui/core";
 import { Add, AccountCircleOutlined } from "@mui/icons-material";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Userpage() {
 	const data = useSelector((state: RootState) => state.userReducer.users);
@@ -15,8 +15,6 @@ export default function Userpage() {
 	useEffect(() => {
 		dispatch(getUsersFetch());
 	}, [dispatch]);
-
-	console.log(data);
 
 	const [searchQuery, setSearchQuery] = useState("");
 	const [filteredData, setFilteredData] = useState(data);
@@ -63,7 +61,7 @@ export default function Userpage() {
 
 			<div className={UserStyle.contentHolder}>
 				<div style={{ textAlign: "right", marginBottom: "6px" }}>
-					<Link to="/createuser" style={{ textDecoration: 'none' }}>
+					<Link to="/createuser" style={{ textDecoration: "none" }}>
 						<Button
 							variant="contained"
 							color="primary"
@@ -73,7 +71,6 @@ export default function Userpage() {
 							Add User
 						</Button>
 					</Link>
-						
 				</div>
 				{/* Start of Header */}
 				<div
@@ -183,7 +180,7 @@ export default function Userpage() {
 						border: "1px solid black",
 					}}
 				>
-					<UserTable />
+					<UserTable data={data as []} />
 				</div>
 			</div>
 		</div>
