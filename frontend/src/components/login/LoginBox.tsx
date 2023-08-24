@@ -3,11 +3,19 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import logo from "../../Assets/logo (blue).png";
 import bg from "../../Assets/bg4.png";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
 import { makeStyles } from "@material-ui/core";
-import { Container } from "@mui/material";
+import {
+	Container,
+	FormHelperText,
+	InputAdornment,
+	InputAdornmentProps,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../../redux/store/store";
+import { AlternateEmail, Error, Key } from "@mui/icons-material";
 
 const userStyle = makeStyles({
 	background: {
@@ -53,11 +61,46 @@ const LoginBox = () => {
 	const dispatch = useDispatch();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [isValid, setIsValid] = useState(true);
+	const [errorIcon, setErrorIcon] = useState<JSX.Element>();
+	const [helperText, setHelperText] = useState("");
+
+	const navigate = useNavigate();
+
+	/* THIS LINE IS USED TO FETCHED THE LOGGED IN USER'S INFO */
+	const loggedUser = useSelector((state: RootState) => {
+		return state.sessionReducer.user;
+	});
+
+	/* VALIDATE IF A USER IS LOGGED IN */
+	useEffect(() => {
+		if (loggedUser !== null) {
+			navigate("/dashboard");
+		}
+	});
 
 	const handleLogin = (event: React.FormEvent) => {
 		event.preventDefault();
 		if (username && password) {
 			dispatch(login({ username, password }));
+			if (loggedUser === null) {
+				setHelperText("Incorrect username or password.");
+				setPassword("");
+				setIsValid(false);
+				setErrorIcon(
+					<InputAdornment position="end">
+						<Error sx={{ color: "red" }} />
+					</InputAdornment>
+				);
+			}
+		} else {
+			setIsValid(false);
+			setHelperText("Both fields are required");
+			setErrorIcon(
+				<InputAdornment position="end">
+					<Error sx={{ color: "red" }} />
+				</InputAdornment>
+			);
 		}
 	};
 
@@ -78,16 +121,19 @@ const LoginBox = () => {
 						margin="normal"
 						required
 						fullWidth
-						id="email"
-						label="Email Address"
-						name="email"
-						autoComplete="email"
+						id="username"
+						label="Username"
+						name="username"
 						autoFocus
 						value={username}
 						onChange={(e) => setUsername(e.target.value)}
+						error={!isValid}
+						InputProps={{
+							endAdornment: errorIcon,
+						}}
 					/>
 					<TextField
-						margin="normal"
+						margin="none"
 						required
 						fullWidth
 						name="password"
@@ -97,7 +143,17 @@ const LoginBox = () => {
 						autoComplete="current-password"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
+						error={!isValid}
+						InputProps={{
+							endAdornment: errorIcon,
+						}}
 					/>
+					<FormHelperText
+						style={{ textAlign: "center" }}
+						error={!isValid}
+					>
+						{helperText}
+					</FormHelperText>
 					<Button
 						type="submit"
 						fullWidth

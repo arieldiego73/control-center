@@ -5,6 +5,7 @@ import { Dashboard } from "./components/dashboard/Dashboard";
 import Userhandler from "./pages/Userhandler";
 import CreateUserHandler from "./pages/CreateUserHandler";
 import ProjectHandler from "./pages/ProjectHandler";
+import { Sidenav } from "./components/sidenav/Sidenav";
 
 function App() {
 	return (
