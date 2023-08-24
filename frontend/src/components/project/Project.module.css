@@ -7,19 +7,22 @@
     width: 92vw; /* if 93, sasakto s pinaka browser, di makikita difference (7vh yung sidenav)*/
     top: 10vh; /* Bale height + top = 99vh (if 100, di makita difference)*/
     left: 7vw; /* Bale width + left = 99vw (if 100, di makita difference)*/
-    border: 1px solid red;
+
     align-items: center;
-    background-color: #dce0e0;
+    background-image: url(../../Assets//bg5.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+
 }
 .mainContainer h4{
-    color: red;
+ 
     position: relative;
     height: 5%;
-    border: 1px solid red;
+  
   
 }
 .mainContainer h6{
-    color: red;
+ 
     position: relative;
     top: 0;
     left: 0;
@@ -48,13 +51,13 @@
 }
 .contentHolder{
     margin: 20;
+    background: rgba( 255, 255, 255, 0.05 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 20px );
+    -webkit-backdrop-filter: blur( 3px );
+    border-radius: 10px;
 }
-.searchBar1 { 
-    /* justify-Content: "center";
-    align-Content: "center";
-    align-Items: "center"; */
-   
-}
+
 .searchBarHolder1 {
     margin-Top: 10;
     margin-Bottom: 10;

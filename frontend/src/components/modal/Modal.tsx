@@ -1,24 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import ModuleStyle from './Modal.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { getUsersFetch } from '../../redux/state/userState';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
 import ModalTable from './ModalTable';
 import Button from "@mui/material/Button"; 
-import { Add } from "@mui/icons-material";
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
-
 
 export default function Modal() {
-	const [showModal, setShowModal] = useState(false);
+	// const [showModal, setShowModal] = useState(false);
 
-	const openModal = () => {
-	  setShowModal(showModal=>!showModal);
-	};
+	// const openModal = () => {
+	//   setShowModal(showModal=>!showModal);
+	// };
 
   const data = useSelector((state: RootState) => state.userReducer.users);
 	const dispatch = useDispatch();

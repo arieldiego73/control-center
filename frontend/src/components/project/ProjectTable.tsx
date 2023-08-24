@@ -95,18 +95,17 @@ export default function ProjectTable() {
 	  
 	  
 	return (
-		<Paper sx={{ width: "100%", overflow: "hidden" }}>
-			<TableContainer sx={{ maxHeight: 410 }}>
+		<Paper sx={{ width: "100%", overflow: "hidden",backgroundColor:'transparent' }}>
+			<TableContainer sx={{ maxHeight: 410, }}>
 				<Table stickyHeader aria-label="sticky table">
-					<TableHead>
+					<TableHead sx={{backgroundColor:'transparent', zIndex:'1'}}>
 						<TableRow
-							sx={{ backgroundColor: "red", color: "white" }}
 						>
 							{columns.map((column) => (
 								<TableCell
 									key={column.id}
 									align={column.align}
-									style={{ minWidth: column.minWidth }}
+									style={{ minWidth: column.minWidth, backgroundColor:'white', fontWeight:'bold'}}
 								>
 									{column.label}
 								</TableCell>
