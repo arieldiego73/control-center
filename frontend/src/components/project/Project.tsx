@@ -13,6 +13,12 @@ import { Link } from 'react-router-dom';
 
 
 export default function Project() {
+	const [showModal, setShowModal] = useState(false);
+
+	const openModal = () => {
+	  setShowModal(showModal=>!showModal);
+	};
+
   const data = useSelector((state: RootState) => state.userReducer.users);
 	const dispatch = useDispatch();
 
@@ -174,6 +180,11 @@ export default function Project() {
 				</div>
 			</div>
 		</div>
+
+
+    
+
+	
 
     </div>
   );
