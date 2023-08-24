@@ -8,6 +8,7 @@ import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SidenavStyle from './Sidenav.module.css'
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	iconButton: {
@@ -63,20 +64,23 @@ export const Sidenav = () => {
 					<div>
 						<div>
 							<div className={SidenavStyle.buttonContainer}>
-								<IconButton className={classes.iconButton}>
-									<PersonOutlineIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
-								</IconButton>
-								<div className={SidenavStyle.buttonText}>
-									<span className={`${classes.boldText} boldText`}>
-										User
-									</span>
-								</div>
+								<Link to="/userhandler" style={{ textDecoration: "none" }}>
+									<IconButton className={classes.iconButton}>
+										<PersonOutlineIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
+									</IconButton>
+									<div className={SidenavStyle.buttonText}>
+										<span className={`${classes.boldText} boldText`}>
+											User
+										</span>
+									</div>
+								</Link>
 							</div>
 						</div>
 					</div>
 					<div>
 						<div>
 							<div className={SidenavStyle.buttonContainer}>
+							<Link to="/project" style={{ textDecoration: "none" }}>
 								<IconButton className={classes.iconButton}>
 									<AccountTreeOutlinedIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
 								</IconButton>
@@ -85,6 +89,7 @@ export const Sidenav = () => {
 										Project
 									</span>
 								</div>
+								</Link>
 							</div>
 						</div>
 					</div>

@@ -4,9 +4,6 @@ import Userpage from "../components/user/Userpage";
 export default function Userhandler() {
 	return (
 		<div style={{ flexDirection: "column", display: "flex" }}>
-			<div>
-				<Sidenav />
-			</div>
 			<div
 				style={{
 					position: "absolute",
@@ -18,6 +15,8 @@ export default function Userhandler() {
 			>
 				<Userpage />
 			</div>
+
+			<Sidenav />
 		</div>
 	);
 }

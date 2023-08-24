@@ -10,19 +10,10 @@ import Button from "@mui/material/Button";
 import { Add } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
+import Modal from '@mui/material/Modal';
+
 
 export default function Project() {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
-
   const data = useSelector((state: RootState) => state.userReducer.users);
   const dispatch = useDispatch();
 
@@ -168,6 +159,10 @@ export default function Project() {
           </div>
         </div>
 
+     
+   
+   
+ 
         
       </div>
   );

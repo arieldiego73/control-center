@@ -5,17 +5,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import MembersTable from './MembersTable';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 function createData(
   name: string,
@@ -37,27 +26,13 @@ const rows = [
 	createData('Gingerbread', 356, 16.0, 49, 3.9),
 	createData('Gingerbread', 356, 16.0, 49, 3.9),
 	createData('Gingerbread', 356, 16.0, 49, 3.9),
-
 ];
 
 
-export default function ProjectTable() {
+export default function MembersTable() {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-	const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-	const handleChangePage = (event: unknown, newPage: number) => {
-		setPage(newPage);
-	};
 
 	const handleChangeRowsPerPage = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -92,27 +67,12 @@ export default function ProjectTable() {
 									<TableCell align="right">{row.calories}</TableCell>
 									<TableCell align="right">{row.fat}</TableCell>
 									<TableCell align="right">{row.carbs}</TableCell>
-									<TableCell onClick={handleClickOpen} align="right">{row.protein}</TableCell>
+									<TableCell align="right">{row.protein}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
 					</Table>
 				</TableContainer>
-
-{/* Popup */}
-			<Dialog
-        open={open}
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle><FontAwesomeIcon style={{paddingRight:'1%'}} icon={faUser} size="1x" color="black"  />{"Members"}</DialogTitle>
-        <DialogContent>
-					<MembersTable />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
 			</div>
 		);
 		
