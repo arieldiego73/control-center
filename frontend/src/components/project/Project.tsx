@@ -9,6 +9,7 @@ import ProjectTable from './ProjectTable';
 import Button from "@mui/material/Button"; 
 import { Add } from "@mui/icons-material";
 import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
 
 
 export default function Project() {
@@ -37,7 +38,7 @@ export default function Project() {
       <div style={{ width: "97%", }}> 
         <h4 >
           <FontAwesomeIcon icon={faUser} size="3x" color='black'/> 
-          <span style={{fontSize: '40px', color:'black'}}> USER </span>
+          <span style={{fontSize: '40px', color:'black'}}> PROJECT </span>
         </h4>
       </div>
      
@@ -45,14 +46,17 @@ export default function Project() {
       <div style={{  width: '97%', border: '1px solid-red'}}>
        BreadCrumbs to ha! // Eto din // 3rd breadcrumb
           <div style={{textAlign:'right', marginBottom: "8px"}}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Add />}
-              style={{ textTransform: "none" }}
-            >
-              Add User
-            </Button>
+			<Link to="/userhandler" style={{ textDecoration: 'none' }}>
+				<Button
+					variant="contained"
+					color="primary"
+					startIcon={<Add />}
+					style={{ textTransform: "none" }}
+				>
+					Add Project
+				</Button>
+			</Link>
+
           </div>
    
       </div>
@@ -123,7 +127,7 @@ export default function Project() {
 								<div className={ProjectStyle.searchBarHolder1}>
 									<input
 										type="text"
-										placeholder="Name"
+										placeholder="Business Unit"
 										value={searchQuery}
 										onChange={(e) =>
 											setSearchQuery(e.target.value)
@@ -135,7 +139,7 @@ export default function Project() {
 								<div className={ProjectStyle.searchBarHolder2}>
 									<input
 										type="text"
-										placeholder="Position"
+										placeholder="Department"
 										value={searchQuery}
 										onChange={(e) =>
 											setSearchQuery(e.target.value)
