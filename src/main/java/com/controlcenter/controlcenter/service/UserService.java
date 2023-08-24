@@ -1,7 +1,8 @@
 package com.controlcenter.controlcenter.service;
 
-import com.controlcenter.controlcenter.model.User;
 import java.util.List;
+
+import com.controlcenter.controlcenter.model.User;
 
 public interface UserService {
   public List<User> findAll();

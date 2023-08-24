@@ -9,6 +9,7 @@
     left: 7vw; /* Bale width + left = 99vw (if 100, di makita difference)*/
     border: 1px solid red;
     align-items: center;
+    background-color: #dce0e0;
 }
 .mainContainer h4{
     color: red;
