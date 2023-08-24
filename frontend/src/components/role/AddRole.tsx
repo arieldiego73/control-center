@@ -97,7 +97,7 @@ export default function Project() {
               >
 
                 {/* Start of second search bar */}
-                <div className={RoleStyle.searchBar1}>
+                {/* <div className={RoleStyle.searchBar1}>
                   <div className={RoleStyle.searchBarHolder1}>
                     <input
                       type="text"
@@ -129,10 +129,10 @@ export default function Project() {
                       }}
                     />
                   </div>
-                </div>
+                </div> */}
               </div>
 
-              <div style={{ marginTop: "8px" }}>
+              {/* <div style={{ marginTop: "8px" }}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -141,7 +141,7 @@ export default function Project() {
                 >
                   Search
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
 

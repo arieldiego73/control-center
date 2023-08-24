@@ -96,8 +96,9 @@ export default function RoleTable() {
                     align="center" // Center align the header cells
                     style={{
                       minWidth: column.minWidth,
-                      backgroundColor: "white",
-                      fontWeight: "bold",
+                      backgroundColor: "#e6faff",
+                      fontWeight: "bolder",
+                      fontSize: "18px"
                     }}
                   >
                     {column.label}
@@ -122,6 +123,10 @@ export default function RoleTable() {
                           <TableCell
                             key={column.id}
                             align="center" // Center align the cell content
+                            style={{
+                              minWidth: column.minWidth,
+                              fontWeight: "bold",
+                            }}
                           >
                             {column.format &&
                             typeof value === "number"

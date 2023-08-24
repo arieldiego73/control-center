@@ -105,7 +105,7 @@ export default function Userpage() {
 								<div className={UserStyle.searchBarHolder1}>
 									<input
 										type="text"
-										placeholder="Name"
+										placeholder ="Name"
 										value={searchQuery}
 										onChange={(e) =>
 											setSearchQuery(e.target.value)
@@ -128,11 +128,11 @@ export default function Userpage() {
 							</div>
 
 							{/* Start of second search bar */}
-							<div className={UserStyle.searcBar1}>
+							<div className={UserStyle.searchBar2}>
 								<div className={UserStyle.searchBarHolder1}>
 									<input
 										type="text"
-										placeholder="Name"
+										placeholder="Department"
 										value={searchQuery}
 										onChange={(e) =>
 											setSearchQuery(e.target.value)
@@ -144,7 +144,7 @@ export default function Userpage() {
 								<div className={UserStyle.searchBarHolder2}>
 									<input
 										type="text"
-										placeholder="Position"
+										placeholder="Business Unit"
 										value={searchQuery}
 										onChange={(e) =>
 											setSearchQuery(e.target.value)
