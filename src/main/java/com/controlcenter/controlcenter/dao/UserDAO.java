@@ -1,8 +1,9 @@
 package com.controlcenter.controlcenter.dao;
 
-import com.controlcenter.controlcenter.model.User;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+
+import com.controlcenter.controlcenter.model.User;
 
 @Mapper
 public interface UserDao {
