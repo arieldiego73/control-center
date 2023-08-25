@@ -61,12 +61,21 @@ export default function Userpage() {
 
 			<div className={UserStyle.contentHolder}>
 				<div style={{ textAlign: "right", marginBottom: "6px" }}>
-					<Link to="/createuser" style={{ textDecoration: "none" }}>
+					<Link
+						to="/createuser"
+						style={{
+							textDecoration: "none",
+							fontFamily: "Montserrat, sans-serif",
+						}}
+					>
 						<Button
 							variant="contained"
 							color="primary"
 							startIcon={<Add />}
-							style={{ textTransform: "none" }}
+							style={{
+								textTransform: "none",
+								fontFamily: "Montserrat, sans-serif",
+							}}
 						>
 							Add User
 						</Button>
@@ -105,7 +114,7 @@ export default function Userpage() {
 								<div className={UserStyle.searchBarHolder1}>
 									<input
 										type="text"
-										placeholder ="Name"
+										placeholder="Name"
 										value={searchQuery}
 										onChange={(e) =>
 											setSearchQuery(e.target.value)
