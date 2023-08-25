@@ -12,6 +12,5 @@ public interface DevTypeService {
     public String addDevType(DevType devtype);
     public String editDevTypeInfo(String id, DevType devtype);
     public String logicalDeleteDevType(String id);
-
     
 }
