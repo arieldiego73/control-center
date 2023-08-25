@@ -13,11 +13,11 @@ export const Dashboard = () => {
 	});
 
 	/* VALIDATE IF A USER IS LOGGED IN */
-	useEffect(() => {
-		if (loggedUser === null) {
-			navigate("/");
-		}
-	});
+	// useEffect(() => {
+	// 	if (loggedUser === null) {
+	// 		navigate("/");
+	// 	}
+	// });
 
 	return (
 		<div>
