@@ -15,7 +15,7 @@ import { Error, Info } from "@mui/icons-material";
 const userStyle = makeStyles({
 	background: {
 		height: "100vh",
-		minWidth: "100vw",
+		width: "100vw",
 		display: "flex !important",
 		alignItems: "center",
 		justifyContent: "center",
@@ -23,7 +23,10 @@ const userStyle = makeStyles({
 		backgroundSize: "cover",
 		backgroundPosition: "center",
 		backgroundRepeat: "no-repeat",
-		//border: "1px solid rgba(100, 100, 111, 0.2)"
+		//media query
+		'@media (max-width: 468px)': {
+			backgroundImage: "none",
+		}
 	},
 	loginCard: {
 		display: "flex",
@@ -114,7 +117,7 @@ const LoginBox = () => {
 	};
 
 	return (
-		<Container className={classes.background}>
+		<Box component="div" className={classes.background}>
 			<Card className={classes.loginCard}>
 				{/* Container of logo */}
 				<Box component="img" src={logo} className={classes.logo}></Box>
@@ -198,7 +201,7 @@ const LoginBox = () => {
 					</Button>
 				</Box>
 			</Card>
-		</Container>
+		</Box>
 	);
 };
 
