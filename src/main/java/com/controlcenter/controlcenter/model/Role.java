@@ -10,6 +10,7 @@ import lombok.Setter;
 public class Role {
     private Long role_id;
     private String title;
+    private String role_sh_name;
     private int role_user_level;
     private int del_flag;
     private String reg_id;

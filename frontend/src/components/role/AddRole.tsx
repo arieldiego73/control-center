@@ -47,7 +47,7 @@ export default function Project() {
       </div>
 
       <div style={{ width: "97%", border: "1px solid-red" }}>
-        BreadCrumbs to ha! // Eto din // 3rd breadcrumb
+      Insert breadcrumbs here
         <div style={{ textAlign: "right", marginBottom: "8px" }}>
           <Link to="/userhandler" style={{ textDecoration: "none" }}>
             <Button
