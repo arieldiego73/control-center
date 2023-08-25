@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import { Link } from "react-router-dom";
 
 interface userTableProps {
 	data: [];
@@ -18,10 +19,11 @@ interface Column {
 	minWidth?: number;
 	align?: "right";
 	format?: (value: Date) => string;
+	isLink?: boolean;
 }
 
 const columns: readonly Column[] = [
-	{ id: "username", label: "Username" },
+	{ id: "username", label: "Username", isLink: true },
 	{ id: "fname", label: "First Name" },
 	{ id: "lname", label: "Last Name" },
 	{ id: "position_sh_name", label: "Position" },
@@ -76,6 +78,7 @@ const UserTable: React.FC<userTableProps> = (props) => {
 										color: "#000",
 										fontWeight: "800",
 										textTransform: "uppercase",
+										fontFamily: "Ubuntu, sans serif",
 									}}
 								>
 									{column.label}
@@ -104,9 +107,17 @@ const UserTable: React.FC<userTableProps> = (props) => {
 													key={column.id}
 													align={column.align}
 												>
-													{column.format
-														? column.format(value)
-														: value}
+													{column.isLink ? (
+														<Link
+															to={`/createuser/${row["emp_id"]}`}
+														>
+															{value}
+														</Link>
+													) : column.format ? (
+														column.format(value)
+													) : (
+														value
+													)}
 												</TableCell>
 											);
 										})}
