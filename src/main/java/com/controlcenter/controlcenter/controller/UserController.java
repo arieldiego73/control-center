@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.controller;
 
+import com.controlcenter.controlcenter.model.Account;
 import com.controlcenter.controlcenter.model.User;
 import com.controlcenter.controlcenter.service.UserService;
 import java.util.List;
@@ -48,6 +49,10 @@ public class UserController {
     }
   }
 
+  @PostMapping("/createAccount/{id}")
+  public String addAccount(@PathVariable String id, @RequestBody Account account) {
+    return userService.addAccount(id, account);
+  }
   // @PostMapping("/createBatch")
   // public String createUser(@RequestBody List<User> user) {
   //   userService.insertUserBatch(user);
