@@ -99,20 +99,20 @@ export default function ProjectTable() {
 					</Table>
 				</TableContainer>
 
-{/* Popup */}
-			<Dialog
-        open={open}
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle><FontAwesomeIcon style={{paddingRight:'1%'}} icon={faUser} size="1x" color="black"  />{"Members"}</DialogTitle>
-        <DialogContent>
-					<MembersTable />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
+			{/* Popup */}
+				<Dialog
+					open={open}
+					onClose={handleClose}
+					aria-describedby="alert-dialog-slide-description"
+				>
+					<DialogTitle><FontAwesomeIcon style={{paddingRight:'1%'}} icon={faUser} size="1x" color="black"  />{"Members"}</DialogTitle>
+					<DialogContent>
+								<MembersTable />
+					</DialogContent>
+					<DialogActions>
+					<Button onClick={handleClose}>Close</Button>
+					</DialogActions>
+				</Dialog>
 			</div>
 		);
 		
