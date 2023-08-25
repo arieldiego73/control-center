@@ -7,15 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
 import { makeStyles } from "@material-ui/core";
-import {
-	Container,
-	FormHelperText,
-	InputAdornment,
-	InputAdornmentProps,
-} from "@mui/material";
+import { Container, FormHelperText, InputAdornment } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store/store";
-import { AlternateEmail, Error, Key } from "@mui/icons-material";
+import { Error, Info } from "@mui/icons-material";
 
 const userStyle = makeStyles({
 	background: {
@@ -119,7 +114,6 @@ const LoginBox = () => {
 				>
 					<TextField
 						margin="normal"
-						required
 						fullWidth
 						id="username"
 						label="Username"
@@ -134,7 +128,6 @@ const LoginBox = () => {
 					/>
 					<TextField
 						margin="none"
-						required
 						fullWidth
 						name="password"
 						label="Password"
@@ -149,7 +142,11 @@ const LoginBox = () => {
 						}}
 					/>
 					<FormHelperText
-						style={{ textAlign: "center" }}
+						style={{
+							textAlign: "center",
+							fontSize: "13px",
+							fontFamily: "Montserrat",
+						}}
 						error={!isValid}
 					>
 						{helperText}
@@ -161,6 +158,8 @@ const LoginBox = () => {
 						sx={{
 							mt: 3,
 							mb: 2,
+							fontFamily: "Montserrat",
+							fontWeight: 700,
 						}}
 					>
 						LOG IN
@@ -169,11 +168,18 @@ const LoginBox = () => {
 						fullWidth
 						variant="text"
 						disableTouchRipple
+						size="small"
 						onMouseOver={(e) => {
 							e.currentTarget.style.backgroundColor =
 								"transparent";
 						}}
-						sx={{ mt: 3, mb: 2 }}
+						sx={{
+							mt: 3,
+							mb: 2,
+							fontFamily: "Montserrat",
+							color: "secondary",
+						}}
+						startIcon={<Info />}
 					>
 						About Us
 					</Button>
