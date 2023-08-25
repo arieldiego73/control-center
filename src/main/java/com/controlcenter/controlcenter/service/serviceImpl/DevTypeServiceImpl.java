@@ -22,9 +22,9 @@ public class DevTypeServiceImpl implements DevTypeService {
     }
     
     @Override
-    public String addDevType(DevType devType) {
+    public String addDevType(DevType devtype) {
         try {
-            devtypeDao.addDevType(devType);
+            devtypeDao.addDevType(devtype);
             return "DevType Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
