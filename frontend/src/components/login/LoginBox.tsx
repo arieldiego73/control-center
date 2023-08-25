@@ -6,7 +6,7 @@ import bg from "../../Assets/bg4.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
-import { makeStyles } from "@material-ui/core";
+import { Card, makeStyles } from "@material-ui/core";
 import { Container, FormHelperText, InputAdornment } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store/store";
@@ -32,23 +32,37 @@ const userStyle = makeStyles({
 		alignItems: "center",
 		//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
 		//boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
-		height: "400px",
-		width: "20%",
+		height: "350px",
+		width: "250px",
 		padding: "50px",
 		backgroundColor: "#fff",
 		margin: "auto",
-		border: "1px solid rgba(100, 100, 111, 0.2)",
+		//media query
+		'@media (max-width: 380px)': {
+			//border: "1px solid red",
+			alignItems: "center",
+			height: "350px",
+			minWidth: "200px",
+			backgroundColor: "#fff",
+			margin: "auto 50px",
+		}
 	},
 	logo: {
-		width: "90%",
+		width: "250px",
 		marginBottom: "30px",
-		//border: "1px solid blue"
+		//media query
+		'@media (max-width: 380px)': {
+			width: "250px",
+			marginBottom: "30px",
+		}
 	},
 	loginForm: {
-		mt: 1,
-		height: "320px",
-		width: "100%",
-		//border: "1px solid pink"
+		//height: "320px",
+		width: "300px",
+		//media query
+		'@media (max-width: 380px)': {
+			width: "250px"
+		}
 	},
 });
 const LoginBox = () => {
@@ -101,7 +115,7 @@ const LoginBox = () => {
 
 	return (
 		<Container className={classes.background}>
-			<Box className={classes.loginCard}>
+			<Card className={classes.loginCard}>
 				{/* Container of logo */}
 				<Box component="img" src={logo} className={classes.logo}></Box>
 				{/* Container of username, pass, login btn, about us */}
@@ -110,7 +124,6 @@ const LoginBox = () => {
 					noValidate
 					onSubmit={handleLogin}
 					className={classes.loginForm}
-					sx={{ mt: 1 }}
 				>
 					<TextField
 						margin="normal"
@@ -184,7 +197,7 @@ const LoginBox = () => {
 						About Us
 					</Button>
 				</Box>
-			</Box>
+			</Card>
 		</Container>
 	);
 };
