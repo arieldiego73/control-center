@@ -10,8 +10,8 @@
     </select>
 
     <insert id="addRole" parameterType="com.controlcenter.controlcenter.model.Role">
-        INSERT INTO tbl_role_mst(title, role_user_level, reg_id, update_id)
-             VALUES (#{title}, #{role_user_level}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_role_mst(title, role_sh_name, role_user_level, reg_id, update_id)
+             VALUES (#{title}, #{role_sh_name}, #{role_user_level}, #{reg_id}, #{update_id});
     </insert>
 
     <update id="editRoleInfo" parameterType="map">

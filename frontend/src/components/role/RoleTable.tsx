@@ -100,8 +100,6 @@ export default function RoleTable() {
                       backgroundColor: "#ccf5ff",
                       fontWeight: "bolder",
                       fontSize: "18px",
-                      borderTop: "1px solid black",
-                      borderBottom: "1px solid black",
                     }}
                   >
                     {column.label}
