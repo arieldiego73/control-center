@@ -47,7 +47,7 @@ export default function Project() {
       </div>
 
       <div style={{ width: "97%", border: "1px solid-red" }}>
-        BreadCrumbs to ha! // Eto din // 3rd breadcrumb
+      Insert breadcrumbs here
         <div style={{ textAlign: "right", marginBottom: "8px" }}>
           <Link to="/userhandler" style={{ textDecoration: "none" }}>
             <Button
@@ -70,7 +70,7 @@ export default function Project() {
               flexDirection: "row",
               backgroundColor: "transparent",
               display: "flex",
-              // border: "1px solid black",
+
               alignSelf: "center",
               justifyContent: "center",
               borderTopRightRadius: " 5px",
@@ -85,6 +85,7 @@ export default function Project() {
                 paddingBottom: "1%",
                 alignItems: "center",
                 justifyContent: "center",
+
               }}
             >
               <div
@@ -151,7 +152,8 @@ export default function Project() {
               backgroundColor: "transparent",
               borderBottomLeftRadius: "8px",
               borderBottomRightRadius: "8px",
-              height:"55vh",
+              height:"90%",
+              
             }}
           >
             <RoleTable />

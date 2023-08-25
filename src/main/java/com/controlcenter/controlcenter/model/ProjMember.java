@@ -7,11 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Role {
-    private Long role_id;
-    private String title;
-    private String role_sh_name;
-    private int role_user_level;
+public class ProjMember {
+    private Long up_role_id;
+    private int upid;
+    private int role_id;
     private int del_flag;
     private String reg_id;
     private Timestamp reg_date;

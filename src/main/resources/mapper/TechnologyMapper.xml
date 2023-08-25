@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.controlcenter.controlcenter.dao.TechnologyDao">
+
+    <select id="getAllTechnology" resultType="com.controlcenter.controlcenter.model.Technology">
+        SELECT * 
+          FROM tbl_technology_mst
+         WHERE del_flag = 0;
+    </select>
+
+    <insert id="addTechnology" parameterType="com.controlcenter.controlcenter.model.Technology">
+        INSERT INTO tbl_technology_mst(tech_name, tech_sh_name, reg_id, update_id)
+             VALUES (#{tech_name}, #{tech_sh_name}, #{reg_id}, #{update_id});
+    </insert>
+
+    <update id="editTechnology" parameterType="map">
+        UPDATE tbl_technology_mst
+           SET tech_name=#{technology.tech_name}, tech_sh_name=#{technology.tech_sh_name}, reg_id=#{technology.reg_id}, update_id=#{technology.update_id}
+         WHERE tech_id = #{id}
+    </update>
+
+    <update id="logicalDeleteTechnology">
+        UPDATE tbl_technology_mst
+           SET del_flag=1
+         WHERE tech_id = #{id};
+    </update>
+    
+</mapper>

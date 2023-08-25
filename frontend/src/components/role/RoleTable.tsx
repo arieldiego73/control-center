@@ -84,24 +84,26 @@ export default function RoleTable() {
 	  
 	  
 	return (
+
 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" ,   }}>
       <Paper sx={{ width: "98%", height:"100%",overflow: "hidden", backgroundColor: "transparent" }}>
         <TableContainer sx={{ width:"100%",  height:"100%", }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead sx={{ backgroundColor: "transparent", zIndex: "1" ,}}>
-              <TableRow>
+          <Table stickyHeader aria-label="sticky table" >
+            <TableHead sx={{ backgroundColor: "transparent", zIndex: "1" ,}} >
+              <TableRow >
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
                     align="center" // Center align the header cells
                     style={{
                       minWidth: column.minWidth,
-                      backgroundColor: "#e6faff",
+                      backgroundColor: "#ccf5ff",
                       fontWeight: "bolder",
-                      fontSize: "18px"
+                      fontSize: "18px",
                     }}
                   >
                     {column.label}
+
                   </TableCell>
                 ))}
               </TableRow>
@@ -125,7 +127,7 @@ export default function RoleTable() {
                             align="center" // Center align the cell content
                             style={{
                               minWidth: column.minWidth,
-                              fontWeight: "bold",
+                              fontWeight: "normal",
                             }}
                           >
                             {column.format &&
@@ -152,5 +154,6 @@ export default function RoleTable() {
         />
       </Paper>
     </div>
+
 	);
 }
