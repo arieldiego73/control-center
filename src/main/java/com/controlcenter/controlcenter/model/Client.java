@@ -1,6 +1,5 @@
 package com.controlcenter.controlcenter.model;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 import lombok.Getter;
