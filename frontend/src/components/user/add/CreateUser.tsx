@@ -43,7 +43,7 @@ export default function CreateUser() {
                     </div>
                 </div>
                 <div className={CreateUserStyle.breadCrumbs}>
-                     <p>SAMPLE BREADCRUMBS LANG TO<Breadcrumb items={breadcrumbItems} /></p>
+                     <p>SAMPLE BREADCRUMBS <Breadcrumb items={breadcrumbItems} /></p>
                 </div>
 
                 <div className={CreateUserStyle.contentContainer}>
