@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapper for tbl Project Phase   -->
+<mapper namespace="com.controlcenter.controlcenter.dao.ProjectPhaseDao">
+
+<!-- Fetch Data -->
+    <select id="getAllProjectPhase" resultType="com.controlcenter.controlcenter.model.ProjectPhase">
+        SELECT *
+         FROM tbl_proj_phase
+        WHERE del_flag = 0;
+    </select>
+
+<!-- Add Data -->
+    <insert id="addProjectPhase" parameterType="com.controlcenter.controlcenter.model.ProjectPhase">
+        INSERT INTO tbl_proj_phase(dev_phase_id, proj_id, reg_id, update_id)
+             VALUES (#{dev_phase_id}, #{proj_id}, #{reg_id}, #{update_id});
+    </insert>
+
+<!-- Update Data -->
+    <update id="editProjectPhase" parameterType="map">
+        UPDATE tbl_proj_phase
+           SET dev_phase_id=#{projectPhase.dev_phase_id}, proj_id=#{projectPhase.proj_id},
+            reg_id=#{projectPhase.reg_id}, update_id=#{projectPhase.update_id}
+        WHERE proj_phase_id = #{id}
+    </update>
+
+<!-- Logical Delete Data -->
+    <update id="logicalDeleteProjectPhase" parameterType="map">
+        UPDATE tbl_proj_phase
+           SET del_flag=1
+        WHERE proj_phase_id = #{id}
+    </update>
+</mapper>
