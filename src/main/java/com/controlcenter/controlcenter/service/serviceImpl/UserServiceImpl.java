@@ -1,9 +1,14 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
 import com.controlcenter.controlcenter.dao.UserDao;
+import com.controlcenter.controlcenter.model.Account;
 import com.controlcenter.controlcenter.model.User;
 import com.controlcenter.controlcenter.service.UserService;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +33,22 @@ public class UserServiceImpl implements UserService {
     try {
       userDao.insertUser(user);
       return "ok";
+    } catch (Exception e) {
+      return e.getMessage();
+    }
+  }
+
+  @Override
+  public String addAccount(String id, Account account) {
+    try {
+      Map<String, Object> paramMap = new HashMap<>();
+
+      paramMap.put("id", id);
+      paramMap.put("account", account);
+
+      userDao.addAccount(paramMap);
+
+      return "Account Created Successfully.";
     } catch (Exception e) {
       return e.getMessage();
     }
