@@ -1,4 +1,4 @@
-import Logo from "../../Assets/Logo1.png";
+import Logo from "../../Assets/logo (white).png";
 import User from "../../Assets/userImage.png";
 import TopnavStyle from "./Topnav.module.css";
 

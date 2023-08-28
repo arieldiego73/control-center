@@ -16,5 +16,5 @@ public class Client {
     private String reg_id;
     private Timestamp reg_date;
     private String update_id;
-    private Time update_date;
+    private Timestamp update_date;
 }
