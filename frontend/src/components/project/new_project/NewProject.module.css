@@ -30,11 +30,11 @@
 .contentContainer{
     /* border: 1px solid black; */
     width: 95%;
-    /* height: 75%; */
+    height: 95%;
     position: relative;
     top: 3%;
     padding: 1%;
-    display: flex;
+    /* display: flex; */
     align-items: center;
     justify-content: start;
     margin-left: 2%;

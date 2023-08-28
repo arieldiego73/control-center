@@ -39,10 +39,10 @@ import Paper from "@mui/material/Paper";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import AdapterDayjs from '@mui/x-date-pickers/AdapterDayjs';
 
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -67,7 +67,7 @@ export default function NewProj() {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
 
   const handleDateChange = (date: Date | null) => {
-      setSelectedDate(date);
+    setSelectedDate(date);
   };
 
   const handleFormat = (
@@ -95,7 +95,8 @@ export default function NewProj() {
   ];
 
   return (
-    <div className={StyleNewProject.mainContainer}>
+    <div className={StyleNewProject.mainContainer} > 
+      
       <div className={StyleNewProject.heading}>
         <FontAwesomeIcon icon={faUser} size="2x" color="black" />
         <div className={StyleNewProject.textContainer}>
@@ -111,7 +112,7 @@ export default function NewProj() {
         </p>
       </div>
 
-      <div className={StyleNewProject.contentContainer}>
+      <div className={StyleNewProject.contentContainer} style={{ maxHeight: "65vh", overflowY: "auto" }}>
         <div className={StyleNewProject.mainForm}>
           <div className={StyleNewProject.formRow1}>
             <FormControl className={StyleNewProject.formUsername}>
@@ -214,87 +215,19 @@ export default function NewProj() {
           <div className={StyleNewProject.formRow3}>
             <FormControl className={StyleNewProject.fname}>
               <FormLabel>Start Date</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Start Date"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermIdentityOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker />
+              </LocalizationProvider>
             </FormControl>
             <FormControl className={StyleNewProject.mname}>
               <FormLabel>End Date</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="End Date"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermIdentityOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker />
+              </LocalizationProvider>
             </FormControl>
           </div>
 
-
-
-          <div className={StyleNewProject.formRow4}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker />
-    </LocalizationProvider>
-            {/* <FormControl className={StyleNewProject.email}>
-              <FormLabel>Start Date</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Email"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton>
-                        <CalendarTodayOutlinedIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            <DatePicker
-              value={selectedDate}
-              onChange={handleDateChange}
-              onClose={() => setSelectedDate(null)}
-              renderInput={(params: any) => <TextField {...params} />}
-              />
-            </FormControl> */}
-          </div>
-
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          {/* <div className={StyleNewProject.formRow5}>
+          <div className={StyleNewProject.formRow5}>
             <FormControl className={StyleNewProject.email}>
               <FormLabel>Role</FormLabel>
               <TextField
@@ -319,8 +252,8 @@ export default function NewProj() {
             >
               Add Role
             </Button>
-          </div> */}
-          {/* <div className={StyleNewProject.formRow6}>
+          </div>
+          <div className={StyleNewProject.formRow6}>
             <FormControl className={StyleNewProject.email}>
               <FormLabel>Business Unit</FormLabel>
               <TextField
@@ -337,32 +270,188 @@ export default function NewProj() {
                 }}
               />
             </FormControl>
-            <Box>
-              <div className={StyleNewProject.department}>
-                <FormControl variant="outlined" size="small">
-                  <FormLabel>Department</FormLabel> */}
-                  {/* <InputLabel htmlFor="demo-simple-select-label">Select Department</InputLabel> */}
-                  {/* <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={age}
-                    onChange={handleChange}
-                    className={StyleNewProject.textField}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <GroupsOutlinedIcon />
-                      </InputAdornment>
-                    }
-                  >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-            </Box>
-          </div> */}
 
+            <FormControl variant="outlined" size="small">
+              <FormLabel>Department</FormLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                onChange={handleChange}
+                className={StyleNewProject.textField}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <GroupsOutlinedIcon />
+                  </InputAdornment>
+                }
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+
+          {/* FOR TESTING SCROLL VIEW ONLY!! */}
+
+          <div className={StyleNewProject.formRow6}>
+            <FormControl className={StyleNewProject.email}>
+              <FormLabel>Business Unit</FormLabel>
+              <TextField
+                variant="outlined"
+                size="small"
+                placeholder="Business Unit"
+                className={StyleNewProject.textField}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <GroupsOutlinedIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </FormControl>
+
+            <FormControl variant="outlined" size="small">
+              <FormLabel>Department</FormLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                onChange={handleChange}
+                className={StyleNewProject.textField}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <GroupsOutlinedIcon />
+                  </InputAdornment>
+                }
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+          <div className={StyleNewProject.formRow6}>
+            <FormControl className={StyleNewProject.email}>
+              <FormLabel>Business Unit</FormLabel>
+              <TextField
+                variant="outlined"
+                size="small"
+                placeholder="Business Unit"
+                className={StyleNewProject.textField}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <GroupsOutlinedIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </FormControl>
+
+            <FormControl variant="outlined" size="small">
+              <FormLabel>Department</FormLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                onChange={handleChange}
+                className={StyleNewProject.textField}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <GroupsOutlinedIcon />
+                  </InputAdornment>
+                }
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+          <div className={StyleNewProject.formRow6}>
+            <FormControl className={StyleNewProject.email}>
+              <FormLabel>Business Unit</FormLabel>
+              <TextField
+                variant="outlined"
+                size="small"
+                placeholder="Business Unit"
+                className={StyleNewProject.textField}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <GroupsOutlinedIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </FormControl>
+
+            <FormControl variant="outlined" size="small">
+              <FormLabel>Department</FormLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                onChange={handleChange}
+                className={StyleNewProject.textField}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <GroupsOutlinedIcon />
+                  </InputAdornment>
+                }
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+          <div className={StyleNewProject.formRow6}>
+            <FormControl className={StyleNewProject.email}>
+              <FormLabel>Business Unit</FormLabel>
+              <TextField
+                variant="outlined"
+                size="small"
+                placeholder="Business Unit"
+                className={StyleNewProject.textField}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <GroupsOutlinedIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </FormControl>
+
+            <FormControl variant="outlined" size="small">
+              <FormLabel>Department</FormLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                onChange={handleChange}
+                className={StyleNewProject.textField}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <GroupsOutlinedIcon />
+                  </InputAdornment>
+                }
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+          
           <div className={StyleNewProject.formRow7}>
             <Button
               variant="contained"

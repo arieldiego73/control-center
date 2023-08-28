@@ -8,6 +8,8 @@ import ProjectHandler from "./pages/ProjectHandler";
 import RoleHandler from "./pages/RoleHandler";
 // import NewProj from "./components/project/new_project/NewProj";
 import NewProjHandler from "./pages/NewProjectHandler";
+import test from "./components/project/new_project/test";
+
 function App() {
 	return (
 		<BrowserRouter>
@@ -20,6 +22,7 @@ function App() {
 				{/* <Route path="/modal" Component={Modal} /> */}
 				<Route path="/role" Component={RoleHandler} />
 				<Route path="/NewProj" Component={NewProjHandler} />
+				<Route path="/test" Component={test} />
 			</Routes>
 		</BrowserRouter>
 	);
