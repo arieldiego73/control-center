@@ -33,8 +33,32 @@
     </select>
     
     <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.User">
-        INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, role_id, img_src, reg_id, update_id)
-        VALUES (#{emp_id}, #{username}, #{password}, #{position_id}, #{dept_id}, #{section_id}, #{status_code}, #{role_id}, #{img_src}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_user (
+            emp_id, 
+            username, 
+            password, 
+            position_id, 
+            dept_id, 
+            section_id, 
+            status_code, 
+            role_id, 
+            img_src, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{emp_id}, 
+            #{username}, 
+            #{password}, 
+            #{position_id}, 
+            #{dept_id}, 
+            #{section_id}, 
+            #{status_code}, 
+            #{role_id}, 
+            #{img_src}, 
+            #{reg_id}, 
+            #{update_id}
+        );
     </insert>
 
     <!-- <insert id="addAccount" parameterType="map">
