@@ -55,30 +55,7 @@ export default function Userpage() {
 			</div>
 			<div className={UserStyle.contentContainer}>
 			<div className={UserStyle.contentHolder}>
-				{/* <div style={{ textAlign: "right", marginBottom: "6px" }}>
-					<Link
-						to="/createuser"
-						style={{
-							textDecoration: "none",
-							fontFamily: "Montserrat, sans-serif",
-						}}
-					>
-						<Button
-							variant="contained"
-							color="primary"
-							startIcon={<Add />}
-							style={{
-								textTransform: "none",
-								fontFamily: "Montserrat, sans-serif",
-								marginTop: 10,
-								marginBottom: 5,
-								marginRight: 10,
-							}}
-						>
-							Add User
-						</Button>
-					</Link>
-				</div> */}
+
 				{/* Start of Header */}
 				<div className={UserStyle.contentHead}>
 					<div>

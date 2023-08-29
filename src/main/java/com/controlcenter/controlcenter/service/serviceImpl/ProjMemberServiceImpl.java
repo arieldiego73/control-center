@@ -16,33 +16,33 @@ import com.controlcenter.controlcenter.service.ProjMemberService;
 public class ProjMemberServiceImpl implements ProjMemberService{
     
     @Autowired
-    public ProjMemberDao projmemberDao;
+    public ProjMemberDao projMemberDao;
 
     @Override
     public List<ProjMember> getAllProjMember(){
-        return projmemberDao.getAllProjMember();
+        return projMemberDao.getAllProjMember();
     }
     
     @Override
-    public String addProjMember(ProjMember projmember) {
+    public String addProjMember(ProjMember projMember) {
         try {
-            projmemberDao.addProjMember(projmember);
-            return "ProjMember Added Successfully";
+            projMemberDao.addProjMember(projMember);
+            return "Project Member Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
     @Override 
-    public String editProjMemberInfo(String id, ProjMember projmember) {
+    public String editProjMemberInfo(String id, ProjMember projMember) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
-            paramMap.put("projmember", projmember);
+            paramMap.put("projMember", projMember);
 
-            projmemberDao.editProjMemberInfo(paramMap);
+            projMemberDao.editProjMemberInfo(paramMap);
 
-            return "ProjMember Info Edited Successfully";
+            return "Project Member Info Edited Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -52,9 +52,9 @@ public class ProjMemberServiceImpl implements ProjMemberService{
     public String logicalDeleteProjMember(String id) {
         try {
         
-            projmemberDao.logicalDeleteProjMember(id);
+            projMemberDao.logicalDeleteProjMember(id);
 
-            return "ProjMemberDao Deleted Successfully";
+            return "Project MemberDao Deleted Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }

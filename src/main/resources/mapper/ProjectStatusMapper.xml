@@ -14,15 +14,25 @@
 
 <!-- Add Data -->
     <insert id="addProjectStatus" parameterType="com.controlcenter.controlcenter.model.ProjectStatus">
-        INSERT INTO tbl_proj_status_mst(proj_status_name, proj_status_description, reg_id, update_id)
-             VALUES (#{proj_status_name}, #{proj_status_description}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_proj_status_mst (
+            proj_status_name, 
+            proj_status_description, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{proj_status_name}, 
+            #{proj_status_description}, 
+            #{reg_id}, 
+            #{update_id}
+        );
     </insert>
     
 <!-- Update Data -->
     <update id="editProjectStatus" parameterType="map">
         UPDATE tbl_proj_status_mst
-           SET proj_status_name=#{projectStatus.proj_status_name}, proj_status_description=#{projectStatus.proj_status_description},
-            reg_id=#{projectStatus.reg_id}, update_id=#{projectStatus.update_id}
+           SET proj_status_name=#{projectStatus.proj_status_name}, 
+               proj_status_description=#{projectStatus.proj_status_description}
         WHERE proj_status_id = #{id}
     </update>
 

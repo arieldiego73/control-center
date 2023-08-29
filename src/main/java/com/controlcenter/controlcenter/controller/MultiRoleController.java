@@ -15,30 +15,30 @@ import com.controlcenter.controlcenter.model.MultiRole;
 import com.controlcenter.controlcenter.service.MultiRoleService;
 
 @RestController
-@RequestMapping("/multirole")
+@RequestMapping("/multi-role")
 public class MultiRoleController {
     
     @Autowired
-    public MultiRoleService multiroleService;
+    public MultiRoleService multiRoleService;
 
     @GetMapping("/all")
     public List<MultiRole> getAllMultiRole() {
-        return multiroleService.getAllMultiRole();
+        return multiRoleService.getAllMultiRole();
     }
 
     @PostMapping("/add")
-    public String addMultiRole(@RequestBody MultiRole multirole){
-        return multiroleService.addMultiRole(multirole);
+    public String addMultiRole(@RequestBody MultiRole multiRole){
+        return multiRoleService.addMultiRole(multiRole);
     }
 
     @PutMapping("/edit/{id}")
-    public String editMultiRoleInfo(@PathVariable String id, @RequestBody MultiRole multirole) {
-        return multiroleService.editMultiRoleInfo(id, multirole);
+    public String editMultiRoleInfo(@PathVariable String id, @RequestBody MultiRole multiRole) {
+        return multiRoleService.editMultiRoleInfo(id, multiRole);
     }
 
     @PutMapping("/delete/{id}")
     public String logicalDeleteMultiRole(@PathVariable String id) {
-        return multiroleService.logicalDeleteMultiRole(id);
+        return multiRoleService.logicalDeleteMultiRole(id);
     }
 
 }

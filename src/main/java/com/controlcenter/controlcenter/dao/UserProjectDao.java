@@ -10,7 +10,7 @@ import com.controlcenter.controlcenter.model.UserProject;
 @Mapper
 public interface UserProjectDao {
     List<UserProject> getAllUserProject();
-    void addUserProject(UserProject userproject);
+    void addUserProject(UserProject userProject);
     void editUserProjectInfo(Map<String, Object> paramMap);
     void logicalDeleteUserProject(String id);
 }

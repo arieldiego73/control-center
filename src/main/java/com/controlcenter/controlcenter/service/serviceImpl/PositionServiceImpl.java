@@ -26,7 +26,7 @@ public class PositionServiceImpl implements PositionService{
     public String addPosition(Position position) {
         try {
             positionDao.addPosition(position);
-            return "Position Added Successfully";
+            return "Position Added Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -41,7 +41,7 @@ public class PositionServiceImpl implements PositionService{
 
             positionDao.editPositionInfo(paramMap);
 
-            return "Position Info Edited Successfully";
+            return "Position Info Edited Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -52,7 +52,7 @@ public class PositionServiceImpl implements PositionService{
         try {
             positionDao.logicalDeletePosition(id);
 
-            return "Position Deleted Successfully";
+            return "Position Deleted Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

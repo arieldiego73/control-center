@@ -14,17 +14,17 @@ import com.controlcenter.controlcenter.service.DevTypeService;
 @Service
 public class DevTypeServiceImpl implements DevTypeService {
     @Autowired
-    public DevTypeDao devtypeDao;
+    public DevTypeDao devTypeDao;
 
     @Override
     public List<DevType> getAllDevType(){
-        return devtypeDao.getAllDevType();
+        return devTypeDao.getAllDevType();
     }
     
     @Override
-    public String addDevType(DevType devtype) {
+    public String addDevType(DevType devType) {
         try {
-            devtypeDao.addDevType(devtype);
+            devTypeDao.addDevType(devType);
             return "DevType Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
@@ -32,13 +32,13 @@ public class DevTypeServiceImpl implements DevTypeService {
     }
 
     @Override 
-    public String editDevTypeInfo(String id, DevType devtype) {
+    public String editDevTypeInfo(String id, DevType devType) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
-            paramMap.put("devtype", devtype);
+            paramMap.put("devType", devType);
 
-            devtypeDao.editDevTypeInfo(paramMap);
+            devTypeDao.editDevTypeInfo(paramMap);
 
             return "DevType Info Edited Successfully";
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class DevTypeServiceImpl implements DevTypeService {
     public String logicalDeleteDevType(String id) {
         try {
         
-            devtypeDao.logicalDeleteDevType(id);
+            devTypeDao.logicalDeleteDevType(id);
 
             return "DevType Deleted Successfully";
         } catch (Exception e) {

@@ -26,7 +26,7 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
     public String addProjectPhase(ProjectPhase projectPhase){
         try {
             projectPhaseDao.addProjectPhase(projectPhase);
-            return "Project Phase Added Successfully";
+            return "Project Phase Added Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -40,7 +40,7 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
             paramMap.put("projectPhase", projectPhase);
 
             projectPhaseDao.editProjectPhase(paramMap);
-            return "Project Phase Edited Successfully";
+            return "Project Phase Edited Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -50,7 +50,7 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
     public String logicalDeleteProjectPhase(String id){
         try {
             projectPhaseDao.logicalDeleteProjectPhase(id);
-            return "Project Phase Deleted Successfully";
+            return "Project Phase Deleted Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

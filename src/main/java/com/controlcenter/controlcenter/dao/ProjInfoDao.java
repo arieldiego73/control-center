@@ -12,7 +12,7 @@ import com.controlcenter.controlcenter.model.ProjInfo;
 public interface ProjInfoDao {
     
     List<ProjInfo> getAllProjInfo();
-    void addProjInfo(ProjInfo projinfo);
+    void addProjInfo(ProjInfo projInfo);
     void editProjInfoInfo(Map<String, Object> paramMap);
     void logicalDeleteProjInfo(String id);
 

@@ -15,7 +15,7 @@ import com.controlcenter.controlcenter.model.ProjectPhase;
 import com.controlcenter.controlcenter.service.ProjectPhaseService;
 
 @RestController
-@RequestMapping("/projectPhase")
+@RequestMapping("/project-phase")
 public class ProjectPhaseController {
     
     @Autowired

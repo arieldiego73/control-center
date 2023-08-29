@@ -10,7 +10,7 @@ import com.controlcenter.controlcenter.model.ProjMember;
 @Mapper
 public interface ProjMemberDao {
     List<ProjMember> getAllProjMember();
-    void addProjMember(ProjMember projmember);
+    void addProjMember(ProjMember projMember);
     void editProjMemberInfo(Map<String, Object> paramMap);
     void logicalDeleteProjMember(String id);
 

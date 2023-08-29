@@ -12,27 +12,47 @@ import { useNavigate } from "react-router-dom";
 
 // Define the type for your row data
 interface RowData {
-	name: string;
-	calories: number;
-	fat: number;
-	carbs: number;
-	protein: number;
+	assocID: number;
+	username: string;
+	firstName: string;
+	middleName: string;
+	lastName: string;
+	position: string;
+	email: string;
+	businessUnit: string;
+	department: number;
+	created: string;
 }
 
 
 const rows: RowData[] = [
-	{ name: 'Frozen yoghurt', calories: 159, fat: 6.0, carbs: 24, protein: 4.0 },
-	{ name: 'Ice cream sandwich', calories: 237, fat: 9.0, carbs: 37, protein: 4.3 },
-	// Add other rows here...
-  ];
-  
+	{ assocID: 1, username: 'smateo1', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 1, created: '08-29-23' },
+	{ assocID: 2, username: 'smateo2', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 2, created: '08-29-23' },
+	{ assocID: 3, username: 'smateo3', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 3, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+];
+
 
 export default function UserTable() {
 	const navigate = useNavigate();
 
 	const handleRowClick = (row: RowData) => {
-		navigate(`/User/${row.name}`, { state: row });
-	  };
+		navigate(`/User/${row.username}`, { state: row });
+	};
+
+
+		const [showData, setShowData] = React.useState(false); 
+	
+		const toggleMiddleNameVisibility = () => {
+		  setShowData(!showData);
+		}
+
+		const headerCellStyle = {
+			textAlign: "center",
+			fontWeight: "bolder",
+			backgroundColor: "#ccf5ff",
+			display: showData ? "table-cell" : "none", // Control header visibility
+		  };
 
 	return (
 		<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
@@ -41,26 +61,42 @@ export default function UserTable() {
 					<Table stickyHeader aria-label="sticky table">
 						<TableHead sx={{ backgroundColor: "transparent", zIndex: "1" }}>
 							<TableRow>
-								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
-									Dessert (100g serving)
+								<TableCell align="center" sx={headerCellStyle} >
+									associate id
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
-									Calories
+									username
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
+									firstName
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
-									Carbs&nbsp;(g)
+									lastName
+								</TableCell>
+								<TableCell align="center" sx={headerCellStyle} >
+									middleName
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
-									Protein&nbsp;(g)
+									position
+								</TableCell>
+								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
+									email
+								</TableCell>
+								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
+									businessUnit
+								</TableCell>
+								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
+									department
+								</TableCell>
+								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
+									created
 								</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{rows.map((row) => (
 								<TableRow
-									key={row.name}
+									key={row.username}
 									sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 								>
 									<TableCell component="th" scope="row" align="center">
@@ -68,13 +104,22 @@ export default function UserTable() {
 											onClick={() => handleRowClick(row)}
 											style={{ textDecoration: "underline", cursor: "pointer", color: "blue" }}
 										>
-											{row.name}
+											{row.username}
 										</span>
 									</TableCell>
-									<TableCell align="center">{row.calories}</TableCell>
-									<TableCell align="center">{row.fat}</TableCell>
-									<TableCell align="center">{row.carbs}</TableCell>
-									<TableCell align="center">{row.protein}</TableCell>
+									<TableCell align="center">{row.firstName}</TableCell>
+									<TableCell align="center">{row.lastName}</TableCell>
+									<TableCell align="center">{row.position}</TableCell>
+									<TableCell align="center">{row.email}</TableCell>
+									<TableCell align="center">{row.businessUnit}</TableCell>
+									<TableCell align="center">{row.department}</TableCell>
+									<TableCell align="center">{row.created}</TableCell>
+									{showData ? (
+										<TableCell align="center">{row.middleName}</TableCell>
+									) : null}
+									{showData ? (
+										<TableCell align="center">{row.assocID}</TableCell>
+									) : null}
 								</TableRow>
 							))}
 						</TableBody>

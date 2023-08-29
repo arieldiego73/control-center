@@ -7,8 +7,8 @@ import com.controlcenter.controlcenter.model.ProjInfo;
 public interface ProjInfoService {
     
     public List<ProjInfo> getAllProjInfo();
-    public String addProjInfo(ProjInfo projinfo);
-    public String editProjInfoInfo(String id, ProjInfo projinfo);
+    public String addProjInfo(ProjInfo projInfo);
+    public String editProjInfoInfo(String id, ProjInfo projInfo);
     public String logicalDeleteProjInfo(String id);
 
 }

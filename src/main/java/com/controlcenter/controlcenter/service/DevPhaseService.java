@@ -6,8 +6,8 @@ import com.controlcenter.controlcenter.model.DevPhase;
 
 public interface DevPhaseService {
     public List<DevPhase> getAllDevPhase();
-    public String addDevPhase(DevPhase devphase);
-    public String editDevPhaseInfo(String id, DevPhase devphase);
+    public String addDevPhase(DevPhase devPhase);
+    public String editDevPhaseInfo(String id, DevPhase devPhase);
     public String logicalDeleteDevPhase(String id);
 
     
