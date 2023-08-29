@@ -14,14 +14,25 @@
 
 <!-- Add Data -->
     <insert id="addUserProject" parameterType="com.controlcenter.controlcenter.model.UserProject">
-        INSERT INTO tbl_user_project(emp_id, proj_id, reg_id, update_id)
-             VALUES (#{emp_id}, #{proj_id}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_user_project (
+            emp_id, 
+            proj_id, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{emp_id}, 
+            #{proj_id}, 
+            #{reg_id}, 
+            #{update_id}
+        );
     </insert>
     
 <!-- Update Data -->
     <update id="editUserProjectInfo" parameterType="map">
         UPDATE tbl_user_project
-           SET emp_id=#{userproject.emp_id}, proj_id=#{userproject.proj_id}, reg_id=#{userproject.reg_id}, update_id=#{userproject.update_id}
+           SET emp_id=#{userproject.emp_id},
+               proj_id=#{userproject.proj_id}
          WHERE upid = #{id}
     </update>
 

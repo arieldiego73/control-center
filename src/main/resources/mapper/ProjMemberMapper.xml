@@ -14,14 +14,25 @@
 
 <!-- Add Data -->
     <insert id="addProjMember" parameterType="com.controlcenter.controlcenter.model.ProjMember">
-        INSERT INTO tbl_proj_members(upid, role_id, reg_id, update_id)
-             VALUES (#{upid}, #{role_id}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_proj_members (
+            upid, 
+            role_id, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{upid}, 
+            #{role_id}, 
+            #{reg_id},
+            #{update_id}
+        );
     </insert>
     
 <!-- Update Data -->
     <update id="editProjMemberInfo" parameterType="map">
         UPDATE tbl_proj_members
-           SET upid=#{projmember.upid}, role_id=#{projmember.role_id}, reg_id=#{projmember.reg_id}, update_id=#{projmember.update_id}
+           SET upid=#{projmember.upid}, 
+               role_id=#{projmember.role_id}
         WHERE up_role_id = #{id}
     </update>
 
