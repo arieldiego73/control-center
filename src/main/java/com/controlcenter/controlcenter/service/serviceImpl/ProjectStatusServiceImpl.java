@@ -25,7 +25,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService{
     public String addProjectStatus(ProjectStatus projectStatus) {
         try {
             projectStatusDao.addProjectStatus(projectStatus);
-            return "Project Status Added Successfully";
+            return "Project Status Added Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -40,7 +40,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService{
 
             projectStatusDao.editProjectStatus(paramMap);
 
-            return "Project Status Edited Successfully";
+            return "Project Status Edited Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -52,7 +52,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService{
         
             projectStatusDao.logicalDeleteProjectStatus(id);
 
-            return "Project Status Deleted Successfully";
+            return "Project Status Deleted Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
