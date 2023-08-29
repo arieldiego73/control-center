@@ -40,8 +40,8 @@
             position_id, 
             dept_id, 
             section_id, 
-            status_code,
-            role_id, 
+            role_id,
+            status_code, 
             img_src, 
             reg_id, 
             update_id
@@ -52,60 +52,22 @@
             #{password}, 
             #{position_id}, 
             #{dept_id}, 
-            #{section_id}, 
-            #{status_code},
-            #{role_id}, 
+            #{section_id},
+            #{role_id} 
+            #{status_code}, 
             #{img_src}, 
             #{reg_id}, 
             #{update_id}
         );
     </insert>
 
-    <insert id="addAccount" parameterType="map">
-        INSERT INTO tbl_user (
-            emp_id, 
-            username, 
-            password, 
-            position_id, 
-            dept_id, 
-            section_id, 
-            status_code, 
-            img_src, 
-            reg_id, 
-            update_id
-        )
-        VALUES (
-            #{account.emp_id}, 
-            #{account.username}, 
-            #{account.password}, 
-            #{account.position_id}, 
-            #{account.dept_id}, 
-            #{account.section_id}, 
-            #{account.status_code}, 
-            #{account.img_src}, 
-            #{account.reg_id}, 
-            #{account.update_id}
-        );
+    <!-- <insert id="addAccount" parameterType="map">
+        INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id)
+             VALUES (#{account.emp_id}, #{account.username}, #{account.password}, #{account.position_id}, #{account.dept_id}, #{account.section_id}, #{account.status_code}, #{account.img_src}, #{account.reg_id}, #{account.update_id});
 
-        INSERT INTO tbl_personal_info (
-            emp_id, 
-            fname, 
-            lname, 
-            mname, 
-            email, 
-            reg_id, 
-            update_id
-        )
-        VALUES (
-            #{account.emp_id}, 
-            #{account.fname}, 
-            #{account.lname}, 
-            #{account.mname}, 
-            #{account.email}, 
-            #{account.reg_id}, 
-            #{account.update_id}
-        );
-    </insert>
+        INSERT INTO tbl_personal_info(emp_id, fname, lname, mname, email, reg_id, update_id)
+             VALUES (#{account.emp_id}, #{account.fname}, #{account.lname}, #{account.mname}, #{account.email}, #{account.reg_id}, #{account.update_id});
+    </insert> -->
     <!-- <insert id="insertUserBatch" parameterType="java.util.List">
         INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id) VALUES
         <foreach collection="list" item="user" separator=",">

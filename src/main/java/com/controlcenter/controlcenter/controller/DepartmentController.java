@@ -36,7 +36,7 @@ public class DepartmentController {
         return departmentService.editDepartmentInfo(id, department);
     }
 
-    @PutMapping("delete/{id}")
+    @PutMapping("/delete/{id}")
     public String logicalDeleteDepartment(@PathVariable String id) {
         return departmentService.logicalDeleteDepartment(id);
     }
