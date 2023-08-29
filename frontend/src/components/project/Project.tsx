@@ -43,7 +43,7 @@ export default function Project() {
       </div>
 
       <div className={ProjectStyle.midContent}>
-        BreadCrumbs to ha! // Eto din // 3rd breadcrumb
+      Insert breadcrumbs here
         <div style={{ textAlign: "right" }}>
           <Link to="/userhandler" style={{ textDecoration: "none" }}>
             <Button
@@ -84,7 +84,7 @@ export default function Project() {
                         padding: 5,
                         fontSize: 16,
                         backgroundColor: "#dce0e0",
-                        borderRadius: "10px",
+                        borderRadius: "5px",
                       }}
                     />
                   </div>
@@ -99,7 +99,7 @@ export default function Project() {
                         padding: 5,
                         fontSize: 16,
                         backgroundColor: "#dce0e0",
-                        borderRadius: "10px",
+                        borderRadius: "5px",
                       }}
                     />
                   </div>
@@ -117,7 +117,7 @@ export default function Project() {
                         padding: 5,
                         fontSize: 16,
                         backgroundColor: "#dce0e0",
-                        borderRadius: "10px",
+                        borderRadius: "5px",
                       }}
                     />
                   </div>
@@ -132,7 +132,7 @@ export default function Project() {
                         padding: 5,
                         fontSize: 16,
                         backgroundColor: "#dce0e0",
-                        borderRadius: "10px",
+                        borderRadius: "5px",
                       }}
                     />
                   </div>

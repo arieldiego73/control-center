@@ -16,7 +16,7 @@ import com.controlcenter.controlcenter.service.DevPhaseService;
 
 
 @RestController
-@RequestMapping("/devphase")
+@RequestMapping("/devPhase")
 
 public class DevPhaseController {
 

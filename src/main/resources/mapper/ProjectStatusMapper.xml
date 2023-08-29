@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapper for tbl Project Status  -->
+<mapper namespace="com.controlcenter.controlcenter.dao.ProjectStatusDao">
+
+<!-- Fetch Data -->
+    <select id="getAllProjectStatus" resultType="com.controlcenter.controlcenter.model.ProjectStatus">
+        SELECT *
+         FROM tbl_proj_status_mst
+        WHERE del_flag = 0;
+    </select>
+
+<!-- Add Data -->
+    <insert id="addProjectStatus" parameterType="com.controlcenter.controlcenter.model.ProjectStatus">
+        INSERT INTO tbl_proj_status_mst(proj_status_name, proj_status_description, reg_id, update_id)
+             VALUES (#{proj_status_name}, #{proj_status_description}, #{reg_id}, #{update_id});
+    </insert>
+    
+<!-- Update Data -->
+    <update id="editProjectStatus" parameterType="map">
+        UPDATE tbl_proj_status_mst
+           SET proj_status_name=#{projectStatus.proj_status_name}, proj_status_description=#{projectStatus.proj_status_description},
+            reg_id=#{projectStatus.reg_id}, update_id=#{projectStatus.update_id}
+        WHERE proj_status_id = #{id}
+    </update>
+
+<!-- Logical Delete Data -->
+    <update id="logicalDeleteProjectStatus" parameterType="map">
+        UPDATE tbl_proj_status_mst
+           SET del_flag=1
+        WHERE proj_status_id = #{id}
+    </update>
+</mapper>

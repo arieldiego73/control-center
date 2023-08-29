@@ -22,6 +22,7 @@
     position: relative;
     top: 1%;
     align-self: center; 
+
 }
 .contentHolder{
     margin: 20;
@@ -30,6 +31,7 @@
     backdrop-filter: blur( 20px );
     -webkit-backdrop-filter: blur( 3px );
     border-radius: 10px;
+    height: 100%;
 }
 .searchBarContainer{
     display: flex;
@@ -58,7 +60,9 @@
     background-color: transparent;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+    height: 70%;
 }
+
 
 
 

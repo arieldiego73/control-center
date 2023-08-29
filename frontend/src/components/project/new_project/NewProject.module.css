@@ -1,0 +1,91 @@
+
+.mainContainer {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* if 90, sasakto s pinaka browser, di makikita difference (10vh yung topnav)*/
+    width: 93vw; /* if 93, sasakto s pinaka browser, di makikita difference (7vh yung sidenav)*/
+    top: 10vh; /* Bale height + top = 99vh (if 100, di makita difference)*/
+    left: 7vw; /* Bale width + left = 99vw (if 100, di makita difference)*/
+
+    background-image: url(../../../Assets/bg5.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.breadCrumbs{
+    
+    position: relative;
+    /* top: 0; */
+    /* left: 0; */
+    /* margin: 0; */
+    padding: 0 2vw;
+    /* width: 95%; */
+}
+.breadCrumbs p{
+    font-size: small;
+    padding: 0;
+    margin: 0;
+}
+.contentContainer{
+    /* border: 1px solid black; */
+    width: 95%;
+    height: 95%;
+    position: relative;
+    top: 3%;
+    padding: 1%;
+    /* display: flex; */
+    align-items: center;
+    justify-content: start;
+    margin-left: 2%;
+    background: rgba( 255, 255, 255, 0.05 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3px );
+    border-radius: 10px;
+
+}
+.heading{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 1vw;
+    height: 8%;
+    width: 98%;
+    margin: 1% 2%;
+}
+.mainForm {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    width: 100%;
+    
+}
+.mainForm .textField{
+    width: 300px;
+    background-color: #dce0e0;
+}
+
+.formRow2, .formRow3, .formRow5, .formRow6{
+    display: flex;
+    gap: 4vw;
+}
+.formRow7{
+    display: flex;
+    gap: 0.5vw;
+}
+.formRow5 Button, .formRow7 Button{
+    height: 2rem;
+    margin-top: 3.5vh;
+}
+
+.formRow7{
+    align-self: flex-end;
+}
+.formUsername .textField{
+    width: 500px;
+}
+
+.assocId .textField{
+    width: 1000px;
+}

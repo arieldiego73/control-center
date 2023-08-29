@@ -7,6 +7,8 @@ import { RootState } from "../../redux/store/store";
 import { Button } from "@material-ui/core";
 import { Add, AccountCircleOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Userpage() {
 	const data = useSelector((state: RootState) => state.userReducer.users);
@@ -27,40 +29,33 @@ export default function Userpage() {
 	};
 
 	return (
-		<div className={UserStyle.mainHolder}>
-			<div
-				style={{
-					flexDirection: "row",
-					display: "flex",
-					paddingLeft: "1%",
-				}}
-			>
-				<div className={UserStyle.iconHolder}>
-					<AccountCircleOutlined style={{ fontSize: "60px" }} />
-				</div>
+		<div className={UserStyle.mainContainer}>
 
-				<div
-					style={{
-						flex: "40",
-						marginRight: 5,
-						justifyContent: "center",
-						alignSelf: "center",
-					}}
-				>
-					<text
-						style={{
-							fontSize: 45,
-							fontWeight: "bold",
-							color: "black",
-						}}
-					>
-						User
-					</text>
-				</div>
+			<div style={{ width: "97%" }}>
+				<h4>
+					<FontAwesomeIcon icon={faUser} size="3x" color="black" />
+					<span style={{ fontSize: "4vh", color: "black" }}> USERS </span>
+				</h4>
 			</div>
 
+			<div style={{ width: "97%", border: "1px solid-red" }}>
+				Insert breadcrumbs here
+				<div style={{ textAlign: "right", marginBottom: "8px" }}>
+					<Link to="/userhandler" style={{ textDecoration: "none" }}>
+						<Button
+							variant="contained"
+							color="primary"
+							startIcon={<Add />}
+							style={{ textTransform: "none" }}
+						>
+							Add User
+						</Button>
+					</Link>
+				</div>
+			</div>
+			<div className={UserStyle.contentContainer}>
 			<div className={UserStyle.contentHolder}>
-				<div style={{ textAlign: "right", marginBottom: "6px" }}>
+				{/* <div style={{ textAlign: "right", marginBottom: "6px" }}>
 					<Link
 						to="/createuser"
 						style={{
@@ -75,41 +70,21 @@ export default function Userpage() {
 							style={{
 								textTransform: "none",
 								fontFamily: "Montserrat, sans-serif",
+								marginTop: 10,
+								marginBottom: 5,
+								marginRight: 10,
 							}}
 						>
 							Add User
 						</Button>
 					</Link>
-				</div>
+				</div> */}
 				{/* Start of Header */}
-				<div
-					style={{
-						flexDirection: "row",
-						backgroundColor: "white",
-						display: "flex",
-						border: "1px solid black",
-						alignSelf: "center",
-						justifyContent: "center",
-					}}
-				>
-					<div
-						style={{
-							flexDirection: "column",
-							display: "flex",
-							paddingTop: "1%",
-							paddingBottom: "1%",
-							alignItems: "center",
-							justifyContent: "center",
-						}}
-					>
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								gap: "12px",
-							}}
-						>
+				<div className={UserStyle.contentHead}>
+					<div>
+						<div style={{display: "flex",flexDirection: "row",gap: "12px",}}>
 							<div className={UserStyle.searchBar1}>
+
 								{/* Start of first search bar */}
 								<div className={UserStyle.searchBarHolder1}>
 									<input
@@ -164,15 +139,14 @@ export default function Userpage() {
 							</div>
 						</div>
 
-						<div style={{ marginTop: "24px" }}>
+						<div style={{ display: "flex", alignItems: "center", justifyContent:"center"}}>
 							<button
 								onClick={handleSearch}
 								style={{
 									backgroundColor: "#2466A2",
-									border: "1px solid black",
 									color: "white",
 									height: "30px",
-									width: "100%",
+									width: "50%",
 									padding: "0 32px",
 								}}
 							>
@@ -185,12 +159,15 @@ export default function Userpage() {
 				{/* Start of Table */}
 				<div
 					style={{
-						backgroundColor: "white",
-						border: "1px solid black",
+						backgroundColor: "transparent",
+						position: "relative",
+						top: "5vh",
+						height: "70%",
 					}}
 				>
-					<UserTable data={data as []} />
+					<UserTable/>
 				</div>
+			</div>
 			</div>
 		</div>
 	);

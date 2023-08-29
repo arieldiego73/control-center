@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapper for tbl Project Technology   -->
+<mapper namespace="com.controlcenter.controlcenter.dao.ProjectTechnologyDao">
+
+<!-- Fetch Data -->
+<select id="getAllProjectTechnology" resultType="com.controlcenter.controlcenter.model.ProjectTechnology">
+    SELECT *
+     FROM tbl_proj_tech
+    WHERE del_flag = 0;
+</select>
+
+<!-- Add Data -->
+<insert id="addProjectTechnology" parameterType="com.controlcenter.controlcenter.model.ProjectTechnology">
+    INSERT INTO tbl_proj_tech (tech_id, proj_id, reg_id, update_id)
+         VALUES (#{tech_id}, #{proj_id}, #{reg_id}, #{update_id})
+</insert>
+
+<!-- Update Data -->
+<update id="editProjectTechnology" parameterType="map">
+    UPDATE tbl_proj_tech
+           SET tech_id=#{projectTechnology.tech_id}, proj_id=#{projectTechnology.proj_id},
+            reg_id=#{projectTechnology.reg_id}, update_id=#{projectTechnology.update_id}
+        WHERE proj_tech_id = #{id}
+</update>
+
+<!-- Logical Delete Data -->
+    <update id="logicalDeleteProjectTechnology" parameterType="map">
+        UPDATE tbl_proj_tech
+           SET del_flag=1
+        WHERE proj_tech_id = #{id}
+    </update>
+
+</mapper>
