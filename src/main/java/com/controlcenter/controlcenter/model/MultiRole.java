@@ -7,13 +7,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Client {
-    private Long client_id;
-    private String client_name;
-    private String client_sh_name;
+public class MultiRole {
+    private Long user_role_id;
+    private String emp_id;
+    private int role_id;
     private int del_flag;
     private String reg_id;
     private Timestamp reg_date;
     private String update_id;
     private Timestamp update_date;
+    
+    
 }

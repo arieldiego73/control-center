@@ -7,10 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Client {
-    private Long client_id;
-    private String client_name;
-    private String client_sh_name;
+public class ProjectPhase {
+    private Long proj_phase_id;
+    private int dev_phase_id;
+    private int proj_id;
     private int del_flag;
     private String reg_id;
     private Timestamp reg_date;
