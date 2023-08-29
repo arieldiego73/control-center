@@ -30,8 +30,8 @@
 <!-- Update Data -->
     <update id="editDevTypeInfo" parameterType="map">
         UPDATE tbl_dev_type_mst
-           SET dev_type_name=#{devtype.dev_type_name}, 
-               dev_type_sh_name=#{devtype.dev_type_sh_name}
+           SET dev_type_name=#{devType.dev_type_name}, 
+               dev_type_sh_name=#{devType.dev_type_sh_name}
          WHERE dev_type_id = #{id}
     </update>
 

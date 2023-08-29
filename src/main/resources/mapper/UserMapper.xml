@@ -40,7 +40,8 @@
             position_id, 
             dept_id, 
             section_id, 
-            status_code, 
+            status_code,
+            role_id, 
             img_src, 
             reg_id, 
             update_id
@@ -52,7 +53,8 @@
             #{position_id}, 
             #{dept_id}, 
             #{section_id}, 
-            #{status_code}, 
+            #{status_code},
+            #{role_id}, 
             #{img_src}, 
             #{reg_id}, 
             #{update_id}

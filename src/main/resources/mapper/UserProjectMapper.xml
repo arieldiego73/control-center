@@ -31,8 +31,8 @@
 <!-- Update Data -->
     <update id="editUserProjectInfo" parameterType="map">
         UPDATE tbl_user_project
-           SET emp_id=#{userproject.emp_id},
-               proj_id=#{userproject.proj_id}
+           SET emp_id=#{userProject.emp_id},
+               proj_id=#{userProject.proj_id}
          WHERE upid = #{id}
     </update>
 

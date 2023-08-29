@@ -15,17 +15,17 @@ import com.controlcenter.controlcenter.service.DevPhaseService;
 public class DevPhaseServiceImpl implements DevPhaseService {
     
     @Autowired
-    public DevPhaseDao devphaseDao;
+    public DevPhaseDao devPhaseDao;
 
     @Override
     public List<DevPhase> getAllDevPhase(){
-        return devphaseDao.getAllDevPhase();
+        return devPhaseDao.getAllDevPhase();
     }
     
     @Override
-    public String addDevPhase(DevPhase devphase) {
+    public String addDevPhase(DevPhase devPhase) {
         try {
-            devphaseDao.addDevPhase(devphase);
+            devPhaseDao.addDevPhase(devPhase);
             return "DevPhase Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
@@ -33,13 +33,13 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     }
 
     @Override 
-    public String editDevPhaseInfo(String id, DevPhase devphase) {
+    public String editDevPhaseInfo(String id, DevPhase devPhase) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
-            paramMap.put("devphase", devphase);
+            paramMap.put("devPhase", devPhase);
 
-            devphaseDao.editDevPhaseInfo(paramMap);
+            devPhaseDao.editDevPhaseInfo(paramMap);
 
             return "DevPhase Info Edited Successfully";
         } catch (Exception e) {
@@ -51,7 +51,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     public String logicalDeleteDevPhase(String id) {
         try {
         
-            devphaseDao.logicalDeleteDevPhase(id);
+            devPhaseDao.logicalDeleteDevPhase(id);
 
             return "DevPhase Deleted Successfully";
         } catch (Exception e) {

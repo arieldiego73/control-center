@@ -10,7 +10,7 @@ import com.controlcenter.controlcenter.model.MultiRole;
 @Mapper
 public interface MultiRoleDao {
     List<MultiRole> getAllMultiRole();
-    void addMultiRole(MultiRole multirole);
+    void addMultiRole(MultiRole multiRole);
     void editMultiRoleInfo(Map<String, Object> paramMap);
     void logicalDeleteMultiRole(String id);
 }

@@ -29,8 +29,8 @@
 <!-- Update Data -->
     <update id="editMultiRoleInfo" parameterType="map">
         UPDATE tbl_multi_role
-           SET emp_id=#{multirole.emp_id}, 
-               role_id=#{multirole.role_id}
+           SET emp_id=#{multiRole.emp_id}, 
+               role_id=#{multiRole.role_id}
          WHERE user_role_id = #{id}
     </update>
 

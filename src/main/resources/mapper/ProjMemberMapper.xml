@@ -31,8 +31,8 @@
 <!-- Update Data -->
     <update id="editProjMemberInfo" parameterType="map">
         UPDATE tbl_proj_members
-           SET upid=#{projmember.upid}, 
-               role_id=#{projmember.role_id}
+           SET upid=#{projMember.upid}, 
+               role_id=#{projMember.role_id}
         WHERE up_role_id = #{id}
     </update>
 

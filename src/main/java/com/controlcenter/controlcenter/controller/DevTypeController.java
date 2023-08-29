@@ -15,29 +15,29 @@ import com.controlcenter.controlcenter.model.DevType;
 import com.controlcenter.controlcenter.service.DevTypeService;
 
 @RestController
-@RequestMapping("/devtype")
+@RequestMapping("/dev-type")
 public class DevTypeController {
     
     @Autowired
-    public DevTypeService devtypeService;
+    public DevTypeService devTypeService;
 
     @GetMapping("/all")
     public List<DevType> getAllDevType() {
-        return devtypeService.getAllDevType();
+        return devTypeService.getAllDevType();
     }
 
     @PostMapping("/add")
-    public String addDevType(@RequestBody DevType devtype){
-        return devtypeService.addDevType(devtype);
+    public String addDevType(@RequestBody DevType devType){
+        return devTypeService.addDevType(devType);
     }
 
     @PutMapping("/edit/{id}")
-    public String editDevTypeInfo(@PathVariable String id, @RequestBody DevType devtype) {
-        return devtypeService.editDevTypeInfo(id, devtype);
+    public String editDevTypeInfo(@PathVariable String id, @RequestBody DevType devType) {
+        return devTypeService.editDevTypeInfo(id, devType);
     }
 
     @PutMapping("/delete/{id}")
     public String logicalDeleteDevType(@PathVariable String id) {
-        return devtypeService.logicalDeleteDevType(id);
+        return devTypeService.logicalDeleteDevType(id);
     }
 }

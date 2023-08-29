@@ -15,7 +15,7 @@ import com.controlcenter.controlcenter.model.ProjectStatus;
 import com.controlcenter.controlcenter.service.ProjectStatusService;
 
 @RestController
-@RequestMapping("/projectStatus")
+@RequestMapping("/project-status")
 public class ProjectStatusController {
     @Autowired
     public ProjectStatusService projectStatusService;
