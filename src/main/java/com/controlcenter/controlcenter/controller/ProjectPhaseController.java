@@ -37,7 +37,7 @@ public class ProjectPhaseController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteProjectPhase(String id){
+    public String logicalDeleteProjectPhase(@PathVariable String id){
         return projectPhaseService.logicalDeleteProjectPhase(id);
     }
     
