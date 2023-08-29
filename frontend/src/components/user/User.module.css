@@ -1,4 +1,4 @@
-.mainHolder{
+/* .mainHolder{
     padding-left: 5%;
 }
 .iconHolder{
@@ -33,4 +33,99 @@
     padding-Left: "5";
     display: "flex";
     border: "1px solid black";
+} */
+
+.mainContainer {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    height: 95vh; /**if 90, sasakto s pinaka browser, di makikita difference (10vh yung topnav) */
+    width: 93vw; /* if 93, sasakto s pinaka browser, di makikita difference (7vh yung sidenav)*/
+    top: 7vh; /* Bale height + top = 99vh (if 100, di makita difference)*/
+    left: 7vw; /* Bale width + left = 99vw (if 100, di makita difference)*/
+
+    align-items: center;
+    background-image: url(../../Assets//bg5.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+.mainContainer h4 {
+  position: relative;
+  height: 5%;
+}
+.mainContainer h6 {
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 1px solid green;
+  margin: 5px;
+  padding: 1vh;
+  height: 2%;
+}
+.contentContainer {
+  /* border: 1px solid black; */
+  width: 97%;
+  height: 75%;
+  position: relative;
+  align-self: center;
+}
+
+/* ///////// */
+
+.mainHolder {
+  padding-left: 5%;
+}
+.iconHolder {
+  flex: 1;
+  padding-left: 7;
+}
+.contentHolder {
+  margin: 20;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 10px;
+  height: 100%;
+
+}
+.searchBar1,
+.searchBar2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 1vh;
+}
+.searchBarHolder1,
+.searchBarHolder2 {
+  margin-top: 10;
+  margin-bottom: 10;
+  width: 100%;
+}
+.searchBarHolder1 input,
+.searchBarHolder2 input {
+  border-radius: 5px;
+}
+button {
+  border-radius: 5px;
+  border: none;
+}
+
+.subHeader {
+  flex-direction: "row";
+  background-color: "#dce0e0";
+  padding-top: "5";
+  padding-left: "5";
+  display: "flex";
+}
+
+.contentHead{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 3vh;
+    position: relative;
 }

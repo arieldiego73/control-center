@@ -130,5 +130,4 @@ export default function ProjectTable() {
 			</Paper>
 		</div>
 	);
-
 }
