@@ -9,8 +9,8 @@ import com.controlcenter.controlcenter.model.DevType;
 public interface DevTypeService {
 
     public List<DevType> getAllDevType();
-    public String addDevType(DevType devtype);
-    public String editDevTypeInfo(String id, DevType devtype);
+    public String addDevType(DevType devType);
+    public String editDevTypeInfo(String id, DevType devType);
     public String logicalDeleteDevType(String id);
     
 }

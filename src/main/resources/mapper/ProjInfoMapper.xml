@@ -14,15 +14,31 @@
 
 <!-- Add Data -->
     <insert id="addProjInfo" parameterType="com.controlcenter.controlcenter.model.ProjInfo">
-        INSERT INTO tbl_proj_info(dev_type_id, client_id, proj_status_id, proj_id, reg_id, update_id)
-             VALUES (#{dev_type_id}, #{client_id}, #{proj_status_id}, #{proj_id}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_proj_info (
+            dev_type_id, 
+            client_id, 
+            proj_status_id, 
+            proj_id, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{dev_type_id}, 
+            #{client_id}, 
+            #{proj_status_id}, 
+            #{proj_id}, 
+            #{reg_id}, 
+            #{update_id}
+        );
     </insert>
     
 <!-- Update Data -->
     <update id="editProjInfoInfo" parameterType="map">
         UPDATE tbl_proj_info
-           SET dev_type_id=#{projinfo.dev_type_id}, client_id=#{projinfo.client_id}, proj_status_id=#{projinfo.proj_status_id}, 
-                proj_id=#{projinfo.client_id}, reg_id=#{projinfo.reg_id}, update_id=#{projinfo.update_id}
+           SET dev_type_id=#{projInfo.dev_type_id}, 
+               client_id=#{projInfo.client_id}, 
+               proj_status_id=#{projInfo.proj_status_id}, 
+               proj_id=#{projInfo.client_id}
          WHERE proj_info_id = #{id}
     </update>
 

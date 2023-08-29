@@ -15,30 +15,30 @@ import com.controlcenter.controlcenter.model.ProjMember;
 import com.controlcenter.controlcenter.service.ProjMemberService;
 
 @RestController
-@RequestMapping("/projmember")
+@RequestMapping("/proj-member")
 public class ProjMemberController {
 
     @Autowired
-    public ProjMemberService projmemberService;
+    public ProjMemberService projMemberService;
 
     @GetMapping("/all")
     public List<ProjMember> getAllProjMember() {
-        return projmemberService.getAllProjMember();
+        return projMemberService.getAllProjMember();
     }
 
     @PostMapping("/add")
-    public String addProjMember(@RequestBody ProjMember projmember){
-        return projmemberService.addProjMember(projmember);
+    public String addProjMember(@RequestBody ProjMember projMember){
+        return projMemberService.addProjMember(projMember);
     }
 
     @PutMapping("/edit/{id}")
-    public String editProjMemberInfo(@PathVariable String id, @RequestBody ProjMember projmember) {
-        return projmemberService.editProjMemberInfo(id, projmember);
+    public String editProjMemberInfo(@PathVariable String id, @RequestBody ProjMember projMember) {
+        return projMemberService.editProjMemberInfo(id, projMember);
     }
 
     @PutMapping("/delete/{id}")
     public String logicalDeleteProjMember(@PathVariable String id) {
-        return projmemberService.logicalDeleteProjMember(id);
+        return projMemberService.logicalDeleteProjMember(id);
     }
 }
 

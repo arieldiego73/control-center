@@ -14,14 +14,25 @@
 
 <!-- Add Data -->
     <insert id="addDevPhase" parameterType="com.controlcenter.controlcenter.model.DevPhase">
-        INSERT INTO tbl_dev_phase_mst(dev_phase_name, dev_phase_sh_name, reg_id, update_id)
-             VALUES (#{dev_phase_name}, #{dev_phase_sh_name}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_dev_phase_mst(
+            dev_phase_name, 
+            dev_phase_sh_name, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{dev_phase_name}, 
+            #{dev_phase_sh_name}, 
+            #{reg_id}, 
+            #{update_id}
+        );
     </insert>
     
 <!-- Update Data -->
     <update id="editDevPhaseInfo" parameterType="map">
         UPDATE tbl_dev_phase_mst
-           SET dev_phase_name=#{devphase.dev_phase_name}, dev_phase_sh_name=#{devphase.dev_phase_sh_name}, reg_id=#{devphase.reg_id}, update_id=#{devphase.update_id}
+           SET dev_phase_name=#{devPhase.dev_phase_name}, 
+               dev_phase_sh_name=#{devPhase.dev_phase_sh_name}
          WHERE dev_phase_id = #{id}
     </update>
 

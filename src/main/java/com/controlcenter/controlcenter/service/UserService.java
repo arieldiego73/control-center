@@ -3,6 +3,7 @@ package com.controlcenter.controlcenter.service;
 import java.util.List;
 
 import com.controlcenter.controlcenter.model.Account;
+import com.controlcenter.controlcenter.model.PersonalInfo;
 import com.controlcenter.controlcenter.model.User;
 
 public interface UserService {
@@ -15,5 +16,5 @@ public interface UserService {
   // public String insertUserBatch(List<User> users);
   public User getUserByUsername(User user);
 
-  public String addAccount(String id, Account account);
+  public String addAccount(Account account);
 }

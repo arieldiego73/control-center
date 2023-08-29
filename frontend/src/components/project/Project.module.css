@@ -2,7 +2,7 @@
     position: fixed;
     display: flex;
     flex-direction: column;
-     height: 100vh; /*if 90, sasakto s pinaka browser, di makikita difference (10vh yung topnav) */
+     height: 93vh; /*if 90, sasakto s pinaka browser, di makikita difference (10vh yung topnav) */
     width: 93vw; /* if 93, sasakto s pinaka browser, di makikita difference (7vh yung sidenav)*/
     top: 10vh; /* Bale height + top = 99vh (if 100, di makita difference)*/
     left: 7vw; /* Bale width + left = 99vw (if 100, di makita difference)*/

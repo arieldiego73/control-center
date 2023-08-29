@@ -10,13 +10,24 @@
     </select>
 
     <insert id="addTechnology" parameterType="com.controlcenter.controlcenter.model.Technology">
-        INSERT INTO tbl_technology_mst(tech_name, tech_sh_name, reg_id, update_id)
-             VALUES (#{tech_name}, #{tech_sh_name}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_technology_mst (
+          tech_name, 
+          tech_sh_name, 
+          reg_id, 
+          update_id
+        )
+        VALUES (
+          #{tech_name}, 
+          #{tech_sh_name}, 
+          #{reg_id}, 
+          #{update_id}
+        );
     </insert>
 
     <update id="editTechnology" parameterType="map">
         UPDATE tbl_technology_mst
-           SET tech_name=#{technology.tech_name}, tech_sh_name=#{technology.tech_sh_name}, reg_id=#{technology.reg_id}, update_id=#{technology.update_id}
+           SET tech_name=#{technology.tech_name}, 
+               tech_sh_name=#{technology.tech_sh_name}
          WHERE tech_id = #{id}
     </update>
 

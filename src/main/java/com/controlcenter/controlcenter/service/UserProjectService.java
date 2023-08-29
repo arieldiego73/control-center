@@ -6,8 +6,8 @@ import com.controlcenter.controlcenter.model.UserProject;
 
 public interface UserProjectService {
     public List<UserProject> getAllUserProject();
-    public String addUserProject(UserProject userproject);
-    public String editUserProjectInfo(String id, UserProject userproject);
+    public String addUserProject(UserProject userProject);
+    public String editUserProjectInfo(String id, UserProject userProject);
     public String logicalDeleteUserProject(String id);
 
     

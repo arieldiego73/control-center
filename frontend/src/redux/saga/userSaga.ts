@@ -5,7 +5,6 @@ function* workGetUsersFetch(): any {
 	const users = yield call(() =>
 		fetch("http://localhost:8080/user/all").then((res) => res.json())
 	);
-	// const formattedUsers = yield users.json();
 	yield put(getUsersSuccess(users));
 }
 

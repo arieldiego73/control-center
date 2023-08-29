@@ -10,14 +10,24 @@
     </select>
 
     <insert id="addPosition" parameterType="com.controlcenter.controlcenter.model.Position">
-        INSERT INTO tbl_position_mst(position_name, position_sh_name, reg_id, update_id)
-             VALUES (#{position_name}, #{position_sh_name}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_position_mst(
+            position_name, 
+            position_sh_name, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{position_name}, 
+            #{position_sh_name}, 
+            #{reg_id}, 
+            #{update_id}
+        );
     </insert>
 
     <update id="editPositionInfo" parameterType="map">
         UPDATE tbl_position_mst
-           SET position_name=#{position.position_name}, position_sh_name=#{position.position_sh_name}, reg_id=#{position.reg_id}, update_id=#{position.update_id}
-         WHERE position_id = #{id}
+           SET position_name=#{position.position_name}, 
+               position_sh_name=#{position.position_sh_name}
     </update>
 
     <update id="logicalDeletePosition">

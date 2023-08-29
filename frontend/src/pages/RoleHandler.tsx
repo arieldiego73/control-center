@@ -1,4 +1,4 @@
-import AddRole from "../components/role/AddRole";
+import Role from "../components/role/Role";
 import { Sidenav } from "../components/sidenav/Sidenav";
 
 export default function RoleHandler() {
@@ -16,7 +16,7 @@ export default function RoleHandler() {
 					paddingRight: "5%",
 				}}
 			>
-				<AddRole />
+				<Role />
 			</div>
 		</div>
 	);

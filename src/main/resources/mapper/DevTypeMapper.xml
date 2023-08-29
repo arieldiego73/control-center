@@ -14,14 +14,24 @@
 
 <!-- Add Data -->
     <insert id="addDevType" parameterType="com.controlcenter.controlcenter.model.DevType">
-        INSERT INTO tbl_dev_type_mst(dev_type_name, dev_type_sh_name, reg_id, update_id)
-             VALUES (#{dev_type_name}, #{dev_type_sh_name}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_dev_type_mst(
+            dev_type_name, 
+            dev_type_sh_name, 
+            reg_id, update_id
+        )
+        VALUES (
+            #{dev_type_name}, 
+            #{dev_type_sh_name}, 
+            #{reg_id}, 
+            #{update_id}
+        );
     </insert>
     
 <!-- Update Data -->
     <update id="editDevTypeInfo" parameterType="map">
         UPDATE tbl_dev_type_mst
-           SET dev_type_name=#{devtype.dev_type_name}, dev_type_sh_name=#{devtype.dev_type_sh_name}, reg_id=#{devtype.reg_id}, update_id=#{devtype.update_id}
+           SET dev_type_name=#{devType.dev_type_name}, 
+               dev_type_sh_name=#{devType.dev_type_sh_name}
          WHERE dev_type_id = #{id}
     </update>
 

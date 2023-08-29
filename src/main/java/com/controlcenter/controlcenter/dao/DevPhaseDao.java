@@ -10,7 +10,7 @@ import com.controlcenter.controlcenter.model.DevPhase;
 @Mapper
 public interface DevPhaseDao {
     List<DevPhase> getAllDevPhase();
-    void addDevPhase(DevPhase devphase);
+    void addDevPhase(DevPhase devPhase);
     void editDevPhaseInfo(Map<String, Object> paramMap);
     void logicalDeleteDevPhase(String id);
 

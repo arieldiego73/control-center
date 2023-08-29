@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import StyleNewProject from "./NewProject.module.css";
@@ -13,18 +14,14 @@ import {
   SelectChangeEvent,
   IconButton,
 } from "@mui/material";
-
-import React, { useState, useEffect } from "react";
+import { styled, alpha } from '@mui/material/styles';
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
-import PersonPinOutlinedIcon from "@mui/icons-material/PersonPinOutlined";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Breadcrumb from "../../breadcrumbs/breadcrumbs";
-import { styled } from "@mui/material/styles";
 import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
@@ -39,10 +36,24 @@ import Paper from "@mui/material/Paper";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import { Link } from "react-router-dom";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import AddMemberTable from "./AddMemberTable";
+import SearchIcon from '@mui/icons-material/Search';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import InputBase from '@mui/material/InputBase';
+
+
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -56,6 +67,47 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     },
     "&:first-of-type": {
       borderRadius: theme.shape.borderRadius,
+    },
+  },
+}));
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
     },
   },
 }));
@@ -94,9 +146,18 @@ export default function NewProj() {
     { label: "Users", href: "/userhandler" },
   ];
 
+  const [open, setOpen] = React.useState(false);
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
   return (
-    <div className={StyleNewProject.mainContainer} > 
-      
+    <div className={StyleNewProject.mainContainer}>
       <div className={StyleNewProject.heading}>
         <FontAwesomeIcon icon={faUser} size="2x" color="black" />
         <div className={StyleNewProject.textContainer}>
@@ -112,7 +173,10 @@ export default function NewProj() {
         </p>
       </div>
 
-      <div className={StyleNewProject.contentContainer} style={{ maxHeight: "65vh", overflowY: "auto" }}>
+      <div
+        className={StyleNewProject.contentContainer}
+        style={{ maxHeight: "65vh", overflowY: "auto" }}
+      >
         <div className={StyleNewProject.mainForm}>
           <div className={StyleNewProject.formRow1}>
             <FormControl className={StyleNewProject.formUsername}>
@@ -229,11 +293,11 @@ export default function NewProj() {
 
           <div className={StyleNewProject.formRow5}>
             <FormControl className={StyleNewProject.email}>
-              <FormLabel>Role</FormLabel>
+              <FormLabel>Project Manager</FormLabel>
               <TextField
                 variant="outlined"
                 size="small"
-                placeholder="Role"
+                placeholder="Project Manager"
                 className={StyleNewProject.textField}
                 InputProps={{
                   startAdornment: (
@@ -250,16 +314,17 @@ export default function NewProj() {
               startIcon={<Add />}
               style={{ textTransform: "none" }}
             >
-              Add Role
+              Add Project Manager
             </Button>
           </div>
+
           <div className={StyleNewProject.formRow6}>
             <FormControl className={StyleNewProject.email}>
-              <FormLabel>Business Unit</FormLabel>
+              <FormLabel>Client Name</FormLabel>
               <TextField
                 variant="outlined"
                 size="small"
-                placeholder="Business Unit"
+                placeholder="Client Name"
                 className={StyleNewProject.textField}
                 InputProps={{
                   startAdornment: (
@@ -270,51 +335,89 @@ export default function NewProj() {
                 }}
               />
             </FormControl>
-
-            <FormControl variant="outlined" size="small">
-              <FormLabel>Department</FormLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
-                className={StyleNewProject.textField}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <GroupsOutlinedIcon />
-                  </InputAdornment>
-                }
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
           </div>
-
 
           {/* FOR TESTING SCROLL VIEW ONLY!! */}
 
           <div className={StyleNewProject.formRow6}>
-            <FormControl className={StyleNewProject.email}>
-              <FormLabel>Business Unit</FormLabel>
+            <FormLabel style={{ paddingTop: ".5%" }}>
+              Development Phase
+            </FormLabel>
+            <FormGroup style={{ flexDirection: "row", display: "flex" }}>
+              <FormControlLabel control={<Checkbox />} label="RQS" />
+              <FormControlLabel control={<Checkbox />} label="BD" />
+              <FormControlLabel control={<Checkbox />} label="DD" />
+              <FormControlLabel control={<Checkbox />} label="CD" />
+              <FormControlLabel control={<Checkbox />} label="UT" />
+              <FormControlLabel control={<Checkbox />} label="CT" />
+              <FormControlLabel
+                control={<Checkbox defaultChecked />}
+                label="UAT"
+              />
+              <FormControlLabel control={<Checkbox />} label="MAINTENANCE" />
+            </FormGroup>
+          </div>
+
+          <div className={StyleNewProject.formRow5}>
+            <FormControl>
+              <FormLabel>Technology</FormLabel>
               <TextField
                 variant="outlined"
                 size="small"
-                placeholder="Business Unit"
+                placeholder="Technology"
                 className={StyleNewProject.textField}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <GroupsOutlinedIcon />
+                      <PermIdentityOutlinedIcon />
                     </InputAdornment>
                   ),
                 }}
               />
             </FormControl>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Add />}
+              style={{ textTransform: "none" }}
+            >
+              Add Technology
+            </Button>
+          </div>
 
+          <div className={StyleNewProject.formRow5}>
+            <FormControl>
+              <FormLabel>Members</FormLabel>
+              <TextField
+                variant="outlined"
+                size="small"
+                placeholder="Members"
+                className={StyleNewProject.textField}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PermIdentityOutlinedIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </FormControl>
+           
+            <Button
+               onClick={handleClickOpen} 
+              variant="contained"
+              color="primary"
+              startIcon={<Add />}
+              style={{ textTransform: "none", }}
+            >
+              Add Members
+            </Button>
+          </div>
+
+          <div>
             <FormControl variant="outlined" size="small">
-              <FormLabel>Department</FormLabel>
+              <FormLabel>Status</FormLabel>
+              {/* <InputLabel htmlFor="demo-simple-select-label">Select Department</InputLabel> */}
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -334,124 +437,8 @@ export default function NewProj() {
             </FormControl>
           </div>
 
-          <div className={StyleNewProject.formRow6}>
-            <FormControl className={StyleNewProject.email}>
-              <FormLabel>Business Unit</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Business Unit"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <GroupsOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </FormControl>
+          {/* START OF BUTTONS  */}
 
-            <FormControl variant="outlined" size="small">
-              <FormLabel>Department</FormLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
-                className={StyleNewProject.textField}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <GroupsOutlinedIcon />
-                  </InputAdornment>
-                }
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-
-          <div className={StyleNewProject.formRow6}>
-            <FormControl className={StyleNewProject.email}>
-              <FormLabel>Business Unit</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Business Unit"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <GroupsOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </FormControl>
-
-            <FormControl variant="outlined" size="small">
-              <FormLabel>Department</FormLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
-                className={StyleNewProject.textField}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <GroupsOutlinedIcon />
-                  </InputAdornment>
-                }
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-
-          <div className={StyleNewProject.formRow6}>
-            <FormControl className={StyleNewProject.email}>
-              <FormLabel>Business Unit</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Business Unit"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <GroupsOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </FormControl>
-
-            <FormControl variant="outlined" size="small">
-              <FormLabel>Department</FormLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
-                className={StyleNewProject.textField}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <GroupsOutlinedIcon />
-                  </InputAdornment>
-                }
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-
-          
           <div className={StyleNewProject.formRow7}>
             <Button
               variant="contained"
@@ -461,6 +448,7 @@ export default function NewProj() {
             >
               SAVE
             </Button>
+            <Link to="/project" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               startIcon={<CancelOutlinedIcon />}
@@ -468,9 +456,52 @@ export default function NewProj() {
             >
               CANCEL
             </Button>
+            </Link>
           </div>
         </div>
       </div>
+
+      {/* Popup */}
+      
+				<Dialog
+					open={open}
+					onClose={handleClose}
+					aria-describedby="alert-dialog-slide-description"
+				> 
+        {/* <div>
+          <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+        </div> */}
+         
+					<DialogTitle>
+						<FontAwesomeIcon icon={faUser} size="1x" color="black" />
+						{"Members"}
+					</DialogTitle>
+					<DialogContent>
+						<AddMemberTable />
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>Save</Button>
+					</DialogActions>
+				</Dialog>
+       
+				{/* <TablePagination
+					rowsPerPageOptions={[10, 25, 100]}
+					component="div"
+					count={rows.length}
+					rowsPerPage={rowsPerPage}
+					page={page}
+					onPageChange={handleChangePage}
+					onRowsPerPageChange={handleChangeRowsPerPage}
+				/> */}
     </div>
   );
 }
