@@ -9,6 +9,7 @@ import RoleHandler from "./pages/RoleHandler";
 // import NewProj from "./components/project/new_project/NewProj";
 import NewProjHandler from "./pages/NewProjectHandler";
 import test from "./components/project/new_project/test";
+import AddMemberTable from "./components/project/new_project/AddMemberTable";
 
 function App() {
 	return (
@@ -23,6 +24,7 @@ function App() {
 				<Route path="/role" Component={RoleHandler} />
 				<Route path="/NewProj" Component={NewProjHandler} />
 				<Route path="/test" Component={test} />
+				<Route path="/AddMemberTable" Component={AddMemberTable} />
 			</Routes>
 		</BrowserRouter>
 	);

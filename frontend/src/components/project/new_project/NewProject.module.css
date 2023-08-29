@@ -89,3 +89,21 @@
 .assocId .textField{
     width: 1000px;
 }
+
+.email .textField{
+    width: 500px;
+}
+
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+  }
+  
+  .checkboxContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  
