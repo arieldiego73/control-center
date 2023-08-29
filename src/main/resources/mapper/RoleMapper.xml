@@ -29,8 +29,9 @@
     <update id="editRoleInfo" parameterType="map">
         UPDATE tbl_role_mst
            SET title=#{role.title}, 
-               role_sh_name=#{role_sh_name}, 
+               role_sh_name=#{role.role_sh_name}, 
                role_user_level=#{role.role_user_level}
+         WHERE role_id = #{id}
     </update>
 
     <update id="logicalDeleteRole">
