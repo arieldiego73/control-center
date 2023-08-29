@@ -101,30 +101,12 @@ export default function ProjectTable() {
 					</Table>
 				</TableContainer>
 
-<<<<<<< HEAD
-			{/* Popup */}
-=======
 				{/* Popup */}
->>>>>>> bdd4e71149d91910e4171a5119125fb098b7604a
 				<Dialog
 					open={open}
 					onClose={handleClose}
 					aria-describedby="alert-dialog-slide-description"
 				>
-<<<<<<< HEAD
-					<DialogTitle><FontAwesomeIcon style={{paddingRight:'1%'}} icon={faUser} size="1x" color="black"  />{"Members"}</DialogTitle>
-					<DialogContent>
-								<MembersTable />
-					</DialogContent>
-					<DialogActions>
-					<Button onClick={handleClose}>Close</Button>
-					</DialogActions>
-				</Dialog>
-			</div>
-		);
-		
-	}
-=======
 					<DialogTitle>
 						<FontAwesomeIcon icon={faUser} size="1x" color="black" />
 						{"Members"}
@@ -150,4 +132,3 @@ export default function ProjectTable() {
 	);
 
 }
->>>>>>> bdd4e71149d91910e4171a5119125fb098b7604a
