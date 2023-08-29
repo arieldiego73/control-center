@@ -45,7 +45,7 @@ export default function Project() {
       <div className={ProjectStyle.midContent}>
       Insert breadcrumbs here
         <div style={{ textAlign: "right" }}>
-          <Link to="/userhandler" style={{ textDecoration: "none" }}>
+          <Link to="/NewProj" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               color="primary"

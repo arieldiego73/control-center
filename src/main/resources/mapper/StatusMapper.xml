@@ -14,14 +14,24 @@
 
 <!-- Add Data -->
     <insert id="addStatus" parameterType="com.controlcenter.controlcenter.model.Status">
-        INSERT INTO tbl_status_mst(status_code, status_name, reg_id, update_id)
-             VALUES (#{status_code}, #{status_name}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_status_mst (
+            status_code, 
+            status_name, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{status_code}, 
+            #{status_name}, 
+            #{reg_id}, 
+            #{update_id}
+        );
     </insert>
     
 <!-- Update Data -->
     <update id="editStatusInfo" parameterType="map">
         UPDATE tbl_status_mst
-           SET status_name=#{status.status_name}, reg_id=#{status.reg_id}, update_id=#{status.update_id}
+           SET status_name=#{status.status_name}
          WHERE status_code = #{code}
     </update>
 

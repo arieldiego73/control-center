@@ -2948,6 +2948,11 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/format-util@^1.0.2":
+  "integrity" "sha512-9SrLCpgzWo2yHHhiMOX0WwgDh37nSbDbWUsRc1ss++o8O97E3tB6SJiyUQM21UeUsKvZNuhDCmkRaINZ4uJAfg=="
+  "resolved" "https://registry.npmjs.org/@types/format-util/-/format-util-1.0.2.tgz"
+  "version" "1.0.2"
+
 "@types/graceful-fs@^4.1.2":
   "integrity" "sha512-Sig0SNORX9fdW+bQuTEovKj3uHcUL6LQKbCrrqb1X7J6/ReAbhCXRAhc+SMejhLELFj2QcyuxmUooZ4bt5ReSw=="
   "resolved" "https://registry.npmjs.org/@types/graceful-fs/-/graceful-fs-4.1.6.tgz"

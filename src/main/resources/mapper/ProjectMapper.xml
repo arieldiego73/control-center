@@ -14,15 +14,33 @@
 
 <!-- Add Data -->
     <insert id="addProject" parameterType="com.controlcenter.controlcenter.model.Project">
-        INSERT INTO tbl_project_mst(proj_name, proj_code, proj_description, start_date, end_date, reg_id, update_id)
-             VALUES (#{proj_name},#{proj_code}, #{proj_description}, #{start_date}, #{end_date}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_project_mst(
+            proj_name, proj_code, 
+            proj_description, 
+            start_date, 
+            end_date, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{proj_name},
+            #{proj_code}, 
+            #{proj_description}, 
+            #{start_date}, 
+            #{end_date}, 
+            #{reg_id}, 
+            #{update_id}
+        );
     </insert>
     
 <!-- Update Data -->
     <update id="editProjectInfo" parameterType="map">
         UPDATE tbl_project_mst
-           SET proj_name=#{project.proj_name}, proj_code=#{project.proj_code}, proj_description=#{project.proj_description},
-            start_date=#{project.start_date}, end_date=#{project.end_date}, reg_id=#{project.reg_id}, update_id=#{project.update_id}
+           SET proj_name=#{project.proj_name},
+               proj_code=#{project.proj_code}, 
+               proj_description=#{project.proj_description},
+               start_date=#{project.start_date}, 
+               end_date=#{project.end_date}
         WHERE proj_id = #{id}
     </update>
 

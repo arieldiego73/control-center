@@ -14,14 +14,25 @@
 
 <!-- Add Data -->
     <insert id="addSection" parameterType="com.controlcenter.controlcenter.model.Section">
-        INSERT INTO tbl_section_mst(section_name, dept_id, reg_id, update_id)
-             VALUES (#{section_name}, #{dept_id}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_section_mst (
+            section_name, 
+            dept_id, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{section_name}, 
+            #{dept_id}, 
+            #{reg_id}, 
+            #{update_id}
+        );
     </insert>
     
 <!-- Update Data -->
     <update id="editSectionInfo" parameterType="map">
         UPDATE tbl_section_mst
-           SET section_name=#{section.section_name}, dept_id=#{section.dept_id}, reg_id=#{section.reg_id}, update_id=#{section.update_id}
+           SET section_name=#{section.section_name}, 
+               dept_id=#{section.dept_id}
          WHERE section_id = #{id}
     </update>
 
