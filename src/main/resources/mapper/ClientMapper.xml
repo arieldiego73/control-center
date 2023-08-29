@@ -10,14 +10,24 @@
     </select>
 
     <insert id="addClient" parameterType="com.controlcenter.controlcenter.model.Client">
-        INSERT INTO tbl_clients_mst(client_name, client_sh_name, reg_id, update_id)
-             VALUES (#{client_name}, #{client_sh_name}, #{reg_id}, #{update_id});
+        INSERT INTO tbl_clients_mst(
+            client_name, 
+            client_sh_name, 
+            reg_id, 
+            update_id
+        )
+        VALUES (
+            #{client_name}, 
+            #{client_sh_name}, 
+            #{reg_id},
+            #{update_id}
+    );
     </insert>
 
     <update id="editClient" parameterType="map">
         UPDATE tbl_clients_mst
-           SET client_name=#{client.client_name}, client_sh_name=#{client.client_sh_name}, reg_id=#{client.reg_id}, update_id=#{client.update_id}
-         WHERE client_id = #{id}
+           SET client_name=#{client.client_name}, 
+               client_sh_name=#{client.client_sh_name}
     </update>
 
     <update id="logicalDeleteClient">

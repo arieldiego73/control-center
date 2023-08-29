@@ -12,7 +12,7 @@ import com.controlcenter.controlcenter.model.DevType;
 public interface DevTypeDao {
     
     List<DevType> getAllDevType();
-    void addDevType(DevType devtype);
+    void addDevType(DevType devType);
     void editDevTypeInfo(Map<String, Object> paramMap);
     void logicalDeleteDevType(String id);
 

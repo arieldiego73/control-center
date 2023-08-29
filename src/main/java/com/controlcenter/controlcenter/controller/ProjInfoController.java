@@ -15,30 +15,30 @@ import com.controlcenter.controlcenter.model.ProjInfo;
 import com.controlcenter.controlcenter.service.ProjInfoService;
 
 @RestController
-@RequestMapping("/projinfo")
+@RequestMapping("/proj-info")
 public class ProjInfoController {
 
     @Autowired
-    public ProjInfoService projinfoService;
+    public ProjInfoService projInfoService;
 
     @GetMapping("/all")
     public List<ProjInfo> getAllProjInfo() {
-        return projinfoService.getAllProjInfo();
+        return projInfoService.getAllProjInfo();
     }
 
     @PostMapping("/add")
-    public String addProjInfo(@RequestBody ProjInfo projinfo){
-        return projinfoService.addProjInfo(projinfo);
+    public String addProjInfo(@RequestBody ProjInfo projInfo){
+        return projInfoService.addProjInfo(projInfo);
     }
 
     @PutMapping("/edit/{id}")
-    public String editProjInfoInfo(@PathVariable String id, @RequestBody ProjInfo projinfo) {
-        return projinfoService.editProjInfoInfo(id, projinfo);
+    public String editProjInfoInfo(@PathVariable String id, @RequestBody ProjInfo projInfo) {
+        return projInfoService.editProjInfoInfo(id, projInfo);
     }
 
     @PutMapping("/delete/{id}")
     public String logicalDeleteProjInfo(@PathVariable String id) {
-        return projinfoService.logicalDeleteProjInfo(id);
+        return projInfoService.logicalDeleteProjInfo(id);
     }
 }
 

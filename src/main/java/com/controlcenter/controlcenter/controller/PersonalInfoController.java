@@ -22,7 +22,7 @@ public class PersonalInfoController {
     public PersonalInfoService personalInfoService;
 
     @GetMapping("/all")
-    public List<PersonalInfo> getAllPerosnalInfo() {
+    public List<PersonalInfo> getAllPersonalInfo() {
         return personalInfoService.getAllPersonalInfo();
     }
 

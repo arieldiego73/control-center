@@ -15,17 +15,17 @@ import com.controlcenter.controlcenter.service.MultiRoleService;
 public class MultiRoleServiceImpl implements MultiRoleService{
 
     @Autowired
-    public MultiRoleDao multiroleDao;
+    public MultiRoleDao multiRoleDao;
 
     @Override
     public List<MultiRole> getAllMultiRole(){
-        return multiroleDao.getAllMultiRole();
+        return multiRoleDao.getAllMultiRole();
     }
 
     @Override
-    public String addMultiRole(MultiRole multirole){
+    public String addMultiRole(MultiRole multiRole){
         try{
-            multiroleDao.addMultiRole(multirole);
+            multiRoleDao.addMultiRole(multiRole);
             return "Multi Role Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
@@ -33,13 +33,13 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     }
 
     @Override
-    public String editMultiRoleInfo(String id, MultiRole multirole){
+    public String editMultiRoleInfo(String id, MultiRole multiRole){
         try{
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
-            paramMap.put("multirole", multirole);
+            paramMap.put("multiRole", multiRole);
 
-            multiroleDao.editMultiRoleInfo(paramMap);
+            multiRoleDao.editMultiRoleInfo(paramMap);
 
             return "Multi Role Info Edited Successfully";
         } catch (Exception e){
@@ -50,7 +50,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     @Override
     public String logicalDeleteMultiRole(String id){
         try{
-            multiroleDao.logicalDeleteMultiRole(id);
+            multiRoleDao.logicalDeleteMultiRole(id);
             return "Multi Role Deleted Successfully";
         } catch (Exception e) {
             return e.getMessage();

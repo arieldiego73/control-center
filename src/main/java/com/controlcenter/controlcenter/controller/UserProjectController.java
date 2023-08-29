@@ -15,29 +15,29 @@ import com.controlcenter.controlcenter.model.UserProject;
 import com.controlcenter.controlcenter.service.UserProjectService;
 
 @RestController
-@RequestMapping("/userproject")
+@RequestMapping("/user-project")
 public class UserProjectController {
     
     @Autowired
-    public UserProjectService userprojectService;
+    public UserProjectService userProjectService;
 
     @GetMapping("/all")
     public List<UserProject> getAllUserProject() {
-        return userprojectService.getAllUserProject();
+        return userProjectService.getAllUserProject();
     }
 
     @PostMapping("/add")
-    public String addUserProject(@RequestBody UserProject userproject){
-        return userprojectService.addUserProject(userproject);
+    public String addUserProject(@RequestBody UserProject userProject){
+        return userProjectService.addUserProject(userProject);
     }
 
     @PutMapping("/edit/{id}")
-    public String editUserProjectInfo(@PathVariable String id, @RequestBody UserProject userproject) {
-        return userprojectService.editUserProjectInfo(id, userproject);
+    public String editUserProjectInfo(@PathVariable String id, @RequestBody UserProject userProject) {
+        return userProjectService.editUserProjectInfo(id, userProject);
     }
 
     @PutMapping("/delete/{id}")
     public String logicalDeleteUserProject(@PathVariable String id) {
-        return userprojectService.logicalDeleteUserProject(id);
+        return userProjectService.logicalDeleteUserProject(id);
     }
 }

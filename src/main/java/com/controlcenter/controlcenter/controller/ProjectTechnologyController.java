@@ -15,7 +15,7 @@ import com.controlcenter.controlcenter.model.ProjectTechnology;
 import com.controlcenter.controlcenter.service.ProjectTechnologyService;
 
 @RestController
-@RequestMapping("/projectTechnology")
+@RequestMapping("/project-technology")
 public class ProjectTechnologyController {
     @Autowired
     public ProjectTechnologyService projectTechnologyService;

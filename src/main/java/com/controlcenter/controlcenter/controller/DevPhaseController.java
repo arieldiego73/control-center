@@ -16,30 +16,30 @@ import com.controlcenter.controlcenter.service.DevPhaseService;
 
 
 @RestController
-@RequestMapping("/devPhase")
+@RequestMapping("/dev-phase")
 
 public class DevPhaseController {
 
     @Autowired
-    public DevPhaseService devphaseService;
+    public DevPhaseService devPhaseService;
 
     @GetMapping("/all")
     public List<DevPhase> getAllDevPhase() {
-        return devphaseService.getAllDevPhase();
+        return devPhaseService.getAllDevPhase();
     }
 
     @PostMapping("/add")
-    public String addDevPhase(@RequestBody DevPhase devphase){
-        return devphaseService.addDevPhase(devphase);
+    public String addDevPhase(@RequestBody DevPhase devPhase){
+        return devPhaseService.addDevPhase(devPhase);
     }
 
     @PutMapping("/edit/{id}")
-    public String editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhase devphase) {
-        return devphaseService.editDevPhaseInfo(id, devphase);
+    public String editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhase devPhase) {
+        return devPhaseService.editDevPhaseInfo(id, devPhase);
     }
 
     @PutMapping("/delete/{id}")
     public String logicalDeleteDevPhase(@PathVariable String id) {
-        return devphaseService.logicalDeleteDevPhase(id);
+        return devPhaseService.logicalDeleteDevPhase(id);
     }
 }

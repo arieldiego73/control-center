@@ -228,9 +228,10 @@ export default function CreateUser() {
                                                 </InputAdornment>
                                             }
                                         >
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            <MenuItem value={1}>department I</MenuItem>
+                                            <MenuItem value={2}>department II</MenuItem>
+                                            <MenuItem value={3}>department III</MenuItem>
+                                            <MenuItem value={4}>department IV</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </div>

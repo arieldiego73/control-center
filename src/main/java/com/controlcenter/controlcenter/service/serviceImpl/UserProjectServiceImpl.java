@@ -16,17 +16,17 @@ import com.controlcenter.controlcenter.service.UserProjectService;
 public class UserProjectServiceImpl implements UserProjectService {
     
     @Autowired
-    public UserProjectDao userprojectDao;
+    public UserProjectDao userProjectDao;
 
     @Override
     public List<UserProject> getAllUserProject(){
-        return userprojectDao.getAllUserProject();
+        return userProjectDao.getAllUserProject();
     }
     
     @Override
-    public String addUserProject(UserProject userproject) {
+    public String addUserProject(UserProject userProject) {
         try {
-            userprojectDao.addUserProject(userproject);
+            userProjectDao.addUserProject(userProject);
             return "UserProject Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
@@ -34,15 +34,15 @@ public class UserProjectServiceImpl implements UserProjectService {
     }
 
     @Override 
-    public String editUserProjectInfo(String id, UserProject userproject) {
+    public String editUserProjectInfo(String id, UserProject userProject) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
-            paramMap.put("userproject", userproject);
+            paramMap.put("userProject", userProject);
 
-            userprojectDao.editUserProjectInfo(paramMap);
+            userProjectDao.editUserProjectInfo(paramMap);
 
-            return "UserProject Info Edited Successfully";
+            return "User Project Info Edited Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -52,7 +52,7 @@ public class UserProjectServiceImpl implements UserProjectService {
     public String logicalDeleteUserProject(String id) {
         try {
         
-            userprojectDao.logicalDeleteUserProject(id);
+            userProjectDao.logicalDeleteUserProject(id);
 
             return "UserProject Deleted Successfully";
         } catch (Exception e) {

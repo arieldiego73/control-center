@@ -25,7 +25,7 @@ public class ProjectServiceImpl implements ProjectService{
     public String addProject(Project project) {
         try {
             projectDao.addProject(project);
-            return "Project Added Successfully";
+            return "Project Added Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -40,7 +40,7 @@ public class ProjectServiceImpl implements ProjectService{
 
             projectDao.editProjectInfo(paramMap);
 
-            return "Project Info Edited Successfully";
+            return "Project Info Edited Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -52,7 +52,7 @@ public class ProjectServiceImpl implements ProjectService{
         
             projectDao.logicalDeleteProject(id);
 
-            return "Project Deleted Successfully";
+            return "Project Deleted Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

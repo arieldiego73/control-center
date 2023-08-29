@@ -1,13 +1,13 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import com.controlcenter.controlcenter.dao.PersonalInfoDao;
 import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.Account;
+import com.controlcenter.controlcenter.model.PersonalInfo;
 import com.controlcenter.controlcenter.model.User;
 import com.controlcenter.controlcenter.service.UserService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   public UserDao userDao;
+
+  @Autowired 
+  public PersonalInfoDao personalInfoDao;
 
   @Override
   public List<User> findAll() {
@@ -39,15 +42,35 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public String addAccount(String id, Account account) {
+  public String addAccount(Account account) {
+    User user = new User();
+    PersonalInfo personalInfo = new PersonalInfo();
+
+    //initializing the value of user.
+    user.setEmp_id(account.getEmp_id());
+    user.setUsername(account.getUsername());
+    user.setPassword(account.getPassword());
+    user.setPosition_id(account.getPosition_id());
+    user.setDept_id(account.getDept_id());
+    user.setSection_id(account.getSection_id());
+    user.setStatus_code(account.getStatus_code());
+    user.setRole_id(account.getRole_id());
+    user.setImg_src(account.getImg_src());
+    user.setReg_id(account.getReg_id());
+    user.setUpdate_id(account.getUpdate_id());
+
+    //initializing the value of personal info.
+    personalInfo.setEmp_id(account.getEmp_id());
+    personalInfo.setFname(account.getFname());
+    personalInfo.setLname(account.getLname());
+    personalInfo.setMname(account.getMname());
+    personalInfo.setEmail(account.getEmail());
+    personalInfo.setReg_id(account.getReg_id());
+    personalInfo.setUpdate_id(account.getUpdate_id());
+
     try {
-      Map<String, Object> paramMap = new HashMap<>();
-
-      paramMap.put("id", id);
-      paramMap.put("account", account);
-
-      userDao.addAccount(paramMap);
-
+      userDao.insertUser(user);
+      personalInfoDao.addPersonalInfo(personalInfo);
       return "Account Created Successfully.";
     } catch (Exception e) {
       return e.getMessage();

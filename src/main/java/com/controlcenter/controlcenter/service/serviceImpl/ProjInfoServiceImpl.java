@@ -15,33 +15,33 @@ import com.controlcenter.controlcenter.service.ProjInfoService;
 public class ProjInfoServiceImpl implements ProjInfoService{
     
     @Autowired
-    public ProjInfoDao projinfoDao;
+    public ProjInfoDao projInfoDao;
 
     @Override
     public List<ProjInfo> getAllProjInfo(){
-        return projinfoDao.getAllProjInfo();
+        return projInfoDao.getAllProjInfo();
     }
     
     @Override
-    public String addProjInfo(ProjInfo projinfo) {
+    public String addProjInfo(ProjInfo projInfo) {
         try {
-            projinfoDao.addProjInfo(projinfo);
-            return "ProjInfo Added Successfully";
+            projInfoDao.addProjInfo(projInfo);
+            return "Project Info Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
     @Override 
-    public String editProjInfoInfo(String id, ProjInfo projinfo) {
+    public String editProjInfoInfo(String id, ProjInfo projInfo) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
-            paramMap.put("projinfo", projinfo);
+            paramMap.put("projInfo", projInfo);
 
-            projinfoDao.editProjInfoInfo(paramMap);
+            projInfoDao.editProjInfoInfo(paramMap);
 
-            return "ProjInfo Info Edited Successfully";
+            return "Project Info Info Edited Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -51,9 +51,9 @@ public class ProjInfoServiceImpl implements ProjInfoService{
     public String logicalDeleteProjInfo(String id) {
         try {
         
-            projinfoDao.logicalDeleteProjInfo(id);
+            projInfoDao.logicalDeleteProjInfo(id);
 
-            return "ProjInfo Deleted Successfully";
+            return "Project Info Deleted Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
