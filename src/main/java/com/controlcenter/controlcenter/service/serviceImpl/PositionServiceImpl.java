@@ -57,4 +57,15 @@ public class PositionServiceImpl implements PositionService{
             return e.getMessage();
         }
     }
+
+    @Override
+    public String restorePosition(String id) {
+        try {
+            positionDao.restorePosition(id);
+
+            return "Position Restored Successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

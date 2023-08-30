@@ -41,4 +41,9 @@ public class PositionController {
     public String logicalDeltePosition(@PathVariable String id) {
         return positionService.logicalDeletePosition(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restorePosition(@PathVariable String id) {
+        return positionService.restorePosition(id);
+    }
 }

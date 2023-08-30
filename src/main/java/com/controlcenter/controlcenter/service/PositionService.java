@@ -9,4 +9,5 @@ public interface PositionService {
     public String addPosition(Position position);
     public String editPositionInfo(String id, Position position);
     public String logicalDeletePosition(String id);
+    public String restorePosition(String id);
 }
