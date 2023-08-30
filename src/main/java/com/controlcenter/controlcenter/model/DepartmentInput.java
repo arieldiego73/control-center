@@ -7,7 +7,4 @@ import lombok.Setter;
 @Setter
 public class DepartmentInput {
     private String dept_name;
-    private int del_flag;
-    private String reg_id;
-    private String update_id;
 }

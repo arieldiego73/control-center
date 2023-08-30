@@ -13,21 +13,20 @@
 <!-- Add Data -->
     <insert id="addDepartment" parameterType="com.controlcenter.controlcenter.model.DepartmentInput">
         INSERT INTO tbl_department_mst(
-          dept_name, 
-          reg_id, 
-          update_id
+          dept_name,
+          reg_id
         )
         VALUES (
-          #{dept_name}, 
-          #{reg_id}, 
-          #{update_id}
+          #{dept_name},
+          1
         );
     </insert>
 
 <!-- Update Data -->
     <update id="editDepartmentInfo" parameterType="map">
         UPDATE tbl_department_mst
-           SET dept_name=#{department.dept_name}
+           SET dept_name=#{department.dept_name},
+               update_id = 1
          WHERE dept_id = #{id}
     </update>
 
