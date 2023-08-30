@@ -13,4 +13,5 @@ public interface ProjectPhaseDao {
     void addProjectPhase(ProjectPhase projectPhase);
     void editProjectPhase(Map<String, Object> paramMap);
     void logicalDeleteProjectPhase(String id);
+    void restoreProjectPhase(String id);
 }

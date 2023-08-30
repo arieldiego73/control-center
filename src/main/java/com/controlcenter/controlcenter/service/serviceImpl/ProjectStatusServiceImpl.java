@@ -57,4 +57,16 @@ public class ProjectStatusServiceImpl implements ProjectStatusService{
             return e.getMessage();
         }
     }
+
+    @Override
+    public String restoreProjectStatus(String id) {
+        try {
+        
+            projectStatusDao.restoreProjectStatus(id);
+
+            return "Project Status Restored Successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

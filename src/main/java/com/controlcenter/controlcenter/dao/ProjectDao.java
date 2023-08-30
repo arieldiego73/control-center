@@ -13,4 +13,5 @@ public interface ProjectDao {
     void addProject(Project project);
     void editProjectInfo(Map<String, Object> paramMap);
     void logicalDeleteProject(String id);
+    void restoreProject(String id);
 }

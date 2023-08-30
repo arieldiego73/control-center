@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ProjMemberDao;
-import com.controlcenter.controlcenter.model.ProjMember;
+import com.controlcenter.controlcenter.model.ProjMemberInput;
+import com.controlcenter.controlcenter.model.ProjMemberOutput;
 import com.controlcenter.controlcenter.service.ProjMemberService;
 
 
@@ -19,12 +20,12 @@ public class ProjMemberServiceImpl implements ProjMemberService{
     public ProjMemberDao projMemberDao;
 
     @Override
-    public List<ProjMember> getAllProjMember(){
+    public List<ProjMemberOutput> getAllProjMember(){
         return projMemberDao.getAllProjMember();
     }
     
     @Override
-    public String addProjMember(ProjMember projMember) {
+    public String addProjMember(ProjMemberInput projMember) {
         try {
             projMemberDao.addProjMember(projMember);
             return "Project Member Added Successfully";
@@ -34,7 +35,7 @@ public class ProjMemberServiceImpl implements ProjMemberService{
     }
 
     @Override 
-    public String editProjMemberInfo(String id, ProjMember projMember) {
+    public String editProjMemberInfo(String id, ProjMemberInput projMember) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);

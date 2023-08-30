@@ -13,5 +13,5 @@ public interface ProjectTechnologyDao {
     void addProjectTechnology(ProjectTechnology projectTechnology);
     void editProjectTechnology(Map<String, Object> paramMap);
     void logicalDeleteProjectTechnology(String id);
-    
+    void restoreProjectTechnology(String id);
 }

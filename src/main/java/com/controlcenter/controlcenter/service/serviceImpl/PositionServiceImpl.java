@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.PositionDao;
-import com.controlcenter.controlcenter.model.Position;
+import com.controlcenter.controlcenter.model.PositionInput;
+import com.controlcenter.controlcenter.model.PositionOutput;
 import com.controlcenter.controlcenter.service.PositionService;
 
 @Service
@@ -18,12 +19,12 @@ public class PositionServiceImpl implements PositionService{
     public PositionDao positionDao;
 
     @Override
-    public List<Position> getAllPosition() {
+    public List<PositionOutput> getAllPosition() {
         return positionDao.getAllPosition();
     }
 
     @Override
-    public String addPosition(Position position) {
+    public String addPosition(PositionInput position) {
         try {
             positionDao.addPosition(position);
             return "Position Added Successfully.";
@@ -33,7 +34,7 @@ public class PositionServiceImpl implements PositionService{
     }
 
     @Override 
-    public String editPositionInfo(String id, Position position) {
+    public String editPositionInfo(String id, PositionInput position) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
@@ -53,6 +54,17 @@ public class PositionServiceImpl implements PositionService{
             positionDao.logicalDeletePosition(id);
 
             return "Position Deleted Successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String restorePosition(String id) {
+        try {
+            positionDao.restorePosition(id);
+
+            return "Position Restored Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

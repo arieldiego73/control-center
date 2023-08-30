@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.ProjInfo;
+import com.controlcenter.controlcenter.model.ProjInfoInput;
+import com.controlcenter.controlcenter.model.ProjInfoOutput;
 import com.controlcenter.controlcenter.service.ProjInfoService;
 
 @RestController
@@ -22,17 +23,17 @@ public class ProjInfoController {
     public ProjInfoService projInfoService;
 
     @GetMapping("/all")
-    public List<ProjInfo> getAllProjInfo() {
+    public List<ProjInfoOutput> getAllProjInfo() {
         return projInfoService.getAllProjInfo();
     }
 
     @PostMapping("/add")
-    public String addProjInfo(@RequestBody ProjInfo projInfo){
+    public String addProjInfo(@RequestBody ProjInfoInput projInfo){
         return projInfoService.addProjInfo(projInfo);
     }
 
     @PutMapping("/edit/{id}")
-    public String editProjInfoInfo(@PathVariable String id, @RequestBody ProjInfo projInfo) {
+    public String editProjInfoInfo(@PathVariable String id, @RequestBody ProjInfoInput projInfo) {
         return projInfoService.editProjInfoInfo(id, projInfo);
     }
 

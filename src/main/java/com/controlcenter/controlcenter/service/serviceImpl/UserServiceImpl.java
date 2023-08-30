@@ -3,13 +3,15 @@ package com.controlcenter.controlcenter.service.serviceImpl;
 import com.controlcenter.controlcenter.dao.PersonalInfoDao;
 import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.Account;
-import com.controlcenter.controlcenter.model.PersonalInfo;
+import com.controlcenter.controlcenter.model.PersonalInfoInput;
+import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.User;
 import com.controlcenter.controlcenter.service.UserService;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +22,8 @@ public class UserServiceImpl implements UserService {
 
   @Autowired 
   public PersonalInfoDao personalInfoDao;
+
+  @Autowired PasswordEncoder passEnc;
 
   @Override
   public List<User> findAll() {
@@ -33,9 +37,12 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public String insertUser(User user) {
+    User userHashed = user;
+    userHashed.setPassword(passEnc.encode(user.getPassword()));
+
     try {
-      userDao.insertUser(user);
-      return "ok";
+      userDao.insertUser(userHashed);
+      return "User created successfully";
     } catch (Exception e) {
       return e.getMessage();
     }
@@ -44,7 +51,9 @@ public class UserServiceImpl implements UserService {
   @Override
   public String addAccount(Account account) {
     User user = new User();
-    PersonalInfo personalInfo = new PersonalInfo();
+    PersonalInfoInput personalInfo = new PersonalInfoInput();
+
+    account.setPassword(passEnc.encode(account.getPassword()));
 
     //initializing the value of user.
     user.setEmp_id(account.getEmp_id());
@@ -65,8 +74,6 @@ public class UserServiceImpl implements UserService {
     personalInfo.setLname(account.getLname());
     personalInfo.setMname(account.getMname());
     personalInfo.setEmail(account.getEmail());
-    personalInfo.setReg_id(account.getReg_id());
-    personalInfo.setUpdate_id(account.getUpdate_id());
 
     try {
       userDao.insertUser(user);

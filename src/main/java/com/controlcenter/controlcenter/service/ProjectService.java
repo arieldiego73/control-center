@@ -10,6 +10,6 @@ public interface ProjectService {
     public String addProject(Project project);
     public String editProjectInfo(String id, Project project);
     public String logicalDeleteProject(String id);
-
+    public String restoreProject(String id);
     
 }

@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.MultiRoleDao;
-import com.controlcenter.controlcenter.model.MultiRole;
+import com.controlcenter.controlcenter.model.MultiRoleInput;
+import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.service.MultiRoleService;
 
 @Service
@@ -18,12 +19,12 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     public MultiRoleDao multiRoleDao;
 
     @Override
-    public List<MultiRole> getAllMultiRole(){
+    public List<MultiRoleOutput> getAllMultiRole(){
         return multiRoleDao.getAllMultiRole();
     }
 
     @Override
-    public String addMultiRole(MultiRole multiRole){
+    public String addMultiRole(MultiRoleInput multiRole){
         try{
             multiRoleDao.addMultiRole(multiRole);
             return "Multi Role Added Successfully";
@@ -33,7 +34,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     }
 
     @Override
-    public String editMultiRoleInfo(String id, MultiRole multiRole){
+    public String editMultiRoleInfo(String id, MultiRoleInput multiRole){
         try{
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
@@ -41,7 +42,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
 
             multiRoleDao.editMultiRoleInfo(paramMap);
 
-            return "Multi Role Info Edited Successfully";
+            return "Multi Role Edited Successfully";
         } catch (Exception e){
             return e.getMessage();
         }
@@ -56,5 +57,14 @@ public class MultiRoleServiceImpl implements MultiRoleService{
             return e.getMessage();
         }
     }
-    
+
+    @Override
+    public String restoreMultiRole(String id){
+        try{
+            multiRoleDao.restoreMultiRole(id);
+            return "Multi Role Restored Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

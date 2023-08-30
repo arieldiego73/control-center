@@ -9,4 +9,5 @@ public interface ProjectStatusService {
     public String addProjectStatus(ProjectStatus projectStatus);
     public String editProjectStatus(String id, ProjectStatus projectStatus);
     public String logicalDeleteProjectStatus(String id);
+    public String restoreProjectStatus(String id);
 }

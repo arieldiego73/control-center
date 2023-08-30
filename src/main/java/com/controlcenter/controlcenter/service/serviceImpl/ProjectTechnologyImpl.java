@@ -56,7 +56,16 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
         } catch (Exception e) {
             return e.getMessage();
         }
-        
+    }
+
+    @Override
+    public String restoreProjectTechnology(String id){
+        try {
+            projectTechnologyDao.restoreProjectTechnology(id);
+            return "Project Technology Restored Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     

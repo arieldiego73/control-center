@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DevPhaseDao;
-import com.controlcenter.controlcenter.model.DevPhase;
+import com.controlcenter.controlcenter.model.DevPhaseInput;
+import com.controlcenter.controlcenter.model.DevPhaseOutput;
 import com.controlcenter.controlcenter.service.DevPhaseService;
 
 @Service
@@ -18,22 +19,22 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     public DevPhaseDao devPhaseDao;
 
     @Override
-    public List<DevPhase> getAllDevPhase(){
+    public List<DevPhaseOutput> getAllDevPhase(){
         return devPhaseDao.getAllDevPhase();
     }
     
     @Override
-    public String addDevPhase(DevPhase devPhase) {
+    public String addDevPhase(DevPhaseInput devPhase) {
         try {
             devPhaseDao.addDevPhase(devPhase);
-            return "DevPhase Added Successfully";
+            return "Development Phase Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
     @Override 
-    public String editDevPhaseInfo(String id, DevPhase devPhase) {
+    public String editDevPhaseInfo(String id, DevPhaseInput devPhase) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
@@ -41,7 +42,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
 
             devPhaseDao.editDevPhaseInfo(paramMap);
 
-            return "DevPhase Info Edited Successfully";
+            return "Development Phase Edited Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -50,10 +51,18 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     @Override
     public String logicalDeleteDevPhase(String id) {
         try {
-        
             devPhaseDao.logicalDeleteDevPhase(id);
+            return "Development Phase Deleted Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 
-            return "DevPhase Deleted Successfully";
+    @Override
+    public String restoreDevPhase(String id) {
+        try {
+            devPhaseDao.restoreDevPhase(id);
+            return "Development Phase Restored Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }

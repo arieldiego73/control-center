@@ -6,23 +6,23 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.MultiRoleDao">
 
 <!-- Fetch Data -->
-    <select id="getAllMultiRole" resultType="com.controlcenter.controlcenter.model.MultiRole">
-        SELECT *
+    <select id="getAllMultiRole" resultType="com.controlcenter.controlcenter.model.MultiRoleOutput">
+        SELECT user_role_id, emp_id, role_id
          FROM tbl_multi_role
         WHERE del_flag = 0;
     </select>
 
 <!-- Add Data -->
-    <insert id="addMultiRole" parameterType="com.controlcenter.controlcenter.model.MultiRole">
+    <insert id="addMultiRole" parameterType="com.controlcenter.controlcenter.model.MultiRoleInput">
         INSERT INTO tbl_multi_role(
-            emp_id, role_id, 
-            reg_id, update_id
+            emp_id, 
+            role_id, 
+            reg_id
         )
         VALUES (
             #{emp_id}, 
             #{role_id}, 
-            #{reg_id}, 
-            #{update_id}
+            1
         );
     </insert>
     
@@ -30,15 +30,22 @@
     <update id="editMultiRoleInfo" parameterType="map">
         UPDATE tbl_multi_role
            SET emp_id=#{multiRole.emp_id}, 
-               role_id=#{multiRole.role_id}
+               role_id=#{multiRole.role_id},
+               update_id = 1
          WHERE user_role_id = #{id}
     </update>
 
 <!-- Logical Delete Data -->
-    <update id="logicalDeleteMultiRole" parameterType="map">
+    <update id="logicalDeleteMultiRole">
         UPDATE tbl_multi_role
-           SET del_flag=1
+           SET del_flag = 1
         WHERE user_role_id = #{id}
     </update>
 
+<!-- Restore Data --> 
+    <update id="restoreMultiRole">
+        UPDATE tbl_multi_role
+           SET del_flag = 0
+        WHERE user_role_id = #{id}
+    </update>
 </mapper>

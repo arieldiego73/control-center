@@ -9,4 +9,5 @@ public interface ProjectTechnologyService {
     public String addProjectTechnology(ProjectTechnology projectTechnology);
     public String editProjectTechnology(String id, ProjectTechnology projectTechnology);
     public String logicalDeleteProjectTechnology(String id);
+    public String restoreProjectTechnology(String id);
 }

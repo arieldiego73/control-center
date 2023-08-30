@@ -3,36 +3,47 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.controlcenter.controlcenter.dao.ClientDao">
 
-    <select id="getAllClient" resultType="com.controlcenter.controlcenter.model.Client">
-        SELECT * 
+<!-- Fetch Data -->
+    <select id="getAllClient" resultType="com.controlcenter.controlcenter.model.ClientOutput">
+        SELECT client_id, client_name, client_sh_name
           FROM tbl_clients_mst
          WHERE del_flag = 0;
     </select>
 
-    <insert id="addClient" parameterType="com.controlcenter.controlcenter.model.Client">
+<!-- Add Data -->
+    <insert id="addClient" parameterType="com.controlcenter.controlcenter.model.ClientInput">
         INSERT INTO tbl_clients_mst(
             client_name, 
             client_sh_name, 
-            reg_id, 
-            update_id
+            reg_id
         )
         VALUES (
             #{client_name}, 
             #{client_sh_name}, 
-            #{reg_id},
-            #{update_id}
+            1
     );
     </insert>
 
+<!-- Update Data -->
     <update id="editClient" parameterType="map">
         UPDATE tbl_clients_mst
            SET client_name=#{client.client_name}, 
-               client_sh_name=#{client.client_sh_name}
+               client_sh_name=#{client.client_sh_name},
+               update_id = 1
+         WHERE client_id = #{id}
     </update>
 
+<!-- Delete Data -->
     <update id="logicalDeleteClient">
         UPDATE tbl_clients_mst
            SET del_flag=1
+         WHERE client_id = #{id}
+    </update>
+
+<!-- Restore Data -->
+    <update id="restoreClient">
+        UPDATE tbl_clients_mst
+           SET del_flag=0
          WHERE client_id = #{id}
     </update>
     

@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DevTypeDao;
-import com.controlcenter.controlcenter.model.DevType;
+import com.controlcenter.controlcenter.model.DevTypeInput;
+import com.controlcenter.controlcenter.model.DevTypeOutput;
 import com.controlcenter.controlcenter.service.DevTypeService;
 
 @Service
@@ -17,22 +18,22 @@ public class DevTypeServiceImpl implements DevTypeService {
     public DevTypeDao devTypeDao;
 
     @Override
-    public List<DevType> getAllDevType(){
+    public List<DevTypeOutput> getAllDevType(){
         return devTypeDao.getAllDevType();
     }
     
     @Override
-    public String addDevType(DevType devType) {
+    public String addDevType(DevTypeInput devType) {
         try {
             devTypeDao.addDevType(devType);
-            return "DevType Added Successfully";
+            return "Development Type Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
     @Override 
-    public String editDevTypeInfo(String id, DevType devType) {
+    public String editDevTypeInfo(String id, DevTypeInput devType) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
@@ -40,7 +41,7 @@ public class DevTypeServiceImpl implements DevTypeService {
 
             devTypeDao.editDevTypeInfo(paramMap);
 
-            return "DevType Info Edited Successfully";
+            return "Development Type Edited Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -49,10 +50,18 @@ public class DevTypeServiceImpl implements DevTypeService {
     @Override
     public String logicalDeleteDevType(String id) {
         try {
-        
             devTypeDao.logicalDeleteDevType(id);
+            return "Development Type Deleted Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 
-            return "DevType Deleted Successfully";
+    @Override
+    public String restoreDevType(String id) {
+        try {
+            devTypeDao.restoreDevType(id);
+            return "Development Type Restored Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
