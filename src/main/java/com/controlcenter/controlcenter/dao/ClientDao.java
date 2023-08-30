@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.Client;
+import com.controlcenter.controlcenter.model.ClientInput;
+import com.controlcenter.controlcenter.model.ClientOutput;
 
 @Mapper
 public interface ClientDao {
-    List<Client> getAllClient();
-    void addClient(Client client);
+    List<ClientOutput> getAllClient();
+    void addClient(ClientInput client);
     void editClient(Map<String, Object> paramMap);
     void logicalDeleteClient(String id);
     void restoreClient(String id);

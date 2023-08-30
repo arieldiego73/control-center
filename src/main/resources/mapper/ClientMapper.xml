@@ -4,25 +4,23 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.ClientDao">
 
 <!-- Fetch Data -->
-    <select id="getAllClient" resultType="com.controlcenter.controlcenter.model.Client">
-        SELECT * 
+    <select id="getAllClient" resultType="com.controlcenter.controlcenter.model.ClientOutput">
+        SELECT client_id, client_name, client_sh_name
           FROM tbl_clients_mst
          WHERE del_flag = 0;
     </select>
 
 <!-- Add Data -->
-    <insert id="addClient" parameterType="com.controlcenter.controlcenter.model.Client">
+    <insert id="addClient" parameterType="com.controlcenter.controlcenter.model.ClientInput">
         INSERT INTO tbl_clients_mst(
             client_name, 
             client_sh_name, 
-            reg_id, 
-            update_id
+            reg_id
         )
         VALUES (
             #{client_name}, 
             #{client_sh_name}, 
-            #{reg_id},
-            #{update_id}
+            1
     );
     </insert>
 
@@ -30,7 +28,9 @@
     <update id="editClient" parameterType="map">
         UPDATE tbl_clients_mst
            SET client_name=#{client.client_name}, 
-               client_sh_name=#{client.client_sh_name}
+               client_sh_name=#{client.client_sh_name},
+               update_id = 1
+         WHERE client_id = #{id}
     </update>
 
 <!-- Delete Data -->

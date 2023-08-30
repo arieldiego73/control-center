@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ClientDao;
-import com.controlcenter.controlcenter.model.Client;
+import com.controlcenter.controlcenter.model.ClientInput;
+import com.controlcenter.controlcenter.model.ClientOutput;
 import com.controlcenter.controlcenter.service.ClientService;
 
 @Service
@@ -18,12 +19,12 @@ public class ClientServiceImpl implements ClientService{
     public ClientDao clientDao;
 
     @Override
-    public List<Client> getAllClient() {
+    public List<ClientOutput> getAllClient() {
         return clientDao.getAllClient();
     }
 
     @Override
-    public String addClient(Client client) {
+    public String addClient(ClientInput client) {
         try {
             clientDao.addClient(client);
             return "Client Added Successfully.";
@@ -33,7 +34,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public String editClient(String id, Client client) {
+    public String editClient(String id, ClientInput client) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
 
