@@ -30,7 +30,7 @@ interface EditToolbarProps {
 	) => void;
 }
 
-export default function DevelopmentPhaseTable() {
+export default function RoleTable() {
 	const dispatch = useDispatch();
 	React.useEffect(() => {
 		dispatch(getRolesFetch());
