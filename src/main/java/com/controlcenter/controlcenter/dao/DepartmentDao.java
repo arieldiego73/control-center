@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.Department;
+import com.controlcenter.controlcenter.model.DepartmentInput;
+import com.controlcenter.controlcenter.model.DepartmentOutput;
 
 @Mapper
 public interface DepartmentDao {
-    List<Department> getAllDepartment();
-    void addDepartment(Department department);
+    List<DepartmentOutput> getAllDepartment();
+    void addDepartment(DepartmentInput department);
     void editDepartmentInfo(Map<String, Object> paramMap);
     void logicalDeleteDepartment(String id);
 
