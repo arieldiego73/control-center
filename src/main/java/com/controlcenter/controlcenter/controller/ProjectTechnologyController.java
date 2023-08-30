@@ -40,4 +40,8 @@ public class ProjectTechnologyController {
         return projectTechnologyService.logicalDeleteProjectTechnology(id);
     }
 
+    @PutMapping("/restore/{id}")
+    public String restoreProjectTechnology(@PathVariable String id){
+        return projectTechnologyService.restoreProjectTechnology(id);
+    }
 }
