@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PositionOutput {
-    private Long position_id;
+public class PositionInput {
     private String position_name;
     private String position_sh_name;
 }
