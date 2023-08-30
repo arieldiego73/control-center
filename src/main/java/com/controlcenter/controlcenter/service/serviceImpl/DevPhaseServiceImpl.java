@@ -34,7 +34,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     }
 
     @Override 
-    public String editDevPhaseInfo(String id, DevPhaseOutput devPhase) {
+    public String editDevPhaseInfo(String id, DevPhaseInput devPhase) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);

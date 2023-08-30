@@ -35,7 +35,7 @@ public class DevPhaseController {
     }
 
     @PutMapping("/edit/{id}")
-    public String editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseOutput devPhase) {
+    public String editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
         return devPhaseService.editDevPhaseInfo(id, devPhase);
     }
 
