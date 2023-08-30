@@ -10,4 +10,5 @@ public interface ClientService {
     public String addClient(Client client);
     public String editClient(String id, Client client);
     public String logicalDeleteClient(String id);
+    public String restoreClient(String id);
 }

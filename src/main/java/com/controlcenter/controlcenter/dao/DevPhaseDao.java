@@ -13,6 +13,7 @@ public interface DevPhaseDao {
     void addDevPhase(DevPhase devPhase);
     void editDevPhaseInfo(Map<String, Object> paramMap);
     void logicalDeleteDevPhase(String id);
+    void restoreDevPhase(String id);
 
     
 }

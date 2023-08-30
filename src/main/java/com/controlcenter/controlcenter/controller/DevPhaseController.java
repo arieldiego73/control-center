@@ -42,4 +42,9 @@ public class DevPhaseController {
     public String logicalDeleteDevPhase(@PathVariable String id) {
         return devPhaseService.logicalDeleteDevPhase(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreDevPhase(@PathVariable String id) {
+        return devPhaseService.restoreDevPhase(id);
+    }
 }

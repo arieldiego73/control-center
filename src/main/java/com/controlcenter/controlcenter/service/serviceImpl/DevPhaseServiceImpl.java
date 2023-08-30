@@ -26,7 +26,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     public String addDevPhase(DevPhase devPhase) {
         try {
             devPhaseDao.addDevPhase(devPhase);
-            return "DevPhase Added Successfully";
+            return "Development Phase Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -41,7 +41,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
 
             devPhaseDao.editDevPhaseInfo(paramMap);
 
-            return "DevPhase Info Edited Successfully";
+            return "Development Phase Edited Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -50,10 +50,18 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     @Override
     public String logicalDeleteDevPhase(String id) {
         try {
-        
             devPhaseDao.logicalDeleteDevPhase(id);
+            return "Development Phase Deleted Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 
-            return "DevPhase Deleted Successfully";
+    @Override
+    public String restoreDevPhase(String id) {
+        try {
+            devPhaseDao.restoreDevPhase(id);
+            return "Development Phase Restored Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
