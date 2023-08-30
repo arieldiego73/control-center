@@ -35,10 +35,16 @@
     </update>
 
 <!-- Logical Delete Data -->
-    <update id="logicalDeleteMultiRole" parameterType="map">
+    <update id="logicalDeleteMultiRole">
         UPDATE tbl_multi_role
-           SET del_flag=1
+           SET del_flag = 1
         WHERE user_role_id = #{id}
     </update>
 
+<!-- Restore Data --> 
+    <update id="restoreMultiRole">
+        UPDATE tbl_multi_role
+           SET del_flag = 0
+        WHERE user_role_id = #{id}
+    </update>
 </mapper>

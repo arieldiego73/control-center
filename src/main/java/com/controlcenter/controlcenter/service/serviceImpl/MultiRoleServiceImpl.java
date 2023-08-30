@@ -41,7 +41,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
 
             multiRoleDao.editMultiRoleInfo(paramMap);
 
-            return "Multi Role Info Edited Successfully";
+            return "Multi Role Edited Successfully";
         } catch (Exception e){
             return e.getMessage();
         }
@@ -56,5 +56,14 @@ public class MultiRoleServiceImpl implements MultiRoleService{
             return e.getMessage();
         }
     }
-    
+
+    @Override
+    public String restoreMultiRole(String id){
+        try{
+            multiRoleDao.restoreMultiRole(id);
+            return "Multi Role Restored Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }
