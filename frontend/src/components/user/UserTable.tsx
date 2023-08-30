@@ -30,6 +30,25 @@ const rows: RowData[] = [
 	{ assocID: 2, username: 'smateo2', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 2, created: '08-29-23' },
 	{ assocID: 3, username: 'smateo3', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 3, created: '08-29-23' },
 	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },	
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+
+
 ];
 
 
@@ -37,7 +56,7 @@ export default function UserTable() {
 	const navigate = useNavigate();
 
 	const handleRowClick = (row: RowData) => {
-		navigate(`/User/${row.username}`, { state: row });
+		navigate(`/editUser/${row.username}`, { state: row });
 	};
 
 

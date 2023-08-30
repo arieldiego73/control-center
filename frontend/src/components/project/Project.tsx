@@ -42,71 +42,73 @@ export default function Project() {
         </h4>
       </div>
 
-      <div className={ProjectStyle.midContent}>
-      Insert breadcrumbs here
-        <div style={{ textAlign: "right" }}>
-          <Link to="/NewProj" style={{ textDecoration: "none" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Add />}
-              style={{ textTransform: "none" }}
-            >
-              Add Project
-            </Button>
-          </Link>
-        </div>
-      </div>
-
       <div className={ProjectStyle.contentContainer}>
+        <div className={ProjectStyle.midContent}>
+          <div>
+            Insert breadcrumbs here
+          </div>
+          <div style={{ alignContent: "right" }}>
+            <Link to="/NewProj" style={{ textDecoration: "none" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<Add />}
+                style={{ textTransform: "none" }}
+              >
+                Add Project
+              </Button>
+            </Link>
+          </div>
+        </div>
         <div className={ProjectStyle.contentHolder}>
           {/* Start of Header */}
-            <div
-              style={{
-                flexDirection: "column",
-                display: "flex",
-                paddingTop: "1%",
-                paddingBottom: "1%",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div className={ProjectStyle.searchBarContainer}>
-                <div>
-                  {/* Start of first search bar */}
-                  <div className={ProjectStyle.searchBarHolder1}>
-                    <input
-                      type="text"
-                      placeholder="Name"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      style={{
-                        padding: 5,
-                        fontSize: 16,
-                        backgroundColor: "#dce0e0",
-                        borderRadius: "5px",
-                      }}
-                    />
-                  </div>
-
-                  <div className={ProjectStyle.searchBarHolder2}>
-                    <input
-                      type="text"
-                      placeholder="Position"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      style={{
-                        padding: 5,
-                        fontSize: 16,
-                        backgroundColor: "#dce0e0",
-                        borderRadius: "5px",
-                      }}
-                    />
-                  </div>
+          <div
+            style={{
+              flexDirection: "column",
+              display: "flex",
+              paddingTop: "1%",
+              paddingBottom: "1%",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div className={ProjectStyle.searchBarContainer}>
+              <div className={ProjectStyle.searchBarCol}>
+                {/* Start of first search bar */}
+                <div className={ProjectStyle.searchBarHolder1}>
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{
+                      padding: 5,
+                      fontSize: 16,
+                      backgroundColor: "#dce0e0",
+                      borderRadius: "5px",
+                    }}
+                  />
                 </div>
 
-                {/* Start of second search bar */}
-                <div className={ProjectStyle.searcBar1}>
+                <div className={ProjectStyle.searchBarHolder2}>
+                  <input
+                    type="text"
+                    placeholder="Position"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{
+                      padding: 5,
+                      fontSize: 16,
+                      backgroundColor: "#dce0e0",
+                      borderRadius: "5px",
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Start of second search bar */}
+              <div className={ProjectStyle.searcBar1}>
+                <div className={ProjectStyle.searchBarCol}>
                   <div className={ProjectStyle.searchBarHolder1}>
                     <input
                       type="text"
@@ -138,32 +140,33 @@ export default function Project() {
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className={ProjectStyle.buttonContainer}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<SearchIcon />}
-                  style={{ textTransform: "none" }}
-                >
-                  Search
-                </Button>
-              </div>
+            <div className={ProjectStyle.buttonContainer}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<SearchIcon />}
+                style={{ textTransform: "none" }}
+              >
+                Search
+              </Button>
             </div>
-        
-            {/* Start of Table */}
-            <div className={ProjectStyle.tableContainer}>
-              <ProjectTable />
-            </div>
-            
           </div>
-        </div>
 
-     
-   
-   
- 
-        
+          {/* Start of Table */}
+          <div className={ProjectStyle.tableContainer}>
+            <ProjectTable />
+          </div>
+
+        </div>
       </div>
+
+
+
+
+
+
+    </div>
   );
 }
