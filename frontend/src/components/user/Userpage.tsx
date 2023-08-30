@@ -50,7 +50,7 @@ export default function Userpage() {
 						Insert breadcrumbs here
 					</div>
 					<div style={{ alignContent: "right" }}>
-						<Link to="/NewProj" style={{ textDecoration: "none" }}>
+						<Link to="/CreateUser" style={{ textDecoration: "none" }}>
 							<Button
 								variant="contained"
 								color="primary"

@@ -56,7 +56,7 @@ export default function UserTable() {
 	const navigate = useNavigate();
 
 	const handleRowClick = (row: RowData) => {
-		navigate(`/User/${row.username}`, { state: row });
+		navigate(`/editUser/${row.username}`, { state: row });
 	};
 
 
