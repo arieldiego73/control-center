@@ -9,4 +9,5 @@ public interface ProjectPhaseService {
     public String addProjectPhase(ProjectPhase projectPhase);
     public String editProjectPhase(String id, ProjectPhase projectPhase);
     public String logicalDeleteProjectPhase(String id);
+    public String restoreProjectPhase(String id);
 }
