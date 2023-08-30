@@ -240,8 +240,12 @@ export default function RoleTable() {
 						role_user_level: newRow.role_user_level,
 					})
 				);
+				const success = handleClickSnackpack(
+					"Role is edited successfully",
+					"success"
+				);
+				success();
 			} else {
-				console.log("newRow:", newRow);
 				dispatch(
 					addRoles({
 						title: newRow.title,
@@ -251,14 +255,14 @@ export default function RoleTable() {
 						update_id: newRow.update_id,
 					})
 				);
+				const success = handleClickSnackpack(
+					"Role is added successfully",
+					"success"
+				);
+				success();
 			}
 
 			setRows(data);
-			const success = handleClickSnackpack(
-				"Role is added successfully",
-				"success"
-			);
-			success();
 		} else {
 			const cancel = handleCancelClick(newRow.role_id);
 			const error = handleClickSnackpack(
