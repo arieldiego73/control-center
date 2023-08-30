@@ -40,4 +40,9 @@ public class DepartmentController {
     public String logicalDeleteDepartment(@PathVariable String id) {
         return departmentService.logicalDeleteDepartment(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreDepartment(@PathVariable String id) {
+        return departmentService.restoreDepartment(id);
+    }
 }

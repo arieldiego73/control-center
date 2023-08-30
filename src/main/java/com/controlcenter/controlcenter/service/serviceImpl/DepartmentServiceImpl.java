@@ -57,4 +57,14 @@ public class DepartmentServiceImpl implements DepartmentService{
             return e.getMessage();
         }
     }
+
+    @Override
+    public String restoreDepartment(String id) {
+        try {
+            departmentDao.restoreDepartment(id);
+            return "Department Restored Successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

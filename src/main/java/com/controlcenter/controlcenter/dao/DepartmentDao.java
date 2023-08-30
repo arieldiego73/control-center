@@ -13,4 +13,6 @@ public interface DepartmentDao {
     void addDepartment(Department department);
     void editDepartmentInfo(Map<String, Object> paramMap);
     void logicalDeleteDepartment(String id);
+
+    void restoreDepartment(String id);
 }

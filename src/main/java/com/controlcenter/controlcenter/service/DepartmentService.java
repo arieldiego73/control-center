@@ -9,4 +9,5 @@ public interface DepartmentService {
     public String addDepartment(Department department);
     public String editDepartmentInfo(String id, Department department);
     public String logicalDeleteDepartment(String id);
+    public String restoreDepartment(String id);
 }
