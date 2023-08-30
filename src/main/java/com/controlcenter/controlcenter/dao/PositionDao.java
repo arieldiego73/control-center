@@ -13,4 +13,5 @@ public interface PositionDao {
     void addPosition(Position position);
     void editPositionInfo(Map<String, Object> paramMap);
     void logicalDeletePosition(String id);
+    void restorePosition(String id);
 }
