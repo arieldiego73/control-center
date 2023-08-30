@@ -25,7 +25,7 @@ public class DevTypeServiceImpl implements DevTypeService {
     public String addDevType(DevType devType) {
         try {
             devTypeDao.addDevType(devType);
-            return "DevType Added Successfully";
+            return "Development Type Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -40,7 +40,7 @@ public class DevTypeServiceImpl implements DevTypeService {
 
             devTypeDao.editDevTypeInfo(paramMap);
 
-            return "DevType Info Edited Successfully";
+            return "Development Type Edited Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -49,10 +49,18 @@ public class DevTypeServiceImpl implements DevTypeService {
     @Override
     public String logicalDeleteDevType(String id) {
         try {
-        
             devTypeDao.logicalDeleteDevType(id);
+            return "Development Type Deleted Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 
-            return "DevType Deleted Successfully";
+    @Override
+    public String restoreDevType(String id) {
+        try {
+            devTypeDao.restoreDevType(id);
+            return "Development Type Restored Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }

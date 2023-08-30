@@ -15,6 +15,6 @@ public interface DevTypeDao {
     void addDevType(DevType devType);
     void editDevTypeInfo(Map<String, Object> paramMap);
     void logicalDeleteDevType(String id);
-
+    void restoreDevType(String id);
     
 }

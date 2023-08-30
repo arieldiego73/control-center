@@ -40,4 +40,9 @@ public class DevTypeController {
     public String logicalDeleteDevType(@PathVariable String id) {
         return devTypeService.logicalDeleteDevType(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreDevType(@PathVariable String id) {
+        return devTypeService.restoreDevType(id);
+    }
 }
