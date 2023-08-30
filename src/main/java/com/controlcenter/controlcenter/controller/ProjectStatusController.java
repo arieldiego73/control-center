@@ -39,4 +39,9 @@ public class ProjectStatusController {
     public String logicalDeleteProjectStatus(@PathVariable String id) {
         return projectStatusService.logicalDeleteProjectStatus(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreProjectStatus(@PathVariable String id) {
+        return projectStatusService.restoreProjectStatus(id);
+    }
 }

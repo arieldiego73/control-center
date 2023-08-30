@@ -12,5 +12,5 @@ public interface ProjectStatusDao {
     void addProjectStatus(ProjectStatus projectStatus);
     void editProjectStatus(Map<String, Object> paramMap);
     void logicalDeleteProjectStatus(String id);
-
+    void restoreProjectStatus(String id);
 }
