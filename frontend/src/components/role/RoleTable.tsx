@@ -6,6 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
+import HelpIcon from "@mui/icons-material/Help";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -23,6 +24,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { getRolesFetch } from "../../redux/state/roleState";
 import { addRoles, deleteRoles, updateRoles } from "../../redux/saga/roleSaga";
+import {
+	Alert,
+	AlertColor,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Snackbar,
+	Typography,
+	useMediaQuery,
+	useTheme,
+} from "@mui/material";
+
+export interface SnackbarMessage {
+	message: string;
+	key: number;
+}
+
+export interface State {
+	open: boolean;
+	snackPack: readonly SnackbarMessage[];
+	messageInfo?: SnackbarMessage;
+}
 
 interface EditToolbarProps {
 	setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -31,7 +56,7 @@ interface EditToolbarProps {
 	) => void;
 }
 
-export default function DevelopmentPhaseTable() {
+export default function RoleTable() {
 	const dispatch = useDispatch();
 	React.useEffect(() => {
 		dispatch(getRolesFetch());
@@ -44,10 +69,71 @@ export default function DevelopmentPhaseTable() {
 		{}
 	);
 
+	// FOR CONFIRM DIALOG
+	const [ask, setAsk] = React.useState(false);
+	const [deleteId, setDeleteId] = React.useState(0);
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+	const proceedWithDelete = () => {
+		dispatch(deleteRoles({ role_id: deleteId }));
+		setRows(data);
+		setAsk(false);
+		const success = handleClickSnackpack(
+			"A role is deleted successfully!",
+			"success"
+		);
+		success();
+	};
+
+	const handleCloseConfirm = () => {
+		setAsk(false);
+	};
+
+	// FOR SNACKPACK
+	const [snackPack, setSnackPack] = React.useState<
+		readonly SnackbarMessage[]
+	>([]);
+	const [open, setOpen] = React.useState(false);
+	const [messageInfo, setMessageInfo] = React.useState<
+		SnackbarMessage | undefined
+	>(undefined);
+	const [severity, setSeverity] = React.useState<AlertColor>("error");
+
+	React.useEffect(() => {
+		if (snackPack.length && !messageInfo) {
+			// Set a new snack when we don't have an active one
+			setMessageInfo({ ...snackPack[0] });
+			setSnackPack((prev) => prev.slice(1));
+			setOpen(true);
+		} else if (snackPack.length && messageInfo && open) {
+			// Close an active snack when a new one is added
+			setOpen(false);
+		}
+	}, [snackPack, messageInfo, open]);
+
+	const handleClickSnackpack =
+		(message: string, severity: AlertColor) => () => {
+			setSnackPack((prev) => [
+				...prev,
+				{ message, key: new Date().getTime() },
+			]);
+			setSeverity(severity);
+		};
+
+	const handleClose = (event: React.SyntheticEvent | Event) => {
+		setOpen(false);
+	};
+
+	const handleExited = () => {
+		setMessageInfo(undefined);
+	};
+
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
 
+	// FOR DATA GRID
 	function EditToolbar(props: EditToolbarProps) {
 		const { setRows, setRowModesModel } = props;
 
@@ -121,8 +207,8 @@ export default function DevelopmentPhaseTable() {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		dispatch(deleteRoles({ role_id: id as number }));
-		setRows(data);
+		setAsk(true);
+		setDeleteId(id as number);
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -142,33 +228,47 @@ export default function DevelopmentPhaseTable() {
 
 	const processRowUpdate = (newRow: GridRowModel) => {
 		const updatedRow = { ...newRow, isNew: false };
-		const isOld = data.length === rows.length;
 
-		console.log("isOld:", isOld);
+		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
+			// determines whether it is update or add new
+			if (data.length === rows.length) {
+				dispatch(
+					updateRoles({
+						role_id: newRow.role_id,
+						title: newRow.title,
+						role_sh_name: newRow.role_sh_name,
+						role_user_level: newRow.role_user_level,
+					})
+				);
+			} else {
+				console.log("newRow:", newRow);
+				dispatch(
+					addRoles({
+						title: newRow.title,
+						role_sh_name: newRow.role_sh_name,
+						role_user_level: newRow.role_user_level,
+						reg_id: newRow.reg_id,
+						update_id: newRow.update_id,
+					})
+				);
+			}
 
-		if (isOld) {
-			dispatch(
-				updateRoles({
-					role_id: newRow.role_id,
-					title: newRow.title,
-					role_sh_name: newRow.role_sh_name,
-					role_user_level: newRow.role_user_level,
-				})
+			setRows(data);
+			const success = handleClickSnackpack(
+				"Role is added successfully",
+				"success"
 			);
+			success();
 		} else {
-			console.log("newRow:", newRow);
-			dispatch(
-				addRoles({
-					title: newRow.title,
-					role_sh_name: newRow.role_sh_name,
-					role_user_level: newRow.role_user_level,
-					reg_id: newRow.reg_id,
-					update_id: newRow.update_id,
-				})
+			const cancel = handleCancelClick(newRow.role_id);
+			const error = handleClickSnackpack(
+				"All fields are required! Please, try again.",
+				"error"
 			);
+			cancel();
+			error();
 		}
 
-		setRows(data);
 		return updatedRow;
 	};
 
@@ -313,6 +413,71 @@ export default function DevelopmentPhaseTable() {
 					toolbar: { setRows, setRowModesModel },
 				}}
 			/>
+			<Snackbar
+				key={messageInfo ? messageInfo.key : undefined}
+				open={open}
+				autoHideDuration={2000}
+				onClose={handleClose}
+				TransitionProps={{ onExited: handleExited }}
+				// message={messageInfo ? messageInfo.message : undefined}
+			>
+				<Alert
+					onClose={handleClose}
+					severity={severity}
+					sx={{ width: "100%" }}
+					variant="filled"
+				>
+					{messageInfo ? messageInfo.message : undefined}
+				</Alert>
+			</Snackbar>
+			<Dialog
+				fullScreen={fullScreen}
+				open={ask}
+				onClose={handleCloseConfirm}
+				aria-labelledby="responsive-dialog-title"
+			>
+				<DialogTitle id="responsive-dialog-title">
+					<Typography
+						fontFamily={"Montserrat, san-serif"}
+						fontWeight={700}
+						fontSize={24}
+						display={"flex"}
+						alignItems={"center"}
+						gap={1}
+					>
+						<HelpIcon
+							accentHeight={100}
+							color="error"
+							fontSize="large"
+							alignmentBaseline="middle"
+						/>
+						{"Delete this role?"}
+					</Typography>
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText fontFamily={"Montserrat, san-serif"}>
+						Be warned that deleting a record is irreversible. <br />
+						Please, proceed with caution.
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button
+						variant="contained"
+						onClick={proceedWithDelete}
+						autoFocus
+						sx={{ fontFamily: "Montserrat, san-serif" }}
+					>
+						Delete
+					</Button>
+
+					<Button
+						sx={{ fontFamily: "Montserrat, san-serif" }}
+						onClick={handleCloseConfirm}
+					>
+						Cancel
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</Box>
 	);
 }
