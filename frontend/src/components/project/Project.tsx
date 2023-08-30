@@ -78,6 +78,7 @@ export default function Project() {
                         fontSize: 16,
                         backgroundColor: "#dce0e0",
                         borderRadius: "5px",
+                        border:"none",
                       }}
                     />
                   </div>
@@ -93,6 +94,7 @@ export default function Project() {
                         fontSize: 16,
                         backgroundColor: "#dce0e0",
                         borderRadius: "5px",
+                        border:"none",
                       }}
                     />
                   </div>
@@ -112,6 +114,7 @@ export default function Project() {
                           fontSize: 16,
                           backgroundColor: "#dce0e0",
                           borderRadius: "5px",
+                          border:"none",
                         }}
                       />
                     </div>
@@ -127,6 +130,7 @@ export default function Project() {
                           fontSize: 16,
                           backgroundColor: "#dce0e0",
                           borderRadius: "5px",
+                          border:"none",
                         }}
                       />
                     </div>
