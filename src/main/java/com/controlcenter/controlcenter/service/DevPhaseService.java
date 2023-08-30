@@ -9,6 +9,6 @@ public interface DevPhaseService {
     public String addDevPhase(DevPhase devPhase);
     public String editDevPhaseInfo(String id, DevPhase devPhase);
     public String logicalDeleteDevPhase(String id);
-
+    public String restoreDevPhase(String id);
     
 }
