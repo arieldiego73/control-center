@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.DevPhase;
+import com.controlcenter.controlcenter.model.DevPhaseInput;
+import com.controlcenter.controlcenter.model.DevPhaseOutput;
 
 @Mapper
 public interface DevPhaseDao {
-    List<DevPhase> getAllDevPhase();
-    void addDevPhase(DevPhase devPhase);
+    List<DevPhaseOutput> getAllDevPhase();
+    void addDevPhase(DevPhaseInput devPhase);
     void editDevPhaseInfo(Map<String, Object> paramMap);
     void logicalDeleteDevPhase(String id);
     void restoreDevPhase(String id);

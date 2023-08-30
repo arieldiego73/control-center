@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { login } from "../../redux/saga/sessionSaga";
 import { Card, makeStyles } from "@material-ui/core";
-import { Container, FormHelperText, InputAdornment } from "@mui/material";
+import { FormHelperText, InputAdornment } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store/store";
 import { Error, Info } from "@mui/icons-material";
@@ -24,9 +24,9 @@ const userStyle = makeStyles({
 		backgroundPosition: "center",
 		backgroundRepeat: "no-repeat",
 		//media query
-		'@media (max-width: 468px)': {
+		"@media (max-width: 468px)": {
 			backgroundImage: "none",
-		}
+		},
 	},
 	loginCard: {
 		display: "flex",
@@ -41,31 +41,31 @@ const userStyle = makeStyles({
 		backgroundColor: "#fff",
 		margin: "auto",
 		//media query
-		'@media (max-width: 380px)': {
+		"@media (max-width: 380px)": {
 			//border: "1px solid red",
 			alignItems: "center",
 			height: "350px",
 			minWidth: "200px",
 			backgroundColor: "#fff",
 			margin: "auto 50px",
-		}
+		},
 	},
 	logo: {
 		width: "250px",
 		marginBottom: "30px",
 		//media query
-		'@media (max-width: 380px)': {
+		"@media (max-width: 380px)": {
 			width: "250px",
 			marginBottom: "30px",
-		}
+		},
 	},
 	loginForm: {
 		//height: "320px",
 		width: "300px",
 		//media query
-		'@media (max-width: 380px)': {
-			width: "250px"
-		}
+		"@media (max-width: 380px)": {
+			width: "250px",
+		},
 	},
 });
 const LoginBox = () => {
