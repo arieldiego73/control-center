@@ -27,7 +27,7 @@ public class PersonalInfoServiceImpl implements PersonalInfoService{
         try {
             personalInfoDao.addPersonalInfo(personalInfo);
 
-            return "Info Added Successfully.";
+            return "Personal Info Added Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -43,7 +43,7 @@ public class PersonalInfoServiceImpl implements PersonalInfoService{
 
             personalInfoDao.editPersonalInfo(paramMap);
 
-            return "Info Edited Successfully.";
+            return "Personal Info Edited Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -54,7 +54,18 @@ public class PersonalInfoServiceImpl implements PersonalInfoService{
         try {
             personalInfoDao.logicalDeletePersonalInfo(id);
             
-            return "Info Deleted Successfully.";
+            return "Personal Info Deleted Successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String restorePersonalInfo(String id) {
+        try {
+            personalInfoDao.restorePersonalInfo(id);
+            
+            return "Personal Info Deleted Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

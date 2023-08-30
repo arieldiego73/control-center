@@ -40,4 +40,9 @@ public class PersonalInfoController {
     public String logicalDeletePersonalInfo(@PathVariable String id) {
         return personalInfoService.logicalDeletePersonalInfo(id);
     }
+
+    @PutMapping("restore/{id}")
+    public String restorePersonalInfo(@PathVariable String id) {
+        return personalInfoService.restorePersonalInfo(id);
+    }
 }

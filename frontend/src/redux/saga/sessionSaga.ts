@@ -1,9 +1,7 @@
-// src/sagas/sessionSaga.ts
 import { put, takeLatest, call } from "redux-saga/effects";
 import { setUser } from "../state/sessionState";
 import { createAction } from "@reduxjs/toolkit";
 
-// Simulate API call
 const apiLogin = async (username: string, password: string): Promise<any> => {
 	try {
 		const response = await fetch("http://localhost:8080/user/login", {
