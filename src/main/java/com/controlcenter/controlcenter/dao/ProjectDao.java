@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.Project;
+import com.controlcenter.controlcenter.model.ProjectInput;
+import com.controlcenter.controlcenter.model.ProjectOutput;
 
 @Mapper
 public interface ProjectDao {
-    List<Project> getAllProject();
-    void addProject(Project project);
+    List<ProjectOutput> getAllProject();
+    void addProject(ProjectInput project);
     void editProjectInfo(Map<String, Object> paramMap);
     void logicalDeleteProject(String id);
     void restoreProject(String id);
