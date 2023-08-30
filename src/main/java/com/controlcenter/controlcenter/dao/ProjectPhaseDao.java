@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.ProjectPhase;
+import com.controlcenter.controlcenter.model.ProjectPhaseInput;
+import com.controlcenter.controlcenter.model.ProjectPhaseOutput;
 
 @Mapper
 public interface ProjectPhaseDao {
-    List<ProjectPhase> getAllProjectPhase();
-    void addProjectPhase(ProjectPhase projectPhase);
+    List<ProjectPhaseOutput> getAllProjectPhase();
+    void addProjectPhase(ProjectPhaseInput projectPhase);
     void editProjectPhase(Map<String, Object> paramMap);
     void logicalDeleteProjectPhase(String id);
     void restoreProjectPhase(String id);

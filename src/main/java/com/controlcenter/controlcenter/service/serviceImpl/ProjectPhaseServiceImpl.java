@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ProjectPhaseDao;
-import com.controlcenter.controlcenter.model.ProjectPhase;
+import com.controlcenter.controlcenter.model.ProjectPhaseInput;
+import com.controlcenter.controlcenter.model.ProjectPhaseOutput;
 import com.controlcenter.controlcenter.service.ProjectPhaseService;
 
 @Service
@@ -18,12 +19,12 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
     ProjectPhaseDao projectPhaseDao;
 
     @Override
-    public List<ProjectPhase> getAllProjectPhase(){
+    public List<ProjectPhaseOutput> getAllProjectPhase(){
         return projectPhaseDao.getAllProjectPhase();
     }
 
     @Override
-    public String addProjectPhase(ProjectPhase projectPhase){
+    public String addProjectPhase(ProjectPhaseInput projectPhase){
         try {
             projectPhaseDao.addProjectPhase(projectPhase);
             return "Project Phase Added Successfully.";
@@ -33,7 +34,7 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
     }
 
     @Override
-    public String editProjectPhase(String id, ProjectPhase projectPhase){
+    public String editProjectPhase(String id, ProjectPhaseInput projectPhase){
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
