@@ -2,13 +2,14 @@ package com.controlcenter.controlcenter.service;
 
 import java.util.List;
 
-import com.controlcenter.controlcenter.model.ProjInfo;
+import com.controlcenter.controlcenter.model.ProjInfoInput;
+import com.controlcenter.controlcenter.model.ProjInfoOutput;
 
 public interface ProjInfoService {
     
-    public List<ProjInfo> getAllProjInfo();
-    public String addProjInfo(ProjInfo projInfo);
-    public String editProjInfoInfo(String id, ProjInfo projInfo);
+    public List<ProjInfoOutput> getAllProjInfo();
+    public String addProjInfo(ProjInfoInput projInfo);
+    public String editProjInfoInfo(String id, ProjInfoInput projInfo);
     public String logicalDeleteProjInfo(String id);
 
 }
