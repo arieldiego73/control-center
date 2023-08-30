@@ -10,4 +10,5 @@ public interface PersonalInfoService {
     public String addPersonalInfo(PersonalInfo personalInfo);
     public String editPersonalInfo(String id, PersonalInfo personalInfo);
     public String logicalDeletePersonalInfo(String id);
+    public String restorePersonalInfo(String id);
 }
