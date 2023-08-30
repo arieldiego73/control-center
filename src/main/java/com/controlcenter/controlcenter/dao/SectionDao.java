@@ -6,12 +6,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.Section;
+import com.controlcenter.controlcenter.model.SectionInput;
+import com.controlcenter.controlcenter.model.SectionOutput;
 
 @Mapper
 public interface SectionDao {
-    List<Section> getAllSection();
-    void addSection(Section section);
+    List<SectionOutput> getAllSection();
+    void addSection(SectionInput section);
     void editSectionInfo(Map<String, Object> paramMap);
     void logicalDeleteSection(String id);
 }

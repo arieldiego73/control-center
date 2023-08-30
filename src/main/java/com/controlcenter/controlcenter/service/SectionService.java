@@ -2,12 +2,13 @@ package com.controlcenter.controlcenter.service;
 
 import java.util.List;
 
-import com.controlcenter.controlcenter.model.Section;
+import com.controlcenter.controlcenter.model.SectionInput;
+import com.controlcenter.controlcenter.model.SectionOutput;
 
 public interface SectionService {
-    public List<Section> getAllSection();
-    public String addSection(Section section);
-    public String editSectionInfo(String id, Section section);
+    public List<SectionOutput> getAllSection();
+    public String addSection(SectionInput section);
+    public String editSectionInfo(String id, SectionInput section);
     public String logicalDeleteSection(String id);
 
     
