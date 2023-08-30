@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.UserProject;
+import com.controlcenter.controlcenter.model.UserProjectInput;
+import com.controlcenter.controlcenter.model.UserProjectOutput;
 import com.controlcenter.controlcenter.service.UserProjectService;
 
 @RestController
@@ -22,17 +23,17 @@ public class UserProjectController {
     public UserProjectService userProjectService;
 
     @GetMapping("/all")
-    public List<UserProject> getAllUserProject() {
+    public List<UserProjectOutput> getAllUserProject() {
         return userProjectService.getAllUserProject();
     }
 
     @PostMapping("/add")
-    public String addUserProject(@RequestBody UserProject userProject){
+    public String addUserProject(@RequestBody UserProjectInput userProject){
         return userProjectService.addUserProject(userProject);
     }
 
     @PutMapping("/edit/{id}")
-    public String editUserProjectInfo(@PathVariable String id, @RequestBody UserProject userProject) {
+    public String editUserProjectInfo(@PathVariable String id, @RequestBody UserProjectInput userProject) {
         return userProjectService.editUserProjectInfo(id, userProject);
     }
 

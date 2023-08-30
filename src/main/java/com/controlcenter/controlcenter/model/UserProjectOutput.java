@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserProject {
+public class UserProjectOutput {
     private Long upid;
     private String emp_id;
     private int proj_id;
