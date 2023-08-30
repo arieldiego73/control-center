@@ -51,10 +51,18 @@ public class ProjInfoServiceImpl implements ProjInfoService{
     @Override
     public String logicalDeleteProjInfo(String id) {
         try {
-        
             projInfoDao.logicalDeleteProjInfo(id);
-
             return "Project Info Deleted Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+    
+    @Override
+    public String restoreProjInfo(String id) {
+        try {
+            projInfoDao.restoreProjInfo(id);
+            return "Project Info Restored Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
