@@ -4,8 +4,8 @@ import com.controlcenter.controlcenter.dao.PersonalInfoDao;
 import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.Account;
 import com.controlcenter.controlcenter.model.PersonalInfoInput;
-import com.controlcenter.controlcenter.model.PersonalInfoOutput;
-import com.controlcenter.controlcenter.model.User;
+import com.controlcenter.controlcenter.model.UserInput;
+import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.service.UserService;
 
 import java.util.List;
@@ -26,18 +26,18 @@ public class UserServiceImpl implements UserService {
   @Autowired PasswordEncoder passEnc;
 
   @Override
-  public List<User> findAll() {
+  public List<UserOutput> findAll() {
     return userDao.findAll();
   }
 
   @Override
-  public User getUserById(Long id) {
+  public UserInput getUserById(Long id) {
     return userDao.getUserById(id);
   }
 
   @Override
-  public String insertUser(User user) {
-    User userHashed = user;
+  public String insertUser(UserInput user) {
+    UserInput userHashed = user;
     userHashed.setPassword(passEnc.encode(user.getPassword()));
 
     try {
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public String addAccount(Account account) {
-    User user = new User();
+    UserInput user = new UserInput();
     PersonalInfoInput personalInfo = new PersonalInfoInput();
 
     account.setPassword(passEnc.encode(account.getPassword()));
@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
     user.setRole_id(account.getRole_id());
     user.setImg_src(account.getImg_src());
     user.setReg_id(account.getReg_id());
-    user.setUpdate_id(account.getUpdate_id());
 
     //initializing the value of personal info.
     personalInfo.setEmp_id(account.getEmp_id());
@@ -95,7 +94,7 @@ public class UserServiceImpl implements UserService {
   //   }
 
   @Override
-  public User getUserByUsername(User user) {
+  public UserInput getUserByUsername(UserInput user) {
     return userDao.getUserByUsername(user);
   }
 }

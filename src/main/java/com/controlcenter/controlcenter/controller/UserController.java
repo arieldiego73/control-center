@@ -1,7 +1,8 @@
 package com.controlcenter.controlcenter.controller;
 
 import com.controlcenter.controlcenter.model.Account;
-import com.controlcenter.controlcenter.model.User;
+import com.controlcenter.controlcenter.model.UserInput;
+import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +26,20 @@ public class UserController {
   private PasswordEncoder passEnc;
 
   @GetMapping("/all")
-  public ResponseEntity<List<User>> getAllUsers() {
-    List<User> users = userService.findAll();
+  public ResponseEntity<List<UserOutput>> getAllUsers() {
+    List<UserOutput> users = userService.findAll();
     return ResponseEntity.ok(users);
   }
 
   @GetMapping("/user/{id}")
-  public ResponseEntity<User> getUserById(@PathVariable Long id) {
-    User user = userService.getUserById(id);
+  public ResponseEntity<UserInput> getUserById(@PathVariable Long id) {
+    UserInput user = userService.getUserById(id);
     return ResponseEntity.ok(user);
   }
 
   @PostMapping("/create")
-  public String createUser(@RequestBody User user) {
-    User userHashed = user;
+  public String createUser(@RequestBody UserInput user) {
+    UserInput userHashed = user;
     userHashed.setPassword(passEnc.encode(user.getPassword()));
 
     try {
@@ -60,11 +61,11 @@ public class UserController {
   // }
 
   @PostMapping("/login")
-  public ResponseEntity<User> getUserByUsernameAndPassword(
-    @RequestBody User user
+  public ResponseEntity<UserInput> getUserByUsernameAndPassword(
+    @RequestBody UserInput user
   ) {
-    User userFromDB = userService.getUserByUsername(user);
-    User nullUser = new User(); // for incorrect input
+    UserInput userFromDB = userService.getUserByUsername(user);
+    UserInput nullUser = new UserInput(); // for incorrect input
     if (userFromDB != null) {
       boolean isMatched = passEnc.matches(
         user.getPassword(),
