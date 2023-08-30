@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.MultiRole;
+import com.controlcenter.controlcenter.model.MultiRoleInput;
+import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.service.MultiRoleService;
 
 @RestController
@@ -22,17 +23,17 @@ public class MultiRoleController {
     public MultiRoleService multiRoleService;
 
     @GetMapping("/all")
-    public List<MultiRole> getAllMultiRole() {
+    public List<MultiRoleOutput> getAllMultiRole() {
         return multiRoleService.getAllMultiRole();
     }
 
     @PostMapping("/add")
-    public String addMultiRole(@RequestBody MultiRole multiRole){
+    public String addMultiRole(@RequestBody MultiRoleInput multiRole){
         return multiRoleService.addMultiRole(multiRole);
     }
 
     @PutMapping("/edit/{id}")
-    public String editMultiRoleInfo(@PathVariable String id, @RequestBody MultiRole multiRole) {
+    public String editMultiRoleInfo(@PathVariable String id, @RequestBody MultiRoleInput multiRole) {
         return multiRoleService.editMultiRoleInfo(id, multiRole);
     }
 

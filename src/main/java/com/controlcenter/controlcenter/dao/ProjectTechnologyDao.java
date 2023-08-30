@@ -5,13 +5,14 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.ProjectTechnology;
+import com.controlcenter.controlcenter.model.ProjectTechnologyInput;
+import com.controlcenter.controlcenter.model.ProjectTechnologyOutput;
 
 @Mapper
 public interface ProjectTechnologyDao {
-    List<ProjectTechnology> getAllProjectTechnology();
-    void addProjectTechnology(ProjectTechnology projectTechnology);
+    List<ProjectTechnologyOutput> getAllProjectTechnology();
+    void addProjectTechnology(ProjectTechnologyInput projectTechnology);
     void editProjectTechnology(Map<String, Object> paramMap);
     void logicalDeleteProjectTechnology(String id);
-    
+    void restoreProjectTechnology(String id);
 }

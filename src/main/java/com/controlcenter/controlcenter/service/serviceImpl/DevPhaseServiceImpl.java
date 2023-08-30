@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DevPhaseDao;
-import com.controlcenter.controlcenter.model.DevPhase;
+import com.controlcenter.controlcenter.model.DevPhaseInput;
+import com.controlcenter.controlcenter.model.DevPhaseOutput;
 import com.controlcenter.controlcenter.service.DevPhaseService;
 
 @Service
@@ -18,12 +19,12 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     public DevPhaseDao devPhaseDao;
 
     @Override
-    public List<DevPhase> getAllDevPhase(){
+    public List<DevPhaseOutput> getAllDevPhase(){
         return devPhaseDao.getAllDevPhase();
     }
     
     @Override
-    public String addDevPhase(DevPhase devPhase) {
+    public String addDevPhase(DevPhaseInput devPhase) {
         try {
             devPhaseDao.addDevPhase(devPhase);
             return "Development Phase Added Successfully";
@@ -33,7 +34,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     }
 
     @Override 
-    public String editDevPhaseInfo(String id, DevPhase devPhase) {
+    public String editDevPhaseInfo(String id, DevPhaseInput devPhase) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);

@@ -3,7 +3,8 @@ package com.controlcenter.controlcenter.service.serviceImpl;
 import com.controlcenter.controlcenter.dao.PersonalInfoDao;
 import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.Account;
-import com.controlcenter.controlcenter.model.PersonalInfo;
+import com.controlcenter.controlcenter.model.PersonalInfoInput;
+import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.User;
 import com.controlcenter.controlcenter.service.UserService;
 
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public String addAccount(Account account) {
     User user = new User();
-    PersonalInfo personalInfo = new PersonalInfo();
+    PersonalInfoInput personalInfo = new PersonalInfoInput();
 
     account.setPassword(passEnc.encode(account.getPassword()));
 
@@ -73,8 +74,6 @@ public class UserServiceImpl implements UserService {
     personalInfo.setLname(account.getLname());
     personalInfo.setMname(account.getMname());
     personalInfo.setEmail(account.getEmail());
-    personalInfo.setReg_id(account.getReg_id());
-    personalInfo.setUpdate_id(account.getUpdate_id());
 
     try {
       userDao.insertUser(user);

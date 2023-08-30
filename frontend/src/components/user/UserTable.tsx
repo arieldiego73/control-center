@@ -26,27 +26,27 @@ interface RowData {
 
 
 const rows: RowData[] = [
-	{ assocID: 1, username: 'smateo1', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 1, created: '08-29-23' },
-	{ assocID: 2, username: 'smateo2', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 2, created: '08-29-23' },
-	{ assocID: 3, username: 'smateo3', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 3, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },	
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
-	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'pookiechips@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 1, username: 'smateo1', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 1, created: '08-29-23' },
+	{ assocID: 2, username: 'smateo2', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 2, created: '08-29-23' },
+	{ assocID: 3, username: 'smateo3', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 3, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },	
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
+	{ assocID: 4, username: 'smateo4', firstName: 'shernan jenesis', middleName: 'badilles', lastName: 'mateo', position: 'trainee', email: 'myEmail@yahoo.com', businessUnit: 'BU III', department: 4, created: '08-29-23' },
 
 
 ];
@@ -87,13 +87,13 @@ export default function UserTable() {
 									username
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
-									firstName
+									first name
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
-									lastName
+									last name
 								</TableCell>
 								<TableCell align="center" sx={headerCellStyle} >
-									middleName
+									middle name
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
 									position
@@ -102,7 +102,7 @@ export default function UserTable() {
 									email
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
-									businessUnit
+									business unit
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
 									department

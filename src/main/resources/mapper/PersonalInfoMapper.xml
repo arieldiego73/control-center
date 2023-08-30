@@ -4,22 +4,21 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.PersonalInfoDao">
 
 <!-- Fetch Data -->
-    <select id="getAllPersonalInfo" resultType="com.controlcenter.controlcenter.model.PersonalInfo">
-        SELECT * 
+    <select id="getAllPersonalInfo" resultType="com.controlcenter.controlcenter.model.PersonalInfoOutput">
+        SELECT pid, emp_id, fname, lname, mname, email
           FROM tbl_personal_info
          WHERE del_flag = 0;
     </select>
 
 <!-- Add Data -->
-    <insert id="addPersonalInfo" parameterType="com.controlcenter.controlcenter.model.PersonalInfo">
+    <insert id="addPersonalInfo" parameterType="com.controlcenter.controlcenter.model.PersonalInfoInput">
         INSERT INTO tbl_personal_info(
             emp_id, 
             fname, 
             lname, 
             mname, 
             email, 
-            reg_id, 
-            update_id
+            reg_id
         )
         VALUES (
             #{emp_id}, 
@@ -27,8 +26,7 @@
             #{lname}, 
             #{mname}, 
             #{email}, 
-            #{reg_id}, 
-            #{update_id}
+            1
         );
     </insert>
 
@@ -38,7 +36,8 @@
            SET fname=#{personalInfo.fname}, 
                lname=#{personalInfo.lname}, 
                mname=#{personalInfo.mname}, 
-               email=#{personalInfo.email}
+               email=#{personalInfo.email},
+               update_id = 1
          
         WHERE pid = #{id}
     </update>

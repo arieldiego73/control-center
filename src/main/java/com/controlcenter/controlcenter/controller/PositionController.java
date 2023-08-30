@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.Position;
+import com.controlcenter.controlcenter.model.PositionInput;
+import com.controlcenter.controlcenter.model.PositionOutput;
 import com.controlcenter.controlcenter.service.PositionService;
 
 @RestController
@@ -23,22 +24,27 @@ public class PositionController {
     public PositionService positionService;
 
     @GetMapping("/all")
-    public List<Position> getAllPosition() {
+    public List<PositionOutput> getAllPosition() {
         return positionService.getAllPosition();
     }
 
     @PostMapping("/add")
-    public String addPosition(@RequestBody Position position) {
+    public String addPosition(@RequestBody PositionInput position) {
         return positionService.addPosition(position);
     }
 
     @PutMapping("/edit/{id}")
-    public String editPositionInfo(@PathVariable String id, @RequestBody Position position) {
+    public String editPositionInfo(@PathVariable String id, @RequestBody PositionInput position) {
         return positionService.editPositionInfo(id, position);
     }
 
     @PutMapping("/delete/{id}")
     public String logicalDeltePosition(@PathVariable String id) {
         return positionService.logicalDeletePosition(id);
+    }
+
+    @PutMapping("/restore/{id}")
+    public String restorePosition(@PathVariable String id) {
+        return positionService.restorePosition(id);
     }
 }

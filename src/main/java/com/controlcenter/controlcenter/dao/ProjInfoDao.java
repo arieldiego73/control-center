@@ -6,15 +6,16 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.ProjInfo;
+import com.controlcenter.controlcenter.model.ProjInfoInput;
+import com.controlcenter.controlcenter.model.ProjInfoOutput;
 
 @Mapper
 public interface ProjInfoDao {
     
-    List<ProjInfo> getAllProjInfo();
-    void addProjInfo(ProjInfo projInfo);
+    List<ProjInfoOutput> getAllProjInfo();
+    void addProjInfo(ProjInfoInput projInfo);
     void editProjInfoInfo(Map<String, Object> paramMap);
     void logicalDeleteProjInfo(String id);
-
+    void restoreProjInfo(String id);
     
 }
