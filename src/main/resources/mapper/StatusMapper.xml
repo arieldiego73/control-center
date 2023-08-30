@@ -6,32 +6,31 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.StatusDao">
 
 <!-- Fetch Data -->
-    <select id="getAllStatus" resultType="com.controlcenter.controlcenter.model.Status">
-        SELECT *
+    <select id="getAllStatus" resultType="com.controlcenter.controlcenter.model.StatusOutput">
+        SELECT status_code, status_name
          FROM tbl_status_mst
         WHERE del_flag = 0;
     </select>
 
 <!-- Add Data -->
-    <insert id="addStatus" parameterType="com.controlcenter.controlcenter.model.Status">
+    <insert id="addStatus" parameterType="com.controlcenter.controlcenter.model.StatusInput">
         INSERT INTO tbl_status_mst (
             status_code, 
             status_name, 
-            reg_id, 
-            update_id
+            reg_id
         )
         VALUES (
             #{status_code}, 
             #{status_name}, 
-            #{reg_id}, 
-            #{update_id}
+            1
         );
     </insert>
     
 <!-- Update Data -->
     <update id="editStatusInfo" parameterType="map">
         UPDATE tbl_status_mst
-           SET status_name=#{status.status_name}
+           SET status_name=#{status.status_name},
+               update_id = 1
          WHERE status_code = #{code}
     </update>
 

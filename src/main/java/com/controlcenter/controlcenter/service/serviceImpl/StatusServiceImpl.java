@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.StatusDao;
-import com.controlcenter.controlcenter.model.Status;
+import com.controlcenter.controlcenter.model.StatusInput;
+import com.controlcenter.controlcenter.model.StatusOutput;
 import com.controlcenter.controlcenter.service.StatusService;
 
 @Service
@@ -18,12 +19,12 @@ public class StatusServiceImpl implements StatusService{
     public StatusDao statusDao;
 
     @Override
-    public List<Status> getAllStatus(){
+    public List<StatusOutput> getAllStatus(){
         return statusDao.getAllStatus();
     }
 
     @Override
-    public String addStatus(Status status){
+    public String addStatus(StatusInput status){
         try{
             statusDao.addStatus(status);
             return "Status Added Successfully";
@@ -33,7 +34,7 @@ public class StatusServiceImpl implements StatusService{
     }
 
     @Override
-    public String editStatusInfo(String code, Status status){
+    public String editStatusInfo(String code, StatusInput status){
         try{
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("code", code);
