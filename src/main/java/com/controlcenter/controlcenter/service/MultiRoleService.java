@@ -9,4 +9,5 @@ public interface MultiRoleService {
     public String addMultiRole(MultiRole multiRole);
     public String editMultiRoleInfo(String id, MultiRole multiRole);
     public String logicalDeleteMultiRole(String id);
+    public String restoreMultiRole(String id);
 }

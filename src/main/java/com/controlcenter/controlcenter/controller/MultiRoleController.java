@@ -41,4 +41,9 @@ public class MultiRoleController {
         return multiRoleService.logicalDeleteMultiRole(id);
     }
 
+    @PutMapping("/restore/{id}")
+    public String restoreMultiRole(@PathVariable String id) {
+        return multiRoleService.restoreMultiRole(id);
+    }
+
 }
