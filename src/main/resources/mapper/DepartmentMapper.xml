@@ -4,7 +4,7 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.DepartmentDao">
 
     <select id="getAllDepartment" resultType="com.controlcenter.controlcenter.model.DepartmentOutput">
-        SELECT dept_id, dept_name, reg_id, update_id
+        SELECT dept_id, dept_name
           FROM tbl_department_mst
          WHERE del_flag = 0;
     </select>
