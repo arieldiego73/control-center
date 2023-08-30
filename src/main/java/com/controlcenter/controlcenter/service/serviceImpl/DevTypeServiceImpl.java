@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DevTypeDao;
-import com.controlcenter.controlcenter.model.DevType;
+import com.controlcenter.controlcenter.model.DevTypeInput;
+import com.controlcenter.controlcenter.model.DevTypeOutput;
 import com.controlcenter.controlcenter.service.DevTypeService;
 
 @Service
@@ -17,12 +18,12 @@ public class DevTypeServiceImpl implements DevTypeService {
     public DevTypeDao devTypeDao;
 
     @Override
-    public List<DevType> getAllDevType(){
+    public List<DevTypeOutput> getAllDevType(){
         return devTypeDao.getAllDevType();
     }
     
     @Override
-    public String addDevType(DevType devType) {
+    public String addDevType(DevTypeInput devType) {
         try {
             devTypeDao.addDevType(devType);
             return "Development Type Added Successfully";
@@ -32,7 +33,7 @@ public class DevTypeServiceImpl implements DevTypeService {
     }
 
     @Override 
-    public String editDevTypeInfo(String id, DevType devType) {
+    public String editDevTypeInfo(String id, DevTypeInput devType) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);

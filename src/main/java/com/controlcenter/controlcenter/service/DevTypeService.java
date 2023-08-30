@@ -2,15 +2,16 @@ package com.controlcenter.controlcenter.service;
 
 import java.util.List;
 
-import com.controlcenter.controlcenter.model.DevType;
+import com.controlcenter.controlcenter.model.DevTypeInput;
+import com.controlcenter.controlcenter.model.DevTypeOutput;
 
 
 
 public interface DevTypeService {
 
-    public List<DevType> getAllDevType();
-    public String addDevType(DevType devType);
-    public String editDevTypeInfo(String id, DevType devType);
+    public List<DevTypeOutput> getAllDevType();
+    public String addDevType(DevTypeInput devType);
+    public String editDevTypeInfo(String id, DevTypeInput devType);
     public String logicalDeleteDevType(String id);
     public String restoreDevType(String id);
 }
