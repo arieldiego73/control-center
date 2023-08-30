@@ -41,5 +41,10 @@ public class ProjMemberController {
     public String logicalDeleteProjMember(@PathVariable String id) {
         return projMemberService.logicalDeleteProjMember(id);
     }
+    
+    @PutMapping("/restore/{id}")
+    public String restoreProjMember(@PathVariable String id) {
+        return projMemberService.restoreProjMember(id);
+    }
 }
 

@@ -14,5 +14,5 @@ public interface ProjMemberDao {
     void addProjMember(ProjMemberInput projMember);
     void editProjMemberInfo(Map<String, Object> paramMap);
     void logicalDeleteProjMember(String id);
-
+    void restoreProjMember(String id);
 }

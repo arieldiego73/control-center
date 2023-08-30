@@ -11,5 +11,5 @@ public interface ProjMemberService {
     public String addProjMember(ProjMemberInput projMember);
     public String editProjMemberInfo(String id, ProjMemberInput projMember);
     public String logicalDeleteProjMember(String id);
-
+    public String restoreProjMember(String id);
 }

@@ -43,7 +43,7 @@ public class ProjMemberServiceImpl implements ProjMemberService{
 
             projMemberDao.editProjMemberInfo(paramMap);
 
-            return "Project Member Info Edited Successfully";
+            return "Project Member Edited Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -52,10 +52,18 @@ public class ProjMemberServiceImpl implements ProjMemberService{
     @Override
     public String logicalDeleteProjMember(String id) {
         try {
-        
             projMemberDao.logicalDeleteProjMember(id);
+            return "Project Member Deleted Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 
-            return "Project MemberDao Deleted Successfully";
+    @Override
+    public String restoreProjMember(String id) {
+        try {
+            projMemberDao.restoreProjMember(id);
+            return "Project Member Restored Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
