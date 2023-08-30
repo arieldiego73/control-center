@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.PersonalInfoDao;
-import com.controlcenter.controlcenter.model.PersonalInfo;
+import com.controlcenter.controlcenter.model.PersonalInfoInput;
+import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.service.PersonalInfoService;
 
 @Service
@@ -18,12 +19,12 @@ public class PersonalInfoServiceImpl implements PersonalInfoService{
     public PersonalInfoDao personalInfoDao;
 
     @Override 
-    public List<PersonalInfo> getAllPersonalInfo() {
+    public List<PersonalInfoOutput> getAllPersonalInfo() {
         return personalInfoDao.getAllPersonalInfo();
     }
 
     @Override
-    public String addPersonalInfo(PersonalInfo personalInfo) {
+    public String addPersonalInfo(PersonalInfoInput personalInfo) {
         try {
             personalInfoDao.addPersonalInfo(personalInfo);
 
@@ -34,7 +35,7 @@ public class PersonalInfoServiceImpl implements PersonalInfoService{
     }
 
     @Override
-    public String editPersonalInfo(String id, PersonalInfo personalInfo) {
+    public String editPersonalInfo(String id, PersonalInfoInput personalInfo) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
 

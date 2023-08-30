@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.PersonalInfo;
+import com.controlcenter.controlcenter.model.PersonalInfoInput;
+import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.service.PersonalInfoService;
 
 @RestController
@@ -22,17 +23,17 @@ public class PersonalInfoController {
     public PersonalInfoService personalInfoService;
 
     @GetMapping("/all")
-    public List<PersonalInfo> getAllPersonalInfo() {
+    public List<PersonalInfoOutput> getAllPersonalInfo() {
         return personalInfoService.getAllPersonalInfo();
     }
 
     @PostMapping("/add")
-    public String addPersonalInfo(@RequestBody PersonalInfo personalInfo) {
+    public String addPersonalInfo(@RequestBody PersonalInfoInput personalInfo) {
         return personalInfoService.addPersonalInfo(personalInfo);
     }
 
     @PutMapping("/edit/{id}")
-    public String editPersonalInfo(@PathVariable String id, @RequestBody PersonalInfo personalInfo) {
+    public String editPersonalInfo(@PathVariable String id, @RequestBody PersonalInfoInput personalInfo) {
         return personalInfoService.editPersonalInfo(id, personalInfo);
     }
 
