@@ -2,13 +2,14 @@ package com.controlcenter.controlcenter.service;
 
 import java.util.List;
 
-import com.controlcenter.controlcenter.model.Client;
+import com.controlcenter.controlcenter.model.ClientInput;
+import com.controlcenter.controlcenter.model.ClientOutput;
 
 public interface ClientService {
     
-    public List<Client> getAllClient();
-    public String addClient(Client client);
-    public String editClient(String id, Client client);
+    public List<ClientOutput> getAllClient();
+    public String addClient(ClientInput client);
+    public String editClient(String id, ClientInput client);
     public String logicalDeleteClient(String id);
     public String restoreClient(String id);
 }
