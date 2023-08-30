@@ -41,4 +41,9 @@ public class StatusController {
     public String logicalDeleteStatus(@PathVariable String code){
         return statusService.logicalDeleteStatus(code);
     }
+    
+    @PutMapping("/restore/{code}")
+    public String restoreStatus(@PathVariable String code){
+        return statusService.restoreStatus(code);
+    }
 }

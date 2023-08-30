@@ -14,5 +14,6 @@ public interface StatusDao {
     void addStatus(StatusInput status);
     void editStatusInfo(Map<String, Object> paramMap);
     void logicalDeleteStatus(String code);
+    void restoreStatus(String code);
 }
 
