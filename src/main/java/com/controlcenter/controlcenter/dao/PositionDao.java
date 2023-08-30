@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.Position;
+import com.controlcenter.controlcenter.model.PositionInput;
+import com.controlcenter.controlcenter.model.PositionOutput;
 
 @Mapper
 public interface PositionDao {
-    List<Position> getAllPosition();
-    void addPosition(Position position);
+    List<PositionOutput> getAllPosition();
+    void addPosition(PositionInput position);
     void editPositionInfo(Map<String, Object> paramMap);
     void logicalDeletePosition(String id);
     void restorePosition(String id);
