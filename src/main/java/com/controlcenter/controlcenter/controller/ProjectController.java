@@ -40,4 +40,9 @@ public class ProjectController {
     public String logicalDeleteProject(@PathVariable String id) {
         return projectService.logicalDeleteProject(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreProject(@PathVariable String id) {
+        return projectService.restoreProject(id);
+    }
 }
