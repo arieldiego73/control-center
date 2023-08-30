@@ -11,5 +11,6 @@ public interface ProjInfoService {
     public String addProjInfo(ProjInfoInput projInfo);
     public String editProjInfoInfo(String id, ProjInfoInput projInfo);
     public String logicalDeleteProjInfo(String id);
+    public String restoreProjInfo(String id);
 
 }
