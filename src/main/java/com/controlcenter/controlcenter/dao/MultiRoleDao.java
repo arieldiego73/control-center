@@ -13,4 +13,5 @@ public interface MultiRoleDao {
     void addMultiRole(MultiRole multiRole);
     void editMultiRoleInfo(Map<String, Object> paramMap);
     void logicalDeleteMultiRole(String id);
+    void restoreMultiRole(String id);
 }

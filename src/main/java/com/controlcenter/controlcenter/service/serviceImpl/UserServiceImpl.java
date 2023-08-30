@@ -10,6 +10,7 @@ import com.controlcenter.controlcenter.service.UserService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +21,8 @@ public class UserServiceImpl implements UserService {
 
   @Autowired 
   public PersonalInfoDao personalInfoDao;
+
+  @Autowired PasswordEncoder passEnc;
 
   @Override
   public List<User> findAll() {
@@ -33,9 +36,12 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public String insertUser(User user) {
+    User userHashed = user;
+    userHashed.setPassword(passEnc.encode(user.getPassword()));
+
     try {
-      userDao.insertUser(user);
-      return "ok";
+      userDao.insertUser(userHashed);
+      return "User created successfully";
     } catch (Exception e) {
       return e.getMessage();
     }
@@ -45,6 +51,8 @@ public class UserServiceImpl implements UserService {
   public String addAccount(Account account) {
     User user = new User();
     PersonalInfo personalInfo = new PersonalInfo();
+
+    account.setPassword(passEnc.encode(account.getPassword()));
 
     //initializing the value of user.
     user.setEmp_id(account.getEmp_id());

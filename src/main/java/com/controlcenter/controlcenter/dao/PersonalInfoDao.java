@@ -13,4 +13,5 @@ public interface PersonalInfoDao {
     void addPersonalInfo(PersonalInfo personalInfo);
     void editPersonalInfo(Map<String, Object> paramMap);
     void logicalDeletePersonalInfo(String id);
+    void restorePersonalInfo(String id);
 }

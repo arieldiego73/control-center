@@ -22,7 +22,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { getRolesFetch } from "../../redux/state/roleState";
-import { addRoles, deleteRoles, updateRoles } from "../../redux/saga/roleSaga";
 
 interface EditToolbarProps {
 	setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -31,7 +30,7 @@ interface EditToolbarProps {
 	) => void;
 }
 
-export default function DevelopmentPhaseTable() {
+export default function RoleTable() {
 	const dispatch = useDispatch();
 	React.useEffect(() => {
 		dispatch(getRolesFetch());
@@ -47,6 +46,10 @@ export default function DevelopmentPhaseTable() {
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
+
+	React.useEffect(() => {
+		console.log("THE ROW NOW:", rows);
+	});
 
 	function EditToolbar(props: EditToolbarProps) {
 		const { setRows, setRowModesModel } = props;
@@ -84,12 +87,7 @@ export default function DevelopmentPhaseTable() {
 					variant="contained"
 					startIcon={<AddIcon />}
 					onClick={handleClick}
-					sx={{
-						marginBottom: 3,
-						position: "absolute",
-						top: -50,
-						fontFamily: "Montserrat, san-serif",
-					}}
+					sx={{ marginBottom: 3, position: "absolute", top: -50 }}
 				>
 					Add role
 				</Button>
@@ -121,8 +119,7 @@ export default function DevelopmentPhaseTable() {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		dispatch(deleteRoles({ role_id: id as number }));
-		setRows(data);
+		setRows(rows.filter((row) => row.role_id !== id));
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -142,33 +139,10 @@ export default function DevelopmentPhaseTable() {
 
 	const processRowUpdate = (newRow: GridRowModel) => {
 		const updatedRow = { ...newRow, isNew: false };
-		const isOld = data.length === rows.length;
-
-		console.log("isOld:", isOld);
-
-		if (isOld) {
-			dispatch(
-				updateRoles({
-					role_id: newRow.role_id,
-					title: newRow.title,
-					role_sh_name: newRow.role_sh_name,
-					role_user_level: newRow.role_user_level,
-				})
-			);
-		} else {
-			console.log("newRow:", newRow);
-			dispatch(
-				addRoles({
-					title: newRow.title,
-					role_sh_name: newRow.role_sh_name,
-					role_user_level: newRow.role_user_level,
-					reg_id: newRow.reg_id,
-					update_id: newRow.update_id,
-				})
-			);
-		}
-
-		setRows(data);
+		const accompRows = rows.map((row) =>
+			row.role_id === newRow.role_id ? updatedRow : row
+		);
+		setRows(accompRows);
 		return updatedRow;
 	};
 
@@ -263,27 +237,11 @@ export default function DevelopmentPhaseTable() {
 					color: "text.secondary",
 				},
 				"& .MuiDataGrid-columnHeaderTitle": {
-					fontWeight: 800,
-					fontFamily: "Montserrat, san-serif",
+					fontWeight: 900,
 				},
 				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
 					{
 						outline: "none !important",
-					},
-				"& .MuiDataGrid-root .MuiInputBase-input": {
-					textAlign: "center",
-					fontFamily: "Ubuntu, san-serif",
-					border: "1px solid rgb(193 173 173 / 37%)",
-					borderRadius: "4px",
-					backgroundColor: "#fff",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
-					padding: "0 0.8vw",
-					height: "60%",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell":
-					{
-						backgroundColor: "#cbbdbd2e",
 					},
 				"& .textPrimary": {
 					color: "text.primary",

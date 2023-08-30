@@ -3,35 +3,45 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.controlcenter.controlcenter.dao.DepartmentDao">
 
-    <select id="getAllDepartment" resultType="com.controlcenter.controlcenter.model.Department">
-        SELECT * 
+<!-- Fetch Data -->
+    <select id="getAllDepartment" resultType="com.controlcenter.controlcenter.model.DepartmentOutput">
+        SELECT dept_id, dept_name
           FROM tbl_department_mst
          WHERE del_flag = 0;
     </select>
 
-    <insert id="addDepartment" parameterType="com.controlcenter.controlcenter.model.Department">
+<!-- Add Data -->
+    <insert id="addDepartment" parameterType="com.controlcenter.controlcenter.model.DepartmentInput">
         INSERT INTO tbl_department_mst(
-          dept_name, 
-          reg_id, 
-          update_id
+          dept_name,
+          reg_id
         )
         VALUES (
-          #{dept_name}, 
-          #{reg_id}, 
-          #{update_id}
+          #{dept_name},
+          1
         );
     </insert>
 
+<!-- Update Data -->
     <update id="editDepartmentInfo" parameterType="map">
         UPDATE tbl_department_mst
-           SET dept_name=#{department.dept_name}
+           SET dept_name=#{department.dept_name},
+               update_id = 1
          WHERE dept_id = #{id}
     </update>
 
+<!-- Delete Data -->
     <update id="logicalDeleteDepartment">
         UPDATE tbl_department_mst
            SET del_flag=1
          WHERE dept_id = #{id}
     </update>
     
+<!-- Restore Data -->
+    <update id="restoreDepartment">
+        UPDATE tbl_department_mst
+           SET del_flag=0
+         WHERE dept_id = #{id}
+    </update>
+
 </mapper>
