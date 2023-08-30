@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.MultiRole;
+import com.controlcenter.controlcenter.model.MultiRoleInput;
+import com.controlcenter.controlcenter.model.MultiRoleOutput;
 
 @Mapper
 public interface MultiRoleDao {
-    List<MultiRole> getAllMultiRole();
-    void addMultiRole(MultiRole multiRole);
+    List<MultiRoleOutput> getAllMultiRole();
+    void addMultiRole(MultiRoleInput multiRole);
     void editMultiRoleInfo(Map<String, Object> paramMap);
     void logicalDeleteMultiRole(String id);
     void restoreMultiRole(String id);
