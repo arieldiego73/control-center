@@ -40,5 +40,10 @@ public class ProjectPhaseController {
     public String logicalDeleteProjectPhase(@PathVariable String id){
         return projectPhaseService.logicalDeleteProjectPhase(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreProjectPhase(@PathVariable String id){
+        return projectPhaseService.restoreProjectPhase(id);
+    }
     
 }

@@ -55,5 +55,15 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
             return e.getMessage();
         }
     }
+
+    @Override
+    public String restoreProjectPhase(String id){
+        try {
+            projectPhaseDao.restoreProjectPhase(id);
+            return "Project Phase Restored Successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
     
 }
