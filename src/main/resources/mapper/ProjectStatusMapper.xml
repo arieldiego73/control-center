@@ -6,25 +6,23 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.ProjectStatusDao">
 
 <!-- Fetch Data -->
-    <select id="getAllProjectStatus" resultType="com.controlcenter.controlcenter.model.ProjectStatus">
-        SELECT *
-         FROM tbl_proj_status_mst
-        WHERE del_flag = 0;
+    <select id="getAllProjectStatus" resultType="com.controlcenter.controlcenter.model.ProjectStatusOutput">
+        SELECT proj_status_id, proj_status_name, proj_status_description
+          FROM tbl_proj_status_mst
+         WHERE del_flag = 0;
     </select>
 
 <!-- Add Data -->
-    <insert id="addProjectStatus" parameterType="com.controlcenter.controlcenter.model.ProjectStatus">
+    <insert id="addProjectStatus" parameterType="com.controlcenter.controlcenter.model.ProjectStatusInput">
         INSERT INTO tbl_proj_status_mst (
             proj_status_name, 
             proj_status_description, 
-            reg_id, 
-            update_id
+            reg_id
         )
         VALUES (
             #{proj_status_name}, 
             #{proj_status_description}, 
-            #{reg_id}, 
-            #{update_id}
+            1
         );
     </insert>
     
@@ -32,7 +30,8 @@
     <update id="editProjectStatus" parameterType="map">
         UPDATE tbl_proj_status_mst
            SET proj_status_name=#{projectStatus.proj_status_name}, 
-               proj_status_description=#{projectStatus.proj_status_description}
+               proj_status_description=#{projectStatus.proj_status_description},
+               update_id = 1
         WHERE proj_status_id = #{id}
     </update>
 

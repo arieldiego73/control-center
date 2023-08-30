@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.ProjectStatus;
+import com.controlcenter.controlcenter.model.ProjectStatusInput;
+import com.controlcenter.controlcenter.model.ProjectStatusOutput;
 import com.controlcenter.controlcenter.service.ProjectStatusService;
 
 @RestController
@@ -21,17 +22,17 @@ public class ProjectStatusController {
     public ProjectStatusService projectStatusService;
 
     @GetMapping("/all")
-    public List<ProjectStatus> getAllProjectStatus() {
+    public List<ProjectStatusOutput> getAllProjectStatus() {
         return projectStatusService.getAllProjectStatus();
     }
 
     @PostMapping("/add")
-    public String addProjectStatus(@RequestBody ProjectStatus projectStatus){
+    public String addProjectStatus(@RequestBody ProjectStatusInput projectStatus){
         return projectStatusService.addProjectStatus(projectStatus);
     }
 
     @PutMapping("/edit/{id}")
-    public String editProjectStatus(@PathVariable String id, @RequestBody ProjectStatus projectStatus) {
+    public String editProjectStatus(@PathVariable String id, @RequestBody ProjectStatusInput projectStatus) {
         return projectStatusService.editProjectStatus(id, projectStatus);
     }
 
