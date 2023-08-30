@@ -6,21 +6,20 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.ProjectDao">
 
 <!-- Fetch Data -->
-    <select id="getAllProject" resultType="com.controlcenter.controlcenter.model.Project">
-        SELECT *
+    <select id="getAllProject" resultType="com.controlcenter.controlcenter.model.ProjectOutput">
+        SELECT proj_id, proj_name, proj_code, proj_description, start_date, end_date
          FROM tbl_project_mst
         WHERE del_flag = 0;
     </select>
 
 <!-- Add Data -->
-    <insert id="addProject" parameterType="com.controlcenter.controlcenter.model.Project">
+    <insert id="addProject" parameterType="com.controlcenter.controlcenter.model.ProjectInput">
         INSERT INTO tbl_project_mst(
             proj_name, proj_code, 
             proj_description, 
             start_date, 
             end_date, 
-            reg_id, 
-            update_id
+            reg_id
         )
         VALUES (
             #{proj_name},
@@ -28,8 +27,7 @@
             #{proj_description}, 
             #{start_date}, 
             #{end_date}, 
-            #{reg_id}, 
-            #{update_id}
+            1
         );
     </insert>
     
@@ -40,7 +38,8 @@
                proj_code=#{project.proj_code}, 
                proj_description=#{project.proj_description},
                start_date=#{project.start_date}, 
-               end_date=#{project.end_date}
+               end_date=#{project.end_date},
+               update_id = 1
         WHERE proj_id = #{id}
     </update>
 

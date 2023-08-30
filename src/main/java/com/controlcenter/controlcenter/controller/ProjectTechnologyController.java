@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.ProjectTechnology;
+import com.controlcenter.controlcenter.model.ProjectTechnologyInput;
+import com.controlcenter.controlcenter.model.ProjectTechnologyOutput;
 import com.controlcenter.controlcenter.service.ProjectTechnologyService;
 
 @RestController
@@ -21,17 +22,17 @@ public class ProjectTechnologyController {
     public ProjectTechnologyService projectTechnologyService;
 
     @GetMapping("/all")
-    public List<ProjectTechnology> getProjectTechnology(){
+    public List<ProjectTechnologyOutput> getProjectTechnology(){
         return projectTechnologyService.getAllProjectTechnology();
     }
 
     @PostMapping("/add")
-    public String addProjectTechnology(@RequestBody ProjectTechnology projectTechnology){
+    public String addProjectTechnology(@RequestBody ProjectTechnologyInput projectTechnology){
         return projectTechnologyService.addProjectTechnology(projectTechnology);
     }
 
     @PutMapping("/edit/{id}")
-    public String editProjectTechnology(@PathVariable String id, @RequestBody ProjectTechnology projectTechnology){
+    public String editProjectTechnology(@PathVariable String id, @RequestBody ProjectTechnologyInput projectTechnology){
         return projectTechnologyService.editProjectTechnology(id, projectTechnology);
     }
 

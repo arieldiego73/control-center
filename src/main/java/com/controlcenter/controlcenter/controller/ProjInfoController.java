@@ -41,5 +41,10 @@ public class ProjInfoController {
     public String logicalDeleteProjInfo(@PathVariable String id) {
         return projInfoService.logicalDeleteProjInfo(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreProjInfo(@PathVariable String id) {
+        return projInfoService.restoreProjInfo(id);
+    }
 }
 

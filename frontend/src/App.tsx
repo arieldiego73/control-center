@@ -1,7 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import { Dashboard } from "./components/dashboard/Dashboard";
 import Userhandler from "./pages/Userhandler";
 import CreateUserHandler from "./pages/CreateUserHandler";
 import ProjectHandler from "./pages/ProjectHandler";
@@ -14,13 +13,14 @@ import AddMemberTable from "./components/project/new_project/AddMemberTable";
 import EditUserHandler from "./pages/EditUserHandler";
 import DevelopmentPhaseHandler from "./pages/DevelopmentPhaseHandler";
 import ProjectStatusHandler from "./pages/ProjectStatusHandler";
-
+import DashboardHandler from "./pages/DashboardHandler";
+import ActivityLogDashboardTable from "./components/dashboard/ActivityLogDashboardTable";
 function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" Component={LoginPage} />
-				<Route path="/dashboard" Component={Dashboard} />
+				<Route path="/dashboard" Component={DashboardHandler} />
 				<Route path="/user" Component={Userhandler} />
 				<Route path="/createuser" Component={CreateUserHandler} />
 
@@ -36,6 +36,7 @@ function App() {
 				{/* <Route path="/User/:name" Component={UserDetails} /> */}
 				<Route path="/developmentphase" Component={DevelopmentPhaseHandler} />
 				<Route path="/project" Component={ProjectStatusHandler} />
+				<Route path="/dashboardtable" Component={ActivityLogDashboardTable} />
 			</Routes>
 		</BrowserRouter>
 	);

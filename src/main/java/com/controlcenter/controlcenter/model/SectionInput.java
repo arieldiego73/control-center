@@ -5,9 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
-public class SectionOutput {
-    private Long section_id;
+public class SectionInput {
     private String section_name;
     private int dept_id;
 }

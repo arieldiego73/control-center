@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ProjectDao;
-import com.controlcenter.controlcenter.model.Project;
+import com.controlcenter.controlcenter.model.ProjectInput;
+import com.controlcenter.controlcenter.model.ProjectOutput;
 import com.controlcenter.controlcenter.service.ProjectService;
 
 @Service
@@ -17,12 +18,12 @@ public class ProjectServiceImpl implements ProjectService{
     public ProjectDao projectDao;
 
     @Override
-    public List<Project> getAllProject(){
+    public List<ProjectOutput> getAllProject(){
         return projectDao.getAllProject();
     }
     
     @Override
-    public String addProject(Project project) {
+    public String addProject(ProjectInput project) {
         try {
             projectDao.addProject(project);
             return "Project Added Successfully.";
@@ -32,7 +33,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override 
-    public String editProjectInfo(String id, Project project) {
+    public String editProjectInfo(String id, ProjectInput project) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
