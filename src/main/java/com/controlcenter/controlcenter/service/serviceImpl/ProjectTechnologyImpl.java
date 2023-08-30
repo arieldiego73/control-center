@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ProjectTechnologyDao;
-import com.controlcenter.controlcenter.model.ProjectTechnology;
+import com.controlcenter.controlcenter.model.ProjectTechnologyInput;
+import com.controlcenter.controlcenter.model.ProjectTechnologyOutput;
 import com.controlcenter.controlcenter.service.ProjectTechnologyService;
 
 @Service
@@ -18,12 +19,12 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
     public ProjectTechnologyDao projectTechnologyDao;
 
     @Override
-    public List<ProjectTechnology> getAllProjectTechnology() {
+    public List<ProjectTechnologyOutput> getAllProjectTechnology() {
         return projectTechnologyDao.getAllProjectTechnology();
     };
 
     @Override
-    public String addProjectTechnology(ProjectTechnology projectTechnology){
+    public String addProjectTechnology(ProjectTechnologyInput projectTechnology){
         try {
             projectTechnologyDao.addProjectTechnology(projectTechnology);
             return "Project Technology Added Successfully";
@@ -33,7 +34,7 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
     }
 
     @Override
-    public String editProjectTechnology(String id, ProjectTechnology projectTechnology){
+    public String editProjectTechnology(String id, ProjectTechnologyInput projectTechnology){
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);

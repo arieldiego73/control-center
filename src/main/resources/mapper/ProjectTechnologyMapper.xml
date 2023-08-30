@@ -6,25 +6,23 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.ProjectTechnologyDao">
 
 <!-- Fetch Data -->
-<select id="getAllProjectTechnology" resultType="com.controlcenter.controlcenter.model.ProjectTechnology">
-    SELECT *
-     FROM tbl_proj_tech
-    WHERE del_flag = 0;
+<select id="getAllProjectTechnology" resultType="com.controlcenter.controlcenter.model.ProjectTechnologyOutput">
+    SELECT proj_tech_id, tech_id, proj_id
+      FROM tbl_proj_tech
+     WHERE del_flag = 0;
 </select>
 
 <!-- Add Data -->
-<insert id="addProjectTechnology" parameterType="com.controlcenter.controlcenter.model.ProjectTechnology">
+<insert id="addProjectTechnology" parameterType="com.controlcenter.controlcenter.model.ProjectTechnologyInput">
     INSERT INTO tbl_proj_tech (
         tech_id, 
         proj_id, 
-        reg_id, 
-        update_id
+        reg_id
     )
     VALUES (
         #{tech_id}, 
         #{proj_id}, 
-        #{reg_id}, 
-        #{update_id}
+        1
     )
 </insert>
 
@@ -32,7 +30,8 @@
 <update id="editProjectTechnology" parameterType="map">
     UPDATE tbl_proj_tech
            SET tech_id=#{projectTechnology.tech_id}, 
-               proj_id=#{projectTechnology.proj_id}
+               proj_id=#{projectTechnology.proj_id},
+               update_id = 1
         WHERE proj_tech_id = #{id}
 </update>
 
