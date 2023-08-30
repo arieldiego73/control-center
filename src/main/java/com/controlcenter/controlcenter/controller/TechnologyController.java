@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.Technology;
+import com.controlcenter.controlcenter.model.TechnologyInput;
+import com.controlcenter.controlcenter.model.TechnologyOutput;
 import com.controlcenter.controlcenter.service.TechnologyService;
 
 @RestController
@@ -22,17 +23,17 @@ public class TechnologyController {
     public TechnologyService technologyService;
 
     @GetMapping("/all")
-    public List<Technology> getAllTechnology() {
+    public List<TechnologyOutput> getAllTechnology() {
         return technologyService.getAllTechnology();
     }
 
     @PostMapping("/add")
-    public String addTechnology(@RequestBody Technology technology) {
+    public String addTechnology(@RequestBody TechnologyInput technology) {
         return technologyService.addTechnology(technology);
     }
 
     @PutMapping("/edit/{id}")
-    public String editTechnology(@PathVariable String id, @RequestBody Technology technology) {
+    public String editTechnology(@PathVariable String id, @RequestBody TechnologyInput technology) {
         return technologyService.editTechnology(id, technology);
     }
 

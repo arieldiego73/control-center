@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.TechnologyDao;
-import com.controlcenter.controlcenter.model.Technology;
+import com.controlcenter.controlcenter.model.TechnologyInput;
+import com.controlcenter.controlcenter.model.TechnologyOutput;
 import com.controlcenter.controlcenter.service.TechnologyService;
 
 @Service
@@ -18,12 +19,12 @@ public class TechnologyServiceImpl implements TechnologyService{
     public TechnologyDao technologyDao;
 
     @Override
-    public List<Technology> getAllTechnology() {
+    public List<TechnologyOutput> getAllTechnology() {
         return technologyDao.getAllTechnology();
     }
 
     @Override
-    public String addTechnology(Technology technology) {
+    public String addTechnology(TechnologyInput technology) {
         try {
             technologyDao.addTechnology(technology);
             return "Technology Added Successfully.";
@@ -33,7 +34,7 @@ public class TechnologyServiceImpl implements TechnologyService{
     }
 
     @Override
-    public String editTechnology(String id, Technology technology) {
+    public String editTechnology(String id, TechnologyInput technology) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
 

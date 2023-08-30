@@ -3,31 +3,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.controlcenter.controlcenter.dao.TechnologyDao">
 
-    <select id="getAllTechnology" resultType="com.controlcenter.controlcenter.model.Technology">
-        SELECT * 
+    <select id="getAllTechnology" resultType="com.controlcenter.controlcenter.model.TechnologyOutput">
+        SELECT tech_id, tech_name, tech_sh_name 
           FROM tbl_technology_mst
          WHERE del_flag = 0;
     </select>
 
-    <insert id="addTechnology" parameterType="com.controlcenter.controlcenter.model.Technology">
+    <insert id="addTechnology" parameterType="com.controlcenter.controlcenter.model.TechnologyInput">
         INSERT INTO tbl_technology_mst (
           tech_name, 
           tech_sh_name, 
-          reg_id, 
-          update_id
+          reg_id
         )
         VALUES (
           #{tech_name}, 
           #{tech_sh_name}, 
-          #{reg_id}, 
-          #{update_id}
+          1
         );
     </insert>
 
     <update id="editTechnology" parameterType="map">
         UPDATE tbl_technology_mst
            SET tech_name=#{technology.tech_name}, 
-               tech_sh_name=#{technology.tech_sh_name}
+               tech_sh_name=#{technology.tech_sh_name},
+               update_id = 1
          WHERE tech_id = #{id}
     </update>
 
