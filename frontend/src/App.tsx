@@ -12,7 +12,8 @@ import test from "./components/project/new_project/test";
 import AddMemberTable from "./components/project/new_project/AddMemberTable";
 import UserDetails from "./components/user/edit/EditUser";
 import EditUserHandler from "./pages/EditUserHandler";
-
+import DevelopmentPhaseHandler from "./pages/DevelopmentPhaseHandler";
+import ProjectStatusHandler from "./pages/ProjectStatusHandler";
 
 function App() {
 	return (
@@ -20,7 +21,7 @@ function App() {
 			<Routes>
 				<Route path="/" Component={LoginPage} />
 				<Route path="/dashboard" Component={Dashboard} />
-				<Route path="/userhandler" Component={Userhandler} />
+				<Route path="/user" Component={Userhandler} />
 				<Route path="/createuser" Component={CreateUserHandler} />
 
 				{/* <Route path="/edituser" Component={EditUserHandler} /> */}
@@ -33,6 +34,8 @@ function App() {
 				<Route path="/test" Component={test} />
 				<Route path="/AddMemberTable" Component={AddMemberTable} />
 				<Route path="/User/:name" Component={UserDetails} />
+				<Route path="/developmentphase" Component={DevelopmentPhaseHandler} />
+				<Route path="/project" Component={ProjectStatusHandler} />
 			</Routes>
 		</BrowserRouter>
 	);

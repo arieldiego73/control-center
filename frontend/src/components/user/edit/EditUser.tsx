@@ -22,6 +22,7 @@ import { useLocation } from "react-router-dom";
 export default function EditUser() {
 
   const location = useLocation();
+  
   const row = location.state;
 
   const [assocID, setAssocID] = useState(row.assocID);

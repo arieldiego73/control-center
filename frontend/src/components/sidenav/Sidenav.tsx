@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
 	iconButton: {
 		backgroundColor: 'transparent',
 		transition: 'background-color 0.3s ease',
-		padding: '20%',
+		padding: '10%',
+		borderRadius: '50%', // Add border radius here
 		'&:hover': {
 			backgroundColor: '#2466A2',
 			'& svg': {
@@ -38,94 +39,72 @@ export const Sidenav = () => {
 	const classes = useStyles();
 
 	return (
-		<body>
-			<div>
-				<TopNav />
-
-				
-				{/* DIV CONTAINER OF BUTTONS */}
-				<div className={SidenavStyle.sideNavContainer}>
-
-					{/* BUTTONS */}
-					<div>
-						<div>
-							<div className={SidenavStyle.buttonContainer}>
-								<IconButton className={classes.iconButton}>
-									<DashboardIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
-								</IconButton>
-								<div className={SidenavStyle.buttonText}>
-									<span className={`${classes.boldText} boldText`}>
-										Dashboard
-									</span>
-								</div>
-							</div>
-						</div>
+		<div>
+			<TopNav />
+			<div className={SidenavStyle.sideNavContainer}>
+		
+				<div className={SidenavStyle.buttonContainer}>
+					<Link to="/dashboard" className={classes.iconButton}>
+						<IconButton>
+						<DashboardIcon style={{ height: '1.25vw', width: '1.25vw' }} />
+						</IconButton>
+					</Link>
+					<div className={SidenavStyle.buttonText}>
+						<span className={`${classes.boldText} boldText`}>Dashboard</span>
 					</div>
-					<div>
-						<div>
-							<div className={SidenavStyle.buttonContainer}>
-								<Link to="/userhandler" style={{ textDecoration: "none" }}>
-									<IconButton className={classes.iconButton}>
-										<PersonOutlineIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
-									</IconButton>
-									<div className={SidenavStyle.buttonText}>
-										<span className={`${classes.boldText} boldText`}>
-											User
-										</span>
-									</div>
-								</Link>
-							</div>
-						</div>
+				</div>
+				<div className={SidenavStyle.buttonContainer}>
+					<Link to="/user" className={classes.iconButton}>
+						<IconButton>
+						<PersonOutlineIcon style={{ height: '1.25vw', width: '1.25vw' }} />
+						</IconButton>
+					</Link>
+					<div className={SidenavStyle.buttonText}>
+						<span className={`${classes.boldText} boldText`}>User</span>
 					</div>
-					<div>
-						<div>
-							<div className={SidenavStyle.buttonContainer}>
-							<Link to="/project" style={{ textDecoration: "none" }}>
-								<IconButton className={classes.iconButton}>
-									<AccountTreeOutlinedIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
-								</IconButton>
-								<div className={SidenavStyle.buttonText}>
-									<span className={`${classes.boldText} boldText`}>
-										Project
-									</span>
-								</div>
-								</Link>
-							</div>
-						</div>
+				</div>
+				<div className={SidenavStyle.buttonContainer}>
+					<Link to="/project" className={classes.iconButton}>
+						<IconButton>
+						<AccountTreeOutlinedIcon style={{ height: '1.25vw', width: '1.25vw' }} />
+						</IconButton>
+					</Link>
+					<div className={SidenavStyle.buttonText}>
+						<span className={`${classes.boldText} boldText`}>Project</span>
 					</div>
-					<div>
-						<div>
-							<div className={SidenavStyle.buttonContainer}>
-								<IconButton className={classes.iconButton}>
-									<PersonSearchOutlinedIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
-								</IconButton>
-								<div className={SidenavStyle.buttonText}>
-									<span className={`${classes.boldText} boldText`}>
-										Role
-									</span>
-								</div>
-							</div>
-						</div>
+				</div>
+				<div className={SidenavStyle.buttonContainer}>
+					<Link to="/role" className={classes.iconButton}>
+						<IconButton>
+						<PersonSearchOutlinedIcon style={{ height: '1.25vw', width: '1.25vw' }} />
+						</IconButton>
+					</Link>
+					<div className={SidenavStyle.buttonText}>
+						<span className={`${classes.boldText} boldText`}>Role</span>
 					</div>
-					<div>
-						<div>
-							<div className={SidenavStyle.buttonContainer}>
-								<IconButton className={classes.iconButton}>
-									<MoreHorizIcon style={{ height: "1.25vw", width: "1.25vw",  }} />
-								</IconButton>
-								<div className={SidenavStyle.buttonText}>
-									<span className={`${classes.boldText} boldText`}>
-										Other
-									</span>
-								</div>
-							</div>
-						</div>
+				</div>
+				<div className={SidenavStyle.buttonContainer}>
+					<Link to="/dashboard" className={classes.iconButton}>
+						<IconButton>
+						<MoreHorizIcon style={{ height: '1.25vw', width: '1.25vw' }} />
+						</IconButton>
+					</Link>
+					<div className={SidenavStyle.buttonText}>
+						<span className={`${classes.boldText} boldText`}>Others</span>
 					</div>
 				</div>
 
+			
 
+				
+				
+
+				
 			</div>
-		</body>
+
+
+		</div>
+		
 	);
 };
 
