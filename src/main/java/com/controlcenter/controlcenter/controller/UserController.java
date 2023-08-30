@@ -1,7 +1,6 @@
 package com.controlcenter.controlcenter.controller;
 
 import com.controlcenter.controlcenter.model.Account;
-import com.controlcenter.controlcenter.model.PersonalInfo;
 import com.controlcenter.controlcenter.model.User;
 import com.controlcenter.controlcenter.service.UserService;
 import java.util.List;

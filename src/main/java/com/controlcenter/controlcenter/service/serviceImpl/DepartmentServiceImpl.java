@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DepartmentDao;
-import com.controlcenter.controlcenter.model.Department;
+import com.controlcenter.controlcenter.model.DepartmentInput;
+import com.controlcenter.controlcenter.model.DepartmentOutput;
 import com.controlcenter.controlcenter.service.DepartmentService;
 
 @Service
@@ -18,12 +19,12 @@ public class DepartmentServiceImpl implements DepartmentService{
     public DepartmentDao departmentDao;
 
     @Override
-    public List<Department> getAllDepartment() {
+    public List<DepartmentOutput> getAllDepartment() {
         return departmentDao.getAllDepartment();
     }
 
     @Override 
-    public String addDepartment(Department department) {
+    public String addDepartment(DepartmentInput department) {
         try {
             departmentDao.addDepartment(department);
             return "Department Added Successfully.";
@@ -33,7 +34,7 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
-    public String editDepartmentInfo(String id, Department department) {
+    public String editDepartmentInfo(String id, DepartmentInput department) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
 
@@ -53,6 +54,16 @@ public class DepartmentServiceImpl implements DepartmentService{
         try {
             departmentDao.logicalDeleteDepartment(id);
             return "Department Deleted Successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String restoreDepartment(String id) {
+        try {
+            departmentDao.restoreDepartment(id);
+            return "Department Restored Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.Section;
+import com.controlcenter.controlcenter.model.SectionInput;
+import com.controlcenter.controlcenter.model.SectionOutput;
 import com.controlcenter.controlcenter.service.SectionService;
 
 @RestController
@@ -23,17 +24,17 @@ public class SectionController {
     public SectionService sectionService;
 
     @GetMapping("/all")
-    public List<Section> getAllSection() {
+    public List<SectionOutput> getAllSection() {
         return sectionService.getAllSection();
     }
 
     @PostMapping("/add")
-    public String addSection(@RequestBody Section section){
+    public String addSection(@RequestBody SectionInput section){
         return sectionService.addSection(section);
     }
 
     @PutMapping("/edit/{id}")
-    public String editSectionInfo(@PathVariable String id, @RequestBody Section section) {
+    public String editSectionInfo(@PathVariable String id, @RequestBody SectionInput section) {
         return sectionService.editSectionInfo(id, section);
     }
 

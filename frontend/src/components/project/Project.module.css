@@ -1,58 +1,81 @@
-.mainContainer {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-     height: 93vh; /*if 90, sasakto s pinaka browser, di makikita difference (10vh yung topnav) */
-    width: 93vw; /* if 93, sasakto s pinaka browser, di makikita difference (7vh yung sidenav)*/
-    top: 10vh; /* Bale height + top = 99vh (if 100, di makita difference)*/
-    left: 7vw; /* Bale width + left = 99vw (if 100, di makita difference)*/
-    align-items: center;
+body{
+    height: 100%;
+    width: 100%;
     background-image: url(../../Assets//bg5.jpeg);
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.mainContainer {
+    position: fixed;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: 85%;
+    width: 91%; 
+    top: 10vh;
+    left: 7vw;
+
+
+    overflow: hidden;
 }
 .midContent{
-    width: 97%;
-}
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
 
 /* Attributes of Header */
 .contentContainer{
     width: 97%;
     height: 75%;
-    position: relative;
-    top: 1%;
-    align-self: center; 
-
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
 }
 .contentHolder{
-    margin: 20;
+
     background: rgba( 255, 255, 255, 0.05 );
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
     backdrop-filter: blur( 20px );
     -webkit-backdrop-filter: blur( 3px );
     border-radius: 10px;
+
     height: 100%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2vh;
+    padding: 2vh 0;
+    
 }
 .searchBarContainer{
     display: flex;
-    flex-direction: row;
-    gap: 12px;
-    align-items:right;
-}
-.searchBarHolder1 {
-    margin-Top: 10;
-    margin-Bottom: 10;
-    padding-Right: 5px;
-    display: flex;
-    margin-bottom: 5px;
-}
-.searchBarHolder2{
-    margin-Top: 10;
-    margin-Bottom: 10;
+    align-items: center;
+    justify-content: center;
+    gap: 2vh;
+
 }
 
-.buttonContainer{
-    margin-top: 15px;
+.searchBarHolder1,
+.searchBarHolder2 {
+  width: 100%;
+}
+
+.searchBarCol{
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
 }
 
 /* Attributes of Table */
@@ -60,7 +83,12 @@
     background-color: transparent;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    height: 70%;
+
+    overflow-y: hidden;
+
+    height: 85%;
+    width: 100%;
+
 }
 
 

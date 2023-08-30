@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ProjInfoDao;
-import com.controlcenter.controlcenter.model.ProjInfo;
+import com.controlcenter.controlcenter.model.ProjInfoInput;
+import com.controlcenter.controlcenter.model.ProjInfoOutput;
 import com.controlcenter.controlcenter.service.ProjInfoService;
 
 @Service
@@ -18,12 +19,12 @@ public class ProjInfoServiceImpl implements ProjInfoService{
     public ProjInfoDao projInfoDao;
 
     @Override
-    public List<ProjInfo> getAllProjInfo(){
+    public List<ProjInfoOutput> getAllProjInfo(){
         return projInfoDao.getAllProjInfo();
     }
     
     @Override
-    public String addProjInfo(ProjInfo projInfo) {
+    public String addProjInfo(ProjInfoInput projInfo) {
         try {
             projInfoDao.addProjInfo(projInfo);
             return "Project Info Added Successfully";
@@ -33,7 +34,7 @@ public class ProjInfoServiceImpl implements ProjInfoService{
     }
 
     @Override 
-    public String editProjInfoInfo(String id, ProjInfo projInfo) {
+    public String editProjInfoInfo(String id, ProjInfoInput projInfo) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
@@ -50,10 +51,18 @@ public class ProjInfoServiceImpl implements ProjInfoService{
     @Override
     public String logicalDeleteProjInfo(String id) {
         try {
-        
             projInfoDao.logicalDeleteProjInfo(id);
-
             return "Project Info Deleted Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+    
+    @Override
+    public String restoreProjInfo(String id) {
+        try {
+            projInfoDao.restoreProjInfo(id);
+            return "Project Info Restored Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }

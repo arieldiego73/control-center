@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.DevPhase;
+import com.controlcenter.controlcenter.model.DevPhaseInput;
+import com.controlcenter.controlcenter.model.DevPhaseOutput;
 import com.controlcenter.controlcenter.service.DevPhaseService;
 
 
@@ -24,22 +25,27 @@ public class DevPhaseController {
     public DevPhaseService devPhaseService;
 
     @GetMapping("/all")
-    public List<DevPhase> getAllDevPhase() {
+    public List<DevPhaseOutput> getAllDevPhase() {
         return devPhaseService.getAllDevPhase();
     }
 
     @PostMapping("/add")
-    public String addDevPhase(@RequestBody DevPhase devPhase){
+    public String addDevPhase(@RequestBody DevPhaseInput devPhase){
         return devPhaseService.addDevPhase(devPhase);
     }
 
     @PutMapping("/edit/{id}")
-    public String editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhase devPhase) {
+    public String editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
         return devPhaseService.editDevPhaseInfo(id, devPhase);
     }
 
     @PutMapping("/delete/{id}")
     public String logicalDeleteDevPhase(@PathVariable String id) {
         return devPhaseService.logicalDeleteDevPhase(id);
+    }
+
+    @PutMapping("/restore/{id}")
+    public String restoreDevPhase(@PathVariable String id) {
+        return devPhaseService.restoreDevPhase(id);
     }
 }

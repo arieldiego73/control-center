@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ProjectStatusDao;
-import com.controlcenter.controlcenter.model.ProjectStatus;
+import com.controlcenter.controlcenter.model.ProjectStatusInput;
+import com.controlcenter.controlcenter.model.ProjectStatusOutput;
 import com.controlcenter.controlcenter.service.ProjectStatusService;
 
 @Service
@@ -17,12 +18,12 @@ public class ProjectStatusServiceImpl implements ProjectStatusService{
     public ProjectStatusDao projectStatusDao;
 
     @Override
-    public List<ProjectStatus> getAllProjectStatus(){
+    public List<ProjectStatusOutput> getAllProjectStatus(){
         return projectStatusDao.getAllProjectStatus();
     }
     
     @Override
-    public String addProjectStatus(ProjectStatus projectStatus) {
+    public String addProjectStatus(ProjectStatusInput projectStatus) {
         try {
             projectStatusDao.addProjectStatus(projectStatus);
             return "Project Status Added Successfully.";
@@ -32,7 +33,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService{
     }
 
     @Override 
-    public String editProjectStatus(String id, ProjectStatus projectStatus) {
+    public String editProjectStatus(String id, ProjectStatusInput projectStatus) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
@@ -53,6 +54,18 @@ public class ProjectStatusServiceImpl implements ProjectStatusService{
             projectStatusDao.logicalDeleteProjectStatus(id);
 
             return "Project Status Deleted Successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String restoreProjectStatus(String id) {
+        try {
+        
+            projectStatusDao.restoreProjectStatus(id);
+
+            return "Project Status Restored Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

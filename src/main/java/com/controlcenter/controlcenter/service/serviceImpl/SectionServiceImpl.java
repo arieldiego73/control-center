@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.SectionDao;
-import com.controlcenter.controlcenter.model.Section;
+import com.controlcenter.controlcenter.model.SectionInput;
+import com.controlcenter.controlcenter.model.SectionOutput;
 import com.controlcenter.controlcenter.service.SectionService;
 
 @Service
@@ -18,12 +19,12 @@ public class SectionServiceImpl implements SectionService{
     public SectionDao sectionDao;
 
     @Override
-    public List<Section> getAllSection(){
+    public List<SectionOutput> getAllSection(){
         return sectionDao.getAllSection();
     }
     
     @Override
-    public String addSection(Section section) {
+    public String addSection(SectionInput section) {
         try {
             sectionDao.addSection(section);
             return "Section Added Successfully";
@@ -33,7 +34,7 @@ public class SectionServiceImpl implements SectionService{
     }
 
     @Override 
-    public String editSectionInfo(String id, Section section) {
+    public String editSectionInfo(String id, SectionInput section) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);

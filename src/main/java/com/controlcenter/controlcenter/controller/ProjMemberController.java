@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.ProjMember;
+import com.controlcenter.controlcenter.model.ProjMemberInput;
+import com.controlcenter.controlcenter.model.ProjMemberOutput;
 import com.controlcenter.controlcenter.service.ProjMemberService;
 
 @RestController
@@ -22,17 +23,17 @@ public class ProjMemberController {
     public ProjMemberService projMemberService;
 
     @GetMapping("/all")
-    public List<ProjMember> getAllProjMember() {
+    public List<ProjMemberOutput> getAllProjMember() {
         return projMemberService.getAllProjMember();
     }
 
     @PostMapping("/add")
-    public String addProjMember(@RequestBody ProjMember projMember){
+    public String addProjMember(@RequestBody ProjMemberInput projMember){
         return projMemberService.addProjMember(projMember);
     }
 
     @PutMapping("/edit/{id}")
-    public String editProjMemberInfo(@PathVariable String id, @RequestBody ProjMember projMember) {
+    public String editProjMemberInfo(@PathVariable String id, @RequestBody ProjMemberInput projMember) {
         return projMemberService.editProjMemberInfo(id, projMember);
     }
 

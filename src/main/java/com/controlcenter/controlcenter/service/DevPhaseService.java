@@ -2,13 +2,14 @@ package com.controlcenter.controlcenter.service;
 
 import java.util.List;
 
-import com.controlcenter.controlcenter.model.DevPhase;
+import com.controlcenter.controlcenter.model.DevPhaseInput;
+import com.controlcenter.controlcenter.model.DevPhaseOutput;
 
 public interface DevPhaseService {
-    public List<DevPhase> getAllDevPhase();
-    public String addDevPhase(DevPhase devPhase);
-    public String editDevPhaseInfo(String id, DevPhase devPhase);
+    public List<DevPhaseOutput> getAllDevPhase();
+    public String addDevPhase(DevPhaseInput devPhase);
+    public String editDevPhaseInfo(String id, DevPhaseInput devPhase);
     public String logicalDeleteDevPhase(String id);
-
+    public String restoreDevPhase(String id);
     
 }

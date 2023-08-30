@@ -2,11 +2,13 @@ package com.controlcenter.controlcenter.service;
 
 import java.util.List;
 
-import com.controlcenter.controlcenter.model.MultiRole;
+import com.controlcenter.controlcenter.model.MultiRoleInput;
+import com.controlcenter.controlcenter.model.MultiRoleOutput;
 
 public interface MultiRoleService {
-    public List<MultiRole> getAllMultiRole();
-    public String addMultiRole(MultiRole multiRole);
-    public String editMultiRoleInfo(String id, MultiRole multiRole);
+    public List<MultiRoleOutput> getAllMultiRole();
+    public String addMultiRole(MultiRoleInput multiRole);
+    public String editMultiRoleInfo(String id, MultiRoleInput multiRole);
     public String logicalDeleteMultiRole(String id);
+    public String restoreMultiRole(String id);
 }

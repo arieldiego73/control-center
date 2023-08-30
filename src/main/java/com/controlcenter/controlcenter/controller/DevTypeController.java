@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.DevType;
+import com.controlcenter.controlcenter.model.DevTypeInput;
+import com.controlcenter.controlcenter.model.DevTypeOutput;
 import com.controlcenter.controlcenter.service.DevTypeService;
 
 @RestController
@@ -22,22 +23,27 @@ public class DevTypeController {
     public DevTypeService devTypeService;
 
     @GetMapping("/all")
-    public List<DevType> getAllDevType() {
+    public List<DevTypeOutput> getAllDevType() {
         return devTypeService.getAllDevType();
     }
 
     @PostMapping("/add")
-    public String addDevType(@RequestBody DevType devType){
+    public String addDevType(@RequestBody DevTypeInput devType){
         return devTypeService.addDevType(devType);
     }
 
     @PutMapping("/edit/{id}")
-    public String editDevTypeInfo(@PathVariable String id, @RequestBody DevType devType) {
+    public String editDevTypeInfo(@PathVariable String id, @RequestBody DevTypeInput devType) {
         return devTypeService.editDevTypeInfo(id, devType);
     }
 
     @PutMapping("/delete/{id}")
     public String logicalDeleteDevType(@PathVariable String id) {
         return devTypeService.logicalDeleteDevType(id);
+    }
+
+    @PutMapping("/restore/{id}")
+    public String restoreDevType(@PathVariable String id) {
+        return devTypeService.restoreDevType(id);
     }
 }
