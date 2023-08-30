@@ -6,25 +6,23 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.DevPhaseDao">
 
 <!-- Fetch Data -->
-    <select id="getAllDevPhase" resultType="com.controlcenter.controlcenter.model.DevPhase">
-        SELECT *
-         FROM tbl_dev_phase_mst
-        WHERE del_flag = 0;
+    <select id="getAllDevPhase" resultType="com.controlcenter.controlcenter.model.DevPhaseOutput">
+        SELECT dev_phase_id, dev_phase_name, dev_phase_sh_name
+          FROM tbl_dev_phase_mst
+         WHERE del_flag = 0;
     </select>
 
 <!-- Add Data -->
-    <insert id="addDevPhase" parameterType="com.controlcenter.controlcenter.model.DevPhase">
+    <insert id="addDevPhase" parameterType="com.controlcenter.controlcenter.model.DevPhaseInput">
         INSERT INTO tbl_dev_phase_mst(
             dev_phase_name, 
             dev_phase_sh_name, 
-            reg_id, 
-            update_id
+            reg_id
         )
         VALUES (
             #{dev_phase_name}, 
             #{dev_phase_sh_name}, 
-            #{reg_id}, 
-            #{update_id}
+            1
         );
     </insert>
     
@@ -32,7 +30,8 @@
     <update id="editDevPhaseInfo" parameterType="map">
         UPDATE tbl_dev_phase_mst
            SET dev_phase_name=#{devPhase.dev_phase_name}, 
-               dev_phase_sh_name=#{devPhase.dev_phase_sh_name}
+               dev_phase_sh_name=#{devPhase.dev_phase_sh_name},
+               update_id = 1
          WHERE dev_phase_id = #{id}
     </update>
 
