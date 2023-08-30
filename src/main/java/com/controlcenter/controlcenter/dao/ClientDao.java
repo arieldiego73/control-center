@@ -13,4 +13,5 @@ public interface ClientDao {
     void addClient(Client client);
     void editClient(Map<String, Object> paramMap);
     void logicalDeleteClient(String id);
+    void restoreClient(String id);
 }

@@ -57,4 +57,14 @@ public class ClientServiceImpl implements ClientService{
             return e.getMessage();
         }
     }
+
+    @Override
+    public String restoreClient(String id) {
+        try {
+            clientDao.restoreClient(id);
+            return "Client Restored Successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

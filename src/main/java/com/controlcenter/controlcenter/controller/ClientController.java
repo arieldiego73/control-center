@@ -40,4 +40,9 @@ public class ClientController {
     public String logicalDeleteClient(@PathVariable String id) {
         return clientService.logicalDeleteClient(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreClient(@PathVariable String id) {
+        return clientService.restoreClient(id);
+    }
 }
