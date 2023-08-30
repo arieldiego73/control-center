@@ -3,7 +3,6 @@ package com.controlcenter.controlcenter.service;
 import java.util.List;
 
 import com.controlcenter.controlcenter.model.Account;
-import com.controlcenter.controlcenter.model.PersonalInfo;
 import com.controlcenter.controlcenter.model.User;
 
 public interface UserService {
