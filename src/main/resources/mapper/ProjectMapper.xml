@@ -45,9 +45,16 @@
     </update>
 
 <!-- Logical Delete Data -->
-    <update id="logicalDeleteProject" parameterType="map">
+    <update id="logicalDeleteProject">
         UPDATE tbl_project_mst
            SET del_flag=1
+        WHERE proj_id = #{id}
+    </update>
+
+<!-- Restore Data -->
+    <update id="restoreProject">
+        UPDATE tbl_project_mst
+           SET del_flag=0
         WHERE proj_id = #{id}
     </update>
 

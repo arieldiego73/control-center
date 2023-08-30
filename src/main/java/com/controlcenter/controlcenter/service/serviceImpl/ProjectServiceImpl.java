@@ -57,4 +57,14 @@ public class ProjectServiceImpl implements ProjectService{
             return e.getMessage();
         }
     }
+
+    @Override
+    public String restoreProject(String id) {
+        try {
+            projectDao.restoreProject(id);
+            return "Project Restored Successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }
