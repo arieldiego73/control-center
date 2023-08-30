@@ -24,7 +24,7 @@ public class RoleServiceImpl implements RoleService {
   public String addRole(Role role) {
     try {
       roleDao.addRole(role);
-      return "Role added successfully!";
+      return "Role added successfully.";
     } catch (Exception e) {
       return e.getMessage();
     }
@@ -39,7 +39,7 @@ public class RoleServiceImpl implements RoleService {
 
       roleDao.editRoleInfo(paramMap);
 
-      return "Role edited successfully!";
+      return "Role edited successfully.";
     } catch (Exception e) {
       return e.getMessage();
     }
@@ -49,7 +49,17 @@ public class RoleServiceImpl implements RoleService {
   public String logicalDeleteRole(String id) {
     try {
       roleDao.logicalDeleteRole(id);
-      return "Role deleted successfully!";
+      return "Role deleted successfully.";
+    } catch (Exception e) {
+      return e.getMessage();
+    }
+  }
+
+  @Override
+  public String restoreRole(String id) {
+    try {
+      roleDao.restoreRole(id);
+      return "Role restored successfully.";
     } catch (Exception e) {
       return e.getMessage();
     }

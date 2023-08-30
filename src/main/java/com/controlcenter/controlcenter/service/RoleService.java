@@ -9,4 +9,5 @@ public interface RoleService {
     public String addRole(Role role);
     public String editRoleInfo(String id, Role role);
     public String logicalDeleteRole(String id);
+    public String restoreRole(String id);
 }

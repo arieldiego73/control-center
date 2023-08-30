@@ -13,4 +13,5 @@ public interface RoleDao {
     void addRole(Role role);
     void editRoleInfo(Map<String, Object> paramMap);
     void logicalDeleteRole(String id);
+    void restoreRole(String id);
 }
