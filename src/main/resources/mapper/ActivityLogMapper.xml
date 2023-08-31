@@ -4,18 +4,18 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.ActivityLogDao">
 
 <!-- Fetch Data -->
-    <select id="getAllActivityLog" resultType="com.controlcenter.controlcenter.model.ActivityLog">
+    <select id="getAllActivityLog" resultType="com.controlcenter.controlcenter.model.ActivityLogOutput">
         SELECT log_id, 
                users.username,
                log_desc, 
                log_date
           FROM tbl_act_log AS logs 
-    INNER JOIN tbl_user AS users ON users.emp_id = logs.emp_id
-         WHERE del_flag = 0;
+    INNER JOIN tbl_user AS users ON logs.emp_id = users.emp_id
+         WHERE logs.del_flag = 0;
     </select>
 
 <!-- Add Data -->
-    <insert id="addDepartment" parameterType="com.controlcenter.controlcenter.model.ActivityLog">
+    <insert id="addActivityLog" parameterType="com.controlcenter.controlcenter.model.ActivityLogInput">
         INSERT INTO tbl_act_log(
           emp_id,
           log_desc,
@@ -25,7 +25,7 @@
         VALUES (
           #{emp_id},
           #{log_desc},
-          #{log_desc},
+          #{log_date},
           1
         );
     </insert>

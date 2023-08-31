@@ -15,6 +15,7 @@ import DevelopmentPhaseHandler from "./pages/DevelopmentPhaseHandler";
 import ProjectStatusHandler from "./pages/ProjectStatusHandler";
 import DashboardHandler from "./pages/DashboardHandler";
 import ActivityLogDashboardTable from "./components/dashboard/ActivityLogDashboardTable";
+
 function App() {
 	return (
 		<BrowserRouter>
@@ -37,6 +38,7 @@ function App() {
 				<Route path="/developmentphase" Component={DevelopmentPhaseHandler} />
 				<Route path="/project" Component={ProjectStatusHandler} />
 				<Route path="/dashboardtable" Component={ActivityLogDashboardTable} />
+
 			</Routes>
 		</BrowserRouter>
 	);

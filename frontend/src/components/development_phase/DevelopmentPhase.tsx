@@ -23,19 +23,21 @@ export default function DevelopmentPhase() {
 			</div>
 
 			<div className={DevStyle.contentContainer}>
+			
+		
+			
 				<div className={DevStyle.contentHolder}>
-					{/* Start of Header */}
-
-					{/* Start of Table */}
+		
 					<div
 						style={{
 							backgroundColor: "transparent",
 							borderBottomLeftRadius: "8px",
 							borderBottomRightRadius: "8px",
 							height: "100%",
-							marginTop: "46px",
+							marginTop: "10px",
 						}}
 					>
+
 						<DevelopmentPhaseTable />
 					</div>
 				</div>

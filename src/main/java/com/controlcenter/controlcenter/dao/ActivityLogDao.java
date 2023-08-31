@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.ActivityLog;
+import com.controlcenter.controlcenter.model.ActivityLogInput;
+import com.controlcenter.controlcenter.model.ActivityLogOutput;
 
 @Mapper
 public interface ActivityLogDao {
-    List<ActivityLog> getAllActivityLog();
-    void addActivityLog(ActivityLog activityLog);
+    List<ActivityLogOutput> getAllActivityLog();
+    void addActivityLog(ActivityLogInput activityLog);
 }
