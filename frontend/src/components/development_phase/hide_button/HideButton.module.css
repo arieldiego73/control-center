@@ -1,7 +1,6 @@
 
 .hideButton{
 background-color: white;
-
     /* background: rgba( 255, 255, 255, 0.05 ); */
     /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
     /* backdrop-filter: blur( 20px ); */
@@ -13,6 +12,5 @@ background-color: white;
     align-items: center;
     flex-direction: column;
     /* gap: 1vh;  */
-    padding: 2vh 0;
-    
+    padding: 2vh 0;   
 }
