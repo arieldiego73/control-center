@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ActivityLog {
-    private Long log_id;
+public class ActivityLogInput {
+    private String emp_id;
     private String username;
     private String log_desc;
     private String log_date;

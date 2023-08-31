@@ -4,7 +4,7 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.ActivityLogDao">
 
 <!-- Fetch Data -->
-    <select id="getAllActivityLog" resultType="com.controlcenter.controlcenter.model.ActivityLog">
+    <select id="getAllActivityLog" resultType="com.controlcenter.controlcenter.model.ActivityLogOutput">
         SELECT log_id, 
                users.username,
                log_desc, 
@@ -15,7 +15,7 @@
     </select>
 
 <!-- Add Data -->
-    <insert id="addDepartment" parameterType="com.controlcenter.controlcenter.model.ActivityLog">
+    <insert id="addActivityLog" parameterType="com.controlcenter.controlcenter.model.ActivityLogInput">
         INSERT INTO tbl_act_log(
           emp_id,
           log_desc,
@@ -25,7 +25,7 @@
         VALUES (
           #{emp_id},
           #{log_desc},
-          #{log_desc},
+          #{log_date},
           1
         );
     </insert>
