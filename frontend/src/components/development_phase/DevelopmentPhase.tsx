@@ -24,9 +24,9 @@ export default function DevelopmentPhase() {
 			</div>
 
 			<div className={DevStyle.contentContainer}>
-			<div > 
+			
 				<HideButton/>
-			</div>
+			
 			
 				<div className={DevStyle.contentHolder}>
 		
