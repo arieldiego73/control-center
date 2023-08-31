@@ -14,4 +14,5 @@ public interface UserProjectDao {
     void addUserProject(UserProjectInput userProject);
     void editUserProjectInfo(Map<String, Object> paramMap);
     void logicalDeleteUserProject(String id);
+    void restoreUserProject(String id);
 }

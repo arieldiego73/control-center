@@ -41,4 +41,9 @@ public class UserProjectController {
     public String logicalDeleteUserProject(@PathVariable String id) {
         return userProjectService.logicalDeleteUserProject(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreUserProject(@PathVariable String id) {
+        return userProjectService.restoreUserProject(id);
+    }
 }
