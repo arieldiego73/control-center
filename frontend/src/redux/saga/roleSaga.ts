@@ -1,6 +1,7 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { getRolesSuccess } from "../state/roleState";
 import { createAction } from "@reduxjs/toolkit";
+import { GridValidRowModel } from "@mui/x-data-grid";
 
 function* fetchRoles(): any {
 	const roles = yield call(() =>
@@ -57,7 +58,6 @@ const apiAdd = async (
 				"Content-Type": "application/json",
 			},
 		});
-		console.log("response:", response);
 		if (response.ok) {
 			const data = await response.json();
 			return data;
@@ -90,10 +90,10 @@ function* updateSaga(action: ReturnType<typeof updateRoles>): any {
 	try {
 		const roles = yield call(
 			apiUpdate,
-			action.payload.role_id,
-			action.payload.title,
-			action.payload.role_sh_name,
-			action.payload.role_user_level
+			action.payload.roleInfo.role_id,
+			action.payload.roleInfo.title,
+			action.payload.roleInfo.role_sh_name,
+			action.payload.roleInfo.role_user_level
 		);
 		if (roles) yield put(getRolesSuccess(roles));
 	} catch (error) {
@@ -105,11 +105,11 @@ function* addSaga(action: ReturnType<typeof addRoles>): any {
 	try {
 		const roles = yield call(
 			apiAdd,
-			action.payload.title,
-			action.payload.role_sh_name,
-			action.payload.role_user_level,
-			action.payload.reg_id,
-			action.payload.update_id
+			action.payload.roleInfo.title,
+			action.payload.roleInfo.role_sh_name,
+			action.payload.roleInfo.role_user_level,
+			"1", // reg_id
+			"1" // update_id
 		);
 		if (roles) yield put(getRolesSuccess(roles));
 	} catch (error) {
@@ -127,18 +127,11 @@ function* deleteSaga(action: ReturnType<typeof deleteRoles>): any {
 }
 
 export const updateRoles = createAction<{
-	role_id: number;
-	title: string;
-	role_sh_name: string;
-	role_user_level: number;
+	roleInfo: GridValidRowModel;
 }>("roles/updateRoles");
 
 export const addRoles = createAction<{
-	title: string;
-	role_sh_name: string;
-	role_user_level: number;
-	reg_id: string;
-	update_id: string;
+	roleInfo: GridValidRowModel;
 }>("roles/addRoles");
 
 export const deleteRoles = createAction<{
