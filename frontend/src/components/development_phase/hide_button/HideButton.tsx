@@ -6,9 +6,10 @@ import TextField from "@mui/material/TextField";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import { Add } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
-
+import SaveIcon from "@mui/icons-material/Save";
 
 const HideButton: React.FC = () => {
+ 
   const [isHidden, setIsHidden] = useState(false);
   const [open, setOpen] = React.useState(false);
 
@@ -21,7 +22,7 @@ const HideButton: React.FC = () => {
   };
 
   return (
-    <div>
+    <div style={{justifyContent: "flex-end", display: "flex" }}>
       {!isHidden ? (
         <Button
           variant="contained"
@@ -34,23 +35,8 @@ const HideButton: React.FC = () => {
       ) : (
       
           <div className={HideBtnStyle.contentHolder}>
+        
             <div style={{flexDirection:'row', display:'flex', }}>
-                {/* <FormControl >
-                 <FormLabel>Role</FormLabel>
-                <TextField
-                    variant="outlined"
-                    size="small"
-                    placeholder="Role"
-                    className={HideBtnStyle.textField}
-                    InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                        <PermIdentityOutlinedIcon />
-                        </InputAdornment>
-                    ),
-                    }}
-                />
-                </FormControl>  */}
                 <FormControl style={{padding: '1%'}}>
                 <FormLabel>Role</FormLabel>
                 <TextField
@@ -102,18 +88,18 @@ const HideButton: React.FC = () => {
                 </FormControl>
             </div>
                 
-                <div style={{flexDirection:'row', display:'flex', paddingInlineStart: '80%'}}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<Add />}
-                      style={{ textTransform: "none" }}
-                      >
-                      Add Role
-                  </Button>
-                  <Button onClick={handleClose}>Close</Button>
-                </div>
+            <div style={{ flexDirection: 'row', display: 'flex', width:'100%',  justifyContent:'flex-end', paddingRight:'3%' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<SaveIcon />}
+                style={{ textTransform: "none", marginRight: "10px" }} 
+              >
+                Save
+              </Button>
+                <Button onClick={handleClose}>Close</Button>
             </div>
+          </div>
       )}
     </div>
   );
