@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.controlcenter.controlcenter.model.Role;
 
@@ -14,4 +15,6 @@ public interface RoleDao {
     void editRoleInfo(Map<String, Object> paramMap);
     void logicalDeleteRole(String id);
     void restoreRole(String id);
+    void deleteMultipleRole(@Param("ids") List<Long> ids);
+    void restoreMultipleRole(@Param("ids") List<Long> ids);
 }

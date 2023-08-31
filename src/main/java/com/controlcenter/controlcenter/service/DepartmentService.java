@@ -12,3 +12,4 @@ public interface DepartmentService {
     public String logicalDeleteDepartment(String id);
     public String restoreDepartment(String id);
 }
+

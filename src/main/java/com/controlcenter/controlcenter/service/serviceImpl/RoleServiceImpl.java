@@ -64,4 +64,24 @@ public class RoleServiceImpl implements RoleService {
       return e.getMessage();
     }
   }
+
+  @Override
+  public String deleteMultipleRole(List<Long> ids) {
+    try {
+      roleDao.deleteMultipleRole(ids);
+      return "Roles Deleted Successfully.";
+    } catch (Exception e) {
+      return e.getMessage();
+    }
+  }
+
+  @Override
+  public String restoreMultipleRole(List<Long> ids) {
+    try {
+      roleDao.restoreMultipleRole(ids);
+      return "Roles Restored Successfully.";
+    } catch (Exception e) {
+      return e.getMessage();
+    }
+  }
 }
