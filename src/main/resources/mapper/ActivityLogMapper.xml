@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.controlcenter.controlcenter.dao.ActivityLogDao">
+
+<!-- Fetch Data -->
+    <select id="getAllActivityLog" resultType="com.controlcenter.controlcenter.model.ActivityLog">
+        SELECT log_id, 
+               users.username,
+               log_desc, 
+               log_date
+          FROM tbl_act_log AS logs 
+    INNER JOIN tbl_user AS users ON users.emp_id = logs.emp_id
+         WHERE del_flag = 0;
+    </select>
+
+<!-- Add Data -->
+    <insert id="addDepartment" parameterType="com.controlcenter.controlcenter.model.ActivityLog">
+        INSERT INTO tbl_act_log(
+          emp_id,
+          log_desc,
+          log_date,
+          reg_id
+        )
+        VALUES (
+          #{emp_id},
+          #{log_desc},
+          #{log_desc},
+          1
+        );
+    </insert>
+
+<!-- Update Data -->
+    <update id="editDepartmentInfo" parameterType="map">
+        UPDATE tbl_department_mst
+           SET dept_name=#{department.dept_name},
+               update_id = 1
+         WHERE dept_id = #{id}
+    </update>
+
+<!-- Delete Data -->
+    <update id="logicalDeleteDepartment">
+        UPDATE tbl_department_mst
+           SET del_flag=1
+         WHERE dept_id = #{id}
+    </update>
+    
+<!-- Restore Data -->
+    <update id="restoreDepartment">
+        UPDATE tbl_department_mst
+           SET del_flag=0
+         WHERE dept_id = #{id}
+    </update>
+
+</mapper>
