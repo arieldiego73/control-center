@@ -157,11 +157,13 @@ export default function NewProj() {
 	};
 
   return (
+    <body>
+      
     <div className={StyleNewProject.mainContainer}>
       <div className={StyleNewProject.heading}>
         <FontAwesomeIcon icon={faUser} size="2x" color="black" />
         <div className={StyleNewProject.textContainer}>
-          <span style={{ fontSize: "4vh", color: "black" }}>
+          <span style={{ fontSize: "4vh", color: "black" , fontFamily:"Montserrat, sans-serif"}}>
             {" "}
             Add New Project{" "}
           </span>
@@ -180,7 +182,7 @@ export default function NewProj() {
         <div className={StyleNewProject.mainForm}>
           <div className={StyleNewProject.formRow1}>
             <FormControl className={StyleNewProject.formUsername}>
-              <FormLabel>Project Name</FormLabel>
+              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Project Name</FormLabel>
               <TextField
                 variant="outlined"
                 size="small"
@@ -259,7 +261,7 @@ export default function NewProj() {
                 </Paper>
               </div>
               <FormControl className={StyleNewProject.assocId}>
-                <FormLabel>Description</FormLabel>
+                <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Description</FormLabel>
                 <TextField
                   variant="outlined"
                   size="small"
@@ -278,13 +280,13 @@ export default function NewProj() {
           </div>
           <div className={StyleNewProject.formRow3}>
             <FormControl className={StyleNewProject.fname}>
-              <FormLabel>Start Date</FormLabel>
+              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Start Date</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker />
               </LocalizationProvider>
             </FormControl>
             <FormControl className={StyleNewProject.mname}>
-              <FormLabel>End Date</FormLabel>
+              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>End Date</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker />
               </LocalizationProvider>
@@ -293,7 +295,7 @@ export default function NewProj() {
 
           <div className={StyleNewProject.formRow5}>
             <FormControl className={StyleNewProject.email}>
-              <FormLabel>Project Manager</FormLabel>
+              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Project Manager</FormLabel>
               <TextField
                 variant="outlined"
                 size="small"
@@ -312,7 +314,7 @@ export default function NewProj() {
               variant="contained"
               color="primary"
               startIcon={<Add />}
-              style={{ textTransform: "none" }}
+              style={{ textTransform: "none" , fontFamily: 'Montserrat, sans-serif'}}
             >
               Add Project Manager
             </Button>
@@ -320,7 +322,7 @@ export default function NewProj() {
 
           <div className={StyleNewProject.formRow6}>
             <FormControl className={StyleNewProject.email}>
-              <FormLabel>Client Name</FormLabel>
+              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Client Name</FormLabel>
               <TextField
                 variant="outlined"
                 size="small"
@@ -340,10 +342,10 @@ export default function NewProj() {
           {/* FOR TESTING SCROLL VIEW ONLY!! */}
 
           <div className={StyleNewProject.formRow6}>
-            <FormLabel style={{ paddingTop: ".5%" }}>
+            <FormLabel style={{ paddingTop: ".5%" , fontFamily: 'Montserrat, sans-serif' }}>
               Development Phase
             </FormLabel>
-            <FormGroup style={{ flexDirection: "row", display: "flex" }}>
+            <FormGroup style={{ flexDirection: "row", display: "flex" , fontFamily: 'Montserrat, sans-serif'}}>
               <FormControlLabel control={<Checkbox />} label="RQS" />
               <FormControlLabel control={<Checkbox />} label="BD" />
               <FormControlLabel control={<Checkbox />} label="DD" />
@@ -360,7 +362,7 @@ export default function NewProj() {
 
           <div className={StyleNewProject.formRow5}>
             <FormControl>
-              <FormLabel>Technology</FormLabel>
+              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Technology</FormLabel>
               <TextField
                 variant="outlined"
                 size="small"
@@ -379,7 +381,7 @@ export default function NewProj() {
               variant="contained"
               color="primary"
               startIcon={<Add />}
-              style={{ textTransform: "none" }}
+              style={{ textTransform: "none" , fontFamily: 'Montserrat, sans-serif'}}
             >
               Add Technology
             </Button>
@@ -387,7 +389,7 @@ export default function NewProj() {
 
           <div className={StyleNewProject.formRow5}>
             <FormControl>
-              <FormLabel>Members</FormLabel>
+              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Members</FormLabel>
               <TextField
                 variant="outlined"
                 size="small"
@@ -408,7 +410,7 @@ export default function NewProj() {
               variant="contained"
               color="primary"
               startIcon={<Add />}
-              style={{ textTransform: "none", }}
+              style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif'}}
             >
               Add Members
             </Button>
@@ -416,7 +418,7 @@ export default function NewProj() {
 
           <div>
             <FormControl variant="outlined" size="small">
-              <FormLabel>Status</FormLabel>
+              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Status</FormLabel>
               {/* <InputLabel htmlFor="demo-simple-select-label">Select Department</InputLabel> */}
               <Select
                 labelId="demo-simple-select-label"
@@ -444,15 +446,15 @@ export default function NewProj() {
               variant="contained"
               color="primary"
               startIcon={<SaveOutlinedIcon />}
-              style={{ textTransform: "none" }}
+              style={{ textTransform: "none" , fontFamily: 'Montserrat, sans-serif'}}
             >
               SAVE
             </Button>
-            <Link to="/project" style={{ textDecoration: "none" }}>
+            <Link to="/project" style={{ textDecoration: "none" , fontFamily: 'Montserrat, sans-serif'}}>
             <Button
               variant="contained"
               startIcon={<CancelOutlinedIcon />}
-              style={{ textTransform: "none", backgroundColor: "gray" }}
+              style={{ textTransform: "none", backgroundColor: "gray" , fontFamily: 'Montserrat, sans-serif'}}
             >
               CANCEL
             </Button>
@@ -488,20 +490,12 @@ export default function NewProj() {
 						<AddMemberTable />
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Save</Button>
+						<Button onClick={handleClose} sx={{fontFamily: 'Montserrat, sans-serif'}}>Cancel</Button>
+            <Button onClick={handleClose} sx={{fontFamily: 'Montserrat, sans-serif'}}>Save</Button>
 					</DialogActions>
 				</Dialog>
-       
-				{/* <TablePagination
-					rowsPerPageOptions={[10, 25, 100]}
-					component="div"
-					count={rows.length}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-				/> */}
     </div>
+    </body>
+
   );
 }

@@ -266,7 +266,7 @@ export default function DevelopmentPhaseTable() {
 				isRowSelectable={() => false}
 				initialState={{
 					pagination: {
-						paginationModel: { page: 0, pageSize: 25 },
+						paginationModel: { page: 0, pageSize: 3 },
 					},
 				}}
 				slots={{
