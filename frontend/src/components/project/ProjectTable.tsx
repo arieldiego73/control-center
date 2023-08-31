@@ -88,7 +88,7 @@ export default function ProjectTable() {
             <TableHead sx={{ backgroundColor: "transparent", zIndex: "1" }}>
               <TableRow>
                 {['ID', 'Project Name', 'Project Manager', 'Client', 'Duration', 'Development Type', 'Development Phase', 'Technologies', 'Member(s)'].map((header, index) => (
-                  <TableCell key={index} align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" }}>
+                  <TableCell key={index} align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" , borderBottom:"1px solid black", borderTop:"1px solid black", fontFamily:"Montserrat, sans-serif"}}>
                     {header}
                   </TableCell>
                 ))}
@@ -96,20 +96,20 @@ export default function ProjectTable() {
             </TableHead>
             <TableBody>
               {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 , fontFamily:"Montserrat, sans-serif"} }}>
                   <TableCell component="th" scope="row" align="center">
                     {row.id}
                   </TableCell>
-                  <TableCell align="center">{row.projectName}</TableCell>
-                  <TableCell align="center">{row.projectManager}</TableCell>
-                  <TableCell align="center">{row.client}</TableCell>
-                  <TableCell align="center">{row.duration}</TableCell>
-                  <TableCell align="center">{row.developmentType}</TableCell>
-                  <TableCell align="center">{row.developmentPhase}</TableCell>
-                  <TableCell align="center">{row.technoloies}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif"}}>{row.projectName}</TableCell>
+                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif"}}>{row.projectManager}</TableCell>
+                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif"}}>{row.client}</TableCell>
+                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif"}}>{row.duration}</TableCell>
+                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif"}}>{row.developmentType}</TableCell>
+                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif"}}>{row.developmentPhase}</TableCell>
+                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif"}}>{row.technoloies}</TableCell>
+                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif"}}>
                     <span
-                      style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
+                      style={{ color: "blue", textDecoration: "underline", cursor: "pointer" , fontFamily:"Montserrat, sans-serif" }}
                       onClick={() => handleClickOpen(row.members)}
                     >
                       {row.members}
@@ -128,11 +128,11 @@ export default function ProjectTable() {
           maxWidth="xl"
         >
           <DialogTitle>
-            <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "flex-start", gap: "1vw" }}>
+            <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "flex-start", gap: "1vw" , fontFamily:"Montserrat, sans-serif"}}>
               <div>
                 <FontAwesomeIcon icon={faUser} size="2x" color="black" />
               </div>
-              <div style={{ fontSize: "3vh", fontWeight: "900" }}>
+              <div style={{ fontSize: "3vh", fontWeight: "900" , fontFamily:"Montserrat, sans-serif"}}>
                 {"Member(s)"}
               </div>
             </div>

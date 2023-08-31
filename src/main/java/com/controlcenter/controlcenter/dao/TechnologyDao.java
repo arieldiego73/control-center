@@ -14,4 +14,5 @@ public interface TechnologyDao {
     void addTechnology(TechnologyInput technology);
     void editTechnology(Map<String, Object> paramMap);
     void logicalDeleteTechnology(String id);
+    void restoreTechnology(String id);
 }

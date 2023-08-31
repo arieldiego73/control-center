@@ -28,7 +28,7 @@ public class UserProjectServiceImpl implements UserProjectService {
     public String addUserProject(UserProjectInput userProject) {
         try {
             userProjectDao.addUserProject(userProject);
-            return "UserProject Added Successfully";
+            return "User Project added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -43,7 +43,7 @@ public class UserProjectServiceImpl implements UserProjectService {
 
             userProjectDao.editUserProjectInfo(paramMap);
 
-            return "User Project Info Edited Successfully";
+            return "User Project edited successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -55,7 +55,19 @@ public class UserProjectServiceImpl implements UserProjectService {
         
             userProjectDao.logicalDeleteUserProject(id);
 
-            return "UserProject Deleted Successfully";
+            return "UserProject deleted successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String restoreUserProject(String id) {
+        try {
+        
+            userProjectDao.restoreUserProject(id);
+
+            return "UserProject restored successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

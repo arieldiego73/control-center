@@ -10,4 +10,5 @@ public interface TechnologyService {
     public String addTechnology(TechnologyInput technology);
     public String editTechnology(String id, TechnologyInput technology);
     public String logicalDeleteTechnology(String id);
+    public String restoreTechnology(String id);
 }

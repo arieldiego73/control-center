@@ -10,6 +10,5 @@ public interface SectionService {
     public String addSection(SectionInput section);
     public String editSectionInfo(String id, SectionInput section);
     public String logicalDeleteSection(String id);
-
-    
+    public String restoreSection(String id);    
 }

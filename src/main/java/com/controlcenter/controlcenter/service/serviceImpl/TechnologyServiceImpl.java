@@ -27,7 +27,7 @@ public class TechnologyServiceImpl implements TechnologyService{
     public String addTechnology(TechnologyInput technology) {
         try {
             technologyDao.addTechnology(technology);
-            return "Technology Added Successfully.";
+            return "Technology added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -37,13 +37,10 @@ public class TechnologyServiceImpl implements TechnologyService{
     public String editTechnology(String id, TechnologyInput technology) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
-
             paramMap.put("id", id);
             paramMap.put("technology", technology);
-
             technologyDao.editTechnology(paramMap);
-
-            return "Technology Edited Successfully.";
+            return "Technology edited successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -53,7 +50,17 @@ public class TechnologyServiceImpl implements TechnologyService{
     public String logicalDeleteTechnology(String id) {
         try {
             technologyDao.logicalDeleteTechnology(id);
-            return "Technology Deleted Successfully.";
+            return "Technology deleted successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String restoreTechnology(String id) {
+        try {
+            technologyDao.restoreTechnology(id);
+            return "Technology restored successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

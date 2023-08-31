@@ -41,4 +41,9 @@ public class TechnologyController {
     public String logicalDeleteTechnology(@PathVariable String id) {
         return technologyService.logicalDeleteTechnology(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreTechnology(@PathVariable String id) {
+        return technologyService.restoreTechnology(id);
+    }
 }
