@@ -22,6 +22,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { getRolesFetch } from "../../redux/state/roleState";
+import HideButton from "./hide_button/HideButton";
 
 interface EditToolbarProps {
 	setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -30,7 +31,7 @@ interface EditToolbarProps {
 	) => void;
 }
 
-export default function RoleTable() {
+export default function DevelopmentPhaseTable() {
 	const dispatch = useDispatch();
 	React.useEffect(() => {
 		dispatch(getRolesFetch());
@@ -80,9 +81,13 @@ export default function RoleTable() {
 
 		return (
 			<GridToolbarContainer
-				sx={{ display: "flex", justifyContent: "flex-end" }}
+				sx={{ display: "flex", justifyContent: "flex-end",  position: "absolute", top: -50, width:'100%' }}
 			>
-				<Button
+				{/* <div style={{width:'100%', height:'1000px'}}>
+				<HideButton/>
+				</div> */}
+				
+				{/* <Button
 					color="primary"
 					variant="contained"
 					startIcon={<AddIcon />}
@@ -90,7 +95,7 @@ export default function RoleTable() {
 					sx={{ marginBottom: 3, position: "absolute", top: -50 }}
 				>
 					Add role
-				</Button>
+				</Button> */}
 			</GridToolbarContainer>
 		);
 	}

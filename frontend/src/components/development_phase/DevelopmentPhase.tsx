@@ -2,6 +2,7 @@ import DevStyle from './DevelopmentPhase.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import DevelopmentPhaseTable from './DevelopmentPhaseTable'
+import HideButton from './hide_button/HideButton';
 
 export default function DevelopmentPhase() {
 	return (
@@ -23,19 +24,22 @@ export default function DevelopmentPhase() {
 			</div>
 
 			<div className={DevStyle.contentContainer}>
+			<div > 
+				<HideButton/>
+			</div>
+			
 				<div className={DevStyle.contentHolder}>
-					{/* Start of Header */}
-
-					{/* Start of Table */}
+		
 					<div
 						style={{
 							backgroundColor: "transparent",
 							borderBottomLeftRadius: "8px",
 							borderBottomRightRadius: "8px",
 							height: "100%",
-							marginTop: "46px",
+							marginTop: "10px",
 						}}
 					>
+
 						<DevelopmentPhaseTable />
 					</div>
 				</div>
