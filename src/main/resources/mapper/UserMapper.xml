@@ -23,16 +23,16 @@
         INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
         WHERE users.del_flag = 0;
     </select>
-    <select id="getUserById" parameterType="long" resultType="com.controlcenter.controlcenter.model.User">
+    <select id="getUserById" parameterType="long" resultType="com.controlcenter.controlcenter.model.UserOutput">
         SELECT * FROM tbl_user WHERE emp_id = #{id};
     </select>
-    <select id="getUserByUsername" resultType="com.controlcenter.controlcenter.model.User">
+    <select id="getUserByUsername" resultType="com.controlcenter.controlcenter.model.UserOutput">
         SELECT *
         FROM tbl_user
         WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
     
-    <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.User">
+    <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.UserInput">
         INSERT INTO tbl_user (
             emp_id, 
             username, 
@@ -43,8 +43,7 @@
             role_id,
             status_code, 
             img_src, 
-            reg_id, 
-            update_id
+            reg_id
         )
         VALUES (
             #{emp_id}, 
@@ -56,8 +55,7 @@
             #{role_id}, 
             #{status_code}, 
             #{img_src}, 
-            #{reg_id}, 
-            #{update_id}
+            1
         );
     </insert>
 

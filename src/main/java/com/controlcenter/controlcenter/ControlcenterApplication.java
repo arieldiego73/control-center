@@ -10,10 +10,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.controlcenter.controlcenter.model.User;
+import com.controlcenter.controlcenter.model.UserInput;
 
 @SpringBootApplication
-@MappedTypes(User.class)
+@MappedTypes(UserInput.class)
 @MapperScan("com.controlcenter.controlcenter.dao")
 public class ControlcenterApplication {
 

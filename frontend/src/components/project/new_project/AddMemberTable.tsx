@@ -54,7 +54,7 @@ export default function AddMemberTable(){
 	
   return (
     <div>
-            <TableContainer sx={{ maxHeight: 310}}  >
+            <TableContainer sx={{ maxHeight: 310 ,  fontFamily: 'Montserrat, sans-serif' }}  >
                 <Table  stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -69,7 +69,7 @@ export default function AddMemberTable(){
                         {dessertRows.map((row) => (
                             <TableRow
                                 key={row.name}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } , fontFamily: 'Montserrat, sans-serif' }}
                             >
                                 <TableCell component="th" scope="row">
                                     {row.name}

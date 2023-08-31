@@ -15,4 +15,5 @@ public interface SectionDao {
     void addSection(SectionInput section);
     void editSectionInfo(Map<String, Object> paramMap);
     void logicalDeleteSection(String id);
+    void restoreSection(String id);
 }

@@ -3,12 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.controlcenter.controlcenter.dao.RoleDao">
 
+<!-- Fetch Data -->
     <select id="getAllRole" resultType="com.controlcenter.controlcenter.model.Role">
         SELECT * 
           FROM tbl_role_mst
          WHERE del_flag = 0;
     </select>
 
+<!-- Add Data -->
     <insert id="addRole" parameterType="com.controlcenter.controlcenter.model.Role">
         INSERT INTO tbl_role_mst (
             title, 
@@ -26,6 +28,7 @@
         );
     </insert>
 
+<!-- Update Data -->
     <update id="editRoleInfo" parameterType="map">
         UPDATE tbl_role_mst
            SET title=#{role.title}, 
@@ -34,9 +37,17 @@
          WHERE role_id = #{id}
     </update>
 
+<!-- Logical Delete Data -->
     <update id="logicalDeleteRole">
         UPDATE tbl_role_mst
-           SET del_flag=1
+           SET del_flag = 1
+         WHERE role_id = #{id}
+    </update>
+
+<!-- Restore Data -->
+    <update id="restoreRole">
+        UPDATE tbl_role_mst
+           SET del_flag = 0
          WHERE role_id = #{id}
     </update>
     

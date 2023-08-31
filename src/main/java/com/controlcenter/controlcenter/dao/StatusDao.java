@@ -5,13 +5,15 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.Status;
+import com.controlcenter.controlcenter.model.StatusInput;
+import com.controlcenter.controlcenter.model.StatusOutput;
 
 @Mapper
 public interface StatusDao {
-    List<Status> getAllStatus();
-    void addStatus(Status status);
+    List<StatusOutput> getAllStatus();
+    void addStatus(StatusInput status);
     void editStatusInfo(Map<String, Object> paramMap);
     void logicalDeleteStatus(String code);
+    void restoreStatus(String code);
 }
 

@@ -64,4 +64,16 @@ public class RoleController {
       return ResponseEntity.badRequest().body(allRoles);
     }
   }
+
+  @PutMapping("/restore/{id}")
+  public ResponseEntity<List<Role>> restoreRole(@PathVariable String id) {
+    String res = roleService.restoreRole(id);
+    List<Role> allRoles = new ArrayList<Role>();
+    if (res.equals("Role restored successfully!")) {
+      allRoles = getAllRole();
+      return ResponseEntity.ok(allRoles);
+    } else {
+      return ResponseEntity.badRequest().body(allRoles);
+    }
+  }
 }

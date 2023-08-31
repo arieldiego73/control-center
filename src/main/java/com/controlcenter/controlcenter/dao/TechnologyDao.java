@@ -5,12 +5,14 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.controlcenter.controlcenter.model.Technology;
+import com.controlcenter.controlcenter.model.TechnologyInput;
+import com.controlcenter.controlcenter.model.TechnologyOutput;
 
 @Mapper
 public interface TechnologyDao {
-    List<Technology> getAllTechnology();
-    void addTechnology(Technology technology);
+    List<TechnologyOutput> getAllTechnology();
+    void addTechnology(TechnologyInput technology);
     void editTechnology(Map<String, Object> paramMap);
     void logicalDeleteTechnology(String id);
+    void restoreTechnology(String id);
 }

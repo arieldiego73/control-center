@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.Status;
+import com.controlcenter.controlcenter.model.StatusInput;
+import com.controlcenter.controlcenter.model.StatusOutput;
 import com.controlcenter.controlcenter.service.StatusService;
 
 @RestController
@@ -22,22 +23,27 @@ public class StatusController {
     public StatusService statusService;
 
     @GetMapping("/all")
-    public List<Status> getAllStatus(){
+    public List<StatusOutput> getAllStatus(){
         return statusService.getAllStatus();
     }
 
     @PostMapping("/add")
-    public String addStatus(@RequestBody Status status){
+    public String addStatus(@RequestBody StatusInput status){
         return statusService.addStatus(status);
     }
 
     @PutMapping("/edit/{code}")
-    public String editStatusInfo(@PathVariable String code, @RequestBody Status status){
+    public String editStatusInfo(@PathVariable String code, @RequestBody StatusInput status){
         return statusService.editStatusInfo(code, status);
     }
     
     @PutMapping("/delete/{code}")
     public String logicalDeleteStatus(@PathVariable String code){
         return statusService.logicalDeleteStatus(code);
+    }
+    
+    @PutMapping("/restore/{code}")
+    public String restoreStatus(@PathVariable String code){
+        return statusService.restoreStatus(code);
     }
 }

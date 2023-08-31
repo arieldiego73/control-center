@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.UserProjectDao;
-import com.controlcenter.controlcenter.model.UserProject;
+import com.controlcenter.controlcenter.model.UserProjectInput;
+import com.controlcenter.controlcenter.model.UserProjectOutput;
 import com.controlcenter.controlcenter.service.UserProjectService;
 
 
@@ -19,22 +20,22 @@ public class UserProjectServiceImpl implements UserProjectService {
     public UserProjectDao userProjectDao;
 
     @Override
-    public List<UserProject> getAllUserProject(){
+    public List<UserProjectOutput> getAllUserProject(){
         return userProjectDao.getAllUserProject();
     }
     
     @Override
-    public String addUserProject(UserProject userProject) {
+    public String addUserProject(UserProjectInput userProject) {
         try {
             userProjectDao.addUserProject(userProject);
-            return "UserProject Added Successfully";
+            return "User Project added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
     @Override 
-    public String editUserProjectInfo(String id, UserProject userProject) {
+    public String editUserProjectInfo(String id, UserProjectInput userProject) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
@@ -42,7 +43,7 @@ public class UserProjectServiceImpl implements UserProjectService {
 
             userProjectDao.editUserProjectInfo(paramMap);
 
-            return "User Project Info Edited Successfully";
+            return "User Project edited successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -54,7 +55,19 @@ public class UserProjectServiceImpl implements UserProjectService {
         
             userProjectDao.logicalDeleteUserProject(id);
 
-            return "UserProject Deleted Successfully";
+            return "UserProject deleted successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String restoreUserProject(String id) {
+        try {
+        
+            userProjectDao.restoreUserProject(id);
+
+            return "UserProject restored successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

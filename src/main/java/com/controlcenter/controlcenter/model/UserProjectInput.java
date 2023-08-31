@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
-public class StatusOutput {
-    private String status_code;
-    private String status_name;
+public class UserProjectInput {
+    private String emp_id;
+    private int proj_id;
 }
