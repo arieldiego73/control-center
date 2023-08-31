@@ -27,7 +27,7 @@ public class StatusServiceImpl implements StatusService{
     public String addStatus(StatusInput status){
         try{
             statusDao.addStatus(status);
-            return "Status Added Successfully";
+            return "Status added successfully.";
         } catch(Exception e){
             return e.getMessage();
         }
@@ -42,7 +42,7 @@ public class StatusServiceImpl implements StatusService{
 
             statusDao.editStatusInfo(paramMap);
 
-            return "Status Info Edited Successfully";
+            return "Status edited successfully.";
         } catch (Exception e){
             return e.getMessage();
         }
@@ -52,11 +52,19 @@ public class StatusServiceImpl implements StatusService{
     public String logicalDeleteStatus(String code){
         try{
             statusDao.logicalDeleteStatus(code);
-
-            return "Status Deleted Successfully";
+            return "Status deleted successfully.";
         } catch (Exception e){
             return e.getMessage();
         }
     }
-    
+
+    @Override
+    public String restoreStatus(String code){
+        try{
+            statusDao.restoreStatus(code);
+            return "Status restored successfully.";
+        } catch (Exception e){
+            return e.getMessage();
+        }
+    }
 }

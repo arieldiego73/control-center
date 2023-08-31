@@ -10,7 +10,6 @@ public interface UserProjectService {
     public String addUserProject(UserProjectInput userProject);
     public String editUserProjectInfo(String id, UserProjectInput userProject);
     public String logicalDeleteUserProject(String id);
-
-    
+    public String restoreUserProject(String id);
 }
 

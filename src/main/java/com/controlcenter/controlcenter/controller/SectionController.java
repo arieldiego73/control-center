@@ -42,4 +42,9 @@ public class SectionController {
     public String logicalDeleteSection(@PathVariable String id) {
         return sectionService.logicalDeleteSection(id);
     }
+
+    @PutMapping("/restore/{id}")
+    public String restoreSection(@PathVariable String id) {
+        return sectionService.restoreSection(id);
+    }
 }

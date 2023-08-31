@@ -36,10 +36,16 @@
     </update>
 
 <!-- Logical Delete Data -->
-    <update id="logicalDeleteUserProject" parameterType="map">
+    <update id="logicalDeleteUserProject">
         UPDATE tbl_user_project
-           SET del_flag=1
+           SET del_flag = 1
         WHERE upid = #{id}
     </update>
 
+<!-- Restore Data -->
+    <update id="restoreUserProject">
+        UPDATE tbl_user_project
+           SET del_flag = 0
+        WHERE upid = #{id}
+    </update>
 </mapper>

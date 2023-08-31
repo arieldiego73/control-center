@@ -27,7 +27,7 @@ public class SectionServiceImpl implements SectionService{
     public String addSection(SectionInput section) {
         try {
             sectionDao.addSection(section);
-            return "Section Added Successfully";
+            return "Section added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -42,7 +42,7 @@ public class SectionServiceImpl implements SectionService{
 
             sectionDao.editSectionInfo(paramMap);
 
-            return "Section Info Edited Successfully";
+            return "Section edited successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -54,7 +54,19 @@ public class SectionServiceImpl implements SectionService{
         
             sectionDao.logicalDeleteSection(id);
 
-            return "Section Deleted Successfully";
+            return "Section deleted successfully.";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String restoreSection(String id) {
+        try {
+        
+            sectionDao.restoreSection(id);
+
+            return "Section restored successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
