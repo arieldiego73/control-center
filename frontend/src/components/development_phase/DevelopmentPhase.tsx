@@ -2,7 +2,6 @@ import DevStyle from './DevelopmentPhase.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import DevelopmentPhaseTable from './DevelopmentPhaseTable'
-import HideButton from './hide_button/HideButton';
 
 export default function DevelopmentPhase() {
 	return (
@@ -25,8 +24,7 @@ export default function DevelopmentPhase() {
 
 			<div className={DevStyle.contentContainer}>
 			
-				<HideButton/>
-			
+		
 			
 				<div className={DevStyle.contentHolder}>
 		
