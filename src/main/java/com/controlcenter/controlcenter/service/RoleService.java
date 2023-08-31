@@ -13,4 +13,5 @@ public interface RoleService {
     public String logicalDeleteRole(String id);
     public String restoreRole(String id);
     public String deleteMultipleRole(@RequestParam List<Long> ids);
+    public String restoreMultipleRole(@RequestParam List<Long> ids);
 }

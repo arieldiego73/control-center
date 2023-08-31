@@ -60,5 +60,15 @@
            SET del_flag = 0
          WHERE role_id = #{id}
     </update>
+
+<!-- Logical Restore Multiple Role -->
+    <delete id="restoreMultipleRole">
+        UPDATE tbl_role_mst
+           SET del_flag = 0
+         WHERE role_id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
     
 </mapper>

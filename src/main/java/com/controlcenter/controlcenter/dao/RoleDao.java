@@ -16,4 +16,5 @@ public interface RoleDao {
     void logicalDeleteRole(String id);
     void restoreRole(String id);
     void deleteMultipleRole(@Param("ids") List<Long> ids);
+    void restoreMultipleRole(@Param("ids") List<Long> ids);
 }

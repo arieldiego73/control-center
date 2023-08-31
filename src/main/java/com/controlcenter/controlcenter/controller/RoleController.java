@@ -82,4 +82,9 @@ public class RoleController {
   public String deleteMultipleRole(@RequestParam List<Long> ids) {
     return roleService.deleteMultipleRole(ids);
   }
+
+  @PutMapping("/restore-multiple")
+  public String restoreMultipleRole(@RequestParam List<Long> ids) {
+    return roleService.restoreMultipleRole(ids);
+  }
 }
