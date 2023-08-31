@@ -7,7 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.DepartmentDao;
+import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.DepartmentInput;
 import com.controlcenter.controlcenter.model.DepartmentOutput;
 import com.controlcenter.controlcenter.service.DepartmentService;
@@ -18,6 +20,9 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Autowired
     public DepartmentDao departmentDao;
 
+    @Autowired
+    public ActivityLogDao activityLogDao;
+
     @Override
     public List<DepartmentOutput> getAllDepartment() {
         return departmentDao.getAllDepartment();
@@ -27,6 +32,14 @@ public class DepartmentServiceImpl implements DepartmentService{
     public String addDepartment(DepartmentInput department) {
         try {
             departmentDao.addDepartment(department);
+
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101");
+            activityLogInput.setLog_desc("Added a department.");
+            activityLogInput.setLog_date(System.currentTimeMillis());
+
+            activityLogDao.addActivityLog(activityLogInput);
             return "Department Added Successfully.";
         } catch (Exception e) {
             return e.getMessage();
@@ -68,4 +81,5 @@ public class DepartmentServiceImpl implements DepartmentService{
             return e.getMessage();
         }
     }
+
 }
