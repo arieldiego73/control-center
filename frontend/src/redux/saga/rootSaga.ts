@@ -6,6 +6,7 @@ import {
 	roleSaga,
 	roleSagaAdd,
 	roleSagaDelete,
+	roleSagaDeleteBatch,
 } from "./roleSaga";
 import { sessionSaga } from "./sessionSaga";
 
@@ -17,6 +18,7 @@ export default function* rootSaga() {
 		roleSagaUpdate(),
 		roleSagaAdd(),
 		roleSagaDelete(),
+		roleSagaDeleteBatch(),
 		// Add more sagas here
 	]);
 }
