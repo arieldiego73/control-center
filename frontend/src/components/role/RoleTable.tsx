@@ -140,6 +140,11 @@ export default function RoleTable() {
 	}, [data]);
 
 	// FOR DATA GRID
+	const dataGridSlots = {
+		toolbar: EditToolbar,
+		columnUnsortedIcon: UnsortedIcon,
+	};
+
 	const [rowSelectionModel, setRowSelectionModel] =
 		React.useState<GridRowSelectionModel>([]);
 
@@ -456,10 +461,7 @@ export default function RoleTable() {
 						sortModel: [{ field: "reg_id", sort: "desc" }],
 					},
 				}}
-				slots={{
-					toolbar: EditToolbar,
-					columnUnsortedIcon: UnsortedIcon,
-				}}
+				slots={dataGridSlots}
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
