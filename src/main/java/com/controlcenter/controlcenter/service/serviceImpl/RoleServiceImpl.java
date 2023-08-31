@@ -3,10 +3,12 @@ package com.controlcenter.controlcenter.service.serviceImpl;
 import com.controlcenter.controlcenter.dao.RoleDao;
 import com.controlcenter.controlcenter.model.Role;
 import com.controlcenter.controlcenter.service.RoleService;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,43 +17,50 @@ public class RoleServiceImpl implements RoleService {
   @Autowired
   public RoleDao roleDao;
 
+  public List<Role> allRoles = new ArrayList<Role>();
+
   @Override
   public List<Role> getAllRole() {
     return roleDao.getAllRole();
   }
 
   @Override
-  public String addRole(Role role) {
+  public ResponseEntity<List<Role>> addRole(Role role) {
     try {
       roleDao.addRole(role);
-      return "Role added successfully.";
+      allRoles = getAllRole();
+      return ResponseEntity.ok(allRoles);
     } catch (Exception e) {
-      return e.getMessage();
+      allRoles = new ArrayList<Role>();
+      return ResponseEntity.badRequest().body(allRoles);
     }
   }
 
   @Override
-  public String editRoleInfo(String id, Role role) {
+  public ResponseEntity<List<Role>> editRoleInfo(String id, Role role) {
     try {
       Map<String, Object> paramMap = new HashMap<>();
       paramMap.put("id", id);
       paramMap.put("role", role);
 
       roleDao.editRoleInfo(paramMap);
-
-      return "Role edited successfully.";
+      allRoles = getAllRole();
+      return ResponseEntity.ok(allRoles);
     } catch (Exception e) {
-      return e.getMessage();
+      allRoles = new ArrayList<Role>();
+      return ResponseEntity.badRequest().body(allRoles);
     }
   }
 
   @Override
-  public String logicalDeleteRole(String id) {
+  public ResponseEntity<List<Role>> logicalDeleteRole(String id) {
     try {
       roleDao.logicalDeleteRole(id);
-      return "Role deleted successfully.";
+      allRoles = getAllRole();
+      return ResponseEntity.ok(allRoles);
     } catch (Exception e) {
-      return e.getMessage();
+      allRoles = new ArrayList<Role>();
+      return ResponseEntity.badRequest().body(allRoles);
     }
   }
 
@@ -66,12 +75,14 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
-  public String deleteMultipleRole(List<Long> ids) {
+  public ResponseEntity<List<Role>> deleteMultipleRole(List<Long> ids) {
     try {
       roleDao.deleteMultipleRole(ids);
-      return "Roles Deleted Successfully.";
+      allRoles = getAllRole();
+      return ResponseEntity.ok(allRoles);
     } catch (Exception e) {
-      return e.getMessage();
+      allRoles = new ArrayList<Role>();
+      return ResponseEntity.badRequest().body(allRoles);
     }
   }
 
