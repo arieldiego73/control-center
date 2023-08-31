@@ -34,8 +34,9 @@ export default function CreateUser() {
     ];
 
     return (
+        <body>
 
-        <div className={CreateUserStyle.mainContainer}>
+            <div className={CreateUserStyle.mainContainer}>
                 <div className={CreateUserStyle.heading}>
                     <FontAwesomeIcon icon={faUser} size="2x" color='black' />
                     <div className={CreateUserStyle.textContainer}>
@@ -43,14 +44,14 @@ export default function CreateUser() {
                     </div>
                 </div>
                 <div className={CreateUserStyle.breadCrumbs}>
-                     <p>SAMPLE BREADCRUMBS <Breadcrumb items={breadcrumbItems} /></p>
+                    <p>SAMPLE BREADCRUMBS <Breadcrumb items={breadcrumbItems} /></p>
                 </div>
 
                 <div className={CreateUserStyle.contentContainer}>
                     <div className={CreateUserStyle.mainForm}>
                         <div className={CreateUserStyle.formRow1}>
                             <FormControl className={CreateUserStyle.formUsername}>
-                                <FormLabel>Username</FormLabel>
+                                <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Username</FormLabel>
                                 <TextField
                                     variant="outlined"
                                     size="small"
@@ -68,7 +69,7 @@ export default function CreateUser() {
                         </div>
                         <div className={CreateUserStyle.formRow2}>
                             <FormControl className={CreateUserStyle.assocId}>
-                                <FormLabel>Associate ID</FormLabel>
+                                 <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Associate ID</FormLabel>
                                 <TextField
                                     variant="outlined"
                                     size="small"
@@ -84,7 +85,7 @@ export default function CreateUser() {
                                 />
                             </FormControl>
                             <FormControl className={CreateUserStyle.position}>
-                                <FormLabel>Position</FormLabel>
+                                 <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Position</FormLabel>
                                 <TextField
                                     variant="outlined"
                                     size="small"
@@ -102,7 +103,7 @@ export default function CreateUser() {
                         </div>
                         <div className={CreateUserStyle.formRow3}>
                             <FormControl className={CreateUserStyle.fname}>
-                                <FormLabel>First Name</FormLabel>
+                                 <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>First Name</FormLabel>
                                 <TextField
                                     variant="outlined"
                                     size="small"
@@ -118,7 +119,7 @@ export default function CreateUser() {
                                 />
                             </FormControl>
                             <FormControl className={CreateUserStyle.mname}>
-                                <FormLabel>Middle Name</FormLabel>
+                                 <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Middle Name</FormLabel>
                                 <TextField
                                     variant="outlined"
                                     size="small"
@@ -134,7 +135,7 @@ export default function CreateUser() {
                                 />
                             </FormControl>
                             <FormControl className={CreateUserStyle.lname}>
-                                <FormLabel>Last Name</FormLabel>
+                                 <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Last Name</FormLabel>
                                 <TextField
                                     variant="outlined"
                                     size="small"
@@ -152,7 +153,7 @@ export default function CreateUser() {
                         </div>
                         <div className={CreateUserStyle.formRow4}>
                             <FormControl className={CreateUserStyle.email}>
-                                <FormLabel>Email</FormLabel>
+                                 <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Email</FormLabel>
                                 <TextField
                                     variant="outlined"
                                     size="small"
@@ -170,7 +171,7 @@ export default function CreateUser() {
                         </div>
                         <div className={CreateUserStyle.formRow5}>
                             <FormControl className={CreateUserStyle.email}>
-                                <FormLabel>Role</FormLabel>
+                                 <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Role</FormLabel>
                                 <TextField
                                     variant="outlined"
                                     size="small"
@@ -189,14 +190,14 @@ export default function CreateUser() {
                                 variant="contained"
                                 color="primary"
                                 startIcon={<Add />}
-                                style={{ textTransform: "none" }}
+                                style={{ textTransform: "none", fontFamily: "Montserrat, sans-serif"  }}
                             >
                                 Add Role
                             </Button>
                         </div>
                         <div className={CreateUserStyle.formRow6}>
                             <FormControl className={CreateUserStyle.email}>
-                                <FormLabel>Business Unit</FormLabel>
+                                 <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Business Unit</FormLabel>
                                 <TextField
                                     variant="outlined"
                                     size="small"
@@ -214,7 +215,7 @@ export default function CreateUser() {
                             <Box>
                                 <div className={CreateUserStyle.department}>
                                     <FormControl variant="outlined" size="small">
-                                        <FormLabel>Department</FormLabel>
+                                         <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Department</FormLabel>
                                         {/* <InputLabel htmlFor="demo-simple-select-label">Select Department</InputLabel> */}
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -242,14 +243,14 @@ export default function CreateUser() {
                                 variant="contained"
                                 color="primary"
                                 startIcon={<SaveOutlinedIcon />}
-                                style={{ textTransform: "none" }}
+                                style={{ textTransform: "none" , fontFamily: 'Montserrat, sans-serif'}}
                             >
                                 SAVE
                             </Button>
                             <Button
                                 variant="contained"
                                 startIcon={<CancelOutlinedIcon />}
-                                style={{ textTransform: "none", backgroundColor: "gray" }}
+                                style={{ textTransform: "none", backgroundColor: "gray" , fontFamily: 'Montserrat, sans-serif'}}
                             >
                                 CANCEL
                             </Button>
@@ -257,5 +258,7 @@ export default function CreateUser() {
                     </div>
                 </div>
             </div>
+        </body>
+
     )
 }
