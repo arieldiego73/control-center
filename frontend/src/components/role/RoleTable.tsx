@@ -26,7 +26,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { getRolesFetch } from "../../redux/state/roleState";
-import { addRoles, deleteRoles, updateRoles } from "../../redux/saga/roleSaga";
+import {
+	addRoles,
+	deleteRoles,
+	deleteRolesBatch,
+	updateRoles,
+} from "../../redux/saga/roleSaga";
 import {
 	Alert,
 	AlertColor,
@@ -53,7 +58,7 @@ export interface State {
 }
 
 interface EditToolbarProps {
-	setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
+	setRow: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
 	setRowModesModel: (
 		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
 	) => void;
@@ -74,6 +79,14 @@ export default function RoleTable() {
 	const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
 		{}
 	);
+	const [rowSelectionModel, setRowSelectionModel] =
+		React.useState<GridRowSelectionModel>([]);
+	const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(
+		new Set()
+	);
+	const [isBatch, setIsBatch] = React.useState<boolean>();
+	const [dialogTitle, setDialogTitle] = React.useState("");
+	const [dialogContentText, setDialogContentText] = React.useState("");
 
 	// FOR CONFIRM DIALOG
 	const [ask, setAsk] = React.useState(false);
@@ -92,8 +105,17 @@ export default function RoleTable() {
 		success();
 	};
 
-	const handleCloseConfirm = () => {
-		setAsk(false);
+	const proceedWithDeleteBatch = async () => {
+		dispatch(deleteRolesBatch({ batchId: selectedId }));
+		setRows(data); // update rows
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
+		const success = handleClickSnackpack(
+			`Deleted ${selectedId.size} role/s successfully!`,
+			"success"
+		);
+		success();
 	};
 
 	// FOR SNACKPACK
@@ -145,19 +167,12 @@ export default function RoleTable() {
 		columnUnsortedIcon: UnsortedIcon,
 	};
 
-	const [rowSelectionModel, setRowSelectionModel] =
-		React.useState<GridRowSelectionModel>([]);
-
-	const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(
-		new Set()
-	);
-
 	function UnsortedIcon() {
 		return <SortIcon className="icon" />;
 	}
 
 	function EditToolbar(props: EditToolbarProps) {
-		const { setRows, setRowModesModel } = props;
+		const { setRow, setRowModesModel } = props;
 
 		const handleAdd = () => {
 			// DETERMINE THE LATEST ID
@@ -166,7 +181,7 @@ export default function RoleTable() {
 			}, -1);
 			role_id++; // ADD 1 FOR THE NEW ID
 
-			setRows((oldRows) => [
+			setRow((oldRows) => [
 				...oldRows,
 				{
 					role_id,
@@ -182,9 +197,16 @@ export default function RoleTable() {
 		};
 
 		const handleDeleteBatch = () => {
-			console.log("Deleting:", selectedId);
-			setRowSelectionModel([]); // clear selected rows
-			setSelectedId(new Set()); // clear selected IDs
+			setAsk(true);
+			setIsBatch(true);
+			setDialogContentText(
+				"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+			);
+			setDialogTitle(
+				`Delete ${
+					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
+				} role${selectedId.size > 1 ? "s" : ""}?`
+			);
 		};
 
 		return (
@@ -258,6 +280,11 @@ export default function RoleTable() {
 
 	const handleDeleteClick = (id: GridRowId) => () => {
 		setAsk(true);
+		setIsBatch(false);
+		setDialogContentText(
+			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+		);
+		setDialogTitle("Delete this role?");
 		setDeleteId(id as number);
 	};
 
@@ -267,7 +294,6 @@ export default function RoleTable() {
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
 		setRows(data);
-		console.log("rowModesModel", rowModesModel);
 	};
 
 	const processUpdateRow = (roleInfo: GridRowModel) => {
@@ -486,7 +512,9 @@ export default function RoleTable() {
 			<Dialog
 				fullScreen={fullScreen}
 				open={ask}
-				onClose={handleCloseConfirm}
+				onClose={() => {
+					setAsk(false);
+				}}
 				aria-labelledby="responsive-dialog-title"
 			>
 				<DialogTitle id="responsive-dialog-title">
@@ -504,19 +532,23 @@ export default function RoleTable() {
 							fontSize="large"
 							alignmentBaseline="middle"
 						/>
-						{"Delete this role?"}
+						{dialogTitle}
 					</Typography>
 				</DialogTitle>
 				<DialogContent>
-					<DialogContentText fontFamily={"Montserrat, san-serif"}>
-						Be warned that deleting a record is irreversible. <br />
-						Please, proceed with caution.
+					<DialogContentText
+						fontFamily={"Montserrat, san-serif"}
+						whiteSpace={"pre-line"}
+					>
+						{dialogContentText}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button
 						variant="contained"
-						onClick={proceedWithDelete}
+						onClick={
+							isBatch ? proceedWithDeleteBatch : proceedWithDelete
+						}
 						autoFocus
 						sx={{ fontFamily: "Montserrat, san-serif" }}
 					>
@@ -525,7 +557,9 @@ export default function RoleTable() {
 
 					<Button
 						sx={{ fontFamily: "Montserrat, san-serif" }}
-						onClick={handleCloseConfirm}
+						onClick={() => {
+							setAsk(false);
+						}}
 					>
 						Cancel
 					</Button>
