@@ -39,9 +39,7 @@ const apiUpdate = async (
 const apiAdd = async (
 	title: string,
 	role_sh_name: string,
-	role_user_level: number,
-	reg_id: string,
-	update_id: string
+	role_user_level: number
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/role/add";
@@ -51,8 +49,6 @@ const apiAdd = async (
 				title,
 				role_sh_name,
 				role_user_level,
-				reg_id,
-				update_id,
 			}),
 			headers: {
 				"Content-Type": "application/json",
@@ -95,7 +91,7 @@ function* updateSaga(action: ReturnType<typeof updateRoles>): any {
 			action.payload.roleInfo.role_sh_name,
 			action.payload.roleInfo.role_user_level
 		);
-		if (roles) yield put(getRolesSuccess(roles));
+		yield put(getRolesSuccess(roles));
 	} catch (error) {
 		console.log(error);
 	}
@@ -107,11 +103,9 @@ function* addSaga(action: ReturnType<typeof addRoles>): any {
 			apiAdd,
 			action.payload.roleInfo.title,
 			action.payload.roleInfo.role_sh_name,
-			action.payload.roleInfo.role_user_level,
-			"1", // reg_id
-			"1" // update_id
+			action.payload.roleInfo.role_user_level
 		);
-		if (roles) yield put(getRolesSuccess(roles));
+		yield put(getRolesSuccess(roles));
 	} catch (error) {
 		console.log(error);
 	}
