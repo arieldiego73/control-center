@@ -1,5 +1,7 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,12 +37,17 @@ public class DepartmentServiceImpl implements DepartmentService{
 
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101");
+            activityLogInput.setEmp_id("101"); //current logged user dapat
             activityLogInput.setLog_desc("Added a department.");
-            activityLogInput.setLog_date(System.currentTimeMillis());
 
+            long currentTimeMillis = System.currentTimeMillis();
+            // Convert milliseconds to a human-readable date and time format
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = sdf.format(new Date(currentTimeMillis));
+            activityLogInput.setLog_date(formattedDate);
             activityLogDao.addActivityLog(activityLogInput);
-            return "Department Added Successfully.";
+            
+            return "Department Added Successfully. " + formattedDate;
         } catch (Exception e) {
             return e.getMessage();
         }
