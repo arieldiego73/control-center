@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import HelpIcon from "@mui/icons-material/Help";
+import SortIcon from "@mui/icons-material/Sort";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -19,11 +20,18 @@ import {
 	GridRowId,
 	GridRowModel,
 	GridRowEditStopReasons,
+	GridRowSelectionModel,
+	GridToolbar,
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { getRolesFetch } from "../../redux/state/roleState";
-import { addRoles, deleteRoles, updateRoles } from "../../redux/saga/roleSaga";
+import {
+	addRoles,
+	deleteRoles,
+	deleteRolesBatch,
+	updateRoles,
+} from "../../redux/saga/roleSaga";
 import {
 	Alert,
 	AlertColor,
@@ -50,7 +58,7 @@ export interface State {
 }
 
 interface EditToolbarProps {
-	setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
+	setRow: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
 	setRowModesModel: (
 		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
 	) => void;
@@ -58,16 +66,27 @@ interface EditToolbarProps {
 
 export default function RoleTable() {
 	const dispatch = useDispatch();
+
+	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
 		dispatch(getRolesFetch());
 	}, [dispatch]);
 
+	// STORE THE ROLES TO 'data'
 	const data = useSelector((state: RootState) => state.roleReducer.roles);
 
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
 	const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
 		{}
 	);
+	const [rowSelectionModel, setRowSelectionModel] =
+		React.useState<GridRowSelectionModel>([]);
+	const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(
+		new Set()
+	);
+	const [isBatch, setIsBatch] = React.useState<boolean>();
+	const [dialogTitle, setDialogTitle] = React.useState("");
+	const [dialogContentText, setDialogContentText] = React.useState("");
 
 	// FOR CONFIRM DIALOG
 	const [ask, setAsk] = React.useState(false);
@@ -86,8 +105,17 @@ export default function RoleTable() {
 		success();
 	};
 
-	const handleCloseConfirm = () => {
-		setAsk(false);
+	const proceedWithDeleteBatch = async () => {
+		dispatch(deleteRolesBatch({ batchId: selectedId }));
+		setRows(data); // update rows
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
+		const success = handleClickSnackpack(
+			`Deleted ${selectedId.size} role/s successfully!`,
+			"success"
+		);
+		success();
 	};
 
 	// FOR SNACKPACK
@@ -134,25 +162,32 @@ export default function RoleTable() {
 	}, [data]);
 
 	// FOR DATA GRID
-	function EditToolbar(props: EditToolbarProps) {
-		const { setRows, setRowModesModel } = props;
+	const dataGridSlots = {
+		toolbar: EditToolbar,
+		columnUnsortedIcon: UnsortedIcon,
+	};
 
-		const handleClick = () => {
+	function UnsortedIcon() {
+		return <SortIcon className="icon" />;
+	}
+
+	function EditToolbar(props: EditToolbarProps) {
+		const { setRow, setRowModesModel } = props;
+
+		const handleAdd = () => {
+			// DETERMINE THE LATEST ID
 			let role_id = rows.reduce((maxId, row) => {
 				return row.role_id > maxId ? row.role_id : maxId;
 			}, -1);
-			role_id++; // add 1 for the new id
+			role_id++; // ADD 1 FOR THE NEW ID
 
-			setRows((oldRows) => [
+			setRow((oldRows) => [
 				...oldRows,
 				{
 					role_id,
 					title: "",
 					role_sh_name: "",
 					role_user_level: 1,
-					reg_id: "1",
-					update_id: "1",
-					isNew: true,
 				},
 			]);
 			setRowModesModel((oldModel) => ({
@@ -161,24 +196,61 @@ export default function RoleTable() {
 			}));
 		};
 
+		const handleDeleteBatch = () => {
+			setAsk(true);
+			setIsBatch(true);
+			setDialogContentText(
+				"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+			);
+			setDialogTitle(
+				`Delete ${
+					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
+				} role${selectedId.size > 1 ? "s" : ""}?`
+			);
+		};
+
 		return (
 			<GridToolbarContainer
-				sx={{ display: "flex", justifyContent: "flex-end" }}
+				sx={{
+					display: "flex",
+					justifyContent: "space-between",
+					alignItems: "baseline",
+				}}
 			>
 				<Button
-					color="primary"
+					color="error"
 					variant="contained"
-					startIcon={<AddIcon />}
-					onClick={handleClick}
+					startIcon={<DeleteIcon />}
+					onClick={handleDeleteBatch}
+					hidden={true}
 					sx={{
 						marginBottom: 3,
-						position: "absolute",
-						top: -50,
 						fontFamily: "Montserrat, san-serif",
+						visibility: `${
+							selectedId.size !== 0 ? "visible" : "hidden"
+						}`,
 					}}
 				>
-					Add role
+					DELETE BATCH
 				</Button>
+				<div>
+					<Button
+						color="primary"
+						variant="contained"
+						startIcon={<AddIcon />}
+						onClick={handleAdd}
+						sx={{
+							marginBottom: 3,
+							position: "absolute",
+							top: -50,
+							right: 0,
+							fontFamily: "Montserrat, san-serif",
+						}}
+					>
+						Add role
+					</Button>
+					<GridToolbar />
+				</div>
 			</GridToolbarContainer>
 		);
 	}
@@ -208,6 +280,11 @@ export default function RoleTable() {
 
 	const handleDeleteClick = (id: GridRowId) => () => {
 		setAsk(true);
+		setIsBatch(false);
+		setDialogContentText(
+			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+		);
+		setDialogTitle("Delete this role?");
 		setDeleteId(id as number);
 	};
 
@@ -216,53 +293,36 @@ export default function RoleTable() {
 			...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
-
-		const editedRow = rows.find((row) => row.role_id === id);
-		console.log("edited row: ", editedRow);
-		if (editedRow!.isNew) {
-			setRows(rows.filter((row) => row.role_id !== id));
-		}
-
-		console.log("rowModesModel", rowModesModel);
+		setRows(data);
 	};
 
-	const processRowUpdate = (newRow: GridRowModel) => {
-		const updatedRow = { ...newRow, isNew: false };
+	const processUpdateRow = (roleInfo: GridRowModel) => {
+		dispatch(updateRoles({ roleInfo }));
+		const success = handleClickSnackpack(
+			"Role is updated successfully",
+			"success"
+		);
+		success();
+	};
 
+	const processAddRow = (roleInfo: GridRowModel) => {
+		dispatch(addRoles({ roleInfo }));
+		const success = handleClickSnackpack(
+			"Role is added successfully",
+			"success"
+		);
+		success();
+	};
+
+	const handleUpdateAndAdd = (newRow: GridRowModel) => {
 		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
 			// determines whether it is update or add new
 			if (data.length === rows.length) {
-				dispatch(
-					updateRoles({
-						role_id: newRow.role_id,
-						title: newRow.title,
-						role_sh_name: newRow.role_sh_name,
-						role_user_level: newRow.role_user_level,
-					})
-				);
-				const success = handleClickSnackpack(
-					"Role is edited successfully",
-					"success"
-				);
-				success();
+				processUpdateRow(newRow);
 			} else {
-				dispatch(
-					addRoles({
-						title: newRow.title,
-						role_sh_name: newRow.role_sh_name,
-						role_user_level: newRow.role_user_level,
-						reg_id: newRow.reg_id,
-						update_id: newRow.update_id,
-					})
-				);
-				const success = handleClickSnackpack(
-					"Role is added successfully",
-					"success"
-				);
-				success();
+				processAddRow(newRow);
 			}
-
-			setRows(data);
+			setRows(data); // update the rows in the table
 		} else {
 			const cancel = handleCancelClick(newRow.role_id);
 			const error = handleClickSnackpack(
@@ -273,7 +333,7 @@ export default function RoleTable() {
 			error();
 		}
 
-		return updatedRow;
+		return newRow;
 	};
 
 	const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
@@ -369,6 +429,7 @@ export default function RoleTable() {
 				"& .MuiDataGrid-columnHeaderTitle": {
 					fontWeight: 800,
 					fontFamily: "Montserrat, san-serif",
+					padding: "0 24px",
 				},
 				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
 					{
@@ -392,6 +453,14 @@ export default function RoleTable() {
 				"& .textPrimary": {
 					color: "text.primary",
 				},
+				".MuiDataGrid-iconButtonContainer, .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeaders .MuiDataGrid-columnSeparator":
+					{
+						visibility: "visible",
+						width: "auto",
+					},
+				".MuiDataGrid-sortIcon": {
+					opacity: "inherit !important",
+				},
 			}}
 		>
 			<DataGrid
@@ -402,17 +471,23 @@ export default function RoleTable() {
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
-				processRowUpdate={processRowUpdate}
-				hideFooterSelectedRowCount
-				isRowSelectable={() => false}
+				processRowUpdate={handleUpdateAndAdd}
+				checkboxSelection
+				keepNonExistentRowsSelected
+				onRowSelectionModelChange={(newRowSelectionModel) => {
+					setRowSelectionModel(newRowSelectionModel);
+					setSelectedId(new Set(newRowSelectionModel));
+				}}
+				rowSelectionModel={rowSelectionModel}
 				initialState={{
 					pagination: {
 						paginationModel: { page: 0, pageSize: 25 },
 					},
+					sorting: {
+						sortModel: [{ field: "reg_id", sort: "desc" }],
+					},
 				}}
-				slots={{
-					toolbar: EditToolbar,
-				}}
+				slots={dataGridSlots}
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
@@ -437,7 +512,9 @@ export default function RoleTable() {
 			<Dialog
 				fullScreen={fullScreen}
 				open={ask}
-				onClose={handleCloseConfirm}
+				onClose={() => {
+					setAsk(false);
+				}}
 				aria-labelledby="responsive-dialog-title"
 			>
 				<DialogTitle id="responsive-dialog-title">
@@ -455,19 +532,23 @@ export default function RoleTable() {
 							fontSize="large"
 							alignmentBaseline="middle"
 						/>
-						{"Delete this role?"}
+						{dialogTitle}
 					</Typography>
 				</DialogTitle>
 				<DialogContent>
-					<DialogContentText fontFamily={"Montserrat, san-serif"}>
-						Be warned that deleting a record is irreversible. <br />
-						Please, proceed with caution.
+					<DialogContentText
+						fontFamily={"Montserrat, san-serif"}
+						whiteSpace={"pre-line"}
+					>
+						{dialogContentText}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button
 						variant="contained"
-						onClick={proceedWithDelete}
+						onClick={
+							isBatch ? proceedWithDeleteBatch : proceedWithDelete
+						}
 						autoFocus
 						sx={{ fontFamily: "Montserrat, san-serif" }}
 					>
@@ -476,7 +557,9 @@ export default function RoleTable() {
 
 					<Button
 						sx={{ fontFamily: "Montserrat, san-serif" }}
-						onClick={handleCloseConfirm}
+						onClick={() => {
+							setAsk(false);
+						}}
 					>
 						Cancel
 					</Button>

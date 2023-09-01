@@ -27,7 +27,7 @@ import TextField from "@mui/material/TextField";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import { Add } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
-import HideBtnProjStatusStyle from "./hide_button_project_status/HideButtonProjectStatus.module.css";
+import HideBtnBusinessUnitStyle from "./hide_button_business_unit/HideButtonBussinessUnit.module.css";
 
 interface EditToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -36,7 +36,7 @@ interface EditToolbarProps {
   ) => void;
 }
 
-export default function ProjectStatusTable() {
+export default function BusinessUnitTable() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getRolesFetch());
@@ -285,7 +285,7 @@ export default function ProjectStatusTable() {
 			  Add Role
 			</Button>
 		  ) : (
-			<div className={HideBtnProjStatusStyle.hideButton}>
+			<div className={HideBtnBusinessUnitStyle.hideButton}>
 			  <div
 				style={{
 				  flexDirection: "row",
@@ -321,7 +321,7 @@ export default function ProjectStatusTable() {
 					variant="outlined"
 					size="small"
 					placeholder="Short Name"
-					className={HideBtnProjStatusStyle.textField}
+					className={HideBtnBusinessUnitStyle.textField}
 					InputProps={{
 					  startAdornment: (
 						<InputAdornment position="start">
@@ -340,7 +340,7 @@ export default function ProjectStatusTable() {
 					variant="outlined"
 					size="small"
 					placeholder="Short Name"
-					className={HideBtnProjStatusStyle.textField}
+					className={HideBtnBusinessUnitStyle.textField}
 					InputProps={{
 					  startAdornment: (
 						<InputAdornment position="start">

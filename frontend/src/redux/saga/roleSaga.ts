@@ -1,6 +1,7 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { getRolesSuccess } from "../state/roleState";
 import { createAction } from "@reduxjs/toolkit";
+import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
 
 function* fetchRoles(): any {
 	const roles = yield call(() =>
@@ -38,9 +39,7 @@ const apiUpdate = async (
 const apiAdd = async (
 	title: string,
 	role_sh_name: string,
-	role_user_level: number,
-	reg_id: string,
-	update_id: string
+	role_user_level: number
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/role/add";
@@ -50,14 +49,11 @@ const apiAdd = async (
 				title,
 				role_sh_name,
 				role_user_level,
-				reg_id,
-				update_id,
 			}),
 			headers: {
 				"Content-Type": "application/json",
 			},
 		});
-		console.log("response:", response);
 		if (response.ok) {
 			const data = await response.json();
 			return data;
@@ -86,14 +82,40 @@ const apiDelete = async (role_id: number): Promise<any> => {
 	}
 };
 
+const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
+	try {
+		const params = new URLSearchParams();
+		batchId.forEach((id) => {
+			params.append("ids", id.toString());
+		});
+		const response = await fetch(
+			`http://localhost:8080/role/delete-multiple?${params}`,
+			{
+				method: "PUT",
+			}
+		).catch((error) => {
+			console.log(error);
+		});
+
+		if (response?.ok) {
+			const data = await response.json();
+			return data;
+		} else {
+			return null;
+		}
+	} catch (error) {
+		console.error("An error occurred:", error);
+	}
+};
+
 function* updateSaga(action: ReturnType<typeof updateRoles>): any {
 	try {
 		const roles = yield call(
 			apiUpdate,
-			action.payload.role_id,
-			action.payload.title,
-			action.payload.role_sh_name,
-			action.payload.role_user_level
+			action.payload.roleInfo.role_id,
+			action.payload.roleInfo.title,
+			action.payload.roleInfo.role_sh_name,
+			action.payload.roleInfo.role_user_level
 		);
 		if (roles) yield put(getRolesSuccess(roles));
 	} catch (error) {
@@ -105,11 +127,9 @@ function* addSaga(action: ReturnType<typeof addRoles>): any {
 	try {
 		const roles = yield call(
 			apiAdd,
-			action.payload.title,
-			action.payload.role_sh_name,
-			action.payload.role_user_level,
-			action.payload.reg_id,
-			action.payload.update_id
+			action.payload.roleInfo.title,
+			action.payload.roleInfo.role_sh_name,
+			action.payload.roleInfo.role_user_level
 		);
 		if (roles) yield put(getRolesSuccess(roles));
 	} catch (error) {
@@ -126,24 +146,30 @@ function* deleteSaga(action: ReturnType<typeof deleteRoles>): any {
 	}
 }
 
+function* deleteBatchSaga(action: ReturnType<typeof deleteRolesBatch>): any {
+	try {
+		const roles = yield call(apiBatchDelete, action.payload.batchId);
+		if (roles) yield put(getRolesSuccess(roles));
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export const updateRoles = createAction<{
-	role_id: number;
-	title: string;
-	role_sh_name: string;
-	role_user_level: number;
+	roleInfo: GridValidRowModel;
 }>("roles/updateRoles");
 
 export const addRoles = createAction<{
-	title: string;
-	role_sh_name: string;
-	role_user_level: number;
-	reg_id: string;
-	update_id: string;
+	roleInfo: GridValidRowModel;
 }>("roles/addRoles");
 
 export const deleteRoles = createAction<{
 	role_id: number;
 }>("roles/deleteRoles");
+
+export const deleteRolesBatch = createAction<{
+	batchId: Set<GridRowId>;
+}>("roles/deleteRolesBatch");
 
 export function* roleSagaUpdate() {
 	yield takeLatest(updateRoles.type, updateSaga);
@@ -155,6 +181,10 @@ export function* roleSagaAdd() {
 
 export function* roleSagaDelete() {
 	yield takeLatest(deleteRoles.type, deleteSaga);
+}
+
+export function* roleSagaDeleteBatch() {
+	yield takeLatest(deleteRolesBatch.type, deleteBatchSaga);
 }
 
 export function* roleSaga() {

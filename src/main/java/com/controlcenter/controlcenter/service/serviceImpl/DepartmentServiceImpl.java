@@ -1,5 +1,7 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +9,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.DepartmentDao;
+import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.DepartmentInput;
 import com.controlcenter.controlcenter.model.DepartmentOutput;
 import com.controlcenter.controlcenter.service.DepartmentService;
@@ -18,6 +22,9 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Autowired
     public DepartmentDao departmentDao;
 
+    @Autowired
+    public ActivityLogDao activityLogDao;
+
     @Override
     public List<DepartmentOutput> getAllDepartment() {
         return departmentDao.getAllDepartment();
@@ -27,7 +34,20 @@ public class DepartmentServiceImpl implements DepartmentService{
     public String addDepartment(DepartmentInput department) {
         try {
             departmentDao.addDepartment(department);
-            return "Department Added Successfully.";
+
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Added a department.");
+
+            long currentTimeMillis = System.currentTimeMillis();
+            // Convert milliseconds to a human-readable date and time format
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = sdf.format(new Date(currentTimeMillis));
+            activityLogInput.setLog_date(formattedDate);
+            activityLogDao.addActivityLog(activityLogInput);
+            
+            return "Department Added Successfully. " + formattedDate;
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -68,4 +88,5 @@ public class DepartmentServiceImpl implements DepartmentService{
             return e.getMessage();
         }
     }
+
 }

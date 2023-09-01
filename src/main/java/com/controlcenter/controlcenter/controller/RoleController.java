@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,14 +29,7 @@ public class RoleController {
 
   @PostMapping("/add")
   public ResponseEntity<List<Role>> addRole(@RequestBody Role role) {
-    String res = roleService.addRole(role);
-    List<Role> allRoles = new ArrayList<Role>();
-    if (res.equals("Role added successfully!")) {
-      allRoles = getAllRole();
-      return ResponseEntity.ok(allRoles);
-    } else {
-      return ResponseEntity.badRequest().body(allRoles);
-    }
+    return roleService.addRole(role);
   }
 
   @PutMapping("/edit/{id}")
@@ -43,37 +37,35 @@ public class RoleController {
     @PathVariable String id,
     @RequestBody Role role
   ) {
-    String res = roleService.editRoleInfo(id, role);
-    List<Role> allRoles = new ArrayList<Role>();
-    if (res.equals("Role edited successfully!")) {
-      allRoles = getAllRole();
-      return ResponseEntity.ok(allRoles);
-    } else {
-      return ResponseEntity.badRequest().body(allRoles);
-    }
+    return roleService.editRoleInfo(id, role);
   }
 
   @PutMapping("/delete/{id}")
   public ResponseEntity<List<Role>> logicalDeleteRole(@PathVariable String id) {
-    String res = roleService.logicalDeleteRole(id);
-    List<Role> allRoles = new ArrayList<Role>();
-    if (res.equals("Role deleted successfully!")) {
-      allRoles = getAllRole();
-      return ResponseEntity.ok(allRoles);
-    } else {
-      return ResponseEntity.badRequest().body(allRoles);
-    }
+    return roleService.logicalDeleteRole(id);
   }
 
   @PutMapping("/restore/{id}")
   public ResponseEntity<List<Role>> restoreRole(@PathVariable String id) {
     String res = roleService.restoreRole(id);
     List<Role> allRoles = new ArrayList<Role>();
-    if (res.equals("Role restored successfully!")) {
+    if (res.equals("Role restored successfully.")) {
       allRoles = getAllRole();
       return ResponseEntity.ok(allRoles);
     } else {
       return ResponseEntity.badRequest().body(allRoles);
     }
+  }
+
+  @PutMapping("/delete-multiple")
+  public ResponseEntity<List<Role>> deleteMultipleRole(
+    @RequestParam List<Long> ids
+  ) {
+    return roleService.deleteMultipleRole(ids);
+  }
+
+  @PutMapping("/restore-multiple")
+  public String restoreMultipleRole(@RequestParam List<Long> ids) {
+    return roleService.restoreMultipleRole(ids);
   }
 }

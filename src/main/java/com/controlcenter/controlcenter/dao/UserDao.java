@@ -1,7 +1,7 @@
 package com.controlcenter.controlcenter.dao;
 
 import java.util.List;
-import java.util.Map;
+
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,6 +15,4 @@ public interface UserDao {
   void insertUser(UserInput user);
   // void insertUserBatch(List<User> users);
   UserInput getUserByUsername(UserInput user);
-
-  void addAccount(Map<String, Object> paramMap);
 }

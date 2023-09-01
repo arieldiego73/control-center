@@ -1,198 +1,196 @@
-import * as React from 'react';
-import Menu, { menuClasses } from '@mui/joy/Menu';
-import MenuItem from '@mui/joy/MenuItem';
-import IconButton from '@mui/joy/IconButton';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import Sheet from '@mui/joy/Sheet';
-import Apps from '@mui/icons-material/Apps';
-import Settings from '@mui/icons-material/Settings';
-import Person from '@mui/icons-material/Person';
-import Dropdown from '@mui/joy/Dropdown';
-import MenuButton from '@mui/joy/MenuButton';
+import * as React from "react";
+import Menu from "@mui/joy/Menu";
+import MenuItem, { menuItemClasses } from "@mui/joy/MenuItem";
+import List from "@mui/joy/List";
+import ListItem from "@mui/joy/ListItem";
+import ListItemButton from "@mui/joy/ListItemButton";
+import ListDivider from "@mui/joy/ListDivider";
+import Typography, { typographyClasses } from "@mui/joy/Typography";
+import Dropdown, { DropdownProps } from "@mui/joy/Dropdown";
+import MenuButton from "@mui/joy/MenuButton";
+import { Theme } from "@mui/joy";
+import User from "../../../Assets/userImage.png";
 
-interface MenuButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  menu: React.ReactElement;
-  open: boolean;
-  onOpen: (
-    event?:
-      | React.MouseEvent<HTMLButtonElement>
-      | React.KeyboardEvent<HTMLButtonElement>,
-  ) => void;
-  onLeaveMenu: (callback: () => boolean) => void;
-  label: string;
-}
+type MenuBarButtonProps = Pick<DropdownProps, "children" | "open"> & {
+  onOpen: DropdownProps["onOpenChange"];
+  onKeyDown: React.KeyboardEventHandler;
+  menu: JSX.Element;
+  onMouseEnter: React.MouseEventHandler;
+};
 
-const modifiers = [
-  {
-    name: 'offset',
-    options: {
-      offset: ({ placement }: any) => {
-        if (placement.includes('end')) {
-          return [8, 20];
-        }
-        return [-8, 20];
-      },
-    },
-  },
-];
+const MenuBarButton = React.forwardRef(
+  (
+    { children, menu, open, onOpen, onKeyDown, ...props }: MenuBarButtonProps,
+    ref: React.ForwardedRef<HTMLButtonElement>
+  ) => {
+    return (
+      <Dropdown open={open} onOpenChange={onOpen}>
+        <MenuButton
+          {...props}
+          slots={{ root: ListItemButton }}
+          ref={ref}
+          role="menuitem"
+          variant={open ? "soft" : "plain"}
+        >
+          {children}
+        </MenuButton>
+        {React.cloneElement(menu, {
+          slotProps: {
+            listbox: {
+              id: `toolbar-example-menu-${children}`,
+              "aria-label": children,
+            },
+          },
+          placement: "bottom-start",
+          disablePortal: false,
+          variant: "soft",
+          sx: (theme: Theme) => ({
+            width: 288,
+            boxShadow: "0 2px 8px 0px rgba(0 0 0 / 0.38)",
+            "--List-padding": "var(--ListDivider-gap)",
+            "--ListItem-minHeight": "32px",
+            [`&& .${menuItemClasses.root}`]: {
+              transition: "none",
+              "&:hover": {
+                ...theme.variants.solid.primary,
+                [`& .${typographyClasses.root}`]: {
+                  color: "inherit",
+                },
+              },
+            },
+          }),
+        })}
+      </Dropdown>
+    );
+  }
+);
 
-function NavMenuButton({
-  children,
-  menu,
-  open,
-  onOpen,
-  onLeaveMenu,
-  label,
-  ...props
-}: Omit<MenuButtonProps, 'color'>) {
-  const isOnButton = React.useRef(false);
-  const internalOpen = React.useRef(open);
+export default function MenuToolbarExample() {
+  const menus = React.useRef<Array<HTMLButtonElement>>([]);
+  const [menuIndex, setMenuIndex] = React.useState<null | number>(null);
 
-  const handleButtonKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    internalOpen.current = open;
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      event.preventDefault();
-      onOpen(event);
+  // const renderShortcut = (text: string) => (
+  //   <Typography level="body-sm" textColor="text.tertiary" ml="auto">
+  //     {text}
+  //   </Typography>
+  // );
+
+  const openNextMenu = () => {
+    if (typeof menuIndex === "number") {
+      if (menuIndex === menus.current.length - 1) {
+        setMenuIndex(0);
+      } else {
+        setMenuIndex(menuIndex + 1);
+      }
     }
   };
 
-  return (
-    <Dropdown
-      open={open}
-      onOpenChange={(_, isOpen) => {
-        if (isOpen) {
-          onOpen?.();
-        }
-      }}
-    >
-      <MenuButton
-        {...props}
-        slots={{ root: IconButton }}
-        slotProps={{ root: { variant: 'plain', color: 'neutral' } }}
-        onMouseDown={() => {
-          internalOpen.current = open;
-        }}
-        onClick={() => {
-          if (!internalOpen.current) {
-            onOpen();
-          }
-        }}
-        onMouseEnter={() => {
-          onOpen();
-          isOnButton.current = true;
-        }}
-        onMouseLeave={() => {
-          isOnButton.current = false;
-        }}
-        onKeyDown={handleButtonKeyDown}
-        sx={{
-          bgcolor: open ? 'neutral.plainHoverBg' : undefined,
-          '&:focus-visible': {
-            bgcolor: 'neutral.plainHoverBg',
-          },
-        }}
-      >
-        {children}
-      </MenuButton>
-      {React.cloneElement(menu, {
-        onMouseLeave: () => {
-          onLeaveMenu(() => isOnButton.current);
-        },
-        modifiers,
-        slotProps: {
-          listbox: {
-            id: `nav-example-menu-${label}`,
-            'aria-label': label,
-          },
-        },
-        placement: 'right-start',
-        sx: {
-          width: 288,
-          [`& .${menuClasses.listbox}`]: {
-            '--List-padding': 'var(--ListDivider-gap)',
-          },
-        },
-      })}
-    </Dropdown>
-  );
-}
+  const openPreviousMenu = () => {
+    if (typeof menuIndex === "number") {
+      if (menuIndex === 0) {
+        setMenuIndex(menus.current.length - 1);
+      } else {
+        setMenuIndex(menuIndex - 1);
+      }
+    }
+  };
 
-export default function MenuIconSideNavExample() {
-  const [menuIndex, setMenuIndex] = React.useState<null | number>(null);
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "ArrowRight") {
+      openNextMenu();
+    }
+    if (event.key === "ArrowLeft") {
+      openPreviousMenu();
+    }
+  };
+
+  const createHandleButtonKeyDown =
+    (index: number) => (event: React.KeyboardEvent) => {
+      if (event.key === "ArrowRight") {
+        if (index === menus.current.length - 1) {
+          menus.current[0]?.focus();
+        } else {
+          menus.current[index + 1]?.focus();
+        }
+      }
+      if (event.key === "ArrowLeft") {
+        if (index === 0) {
+          menus.current[menus.current.length]?.focus();
+        } else {
+          menus.current[index - 1]?.focus();
+        }
+      }
+    };
+
   const itemProps = {
     onClick: () => setMenuIndex(null),
+    onKeyDown: handleKeyDown,
   };
-  const createHandleLeaveMenu =
-    (index: number) => (getIsOnButton: () => boolean) => {
-      setTimeout(() => {
-        const isOnButton = getIsOnButton();
-        if (!isOnButton) {
-          setMenuIndex((latestIndex: null | number) => {
-            if (index === latestIndex) {
-              return null;
-            }
-            return latestIndex;
-          });
-        }
-      }, 200);
-    };
+
   return (
-    <Sheet sx={{ borderRadius: 'sm', py: 1, mr: 20 }}>
-      <List>
-        <ListItem>
-          <NavMenuButton
-            label="Apps"
-            open={menuIndex === 0}
-            onOpen={() => setMenuIndex(0)}
-            onLeaveMenu={createHandleLeaveMenu(0)}
-            menu={
-              <Menu onClose={() => setMenuIndex(null)}>
-                <MenuItem {...itemProps}>Application 1</MenuItem>
-                <MenuItem {...itemProps}>Application 2</MenuItem>
-                <MenuItem {...itemProps}>Application 3</MenuItem>
-              </Menu>
+    <List
+      // orientation="horizontal"
+      // aria-label="Example application menu bar"
+      // role="menubar"
+      // data-joy-color-scheme="dark"
+      sx={{
+        // bgcolor: "background.body",
+        border: '1px solid-red',
+        borderRadius: "20px",
+        maxWidth: "fit-content",
+      }}
+    >
+    
+
+      <ListItem>
+        <MenuBarButton
+          open={menuIndex === 2}
+          onOpen={() => {
+            setMenuIndex((prevMenuIndex) =>
+              prevMenuIndex === null ? 2 : null
+            );
+          }}
+          onKeyDown={createHandleButtonKeyDown(2)}
+          onMouseEnter={() => {
+            if (typeof menuIndex === "number") {
+              setMenuIndex(2);
             }
+          }}
+          ref={(instance) => {
+            menus.current[2] = instance!;
+          }}
+          menu={
+            <Menu
+              onClose={() => {
+                menus.current[2]?.focus();
+              }}
+            >
+              <MenuItem {...itemProps}>
+                Select All
+              </MenuItem>
+              <MenuItem {...itemProps}>
+                Expand Selection 
+              </MenuItem>
+              <MenuItem {...itemProps}>
+                Shrink Selection 
+              </MenuItem>
+            </Menu>
+          }
+        >
+          {/* <div
+            style={{
+              marginRight: "1%",
+              width: " 5vw",
+              height: "3vw",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            <Apps />
-          </NavMenuButton>
-        </ListItem>
-        <ListItem>
-          <NavMenuButton
-            label="Settings"
-            open={menuIndex === 1}
-            onOpen={() => setMenuIndex(1)}
-            onLeaveMenu={createHandleLeaveMenu(1)}
-            menu={
-              <Menu onClose={() => setMenuIndex(null)}>
-                <MenuItem {...itemProps}>Setting 1</MenuItem>
-                <MenuItem {...itemProps}>Setting 2</MenuItem>
-                <MenuItem {...itemProps}>Setting 3</MenuItem>
-              </Menu>
-            }
-          >
-            <Settings />
-          </NavMenuButton>
-        </ListItem>
-        <ListItem>
-          <NavMenuButton
-            label="Personal"
-            open={menuIndex === 2}
-            onOpen={() => setMenuIndex(2)}
-            onLeaveMenu={createHandleLeaveMenu(2)}
-            menu={
-              <Menu onClose={() => setMenuIndex(null)}>
-                <MenuItem {...itemProps}>Personal 1</MenuItem>
-                <MenuItem {...itemProps}>Personal 2</MenuItem>
-                <MenuItem {...itemProps}>Personal 3</MenuItem>
-              </Menu>
-            }
-          >
-            <Person />
-          </NavMenuButton>
-        </ListItem>
-      </List>
-    </Sheet>
+            <img style={{ width: " 100%", height: "100%" }} alt="" src={User} />
+          </div> */}
+        </MenuBarButton>
+      </ListItem>
+    </List>
   );
 }
