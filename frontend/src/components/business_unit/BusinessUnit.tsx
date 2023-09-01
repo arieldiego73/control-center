@@ -1,11 +1,11 @@
-import ProjectStatusStyle from './ProjectStatusTable.module.css'
+import BusinessUnitStyle from './BusinessUnitTable.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import ProjectStatusTable from './ProjectStatusTable';
+import BusinessUnitTable from './BusinessUnitTable';
 
-export default function ProjectStatus() {
+export default function BusinessUnit() {
 	return (
-		<div className={ProjectStatusStyle.mainContainer}>
+		<div className={BusinessUnitStyle.mainContainer}>
 			<div style={{ width: "97%" }}>
 				<h4>
 					<FontAwesomeIcon icon={faUser} size="3x" color="black" />
@@ -17,16 +17,16 @@ export default function ProjectStatus() {
 						}}
 					>
 						{" "}
-						PROJECT STATUS
+						BUSINESS UNIT
 					</span>
 				</h4>
 			</div>
 
-			<div className={ProjectStatusStyle.contentContainer}>
+			<div className={BusinessUnitStyle.contentContainer}>
 			
 		
 			
-				<div className={ProjectStatusStyle.contentHolder}>
+				<div className={BusinessUnitStyle.contentHolder}>
 		
 					<div
 						style={{
@@ -38,7 +38,7 @@ export default function ProjectStatus() {
 						}}
 					>
 
-						<ProjectStatusTable />
+						<BusinessUnitTable />
 					</div>
 				</div>
 			</div>

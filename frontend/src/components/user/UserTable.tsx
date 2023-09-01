@@ -117,28 +117,28 @@ export default function UserTable() {
 									Username
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" , fontFamily: "Montserrat, sans-serif" }}>
-									first name
+									First name
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" , fontFamily: "Montserrat, sans-serif" }}>
-									last name
+									Last name
 								</TableCell>
 								<TableCell align="center" sx={headerCellStyle} >
-									middle name
+									Middle name
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" , fontFamily: "Montserrat, sans-serif" }}>
-									position
+									Position
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" , fontFamily: "Montserrat, sans-serif" }}>
-									email
+									Email
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" , fontFamily: "Montserrat, sans-serif" }}>
-									business unit
+									Business unit
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" , fontFamily: "Montserrat, sans-serif" }}>
-									department
+									Department
 								</TableCell>
 								<TableCell align="center" style={{ fontWeight: "bolder", backgroundColor: "#ccf5ff" , fontFamily: "Montserrat, sans-serif" }}>
-									created
+									Created
 								</TableCell>
 							</TableRow>
 						</TableHead>

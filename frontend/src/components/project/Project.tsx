@@ -163,6 +163,9 @@ import { Add } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import Modal from '@mui/material/Modal';
+import { FormControl, FormLabel, TextField, InputAdornment, Grid, Box, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
+
 
 
 export default function Project() {
@@ -183,6 +186,13 @@ export default function Project() {
     // 	item.name.toLowerCase().includes(searchQuery.toLowerCase())
     // );
     // setFilteredData(filtered);
+  };
+
+
+  const [status, setStatus] = React.useState('');
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setStatus(event.target.value as string);
   };
 
   return (
@@ -206,7 +216,7 @@ export default function Project() {
                   variant="contained"
                   color="primary"
                   startIcon={<Add />}
-                  style={{ textTransform: "none" , fontFamily:"Montserrat, sans-serif" }}
+                  style={{ textTransform: "none", fontFamily: "Montserrat, sans-serif" }}
                 >
                   Add Project
                 </Button>
@@ -218,77 +228,106 @@ export default function Project() {
             <div className={ProjectStyle.searchBarContainer}>
               <div className={ProjectStyle.searchBarCol}>
                 {/* Start of first search bar */}
-                <div className={ProjectStyle.searchBarHolder1}>
-                  <span>Name</span>
-                  <span>:</span>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{
-                      padding: 5,
-                      fontSize: 16,
-                      backgroundColor: "#dce0e0",
-                      borderRadius: "5px",
-                      border: "none",
-                    }}
-                  />
-                </div>
 
-                <div className={ProjectStyle.searchBarHolder2}>
-                  <span>Department</span>
-                  <span>:</span>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{
-                      padding: 5,
-                      fontSize: 16,
-                      backgroundColor: "#dce0e0",
-                      borderRadius: "5px",
-                      border: "none",
-                    }}
-                  />
-                </div>
+                <FormControl className={ProjectStyle.projNameStyle}>
+                  <Grid container alignItems="center" spacing={2}>
+                    <Grid item>
+                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Project name : </FormLabel>
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        className={ProjectStyle.textField}
+                      // InputProps={{
+                      //   startAdornment: (
+                      //     <InputAdornment position="start">
+                      //       <AssignmentIndOutlinedIcon />
+                      //     </InputAdornment>
+                      //   ),
+                      // }}
+                      />
+                    </Grid>
+                  </Grid>
+                </FormControl>
+
+                <FormControl className={ProjectStyle.projManagerStyle}>
+                  <Grid container alignItems="center" spacing={2}>
+                    <Grid item>
+                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Project manager : </FormLabel>
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        className={ProjectStyle.textField}
+                      // InputProps={{
+                      //   startAdornment: (
+                      //     <InputAdornment position="start">
+                      //       <AssignmentIndOutlinedIcon />
+                      //     </InputAdornment>
+                      //   ),
+                      // }}
+                      />
+                    </Grid>
+                  </Grid>
+                </FormControl>
+
               </div>
 
               {/* Start of second search bar */}
               <div className={ProjectStyle.searcBar1}>
                 <div className={ProjectStyle.searchBarCol}>
-                  <div className={ProjectStyle.searchBarHolder1}>
-                    <span>Position</span>
-                    <span>:</span>
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      style={{
-                        padding: 5,
-                        fontSize: 16,
-                        backgroundColor: "#dce0e0",
-                        borderRadius: "5px",
-                        border: "none",
-                      }}
-                    />
-                  </div>
+                  <FormControl className={ProjectStyle.projClientStyle}>
+                    <Grid container alignItems="center" spacing={2}>
+                      <Grid item>
+                        <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Client : </FormLabel>
+                      </Grid>
+                      <Grid item>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          className={ProjectStyle.textField}
+                        // InputProps={{
+                        //   startAdornment: (
+                        //     <InputAdornment position="start">
+                        //       <AssignmentIndOutlinedIcon />
+                        //     </InputAdornment>
+                        //   ),
+                        // }}
+                        />
+                      </Grid>
+                    </Grid>
+                  </FormControl>
 
-                  <div className={ProjectStyle.searchBarHolder2}>
-                    <span>Business Unit</span>
-                    <span>:</span>
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      style={{
-                        padding: 5,
-                        fontSize: 16,
-                        backgroundColor: "#dce0e0",
-                        borderRadius: "5px",
-                        border: "none",
-                      }}
-                    />
-                  </div>
+                  <Box>
+                    <div className={ProjectStyle.projStatus}>
+                      <Grid container alignItems="center" spacing={2}>
+                        <Grid item>
+                          <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' , width:"100%"}}>Status</FormLabel>
+                        </Grid>
+                        <Grid item>
+                          <FormControl variant="outlined" size="small" style={{ width: '100%' }}>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={status}
+                              onChange={handleChange}
+                              className={ProjectStyle.projStatus}
+                              sx={{ width: '100%' }} 
+                            >
+                              <MenuItem value={1}>department I</MenuItem>
+                              <MenuItem value={2}>department II</MenuItem>
+                              <MenuItem value={3}>department III</MenuItem>
+                              <MenuItem value={4}>department IV</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                      </Grid>
+                    </div>
+                  </Box>
+
+
                 </div>
               </div>
               <div className={ProjectStyle.buttonContainer}>
@@ -296,7 +335,7 @@ export default function Project() {
                   variant="contained"
                   color="primary"
                   startIcon={<SearchIcon />}
-                  style={{ textTransform: "none" , fontFamily:"Montserrat, sans-serif"}}
+                  style={{ textTransform: "none", fontFamily: "Montserrat, sans-serif" }}
                 >
                   Search
                 </Button>

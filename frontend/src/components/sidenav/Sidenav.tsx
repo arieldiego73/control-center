@@ -181,6 +181,7 @@ export const Sidenav = () => {
     <div>
       <TopNav />
       <div className={SidenavStyle.sideNavContainer}>
+
         <div className={SidenavStyle.buttonContainer}>
           <Link to="/dashboard" className={classes.iconButton}>
             <IconButton>
@@ -191,6 +192,7 @@ export const Sidenav = () => {
             <span className={`${classes.boldText} boldText`}>Dashboard</span>
           </div>
         </div>
+
         <div className={SidenavStyle.buttonContainer}>
           <Link to="/user" className={classes.iconButton}>
             <IconButton>
@@ -203,6 +205,7 @@ export const Sidenav = () => {
             <span className={`${classes.boldText} boldText`}>User</span>
           </div>
         </div>
+        
         <div className={SidenavStyle.buttonContainer}>
           <Link to="/project" className={classes.iconButton}>
             <IconButton>
@@ -228,7 +231,7 @@ export const Sidenav = () => {
           </div>
         </div>
         <div className={SidenavStyle.buttonContainer}>
-          <Link to="/dashboard" className={classes.iconButton}>
+          <div className={classes.iconButton}>
             <NavMenuButton
               label="Settings"
               open={menuIndex === 1}
@@ -236,30 +239,30 @@ export const Sidenav = () => {
               onLeaveMenu={createHandleLeaveMenu(1)}
               menu={
                 <Menu onClose={() => setMenuIndex(null)}>
-					<Link to="/DevelopmentPhase" style={{textDecoration:'none', color:'black'}}>
-                		<MenuItem {...itemProps}>Development Phase</MenuItem>
-				  	</Link>
-					<Link to="/role" style={{textDecoration:'none', color:'black'}}>
-                		<MenuItem {...itemProps}>Project Status</MenuItem>
-				  	</Link>
-					<Link to="/role" style={{textDecoration:'none', color:'black'}}>
-                		<MenuItem {...itemProps}>Employee Status</MenuItem>
-				  	</Link>
-					<Link to="/role" style={{textDecoration:'none', color:'black'}}>
-                		<MenuItem {...itemProps}>Employee Position</MenuItem>
-				  	</Link>
-					<Link to="/role" style={{textDecoration:'none', color:'black'}}>
-                		<MenuItem {...itemProps}>Business Unit</MenuItem>
-				  	</Link>
-					<Link to="/role" style={{textDecoration:'none', color:'black'}} >
-                		<MenuItem {...itemProps}>Department</MenuItem>
-				  	</Link>
+                  <Link to="/DevelopmentPhase" style={{textDecoration:'none', color:'black'}}>
+                            <MenuItem {...itemProps}>Development Phase</MenuItem>
+                    </Link>
+                  <Link to="/projectStatus" style={{textDecoration:'none', color:'black'}}>
+                            <MenuItem {...itemProps}>Project Status</MenuItem>
+                    </Link>
+                  <Link to="/employeestatus" style={{textDecoration:'none', color:'black'}}>
+                            <MenuItem {...itemProps}>Employee Status</MenuItem>
+                    </Link>
+                  <Link to="/employeeposition" style={{textDecoration:'none', color:'black'}}>
+                            <MenuItem {...itemProps}>Employee Position</MenuItem>
+                    </Link>
+                  <Link to="/businessunit" style={{textDecoration:'none', color:'black'}}>
+                            <MenuItem {...itemProps}>Business Unit</MenuItem>
+                    </Link>
+                  <Link to="/department" style={{textDecoration:'none', color:'black'}} >
+                            <MenuItem {...itemProps}>Department</MenuItem>
+                    </Link>
                 </Menu>
               }
             >
             	<MoreHorizIcon style={{ height: "1.25vw", width: "1.25vw" }} />
             </NavMenuButton>
-          </Link>
+          </div>
           <div className={SidenavStyle.buttonText}>
             <span className={`${classes.boldText} boldText`}>Others</span>
           </div>
