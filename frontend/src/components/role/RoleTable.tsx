@@ -8,6 +8,9 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import HelpIcon from "@mui/icons-material/Help";
 import SortIcon from "@mui/icons-material/Sort";
+import PersonIcon from "@mui/icons-material/Person";
+import BadgeIcon from "@mui/icons-material/Badge";
+import PersonFourIcon from "@mui/icons-material/Person4";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -22,6 +25,7 @@ import {
 	GridRowEditStopReasons,
 	GridRowSelectionModel,
 	GridToolbar,
+	GridValidRowModel,
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
@@ -40,11 +44,16 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	FormControl,
+	FormLabel,
+	InputAdornment,
 	Snackbar,
+	TextField,
 	Typography,
 	useMediaQuery,
 	useTheme,
 } from "@mui/material";
+import RoleModuleStyle from "./Role.module.css";
 
 export interface SnackbarMessage {
 	message: string;
@@ -58,7 +67,7 @@ export interface State {
 }
 
 interface EditToolbarProps {
-	setRow: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
+	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
 	setRowModesModel: (
 		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
 	) => void;
@@ -66,6 +75,7 @@ interface EditToolbarProps {
 
 export default function RoleTable() {
 	const dispatch = useDispatch();
+	const [isHidden, setIsHidden] = React.useState(false);
 
 	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
@@ -157,11 +167,11 @@ export default function RoleTable() {
 		setMessageInfo(undefined);
 	};
 
+	// FOR DATA GRID
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
 
-	// FOR DATA GRID
 	const dataGridSlots = {
 		toolbar: EditToolbar,
 		columnUnsortedIcon: UnsortedIcon,
@@ -171,30 +181,12 @@ export default function RoleTable() {
 		return <SortIcon className="icon" />;
 	}
 
+	const [roleTitle, setRoleTitle] = React.useState("");
+	const [shortName, setShortName] = React.useState("");
+	const [userLevel, setUserLevel] = React.useState("");
+	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
+
 	function EditToolbar(props: EditToolbarProps) {
-		const { setRow, setRowModesModel } = props;
-
-		const handleAdd = () => {
-			// DETERMINE THE LATEST ID
-			let role_id = rows.reduce((maxId, row) => {
-				return row.role_id > maxId ? row.role_id : maxId;
-			}, -1);
-			role_id++; // ADD 1 FOR THE NEW ID
-
-			setRow((oldRows) => [
-				...oldRows,
-				{
-					role_id,
-					title: "",
-					role_sh_name: "",
-					role_user_level: 1,
-				},
-			]);
-			setRowModesModel((oldModel) => ({
-				...oldModel,
-				[role_id]: { mode: GridRowModes.Edit, fieldToFocus: "title" },
-			}));
-		};
 
 		const handleDeleteBatch = () => {
 			setAsk(true);
@@ -234,7 +226,7 @@ export default function RoleTable() {
 					DELETE BATCH
 				</Button>
 				<div>
-					<Button
+					{/* <Button
 						color="primary"
 						variant="contained"
 						startIcon={<AddIcon />}
@@ -248,7 +240,7 @@ export default function RoleTable() {
 						}}
 					>
 						Add role
-					</Button>
+					</Button> */}
 					<GridToolbar />
 				</div>
 			</GridToolbarContainer>
@@ -314,6 +306,55 @@ export default function RoleTable() {
 		success();
 	};
 
+	const handleAdd = () => {
+		// DETERMINE THE LATEST ID
+		// let role_id = rows.reduce((maxId, row) => {
+		// 	return row.role_id > maxId ? row.role_id : maxId;
+		// }, -1);
+		// role_id++; // ADD 1 FOR THE NEW ID
+
+		if (roleTitle && shortName && userLevel) {
+			const roleInfo: GridValidRowModel = {
+				title: roleTitle,
+				role_sh_name: shortName,
+				role_user_level: userLevel
+			};
+			processAddRow(roleInfo);
+			setIsHidden(false);
+			setRoleTitle("");
+			setShortName("");
+			setUserLevel("");
+		} else {
+			const error = handleClickSnackpack(
+				"All fields are required! Please, try again.",
+				"error"
+			);
+			error();
+		}
+
+	};
+
+	const handleAddContinue = () => {
+		if (roleTitle && shortName && userLevel) {
+			const roleInfo: GridValidRowModel = {
+				title: roleTitle,
+				role_sh_name: shortName,
+				role_user_level: userLevel
+			};
+			processAddRow(roleInfo);
+			setRoleTitle("");
+			setShortName("");
+			setUserLevel("");
+			roleTitleRef.current?.focus();
+		} else {
+			const error = handleClickSnackpack(
+				"All fields are required! Please, try again.",
+				"error"
+			);
+			error();
+		}
+	};
+
 	const handleUpdateAndAdd = (newRow: GridRowModel) => {
 		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
 			// determines whether it is update or add new
@@ -332,7 +373,6 @@ export default function RoleTable() {
 			cancel();
 			error();
 		}
-
 		return newRow;
 	};
 
@@ -463,6 +503,153 @@ export default function RoleTable() {
 				},
 			}}
 		>
+			<div
+				style={{
+					justifyContent: "flex-end",
+					display: "flex",
+					padding: "12px",
+				}}
+			>
+				{!isHidden ? (
+					<Button
+						variant="contained"
+						color="primary"
+						onClick={() => setIsHidden(true)}
+						startIcon={<AddIcon />}
+					>
+						Add Role
+					</Button>
+				) : (
+					<div className={RoleModuleStyle.hideButton}>
+						<div
+							style={{
+								flexDirection: "row",
+								display: "flex",
+								justifyContent: "space-around",
+								alignItems: "center",
+								width: "100%",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "row",
+									justifyContent: "space-around",
+									alignItems: "center",
+									width: "70%",
+									gap: "24px",
+								}}
+							>
+								<FormControl>
+									<FormLabel style={{ fontWeight: "bold" }}>
+										Role
+									</FormLabel>
+									<TextField
+										style={{ width: "100%" }}
+										size="small"
+										placeholder="ex: Software Developer"
+										onChange={(e) => setRoleTitle(e.target.value)}
+										value={roleTitle}
+										autoFocus
+										inputRef={roleTitleRef}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<PersonIcon />
+												</InputAdornment>
+											),
+										}}
+									/>
+								</FormControl>
+								<FormControl>
+									<FormLabel style={{ fontWeight: "bold" }}>
+										Short Name
+									</FormLabel>
+									<TextField
+										style={{ width: "100%" }}
+										variant="outlined"
+										size="small"
+										placeholder="ex: SoftDev"
+										onChange={(e) => setShortName(e.target.value)}
+										value={shortName}
+										className={RoleModuleStyle.textField}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<BadgeIcon />
+												</InputAdornment>
+											),
+										}}
+									/>
+								</FormControl>
+								<FormControl>
+									<FormLabel style={{ fontWeight: "bold" }}>
+										User Level
+									</FormLabel>
+									<TextField
+										style={{ width: "100%" }}
+										variant="outlined"
+										size="small"
+										type="number"
+										placeholder="ex: 1"
+										onChange={(e) => setUserLevel(e.target.value)}
+										value={userLevel}
+										className={RoleModuleStyle.textField}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<PersonFourIcon />
+												</InputAdornment>
+											),
+										}}
+									/>
+								</FormControl>
+							</div>
+
+							<div
+								style={{
+									flexDirection: "row",
+									display: "flex",
+									alignItems: "flex-end",
+									height: "100%",
+									gap: "10px",
+								}}
+							>
+								<Button
+									variant="contained"
+									color="primary"
+									startIcon={<SaveIcon />}
+									style={{
+										textTransform: "none",
+										height: "50%",
+									}}
+									onClick={handleAddContinue}
+								>
+									Save and Continue
+								</Button>
+								<Button
+									variant="contained"
+									color="primary"
+									startIcon={<SaveIcon />}
+									style={{
+										textTransform: "none",
+										height: "50%",
+									}}
+									onClick={handleAdd}
+								>
+									Save
+								</Button>
+								<Button
+									style={{ height: "50%" }}
+									onClick={() => setIsHidden(false)}
+								>
+									Close
+								</Button>
+							</div>
+						</div>
+					</div>
+				)}
+			</div>
 			<DataGrid
 				rows={rows}
 				columns={columns}
