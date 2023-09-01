@@ -11,6 +11,7 @@ import test from "./components/project/new_project/test";
 import AddMemberTable from "./components/project/new_project/AddMemberTable";
 // import UserDetails from "./components/user/edit/EditUser";
 import EditUserHandler from "./pages/EditUserHandler";
+import EditProjectHandler from "./pages/EditProjectHandler"
 import DevelopmentPhaseHandler from "./pages/DevelopmentPhaseHandler";
 import ProjectStatusHandler from "./pages/ProjectStatusHandler";
 import DashboardHandler from "./pages/DashboardHandler";
@@ -26,6 +27,8 @@ function App() {
 
 				{/* <Route path="/edituser" Component={EditUserHandler} /> */}
 				<Route path="/editUser/:name" element={<EditUserHandler />} />
+
+				<Route path="/editProject/:projectName" element={<EditProjectHandler />} />
 
 				<Route path="/project" Component={ProjectHandler} />
 				{/* <Route path="/modal" Component={Modal} /> */}

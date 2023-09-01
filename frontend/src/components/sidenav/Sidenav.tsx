@@ -181,6 +181,7 @@ export const Sidenav = () => {
     <div>
       <TopNav />
       <div className={SidenavStyle.sideNavContainer}>
+
         <div className={SidenavStyle.buttonContainer}>
           <Link to="/dashboard" className={classes.iconButton}>
             <IconButton>
@@ -191,6 +192,7 @@ export const Sidenav = () => {
             <span className={`${classes.boldText} boldText`}>Dashboard</span>
           </div>
         </div>
+
         <div className={SidenavStyle.buttonContainer}>
           <Link to="/user" className={classes.iconButton}>
             <IconButton>
@@ -203,6 +205,7 @@ export const Sidenav = () => {
             <span className={`${classes.boldText} boldText`}>User</span>
           </div>
         </div>
+        
         <div className={SidenavStyle.buttonContainer}>
           <Link to="/project" className={classes.iconButton}>
             <IconButton>

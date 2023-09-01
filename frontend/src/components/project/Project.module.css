@@ -16,7 +16,7 @@ body {
   flex-direction: column;
   align-items: center;
 
-  height: 85%;
+  height: 90%;
   width: 91%;
   top: 10vh;
   left: 7vw;
@@ -80,6 +80,7 @@ body {
   align-items: center;
   justify-content: center;
   margin: 0;
+border: 1px solid red;
 }
 
 .tableContainer {
@@ -93,4 +94,9 @@ body {
 
 .searchBarHolder1 span, .searchBarHolder2 span{
     font-weight: bold;
+}
+
+.projStatus{
+  border: 1px solid red;
+  width: 100%;
 }
