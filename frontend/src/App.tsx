@@ -15,6 +15,10 @@ import DevelopmentPhaseHandler from "./pages/DevelopmentPhaseHandler";
 import ProjectStatusHandler from "./pages/ProjectStatusHandler";
 import DashboardHandler from "./pages/DashboardHandler";
 import ActivityLogDashboardTable from "./components/dashboard/ActivityLogDashboardTable";
+import EmployeeStatusHandler from "./pages/EmployeeStatusHandler";
+import EmployeePositionHandler from "./pages/EmployeePositionHandler";
+import BusinessUnitHandler from "./pages/BusinessUnitHanlder";
+import DepartmentHandler from "./pages/DepartmentHandler";
 
 function App() {
 	return (
@@ -36,9 +40,15 @@ function App() {
 				<Route path="/AddMemberTable" Component={AddMemberTable} />
 				{/* <Route path="/User/:name" Component={UserDetails} /> */}
 				<Route path="/developmentphase" Component={DevelopmentPhaseHandler} />
-				<Route path="/project" Component={ProjectStatusHandler} />
+				<Route path="/projectStatus" Component={ProjectStatusHandler} />
 				<Route path="/dashboardtable" Component={ActivityLogDashboardTable} />
+				<Route path="/employeestatus" Component={EmployeeStatusHandler} />
+				<Route path="/employeeposition" Component={EmployeePositionHandler} />
+				<Route path="/businessunit" Component={BusinessUnitHandler} />
+				<Route path="/department" Component={DepartmentHandler} />
+				
 
+				
 			</Routes>
 		</BrowserRouter>
 	);
