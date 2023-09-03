@@ -6,7 +6,7 @@
         SELECT * FROM your_entity_table WHERE id = #{id}
     </select> -->
 
-    <select id="findAll" resultType="com.controlcenter.controlcenter.model.UserOutput">
+    <select id="findAll" resultType="com.controlcenter.controlcenter.model.UserTable">
         SELECT  users.emp_id,
                 users.username,
                 info_master.fname,
@@ -27,7 +27,15 @@
         SELECT * FROM tbl_user WHERE emp_id = #{id};
     </select>
     <select id="getUserByUsername" resultType="com.controlcenter.controlcenter.model.UserOutput">
-        SELECT *
+        SELECT emp_id,
+               username,
+               password,
+               position_id,
+               dept_id,
+               section_id,
+               role_id,
+               status_code,
+               img_src
         FROM tbl_user
         WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
@@ -58,6 +66,20 @@
             1
         );
     </insert>
+
+    <select id="getUsername" resultType="com.controlcenter.controlcenter.model.UserOutput">
+        SELECT emp_id,
+               username,
+               password,
+               position_id,
+               dept_id,
+               section_id,
+               role_id,
+               status_code,
+               img_src
+        FROM tbl_user
+        WHERE username COLLATE utf8mb4_bin = #{username}
+    </select>
 
     <!-- <insert id="addAccount" parameterType="map">
         INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id)
