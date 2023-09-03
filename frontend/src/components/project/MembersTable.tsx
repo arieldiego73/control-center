@@ -30,12 +30,7 @@ const rows = [
   createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Frontend developer'),
   createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Backend developer'),
   createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Designer, Frontend developer, Backend Developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Frontend developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Backend developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Designer, Frontend developer, Backend Developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Frontend developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Backend developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Designer, Frontend developer, Backend Developer'),
+ 
 ];
 
 export default function MembersTable({ members }: MembersTableProps)  {

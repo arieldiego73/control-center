@@ -32,8 +32,8 @@ public class UserController {
   }
 
   @GetMapping("/user/{id}")
-  public ResponseEntity<UserInput> getUserById(@PathVariable Long id) {
-    UserInput user = userService.getUserById(id);
+  public ResponseEntity<UserOutput> getUserById(@PathVariable Long id) {
+    UserOutput user = userService.getUserById(id);
     return ResponseEntity.ok(user);
   }
 
@@ -61,11 +61,11 @@ public class UserController {
   // }
 
   @PostMapping("/login")
-  public ResponseEntity<UserInput> getUserByUsernameAndPassword(
-    @RequestBody UserInput user
+  public ResponseEntity<UserOutput> getUserByUsernameAndPassword(
+    @RequestBody UserOutput user
   ) {
-    UserInput userFromDB = userService.getUserByUsername(user);
-    UserInput nullUser = new UserInput(); // for incorrect input
+    UserOutput userFromDB = userService.getUserByUsername(user);
+    UserOutput nullUser = new UserOutput(); // for incorrect input
     if (userFromDB != null) {
       boolean isMatched = passEnc.matches(
         user.getPassword(),
@@ -80,5 +80,10 @@ public class UserController {
     } else {
       return ResponseEntity.badRequest().body(nullUser);
     }
+  }
+
+  @GetMapping("/{username}")
+  public UserOutput getUserByUsername(@PathVariable String username) {
+    return userService.getUsername(username);
   }
 }
