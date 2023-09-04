@@ -1,196 +1,105 @@
-import * as React from "react";
-import Menu from "@mui/joy/Menu";
-import MenuItem, { menuItemClasses } from "@mui/joy/MenuItem";
-import List from "@mui/joy/List";
-import ListItem from "@mui/joy/ListItem";
-import ListItemButton from "@mui/joy/ListItemButton";
-import ListDivider from "@mui/joy/ListDivider";
-import Typography, { typographyClasses } from "@mui/joy/Typography";
-import Dropdown, { DropdownProps } from "@mui/joy/Dropdown";
-import MenuButton from "@mui/joy/MenuButton";
-import { Theme } from "@mui/joy";
-import User from "../../../Assets/userImage.png";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+import  user  from '../../../Assets/userImage.png';
 
-type MenuBarButtonProps = Pick<DropdownProps, "children" | "open"> & {
-  onOpen: DropdownProps["onOpenChange"];
-  onKeyDown: React.KeyboardEventHandler;
-  menu: JSX.Element;
-  onMouseEnter: React.MouseEventHandler;
-};
-
-const MenuBarButton = React.forwardRef(
-  (
-    { children, menu, open, onOpen, onKeyDown, ...props }: MenuBarButtonProps,
-    ref: React.ForwardedRef<HTMLButtonElement>
-  ) => {
-    return (
-      <Dropdown open={open} onOpenChange={onOpen}>
-        <MenuButton
-          {...props}
-          slots={{ root: ListItemButton }}
-          ref={ref}
-          role="menuitem"
-          variant={open ? "soft" : "plain"}
-        >
-          {children}
-        </MenuButton>
-        {React.cloneElement(menu, {
-          slotProps: {
-            listbox: {
-              id: `toolbar-example-menu-${children}`,
-              "aria-label": children,
+export default function AccountMenu() {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <React.Fragment>
+      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+        <Tooltip title="Account settings">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            sx={{ ml: 2 }}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+          >
+            <img style={{ width:'32px'}} alt ="" src={user}/>
+            {/* <Avatar sx={{ width: 32, height: 32 }}>M</Avatar> */}
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
             },
           },
-          placement: "bottom-start",
-          disablePortal: false,
-          variant: "soft",
-          sx: (theme: Theme) => ({
-            width: 288,
-            boxShadow: "0 2px 8px 0px rgba(0 0 0 / 0.38)",
-            "--List-padding": "var(--ListDivider-gap)",
-            "--ListItem-minHeight": "32px",
-            [`&& .${menuItemClasses.root}`]: {
-              transition: "none",
-              "&:hover": {
-                ...theme.variants.solid.primary,
-                [`& .${typographyClasses.root}`]: {
-                  color: "inherit",
-                },
-              },
-            },
-          }),
-        })}
-      </Dropdown>
-    );
-  }
-);
-
-export default function MenuToolbarExample() {
-  const menus = React.useRef<Array<HTMLButtonElement>>([]);
-  const [menuIndex, setMenuIndex] = React.useState<null | number>(null);
-
-  // const renderShortcut = (text: string) => (
-  //   <Typography level="body-sm" textColor="text.tertiary" ml="auto">
-  //     {text}
-  //   </Typography>
-  // );
-
-  const openNextMenu = () => {
-    if (typeof menuIndex === "number") {
-      if (menuIndex === menus.current.length - 1) {
-        setMenuIndex(0);
-      } else {
-        setMenuIndex(menuIndex + 1);
-      }
-    }
-  };
-
-  const openPreviousMenu = () => {
-    if (typeof menuIndex === "number") {
-      if (menuIndex === 0) {
-        setMenuIndex(menus.current.length - 1);
-      } else {
-        setMenuIndex(menuIndex - 1);
-      }
-    }
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === "ArrowRight") {
-      openNextMenu();
-    }
-    if (event.key === "ArrowLeft") {
-      openPreviousMenu();
-    }
-  };
-
-  const createHandleButtonKeyDown =
-    (index: number) => (event: React.KeyboardEvent) => {
-      if (event.key === "ArrowRight") {
-        if (index === menus.current.length - 1) {
-          menus.current[0]?.focus();
-        } else {
-          menus.current[index + 1]?.focus();
-        }
-      }
-      if (event.key === "ArrowLeft") {
-        if (index === 0) {
-          menus.current[menus.current.length]?.focus();
-        } else {
-          menus.current[index - 1]?.focus();
-        }
-      }
-    };
-
-  const itemProps = {
-    onClick: () => setMenuIndex(null),
-    onKeyDown: handleKeyDown,
-  };
-
-  return (
-    <List
-      // orientation="horizontal"
-      // aria-label="Example application menu bar"
-      // role="menubar"
-      // data-joy-color-scheme="dark"
-      sx={{
-        // bgcolor: "background.body",
-        border: '1px solid-red',
-        borderRadius: "20px",
-        maxWidth: "fit-content",
-      }}
-    >
-    
-
-      <ListItem>
-        <MenuBarButton
-          open={menuIndex === 2}
-          onOpen={() => {
-            setMenuIndex((prevMenuIndex) =>
-              prevMenuIndex === null ? 2 : null
-            );
-          }}
-          onKeyDown={createHandleButtonKeyDown(2)}
-          onMouseEnter={() => {
-            if (typeof menuIndex === "number") {
-              setMenuIndex(2);
-            }
-          }}
-          ref={(instance) => {
-            menus.current[2] = instance!;
-          }}
-          menu={
-            <Menu
-              onClose={() => {
-                menus.current[2]?.focus();
-              }}
-            >
-              <MenuItem {...itemProps}>
-                Select All
-              </MenuItem>
-              <MenuItem {...itemProps}>
-                Expand Selection 
-              </MenuItem>
-              <MenuItem {...itemProps}>
-                Shrink Selection 
-              </MenuItem>
-            </Menu>
-          }
-        >
-          {/* <div
-            style={{
-              marginRight: "1%",
-              width: " 5vw",
-              height: "3vw",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img style={{ width: " 100%", height: "100%" }} alt="" src={User} />
-          </div> */}
-        </MenuBarButton>
-      </ListItem>
-    </List>
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem onClick={handleClose}>
+          <Avatar /> Profile
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Avatar /> My account
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Add another account
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    </React.Fragment>
   );
 }

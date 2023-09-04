@@ -29,12 +29,9 @@ function App() {
 				<Route path="/dashboard" Component={DashboardHandler} />
 				<Route path="/user" Component={Userhandler} />
 				<Route path="/createuser" Component={CreateUserHandler} />
-
 				{/* <Route path="/edituser" Component={EditUserHandler} /> */}
 				<Route path="/editUser/:name" element={<EditUserHandler />} />
-
 				<Route path="/editProject/:projectName" element={<EditProjectHandler />} />
-
 				<Route path="/project" Component={ProjectHandler} />
 				{/* <Route path="/modal" Component={Modal} /> */}
 				<Route path="/role" Component={RoleHandler} />

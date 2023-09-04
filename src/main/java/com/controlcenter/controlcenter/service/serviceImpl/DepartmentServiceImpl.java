@@ -45,6 +45,7 @@ public class DepartmentServiceImpl implements DepartmentService{
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String formattedDate = sdf.format(new Date(currentTimeMillis));
             activityLogInput.setLog_date(formattedDate);
+            // add the activity log
             activityLogDao.addActivityLog(activityLogInput);
             
             return "Department Added Successfully. " + formattedDate;

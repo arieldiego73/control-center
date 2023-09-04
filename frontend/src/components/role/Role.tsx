@@ -2,6 +2,7 @@ import RoleStyle from "./Role.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import RoleTable from "./RoleTable";
+import Typography from '@mui/material/Typography'
 
 export default function Role() {
 	return (
@@ -19,21 +20,18 @@ export default function Role() {
 						{" "}
 						ROLES AND PERMISSIONS
 					</span>
+					<Typography variant="h5" color="initial">Breadcrumbs here</Typography>
 				</h4>
 			</div>
 
 			<div className={RoleStyle.contentContainer}>
 				<div className={RoleStyle.contentHolder}>
-					{/* Start of Header */}
-
-					{/* Start of Table */}
 					<div
 						style={{
 							backgroundColor: "transparent",
-							borderBottomLeftRadius: "8px",
-							borderBottomRightRadius: "8px",
+							// borderBottomLeftRadius: "8px",
+							// borderBottomRightRadius: "8px",
 							height: "100%",
-							marginTop: "46px",
 						}}
 					>
 						<RoleTable />

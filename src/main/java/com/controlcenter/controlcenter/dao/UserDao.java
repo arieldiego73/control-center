@@ -11,8 +11,9 @@ import com.controlcenter.controlcenter.model.UserOutput;
 @Mapper
 public interface UserDao {
   List<UserOutput> findAll();
-  UserInput getUserById(Long id);
+  UserOutput getUserById(Long id);
   void insertUser(UserInput user);
   // void insertUserBatch(List<User> users);
-  UserInput getUserByUsername(UserInput user);
+  UserOutput getUserByUsername(UserOutput username);
+  UserOutput getUsername(String username);
 }
