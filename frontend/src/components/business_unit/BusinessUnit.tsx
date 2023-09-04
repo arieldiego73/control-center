@@ -1,7 +1,8 @@
-import BusinessUnitStyle from './BusinessUnitTable.module.css'
+import BusinessUnitStyle from './BusinessUnitTable.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import BusinessUnitTable from './BusinessUnitTable';
+import Typography from '@mui/material/Typography'
 
 export default function BusinessUnit() {
 	return (
@@ -19,25 +20,20 @@ export default function BusinessUnit() {
 						{" "}
 						BUSINESS UNIT
 					</span>
+					<Typography variant="h5" color="initial">Breadcrumbs here</Typography>
 				</h4>
 			</div>
 
 			<div className={BusinessUnitStyle.contentContainer}>
-			
-		
-			
 				<div className={BusinessUnitStyle.contentHolder}>
-		
 					<div
 						style={{
 							backgroundColor: "transparent",
-							borderBottomLeftRadius: "8px",
-							borderBottomRightRadius: "8px",
+							// borderBottomLeftRadius: "8px",
+							// borderBottomRightRadius: "8px",
 							height: "100%",
-							marginTop: "10px",
 						}}
 					>
-
 						<BusinessUnitTable />
 					</div>
 				</div>

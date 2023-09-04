@@ -1,5 +1,7 @@
 package com.controlcenter.controlcenter.model;
 
+import java.sql.Timestamp;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,4 +16,5 @@ public class UserTable {
   private String email;
   private String section_name;
   private String dept_name;
+  private Timestamp reg_date;
 }

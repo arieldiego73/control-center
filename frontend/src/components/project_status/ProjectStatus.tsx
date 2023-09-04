@@ -1,7 +1,8 @@
-import ProjectStatusStyle from './ProjectStatusTable.module.css'
+import ProjectStatusStyle from './ProjectStatusTable.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ProjectStatusTable from './ProjectStatusTable';
+import Typography from '@mui/material/Typography'
 
 export default function ProjectStatus() {
 	return (
@@ -19,25 +20,20 @@ export default function ProjectStatus() {
 						{" "}
 						PROJECT STATUS
 					</span>
+					<Typography variant="h5" color="initial">Breadcrumbs here</Typography>
 				</h4>
 			</div>
 
 			<div className={ProjectStatusStyle.contentContainer}>
-			
-		
-			
 				<div className={ProjectStatusStyle.contentHolder}>
-		
 					<div
 						style={{
 							backgroundColor: "transparent",
-							borderBottomLeftRadius: "8px",
-							borderBottomRightRadius: "8px",
+							// borderBottomLeftRadius: "8px",
+							// borderBottomRightRadius: "8px",
 							height: "100%",
-							marginTop: "10px",
 						}}
 					>
-
 						<ProjectStatusTable />
 					</div>
 				</div>

@@ -1,7 +1,8 @@
-import EmployeePositionStyle from './EmployeePositionTable.module.css'
+import EmployeePositionStyle from './EmployeePositionTable.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import EmployeePositionTable from './EmployeePositionTable';
+import Typography from '@mui/material/Typography'
 
 export default function EmployeePosition() {
 	return (
@@ -19,25 +20,20 @@ export default function EmployeePosition() {
 						{" "}
 						EMPLOYEE POSITION
 					</span>
+					<Typography variant="h5" color="initial">Breadcrumbs here</Typography>
 				</h4>
 			</div>
 
 			<div className={EmployeePositionStyle.contentContainer}>
-			
-		
-			
 				<div className={EmployeePositionStyle.contentHolder}>
-		
 					<div
 						style={{
 							backgroundColor: "transparent",
-							borderBottomLeftRadius: "8px",
-							borderBottomRightRadius: "8px",
+							// borderBottomLeftRadius: "8px",
+							// borderBottomRightRadius: "8px",
 							height: "100%",
-							marginTop: "10px",
 						}}
 					>
-
 						<EmployeePositionTable />
 					</div>
 				</div>
