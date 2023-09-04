@@ -1,20 +1,18 @@
 package com.controlcenter.controlcenter.model;
 
-import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class UserOutput {
-
-  private Long emp_id;
+  private String emp_id;
   private String username;
-  private String fname;
-  private String lname;
-  private String position_sh_name;
-  private String email;
-  private String section_name;
-  private String dept_name;
-  private Timestamp reg_date;
+  private String password;
+  private int position_id;
+  private int dept_id;
+  private int section_id;
+  private String status_code;
+  private int role_id;
+  private String img_src;
 }

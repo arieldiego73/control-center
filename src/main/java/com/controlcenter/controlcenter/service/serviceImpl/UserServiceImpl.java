@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserInput getUserById(Long id) {
+  public UserOutput getUserById(Long id) {
     return userDao.getUserById(id);
   }
 
@@ -65,7 +65,6 @@ public class UserServiceImpl implements UserService {
     user.setStatus_code(account.getStatus_code());
     user.setRole_id(account.getRole_id());
     user.setImg_src(account.getImg_src());
-    user.setReg_id(account.getReg_id());
 
     //initializing the value of personal info.
     personalInfo.setEmp_id(account.getEmp_id());
@@ -94,7 +93,12 @@ public class UserServiceImpl implements UserService {
   //   }
 
   @Override
-  public UserInput getUserByUsername(UserInput user) {
-    return userDao.getUserByUsername(user);
+  public UserOutput getUserByUsername(UserOutput username) {
+    return userDao.getUserByUsername(username);
+  }
+
+  @Override
+  public UserOutput getUsername(String username) {
+    return userDao.getUsername(username);
   }
 }
