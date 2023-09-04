@@ -36,24 +36,25 @@ export interface RowData {
 }
 
 const rows: RowData[] = [
-  { id: 1, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'McDo', duration: '07/01/23 - 10/30/23', developmentType: 'Waterfall', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 2, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 3, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Mang Inasal', duration: '07/01/23 - 10/30/23', developmentType: 'Scrum', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 4, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Chowking', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 5, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'KFC', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 6, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 7, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 8, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 9, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 10, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 11, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 12, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 13, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 14, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 15, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 16, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 17, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 18, projectName: 'firstProj', projectManager: 'Mr. Bean', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  { id: 1, projectName: 'firstProjjjjjjjjjjjjjjjjjjjjjjj', projectManager: 'Johnnnnnnnnnnnnnnnnnnnnn Doe', client: 'McDoooooooooooooooooooo', duration: '07/01/23 - 10/30/23', developmentType: 'Waterfall', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  { id: 2, projectName: 'firstPrrrrrrrrrrrrrrrrrrrrroj asdf asdf asdfwer', projectManager: 'John Doeeeeeeeeeeeee', client: 'Jooooooooooooollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 3, projectName: 'firstProj', projectManager: 'John Doe', client: 'Mang Inasal', duration: '07/01/23 - 10/30/23', developmentType: 'Scrum', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 4, projectName: 'firstProj', projectManager: 'John Doe', client: 'Chowking', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 5, projectName: 'firstProj', projectManager: 'John Doe', client: 'KFC', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 6, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 7, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 8, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 9, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 10, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 11, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 12, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 13, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 14, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 15, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 16, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 17, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  // { id: 18, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+
 ];
 
 export default function ProjectTable() {
@@ -192,9 +193,9 @@ export default function ProjectTable() {
           <DialogTitle>
             <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "flex-start", gap: "1vw" , fontFamily:"Montserrat, sans-serif"}}>
               <div>
-                <FontAwesomeIcon icon={faUser} size="2x" color="black" />
+                <FontAwesomeIcon icon={faUser} size="1x" color="black" />
               </div>
-              <div style={{ fontSize: "3vh", fontWeight: "900" , fontFamily:"Montserrat, sans-serif"}}>
+              <div style={{ fontSize: "2vh", fontWeight: "600" , fontFamily:"Montserrat, sans-serif"}}>
                 {"Member(s)"}
               </div>
             </div>

@@ -40,10 +40,10 @@ export default function MembersTable({ members }: MembersTableProps)  {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell align="center" sx={{ backgroundColor: "rgb(204, 245, 255)", padding: "2vh 5vw", fontWeight: "600" }}>First name</TableCell>
-              <TableCell align="center" sx={{ backgroundColor: "rgb(204, 245, 255)", padding: "2vh 5vw", fontWeight: "600" }}>Last name</TableCell>
-              <TableCell align="center" sx={{ backgroundColor: "rgb(204, 245, 255)", padding: "2vh 5vw", fontWeight: "600" }}>Position</TableCell>
-              <TableCell align="center" sx={{ backgroundColor: "rgb(204, 245, 255)", padding: "2vh 5vw", fontWeight: "600" }}>Role</TableCell>
+              <TableCell align="center" sx={{ backgroundColor: "rgb(243, 243, 243)", padding: "2vh 5vw", fontWeight: "600" }}>First name</TableCell>
+              <TableCell align="center" sx={{ backgroundColor: "rgb(243, 243, 243)", padding: "2vh 5vw", fontWeight: "600" }}>Last name</TableCell>
+              <TableCell align="center" sx={{ backgroundColor: "rgb(243, 243, 243)", padding: "2vh 5vw", fontWeight: "600" }}>Position</TableCell>
+              <TableCell align="center" sx={{ backgroundColor: "rgb(243, 243, 243)", padding: "2vh 5vw", fontWeight: "600" }}>Role</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

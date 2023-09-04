@@ -13,132 +13,136 @@ import { Add } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import Modal from '@mui/material/Modal';
+import { Box, Grid, FormLabel, TextField, FormControl } from "@mui/material";
+import Breadcrumb from "../breadcrumbs/breadcrumbs";
 
 
 export default function Userpage() {
-	const data = useSelector((state: RootState) => state.userReducer.users);
-	const dispatch = useDispatch();
+  const data = useSelector((state: RootState) => state.userReducer.users);
+  const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(getUsersFetch());
-	}, [dispatch]);
+  useEffect(() => {
+    dispatch(getUsersFetch());
+  }, [dispatch]);
 
-	console.log(data);
+  console.log(data);
 
-	const [searchQuery, setSearchQuery] = useState("");
-	const [filteredData, setFilteredData] = useState(data);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState(data);
 
-	const handleSearch = () => {
-		// const filtered = data.filter((item) =>
-		// 	item.name.toLowerCase().includes(searchQuery.toLowerCase())
-		// );
-		// setFilteredData(filtered);
-	};
+  const handleSearch = () => {
+    // const filtered = data.filter((item) =>
+    // 	item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
+    // setFilteredData(filtered);
+  };
 
-	return (
-		<body >
-			<div className={UserStyle.mainContainer}>
-				<div style={{ width: "97%" }}>
-					<h4>
-						<FontAwesomeIcon icon={faUser} size="3x" color="black" />
-						<span style={{ fontSize: "40px", color: "black" }}> USERS </span>
-					</h4>
-				</div>
+  const breadcrumbItems = [
+    { label: 'Users', href: '/user' },
 
-				<div className={UserStyle.contentContainer}>
-					<div className={UserStyle.midContent}>
-						<div>
-							Insert breadcrumbs here
-						</div>
-						<div style={{ alignContent: "right" }}>
-							<Link to="/CreateUser" style={{ textDecoration: "none" }}>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<Add />}
-									style={{ textTransform: "none", fontFamily: "Montserrat, sans-serif" }}
-								>
-									Add User
-								</Button>
-							</Link>
-						</div>
-					</div>
-					<div className={UserStyle.contentHolder}>
+  ];
+
+  return (
+    <body >
+      <div className={UserStyle.mainContainer}>
+        <div style={{ width: "97%" }}>
+          <h4>
+            <FontAwesomeIcon icon={faUser} size="2x" color="black" />
+            <span style={{ fontSize: "1.8rem", color: "black" }}> USERS </span>
+          </h4>
+        </div>
+
+        <div className={UserStyle.contentContainer}>
+          <div className={UserStyle.midContent}>
+            <div className={UserStyle.breadCrumbs}>
+              <p> <Breadcrumb items={breadcrumbItems} /></p>
+            </div>
+            <div>
+              <Link to="/CreateUser" style={{ textDecoration: "none" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Add />}
+                  style={{ textTransform: "none", fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Add User
+                </Button>
+              </Link>
+            </div>
+          </div>
+          <div className={UserStyle.contentHolder}>
             {/* Start of Header */}
             <div className={UserStyle.searchBarContainer}>
               <div className={UserStyle.searchBarCol}>
                 {/* Start of first search bar */}
-                <div className={UserStyle.searchBarHolder1}>
-                  <span>Name</span>
-                  <span>:</span>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{
-                      padding: 5,
-                      fontSize: 16,
-                      backgroundColor: "#dce0e0",
-                      borderRadius: "5px",
-                      border: "none",
-                    }}
-                  />
-                </div>
 
-                <div className={UserStyle.searchBarHolder2}>
-                  <span>Department</span>
-                  <span>:</span>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{
-                      padding: 5,
-                      fontSize: 16,
-                      backgroundColor: "#dce0e0",
-                      borderRadius: "5px",
-                      border: "none",
-                    }}
-                  />
-                </div>
+                <Box sx={{ width: "100%", }}>
+                  <div className={UserStyle.projStatus}>
+                    <Grid container alignItems="center" spacing={2}>
+                      <Grid item xs>
+                        <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', width: "100%", color: "black", fontWeight: "400" }}>Name :</FormLabel>
+                      </Grid>
+                      <Grid item xs={7.8}>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          style={{ width: '100%' }}
+                          className={UserStyle.textField}
+                        />
+                      </Grid>
+                    </Grid>
+                  </div>
+                </Box>
+
+                <FormControl className={UserStyle.projManagerStyle}>
+                  <Grid container alignItems="center" spacing={2}>
+                    <Grid item>
+                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', width: "100%", color: "black", fontWeight: "400" }}>Business Unit : </FormLabel>
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        className={UserStyle.textField}
+                      />
+                    </Grid>
+                  </Grid>
+                </FormControl>
+
               </div>
 
               {/* Start of second search bar */}
-              <div className={UserStyle.searcBar1}>
+              <div className={UserStyle.searchBar1}>
                 <div className={UserStyle.searchBarCol}>
-                  <div className={UserStyle.searchBarHolder1}>
-                    <span>Position</span>
-                    <span>:</span>
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      style={{
-                        padding: 5,
-                        fontSize: 16,
-                        backgroundColor: "#dce0e0",
-                        borderRadius: "5px",
-                        border: "none",
-                      }}
-                    />
-                  </div>
+                  <FormControl className={UserStyle.projClientStyle}>
+                    <Grid container alignItems="center" spacing={2}>
+                      <Grid item xs>
+                        <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', width: "100%", color: "black", fontWeight: "400" }}>Position : </FormLabel>
+                      </Grid>
+                      <Grid item >
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          className={UserStyle.textField}
+                        />
+                      </Grid>
+                    </Grid>
+                  </FormControl>
+                  <FormControl className={UserStyle.projClientStyle}>
+                    <Grid container alignItems="center" spacing={2}>
+                      <Grid item>
+                        <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', width: "100%", color: "black", fontWeight: "400" }}>Department : </FormLabel>
+                      </Grid>
+                      <Grid item>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          className={UserStyle.textField}
+                        />
+                      </Grid>
+                    </Grid>
+                  </FormControl>
 
-                  <div className={UserStyle.searchBarHolder2}>
-                    <span>Business Unit</span>
-                    <span>:</span>
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      style={{
-                        padding: 5,
-                        fontSize: 16,
-                        backgroundColor: "#dce0e0",
-                        borderRadius: "5px",
-                        border: "none",
-                      }}
-                    />
-                  </div>
                 </div>
               </div>
               <div className={UserStyle.buttonContainer}>
@@ -146,7 +150,7 @@ export default function Userpage() {
                   variant="contained"
                   color="primary"
                   startIcon={<SearchIcon />}
-                  style={{ textTransform: "none" , fontFamily: "Montserrat, sans-serif" }}
+                  style={{ textTransform: "none", fontFamily: "Montserrat, sans-serif" }}
                 >
                   Search
                 </Button>
@@ -158,11 +162,11 @@ export default function Userpage() {
               <UserTable />
             </div>
           </div>
-				</div>
+        </div>
 
-			</div>
-		</body>
-	);
+      </div>
+    </body>
+  );
 }
 
 

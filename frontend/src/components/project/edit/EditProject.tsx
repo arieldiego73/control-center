@@ -23,7 +23,7 @@ import { idID } from "@mui/material/locale";
 export default function EditProject() {
 
   const location = useLocation();
-  
+
   const row = location.state;
 
   const [id, setId] = useState(row.id);
@@ -48,15 +48,15 @@ export default function EditProject() {
 
 
   const breadcrumbItems = [
-    { label: 'Login Page', href: '/' },
-    { label: 'Dashboard', href: '/dashboard' },
-    { label: 'Users', href: '/userhandler' },
+    { label: 'Projects', href: '/project' },
+    { label: 'Edit project details', href: '/editProject/:projectName' },
+
   ];
 
 
 
   return (
-
+<body>
     <div className={EditProjectStyle.mainContainer}>
       <div className={EditProjectStyle.heading}>
         <FontAwesomeIcon icon={faUser} size="2x" color='black' />
@@ -65,7 +65,7 @@ export default function EditProject() {
         </div>
       </div>
       <div className={EditProjectStyle.breadCrumbs}>
-        <p>SAMPLE BREADCRUMBS <Breadcrumb items={breadcrumbItems} /></p>
+        <p><Breadcrumb items={breadcrumbItems} /></p>
       </div>
 
       <div className={EditProjectStyle.contentContainer}>
@@ -257,11 +257,6 @@ export default function EditProject() {
               />
             </FormControl>
             <Box>
-
-
-    
-
-
               <div className={EditProjectStyle.department}>
                 <FormControl variant="outlined" size="small">
                   <FormLabel>Status</FormLabel>
@@ -307,5 +302,6 @@ export default function EditProject() {
         </div>
       </div>
     </div>
+    </body>
   )
 }

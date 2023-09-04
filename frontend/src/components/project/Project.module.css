@@ -28,6 +28,7 @@ body {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+
 }
 
 .contentContainer {
@@ -80,7 +81,6 @@ body {
   align-items: center;
   justify-content: center;
   margin: 0;
-border: 1px solid red;
 }
 
 .tableContainer {
@@ -97,6 +97,22 @@ border: 1px solid red;
 }
 
 .projStatus{
-  border: 1px solid red;
+  /* border: 1px solid red; */
   width: 100%;
 }
+
+
+.projFormControl {
+  width: 100% !important; /* Override any conflicting styles */
+}
+
+/* Style for the Select component root */
+.projSelectRoot {
+  width: 100% !important; /* Override any conflicting styles */
+}
+
+/* Style for the Select component's outlined style */
+.projSelectOutlined {
+  width: 100% !important; /* Override any conflicting styles */
+}
+
