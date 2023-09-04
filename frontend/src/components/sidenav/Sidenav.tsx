@@ -257,6 +257,9 @@ export const Sidenav = () => {
                   <Link to="/department" style={{textDecoration:'none', color:'black'}} >
                             <MenuItem {...itemProps}>Department</MenuItem>
                     </Link>
+                  <Link to="/technology" style={{textDecoration:'none', color:'black'}} >
+                          <MenuItem {...itemProps}>Technology</MenuItem>
+                  </Link>
                 </Menu>
               }
             >
