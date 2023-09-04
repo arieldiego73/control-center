@@ -78,7 +78,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2vh;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   margin: 0;
 }

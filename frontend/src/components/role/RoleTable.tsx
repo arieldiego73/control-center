@@ -476,6 +476,9 @@ export default function RoleTable() {
 				".MuiDataGrid-sortIcon": {
 					opacity: "inherit !important",
 				},
+				".MuiDataGrid-cellContent": {
+					fontWeight: "500"
+				}
 			}}
 		>
 			<Box
