@@ -52,7 +52,7 @@ import AddMemberTable from "./AddMemberTable";
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import InputBase from '@mui/material/InputBase';
-
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -141,9 +141,8 @@ export default function NewProj() {
   };
 
   const breadcrumbItems = [
-    { label: "Login Page", href: "/" },
-    { label: "Dashboard", href: "/dashboard" },
-    { label: "Users", href: "/userhandler" },
+    { label: "Projects", href: "/project" },
+    { label: "Add new project", href: "/NewProj" },
   ];
 
   const [open, setOpen] = React.useState(false);
@@ -161,13 +160,10 @@ export default function NewProj() {
       
     <div className={StyleNewProject.mainContainer}>
       <div className={StyleNewProject.heading}>
-        <FontAwesomeIcon icon={faUser} size="2x" color="black" />
-        <div className={StyleNewProject.textContainer}>
-          <span style={{ fontSize: "4vh", color: "black" , fontFamily:"Montserrat, sans-serif"}}>
-            {" "}
-            Add New Project{" "}
-          </span>
-        </div>
+        <div className={StyleNewProject.pageTitle}>
+            <span><AccountTreeOutlinedIcon fontSize="large"/></span>
+            <span style={{ fontSize: "1.8rem", color: "black", fontWeight:"600" }}> ADD NEW PROJECT </span>
+          </div>
       </div>
       <div className={StyleNewProject.breadCrumbs}>
         <p>
@@ -292,7 +288,6 @@ export default function NewProj() {
               </LocalizationProvider>
             </FormControl>
           </div>
-
           <div className={StyleNewProject.formRow5}>
             <FormControl className={StyleNewProject.email}>
               <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Project Manager</FormLabel>

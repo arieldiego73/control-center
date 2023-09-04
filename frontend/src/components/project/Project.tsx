@@ -166,6 +166,7 @@ import Modal from '@mui/material/Modal';
 import { FormControl, FormLabel, TextField, InputAdornment, Grid, Box, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
 import Breadcrumb from "../breadcrumbs/breadcrumbs";
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 
 
 
@@ -204,14 +205,12 @@ export default function Project() {
   return (
     <body>
       <div className={ProjectStyle.mainContainer}>
-        <div style={{ width: "97%" }}>
-          <h4>
-            <FontAwesomeIcon icon={faUser} size="3x" color="black" />
-            <span style={{ fontSize: "40px", color: "black" }}> PROJECTS </span>
-          </h4>
+        <div style={{ width: "97%", marginTop:"2vh"}}>
+          <div className={ProjectStyle.pageTitle}>
+            <span><AccountTreeOutlinedIcon fontSize="large"/></span>
+            <span style={{ fontSize: "1.8rem", color: "black", fontWeight:"600" }}> PROJECTS </span>
+          </div>
         </div>
-
-
         <div className={ProjectStyle.contentContainer}>
           <div className={ProjectStyle.midContent}>
             <div className={ProjectStyle.breadCrumbs}>
