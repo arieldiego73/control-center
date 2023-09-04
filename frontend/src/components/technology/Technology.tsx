@@ -1,12 +1,12 @@
-import DevStyle from './DevelopmentPhase.module.css';
+import TechStyle from './Technology.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import DevelopmentPhaseTable from './DevelopmentPhaseTable';
+import TechnologyTable from './TechnologyTable';
 import Typography from '@mui/material/Typography'
 
-export default function DevelopmentPhase() {
+export default function Technology() {
 	return (
-		<div className={DevStyle.mainContainer}>
+		<div className={TechStyle.mainContainer}>
 			<div style={{ width: "97%" }}>
 				<h4>
 					<FontAwesomeIcon icon={faUser} size="3x" color="black" />
@@ -18,14 +18,14 @@ export default function DevelopmentPhase() {
 						}}
 					>
 						{" "}
-						DEVELOPMENT PHASE
+						TECHNOLOGY
 					</span>
 					<Typography variant="h5" color="initial">Breadcrumbs here</Typography>
 				</h4>
 			</div>
 
-			<div className={DevStyle.contentContainer}>
-				<div className={DevStyle.contentHolder}>
+			<div className={TechStyle.contentContainer}>
+				<div className={TechStyle.contentHolder}>
 					<div
 						style={{
 							backgroundColor: "transparent",
@@ -34,7 +34,7 @@ export default function DevelopmentPhase() {
 							height: "100%",
 						}}
 					>
-						<DevelopmentPhaseTable />
+						<TechnologyTable />
 					</div>
 				</div>
 			</div>

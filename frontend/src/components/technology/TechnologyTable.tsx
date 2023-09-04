@@ -53,7 +53,7 @@ import {
 	useMediaQuery,
 	useTheme,
 } from "@mui/material";
-import DepartmentStyle from './DepartmentTable.module.css';
+import TechStyle from "./Technology.module.css";
 
 export interface SnackbarMessage {
 	message: string;
@@ -73,7 +73,7 @@ interface EditToolbarProps {
 	) => void;
 }
 
-export default function DepartmentTable() {
+export default function TechnologyTable() {
 	const dispatch = useDispatch();
 
 	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
@@ -501,7 +501,7 @@ export default function DepartmentTable() {
 						Add Role
 					</Button>
 				) : (
-					<div className={DepartmentStyle.hideButton}>
+					<div className={TechStyle.hideButton}>
 						<div
 							style={{
 								flexDirection: "row",
@@ -557,7 +557,7 @@ export default function DepartmentTable() {
 											setShortName(e.target.value)
 										}
 										value={shortName}
-										className={DepartmentStyle.textField}
+										className={TechStyle.textField}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -581,7 +581,7 @@ export default function DepartmentTable() {
 											setUserLevel(e.target.value)
 										}
 										value={userLevel}
-										className={DepartmentStyle.textField}
+										className={TechStyle.textField}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">

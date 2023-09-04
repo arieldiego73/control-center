@@ -20,6 +20,7 @@ import EmployeeStatusHandler from "./pages/EmployeeStatusHandler";
 import EmployeePositionHandler from "./pages/EmployeePositionHandler";
 import BusinessUnitHandler from "./pages/BusinessUnitHanlder";
 import DepartmentHandler from "./pages/DepartmentHandler";
+import TechnologyHandler from "./pages/TechnologyHandler";
 
 function App() {
 	return (
@@ -46,6 +47,7 @@ function App() {
 				<Route path="/employeeposition" Component={EmployeePositionHandler} />
 				<Route path="/businessunit" Component={BusinessUnitHandler} />
 				<Route path="/department" Component={DepartmentHandler} />
+				<Route path="/technology" Component={TechnologyHandler} />
 				
 
 				

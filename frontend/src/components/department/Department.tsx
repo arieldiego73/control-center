@@ -1,7 +1,9 @@
-import DepartmentStyle from './DepartmentTable.module.css'
+
+import DepartmentStyle from './DepartmentTable.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import DepartmentTable from './DepartmentTable';
+import Typography from '@mui/material/Typography'
 
 export default function Department() {
 	return (
@@ -19,25 +21,20 @@ export default function Department() {
 						{" "}
 						DEPARTMENT
 					</span>
+					<Typography variant="h5" color="initial">Breadcrumbs here</Typography>
 				</h4>
 			</div>
 
 			<div className={DepartmentStyle.contentContainer}>
-			
-		
-			
 				<div className={DepartmentStyle.contentHolder}>
-		
 					<div
 						style={{
 							backgroundColor: "transparent",
-							borderBottomLeftRadius: "8px",
-							borderBottomRightRadius: "8px",
+							// borderBottomLeftRadius: "8px",
+							// borderBottomRightRadius: "8px",
 							height: "100%",
-							marginTop: "10px",
 						}}
 					>
-
 						<DepartmentTable />
 					</div>
 				</div>

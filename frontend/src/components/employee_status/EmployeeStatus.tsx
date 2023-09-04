@@ -1,7 +1,8 @@
-import EmployeeStatusStyle from './EmployeeStatusTable.module.css'
+import EmployeeStatusStyle from './EmployeeStatusTable.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import EmployeeStatusTable from './EmployeeStatusTable';
+import Typography from '@mui/material/Typography'
 
 export default function EmployeeStatus() {
 	return (
@@ -19,25 +20,20 @@ export default function EmployeeStatus() {
 						{" "}
 						EMPLOYEE STATUS
 					</span>
+					<Typography variant="h5" color="initial">Breadcrumbs here</Typography>
 				</h4>
 			</div>
 
 			<div className={EmployeeStatusStyle.contentContainer}>
-			
-		
-			
 				<div className={EmployeeStatusStyle.contentHolder}>
-		
 					<div
 						style={{
 							backgroundColor: "transparent",
-							borderBottomLeftRadius: "8px",
-							borderBottomRightRadius: "8px",
+							// borderBottomLeftRadius: "8px",
+							// borderBottomRightRadius: "8px",
 							height: "100%",
-							marginTop: "10px",
 						}}
 					>
-
 						<EmployeeStatusTable />
 					</div>
 				</div>
