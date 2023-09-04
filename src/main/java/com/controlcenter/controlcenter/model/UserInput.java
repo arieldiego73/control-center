@@ -17,5 +17,4 @@ public class UserInput {
   private String status_code;
   private int role_id;
   private String img_src;
-  private String reg_id;
 }
