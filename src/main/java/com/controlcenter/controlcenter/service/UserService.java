@@ -18,4 +18,6 @@ public interface UserService {
   public UserOutput getUsername(String username);
 
   public String addAccount(Account account);
+
+  // public UserOutput getLoggedInUser(UserOutput user);
 }

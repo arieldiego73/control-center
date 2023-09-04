@@ -12,15 +12,15 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+// import org.springframework.security.core.userdetails.User;
+// import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.userdetails.UserDetailsService;
+// import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService{
 
   @Autowired
   public UserDao userDao;
@@ -108,17 +108,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     return userDao.getUsername(username);
   }
 
-  @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserOutput user = userDao.getUsername(username);
+  // @Override
+  // public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+  //   UserOutput user = userDao.getUsername(username);
 
-    if(user == null) {
-      throw new UsernameNotFoundException(username + "not found.");
-    }
-    return new User(
-      user.getUsername(),
-      user.getPassword(),
-      Collections.emptyList()
-    );
-  }
+  //   if(user == null) {
+  //     throw new UsernameNotFoundException(username + "not found.");
+  //   }
+  //   return new User(
+  //     user.getUsername(),
+  //     user.getPassword(),
+  //     Collections.emptyList()
+  //   );
+  // }
+
+  // @Override
+  // public UserOutput getLoggedInUser(UserOutput user) throws UsernameNotFoundException{
+  //   UserOutput users = userDao.getUserByUsername(user);
+
+  //   if(users == null) {
+  //     throw new UsernameNotFoundException(null);
+  //   }
+  // }
 }
