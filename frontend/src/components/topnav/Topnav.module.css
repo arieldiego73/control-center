@@ -26,7 +26,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 1vw;
+	/* gap: 1vw; */
 	height: 70%;
 	margin-left: auto;
 }
@@ -49,15 +49,23 @@
 	font-size: 0.7vw;
 	margin: 0;
 }
-.imageContainer {
+/* .imageContainer {
 	margin-right: 1%;
 	width: 5vw;
 	height: 3vw;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-.imageContainer img {
+	position: relative; 
+	transition: background-color 0.3s; 
+} */
+/* .imageContainer img {
 	width: 100%;
 	height: 100%;
+} */
+
+.imgOnClick{
+	display: flex;
+	align-items: center;
+	text-align: center;
 }
