@@ -75,7 +75,6 @@ interface EditToolbarProps {
 
 export default function RoleTable() {
 	const dispatch = useDispatch();
-	const [isHidden, setIsHidden] = React.useState(false);
 
 	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
@@ -85,6 +84,7 @@ export default function RoleTable() {
 	// STORE THE ROLES TO 'data'
 	const data = useSelector((state: RootState) => state.roleReducer.roles);
 
+	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
 	const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
 		{}
@@ -98,9 +98,28 @@ export default function RoleTable() {
 	const [dialogTitle, setDialogTitle] = React.useState("");
 	const [dialogContentText, setDialogContentText] = React.useState("");
 
-	// FOR CONFIRM DIALOG
 	const [ask, setAsk] = React.useState(false);
 	const [deleteId, setDeleteId] = React.useState(0);
+
+	const [snackPack, setSnackPack] = React.useState<
+		readonly SnackbarMessage[]
+	>([]);
+	const [open, setOpen] = React.useState(false);
+	const [messageInfo, setMessageInfo] = React.useState<
+		SnackbarMessage | undefined
+	>(undefined);
+	const [severity, setSeverity] = React.useState<AlertColor>("error");
+
+	const dataGridSlots = {
+		toolbar: EditToolbar,
+		columnUnsortedIcon: UnsortedIcon,
+	};
+
+	function UnsortedIcon() {
+		return <SortIcon className="icon" />;
+	}
+
+	// FOR CONFIRM DIALOG
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -129,15 +148,6 @@ export default function RoleTable() {
 	};
 
 	// FOR SNACKPACK
-	const [snackPack, setSnackPack] = React.useState<
-		readonly SnackbarMessage[]
-	>([]);
-	const [open, setOpen] = React.useState(false);
-	const [messageInfo, setMessageInfo] = React.useState<
-		SnackbarMessage | undefined
-	>(undefined);
-	const [severity, setSeverity] = React.useState<AlertColor>("error");
-
 	React.useEffect(() => {
 		if (snackPack.length && !messageInfo) {
 			// Set a new snack when we don't have an active one
@@ -172,22 +182,12 @@ export default function RoleTable() {
 		setRows(data);
 	}, [data]);
 
-	const dataGridSlots = {
-		toolbar: EditToolbar,
-		columnUnsortedIcon: UnsortedIcon,
-	};
-
-	function UnsortedIcon() {
-		return <SortIcon className="icon" />;
-	}
-
 	const [roleTitle, setRoleTitle] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
 	const [userLevel, setUserLevel] = React.useState("");
 	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
 
 	function EditToolbar(props: EditToolbarProps) {
-
 		const handleDeleteBatch = () => {
 			setAsk(true);
 			setIsBatch(true);
@@ -226,21 +226,6 @@ export default function RoleTable() {
 					DELETE BATCH
 				</Button>
 				<div>
-					{/* <Button
-						color="primary"
-						variant="contained"
-						startIcon={<AddIcon />}
-						onClick={handleAdd}
-						sx={{
-							marginBottom: 3,
-							position: "absolute",
-							top: -50,
-							right: 0,
-							fontFamily: "Montserrat, san-serif",
-						}}
-					>
-						Add role
-					</Button> */}
 					<GridToolbar />
 				</div>
 			</GridToolbarContainer>
@@ -307,17 +292,11 @@ export default function RoleTable() {
 	};
 
 	const handleAdd = () => {
-		// DETERMINE THE LATEST ID
-		// let role_id = rows.reduce((maxId, row) => {
-		// 	return row.role_id > maxId ? row.role_id : maxId;
-		// }, -1);
-		// role_id++; // ADD 1 FOR THE NEW ID
-
 		if (roleTitle && shortName && userLevel) {
 			const roleInfo: GridValidRowModel = {
 				title: roleTitle,
 				role_sh_name: shortName,
-				role_user_level: userLevel
+				role_user_level: userLevel,
 			};
 			processAddRow(roleInfo);
 			setIsHidden(false);
@@ -331,7 +310,6 @@ export default function RoleTable() {
 			);
 			error();
 		}
-
 	};
 
 	const handleAddContinue = () => {
@@ -339,7 +317,7 @@ export default function RoleTable() {
 			const roleInfo: GridValidRowModel = {
 				title: roleTitle,
 				role_sh_name: shortName,
-				role_user_level: userLevel
+				role_user_level: userLevel,
 			};
 			processAddRow(roleInfo);
 			setRoleTitle("");
@@ -477,9 +455,6 @@ export default function RoleTable() {
 					},
 				"& .MuiDataGrid-root .MuiInputBase-input": {
 					textAlign: "center",
-					fontFamily: "Ubuntu, san-serif",
-					border: "1px solid rgb(193 173 173 / 37%)",
-					borderRadius: "4px",
 					backgroundColor: "#fff",
 				},
 				"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
@@ -503,10 +478,15 @@ export default function RoleTable() {
 				},
 			}}
 		>
-			<div
+			<Box
+				component="form"
+				onKeyDown={(e) => {
+					if (e.key.match("Enter")) handleAddContinue();
+				}}
 				style={{
-					justifyContent: "flex-end",
+					position: "relative",
 					display: "flex",
+					justifyContent: "flex-end",
 					padding: "12px",
 				}}
 			>
@@ -514,6 +494,7 @@ export default function RoleTable() {
 					<Button
 						variant="contained"
 						color="primary"
+						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
@@ -541,14 +522,16 @@ export default function RoleTable() {
 								}}
 							>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold" }}>
+									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
 										Role
 									</FormLabel>
 									<TextField
 										style={{ width: "100%" }}
 										size="small"
 										placeholder="ex: Software Developer"
-										onChange={(e) => setRoleTitle(e.target.value)}
+										onChange={(e) =>
+											setRoleTitle(e.target.value)
+										}
 										value={roleTitle}
 										autoFocus
 										inputRef={roleTitleRef}
@@ -562,7 +545,7 @@ export default function RoleTable() {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold" }}>
+									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
 										Short Name
 									</FormLabel>
 									<TextField
@@ -570,7 +553,9 @@ export default function RoleTable() {
 										variant="outlined"
 										size="small"
 										placeholder="ex: SoftDev"
-										onChange={(e) => setShortName(e.target.value)}
+										onChange={(e) =>
+											setShortName(e.target.value)
+										}
 										value={shortName}
 										className={RoleModuleStyle.textField}
 										InputProps={{
@@ -583,7 +568,7 @@ export default function RoleTable() {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold" }}>
+									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
 										User Level
 									</FormLabel>
 									<TextField
@@ -592,7 +577,9 @@ export default function RoleTable() {
 										size="small"
 										type="number"
 										placeholder="ex: 1"
-										onChange={(e) => setUserLevel(e.target.value)}
+										onChange={(e) =>
+											setUserLevel(e.target.value)
+										}
 										value={userLevel}
 										className={RoleModuleStyle.textField}
 										InputProps={{
@@ -622,6 +609,7 @@ export default function RoleTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
+										fontFamily: "Montserrat, san-serif"
 									}}
 									onClick={handleAddContinue}
 								>
@@ -634,14 +622,20 @@ export default function RoleTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
+										fontFamily: "Montserrat, san-serif"
 									}}
 									onClick={handleAdd}
 								>
 									Save
 								</Button>
 								<Button
-									style={{ height: "50%" }}
-									onClick={() => setIsHidden(false)}
+									style={{ height: "50%", fontFamily: "Montserrat, san-serif" }}
+									onClick={() => {
+										setIsHidden(false);
+										setRoleTitle("");
+										setShortName("");
+										setUserLevel("");
+									}}
 								>
 									Close
 								</Button>
@@ -649,8 +643,10 @@ export default function RoleTable() {
 						</div>
 					</div>
 				)}
-			</div>
+			</Box>
+
 			<DataGrid
+				sx={{ height: 650, border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"
@@ -678,6 +674,7 @@ export default function RoleTable() {
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
+				pageSizeOptions={[25, 50, 100]}
 			/>
 			<Snackbar
 				key={messageInfo ? messageInfo.key : undefined}
