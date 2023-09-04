@@ -23,6 +23,16 @@ body {
 
   overflow: hidden;
 }
+
+
+.pageTitle{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 1vw;
+  height: 100%;
+}
+
 .midContent {
   display: flex;
   align-items: center;
