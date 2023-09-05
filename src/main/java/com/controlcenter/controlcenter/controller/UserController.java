@@ -5,7 +5,11 @@ import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.service.UserService;
+
+import java.util.HashMap;
 import java.util.List;
+
+import org.hibernate.result.Output;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,26 +65,31 @@ public class UserController {
   //   return "Multiple users created successfully";
   // }
 
-  @PostMapping("/login")
-  public ResponseEntity<UserOutput> getUserByUsernameAndPassword(
-    @RequestBody UserOutput user
-  ) {
-    UserOutput userFromDB = userService.getUserByUsername(user);
-    UserOutput nullUser = new UserOutput(); // for incorrect input
-    if (userFromDB != null) {
-      boolean isMatched = passEnc.matches(
-        user.getPassword(),
-        userFromDB.getPassword()
-      );
+  // @PostMapping("/login")
+  // public ResponseEntity<UserOutput> getUserByUsernameAndPassword(
+  //   @RequestBody UserOutput user
+  // ) {
+  //   UserOutput userFromDB = userService.getUserByUsername(user);
+  //   UserOutput nullUser = new UserOutput(); // for incorrect input
+  //   if (userFromDB != null) {
+  //     boolean isMatched = passEnc.matches(
+  //       user.getPassword(),
+  //       userFromDB.getPassword()
+  //     );
 
-      if (isMatched) {
-        return ResponseEntity.ok(userFromDB);
-      } else {
-        return ResponseEntity.badRequest().body(nullUser);
-      }
-    } else {
-      return ResponseEntity.badRequest().body(nullUser);
-    }
+  //     if (isMatched) {
+  //       return ResponseEntity.ok(userFromDB);
+  //     } else {
+  //       return ResponseEntity.badRequest().body(nullUser);
+  //     }
+  //   } else {
+  //     return ResponseEntity.badRequest().body(nullUser);
+  //   }
+  // }
+
+  @PostMapping("/login")
+  public HashMap<String, Object> getLoggedInUser(@RequestBody UserOutput user) {
+    return userService.getLoggedInUser(user);
   }
 
   @GetMapping("/{username}")

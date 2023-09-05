@@ -367,7 +367,7 @@ export default function BusinessUnitTable() {
 			width: 300,
 			editable: true,
 			flex: 12,
-			headerAlign: "center",
+			headerAlign: "center", 
 			align: "center",
 		},
 		{
@@ -648,7 +648,7 @@ export default function BusinessUnitTable() {
 			</Box>
 
 			<DataGrid
-				sx={{ height: 650, border: "none" }}
+				sx={{ height: 600, border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"

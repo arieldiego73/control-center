@@ -13,6 +13,7 @@ import {
   Select,
   SelectChangeEvent,
   IconButton,
+  Grid,
 } from "@mui/material";
 import { styled, alpha } from '@mui/material/styles';
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
@@ -21,7 +22,6 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import Breadcrumb from "../../breadcrumbs/breadcrumbs";
 import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
@@ -42,7 +42,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { Link } from "react-router-dom";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -52,8 +51,19 @@ import AddMemberTable from "./AddMemberTable";
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import InputBase from '@mui/material/InputBase';
-import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
+import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import SettingsEthernetOutlinedIcon from '@mui/icons-material/SettingsEthernetOutlined';
 
+//for breadcrumbs
+import { Link } from "react-router-dom";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
+//for breadcrumbs
+function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    event.preventDefault();
+    console.info("You clicked a breadcrumb.");
+  }
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -86,7 +96,6 @@ const Search = styled('div')(({ theme }) => ({
     width: 'auto',
   },
 }));
-
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -147,325 +156,379 @@ export default function NewProj() {
 
   const [open, setOpen] = React.useState(false);
 
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-	const handleClose = () => {
-		setOpen(false);
-	};
+  const handleClose = () => {
+    setOpen(false);
+  }; 
 
   return (
     <body>
-      
-    <div className={StyleNewProject.mainContainer}>
-      <div className={StyleNewProject.heading}>
-        <div className={StyleNewProject.pageTitle}>
-            <span><AccountTreeOutlinedIcon fontSize="large"/></span>
-            <span style={{ fontSize: "1.8rem", color: "black", fontWeight:"600" }}> ADD NEW PROJECT </span>
-          </div>
-      </div>
-      <div className={StyleNewProject.breadCrumbs}>
-        <p>
-          <Breadcrumb items={breadcrumbItems} />
-        </p>
-      </div>
-
-      <div
-        className={StyleNewProject.contentContainer}
-        style={{ maxHeight: "65vh", overflowY: "auto" }}
-      >
-        <div className={StyleNewProject.mainForm}>
-          <div className={StyleNewProject.formRow1}>
-            <FormControl className={StyleNewProject.formUsername}>
-              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Project Name</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Project Name"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermIdentityOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </FormControl>
-          </div>
-          <div className={StyleNewProject.formRow2}>
-            <div style={{ flexDirection: "column", display: "flex" }}>
-              <div style={{ width: "38%" }}>
-                <Paper
-                  elevation={0}
-                  sx={{
-                    display: "flex",
-                    border: (theme) => `1px solid ${theme.palette.divider}`,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <StyledToggleButtonGroup
-                    size="small"
-                    value={alignment}
-                    exclusive
-                    onChange={handleAlignment}
-                    aria-label="text alignment"
-                  >
-                    <ToggleButton value="left" aria-label="left aligned">
-                      <FormatAlignLeftIcon />
-                    </ToggleButton>
-                    <ToggleButton value="center" aria-label="centered">
-                      <FormatAlignCenterIcon />
-                    </ToggleButton>
-                    <ToggleButton value="right" aria-label="right aligned">
-                      <FormatAlignRightIcon />
-                    </ToggleButton>
-                    <ToggleButton
-                      value="justify"
-                      aria-label="justified"
-                      disabled
-                    >
-                      <FormatAlignJustifyIcon />
-                    </ToggleButton>
-                  </StyledToggleButtonGroup>
-                  <Divider
-                    flexItem
-                    orientation="vertical"
-                    sx={{ mx: 0.5, my: 1 }}
-                  />
-                  <StyledToggleButtonGroup
-                    size="small"
-                    value={formats}
-                    onChange={handleFormat}
-                    aria-label="text formatting"
-                  >
-                    <ToggleButton value="bold" aria-label="bold">
-                      <FormatBoldIcon />
-                    </ToggleButton>
-                    <ToggleButton value="italic" aria-label="italic">
-                      <FormatItalicIcon />
-                    </ToggleButton>
-                    <ToggleButton value="underlined" aria-label="underlined">
-                      <FormatUnderlinedIcon />
-                    </ToggleButton>
-                    <ToggleButton value="color" aria-label="color" disabled>
-                      <FormatColorFillIcon />
-                      <ArrowDropDownIcon />
-                    </ToggleButton>
-                  </StyledToggleButtonGroup>
-                </Paper>
-              </div>
-              <FormControl className={StyleNewProject.assocId}>
-                <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Description</FormLabel>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  placeholder="Description"
-                  className={StyleNewProject.textField}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AssignmentIndOutlinedIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </FormControl>
-            </div>
-          </div>
-          <div className={StyleNewProject.formRow3}>
-            <FormControl className={StyleNewProject.fname}>
-              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Start Date</FormLabel>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker />
-              </LocalizationProvider>
-            </FormControl>
-            <FormControl className={StyleNewProject.mname}>
-              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>End Date</FormLabel>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker />
-              </LocalizationProvider>
-            </FormControl>
-          </div>
-          <div className={StyleNewProject.formRow5}>
-            <FormControl className={StyleNewProject.email}>
-              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Project Manager</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Project Manager"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermIdentityOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </FormControl>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Add />}
-              style={{ textTransform: "none" , fontFamily: 'Montserrat, sans-serif'}}
+      <div className={StyleNewProject.mainContainer}>
+        <div style={{ width: "97%", paddingBottom:'1%' }}>
+          <div className={StyleNewProject.pageTitle}>
+            <span>
+              <AccountTreeOutlinedIcon fontSize="large" />
+            </span>
+            <span
+              style={{ fontSize: "1.8rem", color: "black", fontWeight: "600" }}
             >
-              Add Project Manager
-            </Button>
-          </div>
-
-          <div className={StyleNewProject.formRow6}>
-            <FormControl className={StyleNewProject.email}>
-              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Client Name</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Client Name"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <GroupsOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </FormControl>
-          </div>
-
-          {/* FOR TESTING SCROLL VIEW ONLY!! */}
-
-          <div className={StyleNewProject.formRow6}>
-            <FormLabel style={{ paddingTop: ".5%" , fontFamily: 'Montserrat, sans-serif' }}>
-              Development Phase
-            </FormLabel>
-            <FormGroup style={{ flexDirection: "row", display: "flex" , fontFamily: 'Montserrat, sans-serif'}}>
-              <FormControlLabel control={<Checkbox />} label="RQS" />
-              <FormControlLabel control={<Checkbox />} label="BD" />
-              <FormControlLabel control={<Checkbox />} label="DD" />
-              <FormControlLabel control={<Checkbox />} label="CD" />
-              <FormControlLabel control={<Checkbox />} label="UT" />
-              <FormControlLabel control={<Checkbox />} label="CT" />
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label="UAT"
-              />
-              <FormControlLabel control={<Checkbox />} label="MAINTENANCE" />
-            </FormGroup>
-          </div>
-
-          <div className={StyleNewProject.formRow5}>
-            <FormControl>
-              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Technology</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Technology"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermIdentityOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </FormControl>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Add />}
-              style={{ textTransform: "none" , fontFamily: 'Montserrat, sans-serif'}}
-            >
-              Add Technology
-            </Button>
-          </div>
-
-          <div className={StyleNewProject.formRow5}>
-            <FormControl>
-              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Members</FormLabel>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Members"
-                className={StyleNewProject.textField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermIdentityOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </FormControl>
-           
-            <Button
-               onClick={handleClickOpen} 
-              variant="contained"
-              color="primary"
-              startIcon={<Add />}
-              style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif'}}
-            >
-              Add Members
-            </Button>
-          </div>
-
-          <div>
-            <FormControl variant="outlined" size="small">
-              <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif' }}>Status</FormLabel>
-              {/* <InputLabel htmlFor="demo-simple-select-label">Select Department</InputLabel> */}
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
-                className={StyleNewProject.textField}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <GroupsOutlinedIcon />
-                  </InputAdornment>
-                }
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-
-          {/* START OF BUTTONS  */}
-
-          <div className={StyleNewProject.formRow7}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<SaveOutlinedIcon />}
-              style={{ textTransform: "none" , fontFamily: 'Montserrat, sans-serif'}}
-            >
-              SAVE
-            </Button>
-            <Link to="/project" style={{ textDecoration: "none" , fontFamily: 'Montserrat, sans-serif'}}>
-            <Button
-              variant="contained"
-              startIcon={<CancelOutlinedIcon />}
-              style={{ textTransform: "none", backgroundColor: "gray" , fontFamily: 'Montserrat, sans-serif'}}
-            >
-              CANCEL
-            </Button>
-            </Link>
+              {" "}
+              ADD NEW PROJECT{" "}
+            </span>
           </div>
         </div>
-      </div>
 
-      {/* Popup */}
-      
-				<Dialog
-					open={open}
-					onClose={handleClose}
-					aria-describedby="alert-dialog-slide-description"
-				> 
-        {/* <div>
+        <div className={StyleNewProject.midContent}>
+         {/* for breadcrumbs */}
+         <div
+              style={{
+                border: "1px solid red",
+                paddingBottom: "1%",
+                width: "80%",
+                height: "75%",
+               paddingLeft:'1%',
+               marginLeft:'1.5%',
+                position: "relative",
+                top: "3%",
+                alignSelf: "center",
+              }}
+              role="presentation" 
+              onClick={handleClick}
+            >
+              <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+                <Link
+                  to="/Project"
+                  className={`${StyleNewProject["custom-link"]}`}
+                  style={{ color: "inherit" }}
+                >
+                  Project
+                </Link>
+                <Link
+                  to="/NewProj"
+                  className={`${StyleNewProject["custom-link"]}`}
+                  style={{ color: "inherit" }}
+                >
+                  Create New Project
+                </Link>
+              </Breadcrumbs>
+            </div>
+        </div>
+
+        <div className={StyleNewProject.contentContainer}>
+          <div className={StyleNewProject.mainForm}>
+            <div className={StyleNewProject.mainFormCol1}>
+
+              <div className={StyleNewProject.headCol}>
+                <div className={StyleNewProject.col1}>
+                  <div className={StyleNewProject.formRow1}>
+                    <div className={StyleNewProject.formRow1Col1}>
+                      <FormControl className={StyleNewProject.formUsername}>
+                        <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Project Name</FormLabel>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          placeholder="Project Name"
+                          className={StyleNewProject.textField}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <FolderOutlinedIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </FormControl>
+                    </div>
+                  </div>
+
+                  <div className={StyleNewProject.formRow3}>
+                    <FormControl className={StyleNewProject.fname}>
+                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Start Date</FormLabel>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker />
+                      </LocalizationProvider>
+                    </FormControl>
+                    <FormControl className={StyleNewProject.mname}>
+                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>End Date</FormLabel>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </div>
+                  <div className={StyleNewProject.formRow5}>
+                <FormControl className={StyleNewProject.email}>
+                  <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Project Manager</FormLabel>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    placeholder="Project Manager"
+                    className={StyleNewProject.textField}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PermIdentityOutlinedIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </FormControl>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Add />}
+                  style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
+                >
+                  Add Project Manager
+                </Button>
+              </div>
+
+              <div className={StyleNewProject.formRow6}>
+                <FormControl className={StyleNewProject.email}>
+                  <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Client Name</FormLabel>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    placeholder="Client Name"
+                    className={StyleNewProject.textField}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <GroupsOutlinedIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </FormControl>
+              </div>
+                </div>
+                <div className={StyleNewProject.col2}>
+                  <div className={StyleNewProject.gridContainer}>
+                    <Paper
+                      elevation={0}
+                      className="gridItem"
+                      sx={{
+                        display: "flex",
+                        border: (theme) => `1px solid ${theme.palette.divider}`,
+                        flexWrap: "wrap",
+                        width: "500px"
+                      }}
+                    >
+                      <StyledToggleButtonGroup
+                        size="small"
+                        value={alignment}
+                        exclusive
+                        onChange={handleAlignment}
+                        aria-label="text alignment"
+                      >
+                        <ToggleButton value="left" aria-label="left aligned">
+                          <FormatAlignLeftIcon />
+                        </ToggleButton>
+                        <ToggleButton value="center" aria-label="centered">
+                          <FormatAlignCenterIcon />
+                        </ToggleButton>
+                        <ToggleButton value="right" aria-label="right aligned">
+                          <FormatAlignRightIcon />
+                        </ToggleButton>
+                        <ToggleButton
+                          value="justify"
+                          aria-label="justified"
+                          disabled
+                        >
+                          <FormatAlignJustifyIcon />
+                        </ToggleButton>
+                      </StyledToggleButtonGroup>
+                      <Divider
+                        flexItem
+                        orientation="vertical"
+                        sx={{ mx: 0.5, my: 1 }}
+                      />
+                      <StyledToggleButtonGroup
+                        size="small"
+                        value={formats}
+                        onChange={handleFormat}
+                        aria-label="text formatting"
+                      >
+                        <ToggleButton value="bold" aria-label="bold">
+                          <FormatBoldIcon />
+                        </ToggleButton>
+                        <ToggleButton value="italic" aria-label="italic">
+                          <FormatItalicIcon />
+                        </ToggleButton>
+                        <ToggleButton value="underlined" aria-label="underlined">
+                          <FormatUnderlinedIcon />
+                        </ToggleButton>
+                        <ToggleButton value="color" aria-label="color" disabled>
+                          <FormatColorFillIcon />
+                          <ArrowDropDownIcon />
+                        </ToggleButton>
+                      </StyledToggleButtonGroup>
+                    </Paper>
+                    <FormControl className={StyleNewProject.assocId}>
+                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Description</FormLabel>
+                      <TextField
+                        id="outlined-multiline-flexible"
+                        multiline
+                        maxRows={8}
+                        sx={{width:"500px"}}
+                      />
+                    </FormControl>
+                  </div>
+                </div>
+              </div>
+
+              {/* FOR TESTING SCROLL VIEW ONLY!! */}
+
+              <div className={StyleNewProject.formRow6}>
+                <FormLabel style={{ paddingTop: ".5%", fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>
+                  Development Phase
+                </FormLabel>
+                <FormGroup style={{ flexDirection: "row", display: "flex", fontFamily: 'Montserrat, sans-serif' }}>
+                  <FormControlLabel control={<Checkbox />} label="RQS" />
+                  <FormControlLabel control={<Checkbox />} label="BD" />
+                  <FormControlLabel control={<Checkbox />} label="DD" />
+                  <FormControlLabel control={<Checkbox />} label="CD" />
+                  <FormControlLabel control={<Checkbox />} label="UT" />
+                  <FormControlLabel control={<Checkbox />} label="CT" />
+                  <FormControlLabel
+                    control={<Checkbox defaultChecked />}
+                    label="UAT"
+                  />
+                  <FormControlLabel control={<Checkbox />} label="MAINTENANCE" />
+                </FormGroup>
+              </div>
+
+              <div className={StyleNewProject.formRow5}>
+                <FormControl>
+                  <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Technology</FormLabel>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    placeholder="Technology"
+                    className={StyleNewProject.textField}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SettingsEthernetOutlinedIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </FormControl>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Add />}
+                  style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
+                >
+                  Add Technology
+                </Button>
+              </div>
+
+              <div className={StyleNewProject.formRow5}>
+                <FormControl>
+                  <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Members</FormLabel>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    placeholder="Members"
+                    className={StyleNewProject.textField}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <GroupsOutlinedIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </FormControl>
+
+                <Button
+                  onClick={handleClickOpen}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Add />}
+                  style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
+                >
+                  Add Members
+                </Button>
+              </div>
+
+              <div className={StyleNewProject.formRow8}>
+                <div>
+                  <Box sx={{ width: "100%" }}>
+                    <div className="projStatus">
+                      <Grid container alignItems="center" spacing={2}>
+                        <div className="projStatusContent">
+                          <Grid item>
+                            <FormLabel
+                              sx={{
+                                fontFamily: "Montserrat, sans-serif",
+                                width: "100%",
+                                color: "black",
+                                fontWeight: "400",
+                              }}
+                            >
+                              Status
+                            </FormLabel>
+                          </Grid>
+                          <Grid item xs>
+                            <FormControl variant="outlined" size="small" style={{ width: '100%' }}>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                onChange={handleChange}
+                                sx={{ width: '200px' }}
+                              >
+                                <MenuItem value={1}>department I</MenuItem>
+                                <MenuItem value={2}>department II</MenuItem>
+                                <MenuItem value={3}>department III</MenuItem>
+                                <MenuItem value={4}>department IV</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                        </div>
+                      </Grid>
+                    </div>
+                  </Box>
+                </div>
+              </div>
+
+            </div>
+            <div className={StyleNewProject.mainFormCol2}>
+              <div className={StyleNewProject.formRow7}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<SaveOutlinedIcon />}
+                  style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
+                >
+                  SAVE
+                </Button>
+                <Link to="/project" style={{ textDecoration: "none", fontFamily: 'Montserrat, sans-serif' }}>
+                  <Button
+                    variant="contained"
+                    startIcon={<CancelOutlinedIcon />}
+                    style={{ textTransform: "none", backgroundColor: "gray", fontFamily: 'Montserrat, sans-serif' }}
+                  >
+                    CANCEL
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Popup */}
+
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          {/* <div>
           <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -476,21 +539,22 @@ export default function NewProj() {
               />
             </Search>
         </div> */}
-         
-					<DialogTitle>
-						<FontAwesomeIcon icon={faUser} size="1x" color="black" />
-						{"Members"}
-					</DialogTitle>
-					<DialogContent>
-						<AddMemberTable />
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={handleClose} sx={{fontFamily: 'Montserrat, sans-serif'}}>Cancel</Button>
-            <Button onClick={handleClose} sx={{fontFamily: 'Montserrat, sans-serif'}}>Save</Button>
-					</DialogActions>
-				</Dialog>
-    </div>
+
+          <DialogTitle>
+            <FontAwesomeIcon icon={faUser} size="1x" color="black" />
+            {"Members"}
+          </DialogTitle>
+          <DialogContent>
+            <AddMemberTable />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
+            <Button onClick={handleClose} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Save</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </body>
 
   );
 }
+

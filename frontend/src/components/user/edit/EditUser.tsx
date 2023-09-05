@@ -20,6 +20,7 @@ import {
 import React, { useState } from "react";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
+import PersonPinOutlinedIcon from "@mui/icons-material/PersonPinOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
@@ -32,6 +33,12 @@ import { getUserInfo } from "../../../redux/saga/userSaga";
 import { RootState } from "../../../redux/store/store";
 import HelpIcon from "@mui/icons-material/Help";
 import { getDepartmentsFetch } from "../../../redux/state/departmentState";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import { useLocation } from "react-router-dom";
+//for breadcrumbs
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import { Link } from "react-router-dom";
 
 export default function EditUser() {
 	const navigate = useNavigate();
@@ -120,23 +127,39 @@ export default function EditUser() {
 		setIsSaving(false);
 	};
 
-	return (
-		<div className={UserDetailStyle.mainContainer}>
-			<div className={UserDetailStyle.heading}>
-				<FontAwesomeIcon icon={faUser} size="2x" color="black" />
-				<div className={UserDetailStyle.textContainer}>
-					<span style={{ fontSize: "4vh", color: "black" }}>
-						{" "}
-						Edit User Details{" "}
-					</span>
-				</div>
-			</div>
-			<div className={UserDetailStyle.breadCrumbs}>
-				<p>
-					{" "}
-					<Breadcrumb items={breadcrumbItems} />
-				</p>
-			</div>
+  return (
+    <body>
+      <div className={UserDetailStyle.mainContainer}>
+        <div className={UserDetailStyle.heading}>
+          <FontAwesomeIcon icon={faUser} size="2x" color="black" />
+          <div className={UserDetailStyle.textContainer}>
+            <span style={{ fontSize: "4vh", color: "black" }}>
+              {" "}
+              Edit User Details{" "}
+            </span>
+          </div>
+        </div>
+        <div className={UserDetailStyle.breadCrumbs}>
+        {/* for breadcrumbs */}
+          <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+            <Link
+              to="/User"
+              className={`${UserDetailStyle["custom-link"]}`}
+              style={{ color: "inherit" }}
+            >
+              User
+            </Link>
+            <Link
+              to="/CreateUser"
+              className={`${UserDetailStyle["custom-link"]}`}
+              style={{ color: "inherit" }}
+            >
+              Create User
+            </Link>
+
+            {/* Other breadcrumb links */}
+          </Breadcrumbs>
+        </div>
 
 			<div className={UserDetailStyle.contentContainer}>
 				<div className={UserDetailStyle.mainForm}>

@@ -10,6 +10,7 @@ import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.service.UserService;
 
 // import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,12 +124,45 @@ public class UserServiceImpl implements UserService{
   //   );
   // }
 
-  // @Override
-  // public UserOutput getLoggedInUser(UserOutput user) throws UsernameNotFoundException{
-  //   UserOutput users = userDao.getUserByUsername(user);
+  @Override
+  public HashMap<String, Object> getLoggedInUser(UserOutput user) {
 
-  //   if(users == null) {
-  //     throw new UsernameNotFoundException(null);
-  //   }
-  // }
+    HashMap<String, Object> result = new HashMap<>();
+
+    UserOutput users = userDao.getUserByUsername(user);
+
+    if(users != null) {
+      boolean isMatched = passEnc.
+      matches(
+        user.getPassword(), 
+        users.getPassword()
+      );
+
+      if(isMatched) {
+        users.setEmp_id(users.getEmp_id());
+        users.setUsername(users.getUsername());
+        users.setPassword(users.getPassword());
+        users.setPosition_id(users.getPosition_id());
+        users.setDept_id(users.getDept_id());
+        users.setSection_id(users.getSection_id());
+        users.setStatus_code(users.getStatus_code());
+        users.setRole_id(users.getRole_id());
+        users.setImg_src(users.getImg_src());
+
+        
+        result.put("message: ", 200);
+        result.put("data: " , users);
+        return result;
+      } else {
+        result.put("message: ", "Incorrect Password");
+        result.put("data: ", user.getPassword());
+        return result;
+      }
+    } else {
+      result.put("message: ", 404);
+      result.put("data: ", "Username '" +user.getUsername() + "' not found.");
+      return (result);
+    }
+    
+  }
 }
