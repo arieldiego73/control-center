@@ -17,7 +17,8 @@ public class ActivityLogInput {
     @NotNull
     @Size(max = 20)
     private String username;
-    
+
+    @NotNull
     private String log_desc;
 
     @NotNull
