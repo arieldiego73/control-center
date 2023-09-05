@@ -17,5 +17,4 @@ public interface UserDao {
   UserOutput getUserByUsername(UserOutput username);
   UserOutput getUsername(String username);
 
-  UserOutput getLoggedInUser(UserOutput user);
 }
