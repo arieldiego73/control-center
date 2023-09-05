@@ -81,6 +81,8 @@
         WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
 
+    
+
     <!-- <insert id="addAccount" parameterType="map">
         INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id)
              VALUES (#{account.emp_id}, #{account.username}, #{account.password}, #{account.position_id}, #{account.dept_id}, #{account.section_id}, #{account.status_code}, #{account.img_src}, #{account.reg_id}, #{account.update_id});

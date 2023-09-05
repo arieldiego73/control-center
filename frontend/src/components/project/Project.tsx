@@ -130,32 +130,20 @@ export default function Project() {
               <div className={ProjectStyle.searchBarCol}>
                 {/* Start of first search bar */}
 
-                <Box sx={{ width: "100%" }}>
-                  <div className={ProjectStyle.projStatus}>
-                    <Grid container alignItems="center" spacing={2}>
-                      <Grid item xs>
-                        <FormLabel
-                          sx={{
-                            fontFamily: "Montserrat, sans-serif",
-                            width: "100%",
-                            color: "black",
-                            fontWeight: "400",
-                          }}
-                        >
-                          Project name :
-                        </FormLabel>
-                      </Grid>
-                      <Grid item xs={7.8}>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          style={{ width: "100%" }}
-                          className={ProjectStyle.textField}
-                        />
-                      </Grid>
+                <FormControl className={ProjectStyle.projManagerStyle}>
+                  <Grid container alignItems="center" spacing={5}>
+                    <Grid item>
+                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', width: "100%", color: "black", fontWeight: "400" }}>Project name : </FormLabel>
                     </Grid>
-                  </div>
-                </Box>
+                    <Grid item>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        className={ProjectStyle.textField}
+                      />
+                    </Grid>
+                  </Grid>
+                </FormControl>
 
                 <FormControl className={ProjectStyle.projManagerStyle}>
                   <Grid container alignItems="center" spacing={2}>

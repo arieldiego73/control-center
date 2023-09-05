@@ -7,7 +7,7 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    font-family:"Montserrat" , sans-serif;
+    font-family: "Montserrat", sans-serif;
   }
   
   .mainContainer {
@@ -17,35 +17,32 @@ body {
     flex-direction: column;
     align-items: center;
   
-    height: 85%;
+    height: 100%;
     width: 91%;
-    top: 10vh;
+    top: 9vh;
     left: 7vw;
   
     overflow: hidden;
   }
-
-
-
-.contentContainer{
+  
+  .contentContainer {
     /* border: 1px solid black; */
     width: 95%;
-    height: 95%;
+    height: 90%;
     position: relative;
-    top: 3%;
+    top: 2%;
     padding: 1%;
     /* display: flex; */
     align-items: center;
     justify-content: start;
     margin-left: 2%;
-    background: rgba( 255, 255, 255, 0.05 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 3px );
-    -webkit-backdrop-filter: blur( 3px );
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     border-radius: 10px;
-
-}
-.heading{
+  }
+  .heading {
     display: flex;
     align-items: center;
     justify-content: start;
@@ -53,11 +50,11 @@ body {
     height: 8%;
     width: 98%;
     margin: 1% 2%;
-}
-.breadCrumbs{
+  }
+  .breadCrumbs {
     width: 95%;
-}
-.pageTitle{
+  }
+  .pageTitle {
     display: flex;
     align-items: center;
     justify-content: start;
@@ -65,51 +62,92 @@ body {
     height: 100%;
   }
   
-.mainForm {
+  .mainForm {
+    display: flex;
+    gap: 2vh;
+    width: 100%;
+  }
+  .mainFormCol1,
+  .mainFormCol2 {
     display: flex;
     flex-direction: column;
     gap: 2vh;
+  }
+  .mainFormCol1 {
+    width: 90%;
+  }
+  .mainFormCol2 {
+    width: 10%;
+    align-items: end;
+    justify-content: end;
+  }
+  .headCol{
+      display: flex;
+      gap: 9vw;
+  }
+  .col1{
+      display: flex;
+      flex-direction: column;
+      gap: 2vh;
+  }
+  .col2{
+      margin-top: 1.5vh;
+  }
+  .mainForm .textField {
     width: 100%;
-    
-}
-.mainForm .textField{
-    width: 300px;
-    background-color: #dce0e0;
-}
-
-.formRow2, .formRow3, .formRow5, .formRow6{
+    background-color: #f5f5f5;
+  }
+  .formRow1 {
+    display: flex;
+    gap: 10vw;
+    width: 100%;
+  }
+  .formRow1Col2 {
+    margin-top: 2vh;
+    width: 60%;
+  
+    align-self: start;
+  }
+  .formRow2,
+  .formRow3,
+  .formRow5,
+  .formRow6 {
     display: flex;
     gap: 4vw;
-}
-.formRow7{
+  }
+  .formRow7 {
     display: flex;
     gap: 0.5vw;
-}
-.formRow5 Button, .formRow7 Button{
+  }
+  .formRow5 Button,
+  .formRow7 Button {
     height: 2rem;
     margin-top: 3.5vh;
-}
-
-.formRow7{
+  }
+  
+  .formRow7 {
     align-self: flex-end;
-}
-.formUsername .textField{
+  }
+  .formRow8 {
+    display: flex;
+    padding-left: 1vw;
+  }
+  .formUsername .textField {
     width: 500px;
-}
-
-.assocId .textField{
+  }
+  
+  .assocId .textField {
     width: 1000px;
-}
-
-.email .textField{
+  }
+  
+  .email .textField {
     width: 500px;
-}
-
-
-.flexRow {
+  }
+  
+  .flexRow {
     display: flex;
     flex-direction: row;
-    align-items: center; 
+    align-items: center;
   }
   
   .checkboxContainer {
@@ -135,101 +173,3 @@ body {
 
 
 
-
-/* body {
-    height: 100%;
-    width: 100%;
-    background-image: url(../../../Assets/bg5.jpeg);
-    background-size: cover;
-    background-repeat: repeat;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    font-family: "Montserrat, sans-serif" ;
-  }
-  
-  .mainContainer {
-    position: fixed;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  
-    height: 85%;
-    width: 91%;
-    top: 10vh;
-    left: 7vw;
-  
-    overflow: hidden;
-  }
-  
-.breadCrumbs{
-    color: red;
-    position: relative;
-    top: 0;
-    left: 0;
-    margin: 0;
-    padding: 0 2vw;
-    width: 95%;
-}
-.breadCrumbs p{
-    font-size: small;
-    padding: 0;
-    margin: 0;
-}
-.contentContainer{
-    width: 95%;
-    height: 75%;
-    position: relative;
-    top: 3%;
-    padding: 1%;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    margin-left: 2%;
-
-
-    background: rgba( 255, 255, 255, 0.05 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 3px );
-    -webkit-backdrop-filter: blur( 3px );
-    border-radius: 10px;
-
-}
-.heading{
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 1vw;
-    height: 8%;
-    width: 98%;
-    margin: 1% 2%;
-}
-.mainForm {
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
-    width: 100%;
-}
-.mainForm .textField{
-    width: 300px;
-    background-color: #dce0e0;
-}
-
-.formRow2, .formRow3, .formRow5, .formRow6{
-    display: flex;
-    gap: 4vw;
-}
-.formRow7{
-    display: flex;
-    gap: 0.5vw;
-}
-.formRow5 Button, .formRow7 Button{
-    height: 2rem;
-    margin-top: 3.5vh;
-}
-
-.formRow7{
-    align-self: flex-end;
-}
- */
