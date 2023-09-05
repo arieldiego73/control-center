@@ -1,175 +1,175 @@
 body {
-    height: 100%;
-    width: 100%;
-    background-image: url(../../../Assets/bg5.jpeg);
-    background-size: cover;
-    background-repeat: repeat;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    font-family: "Montserrat", sans-serif;
-  }
-  
-  .mainContainer {
-    position: fixed;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  
-    height: 100%;
-    width: 91%;
-    top: 9vh;
-    left: 7vw;
-  
-    overflow: hidden;
-  }
-  
-  .contentContainer {
-    /* border: 1px solid black; */
-    width: 95%;
-    height: 90%;
-    position: relative;
-    top: 2%;
-    padding: 1%;
-    /* display: flex; */
-    align-items: center;
-    justify-content: start;
-    margin-left: 2%;
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    border-radius: 10px;
-  }
-  .heading {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 1vw;
-    height: 8%;
-    width: 98%;
-    margin: 1% 2%;
-  }
-  .breadCrumbs {
-    width: 95%;
-  }
-  .pageTitle {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 1vw;
-    height: 100%;
-  }
-  
-  .mainForm {
-    display: flex;
-    gap: 2vh;
-    width: 100%;
-  }
-  .mainFormCol1,
-  .mainFormCol2 {
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
-  }
-  .mainFormCol1 {
-    width: 90%;
-  }
-  .mainFormCol2 {
-    width: 10%;
-    align-items: end;
-    justify-content: end;
-  }
-  .headCol{
-      display: flex;
-      gap: 9vw;
-  }
-  .col1{
-      display: flex;
-      flex-direction: column;
-      gap: 2vh;
-  }
-  .col2{
-      margin-top: 1.5vh;
-  }
-  .mainForm .textField {
-    width: 100%;
-    background-color: #f5f5f5;
-  }
-  .formRow1 {
-    display: flex;
-    gap: 10vw;
-    width: 100%;
-  }
-  .formRow1Col2 {
-    margin-top: 2vh;
-    width: 60%;
-  
-    align-self: start;
-  }
-  .formRow2,
-  .formRow3,
-  .formRow5,
-  .formRow6 {
-    display: flex;
-    gap: 4vw;
-  }
-  .formRow7 {
-    display: flex;
-    gap: 0.5vw;
-  }
-  .formRow5 Button,
-  .formRow7 Button {
-    height: 2rem;
-    margin-top: 3.5vh;
-  }
-  
-  .formRow7 {
-    align-self: flex-end;
-  }
-  .formRow8 {
-    display: flex;
-    padding-left: 1vw;
-  }
-  .formUsername .textField {
-    width: 500px;
-  }
-  
-  .assocId .textField {
-    width: 1000px;
-  }
-  
-  .email .textField {
-    width: 500px;
-  }
-  
-  .flexRow {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  
-  .checkboxContainer {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-  }
+  height: 100%;
+  width: 100%;
+  background-image: url(../../../Assets/bg6.png);
+  background-size: cover;
+  background-repeat: repeat;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+}
 
-  /* for breadcrumbs */
+.mainContainer {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 85%;
+  width: 91%;
+  top: 10vh;
+  left: 7vw; 
+  overflow: hidden;
+}
+
+.contentContainer{
+  width: 95%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  padding: 1%;
+  display: flex;
+  justify-content: start;
+  background: rgba( 255, 255, 255, 0.05 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 3px );
+  -webkit-backdrop-filter: blur( 3px );
+  border-radius: 10px;
+}
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 1vw;
+  height: 8%;
+  width: 98%;
+  margin: 1% 2%;
+}
+.breadCrumbs {
+  width: 95%;
+}
+.pageTitle{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: .5%;
+  height: 100%;
+}
+
+.mainForm {
+  display: flex;
+  gap: 2vh;
+  width: 100%;
+}
+.mainFormCol1,
+.mainFormCol2 {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+.mainFormCol1 {
+  width: 90%;
+}
+.mainFormCol2 {
+  width: 10%;
+  align-items: end;
+  justify-content: end;
+}
+.headCol{
+    display: flex;
+    gap: 9vw;
+}
+.col1{
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+.col2{
+    margin-top: 1.5vh;
+}
+.mainForm .textField {
+  width: 100%;
+  background-color: #f5f5f5;
+}
+.formRow1 {
+  display: flex;
+  gap: 10vw;
+  width: 100%;
+}
+.formRow1Col2 {
+  margin-top: 2vh;
+  width: 60%;
+
+  align-self: start;
+}
+.formRow2,
+.formRow3,
+.formRow5,
+.formRow6 {
+  display: flex;
+  gap: 4vw;
+}
+.formRow7 {
+  display: flex;
+  gap: 0.5vw;
+}
+.formRow5 Button,
+.formRow7 Button {
+  height: 2rem;
+  margin-top: 3.5vh;
+}
+
+.formRow7 {
+  align-self: flex-end;
+}
+.formRow8 {
+  display: flex;
+  padding-left: 1vw;
+}
+.formUsername .textField {
+  width: 500px;
+}
+
+.assocId .textField {
+  width: 1000px;
+}
+
+.email .textField {
+  width: 500px;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkboxContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.projStatus {
+  /* border: 1px solid red; */
+  width: 100%;
+}
+.projStatusContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.midContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom:.5%;
+}
+
 .custom-link {
-    text-decoration: underline;
-  }
-  
-  .custom-link:hover {
-    text-decoration: none; /* Remove underline on hover */
-  }
-  
+  text-decoration: underline;
+}
 
-
-
-
-
-
-
-
+.custom-link:hover {
+  text-decoration: none; /* Remove underline on hover */
+}

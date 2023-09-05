@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import {
   Box,
   FormControl,
-  FormLabel,
+  FormLabel, 
   InputAdornment,
   MenuItem,
   Select,
@@ -48,7 +48,7 @@ export default function CreateUser() {
   return (
     <body>
       <div className={CreateUserStyle.mainContainer}>
-      <div style={{ width: "97%", paddingBottom:'1%' }}>
+        <div style={{ width: "97%", paddingBottom:'1%' }}>
           <div className={CreateUserStyle.pageTitle}>
             <span>
               <AccountTreeOutlinedIcon fontSize="large" />
@@ -60,10 +60,6 @@ export default function CreateUser() {
               CREATE USER{" "}
             </span>
           </div>
-          {/* <h4>
-            <FontAwesomeIcon icon={faUser} size="2x" color="black" />
-            <span style={{ fontSize: "1.8rem", color: "black" }}> USERS </span>
-          </h4> */}
         </div>
 
         <div className={CreateUserStyle.midContent}>
@@ -80,7 +76,7 @@ export default function CreateUser() {
                 top: "3%",
                 alignSelf: "center",
               }}
-              role="presentation"
+              role="presentation" 
               onClick={handleClick}
             >
               <Breadcrumbs maxItems={2} aria-label="breadcrumb">
@@ -100,7 +96,7 @@ export default function CreateUser() {
                 </Link>
               </Breadcrumbs>
             </div>
-            </div>
+        </div>
 
         <div className={CreateUserStyle.contentContainer}>
           <div className={CreateUserStyle.mainForm}>

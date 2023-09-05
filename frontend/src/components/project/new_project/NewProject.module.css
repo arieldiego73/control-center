@@ -12,34 +12,28 @@ body {
 
 .mainContainer {
   position: fixed;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  height: 100%;
-  width: 91%;
-  top: 9vh;
-  left: 7vw;
-
-  overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 85%;
+    width: 91%;
+    top: 10vh;
+    left: 7vw;
+    overflow: hidden;
 }
 
-.contentContainer {
-  /* border: 1px solid black; */
+.contentContainer{
   width: 95%;
-  height: 90%;
-  position: relative;
-  top: 2%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
   padding: 1%;
-  /* display: flex; */
-  align-items: center;
+  display: flex;
   justify-content: start;
-  margin-left: 2%;
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background: rgba( 255, 255, 255, 0.05 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 3px );
+  -webkit-backdrop-filter: blur( 3px );
   border-radius: 10px;
 }
 .heading {
@@ -54,11 +48,11 @@ body {
 .breadCrumbs {
   width: 95%;
 }
-.pageTitle {
+.pageTitle{
   display: flex;
   align-items: center;
   justify-content: start;
-  gap: 1vw;
+  gap: .5%;
   height: 100%;
 }
 
@@ -145,22 +139,35 @@ body {
 }
 
 .flexRow {
-    display: flex;
-    flex-direction: row;
-    align-items: center; 
-  }
-  
-  .checkboxContainer {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-  }
-  /* for breadcrumbs */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkboxContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.projStatus {
+  /* border: 1px solid red; */
+  width: 100%;
+}
+.projStatusContent {
+  display: flex;
+  flex-direction: column;
+}
 .custom-link {
-    text-decoration: underline;
-  }
-  
-  .custom-link:hover {
-    text-decoration: none; /* Remove underline on hover */
-  }
-  
+  text-decoration: underline;
+}
+
+.custom-link:hover {
+  text-decoration: none; /* Remove underline on hover */
+}
+.midContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom:.5%;
+}
