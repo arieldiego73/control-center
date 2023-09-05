@@ -24,12 +24,15 @@ public class UserInput {
   private String password;
   
   @NotNull
+  @Size(max = 9)
   private int position_id;
 
   @NotNull
+  @Size(max = 9)
   private int dept_id;
 
   @NotNull
+  @Size(max = 9)
   private int section_id;
 
   @NotNull
@@ -37,6 +40,7 @@ public class UserInput {
   private String status_code;
 
   @NotNull
+  @Size(max = 9)
   private int role_id;
 
   @NotNull
