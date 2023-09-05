@@ -7,7 +7,6 @@ import ProjectHandler from "./pages/ProjectHandler";
 import RoleHandler from "./pages/RoleHandler";
 // import NewProj from "./components/project/new_project/NewProj";
 import NewProjHandler from "./pages/NewProjectHandler";
-import test from "./components/project/new_project/test";
 import AddMemberTable from "./components/project/new_project/AddMemberTable";
 // import UserDetails from "./components/user/edit/EditUser";
 import EditUserHandler from "./pages/EditUserHandler";
@@ -21,7 +20,7 @@ import EmployeePositionHandler from "./pages/EmployeePositionHandler";
 import BusinessUnitHandler from "./pages/BusinessUnitHanlder";
 import DepartmentHandler from "./pages/DepartmentHandler";
 import TechnologyHandler from "./pages/TechnologyHandler";
-
+import test2 from "./components/test/test2";
 function App() {
 	return (
 		<BrowserRouter>
@@ -37,7 +36,6 @@ function App() {
 				{/* <Route path="/modal" Component={Modal} /> */}
 				<Route path="/role" Component={RoleHandler} />
 				<Route path="/NewProj" Component={NewProjHandler} />
-				<Route path="/test" Component={test} />
 				<Route path="/AddMemberTable" Component={AddMemberTable} />
 				{/* <Route path="/User/:name" Component={UserDetails} /> */}
 				<Route path="/developmentphase" Component={DevelopmentPhaseHandler} />
@@ -48,7 +46,7 @@ function App() {
 				<Route path="/businessunit" Component={BusinessUnitHandler} />
 				<Route path="/department" Component={DepartmentHandler} />
 				<Route path="/technology" Component={TechnologyHandler} />
-				
+				<Route path="/test2" Component={test2} />
 
 				
 			</Routes>

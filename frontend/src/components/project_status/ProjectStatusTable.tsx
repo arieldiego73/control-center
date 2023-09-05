@@ -15,7 +15,7 @@ import {
 	GridRowsProp,
 	GridRowModesModel,
 	GridRowModes,
-	DataGrid,
+	DataGrid, 
 	GridColDef,
 	GridToolbarContainer,
 	GridActionsCellItem,
@@ -646,7 +646,7 @@ export default function ProjectStatusTable() {
 			</Box>
 
 			<DataGrid
-				sx={{ height: 650, border: "none" }}
+				sx={{ height: 600, border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"

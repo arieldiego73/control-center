@@ -20,7 +20,7 @@ import {
 	GridToolbarContainer,
 	GridActionsCellItem,
 	GridEventListener,
-	GridRowId,
+	GridRowId, 
 	GridRowModel,
 	GridRowEditStopReasons,
 	GridRowSelectionModel,
@@ -649,7 +649,7 @@ export default function RoleTable() {
 			</Box>
 
 			<DataGrid
-				sx={{ height: 650, border: "none" }}
+				sx={{ height: 600, border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"

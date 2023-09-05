@@ -22,7 +22,6 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import Breadcrumb from "../../breadcrumbs/breadcrumbs";
 import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
@@ -43,7 +42,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { Link } from "react-router-dom";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -53,13 +51,19 @@ import AddMemberTable from "./AddMemberTable";
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import InputBase from '@mui/material/InputBase';
-import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import SettingsEthernetOutlinedIcon from '@mui/icons-material/SettingsEthernetOutlined';
 
-
-
+//for breadcrumbs
+import { Link } from "react-router-dom";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
+//for breadcrumbs
+function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    event.preventDefault();
+    console.info("You clicked a breadcrumb.");
+  }
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -92,7 +96,6 @@ const Search = styled('div')(({ theme }) => ({
     width: 'auto',
   },
 }));
-
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -159,27 +162,62 @@ export default function NewProj() {
 
   const handleClose = () => {
     setOpen(false);
-  };
+  }; 
 
   return (
     <body>
       <div className={StyleNewProject.mainContainer}>
-        <div className={StyleNewProject.heading}>
+        <div style={{ width: "97%", paddingBottom:'1%' }}>
           <div className={StyleNewProject.pageTitle}>
-            <span><AccountTreeOutlinedIcon fontSize="large" /></span>
-            <span style={{ fontSize: "1.8rem", color: "black", fontWeight: "600" }}> ADD NEW PROJECT </span>
+            <span>
+              <AccountTreeOutlinedIcon fontSize="large" />
+            </span>
+            <span
+              style={{ fontSize: "1.8rem", color: "black", fontWeight: "600" }}
+            >
+              {" "}
+              ADD NEW PROJECT{" "}
+            </span>
           </div>
         </div>
-        <div className={StyleNewProject.breadCrumbs}>
-          <p>
-            <Breadcrumb items={breadcrumbItems} />
-          </p>
+
+        <div className={StyleNewProject.midContent}>
+         {/* for breadcrumbs */}
+         <div
+              style={{
+                border: "1px solid red",
+                paddingBottom: "1%",
+                width: "80%",
+                height: "75%",
+               paddingLeft:'1%',
+               marginLeft:'1.5%',
+                position: "relative",
+                top: "3%",
+                alignSelf: "center",
+              }}
+              role="presentation" 
+              onClick={handleClick}
+            >
+              <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+                <Link
+                  to="/Project"
+                  className={`${StyleNewProject["custom-link"]}`}
+                  style={{ color: "inherit" }}
+                >
+                  Project
+                </Link>
+                <Link
+                  to="/NewProj"
+                  className={`${StyleNewProject["custom-link"]}`}
+                  style={{ color: "inherit" }}
+                >
+                  Create New Project
+                </Link>
+              </Breadcrumbs>
+            </div>
         </div>
 
-        <div
-          className={StyleNewProject.contentContainer}
-          style={{ maxHeight: "65vh", overflow:"auto" }}
-        >
+        <div className={StyleNewProject.contentContainer}>
           <div className={StyleNewProject.mainForm}>
             <div className={StyleNewProject.mainFormCol1}>
 
@@ -458,7 +496,6 @@ export default function NewProj() {
                 </div>
               </div>
 
-
             </div>
             <div className={StyleNewProject.mainFormCol2}>
               <div className={StyleNewProject.formRow7}>
@@ -520,3 +557,4 @@ export default function NewProj() {
 
   );
 }
+

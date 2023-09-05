@@ -1,26 +1,32 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import UserDetailStyle from "./EditUser.module.css"
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { Box, FormControl, FormLabel, InputAdornment, MenuItem, Select, SelectChangeEvent, } from '@mui/material';
+import UserDetailStyle from "./EditUser.module.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  InputAdornment,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 import React, { useState } from "react";
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
-import PersonPinOutlinedIcon from '@mui/icons-material/PersonPinOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
+import PersonPinOutlinedIcon from "@mui/icons-material/PersonPinOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
-import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import Breadcrumb from '../../breadcrumbs/breadcrumbs';
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { useLocation } from "react-router-dom";
-
-
-
+//for breadcrumbs
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import { Link } from "react-router-dom";
 
 export default function EditUser() {
-
   const location = useLocation();
 
   const row = location.state;
@@ -35,33 +41,50 @@ export default function EditUser() {
   const [department, setDepartment] = useState(row.department);
   const [businessUnit, setBusinessUnit] = useState(row.businessUnit);
 
-
   //FOR DROPDOWN CONFIG (DEPARTMENT)
-  const [age, setAge] = React.useState('');
+  const [age, setAge] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value as string);
   };
 
-
   const breadcrumbItems = [
-    { label: 'Users', href: '/user' },
-    { label: 'Edit user details', href: '/editUser' },
+    { label: "Users", href: "/user" },
+    { label: "Edit user details", href: "/editUser" },
   ];
-
-
 
   return (
     <body>
       <div className={UserDetailStyle.mainContainer}>
         <div className={UserDetailStyle.heading}>
-          <FontAwesomeIcon icon={faUser} size="2x" color='black' />
+          <FontAwesomeIcon icon={faUser} size="2x" color="black" />
           <div className={UserDetailStyle.textContainer}>
-            <span style={{ fontSize: "4vh", color: "black" }}> Edit User Details </span>
+            <span style={{ fontSize: "4vh", color: "black" }}>
+              {" "}
+              Edit User Details{" "}
+            </span>
           </div>
         </div>
         <div className={UserDetailStyle.breadCrumbs}>
-          <p> <Breadcrumb items={breadcrumbItems} /></p>
+        {/* for breadcrumbs */}
+          <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+            <Link
+              to="/User"
+              className={`${UserDetailStyle["custom-link"]}`}
+              style={{ color: "inherit" }}
+            >
+              User
+            </Link>
+            <Link
+              to="/CreateUser"
+              className={`${UserDetailStyle["custom-link"]}`}
+              style={{ color: "inherit" }}
+            >
+              Create User
+            </Link>
+
+            {/* Other breadcrumb links */}
+          </Breadcrumbs>
         </div>
 
         <div className={UserDetailStyle.contentContainer}>
@@ -253,11 +276,6 @@ export default function EditUser() {
                 />
               </FormControl>
               <Box>
-
-
-
-
-
                 <div className={UserDetailStyle.department}>
                   <FormControl variant="outlined" size="small">
                     <FormLabel>Department</FormLabel>
@@ -278,7 +296,6 @@ export default function EditUser() {
                       <MenuItem value={2}>department II</MenuItem>
                       <MenuItem value={3}>department III</MenuItem>
                       <MenuItem value={4}>department IV</MenuItem>
-
                     </Select>
                   </FormControl>
                 </div>
@@ -305,5 +322,5 @@ export default function EditUser() {
         </div>
       </div>
     </body>
-  )
+  );
 }
