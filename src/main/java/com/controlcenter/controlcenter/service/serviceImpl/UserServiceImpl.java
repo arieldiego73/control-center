@@ -121,13 +121,9 @@ public class UserServiceImpl implements UserService{
   //     Collections.emptyList()
   //   );
   // }
-
+  
   // @Override
-  // public UserOutput getLoggedInUser(UserOutput user) throws UsernameNotFoundException{
-  //   UserOutput users = userDao.getUserByUsername(user);
-
-  //   if(users == null) {
-  //     throw new UsernameNotFoundException(null);
-  //   }
+  // public UserOutput getCurrentUser(String username) {
+  //   return userDao.getCurrentUser(username);
   // }
 }
