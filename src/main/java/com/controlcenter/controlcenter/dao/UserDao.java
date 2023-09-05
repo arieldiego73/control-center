@@ -16,5 +16,5 @@ public interface UserDao {
   // void insertUserBatch(List<User> users);
   UserOutput getUserByUsername(UserOutput username);
   UserOutput getUsername(String username);
-
+  
 }
