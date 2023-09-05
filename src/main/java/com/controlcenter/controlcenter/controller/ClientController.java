@@ -47,7 +47,14 @@ public class ClientController{
 
     @PutMapping("/edit/{id}") 
     public String editClient(@PathVariable String id,@RequestBody ClientInput client) {
-        return clientService.editClient(id, client);
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<ClientInput>> errors = validator.validate(client);
+            if (errors.size() > 0) { //checks the errors from validator
+                return "Error Message:\n" + errors.toString();
+            }else{
+                return clientService.editClient(id, client);
+            }
     }
 
     @PutMapping("/delete/{id}")
