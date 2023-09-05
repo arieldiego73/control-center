@@ -34,3 +34,4 @@ build/
 node_modules
 frontend/yarn.lock
 src/main/resources/application.properties
+frontend/yarn.lock

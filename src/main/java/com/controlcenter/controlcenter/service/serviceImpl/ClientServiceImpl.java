@@ -27,23 +27,8 @@ public class ClientServiceImpl implements ClientService{
     public String addClient(ClientInput client) {
 
         try {
-            if(client.getClient_name() != null && client.getClient_sh_name() != null) {
-                if((client.getClient_name().length() > 150 || client.getClient_name().length() < 1) || (client.getClient_sh_name().length() > 50 || client.getClient_sh_name().length() < 1)) {
-                    return "The length of the data entered does not reach the specified length.";
-                } else {
-                    clientDao.addClient(client);
-                    return "Client Added Successfully.";
-                }
-            } else {
-                if(client.getClient_name() == null && client.getClient_sh_name() != null){
-                    return "Client name should not be empty.";
-                } else if(client.getClient_sh_name() == null && client.getClient_name() != null){
-                    return "Client short name should not be empty.";
-                } else{
-                    return "All fields should not be empty.";
-                }
-            }
-            
+            clientDao.addClient(client);
+            return "Client Added Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -52,28 +37,14 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public String editClient(String id, ClientInput client) {
         try {
-            if(client.getClient_name() != null && client.getClient_sh_name() != null) {
-                if((client.getClient_name().length() > 150 || client.getClient_name().length() < 1) || (client.getClient_sh_name().length() > 50 || client.getClient_sh_name().length() < 1)) {
-                    return "The length of the data entered does not reach the specified length.";
-                } else {
-                    Map<String, Object> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
 
-                    paramMap.put("id", id);
-                    paramMap.put("client", client);
+            paramMap.put("id", id);
+            paramMap.put("client", client);
 
-                    clientDao.editClient(paramMap);
+            clientDao.editClient(paramMap);
 
-                    return "Client Edited Successfully.";
-                }
-            } else {
-                if(client.getClient_name() == null && client.getClient_sh_name() != null){
-                    return "Client name should not be empty.";
-                } else if(client.getClient_sh_name() == null && client.getClient_name() != null){
-                    return "Client short name should not be empty.";
-                } else{
-                    return "All fields should not be empty.";
-                }
-            }
+            return "Client Edited Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
