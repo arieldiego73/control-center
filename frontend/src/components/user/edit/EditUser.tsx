@@ -20,13 +20,9 @@ import {
 import React, { useState } from "react";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
-import PersonPinOutlinedIcon from "@mui/icons-material/PersonPinOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import Breadcrumb from "../../breadcrumbs/breadcrumbs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../../../redux/saga/userSaga";
@@ -35,7 +31,6 @@ import HelpIcon from "@mui/icons-material/Help";
 import { getDepartmentsFetch } from "../../../redux/state/departmentState";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { useLocation } from "react-router-dom";
 //for breadcrumbs
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link } from "react-router-dom";
@@ -91,10 +86,10 @@ export default function EditUser() {
 	const [dialogContentText, setDialogContentText] = React.useState("");
 	const [isSaving, setIsSaving] = React.useState(false);
 
-	const breadcrumbItems = [
-		{ label: "Users", href: "/user" },
-		{ label: "Edit user details", href: "/editUser" },
-	];
+	// const breadcrumbItems = [
+	// 	{ label: "Users", href: "/user" },
+	// 	{ label: "Edit user details", href: "/editUser" },
+	// ];
 
 	//FOR DROPDOWN CONFIG (DEPARTMENT)
 	const depts = useSelector(
@@ -128,7 +123,6 @@ export default function EditUser() {
 	};
 
   return (
-    <body>
       <div className={UserDetailStyle.mainContainer}>
         <div className={UserDetailStyle.heading}>
           <FontAwesomeIcon icon={faUser} size="2x" color="black" />
