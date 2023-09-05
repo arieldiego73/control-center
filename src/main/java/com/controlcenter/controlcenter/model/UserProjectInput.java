@@ -15,5 +15,6 @@ public class UserProjectInput {
     private String emp_id;
 
     @NotNull
+    @Size(max = 9)
     private int proj_id;
 }
