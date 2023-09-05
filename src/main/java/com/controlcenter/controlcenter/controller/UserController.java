@@ -1,6 +1,7 @@
 package com.controlcenter.controlcenter.controller;
 
 import com.controlcenter.controlcenter.model.Account;
+import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.service.UserService;
@@ -31,9 +32,9 @@ public class UserController {
     return ResponseEntity.ok(users);
   }
 
-  @GetMapping("/user/{id}")
-  public ResponseEntity<UserOutput> getUserById(@PathVariable Long id) {
-    UserOutput user = userService.getUserById(id);
+  @GetMapping("/info/{id}")
+  public ResponseEntity<UserInfoOutput> getUserById(@PathVariable Long id) {
+    UserInfoOutput user = userService.getUserById(id);
     return ResponseEntity.ok(user);
   }
 

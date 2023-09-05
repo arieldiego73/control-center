@@ -198,14 +198,14 @@ export default function TopNav() {
               {/* <Link to="/DevelopmentPhase" style={{textDecoration:'none', color:'black'}}>
                             <MenuItem {...itemProps}>Development Phase</MenuItem>
                     </Link> */}
-              <Link to="/" style={{ textDecoration: "none", color: "black" }}>
                 <MenuItem>
+              <Link to="/" style={{ textDecoration: "none", color: "black" }}>
                   <ListItemIcon>
                     <Logout fontSize="medium" style={{ color: "red" }} />
                   </ListItemIcon>
                   Logout
-                </MenuItem>
               </Link>
+                </MenuItem>
             </div>
           </Menu>
         </React.Fragment>

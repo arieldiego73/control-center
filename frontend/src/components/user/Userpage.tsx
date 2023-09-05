@@ -147,6 +147,8 @@ export default function Userpage() {
                 if (e.key.match("Enter")) performSearch();
               }}
               className={UserStyle.searchBarContainer}
+              autoComplete="off"
+              noValidate
             >
               <div className={UserStyle.searchBarCol}>
                 {/* Start of first search bar */}
@@ -181,6 +183,9 @@ export default function Userpage() {
                           value={searchQuery.name}
                           onChange={handleInputChange}
                           name="name"
+                          inputProps={{
+                            autoComplete: "chrome-off"
+                          }}
                         />
                       </Grid>
                     </Grid>
