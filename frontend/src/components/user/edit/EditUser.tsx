@@ -123,6 +123,7 @@ export default function EditUser() {
 	};
 
   return (
+	<div className={UserDetailStyle.body}>
       <div className={UserDetailStyle.mainContainer}>
         <div className={UserDetailStyle.heading}>
           <FontAwesomeIcon icon={faUser} size="2x" color="black" />
@@ -450,5 +451,6 @@ export default function EditUser() {
 				</DialogActions>
 			</Dialog>
 		</div>
+	</div>
 	);
 }

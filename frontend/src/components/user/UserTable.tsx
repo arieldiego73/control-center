@@ -67,7 +67,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 		>
 			<Paper
 				sx={{
-					width: "98%",
+					width: "100%",
 					height: "90%",
 					backgroundColor: "transparent",
 				}}

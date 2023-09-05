@@ -9,7 +9,6 @@ import com.controlcenter.controlcenter.service.UserService;
 import java.util.HashMap;
 import java.util.List;
 
-import org.hibernate.result.Output;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;

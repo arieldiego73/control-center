@@ -1,4 +1,4 @@
-body {
+.body {
   height: 100%;
   width: 100%;
   background-image: url(../../Assets//bg5.jpeg);
@@ -15,8 +15,8 @@ body {
   display: flex;
   flex-direction: column; 
   align-items: center;
-  height: 85%;
-  width: 91%;
+  height: 95%;
+  width: 93%;
   top: 10vh;
   left: 7vw;
   overflow: hidden;
@@ -30,7 +30,7 @@ body {
 
 .contentContainer {
   width: 97%;
-  height: 80%;
+  height: 85%;
   display: flex;
   flex-direction: column;
   gap: 1vh;
@@ -82,7 +82,6 @@ body {
   background-color: transparent;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-
   height: 70%;
   width: 98%;
 }

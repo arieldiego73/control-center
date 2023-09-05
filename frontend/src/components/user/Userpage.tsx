@@ -96,7 +96,7 @@ export default function Userpage() {
   const breadcrumbItems = [{ label: "Users", href: "/user" }];
 
   return (
-    <>
+    <div className={UserStyle.body}>
       <div className={UserStyle.mainContainer}>
         <div style={{ width: "97%", paddingBottom:'1%' }}>
           <div className={UserStyle.pageTitle}>
@@ -310,6 +310,6 @@ export default function Userpage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
