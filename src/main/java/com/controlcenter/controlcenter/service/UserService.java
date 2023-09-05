@@ -4,6 +4,7 @@ import com.controlcenter.controlcenter.model.Account;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface UserService {
@@ -18,4 +19,6 @@ public interface UserService {
   public UserOutput getUsername(String username);
 
   public String addAccount(Account account);
+
+  public HashMap<String, Object> getLoggedInUser(UserOutput user);
 }

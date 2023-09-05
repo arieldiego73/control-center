@@ -8,19 +8,20 @@ import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.service.UserService;
 
-import java.util.Collections;
+// import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+// import org.springframework.security.core.userdetails.User;
+// import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.userdetails.UserDetailsService;
+// import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService{
 
   @Autowired
   public UserDao userDao;
@@ -108,17 +109,59 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     return userDao.getUsername(username);
   }
 
-  @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserOutput user = userDao.getUsername(username);
+  // @Override
+  // public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+  //   UserOutput user = userDao.getUsername(username);
 
-    if(user == null) {
-      throw new UsernameNotFoundException(username + "not found.");
+  //   if(user == null) {
+  //     throw new UsernameNotFoundException(username + "not found.");
+  //   }
+  //   return new User(
+  //     user.getUsername(),
+  //     user.getPassword(),
+  //     Collections.emptyList()
+  //   );
+  // }
+
+  @Override
+  public HashMap<String, Object> getLoggedInUser(UserOutput user) {
+
+    HashMap<String, Object> result = new HashMap<>();
+
+    UserOutput users = userDao.getUserByUsername(user);
+
+    if(users != null) {
+      boolean isMatched = passEnc.
+      matches(
+        user.getPassword(), 
+        users.getPassword()
+      );
+
+      if(isMatched) {
+        users.setEmp_id(users.getEmp_id());
+        users.setUsername(users.getUsername());
+        users.setPassword(users.getPassword());
+        users.setPosition_id(users.getPosition_id());
+        users.setDept_id(users.getDept_id());
+        users.setSection_id(users.getSection_id());
+        users.setStatus_code(users.getStatus_code());
+        users.setRole_id(users.getRole_id());
+        users.setImg_src(users.getImg_src());
+
+        
+        result.put("message: ", 200);
+        result.put("data: " , users);
+        return result;
+      } else {
+        result.put("message: ", "Incorrect Password");
+        result.put("data: ", user.getPassword());
+        return result;
+      }
+    } else {
+      result.put("message: ", 404);
+      result.put("data: ", "Username '" +user.getUsername() + "' not found.");
+      return (result);
     }
-    return new User(
-      user.getUsername(),
-      user.getPassword(),
-      Collections.emptyList()
-    );
+    
   }
 }

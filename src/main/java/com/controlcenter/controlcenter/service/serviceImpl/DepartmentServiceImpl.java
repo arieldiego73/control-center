@@ -32,23 +32,37 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override 
     public String addDepartment(DepartmentInput department) {
+        
+
         try {
-            departmentDao.addDepartment(department);
 
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+            if(department.getDept_name() != null) {
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Added a department.");
+                if(department.getDept_name().length() > 150 || department.getDept_name().length() < 1) {
+                    return "The length of the data entered does not reach the specified length.";
+                } else {
+                    departmentDao.addDepartment(department);
 
-            long currentTimeMillis = System.currentTimeMillis();
-            // Convert milliseconds to a human-readable date and time format
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String formattedDate = sdf.format(new Date(currentTimeMillis));
-            activityLogInput.setLog_date(formattedDate);
-            // add the activity log
-            activityLogDao.addActivityLog(activityLogInput);
+                    ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                    activityLogInput.setEmp_id("101"); //current logged user dapat
+                    activityLogInput.setLog_desc("Added a department.");
+
+                    long currentTimeMillis = System.currentTimeMillis();
+                    // Convert milliseconds to a human-readable date and time format
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String formattedDate = sdf.format(new Date(currentTimeMillis));
+                    activityLogInput.setLog_date(formattedDate);
+                    // add the activity log
+                    activityLogDao.addActivityLog(activityLogInput);
+                    
+                    return "Department Added Successfully. " + formattedDate;
+                }
+                
+            } else {
+                return "The Department Name is empty.";
+            }
             
-            return "Department Added Successfully. " + formattedDate;
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -56,15 +70,25 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public String editDepartmentInfo(String id, DepartmentInput department) {
+        
         try {
-            Map<String, Object> paramMap = new HashMap<>();
+            if(department.getDept_name() != null) {
+                if(department.getDept_name().length() > 150 || department.getDept_name().length() < 1) {
+                    return "The length of the data entered does not reach the specified length.";
+                } else {
+                    Map<String, Object> paramMap = new HashMap<>();
 
-            paramMap.put("id", id);
-            paramMap.put("department", department);
+                    paramMap.put("id", id);
+                    paramMap.put("department", department);
 
-            departmentDao.editDepartmentInfo(paramMap);
+                    departmentDao.editDepartmentInfo(paramMap);
 
-            return "Department Edited Successfully.";
+                    return "Department Edited Successfully.";
+                }
+            } else {
+                return "The Department Name is empty.";
+            }
+            
         } catch (Exception e) {
             return e.getMessage();
         }
