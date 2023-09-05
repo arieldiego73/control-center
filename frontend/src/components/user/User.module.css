@@ -44,9 +44,7 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(3px);
   border-radius: 10px;
-
   height: 100%;
-
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -94,4 +92,20 @@ body {
 
 .searchBarHolder1 span, .searchBarHolder2 span{
     font-weight: bold;
+}
+
+/* for breadcrumbs */
+.custom-link {
+  text-decoration: underline;
+}
+
+.custom-link:hover {
+  text-decoration: none; /* Remove underline on hover */
+}
+.pageTitle{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: .5%;
+  height: 100%;
 }

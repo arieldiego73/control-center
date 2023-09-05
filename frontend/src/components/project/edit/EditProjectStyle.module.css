@@ -117,6 +117,15 @@ body {
     flex-direction: row;
     gap: 10px;
   }
+
+  /* for breadcrumbs */
+.custom-link {
+    text-decoration: underline;
+  }
+  
+  .custom-link:hover {
+    text-decoration: none; /* Remove underline on hover */
+  }
   
 
 

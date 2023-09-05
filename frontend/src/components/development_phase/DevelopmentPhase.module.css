@@ -45,3 +45,12 @@
 	align-items: center;
 	flex-direction: column;
 }
+
+/* for breadcrumbs */
+.custom-link {
+	text-decoration: underline;
+  }
+  
+.custom-link:hover {
+	text-decoration: none; /* Remove underline on hover */
+  }

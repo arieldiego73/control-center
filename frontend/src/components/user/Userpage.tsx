@@ -9,9 +9,18 @@ import UserTable from "./UserTable";
 import Button from "@mui/material/Button";
 import { Add } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link } from "react-router-dom";
 import { Box, Grid, FormLabel, TextField, FormControl } from "@mui/material";
-import Breadcrumb from "../breadcrumbs/breadcrumbs";
+import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
+
+//for breadcrumbs
+import { Link } from "react-router-dom";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+
+//for breadcrumbs
+function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  event.preventDefault();
+  console.info("You clicked a breadcrumb.");
+}
 
 // Define the type for your row data
 interface RowData {
@@ -60,12 +69,8 @@ export default function Userpage() {
   const performSearch = () => {
     const filteredData = userData.filter((employee) => {
       const nameMatch =
-        employee.fname
-          .toLowerCase()
-          .includes(searchQuery.name.toLowerCase()) ||
-        employee.lname
-          .toLowerCase()
-          .includes(searchQuery.name.toLowerCase()) ||
+        employee.fname.toLowerCase().includes(searchQuery.name.toLowerCase()) ||
+        employee.lname.toLowerCase().includes(searchQuery.name.toLowerCase()) ||
         employee.fname
           .concat(" " + employee.lname)
           .toLowerCase()
@@ -81,12 +86,7 @@ export default function Userpage() {
         .toLowerCase()
         .includes(searchQuery.department.toLowerCase());
 
-      return (
-        nameMatch &&
-        businessUnitMatch &&
-        positionMatch &&
-        departmentMatch
-      );
+      return nameMatch && businessUnitMatch && positionMatch && departmentMatch;
     });
 
     // Use the filteredData as needed, such as displaying it in a table
@@ -98,33 +98,56 @@ export default function Userpage() {
   return (
     <>
       <div className={UserStyle.mainContainer}>
-        <div style={{ width: "97%" }}>
-          <h4>
-            <FontAwesomeIcon
-              icon={faUser}
-              size="2x"
-              color="black"
-            />
-            <span style={{ fontSize: "1.8rem", color: "black" }}>
-              {" "}
-              USERS{" "}
+        <div style={{ width: "97%", paddingBottom:'1%' }}>
+          <div className={UserStyle.pageTitle}>
+            <span>
+              <AccountTreeOutlinedIcon fontSize="large" />
             </span>
-          </h4>
+            <span
+              style={{ fontSize: "1.8rem", color: "black", fontWeight: "600" }}
+            >
+              {" "}
+              USER{" "}
+            </span>
+          </div>
+          {/* <h4>
+            <FontAwesomeIcon icon={faUser} size="2x" color="black" />
+            <span style={{ fontSize: "1.8rem", color: "black" }}> USERS </span>
+          </h4> */}
         </div>
 
         <div className={UserStyle.contentContainer}>
           <div className={UserStyle.midContent}>
-            <div className={UserStyle.breadCrumbs}>
-              <p>
-                {" "}
-                <Breadcrumb items={breadcrumbItems} />
-              </p>
+       
+
+             {/* for breadcrumbs */}
+             <div
+              style={{
+                border: "1px solid red",
+                paddingBottom: "1%",
+                width: "80%",
+                height: "75%",
+               paddingLeft:'1%',
+                position: "relative",
+                top: "3%",
+                alignSelf: "center",
+              }}
+              role="presentation"
+              onClick={handleClick}
+            >
+              <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+                <Link
+                  to="/User"
+                  className={`${UserStyle["custom-link"]}`}
+                  style={{ color: "inherit" }}
+                >
+                  User
+                </Link>
+              </Breadcrumbs>
             </div>
+
             <div>
-              <Link
-                to="/CreateUser"
-                style={{ textDecoration: "none" }}
-              >
+              <Link to="/CreateUser" style={{ textDecoration: "none" }}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -152,16 +175,11 @@ export default function Userpage() {
                 {/* Start of first search bar */}
                 <Box sx={{ width: "100%" }}>
                   <div className={UserStyle.projStatus}>
-                    <Grid
-                      container
-                      alignItems="center"
-                      spacing={2}
-                    >
+                    <Grid container alignItems="center" spacing={2}>
                       <Grid item xs>
                         <FormLabel
                           sx={{
-                            fontFamily:
-                              "Montserrat, sans-serif",
+                            fontFamily: "Montserrat, sans-serif",
                             width: "100%",
                             color: "black",
                             fontWeight: "400",
@@ -175,9 +193,7 @@ export default function Userpage() {
                           variant="outlined"
                           size="small"
                           style={{ width: "100%" }}
-                          className={
-                            UserStyle.textField
-                          }
+                          className={UserStyle.textField}
                           value={searchQuery.name}
                           onChange={handleInputChange}
                           name="name"
@@ -186,19 +202,12 @@ export default function Userpage() {
                     </Grid>
                   </div>
                 </Box>
-                <FormControl
-                  className={UserStyle.projManagerStyle}
-                >
-                  <Grid
-                    container
-                    alignItems="center"
-                    spacing={2}
-                  >
+                <FormControl className={UserStyle.projManagerStyle}>
+                  <Grid container alignItems="center" spacing={2}>
                     <Grid item>
                       <FormLabel
                         sx={{
-                          fontFamily:
-                            "Montserrat, sans-serif",
+                          fontFamily: "Montserrat, sans-serif",
                           width: "100%",
                           color: "black",
                           fontWeight: "400",
@@ -224,19 +233,12 @@ export default function Userpage() {
               {/* Start of second search bar */}
               <div className={UserStyle.searchBar1}>
                 <div className={UserStyle.searchBarCol}>
-                  <FormControl
-                    className={UserStyle.projClientStyle}
-                  >
-                    <Grid
-                      container
-                      alignItems="center"
-                      spacing={2}
-                    >
+                  <FormControl className={UserStyle.projClientStyle}>
+                    <Grid container alignItems="center" spacing={2}>
                       <Grid item xs>
                         <FormLabel
                           sx={{
-                            fontFamily:
-                              "Montserrat, sans-serif",
+                            fontFamily: "Montserrat, sans-serif",
                             width: "100%",
                             color: "black",
                             fontWeight: "400",
@@ -249,9 +251,7 @@ export default function Userpage() {
                         <TextField
                           variant="outlined"
                           size="small"
-                          className={
-                            UserStyle.textField
-                          }
+                          className={UserStyle.textField}
                           value={searchQuery.position}
                           onChange={handleInputChange}
                           name="position"
@@ -259,19 +259,12 @@ export default function Userpage() {
                       </Grid>
                     </Grid>
                   </FormControl>
-                  <FormControl
-                    className={UserStyle.projClientStyle}
-                  >
-                    <Grid
-                      container
-                      alignItems="center"
-                      spacing={2}
-                    >
+                  <FormControl className={UserStyle.projClientStyle}>
+                    <Grid container alignItems="center" spacing={2}>
                       <Grid item>
                         <FormLabel
                           sx={{
-                            fontFamily:
-                              "Montserrat, sans-serif",
+                            fontFamily: "Montserrat, sans-serif",
                             width: "100%",
                             color: "black",
                             fontWeight: "400",
@@ -284,12 +277,8 @@ export default function Userpage() {
                         <TextField
                           variant="outlined"
                           size="small"
-                          className={
-                            UserStyle.textField
-                          }
-                          value={
-                            searchQuery.department
-                          }
+                          className={UserStyle.textField}
+                          value={searchQuery.department}
                           onChange={handleInputChange}
                           name="department"
                         />
