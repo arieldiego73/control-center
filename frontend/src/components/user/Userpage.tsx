@@ -12,7 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, Grid, FormLabel, TextField, FormControl } from "@mui/material";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 
-//for breadcrumbs
+//for breadcrumbs 
 import { Link } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 
@@ -110,16 +110,10 @@ export default function Userpage() {
               USER{" "}
             </span>
           </div>
-          {/* <h4>
-            <FontAwesomeIcon icon={faUser} size="2x" color="black" />
-            <span style={{ fontSize: "1.8rem", color: "black" }}> USERS </span>
-          </h4> */}
         </div>
 
         <div className={UserStyle.contentContainer}>
           <div className={UserStyle.midContent}>
-       
-
              {/* for breadcrumbs */}
              <div
               style={{
@@ -162,6 +156,7 @@ export default function Userpage() {
               </Link>
             </div>
           </div>
+
           <div className={UserStyle.contentHolder}>
             {/* Start of Header */}
             <Box

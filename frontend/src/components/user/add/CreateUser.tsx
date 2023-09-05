@@ -113,7 +113,7 @@ export default function CreateUser() {
                 </FormLabel>
                 <TextField
                   variant="outlined"
-                  size="small"
+                  size="small" 
                   placeholder="Username"
                   className={CreateUserStyle.textField}
                   InputProps={{
