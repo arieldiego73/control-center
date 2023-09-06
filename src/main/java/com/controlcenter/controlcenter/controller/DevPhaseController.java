@@ -40,7 +40,12 @@ public class DevPhaseController {
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
             if (errors.size() > 0) { //checks the errors from validator
-                return "Error Message:\n" + errors.toString();
+                StringBuilder errorMessage = new StringBuilder("Error Message/s:\n");
+                //loop all the errors encountered then compile them into a string:
+                for (ConstraintViolation<DevPhaseInput> violation : errors) {
+                    errorMessage.append(violation.getMessage()).append("\n");
+                }
+                return errorMessage.toString();
             }else{
                 return devPhaseService.addDevPhase(devPhase);
             }
@@ -52,7 +57,12 @@ public class DevPhaseController {
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
             if (errors.size() > 0) { //checks the errors from validator
-                return "Error Message:\n" + errors.toString();
+                StringBuilder errorMessage = new StringBuilder("Error Message/s:\n");
+                //loop all the errors encountered then compile them into a string:
+                for (ConstraintViolation<DevPhaseInput> violation : errors) {
+                    errorMessage.append(violation.getMessage()).append("\n");
+                }
+                return errorMessage.toString();
             }else{
                 return devPhaseService.editDevPhaseInfo(id, devPhase);
             }
