@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +24,6 @@ import com.controlcenter.controlcenter.service.DevPhaseService;
 
 @RestController
 @RequestMapping("/dev-phase")
-
 public class DevPhaseController {
 
     @Autowired
@@ -31,12 +36,36 @@ public class DevPhaseController {
 
     @PostMapping("/add")
     public String addDevPhase(@RequestBody DevPhaseInput devPhase){
-        return devPhaseService.addDevPhase(devPhase);
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
+            if (errors.size() > 0) { //checks the errors from validator
+                StringBuilder errorMessage = new StringBuilder("Error Message/s:\n");
+                //loop all the errors encountered then compile them into a string:
+                for (ConstraintViolation<DevPhaseInput> violation : errors) {
+                    errorMessage.append(violation.getMessage()).append("\n");
+                }
+                return errorMessage.toString();
+            }else{
+                return devPhaseService.addDevPhase(devPhase);
+            }
     }
 
     @PutMapping("/edit/{id}")
     public String editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
-        return devPhaseService.editDevPhaseInfo(id, devPhase);
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
+            if (errors.size() > 0) { //checks the errors from validator
+                StringBuilder errorMessage = new StringBuilder("Error Message/s:\n");
+                //loop all the errors encountered then compile them into a string:
+                for (ConstraintViolation<DevPhaseInput> violation : errors) {
+                    errorMessage.append(violation.getMessage()).append("\n");
+                }
+                return errorMessage.toString();
+            }else{
+                return devPhaseService.editDevPhaseInfo(id, devPhase);
+            }
     }
 
     @PutMapping("/delete/{id}")

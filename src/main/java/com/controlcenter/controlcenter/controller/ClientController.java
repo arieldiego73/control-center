@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +23,7 @@ import com.controlcenter.controlcenter.service.ClientService;
 
 @RestController
 @RequestMapping("/client")
-public class ClientController {
+public class ClientController{
     
     @Autowired
     public ClientService clientService;
@@ -29,12 +35,26 @@ public class ClientController {
 
     @PostMapping("/add")
     public String addClient(@RequestBody ClientInput client) {
-        return clientService.addClient(client);
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<ClientInput>> errors = validator.validate(client);
+            if (errors.size() > 0) { //checks the errors from validator
+                return "Error Message:\n" + errors.toString();
+            }else{
+                return clientService.addClient(client);
+            }
     }
 
     @PutMapping("/edit/{id}") 
     public String editClient(@PathVariable String id,@RequestBody ClientInput client) {
-        return clientService.editClient(id, client);
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<ClientInput>> errors = validator.validate(client);
+            if (errors.size() > 0) { //checks the errors from validator
+                return "Error Message:\n" + errors.toString();
+            }else{
+                return clientService.editClient(id, client);
+            }
     }
 
     @PutMapping("/delete/{id}")

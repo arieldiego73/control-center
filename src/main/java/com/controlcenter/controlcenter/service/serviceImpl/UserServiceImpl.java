@@ -4,6 +4,7 @@ import com.controlcenter.controlcenter.dao.PersonalInfoDao;
 import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.Account;
 import com.controlcenter.controlcenter.model.PersonalInfoInput;
+import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.service.UserService;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService{
   }
 
   @Override
-  public UserOutput getUserById(Long id) {
+  public UserInfoOutput getUserById(Long id) {
     return userDao.getUserById(id);
   }
 
