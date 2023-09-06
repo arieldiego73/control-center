@@ -7,6 +7,7 @@ import com.controlcenter.controlcenter.model.PersonalInfoInput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
+import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 
 // import java.util.Collections;
@@ -14,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 // import org.springframework.security.core.userdetails.User;
 // import org.springframework.security.core.userdetails.UserDetails;
 // import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,13 +37,23 @@ public class UserServiceImpl implements UserService{
   public PasswordEncoder passEnc;
 
   @Override
-  public List<UserOutput> findAll() {
-    return userDao.findAll();
+  public ResponseEntity<List<UserTable>> findAll() {
+    try {
+      List<UserTable> users = userDao.findAll();
+      return ResponseEntity.ok(users);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
   }
 
   @Override
-  public UserInfoOutput getUserById(Long id) {
-    return userDao.getUserById(id);
+  public ResponseEntity<UserInfoOutput> getUserById(String id) {
+    try {
+      UserInfoOutput user = userDao.getUserById(id);
+      return ResponseEntity.ok(user);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
   }
 
   @Override
