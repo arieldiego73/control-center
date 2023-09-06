@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.PersonalInfoInput;
 import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.service.PersonalInfoService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 @RestController
 @RequestMapping("/personal-info")
@@ -22,6 +29,9 @@ public class PersonalInfoController {
     @Autowired  
     public PersonalInfoService personalInfoService;
 
+    @Autowired
+    private ErrorHandler errorHandler;
+
     @GetMapping("/all")
     public List<PersonalInfoOutput> getAllPersonalInfo() {
         return personalInfoService.getAllPersonalInfo();
@@ -29,12 +39,30 @@ public class PersonalInfoController {
 
     @PostMapping("/add")
     public String addPersonalInfo(@RequestBody PersonalInfoInput personalInfo) {
-        return personalInfoService.addPersonalInfo(personalInfo);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<PersonalInfoInput>> errors = validator.validate(personalInfo);
+            //Error Handling
+            if(errors.size() > 0){
+                return errorHandler.getErrors(errors);
+            } else{
+                return personalInfoService.addPersonalInfo(personalInfo);
+            }
     }
 
     @PutMapping("/edit/{id}")
     public String editPersonalInfo(@PathVariable String id, @RequestBody PersonalInfoInput personalInfo) {
-        return personalInfoService.editPersonalInfo(id, personalInfo);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<PersonalInfoInput>> errors = validator.validate(personalInfo);
+            //Error Handling
+            if(errors.size() > 0){
+                return errorHandler.getErrors(errors);
+            } else{
+                return personalInfoService.editPersonalInfo(id, personalInfo);
+            }
     }
 
     @PutMapping("delete/{id}")
