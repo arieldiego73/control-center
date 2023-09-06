@@ -7,7 +7,7 @@ import ProjectHandler from "./pages/ProjectHandler";
 import RoleHandler from "./pages/RoleHandler";
 // import NewProj from "./components/project/new_project/NewProj";
 import NewProjHandler from "./pages/NewProjectHandler";
-import AddMemberTable from "./components/project/new_project/AddMemberTable";
+import AddMemberTable from "./components/project/AddMemberTable";
 // import UserDetails from "./components/user/edit/EditUser";
 import EditUserHandler from "./pages/EditUserHandler";
 import EditProjectHandler from "./pages/EditProjectHandler"

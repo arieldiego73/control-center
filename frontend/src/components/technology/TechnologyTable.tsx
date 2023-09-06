@@ -12,8 +12,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import PersonFourIcon from "@mui/icons-material/Person4";
 import {
-	GridRowsProp,
-	GridRowModesModel,
+	GridRowsProp, 
+	GridRowModesModel, 
 	GridRowModes,
 	DataGrid,
 	GridColDef,
@@ -646,7 +646,7 @@ export default function TechnologyTable() {
 			</Box>
 
 			<DataGrid
-				sx={{ height: 650, border: "none" }}
+				sx={{ height: 600, border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"
