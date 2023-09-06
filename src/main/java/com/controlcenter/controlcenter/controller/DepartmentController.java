@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ public class DepartmentController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public List<DepartmentOutput> getAllDepartment() {
+    public ResponseEntity<List<DepartmentOutput>> getAllDepartment() {
         return departmentService.getAllDepartment();
     }
 
