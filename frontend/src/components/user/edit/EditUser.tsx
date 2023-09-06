@@ -102,7 +102,7 @@ export default function EditUser() {
 	};
 
 	const proceedWithSaving = () => {
-		userData = null;
+		// SAVE THE INFO HERE
 		navigate("/user");
 	};
 
@@ -110,7 +110,7 @@ export default function EditUser() {
 		setAsk(true);
 		setDialogTitle("Save the record?");
 		setDialogContentText(
-			"Upon proceeding, the modifications made will be saved."
+			"Upon proceeding, the modifications on the record \nmade will be saved."
 		);
 		setIsSaving(true);
 	};
@@ -118,43 +118,42 @@ export default function EditUser() {
 	const handleCancel = () => {
 		setAsk(true);
 		setDialogTitle("Cancel the edit?");
-		setDialogContentText("");
+		setDialogContentText("Modifications made with the record will be \nlost forever.");
 		setIsSaving(false);
 	};
 
-  return (
-	<div className={UserDetailStyle.body}>
-      <div className={UserDetailStyle.mainContainer}>
-        <div className={UserDetailStyle.heading}>
-          <FontAwesomeIcon icon={faUser} size="2x" color="black" />
-          <div className={UserDetailStyle.textContainer}>
-            <span style={{ fontSize: "4vh", color: "black" }}>
-              {" "}
-              Edit User Details{" "}
-            </span>
-          </div>
-        </div>
-        <div className={UserDetailStyle.breadCrumbs}>
-        {/* for breadcrumbs */}
-          <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-            <Link
-              to="/User"
-              className={`${UserDetailStyle["custom-link"]}`}
-              style={{ color: "inherit" }}
-            >
-              User
-            </Link>
-            <Link
-              to="/CreateUser"
-              className={`${UserDetailStyle["custom-link"]}`}
-              style={{ color: "inherit" }}
-            >
-              Create User
-            </Link>
+	return (
+		<div className={UserDetailStyle.mainContainer}>
+			<div className={UserDetailStyle.heading}>
+				<FontAwesomeIcon icon={faUser} size="2x" color="black" />
+				<div className={UserDetailStyle.textContainer}>
+					<span style={{ fontSize: "4vh", color: "black" }}>
+						{" "}
+						Edit User Details{" "}
+					</span>
+				</div>
+			</div>
+			<div className={UserDetailStyle.breadCrumbs}>
+				{/* for breadcrumbs */}
+				<Breadcrumbs maxItems={2} aria-label="breadcrumb">
+					<Link
+						to="/User"
+						className={`${UserDetailStyle["custom-link"]}`}
+						style={{ color: "inherit" }}
+					>
+						User
+					</Link>
+					<Link
+						to="/CreateUser"
+						className={`${UserDetailStyle["custom-link"]}`}
+						style={{ color: "inherit" }}
+					>
+						Create User
+					</Link>
 
-            {/* Other breadcrumb links */}
-          </Breadcrumbs>
-        </div>
+					{/* Other breadcrumb links */}
+				</Breadcrumbs>
+			</div>
 
 			<div className={UserDetailStyle.contentContainer}>
 				<div className={UserDetailStyle.mainForm}>
@@ -401,19 +400,20 @@ export default function EditUser() {
 					setAsk(false);
 				}}
 				aria-labelledby="responsive-dialog-title"
+				aria-describedby="alert-dialog-description"
 			>
 				<DialogTitle id="responsive-dialog-title">
 					<Typography
 						fontFamily={"Montserrat, san-serif"}
 						fontWeight={700}
-						fontSize={24}
+						fontSize={20}
 						display={"flex"}
 						alignItems={"center"}
 						gap={1}
 					>
 						<HelpIcon
 							accentHeight={100}
-							color="error"
+							color="disabled"
 							fontSize="large"
 							alignmentBaseline="middle"
 						/>
@@ -424,6 +424,7 @@ export default function EditUser() {
 					<DialogContentText
 						fontFamily={"Montserrat, san-serif"}
 						whiteSpace={"pre-line"}
+						id="alert-dialog-description"
 					>
 						{dialogContentText}
 					</DialogContentText>
@@ -451,6 +452,5 @@ export default function EditUser() {
 				</DialogActions>
 			</Dialog>
 		</div>
-	</div>
 	);
 }

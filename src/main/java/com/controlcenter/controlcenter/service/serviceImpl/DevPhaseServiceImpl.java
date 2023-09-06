@@ -2,11 +2,13 @@ package com.controlcenter.controlcenter.service.serviceImpl;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -25,13 +27,19 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     @Autowired
     public ActivityLogDao activityLogDao;
 
+    List<DevPhaseOutput> nullDevPhase = new ArrayList<DevPhaseOutput>();
+
     @Override
-    public List<DevPhaseOutput> getAllDevPhase(){
-        return devPhaseDao.getAllDevPhase();
+    public ResponseEntity<List<DevPhaseOutput>> getAllDevPhase(){
+        try {
+            return ResponseEntity.ok(devPhaseDao.getAllDevPhase());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(nullDevPhase);
+        }
     }
     
     @Override
-    public String addDevPhase(DevPhaseInput devPhase) {
+    public ResponseEntity<List<DevPhaseOutput>> addDevPhase(DevPhaseInput devPhase) {
         try {
             devPhaseDao.addDevPhase(devPhase);
 
@@ -47,15 +55,16 @@ public class DevPhaseServiceImpl implements DevPhaseService {
             activityLogInput.setLog_date(formattedDate);
             // add the activity log
             activityLogDao.addActivityLog(activityLogInput);
-            
-            return "Development Phase Added Successfully";
+
+            List<DevPhaseOutput> devPhaseList = devPhaseDao.getAllDevPhase();
+            return ResponseEntity.ok(devPhaseList);
         } catch (Exception e) {
-            return e.getMessage();
+            return ResponseEntity.badRequest().body(nullDevPhase);
         }
     }
 
     @Override 
-    public String editDevPhaseInfo(String id, DevPhaseInput devPhase) {
+    public ResponseEntity<List<DevPhaseOutput>> editDevPhaseInfo(String id, DevPhaseInput devPhase) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
@@ -63,19 +72,21 @@ public class DevPhaseServiceImpl implements DevPhaseService {
 
             devPhaseDao.editDevPhaseInfo(paramMap);
 
-            return "Development Phase Edited Successfully";
+            List<DevPhaseOutput> devPhaseList = devPhaseDao.getAllDevPhase();
+            return ResponseEntity.ok(devPhaseList);
         } catch (Exception e) {
-            return e.getMessage();
+            return ResponseEntity.badRequest().body(nullDevPhase);
         }
     }
 
     @Override
-    public String logicalDeleteDevPhase(String id) {
+    public ResponseEntity<List<DevPhaseOutput>> logicalDeleteDevPhase(String id) {
         try {
             devPhaseDao.logicalDeleteDevPhase(id);
-            return "Development Phase Deleted Successfully";
+            List<DevPhaseOutput> devPhaseList = devPhaseDao.getAllDevPhase();
+            return ResponseEntity.ok(devPhaseList);
         } catch (Exception e) {
-            return e.getMessage();
+            return ResponseEntity.badRequest().body(nullDevPhase);
         }
     }
 
