@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.ProjMemberInput;
 import com.controlcenter.controlcenter.model.ProjMemberOutput;
 import com.controlcenter.controlcenter.service.ProjMemberService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 @RestController
 @RequestMapping("/proj-member")
@@ -22,6 +29,9 @@ public class ProjMemberController {
     @Autowired
     public ProjMemberService projMemberService;
 
+    @Autowired
+    private ErrorHandler errorHandler;
+
     @GetMapping("/all")
     public List<ProjMemberOutput> getAllProjMember() {
         return projMemberService.getAllProjMember();
@@ -29,12 +39,30 @@ public class ProjMemberController {
 
     @PostMapping("/add")
     public String addProjMember(@RequestBody ProjMemberInput projMember){
-        return projMemberService.addProjMember(projMember);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<ProjMemberInput>> errors = validator.validate(projMember);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return projMemberService.addProjMember(projMember);
+            }
     }
 
     @PutMapping("/edit/{id}")
     public String editProjMemberInfo(@PathVariable String id, @RequestBody ProjMemberInput projMember) {
-        return projMemberService.editProjMemberInfo(id, projMember);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<ProjMemberInput>> errors = validator.validate(projMember);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return projMemberService.addProjMember(projMember);
+            }
     }
 
     @PutMapping("/delete/{id}")
