@@ -30,6 +30,9 @@ public class DevPhaseController {
     @Autowired
     public DevPhaseService devPhaseService;
 
+    @Autowired
+    private ErrorHandler errorHandler;
+
     @GetMapping("/all")
     public List<DevPhaseOutput> getAllDevPhase() {
         return devPhaseService.getAllDevPhase();
@@ -43,7 +46,7 @@ public class DevPhaseController {
         Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return ErrorHandler.getErrors(errors);
+                return errorHandler.getErrors(errors);
             }else{
                 return devPhaseService.addDevPhase(devPhase);
             }
@@ -57,7 +60,7 @@ public class DevPhaseController {
         Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return ErrorHandler.getErrors(errors);
+                return errorHandler.getErrors(errors);
             }else{
                 return devPhaseService.editDevPhaseInfo(id, devPhase);
             }
