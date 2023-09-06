@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.ClientInput;
 import com.controlcenter.controlcenter.model.ClientOutput;
 import com.controlcenter.controlcenter.service.ClientService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 @RestController
 @RequestMapping("/client")
@@ -28,6 +29,9 @@ public class ClientController{
     @Autowired
     public ClientService clientService;
 
+    @Autowired
+    private ErrorHandler errorHandler;
+
     @GetMapping("/all")
     public List<ClientOutput> getAllClient() {
         return clientService.getAllClient();
@@ -35,11 +39,13 @@ public class ClientController{
 
     @PostMapping("/add")
     public String addClient(@RequestBody ClientInput client) {
+        //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ClientInput>> errors = validator.validate(client);
+            //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return "Error Message:\n" + errors.toString();
+                return errorHandler.getErrors(errors);
             }else{
                 return clientService.addClient(client);
             }
@@ -47,11 +53,13 @@ public class ClientController{
 
     @PutMapping("/edit/{id}") 
     public String editClient(@PathVariable String id,@RequestBody ClientInput client) {
+        //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ClientInput>> errors = validator.validate(client);
+            //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return "Error Message:\n" + errors.toString();
+                return errorHandler.getErrors(errors);
             }else{
                 return clientService.editClient(id, client);
             }
