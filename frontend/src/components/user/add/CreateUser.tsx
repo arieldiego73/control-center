@@ -28,7 +28,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import { Link } from "react-router-dom";
-import MembersTable from "../../project/MembersTable";
+import AddRoleTable from "../AddRoleTable";
 
 
 //for breadcrumbs
@@ -52,7 +52,17 @@ export default function CreateUser() {
 
 
   //for popup (dialog)
+  const [open, setOpen] = React.useState(false);
 
+  const [openTechnology, setOpenTechnology] = React.useState(false); 
+
+  const handleClickOpenTechnology= () => {
+    setOpenTechnology(true);
+  };
+
+  const handleCloseTechnology = () => {
+    setOpenTechnology(false);
+  }; 
 
 
   return (
@@ -320,6 +330,7 @@ export default function CreateUser() {
                     textTransform: "none",
                     fontFamily: "Montserrat, sans-serif",
                   }}
+                  onClick={handleClickOpenTechnology}
                   >
                   Add Role
                 </Button>
@@ -412,6 +423,24 @@ export default function CreateUser() {
           </div>
         </div>
       </div>
+      <Dialog
+          open={openTechnology}
+          onClose={handleCloseTechnology}
+          aria-describedby="alert-dialog-slide-description"
+          maxWidth="xl"
+        >
+          <DialogTitle>
+            <FontAwesomeIcon icon={faUser} size="1x" color="black" />
+            {"Technology"}
+          </DialogTitle>
+          <DialogContent>
+            <AddRoleTable />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
+            <Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Save</Button>
+          </DialogActions>
+        </Dialog>
     </body>
   );
 }
