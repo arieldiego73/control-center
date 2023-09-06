@@ -7,6 +7,12 @@
     <select id="getAllClient" resultType="com.controlcenter.controlcenter.model.ClientOutput">
         SELECT client_id, client_name, client_sh_name
           FROM tbl_clients_mst
+         WHERE client_id = #{id}
+    </select>
+
+    <select id="getClientById" resultType="com.controlcenter.controlcenter.model.ClientOutput">
+        SELECT client_id, client_name, client_sh_name, del_flag
+          FROM tbl_clients_mst
          WHERE del_flag = 0;
     </select>
 

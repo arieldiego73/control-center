@@ -24,6 +24,11 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
+    public ClientOutput getClientById(String id){
+        return clientDao.getClientById(id);
+    }
+
+    @Override
     public String addClient(ClientInput client) {
 
         try {
@@ -37,14 +42,20 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public String editClient(String id, ClientInput client) {
         try {
-            Map<String, Object> paramMap = new HashMap<>();
+            ClientOutput data = clientDao.getClientById(id);
+            data.setDel_flag(data.getDel_flag());
+            if(data.getDel_flag() > 0) {
+                return "Client does not exist.";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
 
-            paramMap.put("id", id);
-            paramMap.put("client", client);
+                paramMap.put("id", id);
+                paramMap.put("client", client);
 
-            clientDao.editClient(paramMap);
+                clientDao.editClient(paramMap);
 
-            return "Client Edited Successfully.";
+                return "Client Edited Successfully.";
+            }
         } catch (Exception e) {
             return e.getMessage();
         }
