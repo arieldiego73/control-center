@@ -37,6 +37,11 @@ public class ClientController{
         return clientService.getAllClient();
     }
 
+    @GetMapping("/client-id/{id}")
+    public ClientOutput getClientById(String id) {
+        return clientService.getClientById(id);
+    }
+
     @PostMapping("/add")
     public String addClient(@RequestBody ClientInput client) {
         //For Validation
