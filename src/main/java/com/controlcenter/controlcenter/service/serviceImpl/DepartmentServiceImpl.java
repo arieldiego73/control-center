@@ -33,35 +33,23 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Override 
     public String addDepartment(DepartmentInput department) {
         
-
         try {
+            departmentDao.addDepartment(department);
 
-            if(department.getDept_name() != null) {
+            ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                if(department.getDept_name().length() > 150 || department.getDept_name().length() < 1) {
-                    return "The length of the data entered does not reach the specified length.";
-                } else {
-                    departmentDao.addDepartment(department);
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Added a department.");
 
-                    ActivityLogInput activityLogInput = new ActivityLogInput();
-
-                    activityLogInput.setEmp_id("101"); //current logged user dapat
-                    activityLogInput.setLog_desc("Added a department.");
-
-                    long currentTimeMillis = System.currentTimeMillis();
-                    // Convert milliseconds to a human-readable date and time format
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String formattedDate = sdf.format(new Date(currentTimeMillis));
-                    activityLogInput.setLog_date(formattedDate);
-                    // add the activity log
-                    activityLogDao.addActivityLog(activityLogInput);
-                    
-                    return "Department Added Successfully. " + formattedDate;
-                }
-                
-            } else {
-                return "The Department Name is empty.";
-            }
+            long currentTimeMillis = System.currentTimeMillis();
+            // Convert milliseconds to a human-readable date and time format
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = sdf.format(new Date(currentTimeMillis));
+            activityLogInput.setLog_date(formattedDate);
+            // add the activity log
+            activityLogDao.addActivityLog(activityLogInput);
+            
+            return "Department Added Successfully.";
             
         } catch (Exception e) {
             return e.getMessage();
