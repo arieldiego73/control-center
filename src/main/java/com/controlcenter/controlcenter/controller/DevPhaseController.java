@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.DevPhaseInput;
 import com.controlcenter.controlcenter.model.DevPhaseOutput;
 import com.controlcenter.controlcenter.service.DevPhaseService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 
 @RestController
@@ -36,16 +37,13 @@ public class DevPhaseController {
 
     @PostMapping("/add")
     public String addDevPhase(@RequestBody DevPhaseInput devPhase){
+        //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
+            //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                StringBuilder errorMessage = new StringBuilder("Error Message/s:\n");
-                //loop all the errors encountered then compile them into a string:
-                for (ConstraintViolation<DevPhaseInput> violation : errors) {
-                    errorMessage.append(violation.getMessage()).append("\n");
-                }
-                return errorMessage.toString();
+                return ErrorHandler.getErrors(errors);
             }else{
                 return devPhaseService.addDevPhase(devPhase);
             }
@@ -53,16 +51,13 @@ public class DevPhaseController {
 
     @PutMapping("/edit/{id}")
     public String editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
+        //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
+            //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                StringBuilder errorMessage = new StringBuilder("Error Message/s:\n");
-                //loop all the errors encountered then compile them into a string:
-                for (ConstraintViolation<DevPhaseInput> violation : errors) {
-                    errorMessage.append(violation.getMessage()).append("\n");
-                }
-                return errorMessage.toString();
+                return ErrorHandler.getErrors(errors);
             }else{
                 return devPhaseService.editDevPhaseInfo(id, devPhase);
             }
