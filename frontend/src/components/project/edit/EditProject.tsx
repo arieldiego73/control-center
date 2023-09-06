@@ -47,19 +47,21 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import AddMemberTable from "../new_project/AddMemberTable";
+import AddMemberTable from "../AddMemberTable";
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import InputBase from '@mui/material/InputBase';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import SettingsEthernetOutlinedIcon from '@mui/icons-material/SettingsEthernetOutlined';
+import AddProjManagerTable from "../AddProjManagerTable";
+import AddTechnologyTable from "../AddTechnologyTable";
 
+
+//for breadcrumbs
+import { Link } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-import { Link } from "react-router-dom";
-
-
 //for breadcrumbs
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     event.preventDefault();
@@ -152,18 +154,36 @@ export default function NewProj() {
 
   const breadcrumbItems = [
     { label: "Projects", href: "/project" },
-    { label: "Edit project", href: "/editPtoject" },
+    { label: "Add new project", href: "/NewProj" },
   ];
 
   const [open, setOpen] = React.useState(false);
+  const [openProjManager, setOpenProjManager] = React.useState(false); 
+  const [openTechnology, setOpenTechnology] = React.useState(false); 
+
+  const handleClickOpenTechnology= () => {
+    setOpenTechnology(true);
+  };
+
+  const handleCloseTechnology = () => {
+    setOpenTechnology(false);
+  }; 
 
   const handleClickOpen = () => {
     setOpen(true);
   };
- 
+
   const handleClose = () => {
     setOpen(false);
+  }; 
+
+  const handleClickOpenProjManager = () => {
+    setOpenProjManager(true);
   };
+
+  const handleCloseProjManager = () => {
+    setOpenProjManager(false);
+  }; 
 
   return (
     <body>
@@ -181,13 +201,12 @@ export default function NewProj() {
             </span>
           </div>
         </div>
-        
 
         <div className={EditProjectStyle.midContent}>
          {/* for breadcrumbs */}
          <div
               style={{
-                border: "1px solid red",
+                // border: "1px solid red",
                 paddingBottom: "1%",
                 width: "80%",
                 height: "75%",
@@ -213,16 +232,13 @@ export default function NewProj() {
                   className={`${EditProjectStyle["custom-link"]}`}
                   style={{ color: "inherit" }}
                 >
-                 Edit Project
+                  Edit Project
                 </Link>
               </Breadcrumbs>
             </div>
         </div>
 
-        <div
-          className={EditProjectStyle.contentContainer}
-          style={{ maxHeight: "65vh", overflow:"auto" }}
-        >
+        <div className={EditProjectStyle.contentContainer}>
           <div className={EditProjectStyle.mainForm}>
             <div className={EditProjectStyle.mainFormCol1}>
 
@@ -281,10 +297,11 @@ export default function NewProj() {
                   />
                 </FormControl>
                 <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<Add />}
-                  style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
+                 onClick={handleClickOpenProjManager}
+                 variant="contained"
+                 color="primary"
+                 startIcon={<Add />}
+                 style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
                 >
                   Add Project Manager
                 </Button>
@@ -423,10 +440,11 @@ export default function NewProj() {
                   />
                 </FormControl>
                 <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<Add />}
-                  style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
+                     onClick={handleClickOpenTechnology}
+                     variant="contained"
+                     color="primary"
+                     startIcon={<Add />}
+                     style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
                 >
                   Add Technology
                 </Button>
@@ -533,18 +551,6 @@ export default function NewProj() {
           onClose={handleClose}
           aria-describedby="alert-dialog-slide-description"
         >
-          {/* <div>
-          <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Search>
-        </div> */}
-
           <DialogTitle>
             <FontAwesomeIcon icon={faUser} size="1x" color="black" />
             {"Members"}
@@ -555,6 +561,42 @@ export default function NewProj() {
           <DialogActions>
             <Button onClick={handleClose} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
             <Button onClick={handleClose} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Save</Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          open={openProjManager}
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>
+            <FontAwesomeIcon icon={faUser} size="1x" color="black" />
+            {"Project Manager"}
+          </DialogTitle>
+          <DialogContent>
+            <AddProjManagerTable />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseProjManager} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
+            <Button onClick={handleCloseProjManager} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Save</Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          open={openTechnology}
+          onClose={handleCloseTechnology}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>
+            <FontAwesomeIcon icon={faUser} size="1x" color="black" />
+            {"Technology"}
+          </DialogTitle>
+          <DialogContent>
+            <AddProjManagerTable />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
+            <Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Save</Button>
           </DialogActions>
         </Dialog>
       </div>

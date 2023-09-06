@@ -66,7 +66,7 @@ export default function CreateUser() {
          {/* for breadcrumbs */}
          <div
               style={{
-                border: "1px solid red",
+                // border: "1px solid red",
                 paddingBottom: "1%",
                 width: "80%",
                 height: "75%",
