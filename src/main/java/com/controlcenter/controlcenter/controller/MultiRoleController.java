@@ -37,7 +37,7 @@ public class MultiRoleController {
         return multiRoleService.getAllMultiRole();
     }
 
-    @GetMapping("/multi-role/{id}")
+    @GetMapping("/multi-role-id/{id}")
     public MultiRoleOutput getMultiRoleById(@PathVariable String id) {
         return multiRoleService.getMultiRoleById(id);
     }

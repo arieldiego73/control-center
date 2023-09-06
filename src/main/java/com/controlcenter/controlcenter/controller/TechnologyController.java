@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.TechnologyInput;
 import com.controlcenter.controlcenter.model.TechnologyOutput;
 import com.controlcenter.controlcenter.service.TechnologyService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 @RestController
 @RequestMapping("/technology")
@@ -22,6 +29,9 @@ public class TechnologyController {
     @Autowired
     public TechnologyService technologyService;
 
+    @Autowired
+    private ErrorHandler errorHandler;
+
     @GetMapping("/all")
     public List<TechnologyOutput> getAllTechnology() {
         return technologyService.getAllTechnology();
@@ -29,7 +39,16 @@ public class TechnologyController {
 
     @PostMapping("/add")
     public String addTechnology(@RequestBody TechnologyInput technology) {
-        return technologyService.addTechnology(technology);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<TechnologyInput>> errors = validator.validate(technology);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return technologyService.addTechnology(technology);
+            }
     }
 
     @PutMapping("/edit/{id}")
