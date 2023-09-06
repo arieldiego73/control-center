@@ -4,14 +4,17 @@ import com.controlcenter.controlcenter.model.Account;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
+import com.controlcenter.controlcenter.model.UserTable;
 
 import java.util.HashMap;
 import java.util.List;
 
-public interface UserService {
-  public List<UserOutput> findAll();
+import org.springframework.http.ResponseEntity;
 
-  public UserInfoOutput getUserById(Long id);
+public interface UserService {
+  public ResponseEntity<List<UserTable>> findAll();
+
+  public ResponseEntity<UserInfoOutput> getUserById(String id);
 
   public String insertUser(UserInput user);
 

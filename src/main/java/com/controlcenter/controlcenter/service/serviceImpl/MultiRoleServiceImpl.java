@@ -24,6 +24,11 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     }
 
     @Override
+    public MultiRoleOutput getMultiRoleById(String id) {
+        return multiRoleDao.getMultiRoleById(id);
+    }
+
+    @Override
     public String addMultiRole(MultiRoleInput multiRole){
         try{
             multiRoleDao.addMultiRole(multiRole);
@@ -36,13 +41,20 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     @Override
     public String editMultiRoleInfo(String id, MultiRoleInput multiRole){
         try{
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("multiRole", multiRole);
 
-            multiRoleDao.editMultiRoleInfo(paramMap);
+            MultiRoleOutput data = multiRoleDao.getMultiRoleById(id);
+            data.setDel_flag(data.getDel_flag());
+            if(data.getDel_flag() > 0) {
+                return "Multiple Role does not exist.";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("id", id);
+                paramMap.put("multiRole", multiRole);
 
-            return "Multi Role Edited Successfully";
+                multiRoleDao.editMultiRoleInfo(paramMap);
+
+                return "Multi Role Edited Successfully";
+            }
         } catch (Exception e){
             return e.getMessage();
         }
