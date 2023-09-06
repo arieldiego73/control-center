@@ -4,6 +4,7 @@ import com.controlcenter.controlcenter.model.Account;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
+import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 
 import java.util.HashMap;
@@ -30,16 +31,15 @@ public class UserController {
   private PasswordEncoder passEnc;
 
   @GetMapping("/all")
-  public ResponseEntity<List<UserOutput>> getAllUsers() {
-    List<UserOutput> users = userService.findAll();
-    return ResponseEntity.ok(users);
+  public ResponseEntity<List<UserTable>> getAllUsers() {
+    return userService.findAll();
   }
 
-  @GetMapping("/info/{id}")
-  public ResponseEntity<UserInfoOutput> getUserById(@PathVariable Long id) {
-    UserInfoOutput user = userService.getUserById(id);
-    return ResponseEntity.ok(user);
-  }
+  // @GetMapping("/info/{id}")
+  // public ResponseEntity<UserInfoOutput> getUserById(@PathVariable Long id) {
+  //   UserInfoOutput user = userService.getUserById(id);
+  //   return ResponseEntity.ok(user);
+  // }
 
   @PostMapping("/create")
   public String createUser(@RequestBody UserInput user) {

@@ -550,6 +550,7 @@ export default function NewProj() {
           open={open}
           onClose={handleClose}
           aria-describedby="alert-dialog-slide-description"
+          maxWidth="xl"
         >
           <DialogTitle>
             <FontAwesomeIcon icon={faUser} size="1x" color="black" />
@@ -568,6 +569,7 @@ export default function NewProj() {
           open={openProjManager}
           onClose={handleClose}
           aria-describedby="alert-dialog-slide-description"
+          maxWidth="xl"
         >
           <DialogTitle>
             <FontAwesomeIcon icon={faUser} size="1x" color="black" />
@@ -586,13 +588,14 @@ export default function NewProj() {
           open={openTechnology}
           onClose={handleCloseTechnology}
           aria-describedby="alert-dialog-slide-description"
+          maxWidth="xl"
         >
           <DialogTitle>
             <FontAwesomeIcon icon={faUser} size="1x" color="black" />
             {"Technology"}
           </DialogTitle>
           <DialogContent>
-            <AddProjManagerTable />
+            <AddTechnologyTable />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>

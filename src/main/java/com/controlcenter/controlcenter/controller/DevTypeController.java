@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.DevTypeInput;
 import com.controlcenter.controlcenter.model.DevTypeOutput;
 import com.controlcenter.controlcenter.service.DevTypeService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 @RestController
 @RequestMapping("/dev-type")
@@ -22,6 +29,9 @@ public class DevTypeController {
     @Autowired
     public DevTypeService devTypeService;
 
+    @Autowired
+    private ErrorHandler errorHandler;
+
     @GetMapping("/all")
     public List<DevTypeOutput> getAllDevType() {
         return devTypeService.getAllDevType();
@@ -29,12 +39,30 @@ public class DevTypeController {
 
     @PostMapping("/add")
     public String addDevType(@RequestBody DevTypeInput devType){
-        return devTypeService.addDevType(devType);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<DevTypeInput>> errors = validator.validate(devType);
+            //Error Handling
+            if(errors.size() > 0){
+                return errorHandler.getErrors(errors);
+            } else{
+                return devTypeService.addDevType(devType);
+            }
     }
 
     @PutMapping("/edit/{id}")
     public String editDevTypeInfo(@PathVariable String id, @RequestBody DevTypeInput devType) {
-        return devTypeService.editDevTypeInfo(id, devType);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<DevTypeInput>> errors = validator.validate(devType);
+            //Error Handling
+            if(errors.size() > 0){
+                return errorHandler.getErrors(errors);
+            } else{
+                return devTypeService.editDevTypeInfo(id, devType);
+            }
     }
 
     @PutMapping("/delete/{id}")
