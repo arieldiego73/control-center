@@ -5,6 +5,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
   Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
   FormLabel,
   InputAdornment,
@@ -24,8 +28,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import { Link } from "react-router-dom";
-import AddRoleModal from "../AddRoleModal"; // Import your modal component
-
+import MembersTable from "../../project/MembersTable";
 
 
 //for breadcrumbs
@@ -49,11 +52,8 @@ export default function CreateUser() {
 
 
   //for popup (dialog)
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddRoleClick = () => {
-    setIsModalOpen(true);
-  };
+
 
   return (
     <body>
@@ -73,39 +73,39 @@ export default function CreateUser() {
         </div>
 
         <div className={CreateUserStyle.midContent}>
-         {/* for breadcrumbs */}
-         <div
-              style={{
-                // border: "1px solid red",
-                paddingBottom: "1%",
-                width: "80%",
-                height: "75%",
-               paddingLeft:'1%',
-               marginLeft:'1.5%',
-                position: "relative",
-                top: "3%",
-                alignSelf: "center",
-              }}
-              role="presentation" 
-              onClick={handleClick}
-            >
-              <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-                <Link
-                  to="/User"
-                  className={`${CreateUserStyle["custom-link"]}`}
-                  style={{ color: "inherit" }}
-                >
-                  User
-                </Link>
-                <Link
-                  to="/createUser"
-                  className={`${CreateUserStyle["custom-link"]}`}
-                  style={{ color: "inherit" }}
-                >
-                  Create User
-                </Link>
-              </Breadcrumbs>
-            </div>
+          {/* for breadcrumbs */}
+          <div
+            style={{
+              // border: "1px solid red",
+              paddingBottom: "1%",
+              width: "80%",
+              height: "75%",
+              paddingLeft: '1%',
+              marginLeft: '1.5%',
+              position: "relative",
+              top: "3%",
+              alignSelf: "center",
+            }}
+            role="presentation"
+            onClick={handleClick}
+          >
+            <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+              <Link
+                to="/User"
+                className={`${CreateUserStyle["custom-link"]}`}
+                style={{ color: "inherit" }}
+              >
+                User
+              </Link>
+              <Link
+                to="/createUser"
+                className={`${CreateUserStyle["custom-link"]}`}
+                style={{ color: "inherit" }}
+              >
+                Create User
+              </Link>
+            </Breadcrumbs>
+          </div>
         </div>
 
         <div className={CreateUserStyle.contentContainer}>
@@ -320,12 +320,10 @@ export default function CreateUser() {
                     textTransform: "none",
                     fontFamily: "Montserrat, sans-serif",
                   }}
-                  onClick={handleAddRoleClick}
-                >
+                  >
                   Add Role
                 </Button>
 
-                {isModalOpen && <AddRoleModal onClose={() => setIsModalOpen(false)} />}
               </div>
             </div>
             <div className={CreateUserStyle.formRow6}>
