@@ -96,7 +96,7 @@ export default function Userpage() {
   const breadcrumbItems = [{ label: "Users", href: "/user" }];
 
   return (
-    <>
+    <div className={UserStyle.body}>
       <div className={UserStyle.mainContainer}>
         <div style={{ width: "97%", paddingBottom:'1%' }}>
           <div className={UserStyle.pageTitle}>
@@ -117,7 +117,7 @@ export default function Userpage() {
              {/* for breadcrumbs */}
              <div
               style={{
-                border: "1px solid red",
+                // border: "1px solid red",
                 paddingBottom: "1%",
                 width: "80%",
                 height: "75%",
@@ -165,6 +165,8 @@ export default function Userpage() {
                 if (e.key.match("Enter")) performSearch();
               }}
               className={UserStyle.searchBarContainer}
+              autoComplete="off"
+              noValidate
             >
               <div className={UserStyle.searchBarCol}>
                 {/* Start of first search bar */}
@@ -192,6 +194,9 @@ export default function Userpage() {
                           value={searchQuery.name}
                           onChange={handleInputChange}
                           name="name"
+                          inputProps={{
+                            autoComplete: "chrome-off"
+                          }}
                         />
                       </Grid>
                     </Grid>
@@ -305,6 +310,6 @@ export default function Userpage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

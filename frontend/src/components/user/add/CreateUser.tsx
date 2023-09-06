@@ -73,39 +73,39 @@ export default function CreateUser() {
         </div>
 
         <div className={CreateUserStyle.midContent}>
-          {/* for breadcrumbs */}
-          <div
-            style={{
-              border: "1px solid red",
-              paddingBottom: "1%",
-              width: "80%",
-              height: "75%",
-              paddingLeft: '1%',
-              marginLeft: '1.5%',
-              position: "relative",
-              top: "3%",
-              alignSelf: "center",
-            }}
-            role="presentation"
-            onClick={handleClick}
-          >
-            <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-              <Link
-                to="/User"
-                className={`${CreateUserStyle["custom-link"]}`}
-                style={{ color: "inherit" }}
-              >
-                User
-              </Link>
-              <Link
-                to="/createUser"
-                className={`${CreateUserStyle["custom-link"]}`}
-                style={{ color: "inherit" }}
-              >
-                Create User
-              </Link>
-            </Breadcrumbs>
-          </div>
+         {/* for breadcrumbs */}
+         <div
+              style={{
+                // border: "1px solid red",
+                paddingBottom: "1%",
+                width: "80%",
+                height: "75%",
+               paddingLeft:'1%',
+               marginLeft:'1.5%',
+                position: "relative",
+                top: "3%",
+                alignSelf: "center",
+              }}
+              role="presentation" 
+              onClick={handleClick}
+            >
+              <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+                <Link
+                  to="/User"
+                  className={`${CreateUserStyle["custom-link"]}`}
+                  style={{ color: "inherit" }}
+                >
+                  User
+                </Link>
+                <Link
+                  to="/createUser"
+                  className={`${CreateUserStyle["custom-link"]}`}
+                  style={{ color: "inherit" }}
+                >
+                  Create User
+                </Link>
+              </Breadcrumbs>
+            </div>
         </div>
 
         <div className={CreateUserStyle.contentContainer}>

@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.DevPhaseInput;
 import com.controlcenter.controlcenter.model.DevPhaseOutput;
 import com.controlcenter.controlcenter.service.DevPhaseService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 
 @RestController
 @RequestMapping("/dev-phase")
-
 public class DevPhaseController {
 
     @Autowired
     public DevPhaseService devPhaseService;
+
+    @Autowired
+    private ErrorHandler errorHandler;
 
     @GetMapping("/all")
     public List<DevPhaseOutput> getAllDevPhase() {
@@ -31,12 +40,30 @@ public class DevPhaseController {
 
     @PostMapping("/add")
     public String addDevPhase(@RequestBody DevPhaseInput devPhase){
-        return devPhaseService.addDevPhase(devPhase);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return devPhaseService.addDevPhase(devPhase);
+            }
     }
 
     @PutMapping("/edit/{id}")
     public String editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
-        return devPhaseService.editDevPhaseInfo(id, devPhase);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return devPhaseService.editDevPhaseInfo(id, devPhase);
+            }
     }
 
     @PutMapping("/delete/{id}")

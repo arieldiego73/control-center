@@ -1,9 +1,10 @@
 import createSagaMiddleware from "redux-saga";
 import { configureStore } from "@reduxjs/toolkit";
+import rootSaga from "../saga/rootSaga";
 import userReducer from "../state/userState";
 import sessionReducer from "../state/sessionState";
 import roleReducer from "../state/roleState";
-import rootSaga from "../saga/rootSaga";
+import departmentReducer from "../state/departmentState";
 
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
 		userReducer: userReducer,
 		sessionReducer: sessionReducer,
 		roleReducer: roleReducer,
+		deptReducer: departmentReducer
 		// add more reducers here
 	},
 	middleware: [saga],

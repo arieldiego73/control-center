@@ -27,14 +27,14 @@ const dessertRows: Row[] = [
     createData('Cupcake', 305, 3.7, 67, 4.3),
     createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
-export default function AddMemberTable(){
+export default function AddProjManagerTable(){
     const [selected, setSelected] = useState<number[]>([]);
 
     const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
         event.stopPropagation(); // Prevent event propagation
         const selectedIndex = selected.indexOf(id);
         let newSelected: number[] = [];
-
+ 
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {

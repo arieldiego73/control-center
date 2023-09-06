@@ -52,15 +52,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 	const navigate = useNavigate();
 
 	const handleRowClick = (row: RowData) => {
-		navigate(`/editUser/${row.username}`, { state: row });
-	};
-
-	const [showData, setShowData] = React.useState(false);
-
-	const headerCellStyle = {
-		textAlign: "center",
-		fontWeight: "bolder",
-		display: showData ? "table-cell" : "none", // Control header visibility
+		navigate(`/editUser/${row.username}`, { state: row.emp_id });
 	};
 
 	return (
@@ -75,7 +67,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 		>
 			<Paper
 				sx={{
-					width: "98%",
+					width: "100%",
 					height: "90%",
 					backgroundColor: "transparent",
 				}}
@@ -86,9 +78,6 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 							sx={{ backgroundColor: "transparent", zIndex: "1" }}
 						>
 							<TableRow>
-								<TableCell align="center" sx={headerCellStyle}>
-									Employee ID
-								</TableCell>
 								<TableCell
 									align="center"
 									style={{
@@ -282,11 +271,6 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 											hour12: true,
 										}).format(new Date(row.reg_date))}
 									</TableCell>
-									{showData ? (
-										<TableCell align="center">
-											{row.emp_id}
-										</TableCell>
-									) : null}
 								</TableRow>
 							))}
 						</TableBody>
