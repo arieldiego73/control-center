@@ -36,8 +36,8 @@ export interface RowData {
 }
 
 const rows: RowData[] = [
-  { id: 1, projectName: 'firstProjjjjjjjjjjjjjjjjjjjjjjj', projectManager: 'Johnnnnnnnnnnnnnnnnnnnnn Doe', client: 'McDoooooooooooooooooooo', duration: '07/01/23 - 10/30/23', developmentType: 'Waterfall', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
-  { id: 2, projectName: 'firstPrrrrrrrrrrrrrrrrrrrrroj asdf asdf asdfwer', projectManager: 'John Doeeeeeeeeeeeee', client: 'Jooooooooooooollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  { id: 1, projectName: 'firstProj', projectManager: 'John Doe', client: 'McDo', duration: '07/01/23 - 10/30/23', developmentType: 'Waterfall', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
+  { id: 2, projectName: 'firstProj', projectManager: 'John Doe', client: 'Jollibee', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
   { id: 3, projectName: 'firstProj', projectManager: 'John Doe', client: 'Mang Inasal', duration: '07/01/23 - 10/30/23', developmentType: 'Scrum', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
   { id: 4, projectName: 'firstProj', projectManager: 'John Doe', client: 'Chowking', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },
   { id: 5, projectName: 'firstProj', projectManager: 'John Doe', client: 'KFC', duration: '07/01/23 - 10/30/23', developmentType: 'Agile', developmentPhase: 'Design Phase', technoloies: 'Java, React, MySQL', members: 6, status: 'in progress' },

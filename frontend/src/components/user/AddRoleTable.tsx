@@ -22,13 +22,13 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
 interface Data {
-  name: string;
+  role: string;
   shortname: string;
 }
 
-function createData(name: string, shortname: string): Data {
+function createData(role: string, shortname: string): Data {
   return {
-    name,
+    role,
     shortname,
   };
 }
@@ -101,10 +101,10 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: "name",
+    id: "role",
     numeric: false,
     disablePadding: true,
-    label: "Technology",
+    label: "Role",
   },
   {
     id: "shortname",
@@ -200,39 +200,39 @@ interface EnhancedTableToolbarProps {
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
 
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : null}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : null}
-    </Toolbar>
-  );
+  // return (
+  //   <Toolbar
+  //     sx={{
+  //       pl: { sm: 2 },
+  //       pr: { xs: 1, sm: 1 },
+  //       ...(numSelected > 0 && {
+  //         bgcolor: (theme) =>
+  //           alpha(
+  //             theme.palette.primary.main,
+  //             theme.palette.action.activatedOpacity
+  //           ),
+  //       }),
+  //     }}
+  //   >
+  //     {numSelected > 0 ? (
+  //       <Typography
+  //         sx={{ flex: "1 1 100%" }}
+  //         color="inherit"
+  //         variant="subtitle1"
+  //         component="div"
+  //       >
+  //         {numSelected} selected
+  //       </Typography>
+  //     ) : null}
+  //     {numSelected > 0 ? (
+  //       <Tooltip title="Delete">
+  //         <IconButton>
+  //           <DeleteIcon />
+  //         </IconButton>
+  //       </Tooltip>
+  //     ) : null}
+  //   </Toolbar>
+  // );
 }
 
 export default function AddRoleTable() {
@@ -254,19 +254,19 @@ export default function AddRoleTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = rows.map((n) => n.role);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event: React.MouseEvent<unknown>, role: string) => {
+    const selectedIndex = selected.indexOf(role);
     let newSelected: readonly string[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, role);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -292,7 +292,7 @@ export default function AddRoleTable() {
     setPage(0);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (role: string) => selected.indexOf(role) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -310,7 +310,7 @@ export default function AddRoleTable() {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -327,17 +327,17 @@ export default function AddRoleTable() {
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.name);
+                const isItemSelected = isSelected(row.role);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.name)}
+                    onClick={(event) => handleClick(event, row.role)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
+                    key={row.role}
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
@@ -362,7 +362,7 @@ export default function AddRoleTable() {
                       align="center"
                       sx={{ padding: "2vh 2vw" }}
                     >
-                      {row.name}
+                      {row.role}
                     </TableCell>
                     <TableCell align="center" sx={{ padding: "2vh 2vw" }}>
                       {row.shortname}
