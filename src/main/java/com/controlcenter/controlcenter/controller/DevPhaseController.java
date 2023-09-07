@@ -9,12 +9,14 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.DevPhaseInput;
@@ -34,40 +36,27 @@ public class DevPhaseController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public List<DevPhaseOutput> getAllDevPhase() {
+    public ResponseEntity<List<DevPhaseOutput>> getAllDevPhase() {
         return devPhaseService.getAllDevPhase();
     }
 
     @PostMapping("/add")
-    public String addDevPhase(@RequestBody DevPhaseInput devPhase){
-        //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
-            //Error Handling
-            if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
-            }else{
-                return devPhaseService.addDevPhase(devPhase);
-            }
+    public ResponseEntity<List<DevPhaseOutput>> addDevPhase(@RequestBody DevPhaseInput devPhase){
+        return devPhaseService.addDevPhase(devPhase);
     }
 
     @PutMapping("/edit/{id}")
-    public String editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
-        //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
-            //Error Handling
-            if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
-            }else{
-                return devPhaseService.editDevPhaseInfo(id, devPhase);
-            }
+    public ResponseEntity<List<DevPhaseOutput>> editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
+        return devPhaseService.editDevPhaseInfo(id, devPhase);
+    }
+
+    @PutMapping("/delete-multiple")
+    public ResponseEntity<List<DevPhaseOutput>> deleteMultipleDevPhase(@RequestParam List<Long> ids) {
+        return devPhaseService.deleteMultipleDevPhase(ids);
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteDevPhase(@PathVariable String id) {
+    public ResponseEntity<List<DevPhaseOutput>> logicalDeleteDevPhase(@PathVariable String id) {
         return devPhaseService.logicalDeleteDevPhase(id);
     }
 

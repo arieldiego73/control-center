@@ -11,7 +11,6 @@ import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 
 // import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,21 +55,21 @@ public class UserServiceImpl implements UserService{
     }
   }
 
-  @Override
-  public String insertUser(UserInput user) {
-    UserInput userHashed = user;
-    userHashed.setPassword(passEnc.encode(user.getPassword()));
+  // @Override
+  // public String insertUser(UserInput user) {
+  //   UserInput userHashed = user;
+  //   userHashed.setPassword(passEnc.encode(user.getPassword()));
 
-    try {
-      userDao.insertUser(userHashed);
-      return "User created successfully";
-    } catch (Exception e) {
-      return e.getMessage();
-    }
-  }
+  //   try {
+  //     userDao.insertUser(userHashed);
+  //     return "User created successfully";
+  //   } catch (Exception e) {
+  //     return e.getMessage();
+  //   }
+  // }
 
   @Override
-  public String addAccount(Account account) {
+  public ResponseEntity<Account> addAccount(Account account) {
     UserInput user = new UserInput();
     PersonalInfoInput personalInfo = new PersonalInfoInput();
 
@@ -97,9 +96,9 @@ public class UserServiceImpl implements UserService{
     try {
       userDao.insertUser(user);
       personalInfoDao.addPersonalInfo(personalInfo);
-      return "Account Created Successfully.";
+      return ResponseEntity.ok(account);
     } catch (Exception e) {
-      return e.getMessage();
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
   }
 
@@ -113,14 +112,19 @@ public class UserServiceImpl implements UserService{
   //     }
   //   }
 
-  @Override
-  public UserOutput getUserByUsername(UserOutput username) {
-    return userDao.getUserByUsername(username);
-  }
+  // @Override
+  // public UserOutput getUserByUsername(UserOutput username) {
+  //   return userDao.getUserByUsername(username);
+  // }
 
   @Override
-  public UserOutput getUsername(String username) {
-    return userDao.getUsername(username);
+  public ResponseEntity<UserOutput> getUsername(String username) {
+    try {
+      UserOutput user = userDao.getUsername(username);
+      return ResponseEntity.ok(user);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
   }
 
   // @Override
@@ -138,9 +142,7 @@ public class UserServiceImpl implements UserService{
   // }
 
   @Override
-  public HashMap<String, Object> getLoggedInUser(UserOutput user) {
-
-    HashMap<String, Object> result = new HashMap<>();
+  public ResponseEntity<UserOutput> getLoggedInUser(UserOutput user) {
 
     UserOutput users = userDao.getUserByUsername(user);
 
@@ -162,19 +164,12 @@ public class UserServiceImpl implements UserService{
         users.setRole_id(users.getRole_id());
         users.setImg_src(users.getImg_src());
 
-        
-        result.put("message: ", 200);
-        result.put("data: " , users);
-        return result;
+        return ResponseEntity.ok(users);
       } else {
-        result.put("message: ", "Incorrect Password");
-        result.put("data: ", user.getPassword());
-        return result;
+        return ResponseEntity.badRequest().body(users);
       }
     } else {
-      result.put("message: ", 404);
-      result.put("data: ", "Username '" +user.getUsername() + "' not found.");
-      return (result);
+      return ResponseEntity.badRequest().body(users);
     }
     
   }

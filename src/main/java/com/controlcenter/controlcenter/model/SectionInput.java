@@ -1,5 +1,7 @@
 package com.controlcenter.controlcenter.model;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -10,11 +12,11 @@ import lombok.Setter;
 @Setter
 public class SectionInput {
 
-    @NotNull
-    @Size(max = 150)
+    @NotBlank(message = "Status code should not be empty.")
+    @Size(max = 150, message = "Section name is not meeting the required length.")
     private String section_name;
 
-    @NotNull
-    @Size(max = 9)
-    private int dept_id;
+    @NotNull(message = "Department ID should not be empty")
+    @Digits(integer = 9, fraction = 0, message = "The Department ID is not meeting the required length.")
+    private Integer dept_id;
 }

@@ -53,7 +53,9 @@ import {
 	useMediaQuery,
 	useTheme,
 } from "@mui/material";
-import DevStyle from "./DevelopmentPhase.module.css";
+import DevelopmentPhaseModuleStyle from "./DevelopmentPhase.module.css";
+import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
+import { addDevPhase, deleteDevPhase, deleteDevPhaseBatch, updateDevPhase } from "../../redux/saga/devPhaseSaga";
 
 export interface SnackbarMessage {
 	message: string;
@@ -76,13 +78,15 @@ interface EditToolbarProps {
 export default function DevelopmentPhaseTable() {
 	const dispatch = useDispatch();
 
-	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
+	// GET ALL THE DEV PHASE AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
-		dispatch(getRolesFetch());
+		dispatch(getDevPhaseFetch());
 	}, [dispatch]);
 
-	// STORE THE ROLES TO 'data'
-	const data = useSelector((state: RootState) => state.roleReducer.roles);
+	// STORE THE DEV PHASE TO 'data'
+	const data = useSelector(
+		(state: RootState) => state.devPhaseReducer.devPhase
+	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -104,11 +108,11 @@ export default function DevelopmentPhaseTable() {
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]
 	>([]);
+	const [severity, setSeverity] = React.useState<AlertColor>("error");
 	const [open, setOpen] = React.useState(false);
 	const [messageInfo, setMessageInfo] = React.useState<
 		SnackbarMessage | undefined
 	>(undefined);
-	const [severity, setSeverity] = React.useState<AlertColor>("error");
 
 	const dataGridSlots = {
 		toolbar: EditToolbar,
@@ -122,30 +126,6 @@ export default function DevelopmentPhaseTable() {
 	// FOR CONFIRM DIALOG
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-	const proceedWithDelete = () => {
-		dispatch(deleteRoles({ role_id: deleteId }));
-		setRows(data);
-		setAsk(false);
-		const success = handleClickSnackpack(
-			"A role is deleted successfully!",
-			"success"
-		);
-		success();
-	};
-
-	const proceedWithDeleteBatch = async () => {
-		dispatch(deleteRolesBatch({ batchId: selectedId }));
-		setRows(data); // update rows
-		setRowSelectionModel([]); // clear selected rows
-		setSelectedId(new Set()); // clear selected IDs
-		setAsk(false); // close dialog
-		const success = handleClickSnackpack(
-			`Deleted ${selectedId.size} role/s successfully!`,
-			"success"
-		);
-		success();
-	};
 
 	// FOR SNACKPACK
 	React.useEffect(() => {
@@ -182,10 +162,10 @@ export default function DevelopmentPhaseTable() {
 		setRows(data);
 	}, [data]);
 
-	const [roleTitle, setRoleTitle] = React.useState("");
+	const [devPhaseName, setDevPhaseName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
-	const [userLevel, setUserLevel] = React.useState("");
-	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
+	// const [userLevel, setUserLevel] = React.useState("");
+	const devPhaseNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	function EditToolbar(props: EditToolbarProps) {
 		const handleDeleteBatch = () => {
@@ -197,7 +177,7 @@ export default function DevelopmentPhaseTable() {
 			setDialogTitle(
 				`Delete ${
 					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
-				} role${selectedId.size > 1 ? "s" : ""}?`
+				} development phase${selectedId.size > 1 ? "s" : ""}?`
 			);
 		};
 
@@ -231,6 +211,30 @@ export default function DevelopmentPhaseTable() {
 			</GridToolbarContainer>
 		);
 	}
+
+	const proceedWithDelete = () => {
+		dispatch(deleteDevPhase({ dev_phase_id: deleteId }));
+		setRows(data);
+		setAsk(false);
+		const success = handleClickSnackpack(
+			"A development phase is deleted successfully!",
+			"success"
+		);
+		success();
+	};
+
+	const proceedWithDeleteBatch = () => {
+		dispatch(deleteDevPhaseBatch({ batchId: selectedId }));
+		setRows(data); // update rows
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
+		const success = handleClickSnackpack(
+			`Deleted ${selectedId.size} development phase/s successfully!`,
+			"success"
+		);
+		success();
+	};
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
@@ -273,36 +277,34 @@ export default function DevelopmentPhaseTable() {
 		setRows(data);
 	};
 
-	const processUpdateRow = (roleInfo: GridRowModel) => {
-		dispatch(updateRoles({ roleInfo }));
+	const processUpdateRow = (devPhaseData: GridRowModel) => {
+		dispatch(updateDevPhase({ devPhaseData }));
 		const success = handleClickSnackpack(
-			"Role is updated successfully",
+			"Development Phase is updated successfully",
 			"success"
 		);
 		success();
 	};
 
-	const processAddRow = (roleInfo: GridRowModel) => {
-		dispatch(addRoles({ roleInfo }));
+	const processAddRow = (devPhaseData: GridRowModel) => {
+		dispatch(addDevPhase({ devPhaseData }));
 		const success = handleClickSnackpack(
-			"Role is added successfully",
+			"Development phase is added successfully",
 			"success"
 		);
 		success();
 	};
 
 	const handleAdd = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
+		if (devPhaseName && shortName) {
+			const devPhaseData: GridValidRowModel = {
+				dev_phase_name: devPhaseName,
+				dev_phase_sh_name: shortName,
 			};
-			processAddRow(roleInfo);
+			processAddRow(devPhaseData);
 			setIsHidden(false);
-			setRoleTitle("");
+			setDevPhaseName("");
 			setShortName("");
-			setUserLevel("");
 		} else {
 			const error = handleClickSnackpack(
 				"All fields are required! Please, try again.",
@@ -313,17 +315,15 @@ export default function DevelopmentPhaseTable() {
 	};
 
 	const handleAddContinue = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
+		if (devPhaseName && shortName) {
+			const devPhaseData: GridValidRowModel = {
+				dev_phase_name: devPhaseName,
+				dev_phase_sh_name: shortName,
 			};
-			processAddRow(roleInfo);
-			setRoleTitle("");
+			processAddRow(devPhaseData);
+			setDevPhaseName("");
 			setShortName("");
-			setUserLevel("");
-			roleTitleRef.current?.focus();
+			devPhaseNameRef.current?.focus();
 		} else {
 			const error = handleClickSnackpack(
 				"All fields are required! Please, try again.",
@@ -334,13 +334,8 @@ export default function DevelopmentPhaseTable() {
 	};
 
 	const handleUpdateAndAdd = (newRow: GridRowModel) => {
-		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
-			// determines whether it is update or add new
-			if (data.length === rows.length) {
-				processUpdateRow(newRow);
-			} else {
-				processAddRow(newRow);
-			}
+		if (newRow.dev_phase_name && newRow.dev_phase_sh_name) {
+			processUpdateRow(newRow);
 			setRows(data); // update the rows in the table
 		} else {
 			const cancel = handleCancelClick(newRow.role_id);
@@ -360,8 +355,8 @@ export default function DevelopmentPhaseTable() {
 
 	const columns: GridColDef[] = [
 		{
-			field: "title",
-			headerName: "Role",
+			field: "dev_phase_name",
+			headerName: "Development Phase",
 			width: 300,
 			editable: true,
 			flex: 12,
@@ -369,23 +364,13 @@ export default function DevelopmentPhaseTable() {
 			align: "center",
 		},
 		{
-			field: "role_sh_name",
+			field: "dev_phase_sh_name",
 			headerName: "Short Name",
 			width: 300,
 			editable: true,
 			flex: 12,
 			headerAlign: "center",
 			align: "center",
-		},
-		{
-			field: "role_user_level",
-			headerName: "User Level",
-			type: "number",
-			width: 200,
-			editable: true,
-			headerAlign: "center",
-			align: "center",
-			flex: 12,
 		},
 		{
 			field: "actions",
@@ -476,6 +461,9 @@ export default function DevelopmentPhaseTable() {
 				".MuiDataGrid-sortIcon": {
 					opacity: "inherit !important",
 				},
+				".MuiDataGrid-cellContent": {
+					fontWeight: "500",
+				},
 			}}
 		>
 			<Box
@@ -501,7 +489,7 @@ export default function DevelopmentPhaseTable() {
 						Add Role
 					</Button>
 				) : (
-					<div className={DevStyle.hideButton}>
+					<div className={DevelopmentPhaseModuleStyle.hideButton}>
 						<div
 							style={{
 								flexDirection: "row",
@@ -522,19 +510,24 @@ export default function DevelopmentPhaseTable() {
 								}}
 							>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
-										Role
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+											fontFamily: "Montserrat, san-serif",
+										}}
+									>
+										Development Phase
 									</FormLabel>
 									<TextField
 										style={{ width: "100%" }}
 										size="small"
 										placeholder="ex: Software Developer"
 										onChange={(e) =>
-											setRoleTitle(e.target.value)
+											setDevPhaseName(e.target.value)
 										}
-										value={roleTitle}
+										value={devPhaseName}
 										autoFocus
-										inputRef={roleTitleRef}
+										inputRef={devPhaseNameRef}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -545,7 +538,12 @@ export default function DevelopmentPhaseTable() {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+											fontFamily: "Montserrat, san-serif",
+										}}
+									>
 										Short Name
 									</FormLabel>
 									<TextField
@@ -557,7 +555,9 @@ export default function DevelopmentPhaseTable() {
 											setShortName(e.target.value)
 										}
 										value={shortName}
-										className={DevStyle.textField}
+										className={
+											DevelopmentPhaseModuleStyle.textField
+										}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -567,7 +567,7 @@ export default function DevelopmentPhaseTable() {
 										}}
 									/>
 								</FormControl>
-								<FormControl>
+								{/* <FormControl>
 									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
 										User Level
 									</FormLabel>
@@ -581,7 +581,7 @@ export default function DevelopmentPhaseTable() {
 											setUserLevel(e.target.value)
 										}
 										value={userLevel}
-										className={DevStyle.textField}
+										className={DevelopmentPhaseModuleStyle.textField}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -590,7 +590,7 @@ export default function DevelopmentPhaseTable() {
 											),
 										}}
 									/>
-								</FormControl>
+								</FormControl> */}
 							</div>
 
 							<div
@@ -609,7 +609,7 @@ export default function DevelopmentPhaseTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
+										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAddContinue}
 								>
@@ -622,19 +622,21 @@ export default function DevelopmentPhaseTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
+										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAdd}
 								>
 									Save
 								</Button>
 								<Button
-									style={{ height: "50%", fontFamily: "Montserrat, san-serif" }}
+									style={{
+										height: "50%",
+										fontFamily: "Montserrat, san-serif",
+									}}
 									onClick={() => {
 										setIsHidden(false);
-										setRoleTitle("");
+										setDevPhaseName("");
 										setShortName("");
-										setUserLevel("");
 									}}
 								>
 									Close
@@ -646,11 +648,11 @@ export default function DevelopmentPhaseTable() {
 			</Box>
 
 			<DataGrid
-				sx={{ height: 600, border: "none" }}
+				sx={{ height: 650, border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"
-				getRowId={(row) => row.role_id}
+				getRowId={(row) => row.dev_phase_id}
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
@@ -705,7 +707,7 @@ export default function DevelopmentPhaseTable() {
 					<Typography
 						fontFamily={"Montserrat, san-serif"}
 						fontWeight={700}
-						fontSize={24}
+						fontSize={20}
 						display={"flex"}
 						alignItems={"center"}
 						gap={1}

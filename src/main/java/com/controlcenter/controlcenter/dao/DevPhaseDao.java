@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.controlcenter.controlcenter.model.DevPhaseInput;
 import com.controlcenter.controlcenter.model.DevPhaseOutput;
@@ -15,6 +16,6 @@ public interface DevPhaseDao {
     void editDevPhaseInfo(Map<String, Object> paramMap);
     void logicalDeleteDevPhase(String id);
     void restoreDevPhase(String id);
-
+    void deleteMultipleDevPhase(@Param("ids") List<Long> ids);
     
 }

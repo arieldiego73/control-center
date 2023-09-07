@@ -1,12 +1,12 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -15,6 +15,7 @@ import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.DepartmentInput;
 import com.controlcenter.controlcenter.model.DepartmentOutput;
 import com.controlcenter.controlcenter.service.DepartmentService;
+import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService{
@@ -22,12 +23,20 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Autowired
     public DepartmentDao departmentDao;
 
+    @Autowired 
+    public TimeFormatter timeFormatter;
+
     @Autowired
     public ActivityLogDao activityLogDao;
 
     @Override
-    public List<DepartmentOutput> getAllDepartment() {
-        return departmentDao.getAllDepartment();
+    public ResponseEntity<List<DepartmentOutput>> getAllDepartment() {
+        try {
+            List<DepartmentOutput> departments = departmentDao.getAllDepartment();
+            return ResponseEntity.ok(departments);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @Override 
@@ -41,12 +50,9 @@ public class DepartmentServiceImpl implements DepartmentService{
             activityLogInput.setEmp_id("101"); //current logged user dapat
             activityLogInput.setLog_desc("Added a department.");
 
-            long currentTimeMillis = System.currentTimeMillis();
-            // Convert milliseconds to a human-readable date and time format
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String formattedDate = sdf.format(new Date(currentTimeMillis));
-            activityLogInput.setLog_date(formattedDate);
+            Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
             
             return "Department Added Successfully.";
@@ -60,23 +66,14 @@ public class DepartmentServiceImpl implements DepartmentService{
     public String editDepartmentInfo(String id, DepartmentInput department) {
         
         try {
-            if(department.getDept_name() != null) {
-                if(department.getDept_name().length() > 150 || department.getDept_name().length() < 1) {
-                    return "The length of the data entered does not reach the specified length.";
-                } else {
-                    Map<String, Object> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
 
-                    paramMap.put("id", id);
-                    paramMap.put("department", department);
+            paramMap.put("id", id);
+            paramMap.put("department", department);
 
-                    departmentDao.editDepartmentInfo(paramMap);
+            departmentDao.editDepartmentInfo(paramMap);
 
-                    return "Department Edited Successfully.";
-                }
-            } else {
-                return "The Department Name is empty.";
-            }
-            
+            return "Department Edited Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

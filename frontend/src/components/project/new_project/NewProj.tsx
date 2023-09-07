@@ -64,25 +64,25 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 //for breadcrumbs
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    event.preventDefault();
-    console.info("You clicked a breadcrumb.");
-  }
+  event.preventDefault();
+  console.info("You clicked a breadcrumb.");
+}
 
-const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-  "& .MuiToggleButtonGroup-grouped": {
-    margin: theme.spacing(0.5),
-    border: 0,
-    "&.Mui-disabled": {
-      border: 0,
-    },
-    "&:not(:first-of-type)": {
-      borderRadius: theme.shape.borderRadius,
-    },
-    "&:first-of-type": {
-      borderRadius: theme.shape.borderRadius,
-    },
-  },
-}));
+// const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+//   "& .MuiToggleButtonGroup-grouped": {
+//     margin: theme.spacing(0.5),
+//     border: 0,
+//     "&.Mui-disabled": {
+//       border: 0,
+//     },
+//     "&:not(:first-of-type)": {
+//       borderRadius: theme.shape.borderRadius,
+//     },
+//     "&:first-of-type": {
+//       borderRadius: theme.shape.borderRadius,
+//     },
+//   },
+// }));
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -158,16 +158,16 @@ export default function NewProj() {
   ];
 
   const [open, setOpen] = React.useState(false);
-  const [openProjManager, setOpenProjManager] = React.useState(false); 
-  const [openTechnology, setOpenTechnology] = React.useState(false); 
+  const [openProjManager, setOpenProjManager] = React.useState(false);
+  const [openTechnology, setOpenTechnology] = React.useState(false);
 
-  const handleClickOpenTechnology= () => {
+  const handleClickOpenTechnology = () => {
     setOpenTechnology(true);
   };
 
   const handleCloseTechnology = () => {
     setOpenTechnology(false);
-  }; 
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -175,7 +175,7 @@ export default function NewProj() {
 
   const handleClose = () => {
     setOpen(false);
-  }; 
+  };
 
   const handleClickOpenProjManager = () => {
     setOpenProjManager(true);
@@ -183,12 +183,12 @@ export default function NewProj() {
 
   const handleCloseProjManager = () => {
     setOpenProjManager(false);
-  }; 
+  };
 
   return (
     <body>
       <div className={StyleNewProject.mainContainer}>
-        <div style={{ width: "97%", paddingBottom:'1%' }}>
+        <div style={{ width: "97%", paddingBottom: '1%' }}>
           <div className={StyleNewProject.pageTitle}>
             <span>
               <AccountTreeOutlinedIcon fontSize="large" />
@@ -203,39 +203,39 @@ export default function NewProj() {
         </div>
 
         <div className={StyleNewProject.midContent}>
-         {/* for breadcrumbs */}
-         <div
-              style={{
-                // border: "1px solid red",
-                paddingBottom: "1%",
-                width: "80%",
-                height: "75%",
-               paddingLeft:'1%',
-               marginLeft:'1.5%',
-                position: "relative",
-                top: "3%",
-                alignSelf: "center",
-              }}
-              role="presentation" 
-              onClick={handleClick}
-            >
-              <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-                <Link
-                  to="/Project"
-                  className={`${StyleNewProject["custom-link"]}`}
-                  style={{ color: "inherit" }}
-                >
-                  Project
-                </Link>
-                <Link
-                  to="/NewProj"
-                  className={`${StyleNewProject["custom-link"]}`}
-                  style={{ color: "inherit" }}
-                >
-                  Create New Project
-                </Link>
-              </Breadcrumbs>
-            </div>
+          {/* for breadcrumbs */}
+          <div
+            style={{
+              // border: "1px solid red",
+              paddingBottom: "1%",
+              width: "80%",
+              height: "75%",
+              paddingLeft: '1%',
+              marginLeft: '1.5%',
+              position: "relative",
+              top: "3%",
+              alignSelf: "center",
+            }}
+            role="presentation"
+            onClick={handleClick}
+          >
+            <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+              <Link
+                to="/Project"
+                className={`${StyleNewProject["custom-link"]}`}
+                style={{ color: "inherit" }}
+              >
+                Project
+              </Link>
+              <Link
+                to="/NewProj"
+                className={`${StyleNewProject["custom-link"]}`}
+                style={{ color: "inherit" }}
+              >
+                Create New Project
+              </Link>
+            </Breadcrumbs>
+          </div>
         </div>
 
         <div className={StyleNewProject.contentContainer}>
@@ -280,51 +280,51 @@ export default function NewProj() {
                     </FormControl>
                   </div>
                   <div className={StyleNewProject.formRow5}>
-                <FormControl className={StyleNewProject.email}>
-                  <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Project Manager</FormLabel>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    placeholder="Project Manager"
-                    className={StyleNewProject.textField}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <PermIdentityOutlinedIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </FormControl>
-                <Button
-                 onClick={handleClickOpenProjManager}
-                 variant="contained"
-                 color="primary"
-                 startIcon={<Add />}
-                 style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
-                >
-                  Add Project Manager
-                </Button>
-              </div>
+                    <FormControl className={StyleNewProject.email}>
+                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Project Manager</FormLabel>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        placeholder="Project Manager"
+                        className={StyleNewProject.textField}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PermIdentityOutlinedIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </FormControl>
+                    <Button
+                      onClick={handleClickOpenProjManager}
+                      variant="contained"
+                      color="primary"
+                      startIcon={<Add />}
+                      style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
+                    >
+                      Add Project Manager
+                    </Button>
+                  </div>
 
-              <div className={StyleNewProject.formRow6}>
-                <FormControl className={StyleNewProject.email}>
-                  <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Client Name</FormLabel>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    placeholder="Client Name"
-                    className={StyleNewProject.textField}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <GroupsOutlinedIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </FormControl>
-              </div>
+                  <div className={StyleNewProject.formRow6}>
+                    <FormControl className={StyleNewProject.email}>
+                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Client Name</FormLabel>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        placeholder="Client Name"
+                        className={StyleNewProject.textField}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <GroupsOutlinedIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </FormControl>
+                  </div>
                 </div>
                 <div className={StyleNewProject.col2}>
                   <div className={StyleNewProject.gridContainer}>
@@ -335,40 +335,10 @@ export default function NewProj() {
                         display: "flex",
                         border: (theme) => `1px solid ${theme.palette.divider}`,
                         flexWrap: "wrap",
-                        width: "500px"
+                        
                       }}
                     >
-                      <StyledToggleButtonGroup
-                        size="small"
-                        value={alignment}
-                        exclusive
-                        onChange={handleAlignment}
-                        aria-label="text alignment"
-                      >
-                        <ToggleButton value="left" aria-label="left aligned">
-                          <FormatAlignLeftIcon />
-                        </ToggleButton>
-                        <ToggleButton value="center" aria-label="centered">
-                          <FormatAlignCenterIcon />
-                        </ToggleButton>
-                        <ToggleButton value="right" aria-label="right aligned">
-                          <FormatAlignRightIcon />
-                        </ToggleButton>
-                        <ToggleButton
-                          value="justify"
-                          aria-label="justified"
-                          disabled
-                        >
-                          <FormatAlignJustifyIcon />
-                        </ToggleButton>
-                      </StyledToggleButtonGroup>
-                      <Divider
-                        flexItem
-                        orientation="vertical"
-                        sx={{ mx: 0.5, my: 1 }}
-                      />
-                      <StyledToggleButtonGroup
-                        size="small"
+                      <ToggleButtonGroup
                         value={formats}
                         onChange={handleFormat}
                         aria-label="text formatting"
@@ -382,11 +352,7 @@ export default function NewProj() {
                         <ToggleButton value="underlined" aria-label="underlined">
                           <FormatUnderlinedIcon />
                         </ToggleButton>
-                        <ToggleButton value="color" aria-label="color" disabled>
-                          <FormatColorFillIcon />
-                          <ArrowDropDownIcon />
-                        </ToggleButton>
-                      </StyledToggleButtonGroup>
+                      </ToggleButtonGroup>
                     </Paper>
                     <FormControl className={StyleNewProject.assocId}>
                       <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Description</FormLabel>
@@ -394,7 +360,7 @@ export default function NewProj() {
                         id="outlined-multiline-flexible"
                         multiline
                         maxRows={8}
-                        sx={{width:"500px"}}
+                        sx={{ width: "500px" }}
                       />
                     </FormControl>
                   </div>
@@ -440,11 +406,11 @@ export default function NewProj() {
                   />
                 </FormControl>
                 <Button
-                     onClick={handleClickOpenTechnology}
-                     variant="contained"
-                     color="primary"
-                     startIcon={<Add />}
-                     style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
+                  onClick={handleClickOpenTechnology}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Add />}
+                  style={{ textTransform: "none", fontFamily: 'Montserrat, sans-serif' }}
                 >
                   Add Technology
                 </Button>

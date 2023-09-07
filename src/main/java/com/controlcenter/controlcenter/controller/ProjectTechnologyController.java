@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.ProjectTechnologyInput;
 import com.controlcenter.controlcenter.model.ProjectTechnologyOutput;
 import com.controlcenter.controlcenter.service.ProjectTechnologyService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 @RestController
 @RequestMapping("/project-technology")
 public class ProjectTechnologyController {
+
     @Autowired
     public ProjectTechnologyService projectTechnologyService;
+
+    @Autowired
+    private ErrorHandler errorHandler;
 
     @GetMapping("/all")
     public List<ProjectTechnologyOutput> getProjectTechnology(){
@@ -28,12 +39,30 @@ public class ProjectTechnologyController {
 
     @PostMapping("/add")
     public String addProjectTechnology(@RequestBody ProjectTechnologyInput projectTechnology){
-        return projectTechnologyService.addProjectTechnology(projectTechnology);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<ProjectTechnologyInput>> errors = validator.validate(projectTechnology);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return projectTechnologyService.addProjectTechnology(projectTechnology);
+            }
     }
 
     @PutMapping("/edit/{id}")
     public String editProjectTechnology(@PathVariable String id, @RequestBody ProjectTechnologyInput projectTechnology){
-        return projectTechnologyService.editProjectTechnology(id, projectTechnology);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<ProjectTechnologyInput>> errors = validator.validate(projectTechnology);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return projectTechnologyService.addProjectTechnology(projectTechnology);
+            }
     }
 
     @PutMapping("/delete/{id}")

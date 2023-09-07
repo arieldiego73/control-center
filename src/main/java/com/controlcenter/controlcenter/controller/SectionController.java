@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.SectionInput;
 import com.controlcenter.controlcenter.model.SectionOutput;
 import com.controlcenter.controlcenter.service.SectionService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 @RestController
 @RequestMapping("/section")
@@ -23,6 +30,9 @@ public class SectionController {
     @Autowired
     public SectionService sectionService;
 
+    @Autowired
+    private ErrorHandler errorHandler;
+
     @GetMapping("/all")
     public List<SectionOutput> getAllSection() {
         return sectionService.getAllSection();
@@ -30,12 +40,30 @@ public class SectionController {
 
     @PostMapping("/add")
     public String addSection(@RequestBody SectionInput section){
-        return sectionService.addSection(section);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<SectionInput>> errors = validator.validate(section);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return sectionService.addSection(section);
+            }
     }
 
     @PutMapping("/edit/{id}")
     public String editSectionInfo(@PathVariable String id, @RequestBody SectionInput section) {
-        return sectionService.editSectionInfo(id, section);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<SectionInput>> errors = validator.validate(section);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return sectionService.addSection(section);
+            }
     }
 
     @PutMapping("/delete/{id}")

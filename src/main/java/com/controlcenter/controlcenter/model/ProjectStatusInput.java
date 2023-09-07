@@ -1,6 +1,6 @@
 package com.controlcenter.controlcenter.model;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import lombok.Getter;
@@ -10,14 +10,10 @@ import lombok.Setter;
 @Setter
 public class ProjectStatusInput {
 
-    @NotNull
-    @Size(max = 9)
-    private Long proj_status_id;
-
-    @NotNull
-    @Size(max = 150)
+    @NotBlank(message = "Project Status name should not be empty.")
+    @Size(max = 150, message = "Project Status name is not meeting the required length.")
     private String proj_status_name;
 
-    @NotNull
+    @NotBlank(message = "prject status description should not be empty.")
     private String proj_status_description;
 }
