@@ -2,12 +2,10 @@ package com.controlcenter.controlcenter.controller;
 
 import com.controlcenter.controlcenter.model.Account;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
-import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +24,6 @@ public class UserController {
 
   @Autowired
   private UserService userService;
-
-  @Autowired
-  private PasswordEncoder passEnc;
 
   @GetMapping("/all")
   public ResponseEntity<List<UserTable>> getAllUsers() {
