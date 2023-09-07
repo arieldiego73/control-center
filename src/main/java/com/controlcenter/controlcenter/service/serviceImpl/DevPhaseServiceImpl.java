@@ -32,40 +32,23 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     
     @Override
     public String addDevPhase(DevPhaseInput devPhase) {
-        String devPhaseName = devPhase.getDev_phase_name();
-        String devPhaseShortName = devPhase.getDev_phase_sh_name();
-
         try {
-            if(devPhaseName != null && devPhaseShortName != null) {
-                if((devPhaseName.length() > 150 || devPhaseName.length() < 1) || (devPhaseShortName.length() > 50 || devPhaseShortName.length() < 1)) {
-                    return "The length of the data entered does not reach the specified length.";
-                } else {
-                    devPhaseDao.addDevPhase(devPhase);
+            devPhaseDao.addDevPhase(devPhase);
 
-                    ActivityLogInput activityLogInput = new ActivityLogInput();
+            ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                    activityLogInput.setEmp_id("101"); //current logged user dapat
-                    activityLogInput.setLog_desc("Added a dev phase.");
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Added a dev phase.");
 
-                    long currentTimeMillis = System.currentTimeMillis();
-                    // Convert milliseconds to a human-readable date and time format
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String formattedDate = sdf.format(new Date(currentTimeMillis));
-                    activityLogInput.setLog_date(formattedDate);
-                    // add the activity log
-                    activityLogDao.addActivityLog(activityLogInput);
-                    
-                    return "Development Phase Added Successfully";
-                }
-            } else {
-                if(devPhaseName == null && devPhaseShortName != null){
-                    return "Development Phase name should not be empty.";
-                } else if(devPhaseShortName == null && devPhaseName != null){
-                    return "Development Phase short name should not be empty.";
-                } else{
-                    return "All fields should not be empty.";
-                }
-            }
+            long currentTimeMillis = System.currentTimeMillis();
+            // Convert milliseconds to a human-readable date and time format
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = sdf.format(new Date(currentTimeMillis));
+            activityLogInput.setLog_date(formattedDate);
+            // add the activity log
+            activityLogDao.addActivityLog(activityLogInput);
+            
+            return "Development Phase Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
