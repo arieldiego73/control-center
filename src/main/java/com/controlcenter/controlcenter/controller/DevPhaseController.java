@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.DevPhaseInput;
 import com.controlcenter.controlcenter.model.DevPhaseOutput;
 import com.controlcenter.controlcenter.service.DevPhaseService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 
 @RestController
 @RequestMapping("/dev-phase")
-
 public class DevPhaseController {
 
     @Autowired
     public DevPhaseService devPhaseService;
+
+    @Autowired
+    private ErrorHandler errorHandler;
 
     @GetMapping("/all")
     public ResponseEntity<List<DevPhaseOutput>> getAllDevPhase() {

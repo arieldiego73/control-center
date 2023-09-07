@@ -2,24 +2,25 @@ package com.controlcenter.controlcenter.service;
 
 import com.controlcenter.controlcenter.model.Account;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
-import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
+import com.controlcenter.controlcenter.model.UserTable;
 
-import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 public interface UserService {
-  public List<UserOutput> findAll();
+  public ResponseEntity<List<UserTable>> findAll();
 
-  public UserInfoOutput getUserById(Long id);
+  public ResponseEntity<UserInfoOutput> getUserById(String id);
 
-  public String insertUser(UserInput user);
+  // public String insertUser(UserInput user);
 
-  public UserOutput getUserByUsername(UserOutput username);
+  // public UserOutput getUserByUsername(UserOutput username);
 
-  public UserOutput getUsername(String username);
+  public ResponseEntity<UserOutput> getUsername(String username);
 
-  public String addAccount(Account account);
+  public ResponseEntity<Account> addAccount(Account account);
 
-  public HashMap<String, Object> getLoggedInUser(UserOutput user);
+  public ResponseEntity<UserOutput> getLoggedInUser(UserOutput user);
 }

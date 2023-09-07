@@ -1,5 +1,7 @@
 package com.controlcenter.controlcenter.model;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -9,12 +11,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserProjectInput {
-
-    @NotNull
-    @Size(max = 50)
+    
+    @NotBlank(message = "Employee ID should not be empty.")
+    @Size(max = 50, message = "The Employee ID is not meeting the required length.")
     private String emp_id;
 
-    @NotNull
-    @Size(max = 9)
-    private int proj_id;
+    @NotNull(message = "Project ID should not be empty.")
+    @Digits(integer = 9, fraction = 0, message = "The Project ID is not meeting the required length.")
+    private Integer proj_id;
 }

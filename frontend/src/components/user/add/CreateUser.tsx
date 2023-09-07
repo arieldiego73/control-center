@@ -5,14 +5,18 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
   Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
-  FormLabel, 
+  FormLabel,
   InputAdornment,
   MenuItem,
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import PersonPinOutlinedIcon from "@mui/icons-material/PersonPinOutlined";
@@ -24,14 +28,15 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import { Link } from "react-router-dom";
+import AddRoleTable from "../AddRoleTable";
 
 
 //for breadcrumbs
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    event.preventDefault();
-    console.info("You clicked a breadcrumb.");
-  }
-  
+  event.preventDefault();
+  console.info("You clicked a breadcrumb.");
+}
+
 export default function CreateUser() {
   //FOR DROPDOWN CONFIG (DEPARTMENT)
   const [age, setAge] = React.useState("");
@@ -45,10 +50,25 @@ export default function CreateUser() {
     { label: "Add new user", href: "/CreateUser" },
   ];
 
+
+  //for popup (dialog)
+  const [open, setOpen] = React.useState(false);
+
+  const [openTechnology, setOpenTechnology] = React.useState(false); 
+
+  const handleClickOpenTechnology= () => {
+    setOpenTechnology(true);
+  };
+
+  const handleCloseTechnology = () => {
+    setOpenTechnology(false);
+  }; 
+
+
   return (
     <body>
       <div className={CreateUserStyle.mainContainer}>
-        <div style={{ width: "97%", paddingBottom:'1%' }}>
+        <div style={{ width: "97%", paddingBottom: '1%' }}>
           <div className={CreateUserStyle.pageTitle}>
             <span>
               <AccountTreeOutlinedIcon fontSize="large" />
@@ -63,39 +83,39 @@ export default function CreateUser() {
         </div>
 
         <div className={CreateUserStyle.midContent}>
-         {/* for breadcrumbs */}
-         <div
-              style={{
-                border: "1px solid red",
-                paddingBottom: "1%",
-                width: "80%",
-                height: "75%",
-               paddingLeft:'1%',
-               marginLeft:'1.5%',
-                position: "relative",
-                top: "3%",
-                alignSelf: "center",
-              }}
-              role="presentation" 
-              onClick={handleClick}
-            >
-              <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-                <Link
-                  to="/User"
-                  className={`${CreateUserStyle["custom-link"]}`}
-                  style={{ color: "inherit" }}
-                >
-                  User
-                </Link>
-                <Link
-                  to="/createUser"
-                  className={`${CreateUserStyle["custom-link"]}`}
-                  style={{ color: "inherit" }}
-                >
-                  Create User
-                </Link>
-              </Breadcrumbs>
-            </div>
+          {/* for breadcrumbs */}
+          <div
+            style={{
+              // border: "1px solid red",
+              paddingBottom: "1%",
+              width: "80%",
+              height: "75%",
+              paddingLeft: '1%',
+              marginLeft: '1.5%',
+              position: "relative",
+              top: "3%",
+              alignSelf: "center",
+            }}
+            role="presentation"
+            onClick={handleClick}
+          >
+            <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+              <Link
+                to="/User"
+                className={`${CreateUserStyle["custom-link"]}`}
+                style={{ color: "inherit" }}
+              >
+                User
+              </Link>
+              <Link
+                to="/createUser"
+                className={`${CreateUserStyle["custom-link"]}`}
+                style={{ color: "inherit" }}
+              >
+                Create User
+              </Link>
+            </Breadcrumbs>
+          </div>
         </div>
 
         <div className={CreateUserStyle.contentContainer}>
@@ -113,7 +133,7 @@ export default function CreateUser() {
                 </FormLabel>
                 <TextField
                   variant="outlined"
-                  size="small" 
+                  size="small"
                   placeholder="Username"
                   className={CreateUserStyle.textField}
                   InputProps={{
@@ -301,17 +321,21 @@ export default function CreateUser() {
                   }}
                 />
               </FormControl>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<Add />}
-                style={{
-                  textTransform: "none",
-                  fontFamily: "Montserrat, sans-serif",
-                }}
-              >
-                Add Role
-              </Button>
+              <div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Add />}
+                  style={{
+                    textTransform: "none",
+                    fontFamily: "Montserrat, sans-serif",
+                  }}
+                  onClick={handleClickOpenTechnology}
+                  >
+                  Add Role
+                </Button>
+
+              </div>
             </div>
             <div className={CreateUserStyle.formRow6}>
               <FormControl className={CreateUserStyle.email}>
@@ -399,6 +423,24 @@ export default function CreateUser() {
           </div>
         </div>
       </div>
+      <Dialog
+          open={openTechnology}
+          onClose={handleCloseTechnology}
+          aria-describedby="alert-dialog-slide-description"
+          maxWidth="xl"
+        >
+          <DialogTitle>
+            <FontAwesomeIcon icon={faUser} size="1x" color="black" />
+            {"Technology"}
+          </DialogTitle>
+          <DialogContent>
+            <AddRoleTable />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
+            <Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Save</Button>
+          </DialogActions>
+        </Dialog>
     </body>
   );
 }
