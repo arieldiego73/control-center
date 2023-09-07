@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.UserProjectDao;
@@ -20,8 +22,13 @@ public class UserProjectServiceImpl implements UserProjectService {
     public UserProjectDao userProjectDao;
 
     @Override
-    public List<UserProjectOutput> getAllUserProject(){
-        return userProjectDao.getAllUserProject();
+    public ResponseEntity<List<UserProjectOutput>> getAllUserProject(){
+        try {
+            List<UserProjectOutput> userProjects = userProjectDao.getAllUserProject();
+            return ResponseEntity.ok(userProjects);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     
     @Override
@@ -35,17 +42,18 @@ public class UserProjectServiceImpl implements UserProjectService {
     }
 
     @Override 
-    public String editUserProjectInfo(String id, UserProjectInput userProject) {
+    public ResponseEntity<List<UserProjectOutput>> editUserProjectInfo(String id, UserProjectInput userProject) {
         try {
+            List<UserProjectOutput> userProjects = userProjectDao.getAllUserProject(); 
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
             paramMap.put("userProject", userProject);
 
             userProjectDao.editUserProjectInfo(paramMap);
 
-            return "User Project edited successfully.";
+            return ResponseEntity.ok(userProjects);
         } catch (Exception e) {
-            return e.getMessage();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
