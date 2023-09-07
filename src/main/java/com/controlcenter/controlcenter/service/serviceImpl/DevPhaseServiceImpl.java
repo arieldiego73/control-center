@@ -13,6 +13,7 @@ import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.DevPhaseDao;
 import com.controlcenter.controlcenter.model.DevPhaseInput;
 import com.controlcenter.controlcenter.model.DevPhaseOutput;
+import com.controlcenter.controlcenter.model.Role;
 import com.controlcenter.controlcenter.service.DevPhaseService;
 
 @Service
@@ -24,7 +25,8 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     @Autowired
     public ActivityLogDao activityLogDao;
 
-    List<DevPhaseOutput> nullDevPhase = new ArrayList<DevPhaseOutput>();
+    List<DevPhaseOutput> devPhaseList = new ArrayList<>();
+    List<DevPhaseOutput> nullDevPhase = new ArrayList<>();
 
     @Override
     public ResponseEntity<List<DevPhaseOutput>> getAllDevPhase(){
@@ -39,7 +41,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     public ResponseEntity<List<DevPhaseOutput>> addDevPhase(DevPhaseInput devPhase) {
         try {
             devPhaseDao.addDevPhase(devPhase);
-            List<DevPhaseOutput> devPhaseList = devPhaseDao.getAllDevPhase();
+            devPhaseList = devPhaseDao.getAllDevPhase();
             return ResponseEntity.ok(devPhaseList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(nullDevPhase);
@@ -55,7 +57,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
 
             devPhaseDao.editDevPhaseInfo(paramMap);
 
-            List<DevPhaseOutput> devPhaseList = devPhaseDao.getAllDevPhase();
+            devPhaseList = devPhaseDao.getAllDevPhase();
             return ResponseEntity.ok(devPhaseList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(nullDevPhase);
@@ -66,7 +68,18 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     public ResponseEntity<List<DevPhaseOutput>> logicalDeleteDevPhase(String id) {
         try {
             devPhaseDao.logicalDeleteDevPhase(id);
-            List<DevPhaseOutput> devPhaseList = devPhaseDao.getAllDevPhase();
+            devPhaseList = devPhaseDao.getAllDevPhase();
+            return ResponseEntity.ok(devPhaseList);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(nullDevPhase);
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<DevPhaseOutput>> deleteMultipleDevPhase(List<Long> ids) {
+        try {
+            devPhaseDao.deleteMultipleDevPhase(ids);
+            devPhaseList = devPhaseDao.getAllDevPhase();
             return ResponseEntity.ok(devPhaseList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(nullDevPhase);

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.DevPhaseInput;
@@ -47,6 +48,11 @@ public class DevPhaseController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<List<DevPhaseOutput>> editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
         return devPhaseService.editDevPhaseInfo(id, devPhase);
+    }
+
+    @PutMapping("/delete-multiple")
+    public ResponseEntity<List<DevPhaseOutput>> deleteMultipleDevPhase(@RequestParam List<Long> ids) {
+        return devPhaseService.deleteMultipleDevPhase(ids);
     }
 
     @PutMapping("/delete/{id}")

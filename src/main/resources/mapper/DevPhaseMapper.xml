@@ -43,6 +43,16 @@
         WHERE dev_phase_id = #{id}
     </update>
 
+<!-- Logical Delete Multiple -->
+    <delete id="deleteMultipleDevPhase">
+        UPDATE tbl_dev_phase_mst
+           SET del_flag = 1
+         WHERE dev_phase_id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 <!-- Restore Data -->
     <update id="restoreDevPhase">
         UPDATE tbl_dev_phase_mst
