@@ -9,7 +9,8 @@
     <select id="getAllDevPhase" resultType="com.controlcenter.controlcenter.model.DevPhaseOutput">
         SELECT dev_phase_id, dev_phase_name, dev_phase_sh_name
           FROM tbl_dev_phase_mst
-         WHERE del_flag = 0;
+         WHERE del_flag = 0
+         ORDER BY dev_phase_id DESC;
     </select>
 
 <!-- Add Data -->

@@ -34,6 +34,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 //for breadcrumbs
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link } from "react-router-dom";
+import AddRoleTable from "../AddRoleTable";
 
 export default function EditUser() {
 	const navigate = useNavigate();
@@ -102,7 +103,7 @@ export default function EditUser() {
 	};
 
 	const proceedWithSaving = () => {
-		userData = null;
+		// SAVE THE INFO HERE
 		navigate("/user");
 	};
 
@@ -110,7 +111,7 @@ export default function EditUser() {
 		setAsk(true);
 		setDialogTitle("Save the record?");
 		setDialogContentText(
-			"Upon proceeding, the modifications made will be saved."
+			"Upon proceeding, the modifications on the record \nmade will be saved."
 		);
 		setIsSaving(true);
 	};
@@ -118,339 +119,407 @@ export default function EditUser() {
 	const handleCancel = () => {
 		setAsk(true);
 		setDialogTitle("Cancel the edit?");
-		setDialogContentText("");
+		setDialogContentText(
+			"Modifications made with the record will be \nlost forever."
+		);
 		setIsSaving(false);
 	};
 
-  return (
-	<div className={UserDetailStyle.body}>
-      <div className={UserDetailStyle.mainContainer}>
-        <div className={UserDetailStyle.heading}>
-          <FontAwesomeIcon icon={faUser} size="2x" color="black" />
-          <div className={UserDetailStyle.textContainer}>
-            <span style={{ fontSize: "4vh", color: "black" }}>
-              {" "}
-              Edit User Details{" "}
-            </span>
-          </div>
-        </div>
-        <div className={UserDetailStyle.breadCrumbs}>
-        {/* for breadcrumbs */}
-          <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-            <Link
-              to="/User"
-              className={`${UserDetailStyle["custom-link"]}`}
-              style={{ color: "inherit" }}
-            >
-              User
-            </Link>
-            <Link
-              to="/CreateUser"
-              className={`${UserDetailStyle["custom-link"]}`}
-              style={{ color: "inherit" }}
-            >
-              Create User
-            </Link>
+	//for popup (dialog)
+	const [open, setOpen] = React.useState(false);
 
-            {/* Other breadcrumb links */}
-          </Breadcrumbs>
-        </div>
+	const [openTechnology, setOpenTechnology] = React.useState(false);
 
-			<div className={UserDetailStyle.contentContainer}>
-				<div className={UserDetailStyle.mainForm}>
-					<div className={UserDetailStyle.formRow1}>
-						<FormControl className={UserDetailStyle.formUsername}>
-							<FormLabel>Username</FormLabel>
-							<TextField
-								variant="outlined"
-								size="small"
-								placeholder="Username"
-								className={UserDetailStyle.textField}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<PermIdentityOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
-								value={username} // Bind value to state
-								onChange={(e) => setUsername(e.target.value)} // Update state on change
-							/>
-						</FormControl>
-					</div>
+	const handleClickOpenTechnology = () => {
+		setOpenTechnology(true);
+	};
 
-					<div className={UserDetailStyle.formRow2}>
-						<FormControl className={UserDetailStyle.assocId}>
-							<FormLabel>Associate ID</FormLabel>
-							<TextField
-								variant="outlined"
-								size="small"
-								placeholder="Associate ID"
-								className={UserDetailStyle.textField}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<AssignmentIndOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
-								value={assocID} // Bind value to state
-								onChange={(e) => setAssocID(e.target.value)} // Update state on change
-							/>
-						</FormControl>
-						<FormControl className={UserDetailStyle.position}>
-							<FormLabel>Position</FormLabel>
-							<TextField
-								variant="outlined"
-								size="small"
-								className={UserDetailStyle.textField}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<PermIdentityOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
-								value={position} // Bind value to state
-								onChange={(e) => setPosition(e.target.value)} // Update state on change
-							/>
-						</FormControl>
+	const handleCloseTechnology = () => {
+		setOpenTechnology(false);
+	};
+
+	return (
+		<div className={UserDetailStyle.body}>
+			<div className={UserDetailStyle.mainContainer}>
+				<div className={UserDetailStyle.heading}>
+					<FontAwesomeIcon icon={faUser} size="2x" color="black" />
+					<div className={UserDetailStyle.textContainer}>
+						<span style={{ fontSize: "4vh", color: "black" }}>
+							{" "}
+							Edit User Details{" "}
+						</span>
 					</div>
-					<div className={UserDetailStyle.formRow3}>
-						<FormControl className={UserDetailStyle.fname}>
-							<FormLabel>First Name</FormLabel>
-							<TextField
-								variant="outlined"
-								size="small"
-								placeholder="First Name"
-								className={UserDetailStyle.textField}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<PermIdentityOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
-								value={firstName} // Bind value to state
-								onChange={(e) => setFirstName(e.target.value)} // Update state on change
-							/>
-						</FormControl>
-						<FormControl className={UserDetailStyle.mname}>
-							<FormLabel>Middle Name</FormLabel>
-							<TextField
-								variant="outlined"
-								size="small"
-								placeholder="Middle Name"
-								className={UserDetailStyle.textField}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<PermIdentityOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
-								value={middleName} // Bind value to state
-								onChange={(e) => setMiddleName(e.target.value)} // Update state on change
-							/>
-						</FormControl>
-						<FormControl className={UserDetailStyle.lname}>
-							<FormLabel>Last Name</FormLabel>
-							<TextField
-								variant="outlined"
-								size="small"
-								placeholder="Last Name"
-								className={UserDetailStyle.textField}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<PermIdentityOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
-								value={lastName} // Bind value to state
-								onChange={(e) => setLastName(e.target.value)} // Update state on change
-							/>
-						</FormControl>
-					</div>
-					<div className={UserDetailStyle.formRow4}>
-						<FormControl className={UserDetailStyle.email}>
-							<FormLabel>Email</FormLabel>
-							<TextField
-								variant="outlined"
-								size="small"
-								placeholder="Email"
-								className={UserDetailStyle.textField}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<EmailOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
-								value={email} // Bind value to state
-								onChange={(e) => setEmail(e.target.value)} // Update state on change
-							/>
-						</FormControl>
-					</div>
-					<div className={UserDetailStyle.formRow5}>
-						<FormControl className={UserDetailStyle.role}>
-							<FormLabel>Role</FormLabel>
-							<TextField
-								variant="outlined"
-								size="small"
-								placeholder="Role"
-								className={UserDetailStyle.textField}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<PermIdentityOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
-								value={role}
-								onChange={(e) => setRole(e.target.value)}
-							/>
-						</FormControl>
-						<Button
-							variant="contained"
-							color="primary"
-							startIcon={<Add />}
-							style={{ textTransform: "none" }}
+				</div>
+				<div className={UserDetailStyle.breadCrumbs}>
+					{/* for breadcrumbs */}
+					<Breadcrumbs maxItems={2} aria-label="breadcrumb">
+						<Link
+							to="/User"
+							className={`${UserDetailStyle["custom-link"]}`}
+							style={{ color: "inherit" }}
 						>
-							Add Role
-						</Button>
-					</div>
-					<div className={UserDetailStyle.formRow6}>
-						<FormControl className={UserDetailStyle.email}>
-							<FormLabel>Business Unit</FormLabel>
-							<TextField
-								variant="outlined"
-								size="small"
-								placeholder="Business Unit"
-								className={UserDetailStyle.textField}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<GroupsOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
-								value={businessUnit} // Bind value to state
-								onChange={(e) =>
-									setBusinessUnit(e.target.value)
-								} // Update state on change
-							/>
-						</FormControl>
-						<Box>
-							<div className={UserDetailStyle.department}>
-								<FormControl variant="outlined" size="small">
-									<FormLabel>Department</FormLabel>
-									{/* <InputLabel htmlFor="demo-simple-select-label">Select Department</InputLabel> */}
-									<Select
-										labelId="demo-simple-select-label"
-										id="demo-simple-select"
-										value={department} // Bind value to state
-										onChange={(e) =>
-											setDepartment(e.target.value)
-										}
-										className={UserDetailStyle.textField}
-										startAdornment={
+							User
+						</Link>
+						<Link
+							to="/CreateUser"
+							className={`${UserDetailStyle["custom-link"]}`}
+							style={{ color: "inherit" }}
+						>
+							Create User
+						</Link>
+
+						{/* Other breadcrumb links */}
+					</Breadcrumbs>
+				</div>
+
+				<div className={UserDetailStyle.contentContainer}>
+					<div className={UserDetailStyle.mainForm}>
+						<div className={UserDetailStyle.formRow1}>
+							<FormControl
+								className={UserDetailStyle.formUsername}
+							>
+								<FormLabel>Username</FormLabel>
+								<TextField
+									variant="outlined"
+									size="small"
+									placeholder="Username"
+									className={UserDetailStyle.textField}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<PermIdentityOutlinedIcon />
+											</InputAdornment>
+										),
+									}}
+									value={username} // Bind value to state
+									onChange={(e) =>
+										setUsername(e.target.value)
+									} // Update state on change
+								/>
+							</FormControl>
+						</div>
+
+						<div className={UserDetailStyle.formRow2}>
+							<FormControl className={UserDetailStyle.assocId}>
+								<FormLabel>Associate ID</FormLabel>
+								<TextField
+									variant="outlined"
+									size="small"
+									placeholder="Associate ID"
+									className={UserDetailStyle.textField}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<AssignmentIndOutlinedIcon />
+											</InputAdornment>
+										),
+									}}
+									value={assocID} // Bind value to state
+									onChange={(e) => setAssocID(e.target.value)} // Update state on change
+								/>
+							</FormControl>
+							<FormControl className={UserDetailStyle.position}>
+								<FormLabel>Position</FormLabel>
+								<TextField
+									variant="outlined"
+									size="small"
+									className={UserDetailStyle.textField}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<PermIdentityOutlinedIcon />
+											</InputAdornment>
+										),
+									}}
+									value={position} // Bind value to state
+									onChange={(e) =>
+										setPosition(e.target.value)
+									} // Update state on change
+								/>
+							</FormControl>
+						</div>
+						<div className={UserDetailStyle.formRow3}>
+							<FormControl className={UserDetailStyle.fname}>
+								<FormLabel>First Name</FormLabel>
+								<TextField
+									variant="outlined"
+									size="small"
+									placeholder="First Name"
+									className={UserDetailStyle.textField}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<PermIdentityOutlinedIcon />
+											</InputAdornment>
+										),
+									}}
+									value={firstName} // Bind value to state
+									onChange={(e) =>
+										setFirstName(e.target.value)
+									} // Update state on change
+								/>
+							</FormControl>
+							<FormControl className={UserDetailStyle.mname}>
+								<FormLabel>Middle Name</FormLabel>
+								<TextField
+									variant="outlined"
+									size="small"
+									placeholder="Middle Name"
+									className={UserDetailStyle.textField}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<PermIdentityOutlinedIcon />
+											</InputAdornment>
+										),
+									}}
+									value={middleName} // Bind value to state
+									onChange={(e) =>
+										setMiddleName(e.target.value)
+									} // Update state on change
+								/>
+							</FormControl>
+							<FormControl className={UserDetailStyle.lname}>
+								<FormLabel>Last Name</FormLabel>
+								<TextField
+									variant="outlined"
+									size="small"
+									placeholder="Last Name"
+									className={UserDetailStyle.textField}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<PermIdentityOutlinedIcon />
+											</InputAdornment>
+										),
+									}}
+									value={lastName} // Bind value to state
+									onChange={(e) =>
+										setLastName(e.target.value)
+									} // Update state on change
+								/>
+							</FormControl>
+						</div>
+						<div className={UserDetailStyle.formRow4}>
+							<FormControl className={UserDetailStyle.email}>
+								<FormLabel>Email</FormLabel>
+								<TextField
+									variant="outlined"
+									size="small"
+									placeholder="Email"
+									className={UserDetailStyle.textField}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<EmailOutlinedIcon />
+											</InputAdornment>
+										),
+									}}
+									value={email} // Bind value to state
+									onChange={(e) => setEmail(e.target.value)} // Update state on change
+								/>
+							</FormControl>
+						</div>
+						<div className={UserDetailStyle.formRow5}>
+							<FormControl className={UserDetailStyle.role}>
+								<FormLabel>Role</FormLabel>
+								<TextField
+									variant="outlined"
+									size="small"
+									placeholder="Role"
+									className={UserDetailStyle.textField}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<PermIdentityOutlinedIcon />
+											</InputAdornment>
+										),
+									}}
+									value={role}
+									onChange={(e) => setRole(e.target.value)}
+								/>
+							</FormControl>
+							<Button
+								variant="contained"
+								color="primary"
+								startIcon={<Add />}
+								style={{ textTransform: "none" }}
+							>
+								Add Role
+							</Button>
+						</div>
+						<div className={UserDetailStyle.formRow6}>
+							<FormControl className={UserDetailStyle.email}>
+								<FormLabel>Business Unit</FormLabel>
+								<TextField
+									variant="outlined"
+									size="small"
+									placeholder="Business Unit"
+									className={UserDetailStyle.textField}
+									InputProps={{
+										startAdornment: (
 											<InputAdornment position="start">
 												<GroupsOutlinedIcon />
 											</InputAdornment>
-										}
+										),
+									}}
+									value={businessUnit} // Bind value to state
+									onChange={(e) =>
+										setBusinessUnit(e.target.value)
+									} // Update state on change
+								/>
+							</FormControl>
+							<Box>
+								<div className={UserDetailStyle.department}>
+									<FormControl
+										variant="outlined"
+										size="small"
 									>
-										{depts.map((dept) => (
-											<MenuItem value={dept.dept_name}>
-												{dept.dept_name}
-											</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-							</div>
-						</Box>
-					</div>
-					<div className={UserDetailStyle.formRow7}>
-						<Button
-							variant="contained"
-							color="primary"
-							startIcon={<SaveOutlinedIcon />}
-							style={{ textTransform: "none" }}
-							onClick={handleSave}
-						>
-							SAVE
-						</Button>
-						<Button
-							variant="contained"
-							startIcon={<CancelOutlinedIcon />}
-							style={{
-								textTransform: "none",
-								backgroundColor: "gray",
-							}}
-							onClick={handleCancel}
-						>
-							CANCEL
-						</Button>
+										<FormLabel>Department</FormLabel>
+										{/* <InputLabel htmlFor="demo-simple-select-label">Select Department</InputLabel> */}
+										<Select
+											labelId="demo-simple-select-label"
+											id="demo-simple-select"
+											value={department} // Bind value to state
+											onChange={(e) =>
+												setDepartment(e.target.value)
+											}
+											className={
+												UserDetailStyle.textField
+											}
+											startAdornment={
+												<InputAdornment position="start">
+													<GroupsOutlinedIcon />
+												</InputAdornment>
+											}
+										>
+											{depts.map((dept) => (
+												<MenuItem
+													value={dept.dept_name}
+												>
+													{dept.dept_name}
+												</MenuItem>
+											))}
+										</Select>
+									</FormControl>
+								</div>
+							</Box>
+						</div>
+						<div className={UserDetailStyle.formRow7}>
+							<Button
+								variant="contained"
+								color="primary"
+								startIcon={<SaveOutlinedIcon />}
+								style={{ textTransform: "none" }}
+								onClick={handleSave}
+							>
+								SAVE
+							</Button>
+							<Button
+								variant="contained"
+								startIcon={<CancelOutlinedIcon />}
+								style={{
+									textTransform: "none",
+									backgroundColor: "gray",
+								}}
+								onClick={handleCancel}
+							>
+								CANCEL
+							</Button>
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<Dialog
-				open={ask}
-				onClose={() => {
-					setAsk(false);
-				}}
-				aria-labelledby="responsive-dialog-title"
-			>
-				<DialogTitle id="responsive-dialog-title">
-					<Typography
-						fontFamily={"Montserrat, san-serif"}
-						fontWeight={700}
-						fontSize={24}
-						display={"flex"}
-						alignItems={"center"}
-						gap={1}
-					>
-						<HelpIcon
-							accentHeight={100}
-							color="error"
-							fontSize="large"
-							alignmentBaseline="middle"
+				<Dialog
+					open={ask}
+					onClose={() => {
+						setAsk(false);
+					}}
+					aria-labelledby="responsive-dialog-title"
+					aria-describedby="alert-dialog-description"
+				>
+					<DialogTitle id="responsive-dialog-title">
+						<Typography
+							fontFamily={"Montserrat, san-serif"}
+							fontWeight={700}
+							fontSize={20}
+							display={"flex"}
+							alignItems={"center"}
+							gap={1}
+						>
+							<HelpIcon
+								accentHeight={100}
+								color="disabled"
+								fontSize="large"
+								alignmentBaseline="middle"
+							/>
+							{dialogTitle}
+						</Typography>
+					</DialogTitle>
+					<DialogContent>
+						<DialogContentText
+							fontFamily={"Montserrat, san-serif"}
+							whiteSpace={"pre-line"}
+							id="alert-dialog-description"
+						>
+							{dialogContentText}
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<Button
+							variant="contained"
+							onClick={
+								isSaving ? proceedWithSaving : proceedWithCancel
+							}
+							autoFocus
+							sx={{ fontFamily: "Montserrat, san-serif" }}
+						>
+							{isSaving ? "Save" : "Cancel"}
+						</Button>
+
+						<Button
+							sx={{ fontFamily: "Montserrat, san-serif" }}
+							onClick={() => {
+								setAsk(false);
+							}}
+						>
+							Continue editing
+						</Button>
+					</DialogActions>
+				</Dialog>
+				<Dialog
+					open={openTechnology}
+					onClose={handleCloseTechnology}
+					aria-describedby="alert-dialog-slide-description"
+					maxWidth="xl"
+				>
+					<DialogTitle>
+						<FontAwesomeIcon
+							icon={faUser}
+							size="1x"
+							color="black"
 						/>
-						{dialogTitle}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText
-						fontFamily={"Montserrat, san-serif"}
-						whiteSpace={"pre-line"}
-					>
-						{dialogContentText}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button
-						variant="contained"
-						onClick={
-							isSaving ? proceedWithSaving : proceedWithCancel
-						}
-						autoFocus
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-					>
-						{isSaving ? "Save" : "Cancel"}
-					</Button>
-
-					<Button
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-						onClick={() => {
-							setAsk(false);
-						}}
-					>
-						Continue editing
-					</Button>
-				</DialogActions>
-			</Dialog>
+						{"Technology"}
+					</DialogTitle>
+					<DialogContent>
+						<AddRoleTable />
+					</DialogContent>
+					<DialogActions>
+						<Button
+							onClick={handleCloseTechnology}
+							sx={{ fontFamily: "Montserrat, sans-serif" }}
+						>
+							Cancel
+						</Button>
+						<Button
+							onClick={handleCloseTechnology}
+							sx={{ fontFamily: "Montserrat, sans-serif" }}
+						>
+							Save
+						</Button>
+					</DialogActions>
+				</Dialog>
+			</div>
 		</div>
-	</div>
 	);
 }

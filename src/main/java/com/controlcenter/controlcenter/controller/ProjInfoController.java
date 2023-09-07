@@ -1,6 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.ProjInfoInput;
 import com.controlcenter.controlcenter.model.ProjInfoOutput;
 import com.controlcenter.controlcenter.service.ProjInfoService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 @RestController
 @RequestMapping("/proj-info")
@@ -22,6 +29,9 @@ public class ProjInfoController {
     @Autowired
     public ProjInfoService projInfoService;
 
+    @Autowired
+    private ErrorHandler errorHandler;
+
     @GetMapping("/all")
     public List<ProjInfoOutput> getAllProjInfo() {
         return projInfoService.getAllProjInfo();
@@ -29,12 +39,30 @@ public class ProjInfoController {
 
     @PostMapping("/add")
     public String addProjInfo(@RequestBody ProjInfoInput projInfo){
-        return projInfoService.addProjInfo(projInfo);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<ProjInfoInput>> errors = validator.validate(projInfo);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return projInfoService.addProjInfo(projInfo);
+            }
     }
 
     @PutMapping("/edit/{id}")
     public String editProjInfoInfo(@PathVariable String id, @RequestBody ProjInfoInput projInfo) {
-        return projInfoService.editProjInfoInfo(id, projInfo);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<ProjInfoInput>> errors = validator.validate(projInfo);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return errorHandler.getErrors(errors);
+            }else{
+                return projInfoService.addProjInfo(projInfo);
+            }
     }
 
     @PutMapping("/delete/{id}")
