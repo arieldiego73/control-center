@@ -103,7 +103,7 @@ export default function EditUser() {
 	};
 
 	const proceedWithSaving = () => {
-		userData = null;
+		// SAVE THE INFO HERE
 		navigate("/user");
 	};
 
@@ -111,7 +111,7 @@ export default function EditUser() {
 		setAsk(true);
 		setDialogTitle("Save the record?");
 		setDialogContentText(
-			"Upon proceeding, the modifications made will be saved."
+			"Upon proceeding, the modifications on the record \nmade will be saved."
 		);
 		setIsSaving(true);
 	};
@@ -119,22 +119,24 @@ export default function EditUser() {
 	const handleCancel = () => {
 		setAsk(true);
 		setDialogTitle("Cancel the edit?");
-		setDialogContentText("");
+		setDialogContentText(
+			"Modifications made with the record will be \nlost forever."
+		);
 		setIsSaving(false);
 	};
 
-	  //for popup (dialog)
-	  const [open, setOpen] = React.useState(false);
+	//for popup (dialog)
+	const [open, setOpen] = React.useState(false);
 
-	  const [openTechnology, setOpenTechnology] = React.useState(false); 
-	
-	  const handleClickOpenTechnology= () => {
+	const [openTechnology, setOpenTechnology] = React.useState(false);
+
+	const handleClickOpenTechnology = () => {
 		setOpenTechnology(true);
-	  };
-	
-	  const handleCloseTechnology = () => {
+	};
+
+	const handleCloseTechnology = () => {
 		setOpenTechnology(false);
-	  }; 
+	};
 
 	return (
 		<div className={UserDetailStyle.body}>
@@ -173,7 +175,9 @@ export default function EditUser() {
 				<div className={UserDetailStyle.contentContainer}>
 					<div className={UserDetailStyle.mainForm}>
 						<div className={UserDetailStyle.formRow1}>
-							<FormControl className={UserDetailStyle.formUsername}>
+							<FormControl
+								className={UserDetailStyle.formUsername}
+							>
 								<FormLabel>Username</FormLabel>
 								<TextField
 									variant="outlined"
@@ -188,7 +192,9 @@ export default function EditUser() {
 										),
 									}}
 									value={username} // Bind value to state
-									onChange={(e) => setUsername(e.target.value)} // Update state on change
+									onChange={(e) =>
+										setUsername(e.target.value)
+									} // Update state on change
 								/>
 							</FormControl>
 						</div>
@@ -226,7 +232,9 @@ export default function EditUser() {
 										),
 									}}
 									value={position} // Bind value to state
-									onChange={(e) => setPosition(e.target.value)} // Update state on change
+									onChange={(e) =>
+										setPosition(e.target.value)
+									} // Update state on change
 								/>
 							</FormControl>
 						</div>
@@ -246,7 +254,9 @@ export default function EditUser() {
 										),
 									}}
 									value={firstName} // Bind value to state
-									onChange={(e) => setFirstName(e.target.value)} // Update state on change
+									onChange={(e) =>
+										setFirstName(e.target.value)
+									} // Update state on change
 								/>
 							</FormControl>
 							<FormControl className={UserDetailStyle.mname}>
@@ -264,7 +274,9 @@ export default function EditUser() {
 										),
 									}}
 									value={middleName} // Bind value to state
-									onChange={(e) => setMiddleName(e.target.value)} // Update state on change
+									onChange={(e) =>
+										setMiddleName(e.target.value)
+									} // Update state on change
 								/>
 							</FormControl>
 							<FormControl className={UserDetailStyle.lname}>
@@ -282,7 +294,9 @@ export default function EditUser() {
 										),
 									}}
 									value={lastName} // Bind value to state
-									onChange={(e) => setLastName(e.target.value)} // Update state on change
+									onChange={(e) =>
+										setLastName(e.target.value)
+									} // Update state on change
 								/>
 							</FormControl>
 						</div>
@@ -357,7 +371,10 @@ export default function EditUser() {
 							</FormControl>
 							<Box>
 								<div className={UserDetailStyle.department}>
-									<FormControl variant="outlined" size="small">
+									<FormControl
+										variant="outlined"
+										size="small"
+									>
 										<FormLabel>Department</FormLabel>
 										{/* <InputLabel htmlFor="demo-simple-select-label">Select Department</InputLabel> */}
 										<Select
@@ -367,7 +384,9 @@ export default function EditUser() {
 											onChange={(e) =>
 												setDepartment(e.target.value)
 											}
-											className={UserDetailStyle.textField}
+											className={
+												UserDetailStyle.textField
+											}
 											startAdornment={
 												<InputAdornment position="start">
 													<GroupsOutlinedIcon />
@@ -375,7 +394,9 @@ export default function EditUser() {
 											}
 										>
 											{depts.map((dept) => (
-												<MenuItem value={dept.dept_name}>
+												<MenuItem
+													value={dept.dept_name}
+												>
 													{dept.dept_name}
 												</MenuItem>
 											))}
@@ -415,19 +436,20 @@ export default function EditUser() {
 						setAsk(false);
 					}}
 					aria-labelledby="responsive-dialog-title"
+					aria-describedby="alert-dialog-description"
 				>
 					<DialogTitle id="responsive-dialog-title">
 						<Typography
 							fontFamily={"Montserrat, san-serif"}
 							fontWeight={700}
-							fontSize={24}
+							fontSize={20}
 							display={"flex"}
 							alignItems={"center"}
 							gap={1}
 						>
 							<HelpIcon
 								accentHeight={100}
-								color="error"
+								color="disabled"
 								fontSize="large"
 								alignmentBaseline="middle"
 							/>
@@ -438,6 +460,7 @@ export default function EditUser() {
 						<DialogContentText
 							fontFamily={"Montserrat, san-serif"}
 							whiteSpace={"pre-line"}
+							id="alert-dialog-description"
 						>
 							{dialogContentText}
 						</DialogContentText>
@@ -471,15 +494,29 @@ export default function EditUser() {
 					maxWidth="xl"
 				>
 					<DialogTitle>
-						<FontAwesomeIcon icon={faUser} size="1x" color="black" />
+						<FontAwesomeIcon
+							icon={faUser}
+							size="1x"
+							color="black"
+						/>
 						{"Technology"}
 					</DialogTitle>
 					<DialogContent>
 						<AddRoleTable />
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
-						<Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Save</Button>
+						<Button
+							onClick={handleCloseTechnology}
+							sx={{ fontFamily: "Montserrat, sans-serif" }}
+						>
+							Cancel
+						</Button>
+						<Button
+							onClick={handleCloseTechnology}
+							sx={{ fontFamily: "Montserrat, sans-serif" }}
+						>
+							Save
+						</Button>
 					</DialogActions>
 				</Dialog>
 			</div>

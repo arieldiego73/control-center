@@ -1,6 +1,9 @@
 package com.controlcenter.controlcenter.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -9,6 +12,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +26,7 @@ import com.controlcenter.controlcenter.model.UserProjectInput;
 import com.controlcenter.controlcenter.model.UserProjectOutput;
 import com.controlcenter.controlcenter.service.UserProjectService;
 import com.controlcenter.controlcenter.shared.ErrorHandler;
+import com.controlcenter.controlcenter.shared.ValidationResponse;
 
 @RestController
 @RequestMapping("/user-project")
@@ -33,7 +39,7 @@ public class UserProjectController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public List<UserProjectOutput> getAllUserProject() {
+    public ResponseEntity<List<UserProjectOutput>> getAllUserProject() {
         return userProjectService.getAllUserProject();
     }
 
@@ -52,16 +58,19 @@ public class UserProjectController {
     }
 
     @PutMapping("/edit/{id}")
-    public String editUserProjectInfo(@PathVariable String id, @RequestBody UserProjectInput userProject) {
+    public ResponseEntity<List<UserProjectOutput>> editUserProjectInfo(@PathVariable String id, @RequestBody UserProjectInput userProject) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<UserProjectInput>> errors = validator.validate(userProject);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                List<ConstraintViolation<UserProjectInput>> errorList = new ArrayList<>(errors);
+                ValidationResponse<ConstraintViolation<UserProjectInput>> response = new ValidationResponse<>(false, errorList);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }else{
-                return userProjectService.editUserProjectInfo(id, userProject);
+                ResponseEntity<List<UserProjectOutput>> userProjects = userProjectService.getAllUserProject();
+                return userProjects;
             }
     }
     @PutMapping("/delete/{id}")

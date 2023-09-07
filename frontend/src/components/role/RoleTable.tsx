@@ -708,7 +708,7 @@ export default function RoleTable() {
 					<Typography
 						fontFamily={"Montserrat, san-serif"}
 						fontWeight={700}
-						fontSize={24}
+						fontSize={20}
 						display={"flex"}
 						alignItems={"center"}
 						gap={1}
