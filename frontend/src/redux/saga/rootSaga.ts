@@ -10,7 +10,7 @@ import {
 } from "./roleSaga";
 import { sessionSaga } from "./sessionSaga";
 import departmentSaga from "./departmentSaga";
-import { devPhaseSaga, devPhaseSagaAdd } from "./devPhaseSaga";
+import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBatch, devPhaseSagaUpdate } from "./devPhaseSaga";
 
 export default function* rootSaga() {
 	yield all([
@@ -25,6 +25,9 @@ export default function* rootSaga() {
 		departmentSaga(),
 		devPhaseSaga(),
 		devPhaseSagaAdd(),
+		devPhaseSagaUpdate(),
+		devPhaseSagaDelete(),
+		devPhaseSagaDeleteBatch()
 		// Add more sagas here
 	]);
 }

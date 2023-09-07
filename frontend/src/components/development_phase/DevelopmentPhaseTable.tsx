@@ -55,7 +55,7 @@ import {
 } from "@mui/material";
 import DevelopmentPhaseModuleStyle from "./DevelopmentPhase.module.css";
 import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
-import { addDevPhase } from "../../redux/saga/devPhaseSaga";
+import { addDevPhase, deleteDevPhase, deleteDevPhaseBatch, updateDevPhase } from "../../redux/saga/devPhaseSaga";
 
 export interface SnackbarMessage {
 	message: string;
@@ -126,30 +126,6 @@ export default function DevelopmentPhaseTable() {
 	// FOR CONFIRM DIALOG
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-	const proceedWithDelete = () => {
-		dispatch(deleteRoles({ role_id: deleteId }));
-		setRows(data);
-		setAsk(false);
-		const success = handleClickSnackpack(
-			"A role is deleted successfully!",
-			"success"
-		);
-		success();
-	};
-
-	const proceedWithDeleteBatch = () => {
-		dispatch(deleteRolesBatch({ batchId: selectedId }));
-		setRows(data); // update rows
-		setRowSelectionModel([]); // clear selected rows
-		setSelectedId(new Set()); // clear selected IDs
-		setAsk(false); // close dialog
-		const success = handleClickSnackpack(
-			`Deleted ${selectedId.size} role/s successfully!`,
-			"success"
-		);
-		success();
-	};
 
 	// FOR SNACKPACK
 	React.useEffect(() => {
@@ -236,6 +212,30 @@ export default function DevelopmentPhaseTable() {
 		);
 	}
 
+	const proceedWithDelete = () => {
+		dispatch(deleteDevPhase({ dev_phase_id: deleteId }));
+		setRows(data);
+		setAsk(false);
+		const success = handleClickSnackpack(
+			"A development phase is deleted successfully!",
+			"success"
+		);
+		success();
+	};
+
+	const proceedWithDeleteBatch = () => {
+		dispatch(deleteDevPhaseBatch({ batchId: selectedId }));
+		setRows(data); // update rows
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
+		const success = handleClickSnackpack(
+			`Deleted ${selectedId.size} development phase/s successfully!`,
+			"success"
+		);
+		success();
+	};
+
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
 		event
@@ -277,10 +277,10 @@ export default function DevelopmentPhaseTable() {
 		setRows(data);
 	};
 
-	const processUpdateRow = (roleInfo: GridRowModel) => {
-		dispatch(updateRoles({ roleInfo }));
+	const processUpdateRow = (devPhaseData: GridRowModel) => {
+		dispatch(updateDevPhase({ devPhaseData }));
 		const success = handleClickSnackpack(
-			"Role is updated successfully",
+			"Development Phase is updated successfully",
 			"success"
 		);
 		success();
@@ -648,7 +648,7 @@ export default function DevelopmentPhaseTable() {
 			</Box>
 
 			<DataGrid
-				sx={{ height: 600, border: "none" }}
+				sx={{ height: 650, border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"
