@@ -19,5 +19,5 @@ public class MultiRoleInput {
 
     @NotNull(message = "Role ID should not be empty.")
     @Digits(integer = 9, fraction = 0, message = "The Role ID is not meeting the required length.")
-    private int role_id;
+    private Long role_id;
 }
