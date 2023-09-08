@@ -12,6 +12,7 @@ import { sessionSaga } from "./sessionSaga";
 import departmentSaga from "./departmentSaga";
 import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBatch, devPhaseSagaUpdate } from "./devPhaseSaga";
 import { positionSaga, positionSagaAdd, positionSagaUpdate, positionSagaDelete, positionSagaDeleteBatch } from "./positionSaga";
+import { businessUnitSaga, businessUnitSagaAdd, businessUnitSagaDelete, businessUnitSagaDeleteBatch, businessUnitSagaUpdate } from "./businessUnitSaga";
 
 export default function* rootSaga() {
 	yield all([
@@ -33,7 +34,12 @@ export default function* rootSaga() {
 		positionSagaAdd(),
 		positionSagaUpdate(),
 		positionSagaDelete(),
-		positionSagaDeleteBatch()
+		positionSagaDeleteBatch(),
+		businessUnitSaga(),
+		businessUnitSagaAdd(),
+		businessUnitSagaUpdate(),
+		businessUnitSagaDelete(),
+		businessUnitSagaDeleteBatch()
 		// Add more sagas here
 	]);
 }

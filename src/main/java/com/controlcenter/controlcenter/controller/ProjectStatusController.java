@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,30 +39,30 @@ public class ProjectStatusController {
     }
 
     @PostMapping("/add")
-    public String addProjectStatus(@RequestBody ProjectStatusInput projectStatus){
+    public ResponseEntity<String> addProjectStatus(@RequestBody ProjectStatusInput projectStatus){
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ProjectStatusInput>> errors = validator.validate(projectStatus);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return projectStatusService.addProjectStatus(projectStatus);
+                return ResponseEntity.status(200).body(projectStatusService.addProjectStatus(projectStatus));
             }
     }
 
     @PutMapping("/edit/{id}")
-    public String editProjectStatus(@PathVariable String id, @RequestBody ProjectStatusInput projectStatus) {
+    public ResponseEntity<String> editProjectStatus(@PathVariable String id, @RequestBody ProjectStatusInput projectStatus) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ProjectStatusInput>> errors = validator.validate(projectStatus);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return projectStatusService.addProjectStatus(projectStatus);
+                return ResponseEntity.status(200).body(projectStatusService.editProjectStatus(id, projectStatus));
             }
     }
 

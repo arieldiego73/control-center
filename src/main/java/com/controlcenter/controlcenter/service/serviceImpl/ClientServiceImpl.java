@@ -7,16 +7,25 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.ClientDao;
+import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.ClientInput;
 import com.controlcenter.controlcenter.model.ClientOutput;
 import com.controlcenter.controlcenter.service.ClientService;
+import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
 public class ClientServiceImpl implements ClientService{
     
     @Autowired
     public ClientDao clientDao;
+
+    @Autowired 
+    public TimeFormatter timeFormatter;
+
+    @Autowired
+    public ActivityLogDao activityLogDao;
 
     @Override
     public List<ClientOutput> getAllClient() {
@@ -33,6 +42,15 @@ public class ClientServiceImpl implements ClientService{
 
         try {
             clientDao.addClient(client);
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Added a client.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            // add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
             return "Client Added Successfully.";
         } catch (Exception e) {
             return e.getMessage();

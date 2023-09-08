@@ -1,7 +1,5 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,9 +51,6 @@ public class DepartmentServiceImpl implements DepartmentService{
             activityLogInput.setLog_desc("Added a department.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            // Convert milliseconds to a human-readable date and time format
-            // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            // String formattedDate = sdf.format(new Date(currentTimeMillis));
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
@@ -71,23 +66,14 @@ public class DepartmentServiceImpl implements DepartmentService{
     public String editDepartmentInfo(String id, DepartmentInput department) {
         
         try {
-            if(department.getDept_name() != null) {
-                if(department.getDept_name().length() > 150 || department.getDept_name().length() < 1) {
-                    return "The length of the data entered does not reach the specified length.";
-                } else {
-                    Map<String, Object> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
 
-                    paramMap.put("id", id);
-                    paramMap.put("department", department);
+            paramMap.put("id", id);
+            paramMap.put("department", department);
 
-                    departmentDao.editDepartmentInfo(paramMap);
+            departmentDao.editDepartmentInfo(paramMap);
 
-                    return "Department Edited Successfully.";
-                }
-            } else {
-                return "The Department Name is empty.";
-            }
-            
+            return "Department Edited Successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

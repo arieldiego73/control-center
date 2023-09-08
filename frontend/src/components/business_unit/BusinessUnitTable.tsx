@@ -1,5 +1,3 @@
-        
-
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -31,13 +29,6 @@ import {
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { getRolesFetch } from "../../redux/state/roleState";
-import {
-	addRoles,
-	deleteRoles,
-	deleteRolesBatch,
-	updateRoles,
-} from "../../redux/saga/roleSaga";
 import {
 	Alert,
 	AlertColor,
@@ -55,7 +46,13 @@ import {
 	useMediaQuery,
 	useTheme,
 } from "@mui/material";
-import BusinessUnitStyle from './BusinessUnitTable.module.css';
+import DevelopmentPhaseModuleStyle from "./DevelopmentPhase.module.css";
+import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
+import { addDevPhase, deleteDevPhase, deleteDevPhaseBatch, updateDevPhase } from "../../redux/saga/devPhaseSaga";
+
+import BusinessUnitModuleStyle from "./BusinessUnitTable.module.css";
+import { getBusinessUnitFetch } from "../../redux/state/businessUnitState";
+import { addBusinessUnit, deleteBusinessUnit, deleteBusinessUnitBatch, updateBusinessUnit } from "../../redux/saga/businessUnitSaga";
 
 export interface SnackbarMessage {
 	message: string;
@@ -78,13 +75,15 @@ interface EditToolbarProps {
 export default function BusinessUnitTable() {
 	const dispatch = useDispatch();
 
-	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
+	// GET ALL THE Business Unit AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
-		dispatch(getRolesFetch());
+		dispatch(getBusinessUnitFetch());
 	}, [dispatch]);
 
-	// STORE THE ROLES TO 'data'
-	const data = useSelector((state: RootState) => state.roleReducer.roles);
+	// STORE THE Business Unit TO 'data'
+	const data = useSelector(
+		(state: RootState) => state.businessUnitReducer.businessUnit
+	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -106,11 +105,11 @@ export default function BusinessUnitTable() {
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]
 	>([]);
+	const [severity, setSeverity] = React.useState<AlertColor>("error");
 	const [open, setOpen] = React.useState(false);
 	const [messageInfo, setMessageInfo] = React.useState<
 		SnackbarMessage | undefined
 	>(undefined);
-	const [severity, setSeverity] = React.useState<AlertColor>("error");
 
 	const dataGridSlots = {
 		toolbar: EditToolbar,
@@ -124,30 +123,6 @@ export default function BusinessUnitTable() {
 	// FOR CONFIRM DIALOG
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-	const proceedWithDelete = () => {
-		dispatch(deleteRoles({ role_id: deleteId }));
-		setRows(data);
-		setAsk(false);
-		const success = handleClickSnackpack(
-			"A role is deleted successfully!",
-			"success"
-		);
-		success();
-	};
-
-	const proceedWithDeleteBatch = async () => {
-		dispatch(deleteRolesBatch({ batchId: selectedId }));
-		setRows(data); // update rows
-		setRowSelectionModel([]); // clear selected rows
-		setSelectedId(new Set()); // clear selected IDs
-		setAsk(false); // close dialog
-		const success = handleClickSnackpack(
-			`Deleted ${selectedId.size} role/s successfully!`,
-			"success"
-		);
-		success();
-	};
 
 	// FOR SNACKPACK
 	React.useEffect(() => {
@@ -184,10 +159,10 @@ export default function BusinessUnitTable() {
 		setRows(data);
 	}, [data]);
 
-	const [roleTitle, setRoleTitle] = React.useState("");
+	const [businessUnitName, setBusinessUnitName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
-	const [userLevel, setUserLevel] = React.useState("");
-	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
+	// const [userLevel, setUserLevel] = React.useState("");
+	const businessUnitNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	function EditToolbar(props: EditToolbarProps) {
 		const handleDeleteBatch = () => {
@@ -199,7 +174,7 @@ export default function BusinessUnitTable() {
 			setDialogTitle(
 				`Delete ${
 					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
-				} role${selectedId.size > 1 ? "s" : ""}?`
+				} development phase${selectedId.size > 1 ? "s" : ""}?`
 			);
 		};
 
@@ -234,6 +209,30 @@ export default function BusinessUnitTable() {
 		);
 	}
 
+	const proceedWithDelete = () => {
+		dispatch(deleteDevPhase({ dev_phase_id: deleteId }));
+		setRows(data);
+		setAsk(false);
+		const success = handleClickSnackpack(
+			"A business unit is deleted successfully!",
+			"success"
+		);
+		success();
+	};
+
+	const proceedWithDeleteBatch = () => {
+		dispatch(deleteBusinessUnitBatch({ batchId: selectedId }));
+		setRows(data); // update rows
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
+		const success = handleClickSnackpack(
+			`Deleted ${selectedId.size} business units successfully!`,
+			"success"
+		);
+		success();
+	};
+
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
 		event
@@ -263,7 +262,7 @@ export default function BusinessUnitTable() {
 		setDialogContentText(
 			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
 		);
-		setDialogTitle("Delete this role?");
+		setDialogTitle("Delete this business unit?");
 		setDeleteId(id as number);
 	};
 
@@ -275,36 +274,34 @@ export default function BusinessUnitTable() {
 		setRows(data);
 	};
 
-	const processUpdateRow = (roleInfo: GridRowModel) => {
-		dispatch(updateRoles({ roleInfo }));
+	const processUpdateRow = (businessUnitData: GridRowModel) => {
+		dispatch(updateBusinessUnit({ businessUnitData }));
 		const success = handleClickSnackpack(
-			"Role is updated successfully",
+			"Business unit is updated successfully",
 			"success"
 		);
 		success();
 	};
 
-	const processAddRow = (roleInfo: GridRowModel) => {
-		dispatch(addRoles({ roleInfo }));
+	const processAddRow = (businessUnitData: GridRowModel) => {
+		dispatch(addBusinessUnit({ businessUnitData }));
 		const success = handleClickSnackpack(
-			"Role is added successfully",
+			"Business unit is added successfully",
 			"success"
 		);
 		success();
 	};
 
 	const handleAdd = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
+		if (businessUnitName && shortName) {
+			const businessUnitData: GridValidRowModel = {
+				business_unit_name: businessUnitName,
+				business_unit_sh_name: shortName,
 			};
-			processAddRow(roleInfo);
+			processAddRow(businessUnitData);
 			setIsHidden(false);
-			setRoleTitle("");
+			setBusinessUnitName("");
 			setShortName("");
-			setUserLevel("");
 		} else {
 			const error = handleClickSnackpack(
 				"All fields are required! Please, try again.",
@@ -315,17 +312,15 @@ export default function BusinessUnitTable() {
 	};
 
 	const handleAddContinue = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
+		if (businessUnitName && shortName) {
+			const businessUnitData: GridValidRowModel = {
+				dev_phase_name: businessUnitName,
+				dev_phase_sh_name: shortName,
 			};
-			processAddRow(roleInfo);
-			setRoleTitle("");
+			processAddRow(businessUnitData);
+			setBusinessUnitName("");
 			setShortName("");
-			setUserLevel("");
-			roleTitleRef.current?.focus();
+			businessUnitNameRef.current?.focus();
 		} else {
 			const error = handleClickSnackpack(
 				"All fields are required! Please, try again.",
@@ -336,13 +331,8 @@ export default function BusinessUnitTable() {
 	};
 
 	const handleUpdateAndAdd = (newRow: GridRowModel) => {
-		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
-			// determines whether it is update or add new
-			if (data.length === rows.length) {
-				processUpdateRow(newRow);
-			} else {
-				processAddRow(newRow);
-			}
+		if (newRow.business_unit_name && newRow.business_unit_sh_name) {
+			processUpdateRow(newRow);
 			setRows(data); // update the rows in the table
 		} else {
 			const cancel = handleCancelClick(newRow.role_id);
@@ -362,32 +352,22 @@ export default function BusinessUnitTable() {
 
 	const columns: GridColDef[] = [
 		{
-			field: "title",
-			headerName: "Role",
+			field: "business_unit_name",
+			headerName: "Business Unit",
 			width: 300,
 			editable: true,
 			flex: 12,
-			headerAlign: "center", 
+			headerAlign: "center",
 			align: "center",
 		},
 		{
-			field: "role_sh_name",
+			field: "business_unit_sh_name",
 			headerName: "Short Name",
 			width: 300,
 			editable: true,
 			flex: 12,
 			headerAlign: "center",
 			align: "center",
-		},
-		{
-			field: "role_user_level",
-			headerName: "User Level",
-			type: "number",
-			width: 200,
-			editable: true,
-			headerAlign: "center",
-			align: "center",
-			flex: 12,
 		},
 		{
 			field: "actions",
@@ -478,6 +458,9 @@ export default function BusinessUnitTable() {
 				".MuiDataGrid-sortIcon": {
 					opacity: "inherit !important",
 				},
+				".MuiDataGrid-cellContent": {
+					fontWeight: "500",
+				},
 			}}
 		>
 			<Box
@@ -500,10 +483,10 @@ export default function BusinessUnitTable() {
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
-						Add Role
+						Add Business Unit
 					</Button>
 				) : (
-					<div className={BusinessUnitStyle.hideButton}>
+					<div className={BusinessUnitModuleStyle.hideButton}>
 						<div
 							style={{
 								flexDirection: "row",
@@ -524,19 +507,24 @@ export default function BusinessUnitTable() {
 								}}
 							>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
-										Role
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+											fontFamily: "Montserrat, san-serif",
+										}}
+									>
+										Business Unit
 									</FormLabel>
 									<TextField
 										style={{ width: "100%" }}
 										size="small"
 										placeholder="ex: Software Developer"
 										onChange={(e) =>
-											setRoleTitle(e.target.value)
+											setBusinessUnitName(e.target.value)
 										}
-										value={roleTitle}
+										value={businessUnitName}
 										autoFocus
-										inputRef={roleTitleRef}
+										inputRef={businessUnitNameRef}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -547,7 +535,12 @@ export default function BusinessUnitTable() {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+											fontFamily: "Montserrat, san-serif",
+										}}
+									>
 										Short Name
 									</FormLabel>
 									<TextField
@@ -559,7 +552,9 @@ export default function BusinessUnitTable() {
 											setShortName(e.target.value)
 										}
 										value={shortName}
-										className={BusinessUnitStyle.textField}
+										className={
+											BusinessUnitModuleStyle.textField
+										}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -569,7 +564,7 @@ export default function BusinessUnitTable() {
 										}}
 									/>
 								</FormControl>
-								<FormControl>
+								{/* <FormControl>
 									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
 										User Level
 									</FormLabel>
@@ -583,7 +578,7 @@ export default function BusinessUnitTable() {
 											setUserLevel(e.target.value)
 										}
 										value={userLevel}
-										className={BusinessUnitStyle.textField}
+										className={DevelopmentPhaseModuleStyle.textField}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -592,7 +587,7 @@ export default function BusinessUnitTable() {
 											),
 										}}
 									/>
-								</FormControl>
+								</FormControl> */}
 							</div>
 
 							<div
@@ -611,7 +606,7 @@ export default function BusinessUnitTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
+										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAddContinue}
 								>
@@ -624,19 +619,21 @@ export default function BusinessUnitTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
+										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAdd}
 								>
 									Save
 								</Button>
 								<Button
-									style={{ height: "50%", fontFamily: "Montserrat, san-serif" }}
+									style={{
+										height: "50%",
+										fontFamily: "Montserrat, san-serif",
+									}}
 									onClick={() => {
 										setIsHidden(false);
-										setRoleTitle("");
+										setBusinessUnitName("");
 										setShortName("");
-										setUserLevel("");
 									}}
 								>
 									Close
@@ -648,11 +645,11 @@ export default function BusinessUnitTable() {
 			</Box>
 
 			<DataGrid
-				sx={{ height: 600, border: "none" }}
+				sx={{ height: 650, border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"
-				getRowId={(row) => row.role_id}
+				getRowId={(row) => row.business_unit_id}
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
@@ -707,7 +704,7 @@ export default function BusinessUnitTable() {
 					<Typography
 						fontFamily={"Montserrat, san-serif"}
 						fontWeight={700}
-						fontSize={24}
+						fontSize={20}
 						display={"flex"}
 						alignItems={"center"}
 						gap={1}

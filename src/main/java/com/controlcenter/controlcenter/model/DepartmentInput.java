@@ -11,6 +11,6 @@ import lombok.Setter;
 public class DepartmentInput {
 
     @NotBlank(message = "Department name should not be empty.")
-    @Size(max = 150, message = "The Department short name is not meeting the required length.")
+    @Size(max = 150, message = "The Department name is not meeting the required length.")
     private String dept_name;
 }
