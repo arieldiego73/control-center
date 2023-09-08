@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,30 +39,30 @@ public class DevTypeController {
     }
 
     @PostMapping("/add")
-    public String addDevType(@RequestBody DevTypeInput devType){
+    public ResponseEntity<String> addDevType(@RequestBody DevTypeInput devType){
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<DevTypeInput>> errors = validator.validate(devType);
             //Error Handling
             if(errors.size() > 0){
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else{
-                return devTypeService.addDevType(devType);
+                return ResponseEntity.status(200).body(devTypeService.addDevType(devType));
             }
     }
 
     @PutMapping("/edit/{id}")
-    public String editDevTypeInfo(@PathVariable String id, @RequestBody DevTypeInput devType) {
+    public ResponseEntity<String> editDevTypeInfo(@PathVariable String id, @RequestBody DevTypeInput devType) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<DevTypeInput>> errors = validator.validate(devType);
             //Error Handling
             if(errors.size() > 0){
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else{
-                return devTypeService.editDevTypeInfo(id, devType);
+                return ResponseEntity.status(200).body(devTypeService.editDevTypeInfo(id, devType));
             }
     }
 

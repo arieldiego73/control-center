@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,30 +44,30 @@ public class MultiRoleController {
     }
 
     @PostMapping("/add")
-    public String addMultiRole(@RequestBody MultiRoleInput multiRole){
+    public ResponseEntity<String> addMultiRole(@RequestBody MultiRoleInput multiRole){
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<MultiRoleInput>> errors = validator.validate(multiRole);
             //Error Handling
             if(errors.size() > 0){
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else{
-                return multiRoleService.addMultiRole(multiRole);
+                return ResponseEntity.status(200).body(multiRoleService.addMultiRole(multiRole));
             }
     }
 
     @PutMapping("/edit/{id}")
-    public String editMultiRoleInfo(@PathVariable String id, @RequestBody MultiRoleInput multiRole) {
+    public ResponseEntity<String> editMultiRoleInfo(@PathVariable String id, @RequestBody MultiRoleInput multiRole) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<MultiRoleInput>> errors = validator.validate(multiRole);
             //Error Handling
             if(errors.size() > 0){
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else{
-                return multiRoleService.editMultiRoleInfo(id, multiRole);
+                return ResponseEntity.status(200).body(multiRoleService.editMultiRoleInfo(id, multiRole));
             }
     }
 

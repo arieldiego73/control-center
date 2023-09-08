@@ -14,11 +14,11 @@ import lombok.Setter;
 public class ProjectInput {
 
     @NotBlank(message = "Project name should not be empty.")
-    @Size(max = 100)
+    @Size(max = 100, message = "The Project name is not meeting the required length.")
     private String proj_name;
 
     @NotBlank(message = "Project code should not be empty.")
-    @Size(max = 15)
+    @Size(max = 15, message = "The Project code is not meeting the required length.")
     private String proj_code;
 
     @NotBlank(message = "Project description should not be empty.")
