@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,30 +39,30 @@ public class ProjectTechnologyController {
     }
 
     @PostMapping("/add")
-    public String addProjectTechnology(@RequestBody ProjectTechnologyInput projectTechnology){
+    public ResponseEntity<String> addProjectTechnology(@RequestBody ProjectTechnologyInput projectTechnology){
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ProjectTechnologyInput>> errors = validator.validate(projectTechnology);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return projectTechnologyService.addProjectTechnology(projectTechnology);
+                return ResponseEntity.status(200).body(projectTechnologyService.addProjectTechnology(projectTechnology));
             }
     }
 
     @PutMapping("/edit/{id}")
-    public String editProjectTechnology(@PathVariable String id, @RequestBody ProjectTechnologyInput projectTechnology){
+    public ResponseEntity<String> editProjectTechnology(@PathVariable String id, @RequestBody ProjectTechnologyInput projectTechnology){
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ProjectTechnologyInput>> errors = validator.validate(projectTechnology);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return projectTechnologyService.addProjectTechnology(projectTechnology);
+                return ResponseEntity.status(200).body(projectTechnologyService.addProjectTechnology(projectTechnology));
             }
     }
 

@@ -10,7 +10,6 @@ import HelpIcon from "@mui/icons-material/Help";
 import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
-import PersonFourIcon from "@mui/icons-material/Person4";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -29,15 +28,7 @@ import {
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { getRolesFetch } from "../../redux/state/roleState";
 import {
-	addRoles,
-	deleteRoles,
-	deleteRolesBatch,
-	updateRoles,
-} from "../../redux/saga/roleSaga";
-import {
-	Alert,
 	AlertColor,
 	Dialog,
 	DialogActions,
@@ -47,7 +38,6 @@ import {
 	FormControl,
 	FormLabel,
 	InputAdornment,
-	Snackbar,
 	TextField,
 	Typography,
 	useMediaQuery,
@@ -57,17 +47,6 @@ import DevelopmentPhaseModuleStyle from "./DevelopmentPhase.module.css";
 import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
 import { addDevPhase, deleteDevPhase, deleteDevPhaseBatch, updateDevPhase } from "../../redux/saga/devPhaseSaga";
 
-export interface SnackbarMessage {
-	message: string;
-	key: number;
-}
-
-export interface State {
-	open: boolean;
-	snackPack: readonly SnackbarMessage[];
-	messageInfo?: SnackbarMessage;
-}
-
 interface EditToolbarProps {
 	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
 	setRowModesModel: (
@@ -75,7 +54,11 @@ interface EditToolbarProps {
 	) => void;
 }
 
-export default function DevelopmentPhaseTable() {
+interface DevelopmentPhaseProps {
+	createSnackpack: (message: string, severity: AlertColor) => () => void;
+}
+
+const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 	const dispatch = useDispatch();
 
 	// GET ALL THE DEV PHASE AND STORE THEM TO THE STATE IN REDUX
@@ -84,9 +67,9 @@ export default function DevelopmentPhaseTable() {
 	}, [dispatch]);
 
 	// STORE THE DEV PHASE TO 'data'
-	const data = useSelector(
-		(state: RootState) => state.devPhaseReducer.devPhase
-	);
+	const data = useSelector((state: RootState) => state.devPhaseReducer.devPhase);
+	const isSuccess = useSelector((state: RootState) => state.devPhaseReducer.isSuccess);
+	const errorMessage = useSelector((state: RootState) => state.devPhaseReducer.errorMessage);
 
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -105,15 +88,6 @@ export default function DevelopmentPhaseTable() {
 	const [ask, setAsk] = React.useState(false);
 	const [deleteId, setDeleteId] = React.useState(0);
 
-	const [snackPack, setSnackPack] = React.useState<
-		readonly SnackbarMessage[]
-	>([]);
-	const [severity, setSeverity] = React.useState<AlertColor>("error");
-	const [open, setOpen] = React.useState(false);
-	const [messageInfo, setMessageInfo] = React.useState<
-		SnackbarMessage | undefined
-	>(undefined);
-
 	const dataGridSlots = {
 		toolbar: EditToolbar,
 		columnUnsortedIcon: UnsortedIcon,
@@ -126,36 +100,6 @@ export default function DevelopmentPhaseTable() {
 	// FOR CONFIRM DIALOG
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-	// FOR SNACKPACK
-	React.useEffect(() => {
-		if (snackPack.length && !messageInfo) {
-			// Set a new snack when we don't have an active one
-			setMessageInfo({ ...snackPack[0] });
-			setSnackPack((prev) => prev.slice(1));
-			setOpen(true);
-		} else if (snackPack.length && messageInfo && open) {
-			// Close an active snack when a new one is added
-			setOpen(false);
-		}
-	}, [snackPack, messageInfo, open]);
-
-	const handleClickSnackpack =
-		(message: string, severity: AlertColor) => () => {
-			setSnackPack((prev) => [
-				...prev,
-				{ message, key: new Date().getTime() },
-			]);
-			setSeverity(severity);
-		};
-
-	const handleClose = (event: React.SyntheticEvent | Event) => {
-		setOpen(false);
-	};
-
-	const handleExited = () => {
-		setMessageInfo(undefined);
-	};
 
 	// FOR DATA GRID
 	React.useEffect(() => {
@@ -214,26 +158,42 @@ export default function DevelopmentPhaseTable() {
 
 	const proceedWithDelete = () => {
 		dispatch(deleteDevPhase({ dev_phase_id: deleteId }));
-		setRows(data);
-		setAsk(false);
-		const success = handleClickSnackpack(
-			"A development phase is deleted successfully!",
-			"success"
-		);
-		success();
+		if (isSuccess) {
+			setRows(data);
+			setAsk(false);
+			const success = props.createSnackpack(
+				"A development phase is deleted successfully!",
+				"success"
+			);
+			success();
+		} else {
+			const error = props.createSnackpack(
+				errorMessage,
+				"error"
+			);
+			error();
+		}
 	};
 
 	const proceedWithDeleteBatch = () => {
 		dispatch(deleteDevPhaseBatch({ batchId: selectedId }));
-		setRows(data); // update rows
-		setRowSelectionModel([]); // clear selected rows
-		setSelectedId(new Set()); // clear selected IDs
-		setAsk(false); // close dialog
-		const success = handleClickSnackpack(
-			`Deleted ${selectedId.size} development phase/s successfully!`,
-			"success"
-		);
-		success();
+		if (isSuccess) {
+			setRows(data); // update rows
+			setRowSelectionModel([]); // clear selected rows
+			setSelectedId(new Set()); // clear selected IDs
+			setAsk(false); // close dialog
+			const success = props.createSnackpack(
+				`Deleted ${selectedId.size} development phase/s successfully!`,
+				"success"
+			);
+			success();
+		} else {
+			const error = props.createSnackpack(
+				errorMessage,
+				"error"
+			);
+			error();
+		}
 	};
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
@@ -279,67 +239,77 @@ export default function DevelopmentPhaseTable() {
 
 	const processUpdateRow = (devPhaseData: GridRowModel) => {
 		dispatch(updateDevPhase({ devPhaseData }));
-		const success = handleClickSnackpack(
-			"Development Phase is updated successfully",
-			"success"
-		);
-		success();
+		if (isSuccess) {
+			setRows(data); // update rows
+			const success = props.createSnackpack(
+				"Development Phase is updated successfully",
+				"success"
+			);
+			success();
+		} else {
+			const error = props.createSnackpack(
+				errorMessage,
+				"error"
+			);
+			error();
+		}
 	};
 
 	const processAddRow = (devPhaseData: GridRowModel) => {
 		dispatch(addDevPhase({ devPhaseData }));
-		const success = handleClickSnackpack(
-			"Development phase is added successfully",
-			"success"
-		);
-		success();
+		if (isSuccess) {
+			setRows(data); // update rows
+			const success = props.createSnackpack(
+				"Development phase is added successfully",
+				"success"
+			);
+			success();
+		} else {
+			const error = props.createSnackpack(
+				errorMessage,
+				"error"
+			);
+			error();
+		}
 	};
 
 	const handleAdd = () => {
-		if (devPhaseName && shortName) {
-			const devPhaseData: GridValidRowModel = {
-				dev_phase_name: devPhaseName,
-				dev_phase_sh_name: shortName,
-			};
-			processAddRow(devPhaseData);
-			setIsHidden(false);
-			setDevPhaseName("");
-			setShortName("");
-		} else {
-			const error = handleClickSnackpack(
-				"All fields are required! Please, try again.",
-				"error"
-			);
-			error();
-		}
+		addRecord(true);
 	};
 
 	const handleAddContinue = () => {
+		addRecord(false);
+	};
+
+	const addRecord = (isAddOnly: boolean) => {
 		if (devPhaseName && shortName) {
-			const devPhaseData: GridValidRowModel = {
+			const posData: GridValidRowModel = {
 				dev_phase_name: devPhaseName,
 				dev_phase_sh_name: shortName,
 			};
-			processAddRow(devPhaseData);
+			processAddRow(posData);
 			setDevPhaseName("");
 			setShortName("");
-			devPhaseNameRef.current?.focus();
+			if (isAddOnly) {
+				setIsHidden(false);
+			} else {
+				devPhaseNameRef.current?.focus();
+			}
 		} else {
-			const error = handleClickSnackpack(
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
 			error();
 		}
-	};
+	}
 
-	const handleUpdateAndAdd = (newRow: GridRowModel) => {
+	const handleUpdate = (newRow: GridRowModel) => {
 		if (newRow.dev_phase_name && newRow.dev_phase_sh_name) {
 			processUpdateRow(newRow);
-			setRows(data); // update the rows in the table
 		} else {
-			const cancel = handleCancelClick(newRow.role_id);
-			const error = handleClickSnackpack(
+			const cancel = handleCancelClick(newRow.dev_phase_id);
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -648,7 +618,7 @@ export default function DevelopmentPhaseTable() {
 			</Box>
 
 			<DataGrid
-				sx={{ height: 650, border: "none" }}
+				sx={{ height: "67vh", border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"
@@ -656,7 +626,7 @@ export default function DevelopmentPhaseTable() {
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
-				processRowUpdate={handleUpdateAndAdd}
+				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
 				onRowSelectionModelChange={(newRowSelectionModel) => {
@@ -668,9 +638,6 @@ export default function DevelopmentPhaseTable() {
 					pagination: {
 						paginationModel: { page: 0, pageSize: 25 },
 					},
-					sorting: {
-						sortModel: [{ field: "reg_id", sort: "desc" }],
-					},
 				}}
 				slots={dataGridSlots}
 				slotProps={{
@@ -678,23 +645,6 @@ export default function DevelopmentPhaseTable() {
 				}}
 				pageSizeOptions={[25, 50, 100]}
 			/>
-			<Snackbar
-				key={messageInfo ? messageInfo.key : undefined}
-				open={open}
-				autoHideDuration={2000}
-				onClose={handleClose}
-				TransitionProps={{ onExited: handleExited }}
-				// message={messageInfo ? messageInfo.message : undefined}
-			>
-				<Alert
-					onClose={handleClose}
-					severity={severity}
-					sx={{ width: "100%" }}
-					variant="filled"
-				>
-					{messageInfo ? messageInfo.message : undefined}
-				</Alert>
-			</Snackbar>
 			<Dialog
 				fullScreen={fullScreen}
 				open={ask}
@@ -754,3 +704,5 @@ export default function DevelopmentPhaseTable() {
 		</Box>
 	);
 }
+
+export default DevelopmentPhaseTable;

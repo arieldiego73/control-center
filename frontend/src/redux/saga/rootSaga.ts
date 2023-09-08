@@ -11,6 +11,7 @@ import {
 import { sessionSaga } from "./sessionSaga";
 import departmentSaga from "./departmentSaga";
 import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBatch, devPhaseSagaUpdate } from "./devPhaseSaga";
+import { positionSaga, positionSagaAdd, positionSagaUpdate, positionSagaDelete, positionSagaDeleteBatch } from "./positionSaga";
 import { businessUnitSaga, businessUnitSagaAdd, businessUnitSagaDelete, businessUnitSagaDeleteBatch, businessUnitSagaUpdate } from "./businessUnitSaga";
 
 export default function* rootSaga() {
@@ -29,6 +30,11 @@ export default function* rootSaga() {
 		devPhaseSagaUpdate(),
 		devPhaseSagaDelete(),
 		devPhaseSagaDeleteBatch(),
+		positionSaga(),
+		positionSagaAdd(),
+		positionSagaUpdate(),
+		positionSagaDelete(),
+		positionSagaDeleteBatch(),
 		businessUnitSaga(),
 		businessUnitSagaAdd(),
 		businessUnitSagaUpdate(),

@@ -9,12 +9,14 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.PositionInput;
@@ -34,45 +36,50 @@ public class PositionController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public List<PositionOutput> getAllPosition() {
+    public ResponseEntity<List<PositionOutput>> getAllPosition() {
         return positionService.getAllPosition();
     }
 
     @PostMapping("/add")
-    public String addPosition(@RequestBody PositionInput position) {
+    public ResponseEntity<String> addPosition(@RequestBody PositionInput position) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<PositionInput>> errors = validator.validate(position);
             //Error Handling
             if(errors.size() > 0){
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.badRequest().body(errorHandler.getErrors(errors));
             } else{
                 return positionService.addPosition(position);
             }
     }
 
     @PutMapping("/edit/{id}")
-    public String editPositionInfo(@PathVariable String id, @RequestBody PositionInput position) {
+    public ResponseEntity<String> editPositionInfo(@PathVariable String id, @RequestBody PositionInput position) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<PositionInput>> errors = validator.validate(position);
             //Error Handling
             if(errors.size() > 0){
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.badRequest().body(errorHandler.getErrors(errors));
             } else{
                 return positionService.editPositionInfo(id, position);
             }
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeltePosition(@PathVariable String id) {
+    public ResponseEntity<String> logicalDeletePosition(@PathVariable String id) {
         return positionService.logicalDeletePosition(id);
     }
 
+    @PutMapping("/delete-multiple")
+    public ResponseEntity<String> deleteMultiplePosition(@RequestParam List<Long> ids) {
+        return positionService.deleteMultiplePosition(ids);
+    }
+
     @PutMapping("/restore/{id}")
-    public String restorePosition(@PathVariable String id) {
+    public ResponseEntity<String> restorePosition(@PathVariable String id) {
         return positionService.restorePosition(id);
     }
 }

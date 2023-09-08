@@ -10,7 +10,6 @@ import HelpIcon from "@mui/icons-material/Help";
 import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
-import PersonFourIcon from "@mui/icons-material/Person4";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -29,15 +28,7 @@ import {
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { getRolesFetch } from "../../redux/state/roleState";
 import {
-	addRoles,
-	deleteRoles,
-	deleteRolesBatch,
-	updateRoles,
-} from "../../redux/saga/roleSaga";
-import {
-	Alert,
 	AlertColor,
 	Dialog,
 	DialogActions,
@@ -47,24 +38,14 @@ import {
 	FormControl,
 	FormLabel,
 	InputAdornment,
-	Snackbar,
 	TextField,
 	Typography,
 	useMediaQuery,
 	useTheme,
 } from "@mui/material";
-import EmployeePositionStyle from './EmployeePositionTable.module.css';
-
-export interface SnackbarMessage {
-	message: string;
-	key: number;
-}
-
-export interface State {
-	open: boolean;
-	snackPack: readonly SnackbarMessage[];
-	messageInfo?: SnackbarMessage;
-}
+import PositionModuleStyle from "./EmployeePositionTable.module.css";
+import { getPositionFetch } from "../../redux/state/positionState";
+import { addPosition, deletePosition, deletePositionBatch, updatePosition } from "../../redux/saga/positionSaga";
 
 interface EditToolbarProps {
 	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -73,19 +54,25 @@ interface EditToolbarProps {
 	) => void;
 }
 
-export default function EmployeePositionTable() {
+interface EmployeePositionProps {
+	createSnackpack: (message: string, severity: AlertColor) => () => void;
+}
+
+const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 	const dispatch = useDispatch();
 
-	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
+	// GET ALL THE DEV PHASE AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
-		dispatch(getRolesFetch());
+		dispatch(getPositionFetch());
 	}, [dispatch]);
 
-	// STORE THE ROLES TO 'data'
-	const data = useSelector((state: RootState) => state.roleReducer.roles);
-
+	// GET THE STATES
+	const positionData = useSelector((state: RootState) => state.positionReducer.position);
+	const isSuccess = useSelector((state: RootState) => state.positionReducer.isSuccess);
+	const errorMessage = useSelector((state: RootState) => state.positionReducer.errorMessage);
+	
 	const [isHidden, setIsHidden] = React.useState(false);
-	const [rows, setRows] = React.useState<GridRowsProp>(data);
+	const [rows, setRows] = React.useState<GridRowsProp>(positionData);
 	const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
 		{}
 	);
@@ -101,15 +88,6 @@ export default function EmployeePositionTable() {
 	const [ask, setAsk] = React.useState(false);
 	const [deleteId, setDeleteId] = React.useState(0);
 
-	const [snackPack, setSnackPack] = React.useState<
-		readonly SnackbarMessage[]
-	>([]);
-	const [open, setOpen] = React.useState(false);
-	const [messageInfo, setMessageInfo] = React.useState<
-		SnackbarMessage | undefined
-	>(undefined);
-	const [severity, setSeverity] = React.useState<AlertColor>("error");
-
 	const dataGridSlots = {
 		toolbar: EditToolbar,
 		columnUnsortedIcon: UnsortedIcon,
@@ -123,69 +101,15 @@ export default function EmployeePositionTable() {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-	const proceedWithDelete = () => {
-		dispatch(deleteRoles({ role_id: deleteId }));
-		setRows(data);
-		setAsk(false);
-		const success = handleClickSnackpack(
-			"A role is deleted successfully!",
-			"success"
-		);
-		success();
-	};
-
-	const proceedWithDeleteBatch = async () => {
-		dispatch(deleteRolesBatch({ batchId: selectedId }));
-		setRows(data); // update rows
-		setRowSelectionModel([]); // clear selected rows
-		setSelectedId(new Set()); // clear selected IDs
-		setAsk(false); // close dialog
-		const success = handleClickSnackpack(
-			`Deleted ${selectedId.size} role/s successfully!`,
-			"success"
-		);
-		success();
-	};
-
-	// FOR SNACKPACK
-	React.useEffect(() => {
-		if (snackPack.length && !messageInfo) {
-			// Set a new snack when we don't have an active one
-			setMessageInfo({ ...snackPack[0] });
-			setSnackPack((prev) => prev.slice(1));
-			setOpen(true);
-		} else if (snackPack.length && messageInfo && open) {
-			// Close an active snack when a new one is added
-			setOpen(false);
-		}
-	}, [snackPack, messageInfo, open]);
-
-	const handleClickSnackpack =
-		(message: string, severity: AlertColor) => () => {
-			setSnackPack((prev) => [
-				...prev,
-				{ message, key: new Date().getTime() },
-			]);
-			setSeverity(severity);
-		};
-
-	const handleClose = (event: React.SyntheticEvent | Event) => {
-		setOpen(false);
-	};
-
-	const handleExited = () => {
-		setMessageInfo(undefined);
-	};
-
 	// FOR DATA GRID
 	React.useEffect(() => {
-		setRows(data);
-	}, [data]);
+		setRows(positionData);
+	}, [positionData]);
 
-	const [roleTitle, setRoleTitle] = React.useState("");
+	const [positionName, setPositionName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
-	const [userLevel, setUserLevel] = React.useState("");
-	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
+	// const [userLevel, setUserLevel] = React.useState("");
+	const positionNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	function EditToolbar(props: EditToolbarProps) {
 		const handleDeleteBatch = () => {
@@ -197,7 +121,7 @@ export default function EmployeePositionTable() {
 			setDialogTitle(
 				`Delete ${
 					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
-				} role${selectedId.size > 1 ? "s" : ""}?`
+				} position${selectedId.size > 1 ? "s" : ""}?`
 			);
 		};
 
@@ -231,6 +155,46 @@ export default function EmployeePositionTable() {
 			</GridToolbarContainer>
 		);
 	}
+
+	const proceedWithDelete = () => {
+		dispatch(deletePosition({ position_id: deleteId }));
+		if (isSuccess) {
+			setRows(positionData);
+			setAsk(false);
+			const success = props.createSnackpack(
+				"A position is deleted successfully!",
+				"success"
+			);
+			success();
+		} else {
+			const error = props.createSnackpack(
+				errorMessage,
+				"error"
+			);
+			error();
+		}
+	};
+
+	const proceedWithDeleteBatch = () => {
+		dispatch(deletePositionBatch({ batchId: selectedId }));
+		if (isSuccess) {
+			setRows(positionData); // update rows
+			setRowSelectionModel([]); // clear selected rows
+			setSelectedId(new Set()); // clear selected IDs
+			setAsk(false); // close dialog
+			const success = props.createSnackpack(
+				`Deleted ${selectedId.size} position/s successfully!`,
+				"success"
+			);
+			success();
+		} else {
+			const error = props.createSnackpack(
+				errorMessage,
+				"error"
+			);
+			error();
+		}
+	};
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
@@ -270,81 +234,82 @@ export default function EmployeePositionTable() {
 			...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
-		setRows(data);
+		setRows(positionData);
 	};
 
-	const processUpdateRow = (roleInfo: GridRowModel) => {
-		dispatch(updateRoles({ roleInfo }));
-		const success = handleClickSnackpack(
-			"Role is updated successfully",
-			"success"
-		);
-		success();
+	const processUpdateRow = (data: GridRowModel) => {
+		dispatch(updatePosition({ positionData: data }));
+		if (isSuccess) {
+			setRows(positionData); // update rows
+			const success = props.createSnackpack(
+				"A record is updated successfully",
+				"success"
+			);
+			success();
+		} else {
+			const error = props.createSnackpack(
+				errorMessage,
+				"error"
+			);
+			error();
+		}
 	};
 
-	const processAddRow = (roleInfo: GridRowModel) => {
-		dispatch(addRoles({ roleInfo }));
-		const success = handleClickSnackpack(
-			"Role is added successfully",
-			"success"
-		);
-		success();
+	const processAddRow = (data: GridRowModel) => {
+		dispatch(addPosition({ positionData: data }));
+		if (isSuccess) {
+			setRows(positionData); // update rows
+			const success = props.createSnackpack(
+				"A record is added successfully",
+				"success"
+			);
+			success();
+		} else {
+			const error = props.createSnackpack(
+				errorMessage,
+				"error"
+			);
+			error();
+		}
 	};
 
 	const handleAdd = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
-			};
-			processAddRow(roleInfo);
-			setIsHidden(false);
-			setRoleTitle("");
-			setShortName("");
-			setUserLevel("");
-		} else {
-			const error = handleClickSnackpack(
-				"All fields are required! Please, try again.",
-				"error"
-			);
-			error();
-		}
+		addRecord(true);
 	};
 
 	const handleAddContinue = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
+		addRecord(false);
+	};
+
+	const addRecord = (isAddOnly: boolean) => {
+		if (positionName && shortName) {
+			const posData: GridValidRowModel = {
+				position_name: positionName,
+				position_sh_name: shortName,
 			};
-			processAddRow(roleInfo);
-			setRoleTitle("");
+			processAddRow(posData);
+			setPositionName("");
 			setShortName("");
-			setUserLevel("");
-			roleTitleRef.current?.focus();
+			if (isAddOnly) {
+				setIsHidden(false);
+			} else {
+				positionNameRef.current?.focus();
+			}
 		} else {
-			const error = handleClickSnackpack(
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
 			error();
 		}
-	};
+	}
 
-	const handleUpdateAndAdd = (newRow: GridRowModel) => {
-		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
-			// determines whether it is update or add new
-			if (data.length === rows.length) {
-				processUpdateRow(newRow);
-			} else {
-				processAddRow(newRow);
-			}
-			setRows(data); // update the rows in the table
+	const handleUpdate = (newRow: GridRowModel) => {
+		if (newRow.position_name && newRow.position_sh_name) {
+			processUpdateRow(newRow)
 		} else {
-			const cancel = handleCancelClick(newRow.role_id);
-			const error = handleClickSnackpack(
+			const cancel = handleCancelClick(newRow.position_id);
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -360,8 +325,8 @@ export default function EmployeePositionTable() {
 
 	const columns: GridColDef[] = [
 		{
-			field: "title",
-			headerName: "Role",
+			field: "position_name",
+			headerName: "Position",
 			width: 300,
 			editable: true,
 			flex: 12,
@@ -369,23 +334,13 @@ export default function EmployeePositionTable() {
 			align: "center",
 		},
 		{
-			field: "role_sh_name",
+			field: "position_sh_name",
 			headerName: "Short Name",
 			width: 300,
 			editable: true,
 			flex: 12,
 			headerAlign: "center",
 			align: "center",
-		},
-		{
-			field: "role_user_level",
-			headerName: "User Level",
-			type: "number",
-			width: 200,
-			editable: true,
-			headerAlign: "center",
-			align: "center",
-			flex: 12,
 		},
 		{
 			field: "actions",
@@ -476,6 +431,9 @@ export default function EmployeePositionTable() {
 				".MuiDataGrid-sortIcon": {
 					opacity: "inherit !important",
 				},
+				".MuiDataGrid-cellContent": {
+					fontWeight: "500",
+				},
 			}}
 		>
 			<Box
@@ -501,7 +459,7 @@ export default function EmployeePositionTable() {
 						Add Role
 					</Button>
 				) : (
-					<div className={EmployeePositionStyle.hideButton}>
+					<div className={PositionModuleStyle.hideButton}>
 						<div
 							style={{
 								flexDirection: "row",
@@ -522,19 +480,24 @@ export default function EmployeePositionTable() {
 								}}
 							>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
-										Role
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+											fontFamily: "Montserrat, san-serif",
+										}}
+									>
+										Position
 									</FormLabel>
 									<TextField
 										style={{ width: "100%" }}
 										size="small"
 										placeholder="ex: Software Developer"
 										onChange={(e) =>
-											setRoleTitle(e.target.value)
+											setPositionName(e.target.value)
 										}
-										value={roleTitle}
+										value={positionName}
 										autoFocus
-										inputRef={roleTitleRef}
+										inputRef={positionNameRef}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -545,7 +508,12 @@ export default function EmployeePositionTable() {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+											fontFamily: "Montserrat, san-serif",
+										}}
+									>
 										Short Name
 									</FormLabel>
 									<TextField
@@ -557,7 +525,9 @@ export default function EmployeePositionTable() {
 											setShortName(e.target.value)
 										}
 										value={shortName}
-										className={EmployeePositionStyle.textField}
+										className={
+											PositionModuleStyle.textField
+										}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -567,7 +537,7 @@ export default function EmployeePositionTable() {
 										}}
 									/>
 								</FormControl>
-								<FormControl>
+								{/* <FormControl>
 									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
 										User Level
 									</FormLabel>
@@ -581,7 +551,7 @@ export default function EmployeePositionTable() {
 											setUserLevel(e.target.value)
 										}
 										value={userLevel}
-										className={EmployeePositionStyle.textField}
+										className={PositionModuleStyle.textField}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -590,7 +560,7 @@ export default function EmployeePositionTable() {
 											),
 										}}
 									/>
-								</FormControl>
+								</FormControl> */}
 							</div>
 
 							<div
@@ -609,7 +579,7 @@ export default function EmployeePositionTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
+										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAddContinue}
 								>
@@ -622,19 +592,21 @@ export default function EmployeePositionTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
+										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAdd}
 								>
 									Save
 								</Button>
 								<Button
-									style={{ height: "50%", fontFamily: "Montserrat, san-serif" }}
+									style={{
+										height: "50%",
+										fontFamily: "Montserrat, san-serif",
+									}}
 									onClick={() => {
 										setIsHidden(false);
-										setRoleTitle("");
+										setPositionName("");
 										setShortName("");
-										setUserLevel("");
 									}}
 								>
 									Close
@@ -646,15 +618,15 @@ export default function EmployeePositionTable() {
 			</Box>
 
 			<DataGrid
-				sx={{ height: 600, border: "none" }}
+				sx={{ height: "67vh", border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"
-				getRowId={(row) => row.role_id}
+				getRowId={(row) => row.position_id}
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
-				processRowUpdate={handleUpdateAndAdd}
+				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
 				onRowSelectionModelChange={(newRowSelectionModel) => {
@@ -666,9 +638,6 @@ export default function EmployeePositionTable() {
 					pagination: {
 						paginationModel: { page: 0, pageSize: 25 },
 					},
-					sorting: {
-						sortModel: [{ field: "reg_id", sort: "desc" }],
-					},
 				}}
 				slots={dataGridSlots}
 				slotProps={{
@@ -676,23 +645,7 @@ export default function EmployeePositionTable() {
 				}}
 				pageSizeOptions={[25, 50, 100]}
 			/>
-			<Snackbar
-				key={messageInfo ? messageInfo.key : undefined}
-				open={open}
-				autoHideDuration={2000}
-				onClose={handleClose}
-				TransitionProps={{ onExited: handleExited }}
-				// message={messageInfo ? messageInfo.message : undefined}
-			>
-				<Alert
-					onClose={handleClose}
-					severity={severity}
-					sx={{ width: "100%" }}
-					variant="filled"
-				>
-					{messageInfo ? messageInfo.message : undefined}
-				</Alert>
-			</Snackbar>
+			
 			<Dialog
 				fullScreen={fullScreen}
 				open={ask}
@@ -705,7 +658,7 @@ export default function EmployeePositionTable() {
 					<Typography
 						fontFamily={"Montserrat, san-serif"}
 						fontWeight={700}
-						fontSize={24}
+						fontSize={20}
 						display={"flex"}
 						alignItems={"center"}
 						gap={1}
@@ -752,3 +705,5 @@ export default function EmployeePositionTable() {
 		</Box>
 	);
 }
+
+export default EmployeePositionTable;

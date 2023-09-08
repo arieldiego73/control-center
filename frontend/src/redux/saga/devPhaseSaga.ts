@@ -1,9 +1,9 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { getRolesSuccess } from "../state/roleState";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
-import { getDevPhaseSuccess } from "../state/devPhaseState";
+import { getDevPhaseFetch, getDevPhaseSuccess, setErrorMessage } from "../state/devPhaseState";
 
+// GET ALL
 function* fetchDevPhase(): any {
 	const devPhase = yield call(() =>
 		fetch("http://localhost:8080/dev-phase/all").then((res) => res.json())
@@ -11,6 +11,15 @@ function* fetchDevPhase(): any {
 	yield put(getDevPhaseSuccess(devPhase));
 }
 
+export function* devPhaseSaga() {
+	yield takeEvery("devPhase/getDevPhaseFetch", fetchDevPhase);
+}
+
+
+
+
+
+// UPDATE
 const apiUpdate = async (
 	dev_phase_id: number,
 	dev_phase_name: string,
@@ -25,17 +34,43 @@ const apiUpdate = async (
 				"Content-Type": "application/json",
 			},
 		});
-		if (response.ok) {
-			const data = await response.json();
-			return data;
-		} else {
-			return null;
-		}
+		return response;
 	} catch (error) {
 		console.error("An error occurred:", error);
 	}
 };
 
+export const updateDevPhase = createAction<{
+	devPhaseData: GridValidRowModel;
+}>("devPhase/updateDevPhase");
+
+export function* devPhaseSagaUpdate() {
+	yield takeLatest(updateDevPhase.type, updateSaga);
+}
+
+function* updateSaga(action: ReturnType<typeof updateDevPhase>): any {
+	try {
+		const response = yield call(
+			apiUpdate,
+			action.payload.devPhaseData.dev_phase_id,
+			action.payload.devPhaseData.dev_phase_name,
+			action.payload.devPhaseData.dev_phase_sh_name,
+		);
+		if (response.ok) {
+			yield put(getDevPhaseFetch());
+		} else {
+			yield put(setErrorMessage(response.text));
+		}
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+
+
+
+
+// ADD
 const apiAdd = async (
 	dev_phase_name: string,
 	dev_phase_sh_name: string,
@@ -52,34 +87,81 @@ const apiAdd = async (
 				"Content-Type": "application/json",
 			},
 		});
-		if (response.ok) {
-			const data = await response.json();
-			return data;
-		} else {
-			return null;
-		}
+		return response;
 	} catch (error) {
 		console.error("An error occurred:", error);
 	}
 };
 
+export const addDevPhase = createAction<{
+	devPhaseData: GridValidRowModel;
+}>("devPhase/addDevPhase");
+
+export function* devPhaseSagaAdd() {
+	yield takeLatest(addDevPhase.type, addSaga);
+}
+
+function* addSaga(action: ReturnType<typeof addDevPhase>): any {
+	try {
+		const response = yield call(
+			apiAdd,
+			action.payload.devPhaseData.dev_phase_name,
+			action.payload.devPhaseData.dev_phase_sh_name
+		);
+		// if (position) yield put(getPositionSuccess(position));
+		if (response.ok) {
+			yield put(getDevPhaseFetch());
+		} else {
+			yield put(setErrorMessage(response.text));
+		}
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+
+
+
+
+// DELETE
 const apiDelete = async (dev_phase_id: number): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/dev-phase/delete/" + dev_phase_id;
 		const response = await fetch(url, {
 			method: "PUT",
 		});
-		if (response.ok) {
-			const data = await response.json();
-			return data;
-		} else {
-			return null;
-		}
+		return response;
 	} catch (error) {
 		console.error("An error occurred:", error);
 	}
 };
 
+export const deleteDevPhase = createAction<{
+	dev_phase_id: number;
+}>("devPhase/deleteDevPhase");
+
+export function* devPhaseSagaDelete() {
+	yield takeLatest(deleteDevPhase.type, deleteSaga);
+}
+
+function* deleteSaga(action: ReturnType<typeof deleteDevPhase>): any {
+	try {
+		const response = yield call(apiDelete, action.payload.dev_phase_id);
+		if (response.ok) {
+			yield put(getDevPhaseFetch());
+		} else {
+			yield put(setErrorMessage(response.text));
+		}
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+
+
+
+
+// BATCH DELETE
 const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 	try {
 		const params = new URLSearchParams();
@@ -94,95 +176,29 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 		).catch((error) => {
 			console.log(error);
 		});
-
-		if (response?.ok) {
-			const data = await response.json();
-			return data;
-		} else {
-			return null;
-		}
+		return response;
 	} catch (error) {
 		console.error("An error occurred:", error);
 	}
 };
 
-function* updateSaga(action: ReturnType<typeof updateDevPhase>): any {
-	try {
-		const devPhase = yield call(
-			apiUpdate,
-			action.payload.devPhaseData.dev_phase_id,
-			action.payload.devPhaseData.dev_phase_name,
-			action.payload.devPhaseData.dev_phase_sh_name,
-		);
-		if (devPhase) yield put(getDevPhaseSuccess(devPhase));
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-function* addSaga(action: ReturnType<typeof addDevPhase>): any {
-	try {
-		const devPhase = yield call(
-			apiAdd,
-			action.payload.devPhaseData.dev_phase_name,
-			action.payload.devPhaseData.dev_phase_sh_name
-		);
-		if (devPhase) yield put(getDevPhaseSuccess(devPhase));
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-function* deleteSaga(action: ReturnType<typeof deleteDevPhase>): any {
-	try {
-		const devPhase = yield call(apiDelete, action.payload.dev_phase_id);
-		if (devPhase) yield put(getDevPhaseSuccess(devPhase));
-	} catch (error) {
-		console.log(error);
-	}
-}
-
 function* deleteBatchSaga(action: ReturnType<typeof deleteDevPhaseBatch>): any {
 	try {
-		const devPhase = yield call(apiBatchDelete, action.payload.batchId);
-		if (devPhase) yield put(getDevPhaseSuccess(devPhase));
+		const response = yield call(apiBatchDelete, action.payload.batchId);
+		if (response?.ok) {
+			yield put(getDevPhaseFetch());
+		} else {
+			yield put(setErrorMessage(response?.text));
+		}
 	} catch (error) {
 		console.log(error);
 	}
 }
-
-export const updateDevPhase = createAction<{
-	devPhaseData: GridValidRowModel;
-}>("devPhase/updateDevPhase");
-
-export const addDevPhase = createAction<{
-	devPhaseData: GridValidRowModel;
-}>("devPhase/addDevPhase");
-
-export const deleteDevPhase = createAction<{
-	dev_phase_id: number;
-}>("devPhase/deleteDevPhase");
 
 export const deleteDevPhaseBatch = createAction<{
 	batchId: Set<GridRowId>;
-}>("roles/deleteRolesBatch");
-
-export function* devPhaseSagaUpdate() {
-	yield takeLatest(updateDevPhase.type, updateSaga);
-}
-
-export function* devPhaseSagaAdd() {
-	yield takeLatest(addDevPhase.type, addSaga);
-}
-
-export function* devPhaseSagaDelete() {
-	yield takeLatest(deleteDevPhase.type, deleteSaga);
-}
+}>("devPhase/deleteRolesBatch");
 
 export function* devPhaseSagaDeleteBatch() {
 	yield takeLatest(deleteDevPhaseBatch.type, deleteBatchSaga);
-}
-
-export function* devPhaseSaga() {
-	yield takeEvery("devPhase/getDevPhaseFetch", fetchDevPhase);
 }
