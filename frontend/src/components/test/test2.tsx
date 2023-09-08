@@ -1,46 +1,46 @@
 import * as React from 'react';
-import FormatBoldIcon from '@mui/icons-material/FormatBold';
-import FormatItalicIcon from '@mui/icons-material/FormatItalic';
-import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
-import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { TextField } from '@material-ui/core';
+import testStyle from "./test2.module.css"
+
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { useState } from 'react';
+
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ font: []}],
+    [{ size: []}],
+    ["bold", "italic", "underline"],
+    [
+      { list: "ordered"},
+      { list: "bullet"},
+
+    ]
+  ]
+};
+
 
 export default function ToggleButtonsMultiple() {
-  const [formats, setFormats] = React.useState(() => ['bold', 'italic']);
 
-  const handleFormat = (
-    event: React.MouseEvent<HTMLElement>,
-    newFormats: string[],
-  ) => {
-    setFormats(newFormats);
-  };
+  const [value, setValue] = useState("");
 
   return (
-    <ToggleButtonGroup
-      value={formats}
-      onChange={handleFormat}
-      aria-label="text formatting"
-    >
-    
-        <ToggleButton value="bold" aria-label="bold">
-          <TextField> </TextField>
-          <FormatBoldIcon />
-        </ToggleButton>
-        <ToggleButton value="italic" aria-label="italic">
-          <FormatItalicIcon />
-        </ToggleButton>
-        <ToggleButton value="underlined" aria-label="underlined">
-          <FormatUnderlinedIcon />
-        </ToggleButton>
-        <ToggleButton value="color" aria-label="color" disabled>
-          <FormatColorFillIcon />
-          <ArrowDropDownIcon />
-        </ToggleButton>
+    <div className={testStyle.container}>
+      <div className={testStyle.row}>
+        <div className={testStyle.editor}>
+          Editor
+          <ReactQuill
+            theme='snow'
+            value={value}
+            className={testStyle.editorInput}
+            onChange={setValue}
+            modules={modules}
+          />
 
-        
-    </ToggleButtonGroup>
+        </div>
+        <div className={testStyle.preview}>Preview</div>
+      </div>
+    </div>
   );
 }
