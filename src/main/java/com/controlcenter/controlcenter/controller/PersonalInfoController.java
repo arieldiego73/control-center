@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,30 +39,30 @@ public class PersonalInfoController {
     }
 
     @PostMapping("/add")
-    public String addPersonalInfo(@RequestBody PersonalInfoInput personalInfo) {
+    public ResponseEntity<String> addPersonalInfo(@RequestBody PersonalInfoInput personalInfo) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<PersonalInfoInput>> errors = validator.validate(personalInfo);
             //Error Handling
             if(errors.size() > 0){
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else{
-                return personalInfoService.addPersonalInfo(personalInfo);
+                return ResponseEntity.status(200).body(personalInfoService.addPersonalInfo(personalInfo));
             }
     }
 
     @PutMapping("/edit/{id}")
-    public String editPersonalInfo(@PathVariable String id, @RequestBody PersonalInfoInput personalInfo) {
+    public ResponseEntity<String> editPersonalInfo(@PathVariable String id, @RequestBody PersonalInfoInput personalInfo) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<PersonalInfoInput>> errors = validator.validate(personalInfo);
             //Error Handling
             if(errors.size() > 0){
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else{
-                return personalInfoService.editPersonalInfo(id, personalInfo);
+                return ResponseEntity.status(200).body(personalInfoService.editPersonalInfo(id, personalInfo));
             }
     }
 
