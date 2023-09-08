@@ -1,6 +1,6 @@
 package com.controlcenter.controlcenter.model;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,11 +9,11 @@ import lombok.Setter;
 @Setter
 public class ProjectPhaseInput {
 
-    @NotNull
-    @Size(max = 9)
-    private int dev_phase_id;
+    @NotNull(message = "Development Phase ID should not be empty.")
+    @Digits(integer = 9, fraction = 0, message =  "The Development Phase ID is invalid, it should be up to 9 digits long.")
+    private Long dev_phase_id;
 
-    @NotNull
-    @Size(max = 9)
-    private int proj_id;
+    @NotNull(message = "Project ID should not be empty.")
+    @Digits(integer = 9, fraction = 0, message = "The Project ID is invalid, it should be up to 9 digits long.")
+    private Long proj_id;
 }
