@@ -11,6 +11,7 @@ import {
 import { sessionSaga } from "./sessionSaga";
 import departmentSaga from "./departmentSaga";
 import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBatch, devPhaseSagaUpdate } from "./devPhaseSaga";
+import { positionSaga, positionSagaAdd, positionSagaUpdate, positionSagaDelete, positionSagaDeleteBatch } from "./positionSaga";
 
 export default function* rootSaga() {
 	yield all([
@@ -27,7 +28,12 @@ export default function* rootSaga() {
 		devPhaseSagaAdd(),
 		devPhaseSagaUpdate(),
 		devPhaseSagaDelete(),
-		devPhaseSagaDeleteBatch()
+		devPhaseSagaDeleteBatch(),
+		positionSaga(),
+		positionSagaAdd(),
+		positionSagaUpdate(),
+		positionSagaDelete(),
+		positionSagaDeleteBatch()
 		// Add more sagas here
 	]);
 }

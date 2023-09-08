@@ -649,7 +649,7 @@ export default function RoleTable() {
 			</Box>
 
 			<DataGrid
-				sx={{ height: 600, border: "none" }}
+				sx={{ height: "67vh", border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"

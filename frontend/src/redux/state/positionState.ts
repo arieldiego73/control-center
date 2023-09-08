@@ -1,20 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const devPhaseSlice = createSlice({
-	name: "devPhase",
+export const positionSlice = createSlice({
+	name: "position",
 	initialState: {
-		devPhase: [],
+		position: [],
 		isLoading: false,
 		isSuccess: true,
 		errorMessage: ""
 	},
 	reducers: {
-		getDevPhaseFetch: (state) => {
+		getPositionFetch: (state) => {
 			state.isLoading = true;
 			state.isSuccess = false;
 		},
-		getDevPhaseSuccess: (state, action) => {
-			state.devPhase = action.payload;
+		getPositionSuccess: (state, action) => {
+			state.position = action.payload;
 			state.isLoading = false;
 			state.isSuccess = true;
 		},
@@ -24,5 +24,5 @@ export const devPhaseSlice = createSlice({
 	},
 });
 
-export const { getDevPhaseFetch, getDevPhaseSuccess, setErrorMessage } = devPhaseSlice.actions;
-export default devPhaseSlice.reducer;
+export const { getPositionFetch, getPositionSuccess, setErrorMessage } = positionSlice.actions;
+export default positionSlice.reducer;

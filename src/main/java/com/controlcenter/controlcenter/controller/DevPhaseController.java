@@ -41,22 +41,22 @@ public class DevPhaseController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<List<DevPhaseOutput>> addDevPhase(@RequestBody DevPhaseInput devPhase){
+    public ResponseEntity<String> addDevPhase(@RequestBody DevPhaseInput devPhase){
         return devPhaseService.addDevPhase(devPhase);
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<List<DevPhaseOutput>> editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
+    public ResponseEntity<String> editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
         return devPhaseService.editDevPhaseInfo(id, devPhase);
     }
 
     @PutMapping("/delete-multiple")
-    public ResponseEntity<List<DevPhaseOutput>> deleteMultipleDevPhase(@RequestParam List<Long> ids) {
+    public ResponseEntity<String> deleteMultipleDevPhase(@RequestParam List<Long> ids) {
         return devPhaseService.deleteMultipleDevPhase(ids);
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<List<DevPhaseOutput>> logicalDeleteDevPhase(@PathVariable String id) {
+    public ResponseEntity<String> logicalDeleteDevPhase(@PathVariable String id) {
         return devPhaseService.logicalDeleteDevPhase(id);
     }
 
