@@ -11,10 +11,10 @@ import lombok.Setter;
 public class ProjectTechnologyInput {
 
     @NotNull(message = "Technology ID should not be empty.")
-    @Digits(integer = 9, fraction = 0, message = "The technology id is not meeting the required length.")
-    private Integer tech_id; //fk from technology tbl
+    @Digits(integer = 9, fraction = 0, message = "The Technology ID is invalid, it should be up to 9 digits long.")
+    private Long tech_id; //fk from technology tbl
 
     @NotNull(message = "Project ID should not be empty.")
-    @Digits(integer = 9, fraction = 0, message = "The Project ID is not meeting the required length.")
-    private Integer proj_id; //fk from project tbl
+    @Digits(integer = 9, fraction = 0, message = "The Project ID is invalid, it should be up to 9 digits long.")
+    private Long proj_id; //fk from project tbl
 }
