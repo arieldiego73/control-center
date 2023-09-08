@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,30 +44,30 @@ public class ClientController{
     }
 
     @PostMapping("/add")
-    public String addClient(@RequestBody ClientInput client) {
+    public ResponseEntity<String> addClient(@RequestBody ClientInput client) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ClientInput>> errors = validator.validate(client);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return clientService.addClient(client);
+                return ResponseEntity.status(200).body(clientService.addClient(client));
             }
     }
 
     @PutMapping("/edit/{id}") 
-    public String editClient(@PathVariable String id,@RequestBody ClientInput client) {
+    public ResponseEntity<String> editClient(@PathVariable String id,@RequestBody ClientInput client) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ClientInput>> errors = validator.validate(client);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return clientService.editClient(id, client);
+                return ResponseEntity.status(200).body(clientService.editClient(id, client));
             }
     }
 
