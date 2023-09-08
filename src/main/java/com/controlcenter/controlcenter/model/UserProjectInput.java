@@ -5,11 +5,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Data
 public class UserProjectInput {
     
     @NotBlank(message = "Employee ID should not be empty.")
@@ -18,5 +20,5 @@ public class UserProjectInput {
 
     @NotNull(message = "Project ID should not be empty.")
     @Digits(integer = 9, fraction = 0, message = "The Project ID is not meeting the required length.")
-    private Integer proj_id;
+    private Long proj_id;
 }

@@ -13,6 +13,7 @@ import com.controlcenter.controlcenter.dao.UserProjectDao;
 import com.controlcenter.controlcenter.model.UserProjectInput;
 import com.controlcenter.controlcenter.model.UserProjectOutput;
 import com.controlcenter.controlcenter.service.UserProjectService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 
 @Service
@@ -20,6 +21,9 @@ public class UserProjectServiceImpl implements UserProjectService {
     
     @Autowired
     public UserProjectDao userProjectDao;
+
+    @Autowired
+    public ErrorHandler errorHandler;
 
     @Override
     public ResponseEntity<List<UserProjectOutput>> getAllUserProject(){
@@ -42,18 +46,18 @@ public class UserProjectServiceImpl implements UserProjectService {
     }
 
     @Override 
-    public ResponseEntity<List<UserProjectOutput>> editUserProjectInfo(String id, UserProjectInput userProject) {
+    public String editUserProjectInfo(String id, UserProjectInput userProject) {
         try {
-            List<UserProjectOutput> userProjects = userProjectDao.getAllUserProject(); 
+            //List<UserProjectOutput> userProjects = userProjectDao.getAllUserProject(); 
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
             paramMap.put("userProject", userProject);
 
             userProjectDao.editUserProjectInfo(paramMap);
 
-            return ResponseEntity.ok(userProjects);
+            return "User Project Edited Successfully";
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return e.getMessage();
         }
     }
 
