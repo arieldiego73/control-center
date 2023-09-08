@@ -39,30 +39,30 @@ public class DepartmentController {
     }
 
     @PostMapping("/add")
-    public String addDepartment(@RequestBody DepartmentInput department) {
+    public ResponseEntity<String> addDepartment(@RequestBody DepartmentInput department) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<DepartmentInput>> errors = validator.validate(department);
             //Error Handling
             if (errors.size() > 0){
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else{
-                return departmentService.addDepartment(department);
+                return ResponseEntity.status(200).body(departmentService.addDepartment(department));
             }
     }
 
     @PutMapping("/edit/{id}")
-    public String editDepartmentInfo(@PathVariable String id, @RequestBody DepartmentInput department) {
+    public ResponseEntity<String> editDepartmentInfo(@PathVariable String id, @RequestBody DepartmentInput department) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<DepartmentInput>> errors = validator.validate(department);
             //Error Handling
             if (errors.size() > 0){
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else{
-                return departmentService.editDepartmentInfo(id, department);
+                return ResponseEntity.status(200).body(departmentService.editDepartmentInfo(id, department));
             }
     }
 
