@@ -57,11 +57,15 @@ import SettingsEthernetOutlinedIcon from '@mui/icons-material/SettingsEthernetOu
 import AddProjManagerTable from "../AddProjManagerTable";
 import AddTechnologyTable from "../AddTechnologyTable";
 
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
 
 //for breadcrumbs
 import { Link } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
+
 //for breadcrumbs
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   event.preventDefault();
@@ -124,6 +128,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
+
+
 export default function NewProj() {
   const [alignment, setAlignment] = React.useState("left");
   const [formats, setFormats] = React.useState(() => ["italic"]);
@@ -183,6 +190,20 @@ export default function NewProj() {
 
   const handleCloseProjManager = () => {
     setOpenProjManager(false);
+  };
+
+  //for description box (formatting toolbar)
+  const [value, setValue] = useState("");
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["bold", "italic", "underline"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+      ]
+    ]
   };
 
   return (
@@ -328,40 +349,23 @@ export default function NewProj() {
                 </div>
                 <div className={StyleNewProject.col2}>
                   <div className={StyleNewProject.gridContainer}>
-                    <Paper
-                      elevation={0}
-                      className="gridItem"
-                      sx={{
-                        display: "flex",
-                        border: (theme) => `1px solid ${theme.palette.divider}`,
-                        flexWrap: "wrap",
-                        
-                      }}
-                    >
-                      <ToggleButtonGroup
-                        value={formats}
-                        onChange={handleFormat}
-                        aria-label="text formatting"
-                      >
-                        <ToggleButton value="bold" aria-label="bold">
-                          <FormatBoldIcon />
-                        </ToggleButton>
-                        <ToggleButton value="italic" aria-label="italic">
-                          <FormatItalicIcon />
-                        </ToggleButton>
-                        <ToggleButton value="underlined" aria-label="underlined">
-                          <FormatUnderlinedIcon />
-                        </ToggleButton>
-                      </ToggleButtonGroup>
-                    </Paper>
                     <FormControl className={StyleNewProject.assocId}>
-                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', color: "black", fontWeight: "400" }}>Description</FormLabel>
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        multiline
-                        maxRows={8}
-                        sx={{ width: "500px" }}
-                      />
+                      <div className={StyleNewProject.descriptionContainer}>
+                        <div className={StyleNewProject.toolbar}>
+                          <div className={StyleNewProject.editor}>
+                            Project Description
+                            <ReactQuill
+                              theme='snow'
+                              value={value}
+                              className={StyleNewProject.editorInput}
+                              onChange={setValue}
+                              modules={modules}
+                              placeholder="Start typing..."
+                              style={{backgroundColor:"whitesmoke"}}
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </FormControl>
                   </div>
                 </div>
