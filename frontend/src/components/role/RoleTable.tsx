@@ -37,7 +37,6 @@ import {
 	updateRoles,
 } from "../../redux/saga/roleSaga";
 import {
-	Alert,
 	AlertColor,
 	Dialog,
 	DialogActions,
@@ -47,24 +46,12 @@ import {
 	FormControl,
 	FormLabel,
 	InputAdornment,
-	Snackbar,
 	TextField,
 	Typography,
 	useMediaQuery,
 	useTheme,
 } from "@mui/material";
 import RoleModuleStyle from "./Role.module.css";
-
-export interface SnackbarMessage {
-	message: string;
-	key: number;
-}
-
-export interface State {
-	open: boolean;
-	snackPack: readonly SnackbarMessage[];
-	messageInfo?: SnackbarMessage;
-}
 
 interface EditToolbarProps {
 	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -73,7 +60,11 @@ interface EditToolbarProps {
 	) => void;
 }
 
-export default function RoleTable() {
+interface RoleProps {
+	createSnackpack: (message: string, severity: AlertColor) => () => void;
+}
+
+const RoleTable: React.FC<RoleProps> = (props) => {
 	const dispatch = useDispatch();
 
 	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
@@ -101,15 +92,6 @@ export default function RoleTable() {
 	const [ask, setAsk] = React.useState(false);
 	const [deleteId, setDeleteId] = React.useState(0);
 
-	const [snackPack, setSnackPack] = React.useState<
-		readonly SnackbarMessage[]
-	>([]);
-	const [open, setOpen] = React.useState(false);
-	const [messageInfo, setMessageInfo] = React.useState<
-		SnackbarMessage | undefined
-	>(undefined);
-	const [severity, setSeverity] = React.useState<AlertColor>("error");
-
 	const dataGridSlots = {
 		toolbar: EditToolbar,
 		columnUnsortedIcon: UnsortedIcon,
@@ -127,7 +109,7 @@ export default function RoleTable() {
 		dispatch(deleteRoles({ role_id: deleteId }));
 		setRows(data);
 		setAsk(false);
-		const success = handleClickSnackpack(
+		const success = props.createSnackpack(
 			"A role is deleted successfully!",
 			"success"
 		);
@@ -140,41 +122,11 @@ export default function RoleTable() {
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
-		const success = handleClickSnackpack(
+		const success = props.createSnackpack(
 			`Deleted ${selectedId.size} role/s successfully!`,
 			"success"
 		);
 		success();
-	};
-
-	// FOR SNACKPACK
-	React.useEffect(() => {
-		if (snackPack.length && !messageInfo) {
-			// Set a new snack when we don't have an active one
-			setMessageInfo({ ...snackPack[0] });
-			setSnackPack((prev) => prev.slice(1));
-			setOpen(true);
-		} else if (snackPack.length && messageInfo && open) {
-			// Close an active snack when a new one is added
-			setOpen(false);
-		}
-	}, [snackPack, messageInfo, open]);
-
-	const handleClickSnackpack =
-		(message: string, severity: AlertColor) => () => {
-			setSnackPack((prev) => [
-				...prev,
-				{ message, key: new Date().getTime() },
-			]);
-			setSeverity(severity);
-		};
-
-	const handleClose = (event: React.SyntheticEvent | Event) => {
-		setOpen(false);
-	};
-
-	const handleExited = () => {
-		setMessageInfo(undefined);
 	};
 
 	// FOR DATA GRID
@@ -275,7 +227,7 @@ export default function RoleTable() {
 
 	const processUpdateRow = (roleInfo: GridRowModel) => {
 		dispatch(updateRoles({ roleInfo }));
-		const success = handleClickSnackpack(
+		const success = props.createSnackpack(
 			"Role is updated successfully",
 			"success"
 		);
@@ -284,7 +236,7 @@ export default function RoleTable() {
 
 	const processAddRow = (roleInfo: GridRowModel) => {
 		dispatch(addRoles({ roleInfo }));
-		const success = handleClickSnackpack(
+		const success = props.createSnackpack(
 			"Role is added successfully",
 			"success"
 		);
@@ -304,7 +256,7 @@ export default function RoleTable() {
 			setShortName("");
 			setUserLevel("");
 		} else {
-			const error = handleClickSnackpack(
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -325,7 +277,7 @@ export default function RoleTable() {
 			setUserLevel("");
 			roleTitleRef.current?.focus();
 		} else {
-			const error = handleClickSnackpack(
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -344,7 +296,7 @@ export default function RoleTable() {
 			setRows(data); // update the rows in the table
 		} else {
 			const cancel = handleCancelClick(newRow.role_id);
-			const error = handleClickSnackpack(
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -679,23 +631,6 @@ export default function RoleTable() {
 				}}
 				pageSizeOptions={[25, 50, 100]}
 			/>
-			<Snackbar
-				key={messageInfo ? messageInfo.key : undefined}
-				open={open}
-				autoHideDuration={2000}
-				onClose={handleClose}
-				TransitionProps={{ onExited: handleExited }}
-				// message={messageInfo ? messageInfo.message : undefined}
-			>
-				<Alert
-					onClose={handleClose}
-					severity={severity}
-					sx={{ width: "100%" }}
-					variant="filled"
-				>
-					{messageInfo ? messageInfo.message : undefined}
-				</Alert>
-			</Snackbar>
 			<Dialog
 				fullScreen={fullScreen}
 				open={ask}
@@ -755,3 +690,5 @@ export default function RoleTable() {
 		</Box>
 	);
 }
+
+export default RoleTable;
