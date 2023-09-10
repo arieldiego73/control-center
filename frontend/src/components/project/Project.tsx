@@ -235,10 +235,9 @@ export default function Project() {
                                 },
                               }}
                             >
-                              <MenuItem value={1}>department I</MenuItem>
-                              <MenuItem value={2}>department II</MenuItem>
-                              <MenuItem value={3}>department III</MenuItem>
-                              <MenuItem value={4}>department IV</MenuItem>
+                              <MenuItem value={1}>Open</MenuItem>
+                              <MenuItem value={2}>Close</MenuItem>
+                              <MenuItem value={3}>Cancelled</MenuItem>
                             </Select>
                           </FormControl>
                         </Grid>
