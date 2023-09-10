@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,30 +39,30 @@ public class ProjInfoController {
     }
 
     @PostMapping("/add")
-    public String addProjInfo(@RequestBody ProjInfoInput projInfo){
+    public ResponseEntity<String> addProjInfo(@RequestBody ProjInfoInput projInfo){
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ProjInfoInput>> errors = validator.validate(projInfo);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return projInfoService.addProjInfo(projInfo);
+                return ResponseEntity.status(200).body(projInfoService.addProjInfo(projInfo));
             }
     }
 
     @PutMapping("/edit/{id}")
-    public String editProjInfoInfo(@PathVariable String id, @RequestBody ProjInfoInput projInfo) {
+    public ResponseEntity<String> editProjInfoInfo(@PathVariable String id, @RequestBody ProjInfoInput projInfo) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ProjInfoInput>> errors = validator.validate(projInfo);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return projInfoService.addProjInfo(projInfo);
+                return ResponseEntity.status(200).body(projInfoService.addProjInfo(projInfo));
             }
     }
 
