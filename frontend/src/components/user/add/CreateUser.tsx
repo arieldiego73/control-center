@@ -29,6 +29,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import { Link } from "react-router-dom";
 import AddRoleTable from "../AddRoleTable";
+import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
 
 
 //for breadcrumbs
@@ -51,17 +52,17 @@ export default function CreateUser() {
   ];
 
 
-  //for popup (dialog)
+  //for add role popup (dialog)
   const [open, setOpen] = React.useState(false);
 
-  const [openTechnology, setOpenTechnology] = React.useState(false); 
+  const [openRole, setOpenRole] = React.useState(false); 
 
-  const handleClickOpenTechnology= () => {
-    setOpenTechnology(true);
+  const handleClickOpenRole= () => {
+    setOpenRole(true);
   };
 
-  const handleCloseTechnology = () => {
-    setOpenTechnology(false);
+  const handleCloseRole = () => {
+    setOpenRole(false);
   }; 
 
 
@@ -330,7 +331,7 @@ export default function CreateUser() {
                     textTransform: "none",
                     fontFamily: "Montserrat, sans-serif",
                   }}
-                  onClick={handleClickOpenTechnology}
+                  onClick={handleClickOpenRole}
                   >
                   Add Role
                 </Button>
@@ -424,21 +425,21 @@ export default function CreateUser() {
         </div>
       </div>
       <Dialog
-          open={openTechnology}
-          onClose={handleCloseTechnology}
+          open={openRole}
+          onClose={handleCloseRole}
           aria-describedby="alert-dialog-slide-description"
           maxWidth="xl"
         >
-          <DialogTitle>
-            <FontAwesomeIcon icon={faUser} size="1x" color="black" />
-            {"Technology"}
+          <DialogTitle sx={{display: 'flex', gap: '1vw', alignItems:'center', justifyContent:'flex-start'}}>
+            <PersonSearchOutlinedIcon/>
+            {"Roles"}
           </DialogTitle>
           <DialogContent>
             <AddRoleTable />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
-            <Button onClick={handleCloseTechnology} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Save</Button>
+            <Button onClick={handleCloseRole} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
+            <Button onClick={handleCloseRole} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Add</Button>
           </DialogActions>
         </Dialog>
     </body>

@@ -1,3 +1,4 @@
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import UserDetailStyle from "./EditUser.module.css";
@@ -35,6 +36,8 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link } from "react-router-dom";
 import AddRoleTable from "../AddRoleTable";
+import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
+
 
 export default function EditUser() {
 	const navigate = useNavigate();
@@ -137,6 +140,15 @@ export default function EditUser() {
 	const handleCloseTechnology = () => {
 		setOpenTechnology(false);
 	};
+
+	  //for add role popup (dialog)
+	  const [openRole, setOpenRole] = React.useState(false); 
+	  const handleClickOpenRole= () => {
+		setOpenRole(true);
+	  };
+	  const handleCloseRole = () => {
+		setOpenRole(false);
+	  }; 
 
 	return (
 		<div className={UserDetailStyle.body}>
@@ -344,6 +356,7 @@ export default function EditUser() {
 								color="primary"
 								startIcon={<Add />}
 								style={{ textTransform: "none" }}
+								onClick={handleClickOpenRole}
 							>
 								Add Role
 							</Button>
@@ -519,6 +532,24 @@ export default function EditUser() {
 						</Button>
 					</DialogActions>
 				</Dialog>
+				<Dialog
+          open={openRole}
+          onClose={handleCloseRole}
+          aria-describedby="alert-dialog-slide-description"
+          maxWidth="xl"
+        >
+          <DialogTitle sx={{display: 'flex', gap: '1vw', alignItems:'center', justifyContent:'flex-start'}}>
+            <PersonSearchOutlinedIcon/>
+            {"Roles"}
+          </DialogTitle>
+          <DialogContent>
+            <AddRoleTable />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseRole} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
+            <Button onClick={handleCloseRole} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Add</Button>
+          </DialogActions>
+        </Dialog>
 			</div>
 		</div>
 	);

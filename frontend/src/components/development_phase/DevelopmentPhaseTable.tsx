@@ -456,7 +456,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
-						Add Role
+						Add Phase
 					</Button>
 				) : (
 					<div className={DevelopmentPhaseModuleStyle.hideButton}>

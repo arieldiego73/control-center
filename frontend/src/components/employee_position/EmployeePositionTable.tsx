@@ -456,7 +456,7 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
-						Add Role
+						Add Position
 					</Button>
 				) : (
 					<div className={PositionModuleStyle.hideButton}>
