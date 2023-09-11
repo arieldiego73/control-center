@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.dao.ClientDao;
 import com.controlcenter.controlcenter.model.ClientInput;
 import com.controlcenter.controlcenter.model.ClientOutput;
 import com.controlcenter.controlcenter.service.ClientService;
@@ -34,8 +33,6 @@ public class ClientController{
     @Autowired
     private ErrorHandler errorHandler;
 
-    @Autowired 
-    private ClientDao clientDao;
 
     @GetMapping("/all")
     public List<ClientOutput> getAllClient() {
@@ -43,7 +40,11 @@ public class ClientController{
     }
 
     @GetMapping("/client-id/{id}")
+<<<<<<< HEAD
     public ClientOutput getClientById(Long id) {
+=======
+    public ClientOutput getClientById(String id) {
+>>>>>>> 039b1597e252382bc64089ab916b1b4236de3b8a
         return clientService.getClientById(id);
     }
 
