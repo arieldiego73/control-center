@@ -37,17 +37,17 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     }
     
     @Override
-    public ResponseEntity<String> addDevPhase(DevPhaseInput devPhase) {
+    public String addDevPhase(DevPhaseInput devPhase) {
         try {
             devPhaseDao.addDevPhase(devPhase);
-            return ResponseEntity.ok("Record is successfully added.");
+            return "Development Phase Added Successfully.";
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return e.getMessage();
         }
     }
 
     @Override 
-    public ResponseEntity<String> editDevPhaseInfo(String id, DevPhaseInput devPhase) {
+    public String editDevPhaseInfo(String id, DevPhaseInput devPhase) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
@@ -56,9 +56,9 @@ public class DevPhaseServiceImpl implements DevPhaseService {
             devPhaseDao.editDevPhaseInfo(paramMap);
 
             devPhaseList = devPhaseDao.getAllDevPhase();
-            return ResponseEntity.ok("Record is successfully updated.");
+            return "Development Phase Edited Successfully.";
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return e.getMessage();
         }
     }
 
