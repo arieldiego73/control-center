@@ -42,12 +42,30 @@ public class DevPhaseController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addDevPhase(@RequestBody DevPhaseInput devPhase){
-        return devPhaseService.addDevPhase(devPhase);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
+            //Error Handling
+            if (errors.size() > 0){
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+            } else{
+                return ResponseEntity.status(200).body(devPhaseService.addDevPhase(devPhase));
+            }
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<String> editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
-        return devPhaseService.editDevPhaseInfo(id, devPhase);
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<DevPhaseInput>> errors = validator.validate(devPhase);
+            //Error Handling
+            if (errors.size() > 0){
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+            } else{
+                return ResponseEntity.status(200).body(devPhaseService.editDevPhaseInfo(id, devPhase));
+            }
     }
 
     @PutMapping("/delete-multiple")
