@@ -12,6 +12,12 @@
         WHERE del_flag = 0;
     </select>
 
+    <select id="getStatusById" resultType="com.controlcenter.controlcenter.model.StatusOutput">
+        SELECT status_code, status_name
+         FROM tbl_status_mst
+        WHERE status_code = #{id};
+    </select>
+
 <!-- Add Data -->
     <insert id="addStatus" parameterType="com.controlcenter.controlcenter.model.StatusInput">
         INSERT INTO tbl_status_mst (
@@ -29,7 +35,8 @@
 <!-- Update Data -->
     <update id="editStatusInfo" parameterType="map">
         UPDATE tbl_status_mst
-           SET status_name=#{status.status_name},
+           SET 
+               status_name=#{status.status_name},
                update_id = 1
          WHERE status_code = #{code}
     </update>

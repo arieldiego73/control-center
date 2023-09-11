@@ -67,11 +67,11 @@ public class RoleServiceImpl implements RoleService {
   //   }
 
   @Override
-  public String editRoleInfo(String id, RoleInput roleInput) {
+  public String editRoleInfo(String id, RoleInput role) {
     try {
       Map<String, Object> paramMap = new HashMap<>();
       paramMap.put("id", id);
-      paramMap.put("roleInput", roleInput);
+      paramMap.put("role", role);
 
       roleDao.editRoleInfo(paramMap);
 

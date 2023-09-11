@@ -33,6 +33,11 @@ public class StatusServiceImpl implements StatusService{
     }
 
     @Override
+    public StatusOutput getStatusById(String id) {
+        return statusDao.getStatusById(id);
+    }
+
+    @Override
     public String addStatus(StatusInput status){
         try{
             statusDao.addStatus(status);
@@ -58,7 +63,10 @@ public class StatusServiceImpl implements StatusService{
     public String editStatusInfo(String code, StatusInput status){
         try{
             Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("code", code);
+            StatusOutput clientById = statusDao.getStatusById(code);
+            status.setStatus_code(clientById.getStatus_code());
+            System.out.println(status);
+            paramMap.put("code", clientById);
             paramMap.put("status", status);
 
             statusDao.editStatusInfo(paramMap);

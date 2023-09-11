@@ -8,6 +8,7 @@ import com.controlcenter.controlcenter.model.StatusOutput;
 public interface StatusService {
     
     public List<StatusOutput> getAllStatus();
+    public StatusOutput getStatusById(String id);
     public String addStatus(StatusInput status);
     public String editStatusInfo(String code, StatusInput status);
     public String logicalDeleteStatus(String code); 
