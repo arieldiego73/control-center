@@ -35,7 +35,7 @@ public class PositionServiceImpl implements PositionService{
     }
 
     @Override
-    public ResponseEntity<String> addPosition(PositionInput position) {
+    public String addPosition(PositionInput position) {
         try {
             positionDao.addPosition(position);
 
@@ -50,14 +50,14 @@ public class PositionServiceImpl implements PositionService{
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return ResponseEntity.ok("Position Added Successfully.");
+            return "Position Added Successfully.";
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return e.getMessage();
         }
     }
 
     @Override 
-    public ResponseEntity<String> editPositionInfo(String id, PositionInput position) {
+    public String editPositionInfo(String id, PositionInput position) {
         try {
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("id", id);
@@ -76,9 +76,9 @@ public class PositionServiceImpl implements PositionService{
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return ResponseEntity.ok("Position Info Edited Successfully.");
+            return "Position Info Edited Successfully.";
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return e.getMessage();
         }
     }
 
