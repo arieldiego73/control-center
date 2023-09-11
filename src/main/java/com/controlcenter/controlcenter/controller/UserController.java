@@ -102,8 +102,17 @@ public class UserController {
   // }
 
   @PostMapping("/login")
-  public ResponseEntity<UserOutput> getLoggedInUser(@RequestBody UserOutput user) {
-    return userService.getLoggedInUser(user);
+  public ResponseEntity<String> getLoggedInUser(@RequestBody UserOutput user) {
+    //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<UserOutput>> errors = validator.validate(user);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+            }else{
+                return ResponseEntity.status(200).body(userService.getLoggedInUser(user));
+            }
   }
 
   @GetMapping("/username")

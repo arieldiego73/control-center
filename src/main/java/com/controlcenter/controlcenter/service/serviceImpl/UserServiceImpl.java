@@ -16,6 +16,7 @@ import com.controlcenter.controlcenter.shared.TimeFormatter;
 // import java.util.Collections;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -162,7 +163,7 @@ public class UserServiceImpl implements UserService{
   // }
 
   @Override
-  public ResponseEntity<UserOutput> getLoggedInUser(UserOutput user) {
+  public String getLoggedInUser(UserOutput user) {
 
     UserOutput users = userDao.getUserByUsername(user);
 
@@ -184,6 +185,8 @@ public class UserServiceImpl implements UserService{
         users.setRole_id(users.getRole_id());
         users.setImg_src(users.getImg_src());
 
+         
+
         //Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
@@ -195,7 +198,7 @@ public class UserServiceImpl implements UserService{
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-        return ResponseEntity.ok(users);
+        return "Login Successfully.";
       } else {
 
         //Activitylog
@@ -209,10 +212,10 @@ public class UserServiceImpl implements UserService{
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-        return ResponseEntity.badRequest().body(users);
+        return "Login unsuccessfully.";
       }
     } else {
-      return ResponseEntity.badRequest().body(users);
+      return "Username and Password doesn't match.";
     }
     
   }

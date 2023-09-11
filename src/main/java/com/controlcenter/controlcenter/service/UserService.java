@@ -22,5 +22,5 @@ public interface UserService {
 
   public String addAccount(Account account);
 
-  public ResponseEntity<UserOutput> getLoggedInUser(UserOutput user);
+  public String getLoggedInUser(UserOutput user);
 }
