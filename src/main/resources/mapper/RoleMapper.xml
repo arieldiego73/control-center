@@ -4,15 +4,15 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.RoleDao">
 
 <!-- Fetch Data -->
-    <select id="getAllRole" resultType="com.controlcenter.controlcenter.model.Role">
-        SELECT * 
+    <select id="getAllRole" resultType="com.controlcenter.controlcenter.model.RoleOutput">
+        SELECT role_id, title, role_sh_name, role_user_level, del_flag
           FROM tbl_role_mst
          WHERE del_flag = 0
          ORDER BY role_id DESC;
     </select>
 
 <!-- Add Data -->
-    <insert id="addRole" parameterType="com.controlcenter.controlcenter.model.Role">
+    <insert id="addRole" parameterType="com.controlcenter.controlcenter.model.RoleInput">
         INSERT INTO tbl_role_mst (
             title, 
             role_sh_name, 

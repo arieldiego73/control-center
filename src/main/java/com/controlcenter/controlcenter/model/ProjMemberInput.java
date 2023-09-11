@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 public class ProjMemberInput {
 
-    @NotNull(message = "Up ID should not be empty.")
-    @Digits(integer = 9, fraction = 0, message = "up ID is not meeting the required length.")
-    private Integer upid;
+    @NotNull(message = "User Project ID should not be empty.")
+    @Digits(integer = 9, fraction = 0, message = "The User Project ID is invalid, it should be up to 9 digits long.")
+    private Long upid;
 
     @NotNull(message = "Role ID should not be empty")
-    @Digits(integer = 9, fraction = 0, message = "Role ID is not meeting the required length.")
-    private Integer role_id;
+    @Digits(integer = 9, fraction = 0, message = "The Role ID is invalid, it should be up to 9 digits long.")
+    private Long role_id;
 }
