@@ -20,7 +20,7 @@ public interface UserService {
 
   public ResponseEntity<UserOutput> getUsername(String username);
 
-  public ResponseEntity<Account> addAccount(Account account);
+  public String addAccount(Account account);
 
   public ResponseEntity<UserOutput> getLoggedInUser(UserOutput user);
 }
