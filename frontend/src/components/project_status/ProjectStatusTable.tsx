@@ -10,12 +10,11 @@ import HelpIcon from "@mui/icons-material/Help";
 import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
-import PersonFourIcon from "@mui/icons-material/Person4";
 import {
 	GridRowsProp,
 	GridRowModesModel,
 	GridRowModes,
-	DataGrid, 
+	DataGrid,
 	GridColDef,
 	GridToolbarContainer,
 	GridActionsCellItem,
@@ -29,42 +28,30 @@ import {
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { getRolesFetch } from "../../redux/state/roleState";
 import {
-	addRoles,
-	deleteRoles,
-	deleteRolesBatch,
-	updateRoles,
-} from "../../redux/saga/roleSaga";
-import {
-	Alert,
 	AlertColor,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
-	Snackbar,
 	TextField,
 	Typography,
 	useMediaQuery,
 	useTheme,
 } from "@mui/material";
 import ProjectStatusStyle from "./ProjectStatusTable.module.css";
-
-export interface SnackbarMessage {
-	message: string;
-	key: number;
-}
-
-export interface State {
-	open: boolean;
-	snackPack: readonly SnackbarMessage[];
-	messageInfo?: SnackbarMessage;
-}
+import { getProjectStatusFetch } from "../../redux/state/projectStatusState";
+import {
+	addProjectStatus,
+	deleteProjectStatus,
+	deleteProjectStatusBatch,
+	updateProjectStatus,
+} from "../../redux/saga/projectStatusSaga";
 
 interface EditToolbarProps {
 	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -73,16 +60,22 @@ interface EditToolbarProps {
 	) => void;
 }
 
-export default function ProjectStatusTable() {
+interface ProjectStatusProps {
+	createSnackpack: (message: string, severity: AlertColor) => () => void;
+}
+
+const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 	const dispatch = useDispatch();
 
-	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
+	// GET ALL THE PROJECT STATUS AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
-		dispatch(getRolesFetch());
+		dispatch(getProjectStatusFetch());
 	}, [dispatch]);
 
-	// STORE THE ROLES TO 'data'
-	const data = useSelector((state: RootState) => state.roleReducer.roles);
+	// GET THE STATES
+	const data = useSelector(
+		(state: RootState) => state.projectStatusReducer.projectStatus
+	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -101,15 +94,6 @@ export default function ProjectStatusTable() {
 	const [ask, setAsk] = React.useState(false);
 	const [deleteId, setDeleteId] = React.useState(0);
 
-	const [snackPack, setSnackPack] = React.useState<
-		readonly SnackbarMessage[]
-	>([]);
-	const [open, setOpen] = React.useState(false);
-	const [messageInfo, setMessageInfo] = React.useState<
-		SnackbarMessage | undefined
-	>(undefined);
-	const [severity, setSeverity] = React.useState<AlertColor>("error");
-
 	const dataGridSlots = {
 		toolbar: EditToolbar,
 		columnUnsortedIcon: UnsortedIcon,
@@ -123,69 +107,15 @@ export default function ProjectStatusTable() {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-	const proceedWithDelete = () => {
-		dispatch(deleteRoles({ role_id: deleteId }));
-		setRows(data);
-		setAsk(false);
-		const success = handleClickSnackpack(
-			"A role is deleted successfully!",
-			"success"
-		);
-		success();
-	};
-
-	const proceedWithDeleteBatch = async () => {
-		dispatch(deleteRolesBatch({ batchId: selectedId }));
-		setRows(data); // update rows
-		setRowSelectionModel([]); // clear selected rows
-		setSelectedId(new Set()); // clear selected IDs
-		setAsk(false); // close dialog
-		const success = handleClickSnackpack(
-			`Deleted ${selectedId.size} role/s successfully!`,
-			"success"
-		);
-		success();
-	};
-
-	// FOR SNACKPACK
-	React.useEffect(() => {
-		if (snackPack.length && !messageInfo) {
-			// Set a new snack when we don't have an active one
-			setMessageInfo({ ...snackPack[0] });
-			setSnackPack((prev) => prev.slice(1));
-			setOpen(true);
-		} else if (snackPack.length && messageInfo && open) {
-			// Close an active snack when a new one is added
-			setOpen(false);
-		}
-	}, [snackPack, messageInfo, open]);
-
-	const handleClickSnackpack =
-		(message: string, severity: AlertColor) => () => {
-			setSnackPack((prev) => [
-				...prev,
-				{ message, key: new Date().getTime() },
-			]);
-			setSeverity(severity);
-		};
-
-	const handleClose = (event: React.SyntheticEvent | Event) => {
-		setOpen(false);
-	};
-
-	const handleExited = () => {
-		setMessageInfo(undefined);
-	};
-
 	// FOR DATA GRID
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
 
-	const [roleTitle, setRoleTitle] = React.useState("");
-	const [shortName, setShortName] = React.useState("");
-	const [userLevel, setUserLevel] = React.useState("");
-	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
+	const [projectStatusName, setProjectStatusName] = React.useState("");
+	const [description, setDescription] = React.useState("");
+	// const [userLevel, setUserLevel] = React.useState("");
+	const projectStatusNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	function EditToolbar(props: EditToolbarProps) {
 		const handleDeleteBatch = () => {
@@ -197,7 +127,7 @@ export default function ProjectStatusTable() {
 			setDialogTitle(
 				`Delete ${
 					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
-				} role${selectedId.size > 1 ? "s" : ""}?`
+				} project status?`
 			);
 		};
 
@@ -232,6 +162,20 @@ export default function ProjectStatusTable() {
 		);
 	}
 
+	const proceedWithDelete = () => {
+		dispatch(deleteProjectStatus({ proj_status_id: deleteId }));
+		setRows(data);
+		setAsk(false);
+	};
+
+	const proceedWithDeleteBatch = () => {
+		dispatch(deleteProjectStatusBatch({ batchId: selectedId }));
+		setRows(data); // update rows
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
+	};
+
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
 		event
@@ -261,7 +205,7 @@ export default function ProjectStatusTable() {
 		setDialogContentText(
 			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
 		);
-		setDialogTitle("Delete this role?");
+		setDialogTitle("Delete this status?");
 		setDeleteId(id as number);
 	};
 
@@ -273,59 +217,40 @@ export default function ProjectStatusTable() {
 		setRows(data);
 	};
 
-	const processUpdateRow = (roleInfo: GridRowModel) => {
-		dispatch(updateRoles({ roleInfo }));
-		const success = handleClickSnackpack(
-			"Role is updated successfully",
-			"success"
-		);
-		success();
+	const processUpdateRow = (projectStatusData: GridRowModel) => {
+		dispatch(updateProjectStatus({ projectStatusData }));
+		setRows(data); // update rows
 	};
 
-	const processAddRow = (roleInfo: GridRowModel) => {
-		dispatch(addRoles({ roleInfo }));
-		const success = handleClickSnackpack(
-			"Role is added successfully",
-			"success"
-		);
-		success();
+	const processAddRow = (projectStatusData: GridRowModel) => {
+		dispatch(addProjectStatus({ projectStatusData }));
+		setRows(data); // update rows
 	};
 
 	const handleAdd = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
-			};
-			processAddRow(roleInfo);
-			setIsHidden(false);
-			setRoleTitle("");
-			setShortName("");
-			setUserLevel("");
-		} else {
-			const error = handleClickSnackpack(
-				"All fields are required! Please, try again.",
-				"error"
-			);
-			error();
-		}
+		addRecord(true);
 	};
 
 	const handleAddContinue = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
+		addRecord(false);
+	};
+
+	const addRecord = (isAddOnly: boolean) => {
+		if (projectStatusName && description) {
+			const projectStatusData: GridValidRowModel = {
+				proj_status_name: projectStatusName,
+				proj_status_description: description,
 			};
-			processAddRow(roleInfo);
-			setRoleTitle("");
-			setShortName("");
-			setUserLevel("");
-			roleTitleRef.current?.focus();
+			processAddRow(projectStatusData);
+			setProjectStatusName("");
+			setDescription("");
+			if (isAddOnly) {
+				setIsHidden(false);
+			} else {
+				projectStatusNameRef.current?.focus();
+			}
 		} else {
-			const error = handleClickSnackpack(
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -333,18 +258,12 @@ export default function ProjectStatusTable() {
 		}
 	};
 
-	const handleUpdateAndAdd = (newRow: GridRowModel) => {
-		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
-			// determines whether it is update or add new
-			if (data.length === rows.length) {
-				processUpdateRow(newRow);
-			} else {
-				processAddRow(newRow);
-			}
-			setRows(data); // update the rows in the table
+	const handleUpdate = (newRow: GridRowModel) => {
+		if (newRow.proj_status_name && newRow.proj_status_description) {
+			processUpdateRow(newRow);
 		} else {
-			const cancel = handleCancelClick(newRow.role_id);
-			const error = handleClickSnackpack(
+			const cancel = handleCancelClick(newRow.position_id);
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -360,38 +279,30 @@ export default function ProjectStatusTable() {
 
 	const columns: GridColDef[] = [
 		{
-			field: "title",
-			headerName: "Role",
-			width: 300,
+			field: "proj_status_name",
+			headerName: "Project Status",
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
+			type: "string",
 			headerAlign: "center",
 			align: "center",
 		},
 		{
-			field: "role_sh_name",
-			headerName: "Short Name",
-			width: 300,
+			field: "proj_status_description",
+			headerName: "Description",
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
+			type: "string",
 			headerAlign: "center",
 			align: "center",
-		},
-		{
-			field: "role_user_level",
-			headerName: "User Level",
-			type: "number",
-			width: 200,
-			editable: true,
-			headerAlign: "center",
-			align: "center",
-			flex: 12,
 		},
 		{
 			field: "actions",
 			type: "actions",
 			headerName: "Actions",
-			width: 200,
+			minWidth: 200,
 			cellClassName: "actions",
 			getActions: ({ id }) => {
 				const isInEditMode =
@@ -476,6 +387,9 @@ export default function ProjectStatusTable() {
 				".MuiDataGrid-sortIcon": {
 					opacity: "inherit !important",
 				},
+				".MuiDataGrid-cellContent": {
+					fontWeight: "500",
+				},
 			}}
 		>
 			<Box
@@ -498,7 +412,7 @@ export default function ProjectStatusTable() {
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
-						Add Role
+						Add Status
 					</Button>
 				) : (
 					<div className={ProjectStatusStyle.hideButton}>
@@ -518,23 +432,27 @@ export default function ProjectStatusTable() {
 									justifyContent: "space-around",
 									alignItems: "center",
 									width: "70%",
-									gap: "24px",
+									gap: "1%",
 								}}
 							>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
-										Role
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+											fontFamily: "Montserrat, san-serif",
+										}}
+									>
+										Project Status
 									</FormLabel>
 									<TextField
 										style={{ width: "100%" }}
 										size="small"
-										placeholder="ex: Software Developer"
 										onChange={(e) =>
-											setRoleTitle(e.target.value)
+											setProjectStatusName(e.target.value)
 										}
-										value={roleTitle}
+										value={projectStatusName}
 										autoFocus
-										inputRef={roleTitleRef}
+										inputRef={projectStatusNameRef}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -545,18 +463,22 @@ export default function ProjectStatusTable() {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
-										Short Name
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+											fontFamily: "Montserrat, san-serif",
+										}}
+									>
+										Description
 									</FormLabel>
 									<TextField
 										style={{ width: "100%" }}
 										variant="outlined"
 										size="small"
-										placeholder="ex: SoftDev"
 										onChange={(e) =>
-											setShortName(e.target.value)
+											setDescription(e.target.value)
 										}
-										value={shortName}
+										value={description}
 										className={ProjectStatusStyle.textField}
 										InputProps={{
 											startAdornment: (
@@ -567,7 +489,7 @@ export default function ProjectStatusTable() {
 										}}
 									/>
 								</FormControl>
-								<FormControl>
+								{/* <FormControl>
 									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
 										User Level
 									</FormLabel>
@@ -590,14 +512,14 @@ export default function ProjectStatusTable() {
 											),
 										}}
 									/>
-								</FormControl>
+								</FormControl> */}
 							</div>
 
 							<div
 								style={{
 									flexDirection: "row",
 									display: "flex",
-									alignItems: "flex-end",
+									alignItems: "center",
 									height: "100%",
 									gap: "10px",
 								}}
@@ -609,7 +531,7 @@ export default function ProjectStatusTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
+										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAddContinue}
 								>
@@ -622,19 +544,21 @@ export default function ProjectStatusTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
+										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAdd}
 								>
 									Save
 								</Button>
 								<Button
-									style={{ height: "50%", fontFamily: "Montserrat, san-serif" }}
+									style={{
+										height: "50%",
+										fontFamily: "Montserrat, san-serif",
+									}}
 									onClick={() => {
 										setIsHidden(false);
-										setRoleTitle("");
-										setShortName("");
-										setUserLevel("");
+										setProjectStatusName("");
+										setDescription("");
 									}}
 								>
 									Close
@@ -645,16 +569,18 @@ export default function ProjectStatusTable() {
 				)}
 			</Box>
 
+			<Divider variant="middle" />
+
 			<DataGrid
-				sx={{ height: 600, border: "none" }}
+				sx={{ height: "67vh", border: "none" }}
 				rows={rows}
 				columns={columns}
 				editMode="row"
-				getRowId={(row) => row.role_id}
+				getRowId={(row) => row.proj_status_id}
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
-				processRowUpdate={handleUpdateAndAdd}
+				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
 				onRowSelectionModelChange={(newRowSelectionModel) => {
@@ -666,9 +592,6 @@ export default function ProjectStatusTable() {
 					pagination: {
 						paginationModel: { page: 0, pageSize: 25 },
 					},
-					sorting: {
-						sortModel: [{ field: "reg_id", sort: "desc" }],
-					},
 				}}
 				slots={dataGridSlots}
 				slotProps={{
@@ -676,23 +599,7 @@ export default function ProjectStatusTable() {
 				}}
 				pageSizeOptions={[25, 50, 100]}
 			/>
-			<Snackbar
-				key={messageInfo ? messageInfo.key : undefined}
-				open={open}
-				autoHideDuration={2000}
-				onClose={handleClose}
-				TransitionProps={{ onExited: handleExited }}
-				// message={messageInfo ? messageInfo.message : undefined}
-			>
-				<Alert
-					onClose={handleClose}
-					severity={severity}
-					sx={{ width: "100%" }}
-					variant="filled"
-				>
-					{messageInfo ? messageInfo.message : undefined}
-				</Alert>
-			</Snackbar>
+
 			<Dialog
 				fullScreen={fullScreen}
 				open={ask}
@@ -705,7 +612,7 @@ export default function ProjectStatusTable() {
 					<Typography
 						fontFamily={"Montserrat, san-serif"}
 						fontWeight={700}
-						fontSize={24}
+						fontSize={20}
 						display={"flex"}
 						alignItems={"center"}
 						gap={1}
@@ -751,4 +658,6 @@ export default function ProjectStatusTable() {
 			</Dialog>
 		</Box>
 	);
-}
+};
+
+export default ProjectStatusTable;

@@ -35,6 +35,7 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
@@ -327,18 +328,18 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 		{
 			field: "dev_phase_name",
 			headerName: "Development Phase",
-			width: 300,
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
 			headerAlign: "center",
 			align: "center",
 		},
 		{
 			field: "dev_phase_sh_name",
 			headerName: "Short Name",
-			width: 300,
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
 			headerAlign: "center",
 			align: "center",
 		},
@@ -346,7 +347,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 			field: "actions",
 			type: "actions",
 			headerName: "Actions",
-			width: 200,
+			minWidth: 200,
 			cellClassName: "actions",
 			getActions: ({ id }) => {
 				const isInEditMode =
@@ -616,6 +617,8 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 					</div>
 				)}
 			</Box>
+
+			<Divider variant="middle" />
 
 			<DataGrid
 				sx={{ height: "67vh", border: "none" }}
