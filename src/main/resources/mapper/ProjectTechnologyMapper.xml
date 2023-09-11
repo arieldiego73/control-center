@@ -9,7 +9,8 @@
 <select id="getAllProjectTechnology" resultType="com.controlcenter.controlcenter.model.ProjectTechnologyOutput">
     SELECT proj_tech_id, tech_id, proj_id
       FROM tbl_proj_tech
-     WHERE del_flag = 0;
+     WHERE del_flag = 0
+  ORDER BY proj_tech_id DESC, reg_date DESC;
 </select>
 
 <!-- Add Data -->

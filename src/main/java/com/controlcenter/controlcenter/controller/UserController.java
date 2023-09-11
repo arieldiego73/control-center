@@ -5,10 +5,16 @@ import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +33,9 @@ public class UserController {
 
   @Autowired
   private UserService userService;
+
+  @Autowired
+  ErrorHandler errorHandler;
 
   @GetMapping("/all")
   public ResponseEntity<List<UserTable>> getAllUsers() {
@@ -52,8 +61,17 @@ public class UserController {
   // }
 
   @PostMapping("/create-account")
-  public ResponseEntity<Account> addAccount(@RequestBody Account account) {
-    return userService.addAccount(account);
+  public ResponseEntity<String> addAccount(@RequestBody Account account) {
+    //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<Account>> errors = validator.validate(account);
+            //Error Handling
+            if (errors.size() > 0) { //checks the errors from validator
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+            }else{
+                return ResponseEntity.status(200).body(userService.addAccount(account));
+            }
   }
   // @PostMapping("/createBatch")
   // public String createUser(@RequestBody List<User> user) {

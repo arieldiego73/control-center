@@ -9,7 +9,8 @@
     <select id="getAllDevType" resultType="com.controlcenter.controlcenter.model.DevTypeOutput">
         SELECT dev_type_id, dev_type_name, dev_type_sh_name
           FROM tbl_dev_type_mst
-         WHERE del_flag = 0;
+         WHERE del_flag = 0
+      ORDER BY dev_type_id DESC, reg_date DESC;
     </select>
 
 <!-- Add Data -->

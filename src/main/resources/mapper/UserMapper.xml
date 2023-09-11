@@ -8,39 +8,40 @@
 
     <select id="findAll" resultType="com.controlcenter.controlcenter.model.UserTable">
         SELECT users.emp_id,
-                users.username,
-                info_master.fname,
-                info_master.lname,
-                position_master.position_sh_name,
-                info_master.email,
-                section_master.section_name,
-                department_master.dept_name,
-                users.reg_date
-        FROM tbl_personal_info AS info_master
-        INNER JOIN tbl_user AS users ON users.emp_id = info_master.emp_id
-        INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
-        INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
-        INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
-        WHERE users.del_flag = 0;
+               users.username,
+               info_master.fname,
+               info_master.lname,
+               position_master.position_sh_name,
+               info_master.email,
+               section_master.section_name,
+               department_master.dept_name,
+               users.reg_date
+          FROM tbl_personal_info AS info_master
+    INNER JOIN tbl_user AS users ON users.emp_id = info_master.emp_id
+    INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
+    INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
+    INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
+         WHERE users.del_flag = 0
+      ORDER BY users.emp_id DESC, users.reg_date DESC;
     </select>
     <select id="getUserById" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserInfoOutput">
         SELECT users.emp_id,
-                users.username,
-                info_master.fname,
-                info_master.mname,
-                info_master.lname,
-                position_master.position_name,
-                info_master.email,
-                section_master.section_name,
-                department_master.dept_name,
-                role_master.title
-        FROM tbl_personal_info AS info_master
-        INNER JOIN tbl_user AS users ON users.emp_id = info_master.emp_id
-        INNER JOIN tbl_role_mst AS role_master ON users.role_id = role_master.role_id
-        INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
-        INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
-        INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
-        WHERE users.del_flag = 0 AND users.emp_id = #{id};
+               users.username,
+               info_master.fname,
+               info_master.mname,
+               info_master.lname,
+               position_master.position_name,
+               info_master.email,
+               section_master.section_name,
+               department_master.dept_name,
+               role_master.title
+          FROM tbl_personal_info AS info_master
+    INNER JOIN tbl_user AS users ON users.emp_id = info_master.emp_id
+    INNER JOIN tbl_role_mst AS role_master ON users.role_id = role_master.role_id
+    INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
+    INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
+    INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
+         WHERE users.del_flag = 0 AND users.emp_id = #{id};
     </select>
     <select id="getUserByUsername" resultType="com.controlcenter.controlcenter.model.UserOutput">
         SELECT emp_id,
@@ -52,8 +53,8 @@
                role_id,
                status_code,
                img_src
-        FROM tbl_user
-        WHERE username COLLATE utf8mb4_bin = #{username}
+          FROM tbl_user
+         WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
     
     <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.UserInput">
@@ -93,8 +94,8 @@
                role_id,
                status_code,
                img_src
-        FROM tbl_user
-        WHERE username COLLATE utf8mb4_bin = #{username}
+          FROM tbl_user
+         WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
 
     
