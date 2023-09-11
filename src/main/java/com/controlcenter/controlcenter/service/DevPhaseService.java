@@ -10,8 +10,8 @@ import com.controlcenter.controlcenter.model.DevPhaseOutput;
 
 public interface DevPhaseService {
     public ResponseEntity<List<DevPhaseOutput>> getAllDevPhase();
-    public ResponseEntity<String> addDevPhase(DevPhaseInput devPhase);
-    public ResponseEntity<String> editDevPhaseInfo(String id, DevPhaseInput devPhase);
+    public String addDevPhase(DevPhaseInput devPhase);
+    public String editDevPhaseInfo(String id, DevPhaseInput devPhase);
     public ResponseEntity<String> logicalDeleteDevPhase(String id);
     public ResponseEntity<String> deleteMultipleDevPhase(
         @RequestParam List<Long> ids
