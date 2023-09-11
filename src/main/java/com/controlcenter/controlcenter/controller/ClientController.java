@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.controlcenter.controlcenter.dao.ClientDao;
 import com.controlcenter.controlcenter.model.ClientInput;
 import com.controlcenter.controlcenter.model.ClientOutput;
 import com.controlcenter.controlcenter.service.ClientService;
@@ -33,13 +34,16 @@ public class ClientController{
     @Autowired
     private ErrorHandler errorHandler;
 
+    @Autowired 
+    private ClientDao clientDao;
+
     @GetMapping("/all")
     public List<ClientOutput> getAllClient() {
         return clientService.getAllClient();
     }
 
     @GetMapping("/client-id/{id}")
-    public ClientOutput getClientById(String id) {
+    public ClientOutput getClientById(Long id) {
         return clientService.getClientById(id);
     }
 
@@ -58,7 +62,7 @@ public class ClientController{
     }
 
     @PutMapping("/edit/{id}") 
-    public ResponseEntity<String> editClient(@PathVariable String id,@RequestBody ClientInput client) {
+    public ResponseEntity<String> editClient(@PathVariable Long id,@RequestBody ClientInput client) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
@@ -72,12 +76,20 @@ public class ClientController{
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteClient(@PathVariable String id) {
-        return clientService.logicalDeleteClient(id);
+    public ResponseEntity<String> logicalDeleteClient(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(clientService.logicalDeleteClient(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreClient(@PathVariable String id) {
-        return clientService.restoreClient(id);
+    public ResponseEntity<String> restoreClient(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(clientService.restoreClient(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }
