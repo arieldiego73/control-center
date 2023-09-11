@@ -184,6 +184,7 @@ public class UserServiceImpl implements UserService{
         users.setRole_id(users.getRole_id());
         users.setImg_src(users.getImg_src());
 
+        //Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
@@ -196,10 +197,12 @@ public class UserServiceImpl implements UserService{
 
         return ResponseEntity.ok(users);
       } else {
+
+        //Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Login unsuccessful.");
+            activityLogInput.setLog_desc("Login unsuccessfully.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
