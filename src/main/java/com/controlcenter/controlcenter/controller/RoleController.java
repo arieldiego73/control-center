@@ -1,9 +1,19 @@
 package com.controlcenter.controlcenter.controller;
 
-import com.controlcenter.controlcenter.model.Role;
+import com.controlcenter.controlcenter.model.RoleInput;
+import com.controlcenter.controlcenter.model.RoleOutput;
 import com.controlcenter.controlcenter.service.RoleService;
+import com.controlcenter.controlcenter.shared.ErrorHandler;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,33 +32,51 @@ public class RoleController {
   @Autowired
   public RoleService roleService;
 
+  @Autowired
+  private ErrorHandler errorHandler;
+
   @GetMapping("/all")
-  public List<Role> getAllRole() {
+  public List<RoleOutput> getAllRole() {
     return roleService.getAllRole();
   }
 
   @PostMapping("/add")
-  public ResponseEntity<List<Role>> addRole(@RequestBody Role role) {
-    return roleService.addRole(role);
-  }
+  public ResponseEntity<String> addRole(@RequestBody RoleInput roleInput) {
+    //For Validation
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    Validator validator = validatorFactory.getValidator();
+    Set<ConstraintViolation<RoleInput>> errors = validator.validate(roleInput);
+      //Error Handling
+      if (errors.size() > 0) { //checks the errors from validator
+          return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+      }else{
+          return ResponseEntity.status(200).body(roleService.addRole(roleInput));
+      }
+}
 
   @PutMapping("/edit/{id}")
-  public ResponseEntity<List<Role>> editRoleInfo(
-    @PathVariable String id,
-    @RequestBody Role role
-  ) {
-    return roleService.editRoleInfo(id, role);
+  public ResponseEntity<String> editRoleInfo(@PathVariable String id, @RequestBody RoleInput roleInput) {
+    //For Validation
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    Validator validator = validatorFactory.getValidator();
+    Set<ConstraintViolation<RoleInput>> errors = validator.validate(roleInput);
+      //Error Handling
+      if (errors.size() > 0) { //checks the errors from validator
+          return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+      }else{
+          return ResponseEntity.status(200).body(roleService.editRoleInfo(id, roleInput));
+      }
   }
 
   @PutMapping("/delete/{id}")
-  public ResponseEntity<List<Role>> logicalDeleteRole(@PathVariable String id) {
+  public ResponseEntity<List<RoleOutput>> logicalDeleteRole(@PathVariable String id) {
     return roleService.logicalDeleteRole(id);
   }
 
   @PutMapping("/restore/{id}")
-  public ResponseEntity<List<Role>> restoreRole(@PathVariable String id) {
+  public ResponseEntity<List<RoleOutput>> restoreRole(@PathVariable String id) {
     String res = roleService.restoreRole(id);
-    List<Role> allRoles = new ArrayList<Role>();
+    List<RoleOutput> allRoles = new ArrayList<RoleOutput>();
     if (res.equals("Role restored successfully.")) {
       allRoles = getAllRole();
       return ResponseEntity.ok(allRoles);
@@ -58,7 +86,7 @@ public class RoleController {
   }
 
   @PutMapping("/delete-multiple")
-  public ResponseEntity<List<Role>> deleteMultipleRole(
+  public ResponseEntity<List<RoleOutput>> deleteMultipleRole(
     @RequestParam List<Long> ids
   ) {
     return roleService.deleteMultipleRole(ids);

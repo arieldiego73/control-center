@@ -1,7 +1,8 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
 import com.controlcenter.controlcenter.dao.RoleDao;
-import com.controlcenter.controlcenter.model.Role;
+import com.controlcenter.controlcenter.model.RoleOutput;
+import com.controlcenter.controlcenter.model.RoleInput;
 import com.controlcenter.controlcenter.service.RoleService;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,49 +18,65 @@ public class RoleServiceImpl implements RoleService {
   @Autowired
   public RoleDao roleDao;
 
-  public List<Role> allRoles = new ArrayList<Role>();
+  public List<RoleOutput> allRoles = new ArrayList<RoleOutput>();
 
   @Override
-  public List<Role> getAllRole() {
+  public List<RoleOutput> getAllRole() {
     return roleDao.getAllRole();
   }
 
   @Override
-  public ResponseEntity<List<Role>> addRole(Role role) {
+  public String addRole(RoleInput role) {
     try {
       roleDao.addRole(role);
-      allRoles = getAllRole();
-      return ResponseEntity.ok(allRoles);
+      return "Role Added Successfully";
     } catch (Exception e) {
-      allRoles = new ArrayList<Role>();
-      return ResponseEntity.badRequest().body(allRoles);
+      return e.getMessage();
     }
   }
+  // try {
+  //     roleDao.addRole(role);
+  //     allRoles = getAllRole();
+  //     return ResponseEntity.ok(allRoles);
+  //   } catch (Exception e) {
+  //     allRoles = new ArrayList<Role>();
+  //     return ResponseEntity.badRequest().body(allRoles);
+  //   }
 
   @Override
-  public ResponseEntity<List<Role>> editRoleInfo(String id, Role role) {
+  public String editRoleInfo(String id, RoleInput roleInput) {
     try {
       Map<String, Object> paramMap = new HashMap<>();
       paramMap.put("id", id);
-      paramMap.put("role", role);
+      paramMap.put("roleInput", roleInput);
 
       roleDao.editRoleInfo(paramMap);
-      allRoles = getAllRole();
-      return ResponseEntity.ok(allRoles);
+      return "Role Edited Successfully";
     } catch (Exception e) {
-      allRoles = new ArrayList<Role>();
-      return ResponseEntity.badRequest().body(allRoles);
+      return e.getMessage();
     }
   }
+  // try {
+  //     Map<String, Object> paramMap = new HashMap<>();
+  //     paramMap.put("id", id);
+  //     paramMap.put("role", role);
+
+  //     roleDao.editRoleInfo(paramMap);
+  //     allRoles = getAllRole();
+  //     return ResponseEntity.ok(allRoles);
+  //   } catch (Exception e) {
+  //     allRoles = new ArrayList<Role>();
+  //     return ResponseEntity.badRequest().body(allRoles);
+  //   }
 
   @Override
-  public ResponseEntity<List<Role>> logicalDeleteRole(String id) {
+  public ResponseEntity<List<RoleOutput>> logicalDeleteRole(String id) {
     try {
       roleDao.logicalDeleteRole(id);
       allRoles = getAllRole();
       return ResponseEntity.ok(allRoles);
     } catch (Exception e) {
-      allRoles = new ArrayList<Role>();
+      allRoles = new ArrayList<RoleOutput>();
       return ResponseEntity.badRequest().body(allRoles);
     }
   }
@@ -75,13 +92,13 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
-  public ResponseEntity<List<Role>> deleteMultipleRole(List<Long> ids) {
+  public ResponseEntity<List<RoleOutput>> deleteMultipleRole(List<Long> ids) {
     try {
       roleDao.deleteMultipleRole(ids);
       allRoles = getAllRole();
       return ResponseEntity.ok(allRoles);
     } catch (Exception e) {
-      allRoles = new ArrayList<Role>();
+      allRoles = new ArrayList<RoleOutput>();
       return ResponseEntity.badRequest().body(allRoles);
     }
   }
