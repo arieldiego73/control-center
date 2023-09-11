@@ -58,11 +58,11 @@ public class StatusController {
     }
 
     @PutMapping("/edit/{code}")
-    public ResponseEntity<String> editStatusInfo(@PathVariable String code, @RequestBody StatusInput status){
+    public ResponseEntity<String> editStatusInfo(@PathVariable String code, @RequestBody StatusOutput status){
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<StatusInput>> errors = validator.validate(status);
+        Set<ConstraintViolation<StatusOutput>> errors = validator.validate(status);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));

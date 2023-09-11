@@ -10,7 +10,7 @@ public interface StatusService {
     public List<StatusOutput> getAllStatus();
     public StatusOutput getStatusById(String id);
     public String addStatus(StatusInput status);
-    public String editStatusInfo(String code, StatusInput status);
+    public String editStatusInfo(String code, StatusOutput status);
     public String logicalDeleteStatus(String code); 
     public String restoreStatus(String code); 
 }

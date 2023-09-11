@@ -59,25 +59,6 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public String editClient(Long id, ClientInput client) {
-        // try {
-        //     // ClientOutput data = clientDao.getClientById(id);
-        //     // data.setClient_id(data.getClient_id());
-        //     // data.setDel_flag(data.getDel_flag());
-        //     // if(data.getDel_flag() > 0 || data.getClient_id() != id) {
-        //     //     return "Client does not exist.";
-        //     // } else {
-        //         Map<String, Object> paramMap = new HashMap<>();
-
-        //         paramMap.put("id", id);
-        //         paramMap.put("client", client);
-
-        //         clientDao.editClient(paramMap);
-
-        //         return "Client Edited Successfully.";
-        //     // }
-        // } catch (Exception e) {
-        //     return e.getMessage();
-        // }
         ClientOutput data = clientDao.getClientById(id);
 
         if(data != null) {

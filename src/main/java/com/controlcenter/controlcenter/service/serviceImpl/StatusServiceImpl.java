@@ -60,75 +60,94 @@ public class StatusServiceImpl implements StatusService{
     }
 
     @Override
-    public String editStatusInfo(String code, StatusInput status){
-        try{
-            Map<String, Object> paramMap = new HashMap<>();
-            StatusOutput clientById = statusDao.getStatusById(code);
-            status.setStatus_code(clientById.getStatus_code());
-            System.out.println(status);
-            paramMap.put("code", clientById);
-            paramMap.put("status", status);
+    public String editStatusInfo(String code, StatusOutput status){
+        
+        StatusOutput statusById = statusDao.getStatusById(code);
 
-            statusDao.editStatusInfo(paramMap);
+        if(statusById != null) {
+            if(statusById.getDel_flag() == 1) {
+                return "Status with id of " + code + " has already been deleted";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
+                statusById.setStatus_code(statusById.getStatus_code());
+                status.setStatus_code(statusById.getStatus_code());
+                System.out.println(status);
+                paramMap.put("code", code);
+                paramMap.put("status", status);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                statusDao.editStatusInfo(paramMap);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a status.");
+                //Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            // add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Edited a status.");
 
-            return "Status edited successfully.";
-        } catch (Exception e){
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Status Edited Successfully.";
+            }
+        } else {
+            return "Status with code of " + code + " cannot be found";
         }
     }
 
     @Override
     public String logicalDeleteStatus(String code){
-        try{
-            statusDao.logicalDeleteStatus(code);
+        StatusOutput statusById = statusDao.getStatusById(code);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if(statusById != null) {
+            if(statusById.getDel_flag() == 1 ) {
+                return "Status with code of " + code + " has already been deleted";
+            } else {
+                statusDao.logicalDeleteStatus(code);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a status.");
+                //Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            // add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Deleted a status.");
 
-            return "Status deleted successfully.";
-        } catch (Exception e){
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Status Deleted Successfully.";
+            }
+        } else {
+            return "Status with code of " + code + " cannot be found";
         }
     }
 
     @Override
     public String restoreStatus(String code){
-        try{
-            statusDao.restoreStatus(code);
+        StatusOutput statusById = statusDao.getStatusById(code);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if(statusById != null) {
+            if(statusById.getDel_flag() == 0) {
+                return "Client with id of " + code + " is not yet deleted";
+            } else {
+                statusDao.restoreStatus(code);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a status.");
+                //Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            // add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Restored a status.");
 
-            return "Status restored successfully.";
-        } catch (Exception e){
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Status Restored Successfully.";
+            }
+        } else {
+            return "Client with id of " + code + " cannot be found";
         }
     }
 }

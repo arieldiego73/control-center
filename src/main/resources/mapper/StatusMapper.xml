@@ -7,13 +7,13 @@
 
 <!-- Fetch Data -->
     <select id="getAllStatus" resultType="com.controlcenter.controlcenter.model.StatusOutput">
-        SELECT status_code, status_name
+        SELECT status_code, status_name, del_flag
          FROM tbl_status_mst
         WHERE del_flag = 0;
     </select>
 
     <select id="getStatusById" resultType="com.controlcenter.controlcenter.model.StatusOutput">
-        SELECT status_code, status_name
+        SELECT status_code, status_name, del_flag
          FROM tbl_status_mst
         WHERE status_code = #{id};
     </select>
