@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,30 +40,30 @@ public class SectionController {
     }
 
     @PostMapping("/add")
-    public String addSection(@RequestBody SectionInput section){
+    public ResponseEntity<String> addSection(@RequestBody SectionInput section){
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<SectionInput>> errors = validator.validate(section);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return sectionService.addSection(section);
+                return ResponseEntity.status(200).body(sectionService.addSection(section));
             }
     }
 
     @PutMapping("/edit/{id}")
-    public String editSectionInfo(@PathVariable String id, @RequestBody SectionInput section) {
+    public ResponseEntity<String> editSectionInfo(@PathVariable String id, @RequestBody SectionInput section) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<SectionInput>> errors = validator.validate(section);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
-                return errorHandler.getErrors(errors);
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return sectionService.addSection(section);
+                return ResponseEntity.status(200).body(sectionService.editSectionInfo(id, section));
             }
     }
 
