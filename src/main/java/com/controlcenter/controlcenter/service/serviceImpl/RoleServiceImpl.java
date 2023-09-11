@@ -1,9 +1,13 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.RoleDao;
 import com.controlcenter.controlcenter.model.RoleOutput;
+import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.RoleInput;
 import com.controlcenter.controlcenter.service.RoleService;
+import com.controlcenter.controlcenter.shared.TimeFormatter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +22,12 @@ public class RoleServiceImpl implements RoleService {
   @Autowired
   public RoleDao roleDao;
 
+  @Autowired
+  public TimeFormatter timeFormatter;
+
+  @Autowired
+  public ActivityLogDao activityLogDao;
+
   public List<RoleOutput> allRoles = new ArrayList<RoleOutput>();
 
   @Override
@@ -27,11 +37,24 @@ public class RoleServiceImpl implements RoleService {
 
   @Override
   public String addRole(RoleInput role) {
+    
     try {
       roleDao.addRole(role);
+      //Activitylog 
+      ActivityLogInput activityLogInput = new ActivityLogInput();
+
+      activityLogInput.setEmp_id("101"); //current logged user dapat
+      activityLogInput.setLog_desc("Added a role.");
+
+      Long currentTimeMillis = System.currentTimeMillis();
+      //Add the activity log
+      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+      activityLogDao.addActivityLog(activityLogInput);
+      
       return "Role Added Successfully";
+
     } catch (Exception e) {
-      return e.getMessage();
+        return e.getMessage();
     }
   }
   // try {
@@ -51,6 +74,18 @@ public class RoleServiceImpl implements RoleService {
       paramMap.put("roleInput", roleInput);
 
       roleDao.editRoleInfo(paramMap);
+
+      //Activitylog 
+      ActivityLogInput activityLogInput = new ActivityLogInput();
+
+      activityLogInput.setEmp_id("101"); //current logged user dapat
+      activityLogInput.setLog_desc("Added a department.");
+
+      Long currentTimeMillis = System.currentTimeMillis();
+      // add the activity log
+      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+      activityLogDao.addActivityLog(activityLogInput);
+
       return "Role Edited Successfully";
     } catch (Exception e) {
       return e.getMessage();
@@ -74,6 +109,18 @@ public class RoleServiceImpl implements RoleService {
     try {
       roleDao.logicalDeleteRole(id);
       allRoles = getAllRole();
+
+      //Activitylog 
+      ActivityLogInput activityLogInput = new ActivityLogInput();
+
+      activityLogInput.setEmp_id("101"); //current logged user dapat
+      activityLogInput.setLog_desc("Deleted a Role.");
+
+      Long currentTimeMillis = System.currentTimeMillis();
+      //Add the activity log
+      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+      activityLogDao.addActivityLog(activityLogInput);
+
       return ResponseEntity.ok(allRoles);
     } catch (Exception e) {
       allRoles = new ArrayList<RoleOutput>();
@@ -85,6 +132,18 @@ public class RoleServiceImpl implements RoleService {
   public String restoreRole(String id) {
     try {
       roleDao.restoreRole(id);
+
+      //Activitylog 
+      ActivityLogInput activityLogInput = new ActivityLogInput();
+
+      activityLogInput.setEmp_id("101"); //current logged user dapat
+      activityLogInput.setLog_desc("Restored a role.");
+
+      Long currentTimeMillis = System.currentTimeMillis();
+      //Add the activity log
+      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+      activityLogDao.addActivityLog(activityLogInput);
+
       return "Role restored successfully.";
     } catch (Exception e) {
       return e.getMessage();
@@ -107,6 +166,18 @@ public class RoleServiceImpl implements RoleService {
   public String restoreMultipleRole(List<Long> ids) {
     try {
       roleDao.restoreMultipleRole(ids);
+
+      //Activitylog 
+      ActivityLogInput activityLogInput = new ActivityLogInput();
+
+      activityLogInput.setEmp_id("101"); //current logged user dapat
+      activityLogInput.setLog_desc("restored a multiple role.");
+
+      Long currentTimeMillis = System.currentTimeMillis();
+      //Add the activity log
+      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+      activityLogDao.addActivityLog(activityLogInput);
+
       return "Roles Restored Successfully.";
     } catch (Exception e) {
       return e.getMessage();
