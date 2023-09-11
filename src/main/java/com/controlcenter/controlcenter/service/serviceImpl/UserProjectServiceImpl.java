@@ -158,25 +158,5 @@ public class UserProjectServiceImpl implements UserProjectService {
         } else {
             return "User Project with id of " + id + " cannot be found";
         }
-        // try {
-        
-        //     userProjectDao.restoreUserProject(id);
-
-        //     //Activitylog
-        //     ActivityLogInput activityLogInput = new ActivityLogInput();
-
-        //     activityLogInput.setEmp_id("101"); //current logged user dapat
-        //     activityLogInput.setLog_desc("Restored User Project.");
-            
-        //     Long currentTimeMillis = System.currentTimeMillis();
-        //     //add the activity log
-        //     activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-        //     activityLogDao.addActivityLog(activityLogInput);
-
-
-        //     return "UserProject restored successfully.";
-        // } catch (Exception e) {
-        //     return e.getMessage();
-        // }
     }
 }
