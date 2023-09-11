@@ -8,7 +8,7 @@
         SELECT role_id, title, role_sh_name, role_user_level, del_flag
           FROM tbl_role_mst
          WHERE del_flag = 0
-         ORDER BY role_id DESC;
+      ORDER BY role_id DESC, reg_date DESC;
     </select>
 
 <!-- Add Data -->

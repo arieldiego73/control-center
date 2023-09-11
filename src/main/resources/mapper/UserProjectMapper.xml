@@ -9,7 +9,8 @@
     <select id="getAllUserProject" resultType="com.controlcenter.controlcenter.model.UserProjectOutput">
         SELECT upid, emp_id, proj_id, del_flag
           FROM tbl_user_project
-         WHERE del_flag = 0;
+         WHERE del_flag = 0
+      ORDER BY upid DESC, reg_date DESC;
     </select>
 
     <select id="getUserProjectById" resultType="com.controlcenter.controlcenter.model.UserProjectOutput">

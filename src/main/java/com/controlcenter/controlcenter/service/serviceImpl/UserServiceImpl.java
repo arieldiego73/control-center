@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService{
   // }
 
   @Override
-  public ResponseEntity<Account> addAccount(Account account) {
+  public String addAccount(Account account) {
     UserInput user = new UserInput();
     PersonalInfoInput personalInfo = new PersonalInfoInput();
 
@@ -96,9 +96,9 @@ public class UserServiceImpl implements UserService{
     try {
       userDao.insertUser(user);
       personalInfoDao.addPersonalInfo(personalInfo);
-      return ResponseEntity.ok(account);
+      return "Account Created Successfully.";
     } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      return e.getMessage();
     }
   }
 

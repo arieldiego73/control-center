@@ -51,7 +51,7 @@ public class DepartmentServiceImpl implements DepartmentService{
             activityLogInput.setLog_desc("Added a department.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            // add the activity log
+            //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
             
@@ -73,6 +73,17 @@ public class DepartmentServiceImpl implements DepartmentService{
 
             departmentDao.editDepartmentInfo(paramMap);
 
+            //Acivitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Edited a Department.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+
             return "Department Edited Successfully.";
         } catch (Exception e) {
             return e.getMessage();
@@ -83,6 +94,18 @@ public class DepartmentServiceImpl implements DepartmentService{
     public String logicalDeleteDepartment(String id) {
         try {
             departmentDao.logicalDeleteDepartment(id);
+
+            //Acivitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Deleted a Department.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+
             return "Department Deleted Successfully.";
         } catch (Exception e) {
             return e.getMessage();
@@ -93,6 +116,18 @@ public class DepartmentServiceImpl implements DepartmentService{
     public String restoreDepartment(String id) {
         try {
             departmentDao.restoreDepartment(id);
+
+            //Acivitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Restored a Department.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+
             return "Department Restored Successfully.";
         } catch (Exception e) {
             return e.getMessage();

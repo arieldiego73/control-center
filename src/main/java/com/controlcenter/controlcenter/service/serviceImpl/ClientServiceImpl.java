@@ -42,6 +42,8 @@ public class ClientServiceImpl implements ClientService{
 
         try {
             clientDao.addClient(client);
+
+            //Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
@@ -72,6 +74,17 @@ public class ClientServiceImpl implements ClientService{
 
                 clientDao.editClient(paramMap);
 
+                //Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Edited a client.");
+
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
                 return "Client Edited Successfully.";
             }
         } else {
@@ -88,6 +101,18 @@ public class ClientServiceImpl implements ClientService{
                 return "Client with id of " + id + " has already been deleted";
             } else {
                 clientDao.logicalDeleteClient(id);
+
+                //Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Deleted a client.");
+
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
                 return "Client Deleted Successfully";
             }
         } else {
@@ -103,6 +128,18 @@ public class ClientServiceImpl implements ClientService{
                 return "Client with id of " + id + " is not yet deleted";
             } else {
                 clientDao.restoreClient(id);
+
+                //Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Restored a client.");
+
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
                 return "Client Restored Successfully";
             }
         } else {

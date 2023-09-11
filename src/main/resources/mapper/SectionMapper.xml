@@ -7,9 +7,10 @@
 
 <!-- Fetch Data -->
     <select id="getAllSection" resultType="com.controlcenter.controlcenter.model.SectionOutput">
-        SELECT section_id, section_name, dept_id
+       SELECT section_id, section_name, dept_id
          FROM tbl_section_mst
-        WHERE del_flag = 0;
+        WHERE del_flag = 0
+     ORDER BY section_id DESC, reg_date DESC;
     </select>
 
 <!-- Add Data -->

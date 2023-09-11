@@ -9,7 +9,8 @@
     <select id="getAllProjectPhase" resultType="com.controlcenter.controlcenter.model.ProjectPhaseOutput">
         SELECT proj_phase_id, dev_phase_id, proj_id
           FROM tbl_proj_phase
-         WHERE del_flag = 0;
+         WHERE del_flag = 0
+      ORDER BY proj_phase_id DESC, reg_date DESC;
     </select>
 
 <!-- Add Data -->

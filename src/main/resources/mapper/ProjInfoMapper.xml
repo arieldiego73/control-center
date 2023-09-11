@@ -9,7 +9,8 @@
     <select id="getAllProjInfo" resultType="com.controlcenter.controlcenter.model.ProjInfoOutput">
         SELECT proj_info_id, dev_type_id, client_id, proj_status_id, proj_id
          FROM tbl_proj_info
-        WHERE del_flag = 0;
+        WHERE del_flag = 0
+     ORDER BY proj_info_id DESC, reg_date DESC;
     </select>
 
 <!-- Add Data -->
