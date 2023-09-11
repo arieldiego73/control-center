@@ -8,6 +8,7 @@ import departmentReducer from "../state/departmentState";
 import devPhaseReducer from "../state/devPhaseState";
 import positionReducer from "../state/positionState";
 import businessUnitReducer from "../state/businessUnitState"
+import projectStatusReducer from "../state/projectStatusState"
 
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -19,6 +20,7 @@ const store = configureStore({
 		devPhaseReducer: devPhaseReducer,
 		positionReducer: positionReducer,
 		businessUnitReducer: businessUnitReducer,
+		projectStatusReducer: projectStatusReducer,
 		// add more reducers here
 	},
 	middleware: [saga],

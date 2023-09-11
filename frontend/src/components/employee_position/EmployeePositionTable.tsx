@@ -35,6 +35,7 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
@@ -327,9 +328,9 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 		{
 			field: "position_name",
 			headerName: "Position",
-			width: 300,
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
 			headerAlign: "center",
 			align: "center",
 		},
@@ -337,8 +338,9 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 			field: "position_sh_name",
 			headerName: "Short Name",
 			width: 300,
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
 			headerAlign: "center",
 			align: "center",
 		},
@@ -567,7 +569,7 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 								style={{
 									flexDirection: "row",
 									display: "flex",
-									alignItems: "flex-end",
+									alignItems: "center",
 									height: "100%",
 									gap: "10px",
 								}}
@@ -616,6 +618,8 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 					</div>
 				)}
 			</Box>
+
+			<Divider variant="middle" />
 
 			<DataGrid
 				sx={{ height: "67vh", border: "none" }}
