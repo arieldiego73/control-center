@@ -33,7 +33,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public ClientOutput getClientById(String id){
+    public ClientOutput getClientById(Long id){
         return clientDao.getClientById(id);
     }
 
@@ -58,12 +58,31 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public String editClient(String id, ClientInput client) {
-        try {
-            ClientOutput data = clientDao.getClientById(id);
-            data.setDel_flag(data.getDel_flag());
-            if(data.getDel_flag() > 0) {
-                return "Client does not exist.";
+    public String editClient(Long id, ClientInput client) {
+        // try {
+        //     // ClientOutput data = clientDao.getClientById(id);
+        //     // data.setClient_id(data.getClient_id());
+        //     // data.setDel_flag(data.getDel_flag());
+        //     // if(data.getDel_flag() > 0 || data.getClient_id() != id) {
+        //     //     return "Client does not exist.";
+        //     // } else {
+        //         Map<String, Object> paramMap = new HashMap<>();
+
+        //         paramMap.put("id", id);
+        //         paramMap.put("client", client);
+
+        //         clientDao.editClient(paramMap);
+
+        //         return "Client Edited Successfully.";
+        //     // }
+        // } catch (Exception e) {
+        //     return e.getMessage();
+        // }
+        ClientOutput data = clientDao.getClientById(id);
+
+        if(data != null) {
+            if( data.getDel_flag() == 1) {
+                return "Client with id of " + id + " has already been deleted";
             } else {
                 Map<String, Object> paramMap = new HashMap<>();
 
@@ -74,28 +93,39 @@ public class ClientServiceImpl implements ClientService{
 
                 return "Client Edited Successfully.";
             }
-        } catch (Exception e) {
-            return e.getMessage();
+        } else {
+            return "Client with id of " + id + " cannot be found";
         }
     }
 
     @Override
-    public String logicalDeleteClient(String id) {
-        try {
-            clientDao.logicalDeleteClient(id);
-            return "Client Deleted Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+    public String logicalDeleteClient(Long id) {
+        ClientOutput client = clientDao.getClientById(id);
+        
+        if(client != null) {
+            if(client.getDel_flag() == 1) {
+                return "Client with id of " + id + " has already been deleted";
+            } else {
+                clientDao.logicalDeleteClient(id);
+                return "Client Deleted Successfully";
+            }
+        } else {
+            return "Client with id of " + id + " cannot be found";
         }
     }
 
     @Override
-    public String restoreClient(String id) {
-        try {
-            clientDao.restoreClient(id);
-            return "Client Restored Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+    public String restoreClient(Long id) {
+        ClientOutput client = clientDao.getClientById(id);
+        if(client != null) {
+            if(client.getDel_flag() == 0) {
+                return "Client with id of " + id + " is not yet deleted";
+            } else {
+                clientDao.restoreClient(id);
+                return "Client Restored Successfully";
+            }
+        } else {
+            return "Client with id of " + id + " cannot be found";
         }
     }
 }
