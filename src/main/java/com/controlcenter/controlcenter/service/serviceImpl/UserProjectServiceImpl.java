@@ -43,6 +43,11 @@ public class UserProjectServiceImpl implements UserProjectService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @Override
+    public UserProjectOutput getUserProjectById(String id) {
+        return userProjectDao.getUserProjectById(id);
+    }
     
     @Override
     public String addUserProject(UserProjectInput userProject) {
@@ -68,75 +73,110 @@ public class UserProjectServiceImpl implements UserProjectService {
 
     @Override 
     public String editUserProjectInfo(String id, UserProjectInput userProject) {
-        try {
-            //List<UserProjectOutput> userProjects = userProjectDao.getAllUserProject(); 
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("userProject", userProject);
+        UserProjectOutput userProjectById = userProjectDao.getUserProjectById(id);
 
-            userProjectDao.editUserProjectInfo(paramMap);
+        if(userProjectById != null) {
+            if(userProjectById.getDel_flag() == 1 ) {
+                return "User Project with id of " + id + " has already been deleted";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("id", id);
+                paramMap.put("userProject", userProject);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                userProjectDao.editUserProjectInfo(paramMap);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a user project.");
+                //Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Edited a user project.");
 
-            return "User Project Edited Successfully";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "User Project Edited Successfully";
+            }
+        } else {
+            return "User Project with id of " + id + " cannot be found";
         }
     }
 
     @Override
     public String logicalDeleteUserProject(String id) {
-        try {
-        
-            userProjectDao.logicalDeleteUserProject(id);
+        UserProjectOutput userProjectById = userProjectDao.getUserProjectById(id);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if(userProjectById != null) {
+            if(userProjectById.getDel_flag() == 1 ) {
+                return "User Project with id of " + id + " has already been deleted";
+            } else {
+                userProjectDao.logicalDeleteUserProject(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a user project.");
+                //Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
-            
-            return "UserProject deleted successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Deleted a user project.");
+
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+                
+                return "User Project Deleted Successfully.";
+            }
+        } else {
+            return "User Project with id of " + id + " cannot be found";
         }
     }
 
     @Override
     public String restoreUserProject(String id) {
-        try {
-        
-            userProjectDao.restoreUserProject(id);
+        UserProjectOutput userProjectById = userProjectDao.getUserProjectById(id);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if(userProjectById != null) {
+            if(userProjectById.getDel_flag() == 0 ) {
+                return "User Project with id of " + id + " is not yet deleted";
+            } else {
+                userProjectDao.restoreUserProject(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored User Project.");
-            
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                //Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Restored User Project.");
+                
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
 
 
-            return "UserProject restored successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                return "User Project Restored Successfully.";
+            }
+        } else {
+            return "User Project with id of " + id + " cannot be found";
         }
+        // try {
+        
+        //     userProjectDao.restoreUserProject(id);
+
+        //     //Activitylog
+        //     ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        //     activityLogInput.setEmp_id("101"); //current logged user dapat
+        //     activityLogInput.setLog_desc("Restored User Project.");
+            
+        //     Long currentTimeMillis = System.currentTimeMillis();
+        //     //add the activity log
+        //     activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        //     activityLogDao.addActivityLog(activityLogInput);
+
+
+        //     return "UserProject restored successfully.";
+        // } catch (Exception e) {
+        //     return e.getMessage();
+        // }
     }
 }

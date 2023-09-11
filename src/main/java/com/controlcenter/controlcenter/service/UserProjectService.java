@@ -9,6 +9,7 @@ import com.controlcenter.controlcenter.model.UserProjectOutput;
 
 public interface UserProjectService {
     public ResponseEntity<List<UserProjectOutput>> getAllUserProject();
+    public UserProjectOutput getUserProjectById(String id);
     public String addUserProject(UserProjectInput userProject);
     public String editUserProjectInfo(String id, UserProjectInput userProject);
     public String logicalDeleteUserProject(String id);

@@ -33,7 +33,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public ClientOutput getClientById(Long id){
+    public ClientOutput getClientById(String id){
         return clientDao.getClientById(id);
     }
 
@@ -58,7 +58,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public String editClient(Long id, ClientInput client) {
+    public String editClient(String id, ClientInput client) {
         ClientOutput data = clientDao.getClientById(id);
 
         if(data != null) {
@@ -80,7 +80,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public String logicalDeleteClient(Long id) {
+    public String logicalDeleteClient(String id) {
         ClientOutput client = clientDao.getClientById(id);
         
         if(client != null) {
@@ -96,7 +96,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public String restoreClient(Long id) {
+    public String restoreClient(String id) {
         ClientOutput client = clientDao.getClientById(id);
         if(client != null) {
             if(client.getDel_flag() == 0) {

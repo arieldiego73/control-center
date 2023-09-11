@@ -39,6 +39,11 @@ public class UserProjectController {
         return userProjectService.getAllUserProject();
     }
 
+    @GetMapping("/id/{id}")
+    public UserProjectOutput getUserProjectId(@PathVariable String id) {
+        return userProjectService.getUserProjectById(id);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<String> addUserProject(@RequestBody UserProjectInput userProject){
         //For Validation

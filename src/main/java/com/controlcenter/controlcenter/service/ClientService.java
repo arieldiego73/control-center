@@ -8,9 +8,9 @@ import com.controlcenter.controlcenter.model.ClientOutput;
 public interface ClientService {
     
     public List<ClientOutput> getAllClient();
-    public ClientOutput getClientById(Long id);
+    public ClientOutput getClientById(String id);
     public String addClient(ClientInput client);
-    public String editClient(Long id, ClientInput client);
-    public String logicalDeleteClient(Long id);
-    public String restoreClient(Long id);
+    public String editClient(String id, ClientInput client);
+    public String logicalDeleteClient(String id);
+    public String restoreClient(String id);
 }
