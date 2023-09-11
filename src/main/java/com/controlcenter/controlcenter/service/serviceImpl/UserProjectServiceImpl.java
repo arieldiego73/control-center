@@ -49,13 +49,14 @@ public class UserProjectServiceImpl implements UserProjectService {
         try {
             userProjectDao.addUserProject(userProject);
 
+            //Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
             activityLogInput.setLog_desc("Added a user project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            // add the activity log
+            //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
@@ -75,13 +76,14 @@ public class UserProjectServiceImpl implements UserProjectService {
 
             userProjectDao.editUserProjectInfo(paramMap);
 
+            //Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edit a user project.");
+            activityLogInput.setLog_desc("Edited a user project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            // add the activity log
+            //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
@@ -97,17 +99,17 @@ public class UserProjectServiceImpl implements UserProjectService {
         
             userProjectDao.logicalDeleteUserProject(id);
 
+            //Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Delete a user project.");
+            activityLogInput.setLog_desc("Deleted a user project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            // add the activity log
+            //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
             
-
             return "UserProject deleted successfully.";
         } catch (Exception e) {
             return e.getMessage();
@@ -120,14 +122,14 @@ public class UserProjectServiceImpl implements UserProjectService {
         
             userProjectDao.restoreUserProject(id);
 
+            //Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restore User Project.");
+            activityLogInput.setLog_desc("Restored User Project.");
             
             Long currentTimeMillis = System.currentTimeMillis();
-            //Restore the activity log
+            //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
