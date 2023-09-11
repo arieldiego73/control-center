@@ -13,10 +13,10 @@ public class Account {
     private String email;
     private String username;
     private String password;
-    private int position_id;
-    private int dept_id;
-    private int section_id;
+    private Long position_id;
+    private Long dept_id;
+    private Long section_id;
     private String status_code;
-    private int role_id;
+    private Long role_id;
     private String img_src;
 }
