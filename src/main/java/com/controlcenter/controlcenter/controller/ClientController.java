@@ -40,11 +40,7 @@ public class ClientController{
     }
 
     @GetMapping("/client-id/{id}")
-<<<<<<< HEAD
-    public ClientOutput getClientById(Long id) {
-=======
     public ClientOutput getClientById(String id) {
->>>>>>> 039b1597e252382bc64089ab916b1b4236de3b8a
         return clientService.getClientById(id);
     }
 
@@ -63,7 +59,7 @@ public class ClientController{
     }
 
     @PutMapping("/edit/{id}") 
-    public ResponseEntity<String> editClient(@PathVariable Long id,@RequestBody ClientInput client) {
+    public ResponseEntity<String> editClient(@PathVariable String id,@RequestBody ClientInput client) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
@@ -77,7 +73,7 @@ public class ClientController{
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteClient(@PathVariable Long id) {
+    public ResponseEntity<String> logicalDeleteClient(@PathVariable String id) {
         try {
             return ResponseEntity.ok(clientService.logicalDeleteClient(id));
         } catch (Exception e) {
@@ -86,7 +82,7 @@ public class ClientController{
     }
 
     @PutMapping("/restore/{id}")
-    public ResponseEntity<String> restoreClient(@PathVariable Long id) {
+    public ResponseEntity<String> restoreClient(@PathVariable String id) {
         try {
             return ResponseEntity.ok(clientService.restoreClient(id));
         } catch (Exception e) {

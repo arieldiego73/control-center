@@ -11,9 +11,9 @@ import com.controlcenter.controlcenter.model.ClientOutput;
 @Mapper
 public interface ClientDao {
     List<ClientOutput> getAllClient();
-    ClientOutput getClientById(Long id);
+    ClientOutput getClientById(String id);
     void addClient(ClientInput client);
     void editClient(Map<String, Object> paramMap);
-    void logicalDeleteClient(Long id);
-    void restoreClient(Long id);
+    void logicalDeleteClient(String id);
+    void restoreClient(String id);
 }
