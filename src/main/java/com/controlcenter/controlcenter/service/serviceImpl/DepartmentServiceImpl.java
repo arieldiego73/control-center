@@ -51,7 +51,7 @@ public class DepartmentServiceImpl implements DepartmentService{
             activityLogInput.setLog_desc("Added a department.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            // add the activity log
+            //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
             
