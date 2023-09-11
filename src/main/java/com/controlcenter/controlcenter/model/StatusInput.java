@@ -11,10 +11,10 @@ import lombok.Setter;
 public class StatusInput {
 
     @NotBlank(message = "Status code should not be empty.")
-    @Size(max = 10, message = "The Status Code is not meeting the required length.")
+    @Size(max = 10, message = "The Status Code is invalid, it should be up to 10 characters long.")
     private String status_code;
 
     @NotBlank(message = "Status name should not be empty.")
-    @Size(max = 150, message = "The Status Name is not meeting the required length.")
+    @Size(max = 150, message = "The Status name is invalid, it should be up to 150 characters long.")
     private String status_name;
 }
