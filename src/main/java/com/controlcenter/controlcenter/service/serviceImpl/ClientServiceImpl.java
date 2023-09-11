@@ -65,7 +65,7 @@ public class ClientServiceImpl implements ClientService{
 
         if(data != null) {
             if( data.getDel_flag() == 1) {
-                return "Client with id of " + id + " has already been deleted";
+                return "Client with the ID " + id + " has already been deleted.";
             } else {
                 Map<String, Object> paramMap = new HashMap<>();
 
@@ -88,7 +88,7 @@ public class ClientServiceImpl implements ClientService{
                 return "Client Edited Successfully.";
             }
         } else {
-            return "Client with id of " + id + " cannot be found";
+            return "Client with the ID " + id + " cannot be found.";
         }
     }
 
@@ -98,7 +98,7 @@ public class ClientServiceImpl implements ClientService{
         
         if(client != null) {
             if(client.getDel_flag() == 1) {
-                return "Client with id of " + id + " has already been deleted";
+                return "Client with the ID " + id + " has already been deleted.";
             } else {
                 clientDao.logicalDeleteClient(id);
 
@@ -113,10 +113,10 @@ public class ClientServiceImpl implements ClientService{
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Client Deleted Successfully";
+                return "Client Deleted Successfully.";
             }
         } else {
-            return "Client with id of " + id + " cannot be found";
+            return "Client with the ID " + id + " cannot be found.";
         }
     }
 
@@ -125,7 +125,7 @@ public class ClientServiceImpl implements ClientService{
         ClientOutput client = clientDao.getClientById(id);
         if(client != null) {
             if(client.getDel_flag() == 0) {
-                return "Client with id of " + id + " is not yet deleted";
+                return "Client with the ID " + id + " is not yet deleted.";
             } else {
                 clientDao.restoreClient(id);
 
@@ -140,10 +140,10 @@ public class ClientServiceImpl implements ClientService{
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Client Restored Successfully";
+                return "Client Restored Successfully.";
             }
         } else {
-            return "Client with id of " + id + " cannot be found";
+            return "Client with the ID " + id + " cannot be found.";
         }
     }
 }

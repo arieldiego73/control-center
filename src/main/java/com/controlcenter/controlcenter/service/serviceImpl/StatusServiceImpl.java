@@ -66,7 +66,7 @@ public class StatusServiceImpl implements StatusService{
 
         if(statusById != null) {
             if(statusById.getDel_flag() == 1) {
-                return "Status with id of " + code + " has already been deleted";
+                return "Status with the code " + code + " has already been deleted.";
             } else {
                 Map<String, Object> paramMap = new HashMap<>();
                 statusById.setStatus_code(statusById.getStatus_code());
@@ -91,7 +91,7 @@ public class StatusServiceImpl implements StatusService{
                 return "Status Edited Successfully.";
             }
         } else {
-            return "Status with code of " + code + " cannot be found";
+            return "Status with the code " + code + " cannot be found.";
         }
     }
 
@@ -101,7 +101,7 @@ public class StatusServiceImpl implements StatusService{
 
         if(statusById != null) {
             if(statusById.getDel_flag() == 1 ) {
-                return "Status with code of " + code + " has already been deleted";
+                return "Status with the code " + code + " has already been deleted.";
             } else {
                 statusDao.logicalDeleteStatus(code);
 
@@ -119,7 +119,7 @@ public class StatusServiceImpl implements StatusService{
                 return "Status Deleted Successfully.";
             }
         } else {
-            return "Status with code of " + code + " cannot be found";
+            return "Status with the code " + code + " cannot be found.";
         }
     }
 
@@ -129,7 +129,7 @@ public class StatusServiceImpl implements StatusService{
 
         if(statusById != null) {
             if(statusById.getDel_flag() == 0) {
-                return "Client with id of " + code + " is not yet deleted";
+                return "Status with the code " + code + " is not yet deleted.";
             } else {
                 statusDao.restoreStatus(code);
 
@@ -147,7 +147,7 @@ public class StatusServiceImpl implements StatusService{
                 return "Status Restored Successfully.";
             }
         } else {
-            return "Client with id of " + code + " cannot be found";
+            return "Status with the code " + code + " cannot be found.";
         }
     }
 }
