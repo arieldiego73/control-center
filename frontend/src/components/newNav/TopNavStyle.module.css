@@ -1,6 +1,6 @@
 .topnavContainer {
-  height: 100%;
-  width: 100%;
+  height: 8%;
+  width: 82%;
   border-radius: 10px;
   overflow: hidden;
   display: flex;
@@ -13,4 +13,5 @@ border: 1px solid red;
   -webkit-backdrop-filter: blur( 5px );
   border-radius: 10px;
 
+  position: fixed;
 }
