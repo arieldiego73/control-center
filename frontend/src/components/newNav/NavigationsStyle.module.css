@@ -1,0 +1,17 @@
+.navigationsContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  gap: 2%;
+}
+.sideNavMainContainer{
+  height: 93%;
+  width: 13%;
+  margin-top: 2%;
+  margin-left: 1.5%;
+}
+.topNavMainContainer{
+  margin-top: 2%;
+  height: 8%;
+  width: 82%;
+}

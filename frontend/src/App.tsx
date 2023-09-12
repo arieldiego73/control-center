@@ -21,6 +21,11 @@ import BusinessUnitHandler from "./pages/BusinessUnitHanlder";
 import DepartmentHandler from "./pages/DepartmentHandler";
 import TechnologyHandler from "./pages/TechnologyHandler";
 import test2 from "./components/test/test2";
+import Sidenav from "./components/newNav/SideNav"
+import Topnav from "./components/newNav/Navigations"
+import Navigations from "./pages/NavigationHandler"
+
+
 function App() {
 	return (
 		<BrowserRouter>
@@ -47,8 +52,11 @@ function App() {
 				<Route path="/department" Component={DepartmentHandler} />
 				<Route path="/technology" Component={TechnologyHandler} />
 				<Route path="/test2" Component={test2} />
-
-				
+				<Route path="/sideNav" Component={Sidenav} />
+				<Route path="/topNav" Component={Topnav} />
+				{/* <Route path="/NewNav" Component={NewNav} /> */}
+				<Route path="/navigations" Component={Navigations} />
+			
 			</Routes>
 		</BrowserRouter>
 	);
