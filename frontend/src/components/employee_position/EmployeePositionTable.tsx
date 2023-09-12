@@ -138,12 +138,12 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 					startIcon={<DeleteIcon />}
 					onClick={handleDeleteBatch}
 					hidden={true}
+					disabled={selectedId.size === 0}
 					sx={{
-						marginBottom: 3,
-						fontFamily: "Montserrat, san-serif",
-						visibility: `${
-							selectedId.size !== 0 ? "visible" : "hidden"
-						}`,
+						marginLeft: 1.5,
+						// visibility: `${
+						// 	selectedId.size !== 0 ? "visible" : "hidden"
+						// }`,
 					}}
 				>
 					DELETE BATCH
@@ -345,7 +345,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 				},
 				"& .MuiDataGrid-columnHeaderTitle": {
 					fontWeight: 800,
-					fontFamily: "Montserrat, san-serif",
 					padding: "0 24px",
 				},
 				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
@@ -375,9 +374,9 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 				".MuiDataGrid-sortIcon": {
 					opacity: "inherit !important",
 				},
-				".MuiDataGrid-cellContent": {
-					fontWeight: "500",
-				},
+				// ".MuiDataGrid-cellContent": {
+				// 	fontWeight: "500",
+				// },
 			}}
 		>
 			<Box
@@ -396,7 +395,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 					<Button
 						variant="contained"
 						color="primary"
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
@@ -427,7 +425,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Position
@@ -454,7 +451,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Short Name
@@ -480,7 +476,7 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 									/>
 								</FormControl>
 								{/* <FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel style={{ fontWeight: "bold" }}>
 										User Level
 									</FormLabel>
 									<TextField
@@ -521,7 +517,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAddContinue}
 								>
@@ -534,7 +529,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAdd}
 								>
@@ -543,7 +537,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 								<Button
 									style={{
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={() => {
 										setIsHidden(false);
@@ -600,7 +593,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 			>
 				<DialogTitle id="responsive-dialog-title">
 					<Typography
-						fontFamily={"Montserrat, san-serif"}
 						fontWeight={700}
 						fontSize={20}
 						display={"flex"}
@@ -618,7 +610,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText
-						fontFamily={"Montserrat, san-serif"}
 						whiteSpace={"pre-line"}
 					>
 						{dialogContentText}
@@ -631,13 +622,11 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 							isBatch ? proceedWithDeleteBatch : proceedWithDelete
 						}
 						autoFocus
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 					>
 						Delete
 					</Button>
 
 					<Button
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => {
 							setAsk(false);
 						}}
