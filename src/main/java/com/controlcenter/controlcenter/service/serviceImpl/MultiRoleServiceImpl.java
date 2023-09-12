@@ -7,16 +7,25 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.MultiRoleDao;
+import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.MultiRoleInput;
 import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.service.MultiRoleService;
+import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
 public class MultiRoleServiceImpl implements MultiRoleService{
 
     @Autowired
     public MultiRoleDao multiRoleDao;
+
+    @Autowired
+    public TimeFormatter timeFormatter;
+
+    @Autowired
+    public ActivityLogDao activityLogDao;
 
     @Override
     public List<MultiRoleOutput> getAllMultiRole(){
@@ -32,6 +41,18 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     public String addMultiRole(MultiRoleInput multiRole){
         try{
             multiRoleDao.addMultiRole(multiRole);
+
+            //Acivitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Added a Multiple Role.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+
             return "Multi Role Added Successfully";
         } catch (Exception e) {
             return e.getMessage();
@@ -53,6 +74,17 @@ public class MultiRoleServiceImpl implements MultiRoleService{
 
                 multiRoleDao.editMultiRoleInfo(paramMap);
 
+                //Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Edited a Multiple Role.");
+
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
                 return "Multi Role Edited Successfully";
             }
         } catch (Exception e){
@@ -64,6 +96,18 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     public String logicalDeleteMultiRole(String id){
         try{
             multiRoleDao.logicalDeleteMultiRole(id);
+
+            //Acivitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Deleted a Multiple Role.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+
             return "Multi Role Deleted Successfully";
         } catch (Exception e) {
             return e.getMessage();
@@ -74,6 +118,18 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     public String restoreMultiRole(String id){
         try{
             multiRoleDao.restoreMultiRole(id);
+
+            //Acivitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Restored a Multiple Role.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+
             return "Multi Role Restored Successfully";
         } catch (Exception e) {
             return e.getMessage();

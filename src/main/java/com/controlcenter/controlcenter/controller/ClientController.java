@@ -33,6 +33,7 @@ public class ClientController{
     @Autowired
     private ErrorHandler errorHandler;
 
+
     @GetMapping("/all")
     public List<ClientOutput> getAllClient() {
         return clientService.getAllClient();
@@ -72,12 +73,20 @@ public class ClientController{
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteClient(@PathVariable String id) {
-        return clientService.logicalDeleteClient(id);
+    public ResponseEntity<String> logicalDeleteClient(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok(clientService.logicalDeleteClient(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreClient(@PathVariable String id) {
-        return clientService.restoreClient(id);
+    public ResponseEntity<String> restoreClient(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok(clientService.restoreClient(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }

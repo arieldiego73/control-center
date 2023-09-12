@@ -7,9 +7,16 @@
 
 <!-- Fetch Data -->
     <select id="getAllStatus" resultType="com.controlcenter.controlcenter.model.StatusOutput">
-        SELECT status_code, status_name
+       SELECT status_code, status_name, del_flag
          FROM tbl_status_mst
-        WHERE del_flag = 0;
+        WHERE del_flag = 0
+     ORDER BY status_code DESC, reg_date DESC;
+    </select>
+
+    <select id="getStatusById" resultType="com.controlcenter.controlcenter.model.StatusOutput">
+        SELECT status_code, status_name, del_flag
+         FROM tbl_status_mst
+        WHERE status_code = #{id};
     </select>
 
 <!-- Add Data -->
@@ -29,7 +36,8 @@
 <!-- Update Data -->
     <update id="editStatusInfo" parameterType="map">
         UPDATE tbl_status_mst
-           SET status_name=#{status.status_name},
+           SET 
+               status_name=#{status.status_name},
                update_id = 1
          WHERE status_code = #{code}
     </update>

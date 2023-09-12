@@ -48,9 +48,9 @@ public class PositionController {
         Set<ConstraintViolation<PositionInput>> errors = validator.validate(position);
             //Error Handling
             if(errors.size() > 0){
-                return ResponseEntity.badRequest().body(errorHandler.getErrors(errors));
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else{
-                return positionService.addPosition(position);
+                return ResponseEntity.status(200).body(positionService.addPosition(position));
             }
     }
 
@@ -62,9 +62,9 @@ public class PositionController {
         Set<ConstraintViolation<PositionInput>> errors = validator.validate(position);
             //Error Handling
             if(errors.size() > 0){
-                return ResponseEntity.badRequest().body(errorHandler.getErrors(errors));
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else{
-                return positionService.editPositionInfo(id, position);
+                return ResponseEntity.status(200).body(positionService.editPositionInfo(id, position));
             }
     }
 

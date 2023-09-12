@@ -13,33 +13,46 @@ import departmentSaga from "./departmentSaga";
 import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBatch, devPhaseSagaUpdate } from "./devPhaseSaga";
 import { positionSaga, positionSagaAdd, positionSagaUpdate, positionSagaDelete, positionSagaDeleteBatch } from "./positionSaga";
 import { businessUnitSaga, businessUnitSagaAdd, businessUnitSagaDelete, businessUnitSagaDeleteBatch, businessUnitSagaUpdate } from "./businessUnitSaga";
+import { projectStatusSaga, projectStatusSagaAdd, projectStatusSagaUpdate, projectStatusSagaDelete, projectStatusSagaDeleteBatch } from "./projectStatusSaga";
 
 export default function* rootSaga() {
 	yield all([
 		userSaga(),
 		userSagaFetchUserInfo(),
+		
 		sessionSaga(),
+
 		roleSaga(),
 		roleSagaUpdate(),
 		roleSagaAdd(),
 		roleSagaDelete(),
 		roleSagaDeleteBatch(),
+
 		departmentSaga(),
+
 		devPhaseSaga(),
 		devPhaseSagaAdd(),
 		devPhaseSagaUpdate(),
 		devPhaseSagaDelete(),
 		devPhaseSagaDeleteBatch(),
+
 		positionSaga(),
 		positionSagaAdd(),
 		positionSagaUpdate(),
 		positionSagaDelete(),
 		positionSagaDeleteBatch(),
+
 		businessUnitSaga(),
 		businessUnitSagaAdd(),
 		businessUnitSagaUpdate(),
 		businessUnitSagaDelete(),
-		businessUnitSagaDeleteBatch()
+		businessUnitSagaDeleteBatch(),
+
+		projectStatusSaga(),
+		projectStatusSagaAdd(),
+		projectStatusSagaUpdate(),
+		projectStatusSagaDelete(),
+		projectStatusSagaDeleteBatch()
 		// Add more sagas here
 	]);
 }

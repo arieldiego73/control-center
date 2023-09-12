@@ -43,6 +43,7 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
@@ -314,18 +315,18 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 		{
 			field: "title",
 			headerName: "Role",
-			width: 300,
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
 			headerAlign: "center",
 			align: "center",
 		},
 		{
 			field: "role_sh_name",
 			headerName: "Short Name",
-			width: 300,
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
 			headerAlign: "center",
 			align: "center",
 		},
@@ -333,17 +334,17 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 			field: "role_user_level",
 			headerName: "User Level",
 			type: "number",
-			width: 200,
+			minWidth: 250,
+			flex: 1,
 			editable: true,
 			headerAlign: "center",
 			align: "center",
-			flex: 12,
 		},
 		{
 			field: "actions",
 			type: "actions",
 			headerName: "Actions",
-			width: 200,
+			minWidth: 200,
 			cellClassName: "actions",
 			getActions: ({ id }) => {
 				const isInEditMode =
@@ -552,7 +553,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 								style={{
 									flexDirection: "row",
 									display: "flex",
-									alignItems: "flex-end",
+									alignItems: "center",
 									height: "100%",
 									gap: "10px",
 								}}
@@ -599,6 +600,8 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 					</div>
 				)}
 			</Box>
+
+			<Divider variant="middle" />
 
 			<DataGrid
 				sx={{ height: "67vh", border: "none" }}

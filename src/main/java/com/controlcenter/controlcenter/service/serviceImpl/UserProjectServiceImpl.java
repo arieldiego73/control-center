@@ -9,11 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.UserProjectDao;
+import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.UserProjectInput;
 import com.controlcenter.controlcenter.model.UserProjectOutput;
 import com.controlcenter.controlcenter.service.UserProjectService;
 import com.controlcenter.controlcenter.shared.ErrorHandler;
+import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 
 @Service
@@ -21,6 +24,12 @@ public class UserProjectServiceImpl implements UserProjectService {
     
     @Autowired
     public UserProjectDao userProjectDao;
+
+    @Autowired
+    public TimeFormatter timeFormatter;
+
+    @Autowired
+    public ActivityLogDao activityLogDao;
 
     @Autowired
     public ErrorHandler errorHandler;
@@ -39,6 +48,18 @@ public class UserProjectServiceImpl implements UserProjectService {
     public String addUserProject(UserProjectInput userProject) {
         try {
             userProjectDao.addUserProject(userProject);
+
+            //Activitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Added a user project.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+
             return "User Project added successfully.";
         } catch (Exception e) {
             return e.getMessage();
@@ -55,6 +76,17 @@ public class UserProjectServiceImpl implements UserProjectService {
 
             userProjectDao.editUserProjectInfo(paramMap);
 
+            //Activitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Edited a user project.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+
             return "User Project Edited Successfully";
         } catch (Exception e) {
             return e.getMessage();
@@ -67,6 +99,17 @@ public class UserProjectServiceImpl implements UserProjectService {
         
             userProjectDao.logicalDeleteUserProject(id);
 
+            //Activitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Deleted a user project.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+            
             return "UserProject deleted successfully.";
         } catch (Exception e) {
             return e.getMessage();
@@ -78,6 +121,18 @@ public class UserProjectServiceImpl implements UserProjectService {
         try {
         
             userProjectDao.restoreUserProject(id);
+
+            //Activitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Restored User Project.");
+            
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+
 
             return "UserProject restored successfully.";
         } catch (Exception e) {
