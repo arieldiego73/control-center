@@ -135,7 +135,7 @@ public class DepartmentServiceImpl implements DepartmentService{
         DepartmentOutput data = departmentDao.getDepartmentById(id);
 
         if(data != null){
-            if(data.getDel_flag() == 1){
+            if(data.getDel_flag() == 0){
                 return "Department with the ID " + id + " is not yet deleted.";
             } else{
                 departmentDao.restoreDepartment(id);
