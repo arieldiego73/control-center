@@ -24,6 +24,7 @@ import test2 from "./components/test/test2";
 import Sidenav from "./components/newNav/SideNav"
 import Topnav from "./components/newNav/Navigations"
 import Navigations from "./pages/NavigationHandler"
+import UserGraph from "./components/dashboard/user_graph/UserGraph";
 
 
 function App() {
@@ -56,6 +57,10 @@ function App() {
 				<Route path="/topNav" Component={Topnav} />
 				{/* <Route path="/NewNav" Component={NewNav} /> */}
 				<Route path="/navigations" Component={Navigations} />
+				<Route path="/UserGraph" Component={UserGraph} />
+
+
+	
 			
 			</Routes>
 		</BrowserRouter>

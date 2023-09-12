@@ -70,16 +70,29 @@ public class DevPhaseController {
 
     @PutMapping("/delete-multiple")
     public ResponseEntity<String> deleteMultipleDevPhase(@RequestParam List<Long> ids) {
-        return devPhaseService.deleteMultipleDevPhase(ids);
+        try {
+            System.out.println(ids);
+            return ResponseEntity.ok().body(devPhaseService.deleteMultipleDevPhase(ids));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error");
+        }
     }
 
     @PutMapping("/delete/{id}")
     public ResponseEntity<String> logicalDeleteDevPhase(@PathVariable String id) {
-        return devPhaseService.logicalDeleteDevPhase(id);
+        try {
+            return ResponseEntity.ok().body(devPhaseService.logicalDeleteDevPhase(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreDevPhase(@PathVariable String id) {
-        return devPhaseService.restoreDevPhase(id);
+    public ResponseEntity<String> restoreDevPhase(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(devPhaseService.restoreDevPhase(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error");
+        }
     }
 }

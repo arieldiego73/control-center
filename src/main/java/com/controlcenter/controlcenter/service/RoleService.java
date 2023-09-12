@@ -3,21 +3,22 @@ package com.controlcenter.controlcenter.service;
 import com.controlcenter.controlcenter.model.RoleOutput;
 import com.controlcenter.controlcenter.model.RoleInput;
 import java.util.List;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public interface RoleService {
   public List<RoleOutput> getAllRole();
 
+  public RoleOutput getRoleById(String id);
+
   public String addRole(RoleInput role);
 
   public String editRoleInfo(String id, RoleInput role);
 
-  public ResponseEntity<List<RoleOutput>> logicalDeleteRole(String id);
+  public String logicalDeleteRole(String id);
 
   public String restoreRole(String id);
 
-  public ResponseEntity<List<RoleOutput>> deleteMultipleRole(
+  public String deleteMultipleRole(
     @RequestParam List<Long> ids
   );
 

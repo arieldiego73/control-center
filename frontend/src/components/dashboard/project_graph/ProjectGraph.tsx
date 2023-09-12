@@ -1,6 +1,6 @@
 import { ResponsiveBar } from "@nivo/bar";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import ProjGraphStyle from "./test2.module.css";
+import ProjGraphStyle from "./ProjectGraph.module.css";
 import { Divider } from "@mui/material";
 
 const data = [
@@ -26,11 +26,11 @@ const data = [
   },
 ];
 
-export default function Test2() {
+export default function ProjectGraph() {
   return (
     <div className={ProjGraphStyle.ProjGraphContainer  }>
       <div
-        style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", paddingBottom:'2%'}}>
+        style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center",}}>
 
         {/* Main Container */}
         <div className={ProjGraphStyle.card}>
