@@ -30,7 +30,7 @@ export default function ProjectGraph() {
   return (
     <div className={ProjGraphStyle.ProjGraphContainer  }>
       <div
-        style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", paddingBottom:'2%'}}>
+        style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center",}}>
 
         {/* Main Container */}
         <div className={ProjGraphStyle.card}>

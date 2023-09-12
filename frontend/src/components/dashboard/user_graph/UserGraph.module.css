@@ -1,16 +1,18 @@
 .userGraphContainer {
-  height: 350px;
-  width: 45%;
+  height: 80%; 
+  width: 25%;
+  padding: 2%;
+  /* border: 1px solid black;
+  width: 30%;
   display: flex;
   justify-content: center;
   align-content: center;
   padding-top: 2%;
-  /* backgroundColor: black, */
-  /* border: 1px solid black, */
+  background-color: black; */
 }
 
 /* Attributes of Main Container */
-.card {
+.card { 
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   background-color: rgba(255, 255, 255, 0.75);
@@ -18,8 +20,9 @@
   border: 1px solid rgba(209, 213, 219, 0.3);
   align-items: flex-end;
   display: flex;
-  height: 95%;
-  width: 90%;
+  height: 350px;
+  width: 100%;
+  /* top: 2%; */
 }
 .textHolder{
   flex-direction: column;
@@ -51,6 +54,7 @@
 .textInfoUpdate{
   font-size: 12px; 
   color: green;
+  padding-right: 2px;
 }
 .textInfo{
   font-size: 12px; 
@@ -61,7 +65,7 @@
 .graphContainer{
   background: linear-gradient(#46a34a, #56af5a, #63b967);
   height: 30%;
-  width: 38%;
+  width: 22%;
   border-radius: 15px;
   position: absolute;
   margin-bottom: 12%;

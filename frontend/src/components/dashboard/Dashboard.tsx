@@ -36,14 +36,14 @@ export const Dashboard = () => {
 				<div className={DashboardStyle.contentHolder}>
 				
 			
-							<div style={{flexDirection:'row', display:'flex', justifyContent:'center', alignContent:'center'}}>
+							<div style={{flexDirection:'row', display:'flex', justifyContent:'center', alignItems:'center'}}>
 								<ProjectGraph/>
-							<UserGraph	/>
+								<UserGraph	/>
+								<ProjectGraph/>
 							</div>
 							
 			
 						
-					
 				
 					<ActivityLogDashboardTable/>
 					

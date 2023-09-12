@@ -9,7 +9,7 @@ const data = [
     month: 59,
   },
   {
-    status: "Active",
+    status: "Active", 
     month: 61,
   },
   {
@@ -30,7 +30,7 @@ export default function UserGraph() {
   return (
     <div className={UserGraphStyle.userGraphContainer  }>
       <div
-        style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", paddingBottom:'2%'}}>
+        style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", }}>
 
         {/* Main Container */}
         <div className={UserGraphStyle.card}>
@@ -44,7 +44,7 @@ export default function UserGraph() {
 
             {/* Information */}
             <div className={UserGraphStyle.infoContainer}>
-              <text className={UserGraphStyle.textInfoUpdate}> +3%  </text>
+              <text className={UserGraphStyle.textInfoUpdate}> +3%</text>
               <text className={UserGraphStyle.textInfo}>  than last month </text>
             </div>
           </div>

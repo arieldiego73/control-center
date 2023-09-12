@@ -58,7 +58,7 @@ export default function ActivityLogDashboardTable() {
 
 
 	return (
-		<div style={{width:'100%', display:'flex', justifyContent:'center', alignContent:'center'}}>
+		<div style={{width:'90%', display:'flex', justifyContent:'center', alignContent:'center'}}>
 			<Paper sx={{ width: "86%",  overflow: "hidden", backgroundColor: "transparent",justifyContent: "center", alignItems: "center", display:'flex', paddingTop:'2%'}}>
 				<TableContainer sx={{ width: "90%", justifyContent: "center", alignItems: "center", display:'flex',}}>
 					<Table stickyHeader aria-label="sticky table" >
