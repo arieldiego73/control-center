@@ -59,6 +59,7 @@ import AddTechnologyTable from "../AddTechnologyTable";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import ReactQuillEditor from 'react-quill';
 
 
 //for breadcrumbs
@@ -354,13 +355,14 @@ export default function NewProj() {
                         <div className={StyleNewProject.toolbar}>
                           <div className={StyleNewProject.editor}>
                             Project Description
-                            <ReactQuill
+                            <ReactQuillEditor
                               theme='snow'
                               value={value}
-                              className={StyleNewProject.editorInput}
+                              // maxLines={`8`} 
+                              // scrollOnMaxLines={true}
                               onChange={setValue}
                               modules={modules}
-                              placeholder="Start typing..."
+                              placeholder="Project description..."
                               style={{backgroundColor:"whitesmoke"}}
                             />
                           </div>

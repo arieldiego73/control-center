@@ -13,8 +13,10 @@ import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
+import java.util.HashMap;
 // import java.util.Collections;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,6 +64,18 @@ public class UserServiceImpl implements UserService{
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+  }
+
+  @Override
+  public String editUser(String id, UserInput user) {
+    HashMap<String, Object> paramMap = new HashMap<>();
+
+    paramMap.put("id", id);
+    paramMap.put("user", user);
+
+    userDao.editUser(paramMap);
+
+    return "User Edited Successfully";
   }
 
   // @Override
@@ -122,6 +136,44 @@ public class UserServiceImpl implements UserService{
     }
   }
 
+  @Override
+  public String editAccount(String id, Account account) {
+    HashMap<String, Object> userMap = new HashMap<>();
+    HashMap<String, Object> personalInfoMap = new HashMap<>();
+
+    UserInput user = new UserInput();
+    PersonalInfoInput personalInfo = new PersonalInfoInput();
+
+    user.setEmp_id(account.getEmp_id());
+    user.setUsername(account.getUsername());
+    user.setPassword(passEnc.encode(account.getPassword()));
+    user.setPosition_id(account.getPosition_id());
+    user.setDept_id(account.getDept_id());
+    user.setSection_id(account.getSection_id());
+    user.setStatus_code(account.getStatus_code());
+    user.setRole_id(account.getRole_id());
+    user.setImg_src(account.getImg_src());
+
+    personalInfo.setEmp_id(account.getEmp_id());
+    personalInfo.setFname(account.getFname());
+    personalInfo.setLname(account.getLname());
+    personalInfo.setMname(account.getMname());
+    personalInfo.setEmail(account.getEmail());
+
+    userMap.put("id", id);
+    userMap.put("user", user);
+
+    personalInfoMap.put("id", id);
+    personalInfoMap.put("personalInfo", personalInfo);
+
+    userDao.editUser(userMap);
+    personalInfoDao.editPersonalInfo(personalInfoMap);
+
+    System.out.println(userMap);
+    System.out.println(personalInfoMap);
+    return "Account Edited Successfully";
+  }
+
   //   @Override
   //   public String insertUserBatch(List<User> users) {
   //     try {
@@ -162,7 +214,7 @@ public class UserServiceImpl implements UserService{
   // }
 
   @Override
-  public ResponseEntity<UserOutput> getLoggedInUser(UserOutput user) {
+  public String getLoggedInUser(UserOutput user) {
 
     UserOutput users = userDao.getUserByUsername(user);
 
@@ -184,6 +236,8 @@ public class UserServiceImpl implements UserService{
         users.setRole_id(users.getRole_id());
         users.setImg_src(users.getImg_src());
 
+         
+
         //Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
@@ -195,7 +249,7 @@ public class UserServiceImpl implements UserService{
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-        return ResponseEntity.ok(users);
+        return "Login Successfully.";
       } else {
 
         //Activitylog
@@ -209,10 +263,10 @@ public class UserServiceImpl implements UserService{
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-        return ResponseEntity.badRequest().body(users);
+        return "Login unsuccessfully.";
       }
     } else {
-      return ResponseEntity.badRequest().body(users);
+      return "Username and Password doesn't match.";
     }
     
   }

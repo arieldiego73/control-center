@@ -30,6 +30,11 @@ public class DepartmentServiceImpl implements DepartmentService{
     public ActivityLogDao activityLogDao;
 
     @Override
+    public DepartmentOutput getDepartmentById(String id){
+        return departmentDao.getDepartmentById(id);
+    }
+
+    @Override
     public ResponseEntity<List<DepartmentOutput>> getAllDepartment() {
         try {
             List<DepartmentOutput> departments = departmentDao.getAllDepartment();
@@ -64,73 +69,93 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public String editDepartmentInfo(String id, DepartmentInput department) {
+        DepartmentOutput data = departmentDao.getDepartmentById(id);
         
-        try {
-            Map<String, Object> paramMap = new HashMap<>();
+        if(data != null){
+            if(data.getDel_flag() == 1){
+                return "Department with the ID " + id + " has already been deleted.";
+            } else{
+                Map<String, Object> paramMap = new HashMap<>();
 
-            paramMap.put("id", id);
-            paramMap.put("department", department);
+                paramMap.put("id", id);
+                paramMap.put("department", department);
 
-            departmentDao.editDepartmentInfo(paramMap);
+                departmentDao.editDepartmentInfo(paramMap);
 
-            //Acivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                //Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a Department.");
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Edited a Department.");
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
 
-            return "Department Edited Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                return "Department Edited Successfully.";
+            }
+        } else{
+            return "Department with the ID " + id + " cannot be found.";
         }
+            
     }
 
     @Override
     public String logicalDeleteDepartment(String id) {
-        try {
-            departmentDao.logicalDeleteDepartment(id);
+        DepartmentOutput data = departmentDao.getDepartmentById(id);
 
-            //Acivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if(data != null){
+            if(data.getDel_flag() == 1){
+                return "Department with the ID " + id + " has already been deleted.";
+            } else{
+                departmentDao.logicalDeleteDepartment(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a Department.");
+                //Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Deleted a Department.");
 
-            return "Department Deleted Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Department Deleted Successfully.";
+            }
+
+        } else{
+            return "Department with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String restoreDepartment(String id) {
-        try {
-            departmentDao.restoreDepartment(id);
+        DepartmentOutput data = departmentDao.getDepartmentById(id);
 
-            //Acivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if(data != null){
+            if(data.getDel_flag() == 0){
+                return "Department with the ID " + id + " is not yet deleted.";
+            } else{
+                departmentDao.restoreDepartment(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a Department.");
+                //Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Restored a Department.");
 
-            return "Department Restored Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Department Restored Successfully.";
+            }
+
+        } else{
+            return "Department with the ID " + id + " cannot be found.";
         }
     }
 

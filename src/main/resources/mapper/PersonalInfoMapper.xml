@@ -40,7 +40,7 @@
                email=#{personalInfo.email},
                update_id = 1
          
-        WHERE pid = #{id}
+        WHERE emp_id = #{id}
     </update>
 
 <!-- Logical Delete Data -->

@@ -84,6 +84,21 @@
         );
     </insert>
 
+    <update id="editUser" parameterType="map">
+        UPDATE tbl_user
+           SET emp_id=#{user.emp_id},
+               username=#{user.username},
+               password=#{user.password},
+               position_id=#{user.position_id},
+               dept_id=#{user.dept_id},
+               section_id=#{user.section_id},
+               role_id=#{user.role_id},
+               status_code=#{user.status_code},
+               img_src=#{user.img_src},
+               update_id = 1
+         WHERE emp_id = #{id}
+    </update>
+
     <select id="getUsername" resultType="com.controlcenter.controlcenter.model.UserOutput">
         SELECT emp_id,
                username,

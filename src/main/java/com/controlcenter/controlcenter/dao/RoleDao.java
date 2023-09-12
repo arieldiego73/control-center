@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface RoleDao {
   List<RoleOutput> getAllRole();
+  RoleOutput getRoleById(String id);
   void addRole(RoleInput roleInput);
   void editRoleInfo(Map<String, Object> paramMap);
   void logicalDeleteRole(String id);

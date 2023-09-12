@@ -5,7 +5,6 @@ import com.controlcenter.controlcenter.model.RoleOutput;
 import com.controlcenter.controlcenter.service.RoleService;
 import com.controlcenter.controlcenter.shared.ErrorHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -69,31 +68,38 @@ public class RoleController {
   }
 
   @PutMapping("/delete/{id}")
-  public ResponseEntity<List<RoleOutput>> logicalDeleteRole(@PathVariable String id) {
-    return roleService.logicalDeleteRole(id);
-  }
-
-  @PutMapping("/restore/{id}")
-  public ResponseEntity<List<RoleOutput>> restoreRole(@PathVariable String id) {
-    String res = roleService.restoreRole(id);
-    List<RoleOutput> allRoles = new ArrayList<RoleOutput>();
-    if (res.equals("Role restored successfully.")) {
-      allRoles = getAllRole();
-      return ResponseEntity.ok(allRoles);
-    } else {
-      return ResponseEntity.badRequest().body(allRoles);
+  public ResponseEntity<String> logicalDeleteRole(@PathVariable String id) {
+    try {
+      return ResponseEntity.ok().body(roleService.logicalDeleteRole(id));
+    } catch (Exception e) {
+      return ResponseEntity.status(500).body("Server Side Error.");
     }
   }
 
+  @PutMapping("/restore/{id}")
+  public ResponseEntity<String> restoreRole(@PathVariable String id) {
+      try {
+        return ResponseEntity.ok().body(roleService.restoreRole(id));
+      } catch (Exception e) {
+        return ResponseEntity.status(500).body("Server Side Error.");
+      }
+  }
+
   @PutMapping("/delete-multiple")
-  public ResponseEntity<List<RoleOutput>> deleteMultipleRole(
-    @RequestParam List<Long> ids
-  ) {
-    return roleService.deleteMultipleRole(ids);
+  public ResponseEntity<String> deleteMultipleRole(@RequestParam List<Long> ids) {
+    try {
+      return ResponseEntity.ok().body(roleService.deleteMultipleRole(ids));
+    } catch (Exception e) {
+      return ResponseEntity.status(500).body("Server Side Error.");
+    }
   }
 
   @PutMapping("/restore-multiple")
-  public String restoreMultipleRole(@RequestParam List<Long> ids) {
-    return roleService.restoreMultipleRole(ids);
+  public ResponseEntity<String> restoreMultipleRole(@RequestParam List<Long> ids) {
+    try {
+      return ResponseEntity.ok().body(roleService.restoreMultipleRole(ids));
+    } catch (Exception e) {
+      return ResponseEntity.status(500).body("Server Side Error.");
+    }
   }
 }

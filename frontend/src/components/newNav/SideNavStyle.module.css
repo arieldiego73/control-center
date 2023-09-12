@@ -1,0 +1,75 @@
+.sidenavContainer {
+  height: 94%;
+  width: 13%;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
+  border: 1px solid red;
+  background: rgba( 237, 249, 255, 0.35 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 5px );
+  -webkit-backdrop-filter: blur( 5px );
+  border-radius: 10px;
+  position: fixed;
+}
+.logoContainer {
+  height: 10%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color:#122b44;
+  border: 1px solid red;
+}
+.linksContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2%;
+}
+.link {
+  height: 8%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.linkItem {
+  display: flex;
+  align-items: center;
+  width: 95%;
+  height: 100%;
+  border: 1px solid black;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.linkItem:hover {
+    background: linear-gradient(#2a7ebb, #579ed1);
+    color: white;
+}
+.linkText span{
+  font-style: none;
+  font-weight: 600;
+}
+.linkIcon{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
+  border: 1px solid red;
+
+}
+.linkText{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+  border: 1px solid red;
+  font-size: 1rem;
+}

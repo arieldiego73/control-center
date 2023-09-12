@@ -13,6 +13,12 @@
       ORDER BY dev_phase_id DESC, reg_date DESC;
     </select>
 
+    <select id="getDevPhaseById" resultType="com.controlcenter.controlcenter.model.DevPhaseOutput">
+        SELECT dev_phase_id, dev_phase_name, dev_phase_sh_name
+          FROM tbl_dev_phase_mst
+         WHERE dev_phase_id = #{id}
+    </select>
+
 <!-- Add Data -->
     <insert id="addDevPhase" parameterType="com.controlcenter.controlcenter.model.DevPhaseInput">
         INSERT INTO tbl_dev_phase_mst(
