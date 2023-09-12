@@ -71,7 +71,7 @@ public class DevTypeController {
         try {
             return ResponseEntity.ok().body(devTypeService.logicalDeleteDevType(id));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(devTypeService.logicalDeleteDevType(id));
+            return ResponseEntity.status(500).body("Server Side Error.");
         }
     }
 
@@ -80,7 +80,7 @@ public class DevTypeController {
         try {
             return ResponseEntity.ok().body(devTypeService.restoreDevType(id));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(devTypeService.logicalDeleteDevType(id));
+            return ResponseEntity.status(500).body("Server Side Error.");
         }
     }
 }
