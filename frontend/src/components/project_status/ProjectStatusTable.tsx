@@ -146,8 +146,7 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 					onClick={handleDeleteBatch}
 					hidden={true}
 					sx={{
-						marginBottom: 3,
-						fontFamily: "Montserrat, san-serif",
+						marginLeft: 1.5,
 						visibility: `${
 							selectedId.size !== 0 ? "visible" : "hidden"
 						}`,
@@ -357,7 +356,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 				},
 				"& .MuiDataGrid-columnHeaderTitle": {
 					fontWeight: 800,
-					fontFamily: "Montserrat, san-serif",
 					padding: "0 24px",
 				},
 				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
@@ -387,9 +385,9 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 				".MuiDataGrid-sortIcon": {
 					opacity: "inherit !important",
 				},
-				".MuiDataGrid-cellContent": {
-					fontWeight: "500",
-				},
+				// ".MuiDataGrid-cellContent": {
+				// 	fontWeight: "500",
+				// },
 			}}
 		>
 			<Box
@@ -408,7 +406,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 					<Button
 						variant="contained"
 						color="primary"
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
@@ -439,7 +436,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Project Status
@@ -466,7 +462,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Description
@@ -490,7 +485,7 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 									/>
 								</FormControl>
 								{/* <FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel style={{ fontWeight: "bold" }}>
 										User Level
 									</FormLabel>
 									<TextField
@@ -531,7 +526,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAddContinue}
 								>
@@ -544,7 +538,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAdd}
 								>
@@ -553,7 +546,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 								<Button
 									style={{
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={() => {
 										setIsHidden(false);
@@ -610,7 +602,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 			>
 				<DialogTitle id="responsive-dialog-title">
 					<Typography
-						fontFamily={"Montserrat, san-serif"}
 						fontWeight={700}
 						fontSize={20}
 						display={"flex"}
@@ -628,7 +619,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText
-						fontFamily={"Montserrat, san-serif"}
 						whiteSpace={"pre-line"}
 					>
 						{dialogContentText}
@@ -641,13 +631,11 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 							isBatch ? proceedWithDeleteBatch : proceedWithDelete
 						}
 						autoFocus
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 					>
 						Delete
 					</Button>
 
 					<Button
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => {
 							setAsk(false);
 						}}

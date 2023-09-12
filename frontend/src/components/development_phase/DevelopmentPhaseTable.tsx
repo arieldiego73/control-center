@@ -139,8 +139,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 					onClick={handleDeleteBatch}
 					hidden={true}
 					sx={{
-						marginBottom: 3,
-						fontFamily: "Montserrat, san-serif",
+						marginLeft: 1.5,
 						visibility: `${
 							selectedId.size !== 0 ? "visible" : "hidden"
 						}`,
@@ -348,7 +347,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 				},
 				"& .MuiDataGrid-columnHeaderTitle": {
 					fontWeight: 800,
-					fontFamily: "Montserrat, san-serif",
 					padding: "0 24px",
 				},
 				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
@@ -379,7 +377,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 					opacity: "inherit !important",
 				},
 				".MuiDataGrid-cellContent": {
-					fontWeight: "500",
+					// fontWeight: "500",
 				},
 			}}
 		>
@@ -399,7 +397,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 					<Button
 						variant="contained"
 						color="primary"
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
@@ -430,7 +427,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Development Phase
@@ -458,7 +454,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Short Name
@@ -485,7 +480,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 									/>
 								</FormControl>
 								{/* <FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel style={{ fontWeight: "bold" }}>
 										User Level
 									</FormLabel>
 									<TextField
@@ -526,7 +521,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAddContinue}
 								>
@@ -539,7 +533,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAdd}
 								>
@@ -548,7 +541,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 								<Button
 									style={{
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={() => {
 										setIsHidden(false);
@@ -604,7 +596,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 			>
 				<DialogTitle id="responsive-dialog-title">
 					<Typography
-						fontFamily={"Montserrat, san-serif"}
 						fontWeight={700}
 						fontSize={20}
 						display={"flex"}
@@ -622,7 +613,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText
-						fontFamily={"Montserrat, san-serif"}
 						whiteSpace={"pre-line"}
 					>
 						{dialogContentText}
@@ -635,13 +625,11 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 							isBatch ? proceedWithDeleteBatch : proceedWithDelete
 						}
 						autoFocus
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 					>
 						Delete
 					</Button>
 
 					<Button
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => {
 							setAsk(false);
 						}}

@@ -20,7 +20,7 @@ import {
 	GridToolbarContainer,
 	GridActionsCellItem,
 	GridEventListener,
-	GridRowId, 
+	GridRowId,
 	GridRowModel,
 	GridRowEditStopReasons,
 	GridRowSelectionModel,
@@ -159,8 +159,8 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 					onClick={handleDeleteBatch}
 					hidden={true}
 					sx={{
-						marginBottom: 3,
-						fontFamily: "Montserrat, san-serif",
+						// marginBottom: 3,
+						marginLeft: 1.5,
 						visibility: `${
 							selectedId.size !== 0 ? "visible" : "hidden"
 						}`,
@@ -373,7 +373,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 				},
 				"& .MuiDataGrid-columnHeaderTitle": {
 					fontWeight: 800,
-					fontFamily: "Montserrat, san-serif",
 					padding: "0 24px",
 				},
 				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
@@ -404,8 +403,8 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 					opacity: "inherit !important",
 				},
 				".MuiDataGrid-cellContent": {
-					fontWeight: "500"
-				}
+					// fontWeight: "500"
+				},
 			}}
 		>
 			<Box
@@ -424,7 +423,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 					<Button
 						variant="contained"
 						color="primary"
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
@@ -452,7 +450,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 								}}
 							>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel style={{ fontWeight: "bold" }}>
 										Role
 									</FormLabel>
 									<TextField
@@ -474,7 +472,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel style={{ fontWeight: "bold" }}>
 										Short Name
 									</FormLabel>
 									<TextField
@@ -496,7 +494,11 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+										}}
+									>
 										User Level
 									</FormLabel>
 									<TextField
@@ -536,7 +538,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
 									}}
 									onClick={handleAddContinue}
 								>
@@ -549,14 +550,15 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
 									}}
 									onClick={handleAdd}
 								>
 									Save
 								</Button>
 								<Button
-									style={{ height: "50%", fontFamily: "Montserrat, san-serif" }}
+									style={{
+										height: "50%",
+									}}
 									onClick={() => {
 										setIsHidden(false);
 										setRoleTitle("");
@@ -615,7 +617,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 			>
 				<DialogTitle id="responsive-dialog-title">
 					<Typography
-						fontFamily={"Montserrat, san-serif"}
 						fontWeight={700}
 						fontSize={20}
 						display={"flex"}
@@ -633,7 +634,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText
-						fontFamily={"Montserrat, san-serif"}
 						whiteSpace={"pre-line"}
 					>
 						{dialogContentText}
@@ -646,13 +646,11 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 							isBatch ? proceedWithDeleteBatch : proceedWithDelete
 						}
 						autoFocus
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 					>
 						Delete
 					</Button>
 
 					<Button
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => {
 							setAsk(false);
 						}}
@@ -663,6 +661,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 			</Dialog>
 		</Box>
 	);
-}
+};
 
 export default RoleTable;
