@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,6 +32,11 @@ public class RoleServiceImpl implements RoleService {
   @Override
   public List<RoleOutput> getAllRole() {
     return roleDao.getAllRole();
+  }
+
+  @Override
+  public RoleOutput getRoleById(String id) {
+    return roleDao.getRoleById(id);
   }
 
   @Override
@@ -68,27 +72,33 @@ public class RoleServiceImpl implements RoleService {
 
   @Override
   public String editRoleInfo(String id, RoleInput role) {
-    try {
-      Map<String, Object> paramMap = new HashMap<>();
-      paramMap.put("id", id);
-      paramMap.put("role", role);
+    RoleOutput data = roleDao.getRoleById(id);
 
-      roleDao.editRoleInfo(paramMap);
+    if(data != null){
+      if(data.getDel_flag() == 1){
+        return "Role with the ID " + id + " has already been deleted.";
+      } else {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("id", id);
+        paramMap.put("role", role);
 
-      //Activitylog 
-      ActivityLogInput activityLogInput = new ActivityLogInput();
+        roleDao.editRoleInfo(paramMap);
 
-      activityLogInput.setEmp_id("101"); //current logged user dapat
-      activityLogInput.setLog_desc("Added a department.");
+        //Activitylog 
+        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-      Long currentTimeMillis = System.currentTimeMillis();
-      // add the activity log
-      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-      activityLogDao.addActivityLog(activityLogInput);
+        activityLogInput.setEmp_id("101"); //current logged user dapat
+        activityLogInput.setLog_desc("Added a department.");
 
-      return "Role Edited Successfully";
-    } catch (Exception e) {
-      return e.getMessage();
+        Long currentTimeMillis = System.currentTimeMillis();
+        // add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Role Edited Successfully";
+      }
+    } else{
+      return "Role with the ID " + id + " cannot be found.";
     }
   }
   // try {
@@ -105,60 +115,70 @@ public class RoleServiceImpl implements RoleService {
   //   }
 
   @Override
-  public ResponseEntity<List<RoleOutput>> logicalDeleteRole(String id) {
-    try {
-      roleDao.logicalDeleteRole(id);
-      allRoles = getAllRole();
+  public String logicalDeleteRole(String id) {
+    RoleOutput data = roleDao.getRoleById(id);
 
-      //Activitylog 
-      ActivityLogInput activityLogInput = new ActivityLogInput();
+    if(data != null){
+      if(data.getDel_flag() == 1){
+        return "Role with the ID " + id + " has already been deleted.";
+      } else {
+        roleDao.logicalDeleteRole(id);
+        allRoles = getAllRole();
 
-      activityLogInput.setEmp_id("101"); //current logged user dapat
-      activityLogInput.setLog_desc("Deleted a Role.");
+        //Activitylog 
+        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-      Long currentTimeMillis = System.currentTimeMillis();
-      //Add the activity log
-      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-      activityLogDao.addActivityLog(activityLogInput);
+        activityLogInput.setEmp_id("101"); //current logged user dapat
+        activityLogInput.setLog_desc("Deleted a Role.");
 
-      return ResponseEntity.ok(allRoles);
-    } catch (Exception e) {
-      allRoles = new ArrayList<RoleOutput>();
-      return ResponseEntity.badRequest().body(allRoles);
+        Long currentTimeMillis = System.currentTimeMillis();
+        //Add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Role Deleted Successfully.";
+      }
+    } else{
+      return "Role with the ID " + id + " cannot be found.";
     }
   }
 
   @Override
   public String restoreRole(String id) {
-    try {
-      roleDao.restoreRole(id);
+    RoleOutput data = roleDao.getRoleById(id);
 
-      //Activitylog 
-      ActivityLogInput activityLogInput = new ActivityLogInput();
+    if(data != null){
+      if(data.getDel_flag() == 0){
+        return "Role with the ID " + id + " is not yet deleted.";
+      } else {
+        roleDao.restoreRole(id);
 
-      activityLogInput.setEmp_id("101"); //current logged user dapat
-      activityLogInput.setLog_desc("Restored a role.");
+        //Activitylog 
+        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-      Long currentTimeMillis = System.currentTimeMillis();
-      //Add the activity log
-      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-      activityLogDao.addActivityLog(activityLogInput);
+        activityLogInput.setEmp_id("101"); //current logged user dapat
+        activityLogInput.setLog_desc("Restored a role.");
 
-      return "Role restored successfully.";
-    } catch (Exception e) {
-      return e.getMessage();
+        Long currentTimeMillis = System.currentTimeMillis();
+        //Add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Role restored successfully.";
+      }
+    } else{
+      return "Role with the ID " + id + " cannot be found.";
     }
   }
 
   @Override
-  public ResponseEntity<List<RoleOutput>> deleteMultipleRole(List<Long> ids) {
+  public String deleteMultipleRole(List<Long> ids) {
     try {
       roleDao.deleteMultipleRole(ids);
       allRoles = getAllRole();
-      return ResponseEntity.ok(allRoles);
+      return "Role Deleted Successfully.";
     } catch (Exception e) {
-      allRoles = new ArrayList<RoleOutput>();
-      return ResponseEntity.badRequest().body(allRoles);
+      return e.getMessage();
     }
   }
 
