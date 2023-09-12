@@ -10,6 +10,7 @@ import com.controlcenter.controlcenter.model.DevTypeOutput;
 public interface DevTypeService {
 
     public List<DevTypeOutput> getAllDevType();
+    DevTypeOutput getDevTypeById(String id);
     public String addDevType(DevTypeInput devType);
     public String editDevTypeInfo(String id, DevTypeInput devType);
     public String logicalDeleteDevType(String id);

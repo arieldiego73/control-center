@@ -67,12 +67,12 @@ public class DevTypeController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteDevType(@PathVariable String id) {
-        return devTypeService.logicalDeleteDevType(id);
+    public ResponseEntity<String> logicalDeleteDevType(@PathVariable String id) {
+        return ResponseEntity.ok().body(devTypeService.logicalDeleteDevType(id));
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreDevType(@PathVariable String id) {
-        return devTypeService.restoreDevType(id);
+    public ResponseEntity<String> restoreDevType(@PathVariable String id) {
+        return ResponseEntity.ok().body(devTypeService.restoreDevType(id));
     }
 }
