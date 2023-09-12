@@ -1,6 +1,6 @@
 import { ResponsiveBar } from "@nivo/bar";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import ProjGraphStyle from "./test2.module.css";
+import UserGraphStyle from "./UserGraph.module.css";
 import { Divider } from "@mui/material";
 
 const data = [
@@ -26,38 +26,32 @@ const data = [
   },
 ];
 
-export default function Test2() {
+export default function UserGraph() {
   return (
-    <div className={ProjGraphStyle.ProjGraphContainer  }>
+    <div className={UserGraphStyle.userGraphContainer  }>
       <div
         style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", paddingBottom:'2%'}}>
 
         {/* Main Container */}
-        <div className={ProjGraphStyle.card}>
-          <div className={ProjGraphStyle.textHolder}>
+        <div className={UserGraphStyle.card}>
+          <div className={UserGraphStyle.textHolder}>
 
             {/* Text Title */}
-            <text  className={ProjGraphStyle.textTitle}> PROJECT STATUS </text>
-            <text className={ProjGraphStyle.textSubtitle}> PROJECT STATUS </text>
+            <text  className={UserGraphStyle.textTitle}> PROJECT STATUS </text>
+            <text className={UserGraphStyle.textSubtitle}> PROJECT STATUS </text>
 
             <Divider style={{ padding: "1%" }} variant="middle" />
 
             {/* Information */}
-            <div className={ProjGraphStyle.infoContainer}>
-              <AccessTimeIcon
-                style={{
-                  color: " grey",
-                  fontSize: "15px",
-                  paddingRight: ".5%",
-                }}
-              />
-              <text className={ProjGraphStyle.textInfo}> Updated 4 mins ago </text>
+            <div className={UserGraphStyle.infoContainer}>
+              <text className={UserGraphStyle.textInfoUpdate}> +3%  </text>
+              <text className={UserGraphStyle.textInfo}>  than last month </text>
             </div>
           </div>
         </div>
 
        {/* Graph */}
-        <div className={ProjGraphStyle.graphContainer}>
+        <div className={UserGraphStyle.graphContainer}>
           <ResponsiveBar
             data={data}
             keys={["month"]}

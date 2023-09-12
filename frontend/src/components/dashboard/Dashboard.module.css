@@ -7,7 +7,7 @@
     top: 10vh; /* Bale height + top = 99vh (if 100, di makita difference)*/
     left: 7vw; /* Bale width + left = 99vw (if 100, di makita difference)*/
     align-items: center;
-    background-image: url(../../Assets//bg5.jpeg);
+    /* background-image: url(../../Assets/Test.jpg); */
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -25,11 +25,11 @@
 
 }
 .contentHolder{
-    margin: 20;
-    background: rgba( 255, 255, 255, 0.05 );
+    /* margin: 20; */
+    /* background: rgba( 255, 255, 255, 0.05 );
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
     backdrop-filter: blur( 20px );
-    -webkit-backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3px ); */
     border-radius: 10px;
     height: 100%;
     flex-direction: column;

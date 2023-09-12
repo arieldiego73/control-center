@@ -27,14 +27,7 @@ const rows = [
     createData('Project', 'Added Project', 'Shernan Mate0', '11:11 AM'),
     createData('Project', 'Added Project', 'Allona Fabre', '11:11 PM'),
     createData('Project', 'Added Project', 'Ricky Galpo', '09:00 AM'),
-    createData('Project', 'Added Project', 'Christian Reggie', '06:00 AM'),
-	createData('User Page', 'Add new User', 'Admin', '9:59 PM'),
-    createData('Project', 'Added Proj_Name', 'Charlene Valdez', '9:59 AM'),
-    createData('Role', 'Edit Short Name', 'Ariel Diego', '11:00 AM'),
-    createData('Project', 'Added Project', 'Shernan Mate0', '11:11 AM'),
-    createData('Project', 'Added Project', 'Allona Fabre', '11:11 PM'),
-    createData('Project', 'Added Project', 'Ricky Galpo', '09:00 AM'),
-    createData('Project', 'Added Project', 'Christian Reggie', '06:00 AM'),
+    
 ];
 
 
@@ -65,9 +58,9 @@ export default function ActivityLogDashboardTable() {
 
 
 	return (
-		<div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%", paddingTop:'1%'}}>
-			<Paper sx={{ width: "98%", height: "50%", overflow: "hidden", backgroundColor: "transparent" }}>
-				<TableContainer sx={{ width: "100%", height: "80%", }}>
+		<div style={{width:'100%', display:'flex', justifyContent:'center', alignContent:'center'}}>
+			<Paper sx={{ width: "86%",  overflow: "hidden", backgroundColor: "transparent",justifyContent: "center", alignItems: "center", display:'flex', paddingTop:'2%'}}>
+				<TableContainer sx={{ width: "90%", justifyContent: "center", alignItems: "center", display:'flex',}}>
 					<Table stickyHeader aria-label="sticky table" >
 						<TableHead sx={{ backgroundColor: "transparent", zIndex: "1", }} >
 							<TableRow >

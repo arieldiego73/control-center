@@ -12,6 +12,8 @@ import Modal from '@mui/material/Modal';
 import DashboardStyle from './Dashboard.module.css'
 import ActivityLogDashboardTable from "./ActivityLogDashboardTable";
 import MembersTable from "../project/MembersTable";
+import ProjectGraph from "./project_graph/ProjectGraph";
+import UserGraph  from "./user_graph/UserGraph";
 
 export const Dashboard = () => {
 	// const navigate = useNavigate();
@@ -32,25 +34,19 @@ export const Dashboard = () => {
 		<div className={DashboardStyle.mainContainer}>
 			<div className={DashboardStyle.contentContainer}>
 				<div className={DashboardStyle.contentHolder}>
-					<div style={{flexDirection:'row', display:'flex',}}>
-						<div>
+				
+			
+							<div style={{flexDirection:'row', display:'flex', justifyContent:'center', alignContent:'center'}}>
+								<ProjectGraph/>
+							<UserGraph	/>
+							</div>
 							
-							{/* dito lalaga graph 1 */}
-						</div>
-						<div>
-							{/* dito lalaga graph 2 */}
-						</div>
-					</div>
-					
-					<div>
-					<ActivityLogDashboardTable/>
-					</div>
-					{/* <div className={DashboardStyle.tableContainer}> */}
+			
 						
 					
-					{/* </div>
-				 */}
-
+				
+					<ActivityLogDashboardTable/>
+					
 				</div>
 			</div>
 	

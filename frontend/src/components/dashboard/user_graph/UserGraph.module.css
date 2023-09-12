@@ -1,4 +1,4 @@
-.ProjGraphContainer {
+.userGraphContainer {
   height: 350px;
   width: 45%;
   display: flex;
@@ -48,6 +48,10 @@
   justify-content: flex-start;
   align-content: center;
 }
+.textInfoUpdate{
+  font-size: 12px; 
+  color: green;
+}
 .textInfo{
   font-size: 12px; 
   color: grey;
@@ -55,7 +59,7 @@
 
 /* Attributes of Graph */
 .graphContainer{
-  background: linear-gradient(#2a7ebb, #579ed1);
+  background: linear-gradient(#46a34a, #56af5a, #63b967);
   height: 30%;
   width: 38%;
   border-radius: 15px;
