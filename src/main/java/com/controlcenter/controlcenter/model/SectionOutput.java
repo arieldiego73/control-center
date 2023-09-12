@@ -9,5 +9,6 @@ import lombok.Setter;
 public class SectionOutput {
     private Long section_id;
     private String section_name;
+    private String section_sh_name;
     private int dept_id;
 }
