@@ -8,6 +8,8 @@ import { Alert, AlertColor, Snackbar } from "@mui/material";
 //for breadcrumbs
 import { Link } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
+import { RootState } from "../../redux/store/store";
+import { useSelector } from "react-redux";
 
 //for breadcrumbs
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
@@ -31,6 +33,13 @@ export interface State {
 // }
 
 export default function DevelopmentPhase() {
+	const notice = useSelector((state: RootState) => state.devPhaseReducer.notice);
+	React.useEffect(() => {
+		if (notice.message && notice.severity) {
+		handleClickSnackpack(notice.message, notice.severity as AlertColor)();
+		}
+	}, [notice]);
+
 	// const [origin, setOrigin] = React.useState<SnackbarState>({
 	// 	info: "",
 	// 	vertical: "top",

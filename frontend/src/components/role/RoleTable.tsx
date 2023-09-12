@@ -110,11 +110,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 		dispatch(deleteRoles({ role_id: deleteId }));
 		setRows(data);
 		setAsk(false);
-		const success = props.createSnackpack(
-			"A role is deleted successfully!",
-			"success"
-		);
-		success();
 	};
 
 	const proceedWithDeleteBatch = async () => {
@@ -123,11 +118,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
-		const success = props.createSnackpack(
-			`Deleted ${selectedId.size} role/s successfully!`,
-			"success"
-		);
-		success();
 	};
 
 	// FOR DATA GRID
@@ -228,20 +218,10 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 
 	const processUpdateRow = (roleInfo: GridRowModel) => {
 		dispatch(updateRoles({ roleInfo }));
-		const success = props.createSnackpack(
-			"Role is updated successfully",
-			"success"
-		);
-		success();
 	};
 
 	const processAddRow = (roleInfo: GridRowModel) => {
 		dispatch(addRoles({ roleInfo }));
-		const success = props.createSnackpack(
-			"Role is added successfully",
-			"success"
-		);
-		success();
 	};
 
 	const handleAdd = () => {
@@ -286,15 +266,9 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 		}
 	};
 
-	const handleUpdateAndAdd = (newRow: GridRowModel) => {
+	const handleUpdate = (newRow: GridRowModel) => {
 		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
-			// determines whether it is update or add new
-			if (data.length === rows.length) {
-				processUpdateRow(newRow);
-			} else {
-				processAddRow(newRow);
-			}
-			setRows(data); // update the rows in the table
+			processUpdateRow(newRow);
 		} else {
 			const cancel = handleCancelClick(newRow.role_id);
 			const error = props.createSnackpack(
@@ -484,7 +458,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 									<TextField
 										style={{ width: "100%" }}
 										size="small"
-										placeholder="ex: Software Developer"
 										onChange={(e) =>
 											setRoleTitle(e.target.value)
 										}
@@ -508,7 +481,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 										style={{ width: "100%" }}
 										variant="outlined"
 										size="small"
-										placeholder="ex: SoftDev"
 										onChange={(e) =>
 											setShortName(e.target.value)
 										}
@@ -532,7 +504,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 										variant="outlined"
 										size="small"
 										type="number"
-										placeholder="ex: 1"
 										onChange={(e) =>
 											setUserLevel(e.target.value)
 										}
@@ -612,7 +583,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
-				processRowUpdate={handleUpdateAndAdd}
+				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
 				onRowSelectionModelChange={(newRowSelectionModel) => {

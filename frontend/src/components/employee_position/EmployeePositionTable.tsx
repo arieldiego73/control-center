@@ -69,8 +69,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 
 	// GET THE STATES
 	const positionData = useSelector((state: RootState) => state.positionReducer.position);
-	const isSuccess = useSelector((state: RootState) => state.positionReducer.isSuccess);
-	const errorMessage = useSelector((state: RootState) => state.positionReducer.errorMessage);
 	
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(positionData);
@@ -159,42 +157,14 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 
 	const proceedWithDelete = () => {
 		dispatch(deletePosition({ position_id: deleteId }));
-		if (isSuccess) {
-			setRows(positionData);
-			setAsk(false);
-			const success = props.createSnackpack(
-				"A position is deleted successfully!",
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
+		setAsk(false);
 	};
 
 	const proceedWithDeleteBatch = () => {
 		dispatch(deletePositionBatch({ batchId: selectedId }));
-		if (isSuccess) {
-			setRows(positionData); // update rows
-			setRowSelectionModel([]); // clear selected rows
-			setSelectedId(new Set()); // clear selected IDs
-			setAsk(false); // close dialog
-			const success = props.createSnackpack(
-				`Deleted ${selectedId.size} position/s successfully!`,
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
 	};
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
@@ -226,7 +196,7 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 		setDialogContentText(
 			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
 		);
-		setDialogTitle("Delete this role?");
+		setDialogTitle("Delete this position?");
 		setDeleteId(id as number);
 	};
 
@@ -240,38 +210,10 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 
 	const processUpdateRow = (data: GridRowModel) => {
 		dispatch(updatePosition({ positionData: data }));
-		if (isSuccess) {
-			setRows(positionData); // update rows
-			const success = props.createSnackpack(
-				"A record is updated successfully",
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
 	};
 
 	const processAddRow = (data: GridRowModel) => {
 		dispatch(addPosition({ positionData: data }));
-		if (isSuccess) {
-			setRows(positionData); // update rows
-			const success = props.createSnackpack(
-				"A record is added successfully",
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
 	};
 
 	const handleAdd = () => {
@@ -493,7 +435,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 									<TextField
 										style={{ width: "100%" }}
 										size="small"
-										placeholder="ex: Software Developer"
 										onChange={(e) =>
 											setPositionName(e.target.value)
 										}
@@ -522,7 +463,6 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 										style={{ width: "100%" }}
 										variant="outlined"
 										size="small"
-										placeholder="ex: SoftDev"
 										onChange={(e) =>
 											setShortName(e.target.value)
 										}

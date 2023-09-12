@@ -69,8 +69,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 
 	// STORE THE DEV PHASE TO 'data'
 	const data = useSelector((state: RootState) => state.devPhaseReducer.devPhase);
-	const isSuccess = useSelector((state: RootState) => state.devPhaseReducer.isSuccess);
-	const errorMessage = useSelector((state: RootState) => state.devPhaseReducer.errorMessage);
 
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -159,42 +157,16 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 
 	const proceedWithDelete = () => {
 		dispatch(deleteDevPhase({ dev_phase_id: deleteId }));
-		if (isSuccess) {
-			setRows(data);
-			setAsk(false);
-			const success = props.createSnackpack(
-				"A development phase is deleted successfully!",
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
+		setRows(data);
+		setAsk(false);
 	};
 
 	const proceedWithDeleteBatch = () => {
 		dispatch(deleteDevPhaseBatch({ batchId: selectedId }));
-		if (isSuccess) {
-			setRows(data); // update rows
-			setRowSelectionModel([]); // clear selected rows
-			setSelectedId(new Set()); // clear selected IDs
-			setAsk(false); // close dialog
-			const success = props.createSnackpack(
-				`Deleted ${selectedId.size} development phase/s successfully!`,
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
+		setRows(data); // update rows
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
 	};
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
@@ -240,38 +212,12 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 
 	const processUpdateRow = (devPhaseData: GridRowModel) => {
 		dispatch(updateDevPhase({ devPhaseData }));
-		if (isSuccess) {
-			setRows(data); // update rows
-			const success = props.createSnackpack(
-				"Development Phase is updated successfully",
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
+		setRows(data); // update rows
 	};
 
 	const processAddRow = (devPhaseData: GridRowModel) => {
 		dispatch(addDevPhase({ devPhaseData }));
-		if (isSuccess) {
-			setRows(data); // update rows
-			const success = props.createSnackpack(
-				"Development phase is added successfully",
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
+		setRows(data); // update rows
 	};
 
 	const handleAdd = () => {
