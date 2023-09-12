@@ -9,4 +9,5 @@ public class DevPhaseOutput {
     private Long dev_phase_id;
     private String dev_phase_name;
     private String dev_phase_sh_name;
+    private int del_flag;
 }

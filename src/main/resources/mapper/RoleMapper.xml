@@ -11,6 +11,12 @@
       ORDER BY role_id DESC, reg_date DESC;
     </select>
 
+    <select id="getRoleById" resultType="com.controlcenter.controlcenter.model.RoleOutput">
+        SELECT role_id, title, role_sh_name, role_user_level, del_flag
+          FROM tbl_role_mst
+         WHERE role_id = #{id};
+    </select>
+
 <!-- Add Data -->
     <insert id="addRole" parameterType="com.controlcenter.controlcenter.model.RoleInput">
         INSERT INTO tbl_role_mst (
