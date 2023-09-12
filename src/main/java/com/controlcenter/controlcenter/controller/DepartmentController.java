@@ -67,12 +67,20 @@ public class DepartmentController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteDepartment(@PathVariable String id) {
-        return departmentService.logicalDeleteDepartment(id);
+    public ResponseEntity<String> logicalDeleteDepartment(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(departmentService.logicalDeleteDepartment(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreDepartment(@PathVariable String id) {
-        return departmentService.restoreDepartment(id);
+    public ResponseEntity<String> restoreDepartment(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(departmentService.restoreDepartment(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }

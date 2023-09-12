@@ -8,4 +8,5 @@ import lombok.Setter;
 public class DepartmentOutput {
     private Long dept_id;
     private String dept_name;
+    private int del_flag;
 }

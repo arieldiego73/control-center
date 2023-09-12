@@ -11,6 +11,7 @@ import com.controlcenter.controlcenter.model.DepartmentOutput;
 @Mapper
 public interface DepartmentDao {
     List<DepartmentOutput> getAllDepartment();
+    DepartmentOutput getDepartmentById(String id);
     void addDepartment(DepartmentInput department);
     void editDepartmentInfo(Map<String, Object> paramMap);
     void logicalDeleteDepartment(String id);

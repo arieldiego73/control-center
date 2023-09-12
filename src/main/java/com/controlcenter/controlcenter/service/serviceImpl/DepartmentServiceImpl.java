@@ -30,6 +30,11 @@ public class DepartmentServiceImpl implements DepartmentService{
     public ActivityLogDao activityLogDao;
 
     @Override
+    public DepartmentOutput getDepartmentById(String id){
+        return departmentDao.getDepartmentById(id);
+    }
+
+    @Override
     public ResponseEntity<List<DepartmentOutput>> getAllDepartment() {
         try {
             List<DepartmentOutput> departments = departmentDao.getAllDepartment();
@@ -64,30 +69,36 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public String editDepartmentInfo(String id, DepartmentInput department) {
+        DepartmentOutput data = departmentDao.getDepartmentById(id);
         
-        try {
-            Map<String, Object> paramMap = new HashMap<>();
+        if(data != null){
+            if(data.getDel_flag() == 1){
+                return "Department with the ID " + id + " has already been deleted.";
+            } else{
+                Map<String, Object> paramMap = new HashMap<>();
 
-            paramMap.put("id", id);
-            paramMap.put("department", department);
+                paramMap.put("id", id);
+                paramMap.put("department", department);
 
-            departmentDao.editDepartmentInfo(paramMap);
+                departmentDao.editDepartmentInfo(paramMap);
 
-            //Acivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                //Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a Department.");
+                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setLog_desc("Edited a Department.");
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                Long currentTimeMillis = System.currentTimeMillis();
+                //add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
 
-            return "Department Edited Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                return "Department Edited Successfully.";
+            }
+        } else{
+            return "Department with the ID " + id + " cannot be found.";
         }
+            
     }
 
     @Override
