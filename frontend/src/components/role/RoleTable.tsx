@@ -54,7 +54,7 @@ import RoleModuleStyle from "./Role.module.css";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import EditToolbarProps from "../datagrid_customs/EditToolbarProps";
 import DataGridProps from "../datagrid_customs/DataGridProps";
-import { datagridStyle } from "../datagrid_customs/DataGridStyle";
+import { datagridBoxStyle, datagridStyle } from "../datagrid_customs/DataGridStyle";
 
 const RoleTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -351,7 +351,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 	];
 
 	return (
-		<Box sx={datagridStyle}>
+		<Box sx={datagridBoxStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -522,7 +522,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 			<Divider variant="middle" />
 
 			<DataGrid
-				sx={{ height: "67vh", border: "none" }}
+				sx={datagridStyle}
 				rows={rows}
 				columns={columns}
 				editMode="row"

@@ -33,9 +33,17 @@ export interface State {
 
 export default function Role() {
 	const notice = useSelector((state: RootState) => state.roleReducer.notice);
+	const isInitialAmount = React.useRef(true);
 	React.useEffect(() => {
-		if (notice.message && notice.severity) {
-		handleClickSnackpack(notice.message, notice.severity as AlertColor)();
+		if (!isInitialAmount.current) {
+			if (notice.message && notice.severity) {
+				handleClickSnackpack(
+					notice.message,
+					notice.severity as AlertColor
+				)();
+			}
+		} else {
+			isInitialAmount.current = false;
 		}
 	}, [notice]);
 
@@ -100,7 +108,7 @@ export default function Role() {
 						{" "}
 						ROLE{" "}
 					</span>
-          <Snackbar
+					<Snackbar
 						key={messageInfo ? messageInfo.key : undefined}
 						open={open}
 						autoHideDuration={2000}

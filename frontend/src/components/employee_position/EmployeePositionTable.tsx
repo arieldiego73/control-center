@@ -51,7 +51,7 @@ import {
 	updatePosition,
 } from "../../redux/saga/positionSaga";
 import CustomPagination from "../custom_pagination/pagination";
-import { datagridStyle } from "../datagrid_customs/DataGridStyle";
+import { datagridBoxStyle, datagridStyle } from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import EditToolbarProps from "../datagrid_customs/EditToolbarProps";
 import DataGridProps from "../datagrid_customs/DataGridProps";
@@ -332,7 +332,7 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	];
 
 	return (
-		<Box sx={datagridStyle}>
+		<Box sx={datagridBoxStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -509,7 +509,7 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 			<Divider variant="middle" />
 
 			<DataGrid
-				sx={{ height: "67vh", border: "none" }}
+				sx={datagridStyle}
 				rows={rows}
 				columns={columns}
 				editMode="row"

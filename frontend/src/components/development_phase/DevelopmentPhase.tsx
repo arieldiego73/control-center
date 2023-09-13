@@ -33,10 +33,20 @@ export interface State {
 // }
 
 export default function DevelopmentPhase() {
-	const notice = useSelector((state: RootState) => state.devPhaseReducer.notice);
+	const notice = useSelector(
+		(state: RootState) => state.devPhaseReducer.notice
+	);
+	const isInitialAmount = React.useRef(true);
 	React.useEffect(() => {
-		if (notice.message && notice.severity) {
-		handleClickSnackpack(notice.message, notice.severity as AlertColor)();
+		if (!isInitialAmount.current) {
+			if (notice.message && notice.severity) {
+				handleClickSnackpack(
+					notice.message,
+					notice.severity as AlertColor
+				)();
+			}
+		} else {
+			isInitialAmount.current = false;
 		}
 	}, [notice]);
 
@@ -142,7 +152,9 @@ export default function DevelopmentPhase() {
 							height: "100%",
 						}}
 					>
-						<DevelopmentPhaseTable createSnackpack={handleClickSnackpack} />
+						<DevelopmentPhaseTable
+							createSnackpack={handleClickSnackpack}
+						/>
 					</div>
 				</div>
 			</div>
