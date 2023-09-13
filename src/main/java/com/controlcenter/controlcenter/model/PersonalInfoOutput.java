@@ -12,4 +12,5 @@ public class PersonalInfoOutput {
     private String lname;
     private String mname;
     private String email;
+    private int del_flag;
 }
