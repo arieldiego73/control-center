@@ -140,7 +140,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
             DevPhaseOutput devPhase = devPhaseDao.getDevPhaseById(toString);
             if(devPhase != null) {
                 if(devPhase.getDel_flag() == 1) {
-                    return "Development Phase with id of " + id + " is already deleted";
+                    return "Development Phase with the ID " + id + " has already been deleted.";
                 } else {
                     devPhaseDao.deleteMultipleDevPhase(ids);
 
@@ -156,7 +156,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
                     activityLogDao.addActivityLog(activityLogInput);
                 }
             } else {
-                return "Development Phase with id of " + id + " cannot be found";
+                return "Development Phase with the ID " + id + " cannot be found.";
             }
         }
             return "Records are successfully deleted.";
