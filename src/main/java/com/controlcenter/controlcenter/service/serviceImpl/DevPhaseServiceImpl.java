@@ -141,25 +141,24 @@ public class DevPhaseServiceImpl implements DevPhaseService {
             if(devPhase != null) {
                 if(devPhase.getDel_flag() == 1) {
                     return "Development Phase with id of " + id + " is already deleted";
-                } else {
-                    devPhaseDao.deleteMultipleDevPhase(ids);
-
-                    //Acivitylog
-                    ActivityLogInput activityLogInput = new ActivityLogInput();
-
-                    activityLogInput.setEmp_id("101"); //current logged user dapat
-                    activityLogInput.setLog_desc("Deleted Multiple development phase.");
-
-                    Long currentTimeMillis = System.currentTimeMillis();
-                    //add the activity log
-                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                    activityLogDao.addActivityLog(activityLogInput);
                 }
             } else {
                 return "Development Phase with id of " + id + " cannot be found";
             }
         }
-            return "Records are successfully deleted.";
+        devPhaseDao.deleteMultipleDevPhase(ids);
+
+        //Acivitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id("101"); //current logged user dapat
+        activityLogInput.setLog_desc("Deleted Multiple development phase.");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        //add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+        return "Records are successfully deleted.";
     }
 
         
