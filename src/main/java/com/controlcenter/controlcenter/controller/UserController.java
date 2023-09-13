@@ -1,6 +1,7 @@
 package com.controlcenter.controlcenter.controller;
 
 import com.controlcenter.controlcenter.model.Account;
+import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.model.UserTable;
@@ -103,16 +104,17 @@ public class UserController {
   // }
 
   @PutMapping("/edit-account/{id}")
-  public ResponseEntity<String> editAccount(@PathVariable String id, @RequestBody Account account) {
+  public ResponseEntity<String> editAccount(@PathVariable String id, @RequestBody UserOutput userBody, PersonalInfoOutput personalInfoBody) {
     //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<Account>> errors = validator.validate(account);
+        Set<ConstraintViolation<UserOutput>> userError = validator.validate(userBody);
+        Set<ConstraintViolation<PersonalInfoOutput>> personalInfoError = validator.validate(personalInfoBody);
             //Error Handling
-            if (errors.size() > 0) { //checks the errors from validator
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+            if (userError.size() > 0 || personalInfoError.size() > 0) { //checks the errors from validator
+                return ResponseEntity.status(400).body(errorHandler.getErrors(userError) + errorHandler.getErrors(personalInfoError));
             }else{
-                return ResponseEntity.status(200).body(userService.editAccount(id, account));
+                return ResponseEntity.status(200).body(userService.editAccount(id, userBody, personalInfoBody));
             }
   }
 

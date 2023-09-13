@@ -67,12 +67,20 @@ public class PersonalInfoController {
     }
 
     @PutMapping("delete/{id}")
-    public String logicalDeletePersonalInfo(@PathVariable String id) {
-        return personalInfoService.logicalDeletePersonalInfo(id);
+    public ResponseEntity<String> logicalDeletePersonalInfo(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(personalInfoService.logicalDeletePersonalInfo(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("restore/{id}")
-    public String restorePersonalInfo(@PathVariable String id) {
-        return personalInfoService.restorePersonalInfo(id);
+    public ResponseEntity<String> restorePersonalInfo(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(personalInfoService.restorePersonalInfo(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }

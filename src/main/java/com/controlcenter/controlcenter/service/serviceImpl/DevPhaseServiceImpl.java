@@ -133,8 +133,20 @@ public class DevPhaseServiceImpl implements DevPhaseService {
 
     @Override
     public String deleteMultipleDevPhase(List<Long> ids) {
-        devPhaseDao.deleteMultipleDevPhase(ids);
         devPhaseList = devPhaseDao.getAllDevPhase();
+
+        for(Long id : ids) {
+            String toString = String.valueOf(id);
+            DevPhaseOutput devPhase = devPhaseDao.getDevPhaseById(toString);
+            if(devPhase != null) {
+                if(devPhase.getDel_flag() == 1) {
+                    return "Development Phase with id of " + id + " is already deleted";
+                }
+            } else {
+                return "Development Phase with id of " + id + " cannot be found";
+            }
+        }
+        devPhaseDao.deleteMultipleDevPhase(ids);
 
         //Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
@@ -146,47 +158,10 @@ public class DevPhaseServiceImpl implements DevPhaseService {
         //add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
-
         return "Records are successfully deleted.";
     }
 
-        // List<DevPhaseOutput> devPhases = devPhaseDao.getAllDevPhase();
-        // System.out.println(ids);
-        // for (DevPhaseOutput devPhase : devPhases) {
-        //     Long devPhaseId = devPhase.getDev_phase_id();
-        //         for(Long id : ids) {
-        //             Long paramId = id;
-        //             if(devPhaseId == paramId) {
-        //                 return "test";
-        //             } else {
-        //                 return "test";
-        //             }
-
-                // if(devPhase != null){
-                //     if(devPhase.getDel_flag() == 1){
-                //         return "Development Phase with the ID " + id + " has already been deleted.";
-                //     } else{
-                //         devPhaseDao.deleteMultipleDevPhase(ids);
-                //         devPhaseList = devPhaseDao.getAllDevPhase();
-
-                //         //Acivitylog
-                //         ActivityLogInput activityLogInput = new ActivityLogInput();
-
-                //         activityLogInput.setEmp_id("101"); //current logged user dapat
-                //         activityLogInput.setLog_desc("Deleted Multiple development phase.");
-
-                //         Long currentTimeMillis = System.currentTimeMillis();
-                //         //add the activity log
-                //         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                //         activityLogDao.addActivityLog(activityLogInput);
-
-                //         return "Records are successfully deleted.";
-                //     }
-                // } else{
-                //     return "Development Phase with the ID " + id + " cannot be found.";
-                // }
-        //     }
-        // }
+        
 
     @Override
     public String restoreDevPhase(String id) {

@@ -11,8 +11,14 @@ import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 @Mapper
 public interface PersonalInfoDao {
     List<PersonalInfoOutput> getAllPersonalInfo();
+
+    PersonalInfoOutput getPersonalInfoById(String id);
+
     void addPersonalInfo(PersonalInfoInput personalInfo);
+
     void editPersonalInfo(Map<String, Object> paramMap);
+
     void logicalDeletePersonalInfo(String id);
+
     void restorePersonalInfo(String id);
 }

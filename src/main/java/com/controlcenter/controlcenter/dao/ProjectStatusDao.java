@@ -11,9 +11,16 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ProjectStatusDao {
     List<ProjectStatusOutput> getAllProjectStatus();
+
+    ProjectStatusOutput getProjectStatusById(String id);
+
     void addProjectStatus(ProjectStatusInput projectStatus);
+
     void editProjectStatus(Map<String, Object> paramMap);
+
     void logicalDeleteProjectStatus(String id);
+
     void deleteMultipleProjectStatus(@Param("ids") List<Long> ids);
+
     void restoreProjectStatus(String id);
 }

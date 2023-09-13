@@ -16,8 +16,8 @@ import com.controlcenter.controlcenter.service.PersonalInfoService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
-public class PersonalInfoServiceImpl implements PersonalInfoService{
-    
+public class PersonalInfoServiceImpl implements PersonalInfoService {
+
     @Autowired
     public PersonalInfoDao personalInfoDao;
 
@@ -27,9 +27,14 @@ public class PersonalInfoServiceImpl implements PersonalInfoService{
     @Autowired
     public ActivityLogDao activityLogDao;
 
-    @Override 
+    @Override
     public List<PersonalInfoOutput> getAllPersonalInfo() {
         return personalInfoDao.getAllPersonalInfo();
+    }
+
+    @Override
+    public PersonalInfoOutput getPersonalInfoById(String id) {
+        return personalInfoDao.getPersonalInfoById(id);
     }
 
     @Override
@@ -37,17 +42,16 @@ public class PersonalInfoServiceImpl implements PersonalInfoService{
         try {
             personalInfoDao.addPersonalInfo(personalInfo);
 
-            //Acivitylog
+            // Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id("101"); // current logged user dapat
             activityLogInput.setLog_desc("Added a personal Information.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
+            // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
-            
 
             return "Personal Info Added Successfully.";
         } catch (Exception e) {
@@ -57,72 +61,90 @@ public class PersonalInfoServiceImpl implements PersonalInfoService{
 
     @Override
     public String editPersonalInfo(String id, PersonalInfoInput personalInfo) {
-        try {
-            Map<String, Object> paramMap = new HashMap<>();
+        PersonalInfoOutput data = personalInfoDao.getPersonalInfoById(id);
 
-            paramMap.put("id", id);
-            paramMap.put("personalInfo", personalInfo);
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Personal Information with the ID " + id + " has already been deleted.";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
 
-            personalInfoDao.editPersonalInfo(paramMap);
+                paramMap.put("id", id);
+                paramMap.put("personalInfo", personalInfo);
 
-            //Acivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                personalInfoDao.editPersonalInfo(paramMap);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a personal Information.");
+                // Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Edited a personal Information.");
 
-            return "Personal Info Edited Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Personal Information Edited Successfully.";
+            }
+        } else {
+            return "Personal Information with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String logicalDeletePersonalInfo(String id) {
-        try {
-            personalInfoDao.logicalDeletePersonalInfo(id);
+        PersonalInfoOutput data = personalInfoDao.getPersonalInfoById(id);
 
-            //Acivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Personal Information with the ID " + id + " has already been deleted.";
+            } else {
+                personalInfoDao.logicalDeletePersonalInfo(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a personal Information.");
+                // Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
-            
-            return "Personal Info Deleted Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Deleted a personal Information.");
+
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Personal Information Deleted Successfully.";
+            }
+        } else {
+            return "Personal Information with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String restorePersonalInfo(String id) {
-        try {
-            personalInfoDao.restorePersonalInfo(id);
+        PersonalInfoOutput data = personalInfoDao.getPersonalInfoById(id);
 
-            //Acivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 0) {
+                return "Personal Information with the ID " + id + " is not yet deleted.";
+            } else {
+                personalInfoDao.restorePersonalInfo(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a personal Information.");
+                // Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
-            
-            return "Personal Info Restored Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Restored a personal Information.");
+
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Personal Information Restored Successfully.";
+            }
+        } else {
+            return "Personal Information with the ID " + id + " cannot be found.";
         }
     }
 }

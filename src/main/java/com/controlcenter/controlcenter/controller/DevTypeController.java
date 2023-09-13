@@ -67,12 +67,20 @@ public class DevTypeController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteDevType(@PathVariable String id) {
-        return devTypeService.logicalDeleteDevType(id);
+    public ResponseEntity<String> logicalDeleteDevType(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(devTypeService.logicalDeleteDevType(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreDevType(@PathVariable String id) {
-        return devTypeService.restoreDevType(id);
+    public ResponseEntity<String> restoreDevType(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(devTypeService.restoreDevType(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }

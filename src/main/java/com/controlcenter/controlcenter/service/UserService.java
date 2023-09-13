@@ -1,6 +1,7 @@
 package com.controlcenter.controlcenter.service;
 
 import com.controlcenter.controlcenter.model.Account;
+import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
@@ -25,7 +26,7 @@ public interface UserService {
 
   public String addAccount(Account account);
 
-  public String editAccount(String id, Account account);
+  public String editAccount(String id, UserOutput userBody, PersonalInfoOutput personalInfoBody);
 
   public String getLoggedInUser(UserOutput user);
 }
