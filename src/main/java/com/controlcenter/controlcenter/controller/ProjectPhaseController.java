@@ -67,13 +67,21 @@ public class ProjectPhaseController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteProjectPhase(@PathVariable String id){
-        return projectPhaseService.logicalDeleteProjectPhase(id);
+    public ResponseEntity<String> logicalDeleteProjectPhase(@PathVariable String id){
+        try {
+            return ResponseEntity.ok().body(projectPhaseService.logicalDeleteProjectPhase(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreProjectPhase(@PathVariable String id){
-        return projectPhaseService.restoreProjectPhase(id);
+    public ResponseEntity<String> restoreProjectPhase(@PathVariable String id){
+        try {
+            return ResponseEntity.ok().body(projectPhaseService.restoreProjectPhase(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
     
 }
