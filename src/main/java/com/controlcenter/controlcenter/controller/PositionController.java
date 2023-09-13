@@ -70,16 +70,28 @@ public class PositionController {
 
     @PutMapping("/delete/{id}")
     public ResponseEntity<String> logicalDeletePosition(@PathVariable String id) {
-        return positionService.logicalDeletePosition(id);
+        try {
+            return ResponseEntity.ok().body(positionService.logicalDeletePosition(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/delete-multiple")
     public ResponseEntity<String> deleteMultiplePosition(@RequestParam List<Long> ids) {
-        return positionService.deleteMultiplePosition(ids);
+        try {
+            return ResponseEntity.ok().body(positionService.deleteMultiplePosition(ids));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
     public ResponseEntity<String> restorePosition(@PathVariable String id) {
-        return positionService.restorePosition(id);
+        try {
+            return ResponseEntity.ok().body(positionService.restorePosition(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }
