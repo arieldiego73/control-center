@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DevTypeOutput { 
+public class DevTypeOutput {
     private Long dev_type_id;
     private String dev_type_name;
     private String dev_type_sh_name;
+    private int del_flag;
 }
-

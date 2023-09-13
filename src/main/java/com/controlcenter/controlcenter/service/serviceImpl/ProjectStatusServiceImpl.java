@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.ProjectStatusDao;
@@ -99,6 +101,27 @@ public class ProjectStatusServiceImpl implements ProjectStatusService{
             return "Project Status Deleted Successfully.";
         } catch (Exception e) {
             return e.getMessage();
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> deleteMultipleProjectStatus(@RequestParam List<Long> ids) {
+        try {
+            projectStatusDao.deleteMultipleProjectStatus(ids);
+
+            //Activitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setLog_desc("Deleted a multiple postion.");
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            //add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+            return ResponseEntity.ok("Multiple project status are deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
