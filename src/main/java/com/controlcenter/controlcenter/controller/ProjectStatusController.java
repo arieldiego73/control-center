@@ -68,17 +68,29 @@ public class ProjectStatusController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteProjectStatus(@PathVariable String id) {
-        return projectStatusService.logicalDeleteProjectStatus(id);
+    public ResponseEntity<String> logicalDeleteProjectStatus(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(projectStatusService.logicalDeleteProjectStatus(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/delete-multiple")
     public ResponseEntity<String> deleteMultiplePosition(@RequestParam List<Long> ids) {
-        return projectStatusService.deleteMultipleProjectStatus(ids);
+        try {
+            return ResponseEntity.ok().body(projectStatusService.deleteMultipleProjectStatus(ids));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreProjectStatus(@PathVariable String id) {
-        return projectStatusService.restoreProjectStatus(id);
+    public ResponseEntity<String> restoreProjectStatus(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(projectStatusService.restoreProjectStatus(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }
