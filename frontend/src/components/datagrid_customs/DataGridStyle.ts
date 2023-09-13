@@ -1,4 +1,4 @@
-export const datagridStyle = {
+export const datagridBoxStyle = {
 	height: "100%",
 	width: "100%",
 	"& .actions": {
@@ -44,3 +44,8 @@ export const datagridStyle = {
 	// 	fontWeight: "500",
 	// },
 };
+
+export const datagridStyle = {
+	height: "67vh",
+	border: "none"
+}

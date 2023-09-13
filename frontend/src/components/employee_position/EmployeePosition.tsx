@@ -33,10 +33,20 @@ export interface State {
 // }
 
 export default function EmployeePosition() {
-	const notice = useSelector((state: RootState) => state.positionReducer.notice);
+	const notice = useSelector(
+		(state: RootState) => state.positionReducer.notice
+	);
+	const isInitialAmount = React.useRef(true);
 	React.useEffect(() => {
-		if (notice.message && notice.severity) {
-		handleClickSnackpack(notice.message, notice.severity as AlertColor)();
+		if (!isInitialAmount.current) {
+			if (notice.message && notice.severity) {
+				handleClickSnackpack(
+					notice.message,
+					notice.severity as AlertColor
+				)();
+			}
+		} else {
+			isInitialAmount.current = false;
 		}
 	}, [notice]);
 

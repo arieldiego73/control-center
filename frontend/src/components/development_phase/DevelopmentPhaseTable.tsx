@@ -50,7 +50,7 @@ import {
 	deleteDevPhaseBatch,
 	updateDevPhase,
 } from "../../redux/saga/devPhaseSaga";
-import { datagridStyle } from "../datagrid_customs/DataGridStyle";
+import { datagridBoxStyle, datagridStyle } from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import EditToolbarProps from "../datagrid_customs/EditToolbarProps";
 import DataGridProps from "../datagrid_customs/DataGridProps";
@@ -332,7 +332,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 	];
 
 	return (
-		<Box sx={datagridStyle}>
+		<Box sx={datagridBoxStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -461,7 +461,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 								style={{
 									flexDirection: "row",
 									display: "flex",
-									alignItems: "flex-end",
+									alignItems: "center",
 									height: "100%",
 									gap: "10px",
 								}}
@@ -511,7 +511,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 			<Divider variant="middle" />
 
 			<DataGrid
-				sx={{ height: "67vh", border: "none" }}
+				sx={datagridStyle}
 				rows={rows}
 				columns={columns}
 				editMode="row"
