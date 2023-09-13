@@ -14,4 +14,5 @@ public class ProjectOutput {
     private String proj_description;
     private Date start_date;
     private Date end_date;
+    private int del_flag;
 }
