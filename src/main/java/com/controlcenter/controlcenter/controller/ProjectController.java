@@ -67,12 +67,20 @@ public class ProjectController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteProject(@PathVariable String id) {
-        return projectService.logicalDeleteProject(id);
+    public ResponseEntity<String> logicalDeleteProject(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(projectService.logicalDeleteProject(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreProject(@PathVariable String id) {
-        return projectService.restoreProject(id);
+    public ResponseEntity<String> restoreProject(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(projectService.restoreProject(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }

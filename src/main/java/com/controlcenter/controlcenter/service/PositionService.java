@@ -10,11 +10,16 @@ import com.controlcenter.controlcenter.model.PositionOutput;
 
 public interface PositionService {
     public ResponseEntity<List<PositionOutput>> getAllPosition();
+    
+    public PositionOutput getPositionById(String id);
+
     public String addPosition(PositionInput position);
+
     public String editPositionInfo(String id, PositionInput position);
-    public ResponseEntity<String> logicalDeletePosition(String id);
-    public ResponseEntity<String> deleteMultiplePosition(
-        @RequestParam List<Long> ids
-    );
-    public ResponseEntity<String> restorePosition(String id);
+
+    public String logicalDeletePosition(String id);
+
+    public String deleteMultiplePosition(@RequestParam List<Long> ids);
+
+    public String restorePosition(String id);
 }

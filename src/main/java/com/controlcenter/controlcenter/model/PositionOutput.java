@@ -9,4 +9,5 @@ public class PositionOutput {
     private Long position_id;
     private String position_name;
     private String position_sh_name;
+    private int del_flag;
 }

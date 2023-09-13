@@ -72,13 +72,21 @@ public class MultiRoleController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteMultiRole(@PathVariable String id) {
-        return multiRoleService.logicalDeleteMultiRole(id);
+    public ResponseEntity<String> logicalDeleteMultiRole(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(multiRoleService.logicalDeleteMultiRole(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreMultiRole(@PathVariable String id) {
-        return multiRoleService.restoreMultiRole(id);
+    public ResponseEntity<String> restoreMultiRole(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(multiRoleService.restoreMultiRole(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
 }

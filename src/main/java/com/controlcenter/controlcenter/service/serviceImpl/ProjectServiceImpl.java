@@ -16,7 +16,7 @@ import com.controlcenter.controlcenter.service.ProjectService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
-public class ProjectServiceImpl implements ProjectService{
+public class ProjectServiceImpl implements ProjectService {
     @Autowired
     public ProjectDao projectDao;
 
@@ -27,23 +27,28 @@ public class ProjectServiceImpl implements ProjectService{
     public TimeFormatter timeFormatter;
 
     @Override
-    public List<ProjectOutput> getAllProject(){
+    public List<ProjectOutput> getAllProject() {
         return projectDao.getAllProject();
     }
-    
+
+    @Override
+    public ProjectOutput getProjectById(String id) {
+        return projectDao.getProjectById(id);
+    }
+
     @Override
     public String addProject(ProjectInput project) {
         try {
             projectDao.addProject(project);
 
-            //Activitylog
+            // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id("101"); // current logged user dapat
             activityLogInput.setLog_desc("Added a project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
+            // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
@@ -53,74 +58,91 @@ public class ProjectServiceImpl implements ProjectService{
         }
     }
 
-    @Override 
+    @Override
     public String editProjectInfo(String id, ProjectInput project) {
-        try {
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("project", project);
+        ProjectOutput data = projectDao.getProjectById(id);
 
-            projectDao.editProjectInfo(paramMap);
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Project with the ID " + id + " has already been deleted.";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("id", id);
+                paramMap.put("project", project);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                projectDao.editProjectInfo(paramMap);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a project.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Edited a project.");
 
-            return "Project Edited Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Project Edited Successfully.";
+            }
+        } else {
+            return "Project with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String logicalDeleteProject(String id) {
-        try {
-        
-            projectDao.logicalDeleteProject(id);
+        ProjectOutput data = projectDao.getProjectById(id);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Project with the ID " + id + " has already been deleted.";
+            } else {
+                projectDao.logicalDeleteProject(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a project.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Deleted a project.");
 
-            return "Project Deleted Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Project Deleted Successfully.";
+            }
+        } else {
+            return "Project with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String restoreProject(String id) {
-        try {
-            projectDao.restoreProject(id);
+        ProjectOutput data = projectDao.getProjectById(id);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 0) {
+                return "Project with the ID " + id + " is not yet deleted.";
+            } else {
+                projectDao.restoreProject(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a project.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Restored a project.");
 
-            return "Project Restored Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Project Restored Successfully.";
+            }
+        } else {
+            return "Project with the ID " + id + " cannot be found.";
         }
     }
 }
