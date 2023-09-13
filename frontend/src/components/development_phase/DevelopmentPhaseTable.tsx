@@ -7,7 +7,6 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import HelpIcon from "@mui/icons-material/Help";
-import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import {
@@ -29,7 +28,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {
-	AlertColor,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -46,20 +44,18 @@ import {
 } from "@mui/material";
 import DevelopmentPhaseModuleStyle from "./DevelopmentPhase.module.css";
 import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
-import { addDevPhase, deleteDevPhase, deleteDevPhaseBatch, updateDevPhase } from "../../redux/saga/devPhaseSaga";
+import {
+	addDevPhase,
+	deleteDevPhase,
+	deleteDevPhaseBatch,
+	updateDevPhase,
+} from "../../redux/saga/devPhaseSaga";
+import { datagridStyle } from "../datagrid_customs/DataGridStyle";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import EditToolbarProps from "../datagrid_customs/EditToolbarProps";
+import DataGridProps from "../datagrid_customs/DataGridProps";
 
-interface EditToolbarProps {
-	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-	setRowModesModel: (
-		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-	) => void;
-}
-
-interface DevelopmentPhaseProps {
-	createSnackpack: (message: string, severity: AlertColor) => () => void;
-}
-
-const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
+const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
 	// GET ALL THE DEV PHASE AND STORE THEM TO THE STATE IN REDUX
@@ -68,7 +64,9 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 	}, [dispatch]);
 
 	// STORE THE DEV PHASE TO 'data'
-	const data = useSelector((state: RootState) => state.devPhaseReducer.devPhase);
+	const data = useSelector(
+		(state: RootState) => state.devPhaseReducer.devPhase
+	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -91,10 +89,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 		toolbar: EditToolbar,
 		columnUnsortedIcon: UnsortedIcon,
 	};
-
-	function UnsortedIcon() {
-		return <SortIcon className="icon" />;
-	}
 
 	// FOR CONFIRM DIALOG
 	const theme = useTheme();
@@ -248,7 +242,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 			);
 			error();
 		}
-	}
+	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
 		if (newRow.dev_phase_name && newRow.dev_phase_sh_name) {
@@ -338,49 +332,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 	];
 
 	return (
-		<Box
-			sx={{
-				height: "100%",
-				width: "100%",
-				"& .actions": {
-					color: "text.secondary",
-				},
-				"& .MuiDataGrid-columnHeaderTitle": {
-					fontWeight: 800,
-					padding: "0 24px",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
-					{
-						outline: "none !important",
-					},
-				"& .MuiDataGrid-root .MuiInputBase-input": {
-					textAlign: "center",
-					backgroundColor: "#fff",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
-					padding: "0 0.8vw",
-					height: "60%",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell":
-					{
-						backgroundColor: "#cbbdbd2e",
-					},
-				"& .textPrimary": {
-					color: "text.primary",
-				},
-				".MuiDataGrid-iconButtonContainer, .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeaders .MuiDataGrid-columnSeparator":
-					{
-						visibility: "visible",
-						width: "auto",
-					},
-				".MuiDataGrid-sortIcon": {
-					opacity: "inherit !important",
-				},
-				".MuiDataGrid-cellContent": {
-					// fontWeight: "500",
-				},
-			}}
-		>
+		<Box sx={datagridStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -612,9 +564,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 					</Typography>
 				</DialogTitle>
 				<DialogContent>
-					<DialogContentText
-						whiteSpace={"pre-line"}
-					>
+					<DialogContentText whiteSpace={"pre-line"}>
 						{dialogContentText}
 					</DialogContentText>
 				</DialogContent>
@@ -640,6 +590,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 			</Dialog>
 		</Box>
 	);
-}
+};
 
 export default DevelopmentPhaseTable;
