@@ -1,4 +1,4 @@
-.ProjGraphContainer {
+.EmpStatusGraphContainer {
   height: 80%; 
   width: 35%;
   padding: 2%;
@@ -63,7 +63,7 @@
 
 /* Attributes of Graph */
 .graphContainer{
-  background: linear-gradient(#2a7ebb, #579ed1);
+  background: linear-gradient(#1d1d1d, #2f2f33, #3f3f46);
   height: 30%;
   width: 27%;
   border-radius: 15px;

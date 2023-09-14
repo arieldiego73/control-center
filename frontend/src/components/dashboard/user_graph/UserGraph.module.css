@@ -1,6 +1,6 @@
 .userGraphContainer {
   height: 80%; 
-  width: 25%;
+  width: 35%;
   padding: 2%;
   /* border: 1px solid black;
   width: 30%;
@@ -20,7 +20,7 @@
   border: 1px solid rgba(209, 213, 219, 0.3);
   align-items: flex-end;
   display: flex;
-  height: 350px;
+  height: 300px;
   width: 100%;
   /* top: 2%; */
 }
@@ -65,10 +65,10 @@
 .graphContainer{
   background: linear-gradient(#46a34a, #56af5a, #63b967);
   height: 30%;
-  width: 22%;
+  width: 27%;
   border-radius: 15px;
   position: absolute;
   margin-bottom: 12%;
   z-index: 1;
- margin-top:3%;
+ margin-top:1%;
 }
