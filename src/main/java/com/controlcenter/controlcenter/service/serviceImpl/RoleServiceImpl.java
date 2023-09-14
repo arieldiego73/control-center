@@ -27,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
   @Autowired
   public ActivityLogDao activityLogDao;
 
-  public List<RoleOutput> allRoles = new ArrayList<RoleOutput>();
+  public List<RoleOutput> roleList = new ArrayList<>();
 
   @Override
   public List<RoleOutput> getAllRole() {
@@ -41,41 +41,41 @@ public class RoleServiceImpl implements RoleService {
 
   @Override
   public String addRole(RoleInput role) {
-    
+
     try {
       roleDao.addRole(role);
-      //Activitylog 
+      // Activitylog
       ActivityLogInput activityLogInput = new ActivityLogInput();
 
-      activityLogInput.setEmp_id("101"); //current logged user dapat
+      activityLogInput.setEmp_id("101"); // current logged user dapat
       activityLogInput.setLog_desc("Added a role.");
 
       Long currentTimeMillis = System.currentTimeMillis();
-      //Add the activity log
+      // Add the activity log
       activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
       activityLogDao.addActivityLog(activityLogInput);
-      
+
       return "Role Added Successfully";
 
     } catch (Exception e) {
-        return e.getMessage();
+      return e.getMessage();
     }
   }
   // try {
-  //     roleDao.addRole(role);
-  //     allRoles = getAllRole();
-  //     return ResponseEntity.ok(allRoles);
-  //   } catch (Exception e) {
-  //     allRoles = new ArrayList<Role>();
-  //     return ResponseEntity.badRequest().body(allRoles);
-  //   }
+  // roleDao.addRole(role);
+  // allRoles = getAllRole();
+  // return ResponseEntity.ok(allRoles);
+  // } catch (Exception e) {
+  // allRoles = new ArrayList<Role>();
+  // return ResponseEntity.badRequest().body(allRoles);
+  // }
 
   @Override
   public String editRoleInfo(String id, RoleInput role) {
     RoleOutput data = roleDao.getRoleById(id);
 
-    if(data != null){
-      if(data.getDel_flag() == 1){
+    if (data != null) {
+      if (data.getDel_flag() == 1) {
         return "Role with the ID " + id + " has already been deleted.";
       } else {
         Map<String, Object> paramMap = new HashMap<>();
@@ -84,10 +84,10 @@ public class RoleServiceImpl implements RoleService {
 
         roleDao.editRoleInfo(paramMap);
 
-        //Activitylog 
+        // Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); //current logged user dapat
+        activityLogInput.setEmp_id("101"); // current logged user dapat
         activityLogInput.setLog_desc("Added a department.");
 
         Long currentTimeMillis = System.currentTimeMillis();
@@ -97,48 +97,48 @@ public class RoleServiceImpl implements RoleService {
 
         return "Role Edited Successfully";
       }
-    } else{
+    } else {
       return "Role with the ID " + id + " cannot be found.";
     }
   }
   // try {
-  //     Map<String, Object> paramMap = new HashMap<>();
-  //     paramMap.put("id", id);
-  //     paramMap.put("role", role);
+  // Map<String, Object> paramMap = new HashMap<>();
+  // paramMap.put("id", id);
+  // paramMap.put("role", role);
 
-  //     roleDao.editRoleInfo(paramMap);
-  //     allRoles = getAllRole();
-  //     return ResponseEntity.ok(allRoles);
-  //   } catch (Exception e) {
-  //     allRoles = new ArrayList<Role>();
-  //     return ResponseEntity.badRequest().body(allRoles);
-  //   }
+  // roleDao.editRoleInfo(paramMap);
+  // allRoles = getAllRole();
+  // return ResponseEntity.ok(allRoles);
+  // } catch (Exception e) {
+  // allRoles = new ArrayList<Role>();
+  // return ResponseEntity.badRequest().body(allRoles);
+  // }
 
   @Override
   public String logicalDeleteRole(String id) {
     RoleOutput data = roleDao.getRoleById(id);
 
-    if(data != null){
-      if(data.getDel_flag() == 1){
+    if (data != null) {
+      if (data.getDel_flag() == 1) {
         return "Role with the ID " + id + " has already been deleted.";
       } else {
         roleDao.logicalDeleteRole(id);
-        allRoles = getAllRole();
+        roleList = roleDao.getAllRole();
 
-        //Activitylog 
+        // Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); //current logged user dapat
+        activityLogInput.setEmp_id("101"); // current logged user dapat
         activityLogInput.setLog_desc("Deleted a Role.");
 
         Long currentTimeMillis = System.currentTimeMillis();
-        //Add the activity log
+        // Add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
 
         return "Role Deleted Successfully.";
       }
-    } else{
+    } else {
       return "Role with the ID " + id + " cannot be found.";
     }
   }
@@ -147,39 +147,59 @@ public class RoleServiceImpl implements RoleService {
   public String restoreRole(String id) {
     RoleOutput data = roleDao.getRoleById(id);
 
-    if(data != null){
-      if(data.getDel_flag() == 0){
+    if (data != null) {
+      if (data.getDel_flag() == 0) {
         return "Role with the ID " + id + " is not yet deleted.";
       } else {
         roleDao.restoreRole(id);
 
-        //Activitylog 
+        // Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); //current logged user dapat
+        activityLogInput.setEmp_id("101"); // current logged user dapat
         activityLogInput.setLog_desc("Restored a role.");
 
         Long currentTimeMillis = System.currentTimeMillis();
-        //Add the activity log
+        // Add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
 
         return "Role restored successfully.";
       }
-    } else{
+    } else {
       return "Role with the ID " + id + " cannot be found.";
     }
   }
 
   @Override
   public String deleteMultipleRole(List<Long> ids) {
-    try {
-      roleDao.deleteMultipleRole(ids);
-      allRoles = getAllRole();
-      return "Role Deleted Successfully.";
-    } catch (Exception e) {
-      return e.getMessage();
+    roleList = roleDao.getAllRole();
+
+    for (Long id : ids) {
+      String toString = String.valueOf(id);
+      RoleOutput role = roleDao.getRoleById(toString);
+      if (role != null) {
+        if (role.getDel_flag() == 1) {
+          return "Role with the ID " + id + " is already deleted.";
+        }
+      } else {
+        return "Role with the ID " + id + " cannot be found.";
+      }
     }
+    roleDao.deleteMultipleRole(ids);
+
+    // Acivitylog
+    ActivityLogInput activityLogInput = new ActivityLogInput();
+
+    activityLogInput.setEmp_id("101"); // current logged user dapat
+    activityLogInput.setLog_desc("Deleted Multiple roles.");
+
+    Long currentTimeMillis = System.currentTimeMillis();
+    // add the activity log
+    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+    activityLogDao.addActivityLog(activityLogInput);
+
+    return "Records are successfully deleted.";
   }
 
   @Override
@@ -187,14 +207,14 @@ public class RoleServiceImpl implements RoleService {
     try {
       roleDao.restoreMultipleRole(ids);
 
-      //Activitylog 
+      // Activitylog
       ActivityLogInput activityLogInput = new ActivityLogInput();
 
-      activityLogInput.setEmp_id("101"); //current logged user dapat
+      activityLogInput.setEmp_id("101"); // current logged user dapat
       activityLogInput.setLog_desc("restored a multiple role.");
 
       Long currentTimeMillis = System.currentTimeMillis();
-      //Add the activity log
+      // Add the activity log
       activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
       activityLogDao.addActivityLog(activityLogInput);
 

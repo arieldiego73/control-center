@@ -1,49 +1,45 @@
 import { ResponsiveBar } from "@nivo/bar";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import ProjGraphStyle from "./ProjectGraph.module.css";
+import EmpStatGraphStyle from "./EmployeeStatusGraph.module.css";
 import { Divider } from "@mui/material";
 
 const data = [
   {
-    project: "Upcoming",
-    status: 59,
+    employee: "Regular",
+    status: 50,
   },
   {
-    project: "Active",
-    status: 61,
+    employee: "Trainee",
+    status: 26,
   },
   {
-    project: "Overdue",
+    employee: "Intern",
     status: 2,
   },
   {
-    project: "Cancelled",
-    status: 78,
-  },
-  {
-    project: "Completed",
-    status: 71,
+    employee: "Business Partner",
+    status: 20,
   },
 ];
 
-export default function ProjectGraph() {
+export default function EmpStatusGraph() {
   return (
-    <div className={ProjGraphStyle.ProjGraphContainer  }>
+    <div className={EmpStatGraphStyle.EmpStatusGraphContainer  }>
       <div
         style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center",}}>
 
         {/* Main Container */}
-        <div className={ProjGraphStyle.card}>
-          <div className={ProjGraphStyle.textHolder}>
+        <div className={EmpStatGraphStyle.card}>
+          <div className={EmpStatGraphStyle.textHolder}>
 
             {/* Text Title */}
-            <text  className={ProjGraphStyle.textTitle}> PROJECT STATUS </text>
-            <text className={ProjGraphStyle.textSubtitle}> PROJECT STATUS </text>
+            <text  className={EmpStatGraphStyle.textTitle}> EMPLOYEE STATUS </text>
+            <text className={EmpStatGraphStyle.textSubtitle}> +15% increase than last month </text>
 
             <Divider style={{ padding: "1%" }} variant="middle" />
 
             {/* Information */}
-            <div className={ProjGraphStyle.infoContainer}>
+            <div className={EmpStatGraphStyle.infoContainer}>
               <AccessTimeIcon
                 style={{
                   color: " grey",
@@ -51,17 +47,17 @@ export default function ProjectGraph() {
                   paddingRight: ".5%",
                 }}
               />
-              <text className={ProjGraphStyle.textInfo}> Updated 4 mins ago </text>
+              <text className={EmpStatGraphStyle.textInfo}> Updated 4 mins ago </text>
             </div>
           </div>
         </div>
 
        {/* Graph */}
-        <div className={ProjGraphStyle.graphContainer}>
+        <div className={EmpStatGraphStyle.graphContainer}>
           <ResponsiveBar
             data={data}
             keys={["status"]}
-            indexBy="project"
+            indexBy="employee"
             margin={{ top: 50, right: 40, bottom: 50, left: 60 }}
             padding={0.4}
             valueScale={{ type: "linear" }}

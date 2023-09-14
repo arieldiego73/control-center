@@ -14,6 +14,7 @@ import ActivityLogDashboardTable from "./ActivityLogDashboardTable";
 import MembersTable from "../project/MembersTable";
 import ProjectGraph from "./project_graph/ProjectGraph";
 import UserGraph  from "./user_graph/UserGraph";
+import EmpStatusGraph from "./employeestatus_graph/EmployeeStatusGraph";
 
 export const Dashboard = () => {
 	// const navigate = useNavigate();
@@ -39,13 +40,16 @@ export const Dashboard = () => {
 							<div style={{flexDirection:'row', display:'flex', justifyContent:'center', alignItems:'center'}}>
 								<ProjectGraph/>
 								<UserGraph	/>
-								<ProjectGraph/>
+								<EmpStatusGraph/>
 							</div>
 							
 			
-						
+							<div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+								<ActivityLogDashboardTable/>
+					
+							</div>
+							
 				
-					<ActivityLogDashboardTable/>
 					
 				</div>
 			</div>

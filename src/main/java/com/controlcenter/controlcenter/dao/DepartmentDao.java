@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.controlcenter.controlcenter.model.DepartmentInput;
 import com.controlcenter.controlcenter.model.DepartmentOutput;
@@ -15,6 +16,6 @@ public interface DepartmentDao {
     void addDepartment(DepartmentInput department);
     void editDepartmentInfo(Map<String, Object> paramMap);
     void logicalDeleteDepartment(String id);
-
+    void deleteMultipleDepartment(@Param("ids") List<Long> ids);
     void restoreDepartment(String id);
 }

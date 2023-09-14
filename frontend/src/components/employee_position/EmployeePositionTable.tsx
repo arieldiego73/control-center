@@ -6,8 +6,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
-import HelpIcon from "@mui/icons-material/Help";
-import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import {
@@ -16,60 +14,54 @@ import {
 	GridRowModes,
 	DataGrid,
 	GridColDef,
-	GridToolbarContainer,
 	GridActionsCellItem,
 	GridEventListener,
 	GridRowId,
 	GridRowModel,
 	GridRowEditStopReasons,
 	GridRowSelectionModel,
-	GridToolbar,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {
-	AlertColor,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
 	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
 	TextField,
-	Typography,
-	useMediaQuery,
-	useTheme,
 } from "@mui/material";
 import PositionModuleStyle from "./EmployeePositionTable.module.css";
 import { getPositionFetch } from "../../redux/state/positionState";
-import { addPosition, deletePosition, deletePositionBatch, updatePosition } from "../../redux/saga/positionSaga";
+import {
+	addPosition,
+	deletePosition,
+	deletePositionBatch,
+	updatePosition,
+} from "../../redux/saga/positionSaga";
+import CustomPagination from "../custom_pagination/pagination";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 
-interface EditToolbarProps {
-	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-	setRowModesModel: (
-		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-	) => void;
-}
-
-interface EmployeePositionProps {
-	createSnackpack: (message: string, severity: AlertColor) => () => void;
-}
-
-const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
+const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
-	// GET ALL THE DEV PHASE AND STORE THEM TO THE STATE IN REDUX
+	// GET ALL THE POSITION AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
 		dispatch(getPositionFetch());
 	}, [dispatch]);
 
 	// GET THE STATES
-	const positionData = useSelector((state: RootState) => state.positionReducer.position);
-	
+	const positionData = useSelector(
+		(state: RootState) => state.positionReducer.position
+	);
+
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(positionData);
 	const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
@@ -88,70 +80,28 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 	const [deleteId, setDeleteId] = React.useState(0);
 
 	const dataGridSlots = {
-		toolbar: EditToolbar,
+		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
 	};
 
-	function UnsortedIcon() {
-		return <SortIcon className="icon" />;
-	}
-
-	// FOR CONFIRM DIALOG
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-	// FOR DATA GRID
 	React.useEffect(() => {
 		setRows(positionData);
 	}, [positionData]);
 
 	const [positionName, setPositionName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
-	// const [userLevel, setUserLevel] = React.useState("");
 	const positionNameRef = React.useRef<HTMLInputElement | null>(null);
 
-	function EditToolbar(props: EditToolbarProps) {
-		const handleDeleteBatch = () => {
-			setAsk(true);
-			setIsBatch(true);
-			setDialogContentText(
-				"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-			);
-			setDialogTitle(
-				`Delete ${
-					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
-				} position${selectedId.size > 1 ? "s" : ""}?`
-			);
-		};
-
+	function DatagridToolbar() {
 		return (
-			<GridToolbarContainer
-				sx={{
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "baseline",
-				}}
-			>
-				<Button
-					color="error"
-					variant="contained"
-					startIcon={<DeleteIcon />}
-					onClick={handleDeleteBatch}
-					hidden={true}
-					disabled={selectedId.size === 0}
-					sx={{
-						marginLeft: 1.5,
-						// visibility: `${
-						// 	selectedId.size !== 0 ? "visible" : "hidden"
-						// }`,
-					}}
-				>
-					DELETE BATCH
-				</Button>
-				<div>
-					<GridToolbar />
-				</div>
-			</GridToolbarContainer>
+			<DataGridEditToolbar
+				setAsk={setAsk}
+				setIsBatch={setIsBatch}
+				setDialogContentText={setDialogContentText}
+				setDialogTitle={setDialogTitle}
+				selectedId={selectedId}
+			/>
 		);
 	}
 
@@ -245,11 +195,11 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 			);
 			error();
 		}
-	}
+	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
 		if (newRow.position_name && newRow.position_sh_name) {
-			processUpdateRow(newRow)
+			processUpdateRow(newRow);
 		} else {
 			const cancel = handleCancelClick(newRow.position_id);
 			const error = props.createSnackpack(
@@ -336,49 +286,7 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 	];
 
 	return (
-		<Box
-			sx={{
-				height: "100%",
-				width: "100%",
-				"& .actions": {
-					color: "text.secondary",
-				},
-				"& .MuiDataGrid-columnHeaderTitle": {
-					fontWeight: 800,
-					padding: "0 24px",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
-					{
-						outline: "none !important",
-					},
-				"& .MuiDataGrid-root .MuiInputBase-input": {
-					textAlign: "center",
-					backgroundColor: "#fff",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
-					padding: "0 0.8vw",
-					height: "60%",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell":
-					{
-						backgroundColor: "#cbbdbd2e",
-					},
-				"& .textPrimary": {
-					color: "text.primary",
-				},
-				".MuiDataGrid-iconButtonContainer, .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeaders .MuiDataGrid-columnSeparator":
-					{
-						visibility: "visible",
-						width: "auto",
-					},
-				".MuiDataGrid-sortIcon": {
-					opacity: "inherit !important",
-				},
-				// ".MuiDataGrid-cellContent": {
-				// 	fontWeight: "500",
-				// },
-			}}
-		>
+		<Box sx={datagridBoxStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -555,7 +463,7 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 			<Divider variant="middle" />
 
 			<DataGrid
-				sx={{ height: "67vh", border: "none" }}
+				sx={datagridStyle}
 				rows={rows}
 				columns={columns}
 				editMode="row"
@@ -573,70 +481,27 @@ const EmployeePositionTable: React.FC<EmployeePositionProps> = (props) => {
 				rowSelectionModel={rowSelectionModel}
 				initialState={{
 					pagination: {
-						paginationModel: { page: 0, pageSize: 25 },
+						paginationModel: { page: 0, pageSize: 10 },
 					},
 				}}
 				slots={dataGridSlots}
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
-				pageSizeOptions={[25, 50, 100]}
+				pageSizeOptions={[10, 25, 50, 100]}
 			/>
-			
-			<Dialog
-				fullScreen={fullScreen}
-				open={ask}
-				onClose={() => {
-					setAsk(false);
-				}}
-				aria-labelledby="responsive-dialog-title"
-			>
-				<DialogTitle id="responsive-dialog-title">
-					<Typography
-						fontWeight={700}
-						fontSize={20}
-						display={"flex"}
-						alignItems={"center"}
-						gap={1}
-					>
-						<HelpIcon
-							accentHeight={100}
-							color="error"
-							fontSize="large"
-							alignmentBaseline="middle"
-						/>
-						{dialogTitle}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText
-						whiteSpace={"pre-line"}
-					>
-						{dialogContentText}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button
-						variant="contained"
-						onClick={
-							isBatch ? proceedWithDeleteBatch : proceedWithDelete
-						}
-						autoFocus
-					>
-						Delete
-					</Button>
 
-					<Button
-						onClick={() => {
-							setAsk(false);
-						}}
-					>
-						Cancel
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<DataGridDialog
+				ask={ask}
+				setAsk={setAsk}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				isBatch={isBatch}
+				proceedWithDelete={proceedWithDelete}
+				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
 		</Box>
 	);
-}
+};
 
 export default EmployeePositionTable;

@@ -33,12 +33,22 @@ export interface State {
 // }
 
 export default function ProjectStatus() {
-  const notice = useSelector((state: RootState) => state.projectStatusReducer.notice);
-  React.useEffect(() => {
-    if (notice.message && notice.severity) {
-      handleClickSnackpack(notice.message, notice.severity as AlertColor)();
-    }
-  }, [notice]);
+	const notice = useSelector(
+		(state: RootState) => state.projectStatusReducer.notice
+	);
+	const isInitialAmount = React.useRef(true);
+	React.useEffect(() => {
+		if (!isInitialAmount.current) {
+			if (notice.message && notice.severity) {
+				handleClickSnackpack(
+					notice.message,
+					notice.severity as AlertColor
+				)();
+			}
+		} else {
+			isInitialAmount.current = false;
+		}
+	}, [notice]);
 
 	// const [origin, setOrigin] = React.useState<SnackbarState>({
 	// 	info: "",
@@ -142,7 +152,9 @@ export default function ProjectStatus() {
 							height: "100%",
 						}}
 					>
-						<ProjectStatusTable createSnackpack={handleClickSnackpack} />
+						<ProjectStatusTable
+							createSnackpack={handleClickSnackpack}
+						/>
 					</div>
 				</div>
 			</div>

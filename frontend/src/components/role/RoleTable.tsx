@@ -6,8 +6,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
-import HelpIcon from "@mui/icons-material/Help";
-import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import PersonFourIcon from "@mui/icons-material/Person4";
@@ -17,14 +15,12 @@ import {
 	GridRowModes,
 	DataGrid,
 	GridColDef,
-	GridToolbarContainer,
 	GridActionsCellItem,
 	GridEventListener,
 	GridRowId,
 	GridRowModel,
 	GridRowEditStopReasons,
 	GridRowSelectionModel,
-	GridToolbar,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,35 +33,24 @@ import {
 	updateRoles,
 } from "../../redux/saga/roleSaga";
 import {
-	AlertColor,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
 	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
 	TextField,
-	Typography,
-	useMediaQuery,
-	useTheme,
 } from "@mui/material";
 import RoleModuleStyle from "./Role.module.css";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
+import CustomPagination from "../custom_pagination/pagination";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 
-interface EditToolbarProps {
-	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-	setRowModesModel: (
-		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-	) => void;
-}
-
-interface RoleProps {
-	createSnackpack: (message: string, severity: AlertColor) => () => void;
-}
-
-const RoleTable: React.FC<RoleProps> = (props) => {
+const RoleTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
 	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
@@ -94,17 +79,10 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 	const [deleteId, setDeleteId] = React.useState(0);
 
 	const dataGridSlots = {
-		toolbar: EditToolbar,
+		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
 	};
-
-	function UnsortedIcon() {
-		return <SortIcon className="icon" />;
-	}
-
-	// FOR CONFIRM DIALOG
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
 	const proceedWithDelete = () => {
 		dispatch(deleteRoles({ role_id: deleteId }));
@@ -120,7 +98,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 		setAsk(false); // close dialog
 	};
 
-	// FOR DATA GRID
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
@@ -130,48 +107,15 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 	const [userLevel, setUserLevel] = React.useState("");
 	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
 
-	function EditToolbar(props: EditToolbarProps) {
-		const handleDeleteBatch = () => {
-			setAsk(true);
-			setIsBatch(true);
-			setDialogContentText(
-				"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-			);
-			setDialogTitle(
-				`Delete ${
-					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
-				} role${selectedId.size > 1 ? "s" : ""}?`
-			);
-		};
-
+	function DatagridToolbar() {
 		return (
-			<GridToolbarContainer
-				sx={{
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "baseline",
-				}}
-			>
-				<Button
-					color="error"
-					variant="contained"
-					startIcon={<DeleteIcon />}
-					onClick={handleDeleteBatch}
-					hidden={true}
-					sx={{
-						// marginBottom: 3,
-						marginLeft: 1.5,
-						visibility: `${
-							selectedId.size !== 0 ? "visible" : "hidden"
-						}`,
-					}}
-				>
-					DELETE BATCH
-				</Button>
-				<div>
-					<GridToolbar />
-				</div>
-			</GridToolbarContainer>
+			<DataGridEditToolbar
+				setAsk={setAsk}
+				setIsBatch={setIsBatch}
+				setDialogContentText={setDialogContentText}
+				setDialogTitle={setDialogTitle}
+				selectedId={selectedId}
+			/>
 		);
 	}
 
@@ -364,49 +308,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 	];
 
 	return (
-		<Box
-			sx={{
-				height: "100%",
-				width: "100%",
-				"& .actions": {
-					color: "text.secondary",
-				},
-				"& .MuiDataGrid-columnHeaderTitle": {
-					fontWeight: 800,
-					padding: "0 24px",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
-					{
-						outline: "none !important",
-					},
-				"& .MuiDataGrid-root .MuiInputBase-input": {
-					textAlign: "center",
-					backgroundColor: "#fff",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
-					padding: "0 0.8vw",
-					height: "60%",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell":
-					{
-						backgroundColor: "#cbbdbd2e",
-					},
-				"& .textPrimary": {
-					color: "text.primary",
-				},
-				".MuiDataGrid-iconButtonContainer, .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeaders .MuiDataGrid-columnSeparator":
-					{
-						visibility: "visible",
-						width: "auto",
-					},
-				".MuiDataGrid-sortIcon": {
-					opacity: "inherit !important",
-				},
-				".MuiDataGrid-cellContent": {
-					// fontWeight: "500"
-				},
-			}}
-		>
+		<Box sx={datagridBoxStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -577,7 +479,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 			<Divider variant="middle" />
 
 			<DataGrid
-				sx={{ height: "67vh", border: "none" }}
+				sx={datagridStyle}
 				rows={rows}
 				columns={columns}
 				editMode="row"
@@ -595,7 +497,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 				rowSelectionModel={rowSelectionModel}
 				initialState={{
 					pagination: {
-						paginationModel: { page: 0, pageSize: 25 },
+						paginationModel: { page: 0, pageSize: 10 },
 					},
 					sorting: {
 						sortModel: [{ field: "reg_id", sort: "desc" }],
@@ -605,60 +507,18 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
-				pageSizeOptions={[25, 50, 100]}
+				pageSizeOptions={[10, 25, 50, 100]}
 			/>
-			<Dialog
-				fullScreen={fullScreen}
-				open={ask}
-				onClose={() => {
-					setAsk(false);
-				}}
-				aria-labelledby="responsive-dialog-title"
-			>
-				<DialogTitle id="responsive-dialog-title">
-					<Typography
-						fontWeight={700}
-						fontSize={20}
-						display={"flex"}
-						alignItems={"center"}
-						gap={1}
-					>
-						<HelpIcon
-							accentHeight={100}
-							color="error"
-							fontSize="large"
-							alignmentBaseline="middle"
-						/>
-						{dialogTitle}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText
-						whiteSpace={"pre-line"}
-					>
-						{dialogContentText}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button
-						variant="contained"
-						onClick={
-							isBatch ? proceedWithDeleteBatch : proceedWithDelete
-						}
-						autoFocus
-					>
-						Delete
-					</Button>
 
-					<Button
-						onClick={() => {
-							setAsk(false);
-						}}
-					>
-						Cancel
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<DataGridDialog
+				ask={ask}
+				setAsk={setAsk}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				isBatch={isBatch}
+				proceedWithDelete={proceedWithDelete}
+				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
 		</Box>
 	);
 };
