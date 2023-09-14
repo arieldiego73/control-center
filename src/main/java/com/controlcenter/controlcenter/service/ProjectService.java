@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.controlcenter.controlcenter.model.ProjectInput;
 import com.controlcenter.controlcenter.model.ProjectOutput;
+import com.controlcenter.controlcenter.model.ProjectTable;
 
 public interface ProjectService {
     
+    public List<ProjectTable> projectTable();
     public List<ProjectOutput> getAllProject();
     public ProjectOutput getProjectById(String id);
     public String addProject(ProjectInput project);

@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,19 +19,21 @@ import com.controlcenter.controlcenter.service.DepartmentService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
-public class DepartmentServiceImpl implements DepartmentService{
-    
+public class DepartmentServiceImpl implements DepartmentService {
+
     @Autowired
     public DepartmentDao departmentDao;
 
-    @Autowired 
+    @Autowired
     public TimeFormatter timeFormatter;
 
     @Autowired
     public ActivityLogDao activityLogDao;
 
+    List<DepartmentOutput> departmentList = new ArrayList<>();
+
     @Override
-    public DepartmentOutput getDepartmentById(String id){
+    public DepartmentOutput getDepartmentById(String id) {
         return departmentDao.getDepartmentById(id);
     }
 
@@ -44,24 +47,24 @@ public class DepartmentServiceImpl implements DepartmentService{
         }
     }
 
-    @Override 
+    @Override
     public String addDepartment(DepartmentInput department) {
-        
+
         try {
             departmentDao.addDepartment(department);
 
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id("101"); // current logged user dapat
             activityLogInput.setLog_desc("Added a department.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
+            // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
-            
+
             return "Department Added Successfully.";
-            
+
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -70,11 +73,11 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Override
     public String editDepartmentInfo(String id, DepartmentInput department) {
         DepartmentOutput data = departmentDao.getDepartmentById(id);
-        
-        if(data != null){
-            if(data.getDel_flag() == 1){
+
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
                 return "Department with the ID " + id + " has already been deleted.";
-            } else{
+            } else {
                 Map<String, Object> paramMap = new HashMap<>();
 
                 paramMap.put("id", id);
@@ -82,79 +85,110 @@ public class DepartmentServiceImpl implements DepartmentService{
 
                 departmentDao.editDepartmentInfo(paramMap);
 
-                //Acivitylog
+                // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id("101"); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Department.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
-                //add the activity log
+                // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
                 return "Department Edited Successfully.";
             }
-        } else{
+        } else {
             return "Department with the ID " + id + " cannot be found.";
         }
-            
+
     }
 
     @Override
     public String logicalDeleteDepartment(String id) {
         DepartmentOutput data = departmentDao.getDepartmentById(id);
 
-        if(data != null){
-            if(data.getDel_flag() == 1){
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
                 return "Department with the ID " + id + " has already been deleted.";
-            } else{
+            } else {
                 departmentDao.logicalDeleteDepartment(id);
 
-                //Acivitylog
+                // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id("101"); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Department.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
-                //add the activity log
+                // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
                 return "Department Deleted Successfully.";
             }
 
-        } else{
+        } else {
             return "Department with the ID " + id + " cannot be found.";
         }
+    }
+
+    @Override
+    public String deleteMultipleDepartment(List<Long> ids) {
+        departmentList = departmentDao.getAllDepartment();
+
+        for (Long id : ids) {
+            String toString = String.valueOf(id);
+            DepartmentOutput department = departmentDao.getDepartmentById(toString);
+            if (department != null) {
+                if (department.getDel_flag() == 1) {
+                    return "Department with the ID " + id + " is already deleted.";
+                }
+            } else {
+                return "Department with the ID " + id + " cannot be found.";
+            }
+        }
+        departmentDao.deleteMultipleDepartment(ids);
+
+        // Acivitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setLog_desc("Deleted Multiple departments.");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        // add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Records are successfully deleted.";
     }
 
     @Override
     public String restoreDepartment(String id) {
         DepartmentOutput data = departmentDao.getDepartmentById(id);
 
-        if(data != null){
-            if(data.getDel_flag() == 0){
+        if (data != null) {
+            if (data.getDel_flag() == 0) {
                 return "Department with the ID " + id + " is not yet deleted.";
-            } else{
+            } else {
                 departmentDao.restoreDepartment(id);
 
-                //Acivitylog
+                // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id("101"); // current logged user dapat
                 activityLogInput.setLog_desc("Restored a Department.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
-                //add the activity log
+                // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
                 return "Department Restored Successfully.";
             }
 
-        } else{
+        } else {
             return "Department with the ID " + id + " cannot be found.";
         }
     }

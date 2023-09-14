@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,9 @@ import com.controlcenter.controlcenter.service.StatusService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
-public class StatusServiceImpl implements StatusService{
+public class StatusServiceImpl implements StatusService {
 
-    @Autowired 
+    @Autowired
     public StatusDao statusDao;
 
     @Autowired
@@ -27,8 +28,10 @@ public class StatusServiceImpl implements StatusService{
     @Autowired
     public ActivityLogDao activityLogDao;
 
+    public List<StatusOutput> statusList = new ArrayList<>();
+
     @Override
-    public List<StatusOutput> getAllStatus(){
+    public List<StatusOutput> getAllStatus() {
         return statusDao.getAllStatus();
     }
 
@@ -38,14 +41,14 @@ public class StatusServiceImpl implements StatusService{
     }
 
     @Override
-    public String addStatus(StatusInput status){
-        try{
+    public String addStatus(StatusInput status) {
+        try {
             statusDao.addStatus(status);
 
-            //Activitylog
+            // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id("101"); // current logged user dapat
             activityLogInput.setLog_desc("Added a status.");
 
             Long currentTimeMillis = System.currentTimeMillis();
@@ -54,18 +57,18 @@ public class StatusServiceImpl implements StatusService{
             activityLogDao.addActivityLog(activityLogInput);
 
             return "Status added successfully.";
-        } catch(Exception e){
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
 
     @Override
-    public String editStatusInfo(String code, StatusOutput status){
-        
+    public String editStatusInfo(String code, StatusOutput status) {
+
         StatusOutput statusById = statusDao.getStatusById(code);
 
-        if(statusById != null) {
-            if(statusById.getDel_flag() == 1) {
+        if (statusById != null) {
+            if (statusById.getDel_flag() == 1) {
                 return "Status with the code " + code + " has already been deleted.";
             } else {
                 Map<String, Object> paramMap = new HashMap<>();
@@ -77,10 +80,10 @@ public class StatusServiceImpl implements StatusService{
 
                 statusDao.editStatusInfo(paramMap);
 
-                //Activitylog
+                // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id("101"); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -96,19 +99,19 @@ public class StatusServiceImpl implements StatusService{
     }
 
     @Override
-    public String logicalDeleteStatus(String code){
+    public String logicalDeleteStatus(String code) {
         StatusOutput statusById = statusDao.getStatusById(code);
 
-        if(statusById != null) {
-            if(statusById.getDel_flag() == 1 ) {
+        if (statusById != null) {
+            if (statusById.getDel_flag() == 1) {
                 return "Status with the code " + code + " has already been deleted.";
             } else {
                 statusDao.logicalDeleteStatus(code);
 
-                //Activitylog
+                // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id("101"); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -124,19 +127,50 @@ public class StatusServiceImpl implements StatusService{
     }
 
     @Override
-    public String restoreStatus(String code){
+    public String deleteMultipleStatus(List<String> ids) {
+        statusList = statusDao.getAllStatus();
+
+        for (String id : ids) {
+            String toString = String.valueOf(id);
+            StatusOutput status = statusDao.getStatusById(toString);
+            if (status != null) {
+                if (status.getDel_flag() == 1) {
+                    return "Status with the ID " + id + " is already deleted.";
+                }
+            } else {
+                return "Status with the ID " + id + " cannot be found.";
+            }
+        }
+        statusDao.deleteMultipleStatus(ids);
+
+        // Acivitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setLog_desc("Deleted Multiple status.");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        // add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Records are successfully deleted.";
+    }
+
+    @Override
+    public String restoreStatus(String code) {
         StatusOutput statusById = statusDao.getStatusById(code);
 
-        if(statusById != null) {
-            if(statusById.getDel_flag() == 0) {
+        if (statusById != null) {
+            if (statusById.getDel_flag() == 0) {
                 return "Status with the code " + code + " is not yet deleted.";
             } else {
                 statusDao.restoreStatus(code);
 
-                //Activitylog
+                // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id("101"); // current logged user dapat
                 activityLogInput.setLog_desc("Restored a status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();

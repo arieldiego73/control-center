@@ -104,25 +104,24 @@ public class PositionServiceImpl implements PositionService {
             if (data.getDel_flag() == 1) {
                 return "Position with the ID " + id + " has already been deleted.";
             } else {
+                positionDao.logicalDeletePosition(id);
 
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Deleted a postion.");
+
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Position Deleted Successfully.";
             }
         } else {
             return "Position with the ID " + id + " cannot be found.";
         }
-        positionDao.logicalDeletePosition(id);
-
-        // Activitylog
-        ActivityLogInput activityLogInput = new ActivityLogInput();
-
-        activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted a postion.");
-
-        Long currentTimeMillis = System.currentTimeMillis();
-        // add the activity log
-        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-        activityLogDao.addActivityLog(activityLogInput);
-
-        return "Position Deleted Successfully.";
     }
 
     @Override
@@ -135,26 +134,23 @@ public class PositionServiceImpl implements PositionService {
             if (data != null) {
                 if (data.getDel_flag() == 1) {
                     return "Position with the ID " + id + " has already been deleted.";
-                } else {
-                    positionDao.deleteMultiplePosition(ids);
-
-                    // Activitylog
-                    ActivityLogInput activityLogInput = new ActivityLogInput();
-
-                    activityLogInput.setEmp_id("101"); // current logged user dapat
-                    activityLogInput.setLog_desc("Deleted a multiple postion.");
-
-                    Long currentTimeMillis = System.currentTimeMillis();
-                    // add the activity log
-                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                    activityLogDao.addActivityLog(activityLogInput);
-
-                    return "Multiple positions are deleted successfully.";
                 }
             } else {
                 return "Position with the ID " + id + " cannot be found.";
             }
         }
+        positionDao.deleteMultiplePosition(ids);
+
+        // Activitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setLog_desc("Deleted a multiple postion.");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        // add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
         return "Records are successfully deleted.";
     }
 

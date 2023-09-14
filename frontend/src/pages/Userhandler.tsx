@@ -2,12 +2,18 @@ import NavigationHandler from "./NavigationHandler";
 import Userpage from "../components/user/Userpage";
 
 export default function Userhandler() {
-	return (
-		 <div style={{display: 'flex', flexDirection:'column'}}>
-            <NavigationHandler/> 
-             <Userpage/>
-        </div>
-        
+  const pageTitle = "USER PAGEEEEE";
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <NavigationHandler pageTitle={pageTitle} /> {/* Pass the pageTitle prop here */}
+      <Userpage />
+    </div>
+  );
+}
+
+
+  
 		// <div style={{ flexDirection: "column", display: "flex" }}>
 		// 	<div
 		// 		style={{
@@ -23,5 +29,3 @@ export default function Userhandler() {
 
 		// 	<Sidenav />
 		// </div>
-	);
-}
