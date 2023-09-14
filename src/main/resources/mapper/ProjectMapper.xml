@@ -5,6 +5,24 @@
 <!-- Mapper for tbl project   -->
 <mapper namespace="com.controlcenter.controlcenter.dao.ProjectDao">
 
+    <select id="projectTable" resultType="com.controlcenter.controlcenter.model.ProjectTable">
+       SELECT tproj.proj_id,
+              tproj.proj_name,
+              tc.client_name,
+              tproj.start_date,
+              tproj.end_date, 
+              (select count(*) from tbl_user_project as tup where tup.proj_id = tproj.proj_id) as members,
+              ps.proj_status_name
+         FROM tbl_project_mst AS tproj
+              inner join tbl_proj_info as tpi 
+                  on tproj.proj_id = tpi.proj_id
+              left join tbl_clients_mst as tc 
+                  on tpi.client_id = tc.client_id
+              left join tbl_proj_status_mst as ps
+                  on tpi.proj_status_id = ps.proj_status_id
+        WHERE tproj.del_flag = 0
+     ORDER BY tproj.proj_id DESC, tproj.reg_date DESC;
+    </select>
 <!-- Fetch Data -->
     <select id="getAllProject" resultType="com.controlcenter.controlcenter.model.ProjectOutput">
        SELECT proj_id, proj_name, proj_code, proj_description, start_date, end_date, del_flag
