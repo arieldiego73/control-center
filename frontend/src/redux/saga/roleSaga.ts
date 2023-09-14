@@ -1,12 +1,13 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { getRolesFetch, getRolesSuccess, setErrorMessage } from "../state/roleState";
+import { getRolesFetch, getRolesSuccess, setMessage } from "../state/roleState";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
+import axios from "axios";
 
 // GET ALL
 function* fetchRoles(): any {
 	const devPhase = yield call(() =>
-		fetch("http://localhost:8080/role/all").then((res) => res.json())
+		axios.get("http://localhost:8080/role/all").then((res) => res.data)
 	);
 	yield put(getRolesSuccess(devPhase));
 }
@@ -14,10 +15,6 @@ function* fetchRoles(): any {
 export function* roleSaga() {
 	yield takeEvery("roles/getRolesFetch", fetchRoles);
 }
-
-
-
-
 
 // UPDATE
 const apiUpdate = async (
@@ -28,16 +25,11 @@ const apiUpdate = async (
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/role/edit/" + role_id;
-		const response = await fetch(url, {
-			method: "PUT",
-			body: JSON.stringify({ title, role_sh_name, role_user_level }),
-			headers: {
-				"Content-Type": "application/json",
-			},
+		return axios.put(url, {
+			title, role_sh_name, role_user_level
 		});
-		return response;
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error;
 	}
 };
 
@@ -58,19 +50,11 @@ function* updateSaga(action: ReturnType<typeof updateRoles>): any {
 			action.payload.roleInfo.role_sh_name,
 			action.payload.roleInfo.role_user_level
 		);
-		if (response.ok) {
-			yield put(getRolesFetch());
-		} else {
-			yield put(setErrorMessage(response.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
-
-
-
-
 
 // ADD
 const apiAdd = async (
@@ -80,20 +64,11 @@ const apiAdd = async (
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/role/add";
-		const response = await fetch(url, {
-			method: "POST",
-			body: JSON.stringify({
-				title,
-				role_sh_name,
-				role_user_level,
-			}),
-			headers: {
-				"Content-Type": "application/json",
-			},
+		return axios.post(url, {
+			title, role_sh_name, role_user_level
 		});
-		return response;
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error;
 	}
 };
 
@@ -113,31 +88,19 @@ function* addSaga(action: ReturnType<typeof addRoles>): any {
 			action.payload.roleInfo.role_sh_name,
 			action.payload.roleInfo.role_user_level
 		);
-		// if (position) yield put(getPositionSuccess(position));
-		if (response.ok) {
-			yield put(getRolesFetch());
-		} else {
-			yield put(setErrorMessage(response.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
-
-
-
-
 
 // DELETE
 const apiDelete = async (role_id: number): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/role/delete/" + role_id;
-		const response = await fetch(url, {
-			method: "PUT",
-		});
-		return response;
+		return axios.put(url);
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error;
 	}
 };
 
@@ -152,19 +115,11 @@ export function* roleSagaDelete() {
 function* deleteSaga(action: ReturnType<typeof deleteRoles>): any {
 	try {
 		const response = yield call(apiDelete, action.payload.role_id);
-		if (response.ok) {
-			yield put(getRolesFetch());
-		} else {
-			yield put(setErrorMessage(response.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
-
-
-
-
 
 // BATCH DELETE
 const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
@@ -173,30 +128,19 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 		batchId.forEach((id) => {
 			params.append("ids", id.toString());
 		});
-		const response = await fetch(
-			`http://localhost:8080/role/delete-multiple?${params}`,
-			{
-				method: "PUT",
-			}
-		).catch((error) => {
-			console.log(error);
-		});
-		return response;
+		const url = `http://localhost:8080/role/delete-multiple?${params}`
+		return axios.put(url);
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error;
 	}
 };
 
 function* deleteBatchSaga(action: ReturnType<typeof deleteRolesBatch>): any {
 	try {
 		const response = yield call(apiBatchDelete, action.payload.batchId);
-		if (response?.ok) {
-			yield put(getRolesFetch());
-		} else {
-			yield put(setErrorMessage(response?.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
 
@@ -206,4 +150,45 @@ export const deleteRolesBatch = createAction<{
 
 export function* roleSagaDeleteBatch() {
 	yield takeLatest(deleteRolesBatch.type, deleteBatchSaga);
+}
+
+
+
+
+// VALIDATE THE RESPONSE
+function* validate(res: any) {
+	if (res?.request?.status === 200) {
+		yield put(getRolesFetch());
+		yield put(
+			setMessage({
+				message: res?.data,
+				severity: "success",
+			})
+		);
+	} else if (res?.request?.status > 200) {
+		yield put(
+			setMessage({
+				message: res?.response?.data,
+				severity: "error",
+			})
+		);
+	} else {
+		yield put(
+			setMessage({
+				message: res,
+				severity: "error",
+			})
+		);
+	}
+}
+
+// CATCH ERROR
+function* catchErr(err: any) {
+	yield put(getRolesFetch());
+	yield put(
+		setMessage({
+			message: err?.response?.data,
+			severity: "error",
+		})
+	);
 }

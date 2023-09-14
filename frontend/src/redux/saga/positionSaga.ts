@@ -1,12 +1,13 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
-import { getPositionFetch, getPositionSuccess, setErrorMessage } from "../state/positionState";
+import { getPositionFetch, getPositionSuccess, setMessage } from "../state/positionState";
+import axios from "axios";
 
 // GET ALL
 function* fetchPosition(): any {
 	const position = yield call(() =>
-		fetch("http://localhost:8080/position/all").then((res) => res.json())
+		axios.get("http://localhost:8080/position/all").then((res) => res.data)
 	);
 	yield put(getPositionSuccess(position));
 }
@@ -27,16 +28,12 @@ const apiUpdate = async (
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/position/edit/" + position_id;
-		const response = await fetch(url, {
-			method: "PUT",
-			body: JSON.stringify({ position_name, position_sh_name }),
-			headers: {
-				"Content-Type": "application/json",
-			},
+		return axios.put(url, {
+			position_name,
+			position_sh_name
 		});
-		return response;
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error
 	}
 };
 
@@ -56,13 +53,9 @@ function* updateSaga(action: ReturnType<typeof updatePosition>): any {
 			action.payload.positionData.position_name,
 			action.payload.positionData.position_sh_name,
 		);
-		if (response.ok) {
-			yield put(getPositionFetch());
-		} else {
-			yield put(setErrorMessage(response.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
 
@@ -77,19 +70,12 @@ const apiAdd = async (
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/position/add";
-		const response = await fetch(url, {
-			method: "POST",
-			body: JSON.stringify({
-				position_name,
-				position_sh_name,
-			}),
-			headers: {
-				"Content-Type": "application/json",
-			},
+		return axios.post(url, {
+			position_name,
+			position_sh_name,
 		});
-		return response;
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error
 	}
 };
 
@@ -108,14 +94,9 @@ function* addSaga(action: ReturnType<typeof addPosition>): any {
 			action.payload.positionData.position_name,
 			action.payload.positionData.position_sh_name
 		);
-		// if (position) yield put(getPositionSuccess(position));
-		if (response.ok) {
-			yield put(getPositionFetch());
-		} else {
-			yield put(setErrorMessage(response.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
 
@@ -127,12 +108,9 @@ function* addSaga(action: ReturnType<typeof addPosition>): any {
 const apiDelete = async (position_id: number): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/position/delete/" + position_id;
-		const response = await fetch(url, {
-			method: "PUT",
-		});
-		return response;
+		return axios.put(url);
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error
 	}
 };
 
@@ -147,13 +125,9 @@ export function* positionSagaDelete() {
 function* deleteSaga(action: ReturnType<typeof deletePosition>): any {
 	try {
 		const response = yield call(apiDelete, action.payload.position_id);
-		if (response.ok) {
-			yield put(getPositionFetch());
-		} else {
-			yield put(setErrorMessage(response.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
 
@@ -168,37 +142,66 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 		batchId.forEach((id) => {
 			params.append("ids", id.toString());
 		});
-		const response = await fetch(
-			`http://localhost:8080/position/delete-multiple?${params}`,
-			{
-				method: "PUT",
-			}
-		).catch((error) => {
-			console.log(error);
-		});
-		return response;
+		const url = `http://localhost:8080/position/delete-multiple?${params}`
+		return axios.put(url);
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error;
 	}
 };
 
 function* deleteBatchSaga(action: ReturnType<typeof deletePositionBatch>): any {
 	try {
 		const response = yield call(apiBatchDelete, action.payload.batchId);
-		if (response?.ok) {
-			yield put(getPositionFetch());
-		} else {
-			yield put(setErrorMessage(response?.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
 
 export const deletePositionBatch = createAction<{
 	batchId: Set<GridRowId>;
-}>("roles/deleteRolesBatch");
+}>("position/deletePositionBatch");
 
 export function* positionSagaDeleteBatch() {
 	yield takeLatest(deletePositionBatch.type, deleteBatchSaga);
+}
+
+
+
+// VALIDATE THE RESPONSE
+function* validate(res: any) {
+	if (res?.request?.status === 200) {
+		yield put(getPositionFetch());
+		yield put(
+			setMessage({
+				message: res?.data,
+				severity: "success",
+			})
+		);
+	} else if (res?.request?.status > 200) {
+		yield put(
+			setMessage({
+				message: res?.response?.data,
+				severity: "error",
+			})
+		);
+	} else {
+		yield put(
+			setMessage({
+				message: res,
+				severity: "error",
+			})
+		);
+	}
+}
+
+// CATCH ERROR
+function* catchErr(err: any) {
+	yield put(getPositionFetch());
+	yield put(
+		setMessage({
+			message: err?.response?.data,
+			severity: "error",
+		})
+	);
 }

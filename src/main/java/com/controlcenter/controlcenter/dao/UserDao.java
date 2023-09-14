@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -15,6 +16,7 @@ public interface UserDao {
   List<UserTable> findAll();
   UserInfoOutput getUserById(String id);
   void insertUser(UserInput user);
+  void editUser(HashMap<String, Object> paramMap);
   // void insertUserBatch(List<User> users);
   UserOutput getUserByUsername(UserOutput username);
   UserOutput getUsername(String username);

@@ -1,0 +1,74 @@
+.EmpStatusGraphContainer {
+  height: 80%; 
+  width: 35%;
+  padding: 2%;
+  /* border: 1px solid black;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding-top: 2%;
+  background-color: black; */
+}
+  
+/* Attributes of Main Container */
+.card { 
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 10px;
+  border: 1px solid rgba(209, 213, 219, 0.3);
+  align-items: flex-end;
+  display: flex;
+  height: 300px;
+  width: 100%;
+  /* top: 2%; */
+}
+.textHolder{
+  flex-direction: column;
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  /* border:1px solid red; */
+}
+
+/* Attributes of Text Title */
+.textTitle{
+  padding-left: 2%;
+  font-weight: bold;
+  font-size: 20px;
+}
+.textSubtitle {
+  padding-left: 2%;
+  font-size: 15px; 
+}
+
+/* Attributes of Information Container */
+.infoContainer{
+  padding: 2%;
+  flex-direction: row;
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+}
+.textInfoUpdate{
+  font-size: 12px; 
+  color: green;
+  padding-right: 2px;
+}
+.textInfo{
+  font-size: 12px; 
+  color: grey;
+}
+
+/* Attributes of Graph */
+.graphContainer{
+  background: linear-gradient(#1d1d1d, #2f2f33, #3f3f46);
+  height: 30%;
+  width: 27%;
+  border-radius: 15px;
+  position: absolute;
+  margin-bottom: 12%;
+  z-index: 1;
+  margin-top:1%;
+}

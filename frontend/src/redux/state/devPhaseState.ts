@@ -5,24 +5,24 @@ export const devPhaseSlice = createSlice({
 	initialState: {
 		devPhase: [],
 		isLoading: false,
-		isSuccess: true,
-		errorMessage: ""
+		notice: {
+			message: "",
+			severity: ""
+		},
 	},
 	reducers: {
 		getDevPhaseFetch: (state) => {
 			state.isLoading = true;
-			state.isSuccess = false;
 		},
 		getDevPhaseSuccess: (state, action) => {
 			state.devPhase = action.payload;
 			state.isLoading = false;
-			state.isSuccess = true;
 		},
-		setErrorMessage: (state, action) => {
-			state.errorMessage = action.payload;
+		setMessage: (state, action) => {
+			state.notice = action.payload;
 		}
 	},
 });
 
-export const { getDevPhaseFetch, getDevPhaseSuccess, setErrorMessage } = devPhaseSlice.actions;
+export const { getDevPhaseFetch, getDevPhaseSuccess, setMessage } = devPhaseSlice.actions;
 export default devPhaseSlice.reducer;

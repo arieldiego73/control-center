@@ -14,11 +14,11 @@ public class PersonalInfoInput {
     @Size(max = 50, message = "The Employee ID is not meeting the required length.")
     private String emp_id;
 
-    // @NotBlank(message = "First name should not be empty.")
+    @NotBlank(message = "First name should not be empty.")
     @Size(max = 150, message = "The First Name is not meeting the required length.")
     private String fname;
 
-    // @NotBlank(message = "Last name should not be empty.")
+    @NotBlank(message = "Last name should not be empty.")
     @Size(max = 150, message = "The Last Name is not meeting the required length.")
     private String lname;
 

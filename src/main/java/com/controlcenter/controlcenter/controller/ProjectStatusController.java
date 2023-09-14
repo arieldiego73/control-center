@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.ProjectStatusInput;
@@ -67,12 +68,29 @@ public class ProjectStatusController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteProjectStatus(@PathVariable String id) {
-        return projectStatusService.logicalDeleteProjectStatus(id);
+    public ResponseEntity<String> logicalDeleteProjectStatus(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(projectStatusService.logicalDeleteProjectStatus(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
+    }
+
+    @PutMapping("/delete-multiple")
+    public ResponseEntity<String> deleteMultiplePosition(@RequestParam List<Long> ids) {
+        try {
+            return ResponseEntity.ok().body(projectStatusService.deleteMultipleProjectStatus(ids));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreProjectStatus(@PathVariable String id) {
-        return projectStatusService.restoreProjectStatus(id);
+    public ResponseEntity<String> restoreProjectStatus(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(projectStatusService.restoreProjectStatus(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }

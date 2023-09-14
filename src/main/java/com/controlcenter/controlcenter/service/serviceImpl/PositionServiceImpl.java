@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +19,9 @@ import com.controlcenter.controlcenter.service.PositionService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
-public class PositionServiceImpl implements PositionService{
-    
-    @Autowired 
+public class PositionServiceImpl implements PositionService {
+
+    @Autowired
     public PositionDao positionDao;
 
     @Autowired
@@ -29,9 +30,16 @@ public class PositionServiceImpl implements PositionService{
     @Autowired
     public ActivityLogDao activityLogDao;
 
+    List<PositionOutput> positionList = new ArrayList<>();
+
     @Override
     public ResponseEntity<List<PositionOutput>> getAllPosition() {
         return ResponseEntity.ok(positionDao.getAllPosition());
+    }
+
+    @Override
+    public PositionOutput getPositionById(String id) {
+        return positionDao.getPositionById(id);
     }
 
     @Override
@@ -39,14 +47,14 @@ public class PositionServiceImpl implements PositionService{
         try {
             positionDao.addPosition(position);
 
-            //Activitylog
+            // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id("101"); // current logged user dapat
             activityLogInput.setLog_desc("Added a postion.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
+            // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
@@ -56,94 +64,124 @@ public class PositionServiceImpl implements PositionService{
         }
     }
 
-    @Override 
+    @Override
     public String editPositionInfo(String id, PositionInput position) {
-        try {
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("position", position);
+        PositionOutput data = positionDao.getPositionById(id);
 
-            positionDao.editPositionInfo(paramMap);
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Position with the ID " + id + " has already been deleted.";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("id", id);
+                paramMap.put("position", position);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                positionDao.editPositionInfo(paramMap);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a postion.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Edited a postion.");
 
-            return "Position Info Edited Successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Position Info Edited Successfully.";
+            }
+        } else {
+            return "Position with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
-    public ResponseEntity<String> logicalDeletePosition(String id) {
-        try {
-            positionDao.logicalDeletePosition(id);
+    public String logicalDeletePosition(String id) {
+        PositionOutput data = positionDao.getPositionById(id);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Position with the ID " + id + " has already been deleted.";
+            } else {
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a postion.");
-
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
-
-            return ResponseEntity.ok("Position Deleted Successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            }
+        } else {
+            return "Position with the ID " + id + " cannot be found.";
         }
+        positionDao.logicalDeletePosition(id);
+
+        // Activitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setLog_desc("Deleted a postion.");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        // add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Position Deleted Successfully.";
     }
 
     @Override
-    public ResponseEntity<String> deleteMultiplePosition(@RequestParam List<Long> ids) {
-        try {
-            positionDao.deleteMultiplePosition(ids);
+    public String deleteMultiplePosition(@RequestParam List<Long> ids) {
+        positionList = positionDao.getAllPosition();
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
-
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a multiple postion.");
-
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
-            return ResponseEntity.ok("Multiple positions are deleted successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        for (Long id : ids) {
+            String toString = String.valueOf(id);
+            PositionOutput data = positionDao.getPositionById(toString);
+            if (data != null) {
+                if (data.getDel_flag() == 1) {
+                    return "Position with the ID " + id + " has already been deleted.";
+                }
+            } else {
+                return "Position with the ID " + id + " cannot be found.";
+            }
         }
+        positionDao.deleteMultiplePosition(ids);
+
+        // Activitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setLog_desc("Deleted a multiple postion.");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        // add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+        
+        return "Records are successfully deleted.";
     }
 
     @Override
-    public ResponseEntity<String> restorePosition(String id) {
-        try {
-            positionDao.restorePosition(id);
+    public String restorePosition(String id) {
+        PositionOutput data = positionDao.getPositionById(id);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 0) {
+                return "Position with the ID " + id + " is not yet deleted.";
+            } else {
+                positionDao.restorePosition(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a postion.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Restored a postion.");
 
-            return ResponseEntity.ok("Position Restored Successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Position Restored Successfully.";
+            }
+        } else {
+            return "Position with the ID " + id + " cannot be found.";
         }
+
     }
 }

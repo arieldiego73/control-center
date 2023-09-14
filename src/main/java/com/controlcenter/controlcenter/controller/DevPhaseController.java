@@ -71,7 +71,6 @@ public class DevPhaseController {
     @PutMapping("/delete-multiple")
     public ResponseEntity<String> deleteMultipleDevPhase(@RequestParam List<Long> ids) {
         try {
-            System.out.println(ids);
             return ResponseEntity.ok().body(devPhaseService.deleteMultipleDevPhase(ids));
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Server Side Error");

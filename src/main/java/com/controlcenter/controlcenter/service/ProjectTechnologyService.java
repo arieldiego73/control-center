@@ -7,8 +7,14 @@ import com.controlcenter.controlcenter.model.ProjectTechnologyOutput;
 
 public interface ProjectTechnologyService {
     public List<ProjectTechnologyOutput> getAllProjectTechnology();
+
+    public ProjectTechnologyOutput getProjectTechnologyById(String id);
+
     public String addProjectTechnology(ProjectTechnologyInput projectTechnology);
+
     public String editProjectTechnology(String id, ProjectTechnologyInput projectTechnology);
+
     public String logicalDeleteProjectTechnology(String id);
+
     public String restoreProjectTechnology(String id);
 }

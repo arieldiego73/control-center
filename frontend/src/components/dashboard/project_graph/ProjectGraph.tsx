@@ -5,24 +5,24 @@ import { Divider } from "@mui/material";
 
 const data = [
   {
-    status: "Upcoming",
-    month: 59,
+    project: "Upcoming",
+    status: 59,
   },
   {
-    status: "Active",
-    month: 61,
+    project: "Active",
+    status: 61,
   },
   {
-    status: "Overdue",
-    month: 2,
+    project: "Overdue",
+    status: 2,
   },
   {
-    status: "Cancelled",
-    month: 78,
+    project: "Cancelled",
+    status: 78,
   },
   {
-    status: "Completed",
-    month: 71,
+    project: "Completed",
+    status: 71,
   },
 ];
 
@@ -60,8 +60,8 @@ export default function ProjectGraph() {
         <div className={ProjGraphStyle.graphContainer}>
           <ResponsiveBar
             data={data}
-            keys={["month"]}
-            indexBy="status"
+            keys={["status"]}
+            indexBy="project"
             margin={{ top: 50, right: 40, bottom: 50, left: 60 }}
             padding={0.4}
             valueScale={{ type: "linear" }}

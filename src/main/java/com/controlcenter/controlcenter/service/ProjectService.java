@@ -8,6 +8,7 @@ import com.controlcenter.controlcenter.model.ProjectOutput;
 public interface ProjectService {
     
     public List<ProjectOutput> getAllProject();
+    public ProjectOutput getProjectById(String id);
     public String addProject(ProjectInput project);
     public String editProjectInfo(String id, ProjectInput project);
     public String logicalDeleteProject(String id);

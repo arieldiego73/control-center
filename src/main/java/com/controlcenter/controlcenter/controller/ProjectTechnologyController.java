@@ -62,17 +62,25 @@ public class ProjectTechnologyController {
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return ResponseEntity.status(200).body(projectTechnologyService.addProjectTechnology(projectTechnology));
+                return ResponseEntity.status(200).body(projectTechnologyService.editProjectTechnology(id, projectTechnology));
             }
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteProjectTechnology(@PathVariable String id){
-        return projectTechnologyService.logicalDeleteProjectTechnology(id);
+    public ResponseEntity<String> logicalDeleteProjectTechnology(@PathVariable String id){
+        try {
+            return ResponseEntity.ok().body(projectTechnologyService.logicalDeleteProjectTechnology(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreProjectTechnology(@PathVariable String id){
-        return projectTechnologyService.restoreProjectTechnology(id);
+    public ResponseEntity<String> restoreProjectTechnology(@PathVariable String id){
+        try {
+            return ResponseEntity.ok().body(projectTechnologyService.restoreProjectTechnology(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }

@@ -6,8 +6,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
-import HelpIcon from "@mui/icons-material/Help";
-import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import PersonFourIcon from "@mui/icons-material/Person4";
@@ -17,14 +15,12 @@ import {
 	GridRowModes,
 	DataGrid,
 	GridColDef,
-	GridToolbarContainer,
 	GridActionsCellItem,
 	GridEventListener,
-	GridRowId, 
+	GridRowId,
 	GridRowModel,
 	GridRowEditStopReasons,
 	GridRowSelectionModel,
-	GridToolbar,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,35 +33,24 @@ import {
 	updateRoles,
 } from "../../redux/saga/roleSaga";
 import {
-	AlertColor,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
 	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
 	TextField,
-	Typography,
-	useMediaQuery,
-	useTheme,
 } from "@mui/material";
 import RoleModuleStyle from "./Role.module.css";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
+import CustomPagination from "../custom_pagination/pagination";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 
-interface EditToolbarProps {
-	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-	setRowModesModel: (
-		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-	) => void;
-}
-
-interface RoleProps {
-	createSnackpack: (message: string, severity: AlertColor) => () => void;
-}
-
-const RoleTable: React.FC<RoleProps> = (props) => {
+const RoleTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
 	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
@@ -94,27 +79,15 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 	const [deleteId, setDeleteId] = React.useState(0);
 
 	const dataGridSlots = {
-		toolbar: EditToolbar,
+		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
 	};
-
-	function UnsortedIcon() {
-		return <SortIcon className="icon" />;
-	}
-
-	// FOR CONFIRM DIALOG
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
 	const proceedWithDelete = () => {
 		dispatch(deleteRoles({ role_id: deleteId }));
 		setRows(data);
 		setAsk(false);
-		const success = props.createSnackpack(
-			"A role is deleted successfully!",
-			"success"
-		);
-		success();
 	};
 
 	const proceedWithDeleteBatch = async () => {
@@ -123,14 +96,8 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
-		const success = props.createSnackpack(
-			`Deleted ${selectedId.size} role/s successfully!`,
-			"success"
-		);
-		success();
 	};
 
-	// FOR DATA GRID
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
@@ -140,48 +107,15 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 	const [userLevel, setUserLevel] = React.useState("");
 	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
 
-	function EditToolbar(props: EditToolbarProps) {
-		const handleDeleteBatch = () => {
-			setAsk(true);
-			setIsBatch(true);
-			setDialogContentText(
-				"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-			);
-			setDialogTitle(
-				`Delete ${
-					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
-				} role${selectedId.size > 1 ? "s" : ""}?`
-			);
-		};
-
+	function DatagridToolbar() {
 		return (
-			<GridToolbarContainer
-				sx={{
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "baseline",
-				}}
-			>
-				<Button
-					color="error"
-					variant="contained"
-					startIcon={<DeleteIcon />}
-					onClick={handleDeleteBatch}
-					hidden={true}
-					sx={{
-						marginBottom: 3,
-						fontFamily: "Montserrat, san-serif",
-						visibility: `${
-							selectedId.size !== 0 ? "visible" : "hidden"
-						}`,
-					}}
-				>
-					DELETE BATCH
-				</Button>
-				<div>
-					<GridToolbar />
-				</div>
-			</GridToolbarContainer>
+			<DataGridEditToolbar
+				setAsk={setAsk}
+				setIsBatch={setIsBatch}
+				setDialogContentText={setDialogContentText}
+				setDialogTitle={setDialogTitle}
+				selectedId={selectedId}
+			/>
 		);
 	}
 
@@ -228,20 +162,10 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 
 	const processUpdateRow = (roleInfo: GridRowModel) => {
 		dispatch(updateRoles({ roleInfo }));
-		const success = props.createSnackpack(
-			"Role is updated successfully",
-			"success"
-		);
-		success();
 	};
 
 	const processAddRow = (roleInfo: GridRowModel) => {
 		dispatch(addRoles({ roleInfo }));
-		const success = props.createSnackpack(
-			"Role is added successfully",
-			"success"
-		);
-		success();
 	};
 
 	const handleAdd = () => {
@@ -286,15 +210,9 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 		}
 	};
 
-	const handleUpdateAndAdd = (newRow: GridRowModel) => {
+	const handleUpdate = (newRow: GridRowModel) => {
 		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
-			// determines whether it is update or add new
-			if (data.length === rows.length) {
-				processUpdateRow(newRow);
-			} else {
-				processAddRow(newRow);
-			}
-			setRows(data); // update the rows in the table
+			processUpdateRow(newRow);
 		} else {
 			const cancel = handleCancelClick(newRow.role_id);
 			const error = props.createSnackpack(
@@ -390,50 +308,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 	];
 
 	return (
-		<Box
-			sx={{
-				height: "100%",
-				width: "100%",
-				"& .actions": {
-					color: "text.secondary",
-				},
-				"& .MuiDataGrid-columnHeaderTitle": {
-					fontWeight: 800,
-					fontFamily: "Montserrat, san-serif",
-					padding: "0 24px",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
-					{
-						outline: "none !important",
-					},
-				"& .MuiDataGrid-root .MuiInputBase-input": {
-					textAlign: "center",
-					backgroundColor: "#fff",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
-					padding: "0 0.8vw",
-					height: "60%",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell":
-					{
-						backgroundColor: "#cbbdbd2e",
-					},
-				"& .textPrimary": {
-					color: "text.primary",
-				},
-				".MuiDataGrid-iconButtonContainer, .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeaders .MuiDataGrid-columnSeparator":
-					{
-						visibility: "visible",
-						width: "auto",
-					},
-				".MuiDataGrid-sortIcon": {
-					opacity: "inherit !important",
-				},
-				".MuiDataGrid-cellContent": {
-					fontWeight: "500"
-				}
-			}}
-		>
+		<Box sx={datagridBoxStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -450,7 +325,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 					<Button
 						variant="contained"
 						color="primary"
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
@@ -478,13 +352,12 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 								}}
 							>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel style={{ fontWeight: "bold" }}>
 										Role
 									</FormLabel>
 									<TextField
 										style={{ width: "100%" }}
 										size="small"
-										placeholder="ex: Software Developer"
 										onChange={(e) =>
 											setRoleTitle(e.target.value)
 										}
@@ -501,14 +374,13 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel style={{ fontWeight: "bold" }}>
 										Short Name
 									</FormLabel>
 									<TextField
 										style={{ width: "100%" }}
 										variant="outlined"
 										size="small"
-										placeholder="ex: SoftDev"
 										onChange={(e) =>
 											setShortName(e.target.value)
 										}
@@ -524,7 +396,11 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+										}}
+									>
 										User Level
 									</FormLabel>
 									<TextField
@@ -532,7 +408,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 										variant="outlined"
 										size="small"
 										type="number"
-										placeholder="ex: 1"
 										onChange={(e) =>
 											setUserLevel(e.target.value)
 										}
@@ -565,7 +440,6 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
 									}}
 									onClick={handleAddContinue}
 								>
@@ -578,14 +452,15 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
 									}}
 									onClick={handleAdd}
 								>
 									Save
 								</Button>
 								<Button
-									style={{ height: "50%", fontFamily: "Montserrat, san-serif" }}
+									style={{
+										height: "50%",
+									}}
 									onClick={() => {
 										setIsHidden(false);
 										setRoleTitle("");
@@ -604,7 +479,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 			<Divider variant="middle" />
 
 			<DataGrid
-				sx={{ height: "67vh", border: "none" }}
+				sx={datagridStyle}
 				rows={rows}
 				columns={columns}
 				editMode="row"
@@ -612,7 +487,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
-				processRowUpdate={handleUpdateAndAdd}
+				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
 				onRowSelectionModelChange={(newRowSelectionModel) => {
@@ -622,7 +497,7 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 				rowSelectionModel={rowSelectionModel}
 				initialState={{
 					pagination: {
-						paginationModel: { page: 0, pageSize: 25 },
+						paginationModel: { page: 0, pageSize: 10 },
 					},
 					sorting: {
 						sortModel: [{ field: "reg_id", sort: "desc" }],
@@ -632,66 +507,20 @@ const RoleTable: React.FC<RoleProps> = (props) => {
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
-				pageSizeOptions={[25, 50, 100]}
+				pageSizeOptions={[10, 25, 50, 100]}
 			/>
-			<Dialog
-				fullScreen={fullScreen}
-				open={ask}
-				onClose={() => {
-					setAsk(false);
-				}}
-				aria-labelledby="responsive-dialog-title"
-			>
-				<DialogTitle id="responsive-dialog-title">
-					<Typography
-						fontFamily={"Montserrat, san-serif"}
-						fontWeight={700}
-						fontSize={20}
-						display={"flex"}
-						alignItems={"center"}
-						gap={1}
-					>
-						<HelpIcon
-							accentHeight={100}
-							color="error"
-							fontSize="large"
-							alignmentBaseline="middle"
-						/>
-						{dialogTitle}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText
-						fontFamily={"Montserrat, san-serif"}
-						whiteSpace={"pre-line"}
-					>
-						{dialogContentText}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button
-						variant="contained"
-						onClick={
-							isBatch ? proceedWithDeleteBatch : proceedWithDelete
-						}
-						autoFocus
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-					>
-						Delete
-					</Button>
 
-					<Button
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-						onClick={() => {
-							setAsk(false);
-						}}
-					>
-						Cancel
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<DataGridDialog
+				ask={ask}
+				setAsk={setAsk}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				isBatch={isBatch}
+				proceedWithDelete={proceedWithDelete}
+				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
 		</Box>
 	);
-}
+};
 
 export default RoleTable;

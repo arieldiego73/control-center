@@ -11,8 +11,14 @@ import com.controlcenter.controlcenter.model.ProjectTechnologyOutput;
 @Mapper
 public interface ProjectTechnologyDao {
     List<ProjectTechnologyOutput> getAllProjectTechnology();
+
+    ProjectTechnologyOutput getProjectTechnologyById(String id);
+
     void addProjectTechnology(ProjectTechnologyInput projectTechnology);
+
     void editProjectTechnology(Map<String, Object> paramMap);
+
     void logicalDeleteProjectTechnology(String id);
+
     void restoreProjectTechnology(String id);
 }

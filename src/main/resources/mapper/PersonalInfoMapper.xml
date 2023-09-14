@@ -5,10 +5,16 @@
 
 <!-- Fetch Data -->
     <select id="getAllPersonalInfo" resultType="com.controlcenter.controlcenter.model.PersonalInfoOutput">
-        SELECT pid, emp_id, fname, lname, mname, email
+        SELECT pid, emp_id, fname, lname, mname, email, del_flag
           FROM tbl_personal_info
          WHERE del_flag = 0
       ORDER BY pid DESC, reg_date DESC;
+    </select>
+
+    <select id="getPersonalInfoById" resultType="com.controlcenter.controlcenter.model.PersonalInfoOutput">
+        SELECT pid, emp_id, fname, lname, mname, email, del_flag
+          FROM tbl_personal_info
+         WHERE pid = #{id};
     </select>
 
 <!-- Add Data -->
@@ -40,7 +46,7 @@
                email=#{personalInfo.email},
                update_id = 1
          
-        WHERE pid = #{id}
+        WHERE emp_id = #{id}
     </update>
 
 <!-- Logical Delete Data -->

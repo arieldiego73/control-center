@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useNavigate } from "react-router-dom";
 import { TablePagination } from "@mui/material";
+import UserTableStyle from './User.module.css'
 
 // Define the type for your row data
 interface RowData {
@@ -56,33 +57,19 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 	};
 
 	return (
-		<div
-			style={{
-				display: "flex",
-				flexDirection: "column",
-				justifyContent: "center",
-				alignItems: "space-around",
-				height: "100%",
-			}}
-		>
-			<Paper
-				sx={{
-					width: "100%",
-					height: "90%",
-					backgroundColor: "transparent",
-				}}
-			>
-				<TableContainer sx={{ width: "100%", height: "100%" }}>
+		<div className={UserTableStyle.tableMainContainer}>
+			<Paper className={UserTableStyle.paperTable}>
+				<TableContainer className={UserTableStyle.tableContainer}>
 					<Table stickyHeader aria-label="sticky table">
 						<TableHead
-							sx={{ backgroundColor: "transparent", zIndex: "1" }}
+							sx={{ backgroundColor: "transparent", zIndex: "1",borderRadius:'10px',  }}
 						>
 							<TableRow>
 								<TableCell
 									align="center"
 									style={{
 										fontWeight: "bolder",
-										backgroundColor: "#f3f3f3",
+										backgroundColor: "white",
 										fontFamily: "Montserrat, sans-serif",
 									}}
 								>
@@ -92,7 +79,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 									align="center"
 									style={{
 										fontWeight: "bolder",
-										backgroundColor: "#f3f3f3",
+										backgroundColor: "white",
 										fontFamily: "Montserrat, sans-serif",
 									}}
 								>
@@ -102,7 +89,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 									align="center"
 									style={{
 										fontWeight: "bolder",
-										backgroundColor: "#f3f3f3",
+										backgroundColor: "white",
 										fontFamily: "Montserrat, sans-serif",
 									}}
 								>
@@ -112,7 +99,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 									align="center"
 									style={{
 										fontWeight: "bolder",
-										backgroundColor: "#f3f3f3",
+										backgroundColor: "white",
 										fontFamily: "Montserrat, sans-serif",
 									}}
 								>
@@ -122,7 +109,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 									align="center"
 									style={{
 										fontWeight: "bolder",
-										backgroundColor: "#f3f3f3",
+										backgroundColor: "white",
 										fontFamily: "Montserrat, sans-serif",
 									}}
 								>
@@ -132,7 +119,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 									align="center"
 									style={{
 										fontWeight: "bolder",
-										backgroundColor: "#f3f3f3",
+										backgroundColor: "white",
 										fontFamily: "Montserrat, sans-serif",
 									}}
 								>
@@ -142,7 +129,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 									align="center"
 									style={{
 										fontWeight: "bolder",
-										backgroundColor: "#f3f3f3",
+										backgroundColor: "white",
 										fontFamily: "Montserrat, sans-serif",
 									}}
 								>
@@ -152,7 +139,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 									align="center"
 									style={{
 										fontWeight: "bolder",
-										backgroundColor: "#f3f3f3",
+										backgroundColor: "white",
 										fontFamily: "Montserrat, sans-serif",
 									}}
 								>

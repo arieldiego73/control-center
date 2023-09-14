@@ -6,6 +6,7 @@ import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.Account;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.PersonalInfoInput;
+import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
@@ -13,6 +14,7 @@ import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
+import java.util.HashMap;
 // import java.util.Collections;
 import java.util.List;
 
@@ -65,6 +67,18 @@ public class UserServiceImpl implements UserService{
     }
   }
 
+  @Override
+  public String editUser(String id, UserInput user) {
+    HashMap<String, Object> paramMap = new HashMap<>();
+
+    paramMap.put("id", id);
+    paramMap.put("user", user);
+
+    userDao.editUser(paramMap);
+
+    return "User Edited Successfully";
+  }
+
   // @Override
   // public String insertUser(UserInput user) {
   //   UserInput userHashed = user;
@@ -80,47 +94,96 @@ public class UserServiceImpl implements UserService{
 
   @Override
   public String addAccount(Account account) {
-    UserInput user = new UserInput();
-    PersonalInfoInput personalInfo = new PersonalInfoInput();
 
-    account.setPassword(passEnc.encode(account.getPassword()));
+    UserInfoOutput userById = userDao.getUserById(account.getEmp_id());
 
-    //initializing the value of user.
-    user.setEmp_id(account.getEmp_id());
-    user.setUsername(account.getUsername());
-    user.setPassword(account.getPassword());
-    user.setPosition_id(account.getPosition_id());
-    user.setDept_id(account.getDept_id());
-    user.setSection_id(account.getSection_id());
-    user.setStatus_code(account.getStatus_code());
-    user.setRole_id(account.getRole_id());
-    user.setImg_src(account.getImg_src());
+    if(userById != null) {
+      return "The Emplyee ID of " + account.getEmp_id() + " is already taken";
+    } else {
+      List<UserTable> users = userDao.findAll();
 
-    //initializing the value of personal info.
-    personalInfo.setEmp_id(account.getEmp_id());
-    personalInfo.setFname(account.getFname());
-    personalInfo.setLname(account.getLname());
-    personalInfo.setMname(account.getMname());
-    personalInfo.setEmail(account.getEmail());
+      for(UserTable perUser : users) {
+        if(account.getUsername().equals(perUser.getUsername())) {
+          return "The Username of " + account.getUsername() + " is already taken";
+        } else if(account.getEmail().equals(perUser.getEmail())) {
+          return "The Email of " + account.getEmail() + " is already taken";
+        }
+      }
+  
+      UserInput user = new UserInput();
+      PersonalInfoInput personalInfo = new PersonalInfoInput();
+      //initializing the value of user.
+      user.setEmp_id(account.getEmp_id());
+      user.setUsername(account.getUsername());
+      user.setPassword(passEnc.encode(account.getPassword()));
+      user.setPosition_id(account.getPosition_id());
+      user.setDept_id(account.getDept_id());
+      user.setSection_id(account.getSection_id());
+      user.setStatus_code(account.getStatus_code());
+      user.setRole_id(account.getRole_id());
+      user.setImg_src(account.getImg_src());
 
-    try {
-      userDao.insertUser(user);
-      personalInfoDao.addPersonalInfo(personalInfo);
+      //initializing the value of personal info.
+      personalInfo.setEmp_id(account.getEmp_id());
+      personalInfo.setFname(account.getFname());
+      personalInfo.setLname(account.getLname());
+      personalInfo.setMname(account.getMname());
+      personalInfo.setEmail(account.getEmail());
 
-      ActivityLogInput activityLogInput = new ActivityLogInput();
+      try {
+        userDao.insertUser(user);
+        personalInfoDao.addPersonalInfo(personalInfo);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Added a user.");
+        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+        activityLogInput.setEmp_id("101"); //current logged user dapat
+        activityLogInput.setLog_desc("Added a user.");
 
+        Long currentTimeMillis = System.currentTimeMillis();
+        //add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+        } catch (Exception e) {
+        return e.getMessage();
+      }
       return "Account Created Successfully";
-    } catch (Exception e) {
-      return e.getMessage();
     }
+  }
+
+  @Override
+  public String editAccount(String id, UserOutput userBody, PersonalInfoOutput personalInfoOutput) {
+    HashMap<String, Object> userMap = new HashMap<>();
+    HashMap<String, Object> personalInfoMap = new HashMap<>();
+
+    UserOutput user = new UserOutput();
+    PersonalInfoOutput personalInfo = new PersonalInfoOutput();
+
+    user.setEmp_id(userBody.getEmp_id());
+    user.setUsername(userBody.getUsername());
+    user.setPassword(passEnc.encode(userBody.getPassword()));
+    user.setPosition_id(userBody.getPosition_id());
+    user.setDept_id(userBody.getDept_id());
+    user.setSection_id(userBody.getSection_id());
+    user.setStatus_code(userBody.getStatus_code());
+    user.setRole_id(userBody.getRole_id());
+    user.setImg_src(userBody.getImg_src());
+
+    personalInfo.setEmp_id(personalInfoOutput.getEmp_id());
+    personalInfo.setFname(personalInfoOutput.getFname());
+    personalInfo.setLname(personalInfoOutput.getLname());
+    personalInfo.setMname(personalInfoOutput.getMname());
+    personalInfo.setEmail(personalInfoOutput.getEmail());
+
+    userMap.put("id", id);
+    userMap.put("user", user);
+
+    personalInfoMap.put("id", id);
+    personalInfoMap.put("personalInfo", personalInfo);
+
+    userDao.editUser(userMap);
+    personalInfoDao.editPersonalInfo(personalInfoMap);
+
+    return "Account Edited Successfully";
   }
 
   //   @Override
