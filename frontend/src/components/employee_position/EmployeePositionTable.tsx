@@ -14,14 +14,12 @@ import {
 	GridRowModes,
 	DataGrid,
 	GridColDef,
-	GridToolbarContainer,
 	GridActionsCellItem,
 	GridEventListener,
 	GridRowId,
 	GridRowModel,
 	GridRowEditStopReasons,
 	GridRowSelectionModel,
-	GridToolbar,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,9 +45,9 @@ import {
 	datagridStyle,
 } from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
-import EditToolbarProps from "../datagrid_customs/EditToolbarProps";
 import DataGridProps from "../datagrid_customs/DataGridProps";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 
 const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -82,63 +80,28 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	const [deleteId, setDeleteId] = React.useState(0);
 
 	const dataGridSlots = {
-		toolbar: EditToolbar,
+		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
 		pagination: CustomPagination,
 	};
 
-	// FOR DATA GRID
 	React.useEffect(() => {
 		setRows(positionData);
 	}, [positionData]);
 
 	const [positionName, setPositionName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
-	// const [userLevel, setUserLevel] = React.useState("");
 	const positionNameRef = React.useRef<HTMLInputElement | null>(null);
 
-	function EditToolbar(props: EditToolbarProps) {
-		const handleDeleteBatch = () => {
-			setAsk(true);
-			setIsBatch(true);
-			setDialogContentText(
-				"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-			);
-			setDialogTitle(
-				`Delete ${
-					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
-				} position${selectedId.size > 1 ? "s" : ""}?`
-			);
-		};
-
+	function DatagridToolbar() {
 		return (
-			<GridToolbarContainer
-				sx={{
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "baseline",
-				}}
-			>
-				<Button
-					color="error"
-					variant="contained"
-					startIcon={<DeleteIcon />}
-					onClick={handleDeleteBatch}
-					hidden={true}
-					disabled={selectedId.size === 0}
-					sx={{
-						marginLeft: 1.5,
-						// visibility: `${
-						// 	selectedId.size !== 0 ? "visible" : "hidden"
-						// }`,
-					}}
-				>
-					DELETE BATCH
-				</Button>
-				<div>
-					<GridToolbar />
-				</div>
-			</GridToolbarContainer>
+			<DataGridEditToolbar
+				setAsk={setAsk}
+				setIsBatch={setIsBatch}
+				setDialogContentText={setDialogContentText}
+				setDialogTitle={setDialogTitle}
+				selectedId={selectedId}
+			/>
 		);
 	}
 
