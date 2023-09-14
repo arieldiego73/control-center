@@ -158,6 +158,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
         //add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
+
         return "Records are successfully deleted.";
     }
 
