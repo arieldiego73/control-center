@@ -6,7 +6,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
-import HelpIcon from "@mui/icons-material/Help";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import {
@@ -28,19 +27,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
 	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
 	TextField,
-	Typography,
-	useMediaQuery,
-	useTheme,
 } from "@mui/material";
 import ProjectStatusStyle from "./ProjectStatusTable.module.css";
 import { getProjectStatusFetch } from "../../redux/state/projectStatusState";
@@ -50,10 +41,15 @@ import {
 	deleteProjectStatusBatch,
 	updateProjectStatus,
 } from "../../redux/saga/projectStatusSaga";
-import { datagridBoxStyle, datagridStyle } from "../datagrid_customs/DataGridStyle";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import EditToolbarProps from "../datagrid_customs/EditToolbarProps";
 import DataGridProps from "../datagrid_customs/DataGridProps";
+import CustomPagination from "../custom_pagination/pagination";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
 
 const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -88,13 +84,9 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 	const dataGridSlots = {
 		toolbar: EditToolbar,
 		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
 	};
 
-	// FOR CONFIRM DIALOG
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-	// FOR DATA GRID
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
@@ -527,66 +519,25 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 				rowSelectionModel={rowSelectionModel}
 				initialState={{
 					pagination: {
-						paginationModel: { page: 0, pageSize: 25 },
+						paginationModel: { page: 0, pageSize: 10 },
 					},
 				}}
 				slots={dataGridSlots}
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
-				pageSizeOptions={[25, 50, 100]}
+				pageSizeOptions={[10, 25, 50, 100]}
 			/>
 
-			<Dialog
-				fullScreen={fullScreen}
-				open={ask}
-				onClose={() => {
-					setAsk(false);
-				}}
-				aria-labelledby="responsive-dialog-title"
-			>
-				<DialogTitle id="responsive-dialog-title">
-					<Typography
-						fontWeight={700}
-						fontSize={20}
-						display={"flex"}
-						alignItems={"center"}
-						gap={1}
-					>
-						<HelpIcon
-							accentHeight={100}
-							color="error"
-							fontSize="large"
-							alignmentBaseline="middle"
-						/>
-						{dialogTitle}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText whiteSpace={"pre-line"}>
-						{dialogContentText}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button
-						variant="contained"
-						onClick={
-							isBatch ? proceedWithDeleteBatch : proceedWithDelete
-						}
-						autoFocus
-					>
-						Delete
-					</Button>
-
-					<Button
-						onClick={() => {
-							setAsk(false);
-						}}
-					>
-						Cancel
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<DataGridDialog
+				ask={ask}
+				setAsk={setAsk}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				isBatch={isBatch}
+				proceedWithDelete={proceedWithDelete}
+				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
 		</Box>
 	);
 };
