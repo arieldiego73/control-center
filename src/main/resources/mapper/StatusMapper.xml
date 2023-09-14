@@ -49,6 +49,15 @@
         WHERE status_code = #{code}
     </update>
 
+<delete id="deleteMultipleStatus">
+        UPDATE tbl_status_mst
+           SET del_flag = 1
+         WHERE status_code IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 <!-- Restore Data -->
     <update id="restoreStatus">
         UPDATE tbl_status_mst
