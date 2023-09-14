@@ -12,13 +12,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, Grid, FormLabel, TextField, FormControl } from "@mui/material";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 
-//for breadcrumbs 
+//for breadcrumbs
 import { Link } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 
 //for breadcrumbs
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-  event.preventDefault();
   console.info("You clicked a breadcrumb.");
 }
 
@@ -96,217 +95,148 @@ export default function Userpage() {
   const breadcrumbItems = [{ label: "Users", href: "/user" }];
 
   return (
-    <div className={UserStyle.body}>
-      <div className={UserStyle.mainContainer}>
-        <div style={{ width: "97%", paddingBottom:'1%' }}>
-          <div className={UserStyle.pageTitle}>
-            <span>
-              <AccountTreeOutlinedIcon fontSize="large" />
-            </span>
-            <span
-              style={{ fontSize: "1.8rem", color: "black", fontWeight: "600" }}
-            >
-              {" "}
-              USER{" "}
-            </span>
-          </div>
-        </div>
-
-        <div className={UserStyle.contentContainer}>
-          <div className={UserStyle.midContent}>
-             {/* for breadcrumbs */}
-             <div
-              style={{
-                // border: "1px solid red",
-                paddingBottom: "1%",
-                width: "80%",
-                height: "75%",
-               paddingLeft:'1%',
-                position: "relative",
-                top: "3%",
-                alignSelf: "center",
-              }}
-              role="presentation"
-              onClick={handleClick}
-            >
-              <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-                <Link
-                  to="/User"
-                  className={`${UserStyle["custom-link"]}`}
-                  style={{ color: "inherit" }}
-                >
-                  User
-                </Link>
-              </Breadcrumbs>
-            </div>
-
-            <div>
-              <Link to="/CreateUser" style={{ textDecoration: "none" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<Add />}
-                  style={{
-                    textTransform: "none",
-                    fontFamily: "Montserrat, sans-serif",
-                  }}
-                >
-                  Add User
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          <div className={UserStyle.contentHolder}>
-            {/* Start of Header */}
-            <Box
-              component="form"
-              onKeyDown={(e) => {
-                if (e.key.match("Enter")) performSearch();
-              }}
-              className={UserStyle.searchBarContainer}
-              autoComplete="off"
-              noValidate
-            >
-              <div className={UserStyle.searchBarCol}>
-                {/* Start of first search bar */}
-                <Box sx={{ width: "100%" }}>
-                  <div className={UserStyle.projStatus}>
-                    <Grid container alignItems="center" spacing={2}>
-                      <Grid item xs>
-                        <FormLabel
-                          sx={{
-                            fontFamily: "Montserrat, sans-serif",
-                            width: "100%",
-                            color: "black",
-                            fontWeight: "400",
-                          }}
-                        >
-                          Name :
-                        </FormLabel>
-                      </Grid>
-                      <Grid item xs={7.8}>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          style={{ width: "100%" }}
-                          className={UserStyle.textField}
-                          value={searchQuery.name}
-                          onChange={handleInputChange}
-                          name="name"
-                          inputProps={{
-                            autoComplete: "chrome-off"
-                          }}
-                        />
-                      </Grid>
-                    </Grid>
-                  </div>
-                </Box>
-                <FormControl className={UserStyle.projManagerStyle}>
-                  <Grid container alignItems="center" spacing={2}>
-                    <Grid item>
-                      <FormLabel
-                        sx={{
-                          fontFamily: "Montserrat, sans-serif",
-                          width: "100%",
-                          color: "black",
-                          fontWeight: "400",
-                        }}
-                      >
-                        Business Unit :{" "}
-                      </FormLabel>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        className={UserStyle.textField}
-                        value={searchQuery.businessUnit}
-                        onChange={handleInputChange}
-                        name="businessUnit"
-                      />
-                    </Grid>
+    <div className={UserStyle.mainContainer}>
+      <div className={UserStyle.contentContainer}>
+        <div className={UserStyle.contentHolder}>
+          
+          <Box
+            component="form"
+            onKeyDown={(e) => {
+              if (e.key.match("Enter")) performSearch();
+            }}
+            className={UserStyle.searchBarContainer}
+            autoComplete="off"
+            noValidate
+          >
+            {/* Start of Seach Bar */}
+            <div className={UserStyle.searchBarCol}>
+              <FormControl>
+                <Grid container alignItems="center" spacing={2}>
+                  <Grid item>
+                    <FormLabel
+                      sx={{
+                        fontFamily: "Montserrat, sans-serif",
+                        width: "100%",
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Name :
+                    </FormLabel>
                   </Grid>
-                </FormControl>
-              </div>
+                  <Grid item xs={7.8}>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      className={UserStyle.textField}
+                      value={searchQuery.name}
+                      onChange={handleInputChange}
+                      name="name"
+                      inputProps={{
+                        autoComplete: "chrome-off",
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </FormControl>
 
-              {/* Start of second search bar */}
-              <div className={UserStyle.searchBar1}>
-                <div className={UserStyle.searchBarCol}>
-                  <FormControl className={UserStyle.projClientStyle}>
-                    <Grid container alignItems="center" spacing={2}>
-                      <Grid item xs>
-                        <FormLabel
-                          sx={{
-                            fontFamily: "Montserrat, sans-serif",
-                            width: "100%",
-                            color: "black",
-                            fontWeight: "400",
-                          }}
-                        >
-                          Position :{" "}
-                        </FormLabel>
-                      </Grid>
-                      <Grid item>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          className={UserStyle.textField}
-                          value={searchQuery.position}
-                          onChange={handleInputChange}
-                          name="position"
-                        />
-                      </Grid>
-                    </Grid>
-                  </FormControl>
-                  <FormControl className={UserStyle.projClientStyle}>
-                    <Grid container alignItems="center" spacing={2}>
-                      <Grid item>
-                        <FormLabel
-                          sx={{
-                            fontFamily: "Montserrat, sans-serif",
-                            width: "100%",
-                            color: "black",
-                            fontWeight: "400",
-                          }}
-                        >
-                          Department :{" "}
-                        </FormLabel>
-                      </Grid>
-                      <Grid item>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          className={UserStyle.textField}
-                          value={searchQuery.department}
-                          onChange={handleInputChange}
-                          name="department"
-                        />
-                      </Grid>
-                    </Grid>
-                  </FormControl>
-                </div>
-              </div>
-              <div className={UserStyle.buttonContainer}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<SearchIcon />}
-                  style={{
-                    textTransform: "none",
-                    fontFamily: "Montserrat, sans-serif",
-                  }}
-                  onClick={performSearch}
-                >
-                  Search
-                </Button>
-              </div>
-            </Box>
-
-            {/* Start of Table */}
-            <div className={UserStyle.tableContainer}>
-              <UserTable data={data} />
+              <FormControl>
+                <Grid container alignItems="center" spacing={2}>
+                  <Grid item>
+                    <FormLabel
+                      sx={{
+                        fontFamily: "Montserrat, sans-serif",
+                        width: "100%",
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Business Unit :{" "}
+                    </FormLabel>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      className={UserStyle.textField}
+                      value={searchQuery.businessUnit}
+                      onChange={handleInputChange}
+                      name="businessUnit"
+                    />
+                  </Grid>
+                </Grid>
+              </FormControl>
+              <FormControl>
+                <Grid container alignItems="center" spacing={2}>
+                  <Grid item>
+                    <FormLabel
+                      sx={{
+                        fontFamily: "Montserrat, sans-serif",
+                        width: "100%",
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Position :{" "}
+                    </FormLabel>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      className={UserStyle.textField}
+                      value={searchQuery.position}
+                      onChange={handleInputChange}
+                      name="position"
+                    />
+                  </Grid>
+                </Grid>
+              </FormControl>
+              <FormControl>
+                <Grid container alignItems="center" spacing={2}>
+                  <Grid item>
+                    <FormLabel
+                      sx={{
+                        fontFamily: "Montserrat, sans-serif",
+                        width: "100%",
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Department :{" "}
+                    </FormLabel>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      className={UserStyle.textField}
+                      value={searchQuery.department}
+                      onChange={handleInputChange}
+                      name="department"
+                    />
+                  </Grid>
+                </Grid>
+              </FormControl>
             </div>
+
+            {/* Start of Search Button */}
+            <div>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<SearchIcon />}
+                className={UserStyle.button}
+                onClick={performSearch}
+              >
+                Search
+              </Button>
+            </div>
+          </Box>
+
+          {/* Start of Table */}
+          <div className={UserStyle.tableContainer}>
+            <UserTable data={data} />
           </div>
         </div>
       </div>
