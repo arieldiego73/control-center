@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class ErrorHandler {
 
     public <T> String getErrors(Set<ConstraintViolation<T>> errors) {
-        StringBuilder errorMessage = new StringBuilder("Error Message/s:\n");
+        StringBuilder errorMessage = new StringBuilder();
                 //loop all the errors encountered then compile them into a string:
                 for (ConstraintViolation<T> violation : errors) {
                     errorMessage.append(violation.getMessage()).append("\n");

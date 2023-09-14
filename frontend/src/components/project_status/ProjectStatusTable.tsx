@@ -6,8 +6,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
-import HelpIcon from "@mui/icons-material/Help";
-import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import {
@@ -29,20 +27,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {
-	AlertColor,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
 	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
 	TextField,
-	Typography,
-	useMediaQuery,
-	useTheme,
 } from "@mui/material";
 import ProjectStatusStyle from "./ProjectStatusTable.module.css";
 import { getProjectStatusFetch } from "../../redux/state/projectStatusState";
@@ -52,19 +41,17 @@ import {
 	deleteProjectStatusBatch,
 	updateProjectStatus,
 } from "../../redux/saga/projectStatusSaga";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import EditToolbarProps from "../datagrid_customs/EditToolbarProps";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import CustomPagination from "../custom_pagination/pagination";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
 
-interface EditToolbarProps {
-	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-	setRowModesModel: (
-		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-	) => void;
-}
-
-interface ProjectStatusProps {
-	createSnackpack: (message: string, severity: AlertColor) => () => void;
-}
-
-const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
+const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
 	// GET ALL THE PROJECT STATUS AND STORE THEM TO THE STATE IN REDUX
@@ -97,17 +84,9 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 	const dataGridSlots = {
 		toolbar: EditToolbar,
 		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
 	};
 
-	function UnsortedIcon() {
-		return <SortIcon className="icon" />;
-	}
-
-	// FOR CONFIRM DIALOG
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-	// FOR DATA GRID
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
@@ -146,8 +125,7 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 					onClick={handleDeleteBatch}
 					hidden={true}
 					sx={{
-						marginBottom: 3,
-						fontFamily: "Montserrat, san-serif",
+						marginLeft: 1.5,
 						visibility: `${
 							selectedId.size !== 0 ? "visible" : "hidden"
 						}`,
@@ -348,50 +326,7 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 	];
 
 	return (
-		<Box
-			sx={{
-				height: "100%",
-				width: "100%",
-				"& .actions": {
-					color: "text.secondary",
-				},
-				"& .MuiDataGrid-columnHeaderTitle": {
-					fontWeight: 800,
-					fontFamily: "Montserrat, san-serif",
-					padding: "0 24px",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
-					{
-						outline: "none !important",
-					},
-				"& .MuiDataGrid-root .MuiInputBase-input": {
-					textAlign: "center",
-					backgroundColor: "#fff",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
-					padding: "0 0.8vw",
-					height: "60%",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell":
-					{
-						backgroundColor: "#cbbdbd2e",
-					},
-				"& .textPrimary": {
-					color: "text.primary",
-				},
-				".MuiDataGrid-iconButtonContainer, .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeaders .MuiDataGrid-columnSeparator":
-					{
-						visibility: "visible",
-						width: "auto",
-					},
-				".MuiDataGrid-sortIcon": {
-					opacity: "inherit !important",
-				},
-				".MuiDataGrid-cellContent": {
-					fontWeight: "500",
-				},
-			}}
-		>
+		<Box sx={datagridBoxStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -408,7 +343,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 					<Button
 						variant="contained"
 						color="primary"
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
@@ -439,7 +373,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Project Status
@@ -466,7 +399,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Description
@@ -490,7 +422,7 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 									/>
 								</FormControl>
 								{/* <FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel style={{ fontWeight: "bold" }}>
 										User Level
 									</FormLabel>
 									<TextField
@@ -531,7 +463,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAddContinue}
 								>
@@ -544,7 +475,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAdd}
 								>
@@ -553,7 +483,6 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 								<Button
 									style={{
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={() => {
 										setIsHidden(false);
@@ -572,7 +501,7 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 			<Divider variant="middle" />
 
 			<DataGrid
-				sx={{ height: "67vh", border: "none" }}
+				sx={datagridStyle}
 				rows={rows}
 				columns={columns}
 				editMode="row"
@@ -590,72 +519,25 @@ const ProjectStatusTable: React.FC<ProjectStatusProps> = (props) => {
 				rowSelectionModel={rowSelectionModel}
 				initialState={{
 					pagination: {
-						paginationModel: { page: 0, pageSize: 25 },
+						paginationModel: { page: 0, pageSize: 10 },
 					},
 				}}
 				slots={dataGridSlots}
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
-				pageSizeOptions={[25, 50, 100]}
+				pageSizeOptions={[10, 25, 50, 100]}
 			/>
 
-			<Dialog
-				fullScreen={fullScreen}
-				open={ask}
-				onClose={() => {
-					setAsk(false);
-				}}
-				aria-labelledby="responsive-dialog-title"
-			>
-				<DialogTitle id="responsive-dialog-title">
-					<Typography
-						fontFamily={"Montserrat, san-serif"}
-						fontWeight={700}
-						fontSize={20}
-						display={"flex"}
-						alignItems={"center"}
-						gap={1}
-					>
-						<HelpIcon
-							accentHeight={100}
-							color="error"
-							fontSize="large"
-							alignmentBaseline="middle"
-						/>
-						{dialogTitle}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText
-						fontFamily={"Montserrat, san-serif"}
-						whiteSpace={"pre-line"}
-					>
-						{dialogContentText}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button
-						variant="contained"
-						onClick={
-							isBatch ? proceedWithDeleteBatch : proceedWithDelete
-						}
-						autoFocus
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-					>
-						Delete
-					</Button>
-
-					<Button
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-						onClick={() => {
-							setAsk(false);
-						}}
-					>
-						Cancel
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<DataGridDialog
+				ask={ask}
+				setAsk={setAsk}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				isBatch={isBatch}
+				proceedWithDelete={proceedWithDelete}
+				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
 		</Box>
 	);
 };

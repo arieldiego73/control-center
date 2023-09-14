@@ -11,8 +11,14 @@ import com.controlcenter.controlcenter.model.ProjectPhaseOutput;
 @Mapper
 public interface ProjectPhaseDao {
     List<ProjectPhaseOutput> getAllProjectPhase();
+
+    ProjectPhaseOutput getProjectPhaseById(String id);
+
     void addProjectPhase(ProjectPhaseInput projectPhase);
+
     void editProjectPhase(Map<String, Object> paramMap);
+
     void logicalDeleteProjectPhase(String id);
+
     void restoreProjectPhase(String id);
 }

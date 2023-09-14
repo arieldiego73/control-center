@@ -17,4 +17,5 @@ public class UserTable {
   private String section_name;
   private String dept_name;
   private Timestamp reg_date;
+  private int del_flag;
 }

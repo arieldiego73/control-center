@@ -1,12 +1,17 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
-import { getDevPhaseFetch, getDevPhaseSuccess, setErrorMessage } from "../state/devPhaseState";
+import {
+	getDevPhaseFetch,
+	getDevPhaseSuccess,
+	setMessage,
+} from "../state/devPhaseState";
+import axios from "axios";
 
 // GET ALL
 function* fetchDevPhase(): any {
 	const devPhase = yield call(() =>
-		fetch("http://localhost:8080/dev-phase/all").then((res) => res.json())
+		axios.get("http://localhost:8080/dev-phase/all").then((res) => res.data)
 	);
 	yield put(getDevPhaseSuccess(devPhase));
 }
@@ -14,10 +19,6 @@ function* fetchDevPhase(): any {
 export function* devPhaseSaga() {
 	yield takeEvery("devPhase/getDevPhaseFetch", fetchDevPhase);
 }
-
-
-
-
 
 // UPDATE
 const apiUpdate = async (
@@ -27,16 +28,12 @@ const apiUpdate = async (
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/dev-phase/edit/" + dev_phase_id;
-		const response = await fetch(url, {
-			method: "PUT",
-			body: JSON.stringify({ dev_phase_name, dev_phase_sh_name }),
-			headers: {
-				"Content-Type": "application/json",
-			},
+		return axios.put(url, {
+			dev_phase_name,
+			dev_phase_sh_name,
 		});
-		return response;
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error;
 	}
 };
 
@@ -54,42 +51,27 @@ function* updateSaga(action: ReturnType<typeof updateDevPhase>): any {
 			apiUpdate,
 			action.payload.devPhaseData.dev_phase_id,
 			action.payload.devPhaseData.dev_phase_name,
-			action.payload.devPhaseData.dev_phase_sh_name,
+			action.payload.devPhaseData.dev_phase_sh_name
 		);
-		if (response.ok) {
-			yield put(getDevPhaseFetch());
-		} else {
-			yield put(setErrorMessage(response.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
-
-
-
-
 
 // ADD
 const apiAdd = async (
 	dev_phase_name: string,
-	dev_phase_sh_name: string,
+	dev_phase_sh_name: string
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/dev-phase/add";
-		const response = await fetch(url, {
-			method: "POST",
-			body: JSON.stringify({
-				dev_phase_name,
-				dev_phase_sh_name,
-			}),
-			headers: {
-				"Content-Type": "application/json",
-			},
+		return axios.post(url, {
+			dev_phase_name,
+			dev_phase_sh_name
 		});
-		return response;
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error
 	}
 };
 
@@ -108,29 +90,17 @@ function* addSaga(action: ReturnType<typeof addDevPhase>): any {
 			action.payload.devPhaseData.dev_phase_name,
 			action.payload.devPhaseData.dev_phase_sh_name
 		);
-		// if (position) yield put(getPositionSuccess(position));
-		if (response.ok) {
-			yield put(getDevPhaseFetch());
-		} else {
-			yield put(setErrorMessage(response.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
-
-
-
-
 
 // DELETE
 const apiDelete = async (dev_phase_id: number): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/dev-phase/delete/" + dev_phase_id;
-		const response = await fetch(url, {
-			method: "PUT",
-		});
-		return response;
+		return axios.put(url);
 	} catch (error) {
 		console.error("An error occurred:", error);
 	}
@@ -147,19 +117,11 @@ export function* devPhaseSagaDelete() {
 function* deleteSaga(action: ReturnType<typeof deleteDevPhase>): any {
 	try {
 		const response = yield call(apiDelete, action.payload.dev_phase_id);
-		if (response.ok) {
-			yield put(getDevPhaseFetch());
-		} else {
-			yield put(setErrorMessage(response.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
-
-
-
-
 
 // BATCH DELETE
 const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
@@ -168,30 +130,19 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 		batchId.forEach((id) => {
 			params.append("ids", id.toString());
 		});
-		const response = await fetch(
-			`http://localhost:8080/dev-phase/delete-multiple?${params}`,
-			{
-				method: "PUT",
-			}
-		).catch((error) => {
-			console.log(error);
-		});
-		return response;
+		const url = `http://localhost:8080/dev-phase/delete-multiple?${params}`
+		return axios.put(url);
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error
 	}
 };
 
 function* deleteBatchSaga(action: ReturnType<typeof deleteDevPhaseBatch>): any {
 	try {
 		const response = yield call(apiBatchDelete, action.payload.batchId);
-		if (response?.ok) {
-			yield put(getDevPhaseFetch());
-		} else {
-			yield put(setErrorMessage(response?.text));
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
 
@@ -201,4 +152,42 @@ export const deleteDevPhaseBatch = createAction<{
 
 export function* devPhaseSagaDeleteBatch() {
 	yield takeLatest(deleteDevPhaseBatch.type, deleteBatchSaga);
+}
+
+// VALIDATE THE RESPONSE
+function* validate(res: any) {
+	if (res?.request?.status === 200) {
+		yield put(getDevPhaseFetch());
+		yield put(
+			setMessage({
+				message: res?.data,
+				severity: "success",
+			})
+		);
+	} else if (res?.request?.status > 200) {
+		yield put(
+			setMessage({
+				message: res?.response?.data,
+				severity: "error",
+			})
+		);
+	} else {
+		yield put(
+			setMessage({
+				message: res,
+				severity: "error",
+			})
+		);
+	}
+}
+
+// CATCH ERROR
+function* catchErr(err: any) {
+	yield put(getDevPhaseFetch());
+	yield put(
+		setMessage({
+			message: err?.response?.data,
+			severity: "error",
+		})
+	);
 }

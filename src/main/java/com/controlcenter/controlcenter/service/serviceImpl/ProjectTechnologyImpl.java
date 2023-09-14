@@ -30,21 +30,26 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
     @Override
     public List<ProjectTechnologyOutput> getAllProjectTechnology() {
         return projectTechnologyDao.getAllProjectTechnology();
-    };
+    }
 
     @Override
-    public String addProjectTechnology(ProjectTechnologyInput projectTechnology){
+    public ProjectTechnologyOutput getProjectTechnologyById(String id) {
+        return projectTechnologyDao.getProjectTechnologyById(id);
+    }
+
+    @Override
+    public String addProjectTechnology(ProjectTechnologyInput projectTechnology) {
         try {
             projectTechnologyDao.addProjectTechnology(projectTechnology);
-            
-            //Activitylog
+
+            // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id("101"); // current logged user dapat
             activityLogInput.setLog_desc("Added a project technology.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
+            // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
@@ -55,75 +60,91 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
     }
 
     @Override
-    public String editProjectTechnology(String id, ProjectTechnologyInput projectTechnology){
-        try {
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("projectTechnology", projectTechnology);
+    public String editProjectTechnology(String id, ProjectTechnologyInput projectTechnology) {
+        ProjectTechnologyOutput data = projectTechnologyDao.getProjectTechnologyById(id);
 
-            projectTechnologyDao.editProjectTechnology(paramMap);
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Project Technology with the ID " + id + " has already been deleted.";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("id", id);
+                paramMap.put("projectTechnology", projectTechnology);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                projectTechnologyDao.editProjectTechnology(paramMap);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a project technology.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Edited a project technology.");
 
-            return "Project Technology Edited Successfully";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Project Technology Edited Successfully";
+            }
+        } else {
+            return "Project Technology with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
-    public String logicalDeleteProjectTechnology(String id){
-        try {
-            projectTechnologyDao.logicalDeleteProjectTechnology(id);
+    public String logicalDeleteProjectTechnology(String id) {
+        ProjectTechnologyOutput data = projectTechnologyDao.getProjectTechnologyById(id);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Project Technology with the ID " + id + " has already been deleted.";
+            } else {
+                projectTechnologyDao.logicalDeleteProjectTechnology(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a project technology.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Deleted a project technology.");
 
-            return "Project Technology Deleted Successfully";
-            
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Project Technology Deleted Successfully";
+            }
+        } else {
+            return "Project Technology with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
-    public String restoreProjectTechnology(String id){
-        try {
-            projectTechnologyDao.restoreProjectTechnology(id);
+    public String restoreProjectTechnology(String id) {
+        ProjectTechnologyOutput data = projectTechnologyDao.getProjectTechnologyById(id);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 0) {
+                return "Project Technology with the ID " + id + " is not yet deleted.";
+            } else {
+                projectTechnologyDao.restoreProjectTechnology(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a project technology.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Restored a project technology.");
 
-            return "Project Technology Restored Successfully";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Project Technology Restored Successfully";
+            }
+        } else {
+            return "Project Technology with the ID " + id + " cannot be found.";
         }
     }
 
-    
 }

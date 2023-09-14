@@ -6,8 +6,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
-import HelpIcon from "@mui/icons-material/Help";
-import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import {
@@ -29,37 +27,31 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {
-	AlertColor,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
 	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
 	TextField,
-	Typography,
-	useMediaQuery,
-	useTheme,
 } from "@mui/material";
 import DevelopmentPhaseModuleStyle from "./DevelopmentPhase.module.css";
 import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
-import { addDevPhase, deleteDevPhase, deleteDevPhaseBatch, updateDevPhase } from "../../redux/saga/devPhaseSaga";
+import {
+	addDevPhase,
+	deleteDevPhase,
+	deleteDevPhaseBatch,
+	updateDevPhase,
+} from "../../redux/saga/devPhaseSaga";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import EditToolbarProps from "../datagrid_customs/EditToolbarProps";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import CustomPagination from "../custom_pagination/pagination";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
 
-interface EditToolbarProps {
-	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-	setRowModesModel: (
-		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-	) => void;
-}
-
-interface DevelopmentPhaseProps {
-	createSnackpack: (message: string, severity: AlertColor) => () => void;
-}
-
-const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
+const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
 	// GET ALL THE DEV PHASE AND STORE THEM TO THE STATE IN REDUX
@@ -68,9 +60,9 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 	}, [dispatch]);
 
 	// STORE THE DEV PHASE TO 'data'
-	const data = useSelector((state: RootState) => state.devPhaseReducer.devPhase);
-	const isSuccess = useSelector((state: RootState) => state.devPhaseReducer.isSuccess);
-	const errorMessage = useSelector((state: RootState) => state.devPhaseReducer.errorMessage);
+	const data = useSelector(
+		(state: RootState) => state.devPhaseReducer.devPhase
+	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -92,17 +84,9 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 	const dataGridSlots = {
 		toolbar: EditToolbar,
 		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
 	};
 
-	function UnsortedIcon() {
-		return <SortIcon className="icon" />;
-	}
-
-	// FOR CONFIRM DIALOG
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-	// FOR DATA GRID
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
@@ -141,8 +125,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 					onClick={handleDeleteBatch}
 					hidden={true}
 					sx={{
-						marginBottom: 3,
-						fontFamily: "Montserrat, san-serif",
+						marginLeft: 1.5,
 						visibility: `${
 							selectedId.size !== 0 ? "visible" : "hidden"
 						}`,
@@ -159,42 +142,16 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 
 	const proceedWithDelete = () => {
 		dispatch(deleteDevPhase({ dev_phase_id: deleteId }));
-		if (isSuccess) {
-			setRows(data);
-			setAsk(false);
-			const success = props.createSnackpack(
-				"A development phase is deleted successfully!",
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
+		setRows(data);
+		setAsk(false);
 	};
 
 	const proceedWithDeleteBatch = () => {
 		dispatch(deleteDevPhaseBatch({ batchId: selectedId }));
-		if (isSuccess) {
-			setRows(data); // update rows
-			setRowSelectionModel([]); // clear selected rows
-			setSelectedId(new Set()); // clear selected IDs
-			setAsk(false); // close dialog
-			const success = props.createSnackpack(
-				`Deleted ${selectedId.size} development phase/s successfully!`,
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
+		setRows(data); // update rows
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
 	};
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
@@ -240,38 +197,12 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 
 	const processUpdateRow = (devPhaseData: GridRowModel) => {
 		dispatch(updateDevPhase({ devPhaseData }));
-		if (isSuccess) {
-			setRows(data); // update rows
-			const success = props.createSnackpack(
-				"Development Phase is updated successfully",
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
+		setRows(data); // update rows
 	};
 
 	const processAddRow = (devPhaseData: GridRowModel) => {
 		dispatch(addDevPhase({ devPhaseData }));
-		if (isSuccess) {
-			setRows(data); // update rows
-			const success = props.createSnackpack(
-				"Development phase is added successfully",
-				"success"
-			);
-			success();
-		} else {
-			const error = props.createSnackpack(
-				errorMessage,
-				"error"
-			);
-			error();
-		}
+		setRows(data); // update rows
 	};
 
 	const handleAdd = () => {
@@ -303,7 +234,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 			);
 			error();
 		}
-	}
+	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
 		if (newRow.dev_phase_name && newRow.dev_phase_sh_name) {
@@ -393,50 +324,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 	];
 
 	return (
-		<Box
-			sx={{
-				height: "100%",
-				width: "100%",
-				"& .actions": {
-					color: "text.secondary",
-				},
-				"& .MuiDataGrid-columnHeaderTitle": {
-					fontWeight: 800,
-					fontFamily: "Montserrat, san-serif",
-					padding: "0 24px",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
-					{
-						outline: "none !important",
-					},
-				"& .MuiDataGrid-root .MuiInputBase-input": {
-					textAlign: "center",
-					backgroundColor: "#fff",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
-					padding: "0 0.8vw",
-					height: "60%",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell":
-					{
-						backgroundColor: "#cbbdbd2e",
-					},
-				"& .textPrimary": {
-					color: "text.primary",
-				},
-				".MuiDataGrid-iconButtonContainer, .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeaders .MuiDataGrid-columnSeparator":
-					{
-						visibility: "visible",
-						width: "auto",
-					},
-				".MuiDataGrid-sortIcon": {
-					opacity: "inherit !important",
-				},
-				".MuiDataGrid-cellContent": {
-					fontWeight: "500",
-				},
-			}}
-		>
+		<Box sx={datagridBoxStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -453,7 +341,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 					<Button
 						variant="contained"
 						color="primary"
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
@@ -484,7 +371,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Development Phase
@@ -512,7 +398,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Short Name
@@ -539,7 +424,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 									/>
 								</FormControl>
 								{/* <FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel style={{ fontWeight: "bold" }}>
 										User Level
 									</FormLabel>
 									<TextField
@@ -568,7 +453,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 								style={{
 									flexDirection: "row",
 									display: "flex",
-									alignItems: "flex-end",
+									alignItems: "center",
 									height: "100%",
 									gap: "10px",
 								}}
@@ -580,7 +465,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAddContinue}
 								>
@@ -593,7 +477,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAdd}
 								>
@@ -602,7 +485,6 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 								<Button
 									style={{
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={() => {
 										setIsHidden(false);
@@ -621,7 +503,7 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 			<Divider variant="middle" />
 
 			<DataGrid
-				sx={{ height: "67vh", border: "none" }}
+				sx={datagridStyle}
 				rows={rows}
 				columns={columns}
 				editMode="row"
@@ -639,73 +521,27 @@ const DevelopmentPhaseTable: React.FC<DevelopmentPhaseProps> = (props) => {
 				rowSelectionModel={rowSelectionModel}
 				initialState={{
 					pagination: {
-						paginationModel: { page: 0, pageSize: 25 },
+						paginationModel: { page: 0, pageSize: 10 },
 					},
 				}}
 				slots={dataGridSlots}
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
-				pageSizeOptions={[25, 50, 100]}
+				pageSizeOptions={[10, 25, 50, 100]}
 			/>
-			<Dialog
-				fullScreen={fullScreen}
-				open={ask}
-				onClose={() => {
-					setAsk(false);
-				}}
-				aria-labelledby="responsive-dialog-title"
-			>
-				<DialogTitle id="responsive-dialog-title">
-					<Typography
-						fontFamily={"Montserrat, san-serif"}
-						fontWeight={700}
-						fontSize={20}
-						display={"flex"}
-						alignItems={"center"}
-						gap={1}
-					>
-						<HelpIcon
-							accentHeight={100}
-							color="error"
-							fontSize="large"
-							alignmentBaseline="middle"
-						/>
-						{dialogTitle}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText
-						fontFamily={"Montserrat, san-serif"}
-						whiteSpace={"pre-line"}
-					>
-						{dialogContentText}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button
-						variant="contained"
-						onClick={
-							isBatch ? proceedWithDeleteBatch : proceedWithDelete
-						}
-						autoFocus
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-					>
-						Delete
-					</Button>
 
-					<Button
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-						onClick={() => {
-							setAsk(false);
-						}}
-					>
-						Cancel
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<DataGridDialog
+				ask={ask}
+				setAsk={setAsk}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				isBatch={isBatch}
+				proceedWithDelete={proceedWithDelete}
+				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
 		</Box>
 	);
-}
+};
 
 export default DevelopmentPhaseTable;

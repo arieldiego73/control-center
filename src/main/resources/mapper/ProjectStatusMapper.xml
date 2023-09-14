@@ -7,10 +7,16 @@
 
 <!-- Fetch Data -->
     <select id="getAllProjectStatus" resultType="com.controlcenter.controlcenter.model.ProjectStatusOutput">
-        SELECT proj_status_id, proj_status_name, proj_status_description
+        SELECT proj_status_id, proj_status_name, proj_status_description, del_flag
           FROM tbl_proj_status_mst
          WHERE del_flag = 0
       ORDER BY proj_status_id DESC, reg_date DESC;
+    </select>
+
+    <select id="getProjectStatusById" resultType="com.controlcenter.controlcenter.model.ProjectStatusOutput">
+        SELECT proj_status_id, proj_status_name, proj_status_description, del_flag
+          FROM tbl_proj_status_mst
+         WHERE proj_status_id = #{id};
     </select>
 
 <!-- Add Data -->
@@ -42,6 +48,16 @@
            SET del_flag = 1
         WHERE proj_status_id = #{id}
     </update>
+
+<!-- Logical Delete Multiple -->
+    <delete id="deleteMultipleProjectStatus">
+        UPDATE tbl_proj_status_mst
+           SET del_flag = 1
+         WHERE proj_status_id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 <!-- Restore Data -->
     <update id="restoreProjectStatus">

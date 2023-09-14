@@ -14,9 +14,7 @@ public interface DevPhaseService {
     public String addDevPhase(DevPhaseInput devPhase);
     public String editDevPhaseInfo(String id, DevPhaseInput devPhase);
     public String logicalDeleteDevPhase(String id);
-    public String deleteMultipleDevPhase(
-        @RequestParam List<Long> ids
-    );
+    public String deleteMultipleDevPhase(@RequestParam List<Long> ids);
     public String restoreDevPhase(String id);
     
 }

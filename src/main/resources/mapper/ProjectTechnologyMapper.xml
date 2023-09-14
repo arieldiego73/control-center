@@ -7,10 +7,16 @@
 
 <!-- Fetch Data -->
 <select id="getAllProjectTechnology" resultType="com.controlcenter.controlcenter.model.ProjectTechnologyOutput">
-    SELECT proj_tech_id, tech_id, proj_id
+    SELECT proj_tech_id, tech_id, proj_id, del_flag
       FROM tbl_proj_tech
      WHERE del_flag = 0
   ORDER BY proj_tech_id DESC, reg_date DESC;
+</select>
+
+<select id="getProjectTechnologyById" resultType="com.controlcenter.controlcenter.model.ProjectTechnologyOutput">
+    SELECT proj_tech_id, tech_id, proj_id, del_flag
+      FROM tbl_proj_tech
+     WHERE proj_tech_id = #{id};
 </select>
 
 <!-- Add Data -->

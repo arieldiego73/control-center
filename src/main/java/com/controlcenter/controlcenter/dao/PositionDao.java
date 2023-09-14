@@ -12,9 +12,16 @@ import com.controlcenter.controlcenter.model.PositionOutput;
 @Mapper
 public interface PositionDao {
     List<PositionOutput> getAllPosition();
+
+    PositionOutput getPositionById(String id);
+
     void addPosition(PositionInput position);
+
     void editPositionInfo(Map<String, Object> paramMap);
+
     void logicalDeletePosition(String id);
+
     void deleteMultiplePosition(@Param("ids") List<Long> ids);
+
     void restorePosition(String id);
 }

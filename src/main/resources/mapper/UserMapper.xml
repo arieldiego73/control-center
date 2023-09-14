@@ -15,7 +15,8 @@
                info_master.email,
                section_master.section_name,
                department_master.dept_name,
-               users.reg_date
+               users.reg_date,
+               users.del_flag
           FROM tbl_personal_info AS info_master
     INNER JOIN tbl_user AS users ON users.emp_id = info_master.emp_id
     INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
@@ -34,7 +35,8 @@
                info_master.email,
                section_master.section_name,
                department_master.dept_name,
-               role_master.title
+               role_master.title,
+               users.del_flag
           FROM tbl_personal_info AS info_master
     INNER JOIN tbl_user AS users ON users.emp_id = info_master.emp_id
     INNER JOIN tbl_role_mst AS role_master ON users.role_id = role_master.role_id
@@ -83,6 +85,21 @@
             1
         );
     </insert>
+
+    <update id="editUser" parameterType="map">
+        UPDATE tbl_user
+           SET emp_id=#{user.emp_id},
+               username=#{user.username},
+               password=#{user.password},
+               position_id=#{user.position_id},
+               dept_id=#{user.dept_id},
+               section_id=#{user.section_id},
+               role_id=#{user.role_id},
+               status_code=#{user.status_code},
+               img_src=#{user.img_src},
+               update_id = 1
+         WHERE emp_id = #{id}
+    </update>
 
     <select id="getUsername" resultType="com.controlcenter.controlcenter.model.UserOutput">
         SELECT emp_id,

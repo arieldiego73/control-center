@@ -5,24 +5,24 @@ export const positionSlice = createSlice({
 	initialState: {
 		position: [],
 		isLoading: false,
-		isSuccess: true,
-		errorMessage: ""
+		notice: {
+			message: "",
+			severity: ""
+		},
 	},
 	reducers: {
 		getPositionFetch: (state) => {
 			state.isLoading = true;
-			state.isSuccess = false;
 		},
 		getPositionSuccess: (state, action) => {
 			state.position = action.payload;
 			state.isLoading = false;
-			state.isSuccess = true;
 		},
-		setErrorMessage: (state, action) => {
-			state.errorMessage = action.payload;
+		setMessage: (state, action) => {
+			state.notice = action.payload;
 		}
 	},
 });
 
-export const { getPositionFetch, getPositionSuccess, setErrorMessage } = positionSlice.actions;
+export const { getPositionFetch, getPositionSuccess, setMessage } = positionSlice.actions;
 export default positionSlice.reducer;

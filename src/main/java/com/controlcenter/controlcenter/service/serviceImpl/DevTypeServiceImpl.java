@@ -27,23 +27,28 @@ public class DevTypeServiceImpl implements DevTypeService {
     public ActivityLogDao activityLogDao;
 
     @Override
-    public List<DevTypeOutput> getAllDevType(){
+    public List<DevTypeOutput> getAllDevType() {
         return devTypeDao.getAllDevType();
     }
-    
+
+    @Override
+    public DevTypeOutput getDevTypeById(String id) {
+        return devTypeDao.getDevTypeById(id);
+    }
+
     @Override
     public String addDevType(DevTypeInput devType) {
         try {
             devTypeDao.addDevType(devType);
 
-            //Acivitylog
+            // Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id("101"); // current logged user dapat
             activityLogInput.setLog_desc("Added a development type.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
+            // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
@@ -53,73 +58,91 @@ public class DevTypeServiceImpl implements DevTypeService {
         }
     }
 
-    @Override 
+    @Override
     public String editDevTypeInfo(String id, DevTypeInput devType) {
-        try {
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("devType", devType);
+        DevTypeOutput data = devTypeDao.getDevTypeById(id);
 
-            devTypeDao.editDevTypeInfo(paramMap);
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Development Type with the ID " + id + " has already been deleted.";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("id", id);
+                paramMap.put("devType", devType);
 
-            //Acivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                devTypeDao.editDevTypeInfo(paramMap);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a development type.");
+                // Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Edited a development type.");
 
-            return "Development Type Edited Successfully";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Development Type Edited Successfully";
+            }
+        } else {
+            return "Development Type with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String logicalDeleteDevType(String id) {
-        try {
-            devTypeDao.logicalDeleteDevType(id);
+        DevTypeOutput data = devTypeDao.getDevTypeById(id);
 
-            //Acivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Development Type with the ID " + id + " has already been deleted.";
+            } else {
+                devTypeDao.logicalDeleteDevType(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a development type.");
+                // Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Deleted a development type.");
 
-            return "Development Type Deleted Successfully";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Development Type Deleted Successfully";
+            }
+        } else {
+            return "Development Type with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String restoreDevType(String id) {
-        try {
-            devTypeDao.restoreDevType(id);
+        DevTypeOutput data = devTypeDao.getDevTypeById(id);
 
-            //Acivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 0) {
+                return "Development Type with the ID " + id + " is not yet deleted.";
+            } else {
+                devTypeDao.restoreDevType(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a development type.");
+                // Acivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Restored a development type.");
 
-            return "Development Type Restored Successfully";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Development Type Restored Successfully";
+            }
+        } else {
+            return "Development Type with the ID " + id + " cannot be found.";
         }
     }
 }

@@ -11,8 +11,14 @@ import com.controlcenter.controlcenter.model.ProjectOutput;
 @Mapper
 public interface ProjectDao {
     List<ProjectOutput> getAllProject();
+
+    ProjectOutput getProjectById(String id);
+
     void addProject(ProjectInput project);
+
     void editProjectInfo(Map<String, Object> paramMap);
+
     void logicalDeleteProject(String id);
+
     void restoreProject(String id);
 }

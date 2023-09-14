@@ -6,13 +6,12 @@ import {
 	getProjectStatusSuccess,
 	setMessage,
 } from "../state/projectStatusState";
+import axios from "axios";
 
 // GET ALL
 function* fetchProjectStatus(): any {
 	const projectStatus = yield call(() =>
-		fetch("http://localhost:8080/project-status/all").then((res) =>
-			res.json()
-		)
+		axios.get("http://localhost:8080/project-status/all").then((res) => res.data)
 	);
 	yield put(getProjectStatusSuccess(projectStatus));
 }
@@ -28,18 +27,13 @@ const apiUpdate = async (
 	proj_status_description: string
 ): Promise<any> => {
 	try {
-		const url =
-			"http://localhost:8080/project-status/edit/" + proj_status_id;
-		const response = await fetch(url, {
-			method: "PUT",
-			body: JSON.stringify({ proj_status_name, proj_status_description }),
-			headers: {
-				"Content-Type": "application/json",
-			},
+		const url = "http://localhost:8080/project-status/edit/" + proj_status_id;
+		return axios.put(url, {
+			proj_status_name,
+			proj_status_description
 		});
-		return response;
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error
 	}
 };
 
@@ -59,24 +53,9 @@ function* updateSaga(action: ReturnType<typeof updateProjectStatus>): any {
 			action.payload.projectStatusData.proj_status_name,
 			action.payload.projectStatusData.proj_status_description
 		);
-		if (response.ok) {
-			yield put(getProjectStatusFetch());
-			yield put(
-				setMessage({
-					message: "A record is updated successfully",
-					severity: "success",
-				})
-			);
-		} else {
-			yield put(
-				setMessage({
-					message: "Error updating record",
-					severity: "error",
-				})
-			);
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
 
@@ -87,19 +66,12 @@ const apiAdd = async (
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/project-status/add";
-		const response = await fetch(url, {
-			method: "POST",
-			body: JSON.stringify({
-				proj_status_name,
-				proj_status_description,
-			}),
-			headers: {
-				"Content-Type": "application/json",
-			},
+		return axios.post(url, {
+			proj_status_name,
+			proj_status_description,
 		});
-		return response;
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error
 	}
 };
 
@@ -118,38 +90,19 @@ function* addSaga(action: ReturnType<typeof addProjectStatus>): any {
 			action.payload.projectStatusData.proj_status_name,
 			action.payload.projectStatusData.proj_status_description
 		);
-		if (response.ok) {
-			yield put(getProjectStatusFetch());
-			yield put(
-				setMessage({
-					message: "A record is added successfully",
-					severity: "success",
-				})
-			);
-		} else {
-			yield put(
-				setMessage({
-					message: "Error updating record",
-					severity: "error",
-				})
-			);
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
 
 // DELETE
 const apiDelete = async (proj_status_id: number): Promise<any> => {
 	try {
-		const url =
-			"http://localhost:8080/project-status/delete/" + proj_status_id;
-		const response = await fetch(url, {
-			method: "PUT",
-		});
-		return response;
+		const url = "http://localhost:8080/project-status/delete/" + proj_status_id;
+		return axios.put(url);
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error
 	}
 };
 
@@ -164,24 +117,9 @@ export function* projectStatusSagaDelete() {
 function* deleteSaga(action: ReturnType<typeof deleteProjectStatus>): any {
 	try {
 		const response = yield call(apiDelete, action.payload.proj_status_id);
-		if (response.ok) {
-			yield put(getProjectStatusFetch());
-			yield put(
-				setMessage({
-					message: "A record is deleted successfully",
-					severity: "success",
-				})
-			);
-		} else {
-			yield put(
-				setMessage({
-					message: "Error deleting the record",
-					severity: "error",
-				})
-			);
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
 
@@ -192,17 +130,10 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 		batchId.forEach((id) => {
 			params.append("ids", id.toString());
 		});
-		const response = await fetch(
-			`http://localhost:8080/project-status/delete-multiple?${params}`,
-			{
-				method: "PUT",
-			}
-		).catch((error) => {
-			console.log(error);
-		});
-		return response;
+		const url = `http://localhost:8080/project-status/delete-multiple?${params}`
+		return axios.put(url);
 	} catch (error) {
-		console.error("An error occurred:", error);
+		return error
 	}
 };
 
@@ -211,31 +142,56 @@ function* deleteBatchSaga(
 ): any {
 	try {
 		const response = yield call(apiBatchDelete, action.payload.batchId);
-		if (response?.ok) {
-			yield put(getProjectStatusFetch());
-			yield put(
-				setMessage({
-					message: `Deleted ${action.payload.batchId.size} project status successfully!`,
-					severity: "success",
-				})
-			);
-		} else {
-			yield put(
-				setMessage({
-					message: "Error deleting records",
-					severity: "error",
-				})
-			);
-		}
+		yield call(validate, response);
 	} catch (error) {
-		console.log(error);
+		yield call(catchErr, error);
 	}
 }
 
 export const deleteProjectStatusBatch = createAction<{
 	batchId: Set<GridRowId>;
-}>("roles/deleteRolesBatch");
+}>("projectStatus/deleteProjectStatusBatch");
 
 export function* projectStatusSagaDeleteBatch() {
 	yield takeLatest(deleteProjectStatusBatch.type, deleteBatchSaga);
+}
+
+
+
+// VALIDATE THE RESPONSE
+function* validate(res: any) {
+	if (res?.request?.status === 200) {
+		yield put(getProjectStatusFetch());
+		yield put(
+			setMessage({
+				message: res?.data,
+				severity: "success",
+			})
+		);
+	} else if (res?.request?.status > 200) {
+		yield put(
+			setMessage({
+				message: res?.response?.data,
+				severity: "error",
+			})
+		);
+	} else {
+		yield put(
+			setMessage({
+				message: res,
+				severity: "error",
+			})
+		);
+	}
+}
+
+// CATCH ERROR
+function* catchErr(err: any) {
+	yield put(getProjectStatusFetch());
+	yield put(
+		setMessage({
+			message: err?.response?.data,
+			severity: "error",
+		})
+	);
 }
