@@ -8,6 +8,8 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
+import smallLogo from "../../Assets/small logo.png";
+
 import { People, Dns, PermMedia, Public, ArrowRight, Home, KeyboardArrowDown, Settings } from "@mui/icons-material";
 import DashboardSvg from "../../Assets/icons/dashboard.svg";
 
@@ -58,7 +60,7 @@ const FireNav = styled(List)<{ component?: React.ElementType }>({
     '& .MuiSvgIcon-root': {
         fontSize: 20,
     },
-    '& .css-1mttud9':{
+    '& .css-1mttud9': {
         paddingBottom: 0,
     }
 
@@ -91,20 +93,11 @@ export default function SideNav() {
                     <Paper elevation={0} sx={{ width: "100%", height: "100%", boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)', backdropFilter: 'blur(5px)', WebkitBackdropFilter: 'blur(5px)' }}>
                         {/* Updated styles */}
                         <FireNav component="nav" disablePadding>
-                            <ListItemButton component="a" href="#customized-list" style={{ height: "80px" }}>
-                                {/* <ListItemIcon sx={{ fontSize: 20 }}>🔥</ListItemIcon> */}
-                                <ListItemText
-                                    sx={{ my: 0 }}
-                                    primary="Logo here"
-                                    primaryTypographyProps={{
-                                        fontSize: 20,
-                                        fontWeight: 'medium',
-                                        letterSpacing: 0,
-                                        color: 'black',
-                                    }}
-                                />
-                            </ListItemButton>
-
+                            <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+                                <ListItemButton style={{ height: "65px", }}>
+                                    <img src={smallLogo} alt="Small Logo" style={{ height: "100%", width: "100%", }} />
+                                </ListItemButton>
+                            </Link>
                             <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)', marginBottom: '20px' }} />
 
                             <Link to="/dashboard" style={{ textDecoration: 'none' }}>
@@ -254,23 +247,23 @@ export default function SideNav() {
                                             pt: 2.5,
                                             pb: 2.5, // Keep consistent padding for both active and inactive states
                                             '&:hover': {
-                                              '& svg': {
-                                                color: '#595959',
-                                              },
-                                              backgroundColor: active ? 'rgba(71, 98, 130, 0.2)' : 'white',
-                                              '& .MuiListItemText-primary': {
-                                                fontWeight: active ? 'bold' : 'bold',
-                                                color: '#595959',
-                                                border: '0 solid transparent',
-                                              },
+                                                '& svg': {
+                                                    color: '#595959',
+                                                },
+                                                backgroundColor: active ? 'rgba(71, 98, 130, 0.2)' : 'white',
+                                                '& .MuiListItemText-primary': {
+                                                    fontWeight: active ? 'bold' : 'bold',
+                                                    color: '#595959',
+                                                    border: '0 solid transparent',
+                                                },
                                             },
-                                          }}
+                                        }}
                                     >
                                         <ListItemIcon style={{ margin: '0', }}>
                                             <MoreHorizIcon style={{ color: 'black' }} />
                                         </ListItemIcon>
                                         <ListItemText
-                                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start',  paddingLeft: "12px" }}
+                                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: "12px" }}
                                             primary="Others"
                                             primaryTypographyProps={{
                                                 fontSize: 15,
