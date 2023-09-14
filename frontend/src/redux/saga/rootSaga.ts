@@ -9,7 +9,7 @@ import {
 	roleSagaDeleteBatch,
 } from "./roleSaga";
 import { sessionSaga } from "./sessionSaga";
-import departmentSaga from "./departmentSaga";
+import {departmentSaga, departmentSagaAdd, departmentSagaDelete, departmentSagaDeleteBatch, departmentSagaUpdate} from "./departmentSaga";
 import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBatch, devPhaseSagaUpdate } from "./devPhaseSaga";
 import { positionSaga, positionSagaAdd, positionSagaUpdate, positionSagaDelete, positionSagaDeleteBatch } from "./positionSaga";
 import { businessUnitSaga, businessUnitSagaAdd, businessUnitSagaDelete, businessUnitSagaDeleteBatch, businessUnitSagaUpdate } from "./businessUnitSaga";
@@ -30,6 +30,10 @@ export default function* rootSaga() {
 		roleSagaDeleteBatch(),
 
 		departmentSaga(),
+		departmentSagaAdd(),
+		departmentSagaUpdate(),
+		departmentSagaDelete(),
+		departmentSagaDeleteBatch(),
 
 		devPhaseSaga(),
 		devPhaseSagaAdd(),

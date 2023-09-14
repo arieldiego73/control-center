@@ -3,8 +3,8 @@
 	display: flex;
 	flex-direction: column; 
 	align-items: center;
-	height: 85%;
-	width: 91%;
+	height: 90%;
+	width: 93%;
 	top: 10vh;
 	left: 7vw;
 	overflow: hidden;
@@ -25,6 +25,7 @@
 	/* width: 97%;
 	position: relative;
 	align-self: center; */
+
 	width: 97%;
 	height: 80%;
 	display: flex;
@@ -47,7 +48,6 @@
 	align-items: center;
 	flex-direction: column;
 }
-
 .pageTitle{
 	display: flex;
 	align-items: center;
@@ -55,7 +55,6 @@
 	gap: .5%;
 	height: 100%;
   }
-
   .midContent {
 	display: flex;
 	align-items: center;

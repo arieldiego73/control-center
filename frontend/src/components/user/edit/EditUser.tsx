@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../../../redux/saga/userSaga";
 import { RootState } from "../../../redux/store/store";
 import HelpIcon from "@mui/icons-material/Help";
-import { getDepartmentsFetch } from "../../../redux/state/departmentState";
+import { getDepartmentFetch } from "../../../redux/state/departmentState";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 //for breadcrumbs
@@ -51,7 +51,7 @@ export default function EditUser() {
 	}, [dispatch, userId]);
 
 	React.useEffect(() => {
-		dispatch(getDepartmentsFetch());
+		dispatch(getDepartmentFetch());
 	}, [dispatch]);
 
 	// get the stored state of the user
@@ -97,7 +97,7 @@ export default function EditUser() {
 
 	//FOR DROPDOWN CONFIG (DEPARTMENT)
 	const depts = useSelector(
-		(state: RootState) => state.deptReducer.departments
+		(state: RootState) => state.deptReducer.department
 	);
 
 	const proceedWithCancel = () => {
@@ -406,11 +406,11 @@ export default function EditUser() {
 												</InputAdornment>
 											}
 										>
-											{depts.map((dept) => (
+											{depts.map((dept: any) => (
 												<MenuItem
-													value={dept.dept_name}
+													value={dept?.dept_name}
 												>
-													{dept.dept_name}
+													{dept?.dept_name}
 												</MenuItem>
 											))}
 										</Select>
