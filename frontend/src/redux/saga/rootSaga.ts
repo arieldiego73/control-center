@@ -14,6 +14,7 @@ import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBa
 import { positionSaga, positionSagaAdd, positionSagaUpdate, positionSagaDelete, positionSagaDeleteBatch } from "./positionSaga";
 import { businessUnitSaga, businessUnitSagaAdd, businessUnitSagaDelete, businessUnitSagaDeleteBatch, businessUnitSagaUpdate } from "./businessUnitSaga";
 import { projectStatusSaga, projectStatusSagaAdd, projectStatusSagaUpdate, projectStatusSagaDelete, projectStatusSagaDeleteBatch } from "./projectStatusSaga";
+import { employeeStatusSaga, employeeStatusSagaAdd, employeeStatusSagaUpdate, employeeStatusSagaDelete, employeeStatusSagaDeleteBatch } from "./employeeStatusSaga";
 
 export default function* rootSaga() {
 	yield all([
@@ -52,7 +53,13 @@ export default function* rootSaga() {
 		projectStatusSagaAdd(),
 		projectStatusSagaUpdate(),
 		projectStatusSagaDelete(),
-		projectStatusSagaDeleteBatch()
+		projectStatusSagaDeleteBatch(),
+
+		employeeStatusSaga(),
+		employeeStatusSagaAdd(),
+		employeeStatusSagaUpdate(),
+		employeeStatusSagaDelete(),
+		employeeStatusSagaDeleteBatch()
 		// Add more sagas here
 	]);
 }

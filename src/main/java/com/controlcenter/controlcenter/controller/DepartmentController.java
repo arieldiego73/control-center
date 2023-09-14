@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.DepartmentInput;
@@ -26,7 +27,7 @@ import com.controlcenter.controlcenter.shared.ErrorHandler;
 @RestController
 @RequestMapping("/department")
 public class DepartmentController {
-    
+
     @Autowired
     public DepartmentService departmentService;
 
@@ -40,36 +41,45 @@ public class DepartmentController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addDepartment(@RequestBody DepartmentInput department) {
-        //For Validation
+        // For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<DepartmentInput>> errors = validator.validate(department);
-            //Error Handling
-            if (errors.size() > 0){
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            } else{
-                return ResponseEntity.status(200).body(departmentService.addDepartment(department));
-            }
+        // Error Handling
+        if (errors.size() > 0) {
+            return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+        } else {
+            return ResponseEntity.status(200).body(departmentService.addDepartment(department));
+        }
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<String> editDepartmentInfo(@PathVariable String id, @RequestBody DepartmentInput department) {
-        //For Validation
+        // For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<DepartmentInput>> errors = validator.validate(department);
-            //Error Handling
-            if (errors.size() > 0){
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            } else{
-                return ResponseEntity.status(200).body(departmentService.editDepartmentInfo(id, department));
-            }
+        // Error Handling
+        if (errors.size() > 0) {
+            return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+        } else {
+            return ResponseEntity.status(200).body(departmentService.editDepartmentInfo(id, department));
+        }
     }
 
     @PutMapping("/delete/{id}")
     public ResponseEntity<String> logicalDeleteDepartment(@PathVariable String id) {
         try {
             return ResponseEntity.ok().body(departmentService.logicalDeleteDepartment(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
+    }
+
+    @PutMapping("/delete-multiple")
+    public ResponseEntity<String> deleteMultipleDepartment(@RequestParam List<Long> ids) {
+        try {
+            return ResponseEntity.ok().body(departmentService.deleteMultipleDepartment(ids));
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Server Side Error.");
         }

@@ -46,6 +46,15 @@
            SET del_flag=1
          WHERE dept_id = #{id}
     </update>
+
+    <delete id="deleteMultipleDepartment">
+        UPDATE tbl_department_mst
+           SET del_flag = 1
+         WHERE dept_id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
     
 <!-- Restore Data -->
     <update id="restoreDepartment">

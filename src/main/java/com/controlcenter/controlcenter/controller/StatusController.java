@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.StatusInput;
@@ -26,7 +27,7 @@ import com.controlcenter.controlcenter.shared.ErrorHandler;
 @RestController
 @RequestMapping("/status")
 public class StatusController {
-    
+
     @Autowired
     public StatusService statusService;
 
@@ -34,7 +35,7 @@ public class StatusController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public List<StatusOutput> getAllStatus(){
+    public List<StatusOutput> getAllStatus() {
         return statusService.getAllStatus();
     }
 
@@ -44,40 +45,57 @@ public class StatusController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addStatus(@RequestBody StatusInput status){
-        //For Validation
+    public ResponseEntity<String> addStatus(@RequestBody StatusInput status) {
+        // For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<StatusInput>> errors = validator.validate(status);
-            //Error Handling
-            if (errors.size() > 0) { //checks the errors from validator
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            }else{
-                return ResponseEntity.status(200).body(statusService.addStatus(status));
-            }
+        // Error Handling
+        if (errors.size() > 0) { // checks the errors from validator
+            return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+        } else {
+            return ResponseEntity.status(200).body(statusService.addStatus(status));
+        }
     }
 
     @PutMapping("/edit/{code}")
-    public ResponseEntity<String> editStatusInfo(@PathVariable String code, @RequestBody StatusOutput status){
-        //For Validation
+    public ResponseEntity<String> editStatusInfo(@PathVariable String code, @RequestBody StatusOutput status) {
+        // For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<StatusOutput>> errors = validator.validate(status);
-            //Error Handling
-            if (errors.size() > 0) { //checks the errors from validator
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            }else{
-                return ResponseEntity.status(200).body(statusService.editStatusInfo(code, status));
-            }
+        // Error Handling
+        if (errors.size() > 0) { // checks the errors from validator
+            return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+        } else {
+            return ResponseEntity.status(200).body(statusService.editStatusInfo(code, status));
+        }
     }
 
     @PutMapping("/delete/{code}")
-    public String logicalDeleteStatus(@PathVariable String code){
-        return statusService.logicalDeleteStatus(code);
+    public ResponseEntity<String> logicalDeleteStatus(@PathVariable String code) {
+        try {
+            return ResponseEntity.ok().body(statusService.logicalDeleteStatus(code));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
-    
+
+    @PutMapping("/delete-multiple")
+    public ResponseEntity<String> deleteMultipleStatus(@RequestParam List<String> ids) {
+        try {
+            return ResponseEntity.ok().body(statusService.deleteMultipleStatus(ids));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
+    }
+
     @PutMapping("/restore/{code}")
-    public String restoreStatus(@PathVariable String code){
-        return statusService.restoreStatus(code);
+    public ResponseEntity<String> restoreStatus(@PathVariable String code) {
+        try {
+            return ResponseEntity.ok().body(statusService.restoreStatus(code));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }
