@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Account {
+public class AccountInput {
     
     @NotBlank(message = "Employee ID should not be empty.")
     @Size(max = 50, message = "The Employee ID is invalid, it should be up to 50 characters long.")

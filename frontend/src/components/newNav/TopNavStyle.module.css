@@ -3,8 +3,10 @@
   width: 82%;
   border-radius: 10px;
   overflow: hidden;
+
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 2%;
   
   background: rgba( 237, 249, 255, 0.35 );
@@ -15,3 +17,38 @@
 
   position: fixed;
 }
+
+.leftSide{
+  height: 90%;
+  width: 50%;
+  border: 1px solid red;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+}
+.rightSide{
+  height: 90%;
+  width: 50%;
+  border: 1px solid blue;
+}
+
+.breadCrumbsContainer{
+  height: 30%;
+  width: 100%;
+  border: 1px solid green;
+}
+.titleContainer{
+  height: 70%;
+  width: 100%;
+  border: 1px solid violet;
+}
+/* ///////for breadcrumbs////
+.custom-link {
+  text-decoration: underline;
+}  
+ .custom-link:hover {
+  text-decoration: none; 
+}  */

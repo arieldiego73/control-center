@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.ProjectInput;
 import com.controlcenter.controlcenter.model.ProjectOutput;
+import com.controlcenter.controlcenter.model.ProjectTable;
 import com.controlcenter.controlcenter.service.ProjectService;
 import com.controlcenter.controlcenter.shared.ErrorHandler;
 
@@ -32,6 +33,11 @@ public class ProjectController {
 
     @Autowired
     private ErrorHandler errorHandler;
+
+    @GetMapping("/project-table")
+    public List<ProjectTable> projectTable() {
+        return projectService.projectTable();
+    }
 
     @GetMapping("/all")
     public List<ProjectOutput> getAllProject() {

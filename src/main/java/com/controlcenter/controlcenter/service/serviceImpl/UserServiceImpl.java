@@ -3,7 +3,8 @@ package com.controlcenter.controlcenter.service.serviceImpl;
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.PersonalInfoDao;
 import com.controlcenter.controlcenter.dao.UserDao;
-import com.controlcenter.controlcenter.model.Account;
+import com.controlcenter.controlcenter.model.AccountInput;
+import com.controlcenter.controlcenter.model.AccountOutput;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.PersonalInfoInput;
 import com.controlcenter.controlcenter.model.PersonalInfoOutput;
@@ -93,7 +94,7 @@ public class UserServiceImpl implements UserService{
   // }
 
   @Override
-  public String addAccount(Account account) {
+  public String addAccount(AccountInput account) {
 
     UserInfoOutput userById = userDao.getUserById(account.getEmp_id());
 
@@ -151,28 +152,44 @@ public class UserServiceImpl implements UserService{
   }
 
   @Override
-  public String editAccount(String id, UserOutput userBody, PersonalInfoOutput personalInfoOutput) {
+  public String editAccount(String id, AccountOutput accountBody) {
     HashMap<String, Object> userMap = new HashMap<>();
     HashMap<String, Object> personalInfoMap = new HashMap<>();
 
     UserOutput user = new UserOutput();
     PersonalInfoOutput personalInfo = new PersonalInfoOutput();
 
-    user.setEmp_id(userBody.getEmp_id());
-    user.setUsername(userBody.getUsername());
-    user.setPassword(passEnc.encode(userBody.getPassword()));
-    user.setPosition_id(userBody.getPosition_id());
-    user.setDept_id(userBody.getDept_id());
-    user.setSection_id(userBody.getSection_id());
-    user.setStatus_code(userBody.getStatus_code());
-    user.setRole_id(userBody.getRole_id());
-    user.setImg_src(userBody.getImg_src());
+    List<UserTable> accounts = userDao.findAll();
 
-    personalInfo.setEmp_id(personalInfoOutput.getEmp_id());
-    personalInfo.setFname(personalInfoOutput.getFname());
-    personalInfo.setLname(personalInfoOutput.getLname());
-    personalInfo.setMname(personalInfoOutput.getMname());
-    personalInfo.setEmail(personalInfoOutput.getEmail());
+    // for(UserTable account : accounts) {
+    //   if(id == accountBody.getEmp_id()) {
+    //     if(accountBody.getDel_flag() == 1) {
+    //       return "User with the Employee ID of " + id + " has already been deleted";
+    //     } else if(accountBody.getUsername().equals(account.getUsername())) {
+    //       return "The Username " + accountBody.getUsername() + " is already taken";
+    //     } else if (accountBody.getEmail().equals(account.getEmail())) {
+    //       return "The Email " + accountBody.getEmail() + " is already taken";
+    //     }
+    //   } else {
+    //     return "User with Employee ID of " + id + " cannot be found";
+    //   }
+    // }
+
+    user.setEmp_id(accountBody.getEmp_id());
+    user.setUsername(accountBody.getUsername());
+    user.setPassword(passEnc.encode(accountBody.getPassword()));
+    user.setPosition_id(accountBody.getPosition_id());
+    user.setDept_id(accountBody.getDept_id());
+    user.setSection_id(accountBody.getSection_id());
+    user.setStatus_code(accountBody.getStatus_code());
+    user.setRole_id(accountBody.getRole_id());
+    user.setImg_src(accountBody.getImg_src());
+
+    personalInfo.setEmp_id(accountBody.getEmp_id());
+    personalInfo.setFname(accountBody.getFname());
+    personalInfo.setLname(accountBody.getLname());
+    personalInfo.setMname(accountBody.getMname());
+    personalInfo.setEmail(accountBody.getEmail());
 
     userMap.put("id", id);
     userMap.put("user", user);
@@ -185,6 +202,7 @@ public class UserServiceImpl implements UserService{
 
     return "Account Edited Successfully";
   }
+
 
   //   @Override
   //   public String insertUserBatch(List<User> users) {
@@ -247,8 +265,6 @@ public class UserServiceImpl implements UserService{
         users.setStatus_code(users.getStatus_code());
         users.setRole_id(users.getRole_id());
         users.setImg_src(users.getImg_src());
-
-         
 
         //Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
