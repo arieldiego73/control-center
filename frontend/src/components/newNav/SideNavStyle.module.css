@@ -6,11 +6,10 @@
   display: flex;
   flex-direction: column;
   gap: 2%;
-  border: 1px solid red;
   background: rgba( 237, 249, 255, 0.35 );
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 5px );
-  -webkit-backdrop-filter: blur( 5px );
+  backdrop-filter: blur( 25px );
+  -webkit-backdrop-filter: blur( 25px );
   border-radius: 10px;
   position: fixed;
 }
@@ -73,3 +72,8 @@
   border: 1px solid red;
   font-size: 1rem;
 }
+.listItemButton{
+  border: 1px solid red;
+}
+
+
