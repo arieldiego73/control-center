@@ -4,13 +4,8 @@ import Userpage from "../components/user/Userpage";
 export default function Userhandler() {
 	return (
 		 <div style={{display: 'flex', flexDirection:'column'}}>
-           
-                <NavigationHandler/> 
-
+            <NavigationHandler/> 
              <Userpage/>
-      
-           
-            
         </div>
         
 		// <div style={{ flexDirection: "column", display: "flex" }}>

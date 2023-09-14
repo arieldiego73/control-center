@@ -92,13 +92,22 @@ export default function Userpage() {
     setData(filteredData);
   };
 
-  const breadcrumbItems = [{ label: "Users", href: "/user" }];
-
   return (
     <div className={UserStyle.mainContainer}>
-      <div className={UserStyle.contentContainer}>
+      <div className={UserStyle.mainHolder}>
+        <div className={UserStyle.addButton} >
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<SearchIcon />}
+            className={UserStyle.button}
+            onClick={performSearch}
+          >
+            Add
+          </Button>
+        </div>
+
         <div className={UserStyle.contentHolder}>
-          
           <Box
             component="form"
             onKeyDown={(e) => {

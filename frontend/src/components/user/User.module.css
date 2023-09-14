@@ -10,20 +10,29 @@
 	top: 14vh;
 	left: 16.5vw;
 	overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(3px);
-  border-radius: 15px;
   /* border: 1px solid blue; */
 }
-.contentContainer {
+.mainHolder{
+  position: fixed;
+	display: flex;
+	flex-direction: column; 
+	align-items: center;
+	height: 83%;
+	width: 82%;
+	top: 14vh;
+	left: 16.5vw;
+	overflow: hidden;
+  border-radius: 15px;
+  /* border: 1px solid red; */
+}
+.addButton {
   width: 100%;
-  height: 100%;
+  height: 7%;
   display: flex;
-  flex-direction: column;
-  /* gap: 1vh; */
-  /* border: 1px solid blue;  */
+  justify-content: flex-end;
+  align-content: center;
+  padding: 1%;
+  padding-right: 2%;
 }
 .contentHolder {
   border-radius: 5px;
@@ -33,13 +42,15 @@
   flex-direction: column;
   justify-content: center;
   padding: 2vh 0; 
-  /* border: 1px solid blue;  */
-  /* gap: 2vh;  */
+  border: 1px solid red;
+  background: rgba( 237, 249, 255, 0.35 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 5px );
+  -webkit-backdrop-filter: blur( 5px );
  }
 
-/* Attributes of Search Bar */
- 
 
+/* Attributes of Search Bar */
 .searchBarContainer {
   display: flex;
   align-items: center;
@@ -87,17 +98,24 @@
 }
 .paperTable{
   width: 100%;
-  height: 85%;
+  height: 81%;
   background-color: transparent;
+  border: 1px solid blue;
 }
 .tableContainer{
   width: 100%;
   height: 100%;
 }
-
-
-
-
+.tableHead {
+  background-color: transparent;
+  z-index: 1; 
+  border-radius:10px;
+}
+.usernameHover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
 
 
 

@@ -151,42 +151,15 @@ export default function EditUser() {
 	  }; 
 
 	return (
-		<div className={UserDetailStyle.body}>
-			<div className={UserDetailStyle.mainContainer}>
-				<div className={UserDetailStyle.heading}>
-					<FontAwesomeIcon icon={faUser} size="2x" color="black" />
-					<div className={UserDetailStyle.textContainer}>
-						<span style={{ fontSize: "4vh", color: "black" }}>
-							{" "}
-							Edit User Details{" "}
-						</span>
-					</div>
-				</div>
-				<div className={UserDetailStyle.breadCrumbs}>
-					{/* for breadcrumbs */}
-					<Breadcrumbs maxItems={2} aria-label="breadcrumb">
-						<Link
-							to="/User"
-							className={`${UserDetailStyle["custom-link"]}`}
-							style={{ color: "inherit" }}
-						>
-							User
-						</Link>
-						<Link
-							to="/CreateUser"
-							className={`${UserDetailStyle["custom-link"]}`}
-							style={{ color: "inherit" }}
-						>
-							Create User
-						</Link>
+		
+		<div className={UserDetailStyle.mainContainer}>
+			<div className={UserDetailStyle.contentContainer}>
+				<div className={UserDetailStyle.contentHolder}>
+			
 
-						{/* Other breadcrumb links */}
-					</Breadcrumbs>
-				</div>
-
-				<div className={UserDetailStyle.contentContainer}>
+			
 					<div className={UserDetailStyle.mainForm}>
-						<div className={UserDetailStyle.formRow1}>
+						
 							<FormControl
 								className={UserDetailStyle.formUsername}
 							>
@@ -209,7 +182,7 @@ export default function EditUser() {
 									} // Update state on change
 								/>
 							</FormControl>
-						</div>
+						
 
 						<div className={UserDetailStyle.formRow2}>
 							<FormControl className={UserDetailStyle.assocId}>
@@ -441,7 +414,7 @@ export default function EditUser() {
 							</Button>
 						</div>
 					</div>
-				</div>
+				
 
 				<Dialog
 					open={ask}
@@ -550,7 +523,8 @@ export default function EditUser() {
             <Button onClick={handleCloseRole} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Add</Button>
           </DialogActions>
         </Dialog>
-			</div>
 		</div>
+		</div>
+	</div>
 	);
 }
