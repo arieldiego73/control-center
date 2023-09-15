@@ -63,211 +63,171 @@ export default function Project() {
   const breadcrumbItems = [{ label: "Projects", href: "/project" }];
 
   return (
-    <body>
-      <div className={ProjectStyle.mainContainer}>
-        <div
-          style={{ width: "97%", paddingBottom:'1%' }}
-        >
-          <div className={ProjectStyle.pageTitle}>
-            <span>
-              <AccountTreeOutlinedIcon fontSize="large" />
-            </span>
-            <span
-              style={{ fontSize: "1.8rem", color: "black", fontWeight: "600" }}
+    <div className={ProjectStyle.mainContainer}>
+      <div className={ProjectStyle.mainHolder}>
+        <div className={ProjectStyle.addButton}>
+          <Link
+            to="/createuser"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Add />}
+              className={ProjectStyle.button}
+              // onClick={performSearch}
             >
-              {" "}
-              PROJECTS{" "}
-            </span>
-          </div>
+              Add User
+            </Button>
+          </Link>
         </div>
-        <div className={ProjectStyle.contentContainer}>
-          <div className={ProjectStyle.midContent}>
-            {/* for breadcrumbs */}
-            <div
-              style={{
-                // border: "1px solid red",
-                paddingBottom: "1%",
-                width: "80%",
-                height: "75%",
-               paddingLeft:'1%',
-                position: "relative",
-                top: "3%",
-                alignSelf: "center",
-              }}
-              role="presentation"
-              onClick={handleClick}
-            >
-              <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-                <Link
-                  to="/Project"
-                  className={`${ProjectStyle["custom-link"]}`}
-                  style={{ color: "inherit" }}
-                >
-                  Project
-                </Link>
-              </Breadcrumbs>
+
+        <div className={ProjectStyle.contentHolder}>
+          <div className={ProjectStyle.searchBarContainer}>
+            {/* Start of first search bar */}
+            <div className={ProjectStyle.searchBarCol}>
+              <FormControl>
+                <Grid container alignItems="center" spacing={2}>
+                  <Grid item>
+                    <FormLabel
+                      sx={{
+                        fontFamily: "Montserrat, sans-serif",
+                        width: "100%",
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Project name :
+                    </FormLabel>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      className={ProjectStyle.textField}
+                    />
+                  </Grid>
+                </Grid>
+              </FormControl>
+
+              <FormControl>
+                <Grid container alignItems="center" spacing={2}>
+                  <Grid item>
+                    <FormLabel
+                      sx={{
+                        fontFamily: "Montserrat, sans-serif",
+                        width: "100%",
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Project manager :{" "}
+                    </FormLabel>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      className={ProjectStyle.textField}
+                    />
+                  </Grid>
+                </Grid>
+              </FormControl>
+
+              <FormControl>
+                <Grid container alignItems="center" spacing={2}>
+                  <Grid item>
+                    <FormLabel
+                      sx={{
+                        fontFamily: "Montserrat, sans-serif",
+                        width: "100%",
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Client :{" "}
+                    </FormLabel>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      className={ProjectStyle.textField}
+                    />
+                  </Grid>
+                </Grid>
+              </FormControl>
+
+              <FormControl>
+                <Grid container alignItems="center" spacing={2}>
+                  <Grid item>
+                    <FormLabel
+                      sx={{
+                        fontFamily: "Montserrat, sans-serif",
+                        width: "100%",
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Status :
+                    </FormLabel>
+                  </Grid>
+                  <Grid item xs>
+                    {" "}
+                    {/* Let this Grid item take up remaining space */}
+                    <FormControl
+                      variant="outlined"
+                      size="small"
+                      style={{ width: "100%", border: "1px solid red" }}
+                      className={ProjectStyle.projFormControl}
+                    >
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={status}
+                        onChange={handleChange}
+                        className={ProjectStyle.projStatus}
+                        sx={{ width: "100%" }}
+                        inputProps={{
+                          classes: {
+                            root: ProjectStyle.projSelectRoot,
+                            outlined: ProjectStyle.projSelectOutlined,
+                          },
+                        }}
+                      >
+                        <MenuItem value={1}>Open</MenuItem>
+                        <MenuItem value={2}>Close</MenuItem>
+                        <MenuItem value={3}>Cancelled</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </FormControl>
             </div>
 
             <div>
-              <Link to="/NewProj" style={{ textDecoration: "none" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<Add />}
-                  style={{
-                    textTransform: "none",
-                    fontFamily: "Montserrat, sans-serif",
-                  }}
-                >
-                  Add Project
-                </Button>
-              </Link>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<SearchIcon />}
+                style={{
+                  textTransform: "none",
+                  fontFamily: "Montserrat, sans-serif",
+                }}
+              >
+                Search
+              </Button>
             </div>
+
+            {/* Start of Search Button */}
           </div>
-          <div className={ProjectStyle.contentHolder}>
-            {/* Start of Header */}
-            <div className={ProjectStyle.searchBarContainer}>
-              <div className={ProjectStyle.searchBarCol}>
-                {/* Start of first search bar */}
 
-                <FormControl className={ProjectStyle.projManagerStyle}>
-                  <Grid container alignItems="center" spacing={5}>
-                    <Grid item>
-                      <FormLabel sx={{ fontFamily: 'Montserrat, sans-serif', width: "100%", color: "black", fontWeight: "400" }}>Project name : </FormLabel>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        className={ProjectStyle.textField}
-                      />
-                    </Grid>
-                  </Grid>
-                </FormControl>
-
-                <FormControl className={ProjectStyle.projManagerStyle}>
-                  <Grid container alignItems="center" spacing={2}>
-                    <Grid item>
-                      <FormLabel
-                        sx={{
-                          fontFamily: "Montserrat, sans-serif",
-                          width: "100%",
-                          color: "black",
-                          fontWeight: "400",
-                        }}
-                      >
-                        Project manager :{" "}
-                      </FormLabel>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        className={ProjectStyle.textField}
-                      />
-                    </Grid>
-                  </Grid>
-                </FormControl>
-              </div>
-
-              {/* Start of second search bar */}
-              <div className={ProjectStyle.searchBar1}>
-                <div className={ProjectStyle.searchBarCol}>
-                  <FormControl className={ProjectStyle.projClientStyle}>
-                    <Grid container alignItems="center" spacing={2}>
-                      <Grid item>
-                        <FormLabel
-                          sx={{
-                            fontFamily: "Montserrat, sans-serif",
-                            width: "100%",
-                            color: "black",
-                            fontWeight: "400",
-                          }}
-                        >
-                          Client :{" "}
-                        </FormLabel>
-                      </Grid>
-                      <Grid item>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          className={ProjectStyle.textField}
-                        />
-                      </Grid>
-                    </Grid>
-                  </FormControl>
-
-                  <Box sx={{ width: "100%" }}>
-                    <div className={ProjectStyle.projStatus}>
-                      <Grid container alignItems="center" spacing={2}>
-                        <Grid item>
-                          <FormLabel
-                            sx={{
-                              fontFamily: "Montserrat, sans-serif",
-                              width: "100%",
-                              color: "black",
-                              fontWeight: "400",
-                            }}
-                          >
-                            Status :
-                          </FormLabel>
-                        </Grid>
-                        <Grid item xs>
-                          {" "}
-                          {/* Let this Grid item take up remaining space */}
-                          <FormControl
-                            variant="outlined"
-                            size="small"
-                            style={{ width: "100%" }}
-                            className={ProjectStyle.projFormControl}
-                          >
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="demo-simple-select"
-                              value={status}
-                              onChange={handleChange}
-                              className={ProjectStyle.projStatus}
-                              sx={{ width: "100%" }}
-                              inputProps={{
-                                classes: {
-                                  root: ProjectStyle.projSelectRoot,
-                                  outlined: ProjectStyle.projSelectOutlined,
-                                },
-                              }}
-                            >
-                              <MenuItem value={1}>Open</MenuItem>
-                              <MenuItem value={2}>Close</MenuItem>
-                              <MenuItem value={3}>Cancelled</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </Grid>
-                      </Grid>
-                    </div>
-                  </Box>
-                </div>
-              </div>
-              <div className={ProjectStyle.buttonContainer}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<SearchIcon />}
-                  style={{
-                    textTransform: "none",
-                    fontFamily: "Montserrat, sans-serif",
-                  }}
-                >
-                  Search
-                </Button>
-              </div>
-            </div>
-
-            {/* Start of Table */}
-            <div className={ProjectStyle.tableContainer}>
-              <ProjectTable />
-            </div>
+          {/* Start of Table */}
+          <div className={ProjectStyle.tableContainer}>
+            <ProjectTable />
           </div>
         </div>
       </div>
-    </body>
+    </div>
   );
 }

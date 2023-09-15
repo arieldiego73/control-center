@@ -100,11 +100,11 @@ export default function Userpage() {
             <Button
               variant="contained"
               color="primary"
-              startIcon={<SearchIcon />}
+              startIcon={<Add />}
               className={UserStyle.button}
               onClick={performSearch}
             >
-              Add
+              Add User
             </Button>
           </Link>
         </div>
@@ -121,6 +121,7 @@ export default function Userpage() {
           >
             {/* Start of Seach Bar */}
             <div className={UserStyle.searchBarCol}>
+               {/* Start of Name */}
               <FormControl>
                 <Grid container alignItems="center" spacing={2}>
                   <Grid item>
@@ -150,7 +151,8 @@ export default function Userpage() {
                   </Grid>
                 </Grid>
               </FormControl>
-
+              
+               {/* Start of Business Unit */}
               <FormControl>
                 <Grid container alignItems="center" spacing={2}>
                   <Grid item>
@@ -177,6 +179,8 @@ export default function Userpage() {
                   </Grid>
                 </Grid>
               </FormControl>
+              
+               {/* Start of Position */}
               <FormControl>
                 <Grid container alignItems="center" spacing={2}>
                   <Grid item>
@@ -203,6 +207,8 @@ export default function Userpage() {
                   </Grid>
                 </Grid>
               </FormControl>
+              
+               {/* Start of Department */}
               <FormControl>
                 <Grid container alignItems="center" spacing={2}>
                   <Grid item>
