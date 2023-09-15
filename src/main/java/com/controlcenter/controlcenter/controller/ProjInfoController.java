@@ -67,13 +67,21 @@ public class ProjInfoController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteProjInfo(@PathVariable String id) {
-        return projInfoService.logicalDeleteProjInfo(id);
+    public ResponseEntity<String> logicalDeleteProjInfo(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(projInfoService.logicalDeleteProjInfo(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreProjInfo(@PathVariable String id) {
-        return projInfoService.restoreProjInfo(id);
+    public ResponseEntity<String> restoreProjInfo(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(projInfoService.restoreProjInfo(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }
 
