@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.SectionInput;
@@ -68,12 +69,29 @@ public class SectionController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteSection(@PathVariable String id) {
-        return sectionService.logicalDeleteSection(id);
+    public ResponseEntity<String> logicalDeleteSection(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(sectionService.logicalDeleteSection(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
+    }
+
+    @PutMapping("/delete-multiple")
+    public ResponseEntity<String> deleteMultipleSection(@RequestParam List<Long> ids) {
+        try {
+            return ResponseEntity.ok().body(sectionService.deleteMultipleSection(ids));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreSection(@PathVariable String id) {
-        return sectionService.restoreSection(id);
+    public ResponseEntity<String> restoreSection(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(sectionService.restoreSection(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }
