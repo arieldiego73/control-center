@@ -2,8 +2,10 @@ package com.controlcenter.controlcenter.controller;
 
 import com.controlcenter.controlcenter.model.AccountInput;
 import com.controlcenter.controlcenter.model.AccountOutput;
+import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
+import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.shared.ErrorHandler;
@@ -134,5 +136,11 @@ public class UserController {
   @GetMapping("/username")
   public ResponseEntity<UserOutput> getUserByUsername(@RequestParam @Valid @NotBlank String username) {
     return userService.getUsername(username);
+  }
+
+  //get all roles of user
+  @GetMapping("/roles/{emp_id}")
+  public ResponseEntity<List<UserRoles>> getAllRolesOfUser(@PathVariable String emp_id) {
+    return userService.getAllRolesOfUser(emp_id);
   }
 }

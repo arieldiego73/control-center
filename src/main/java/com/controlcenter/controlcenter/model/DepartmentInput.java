@@ -10,11 +10,15 @@ import lombok.Setter;
 @Setter
 public class DepartmentInput {
 
-    @NotBlank(message = "Department name should not be empty.")
-    @Size(max = 150, message = "The Department name is invalid, it should be up to 150 characters long.")
+    @NotBlank(message = "Business Unit name should not be empty.")
+    @Size(max = 150, message = "The Business Unit name is invalid, it should be up to 150 characters long.")
     private String dept_name;
 
-    @NotBlank(message = "Department's short name should not be empty.")
-    @Size(max = 50, message = "The Department short name is invalid, it should be up to 50 characters long.")
+    @NotBlank(message = "Business Unit short name should not be empty.")
+    @Size(max = 50, message = "The Business Unit short name is invalid, it should be up to 50 characters long.")
     private String dept_sh_name;
+
+    @NotBlank(message = "Business Unit description should not be empty.")
+    @Size(max = 1000, message = "The Business Unit short name is invalid, it should be up to 1000 characters long.")
+    private String dept_desc;
 }
