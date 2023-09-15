@@ -38,7 +38,7 @@
     </insert>
     
 <!-- Update Data -->
-    <update id="editProjInfoInfo" parameterType="map">
+    <update id="editProjInfo" parameterType="map">
         UPDATE tbl_proj_info
            SET dev_type_id=#{projInfo.dev_type_id}, 
                client_id=#{projInfo.client_id}, 
@@ -49,14 +49,14 @@
     </update>
 
 <!-- Logical Delete Data -->
-    <update id="logicalDeleteProjInfo" parameterType="map">
+    <update id="logicalDeleteProjInfo">
         UPDATE tbl_proj_info
            SET del_flag = 1
         WHERE proj_info_id = #{id}
     </update>
 
 <!-- Restore Data -->
-    <update id="restoreProjInfo" parameterType="map">
+    <update id="restoreProjInfo">
         UPDATE tbl_proj_info
            SET del_flag = 0
         WHERE proj_info_id = #{id}
