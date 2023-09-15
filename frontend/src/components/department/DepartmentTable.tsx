@@ -32,13 +32,13 @@ import {
 	TextField,
 } from "@mui/material";
 import DepartmentModuleStyle from "./DepartmentTable.module.css";
-import { getDepartmentFetch } from "../../redux/state/departmentState";
+import { getSectionFetch } from "../../redux/state/sectionState";
 import {
-	addDepartment,
-	deleteDepartment,
-	deleteDepartmentBatch,
-	updateDepartment,
-} from "../../redux/saga/departmentSaga";
+	addSection,
+	deleteSection,
+	deleteSectionBatch,
+	updateSection,
+} from "../../redux/saga/sectionSaga";
 import CustomPagination from "../custom_pagination/pagination";
 import {
 	datagridBoxStyle,
@@ -49,21 +49,21 @@ import DataGridProps from "../datagrid_customs/DataGridProps";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 
-const EmployeeDepartmentTable: React.FC<DataGridProps> = (props) => {
+const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
 	// GET ALL THE DEPARTMENT AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
-		dispatch(getDepartmentFetch());
+		dispatch(getSectionFetch());
 	}, [dispatch]);
 
 	// GET THE STATES
-	const departmentData = useSelector(
-		(state: RootState) => state.deptReducer.department
+	const sectionData = useSelector(
+		(state: RootState) => state.sectionReducer.section
 	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
-	const [rows, setRows] = React.useState<GridRowsProp>(departmentData);
+	const [rows, setRows] = React.useState<GridRowsProp>(sectionData);
 	const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
 		{}
 	);
@@ -86,8 +86,8 @@ const EmployeeDepartmentTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	React.useEffect(() => {
-		setRows(departmentData);
-	}, [departmentData]);
+		setRows(sectionData);
+	}, [sectionData]);
 
 	const [departmentName, setDepartmentName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
@@ -106,12 +106,12 @@ const EmployeeDepartmentTable: React.FC<DataGridProps> = (props) => {
 	}
 
 	const proceedWithDelete = () => {
-		dispatch(deleteDepartment({ dept_id: deleteId }));
+		dispatch(deleteSection({ section_id: deleteId }));
 		setAsk(false);
 	};
 
 	const proceedWithDeleteBatch = () => {
-		dispatch(deleteDepartmentBatch({ batchId: selectedId }));
+		dispatch(deleteSectionBatch({ batchId: selectedId }));
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
@@ -155,15 +155,15 @@ const EmployeeDepartmentTable: React.FC<DataGridProps> = (props) => {
 			...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
-		setRows(departmentData);
+		setRows(sectionData);
 	};
 
 	const processUpdateRow = (data: GridRowModel) => {
-		dispatch(updateDepartment({ departmentData: data }));
+		dispatch(updateSection({ sectionData: data }));
 	};
 
 	const processAddRow = (data: GridRowModel) => {
-		dispatch(addDepartment({ departmentData: data }));
+		dispatch(addSection({ sectionData: data }));
 	};
 
 	const handleAdd = () => {
@@ -177,8 +177,8 @@ const EmployeeDepartmentTable: React.FC<DataGridProps> = (props) => {
 	const addRecord = (isAddOnly: boolean) => {
 		if (departmentName && shortName) {
 			const posData: GridValidRowModel = {
-				dept_name: departmentName,
-				dept_sh_name: shortName,
+				section_name: departmentName,
+				section_sh_name: shortName,
 			};
 			processAddRow(posData);
 			setDepartmentName("");
@@ -198,10 +198,10 @@ const EmployeeDepartmentTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
-		if (newRow.dept_name && newRow.dept_sh_name) {
+		if (newRow.section_name && newRow.section_sh_name) {
 			processUpdateRow(newRow);
 		} else {
-			const cancel = handleCancelClick(newRow.dept_id);
+			const cancel = handleCancelClick(newRow.section_id);
 			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
@@ -218,7 +218,7 @@ const EmployeeDepartmentTable: React.FC<DataGridProps> = (props) => {
 
 	const columns: GridColDef[] = [
 		{
-			field: "dept_name",
+			field: "section_name",
 			headerName: "Department",
 			minWidth: 300,
 			flex: 1,
@@ -227,7 +227,7 @@ const EmployeeDepartmentTable: React.FC<DataGridProps> = (props) => {
 			align: "center",
 		},
 		{
-			field: "dept_sh_name",
+			field: "section_sh_name",
 			headerName: "Short Name",
 			width: 300,
 			minWidth: 300,
@@ -443,7 +443,7 @@ const EmployeeDepartmentTable: React.FC<DataGridProps> = (props) => {
 				rows={rows}
 				columns={columns}
 				editMode="row"
-				getRowId={(row) => row.dept_id}
+				getRowId={(row) => row.section_id}
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
@@ -480,4 +480,4 @@ const EmployeeDepartmentTable: React.FC<DataGridProps> = (props) => {
 	);
 };
 
-export default EmployeeDepartmentTable;
+export default DepartmentTable;
