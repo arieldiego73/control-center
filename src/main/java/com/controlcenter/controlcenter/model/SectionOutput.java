@@ -30,6 +30,8 @@ public class SectionOutput {
     @Digits(integer = 9, fraction = 0, message = "The Business Unit ID is invalid, it should be up to 9 digits long.")
     private Long dept_id;
     
+    @NotBlank(message = "Business Unit name should not be empty.")
+    @Size(max = 150, message = "The Business Unit name is invalid, it should be up to 150 characters long.")
     private String dept_name;
     private int del_flag;
 }

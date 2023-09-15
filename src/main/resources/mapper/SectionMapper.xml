@@ -11,8 +11,10 @@
             s.section_id,
             s.section_name,
             s.section_sh_name,
+            s.section_desc,
             s.dept_id,
-            d.dept_name
+            d.dept_name,
+            s.del_flag
         FROM
             tbl_section_mst AS s
         JOIN
