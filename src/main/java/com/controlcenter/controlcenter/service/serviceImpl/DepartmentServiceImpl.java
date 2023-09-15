@@ -56,14 +56,14 @@ public class DepartmentServiceImpl implements DepartmentService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a department.");
+            activityLogInput.setLog_desc("Added a Business Unit.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Department Added Successfully.";
+            return "Business Unit added successfully.";
 
         } catch (Exception e) {
             return e.getMessage();
@@ -76,7 +76,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Department with the ID " + id + " has already been deleted.";
+                return "Business Unit with the ID " + id + " has already been deleted.";
             } else {
                 Map<String, Object> paramMap = new HashMap<>();
 
@@ -89,17 +89,17 @@ public class DepartmentServiceImpl implements DepartmentService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a Department.");
+                activityLogInput.setLog_desc("Edited a Business Unit.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Department Edited Successfully.";
+                return "Business Unit edited successfully.";
             }
         } else {
-            return "Department with the ID " + id + " cannot be found.";
+            return "Business Unit with the ID " + id + " cannot be found.";
         }
 
     }
@@ -110,7 +110,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Department with the ID " + id + " has already been deleted.";
+                return "Business Unit with the ID " + id + " has already been deleted.";
             } else {
                 departmentDao.logicalDeleteDepartment(id);
 
@@ -118,18 +118,18 @@ public class DepartmentServiceImpl implements DepartmentService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a Department.");
+                activityLogInput.setLog_desc("Deleted a Business Unit.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Department Deleted Successfully.";
+                return "Business Unit deleted successfully.";
             }
 
         } else {
-            return "Department with the ID " + id + " cannot be found.";
+            return "Business Unit with the ID " + id + " cannot be found.";
         }
     }
 
@@ -142,10 +142,10 @@ public class DepartmentServiceImpl implements DepartmentService {
             DepartmentOutput department = departmentDao.getDepartmentById(toString);
             if (department != null) {
                 if (department.getDel_flag() == 1) {
-                    return "Department with the ID " + id + " is already deleted.";
+                    return "Business Unit with the ID " + id + " is already deleted.";
                 }
             } else {
-                return "Department with the ID " + id + " cannot be found.";
+                return "Business Unit with the ID " + id + " cannot be found.";
             }
         }
         departmentDao.deleteMultipleDepartment(ids);
@@ -154,7 +154,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted Multiple departments.");
+        activityLogInput.setLog_desc("Deleted multiple Business Units.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
@@ -170,7 +170,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         if (data != null) {
             if (data.getDel_flag() == 0) {
-                return "Department with the ID " + id + " is not yet deleted.";
+                return "Business Unit with the ID " + id + " is not yet deleted.";
             } else {
                 departmentDao.restoreDepartment(id);
 
@@ -178,18 +178,18 @@ public class DepartmentServiceImpl implements DepartmentService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a Department.");
+                activityLogInput.setLog_desc("Restored a Business Unit.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Department Restored Successfully.";
+                return "Business Unit restored successfully.";
             }
 
         } else {
-            return "Department with the ID " + id + " cannot be found.";
+            return "Business Unit with the ID " + id + " cannot be found.";
         }
     }
 
