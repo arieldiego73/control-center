@@ -55,9 +55,9 @@ public class AccountInput {
     @Size(max = 150, message = "The Status Code is invalid, it should be up to 150 characters long.")
     private String status_code;
 
-    @NotNull(message = "Role ID should not be empty.")
-    @Digits(integer = 9, fraction = 0, message = "The Role ID is invalid, it should be up to 9 digits long.")
-    private Long role_id;
+    // @NotNull(message = "Role ID should not be empty.")
+    // @Digits(integer = 9, fraction = 0, message = "The Role ID is invalid, it should be up to 9 digits long.")
+    // private Long role_id;
 
     @Size(max = 150, message = "The Image Source is invalid, it should be up to 150 characters long.")
     private String img_src;

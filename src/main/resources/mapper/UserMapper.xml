@@ -67,7 +67,7 @@
             position_id, 
             dept_id, 
             section_id, 
-            role_id,
+            <!-- role_id, -->
             status_code, 
             img_src, 
             reg_id
@@ -79,7 +79,7 @@
             #{position_id}, 
             #{dept_id}, 
             #{section_id},
-            #{role_id}, 
+            <!-- #{role_id},  -->
             #{status_code}, 
             #{img_src}, 
             1

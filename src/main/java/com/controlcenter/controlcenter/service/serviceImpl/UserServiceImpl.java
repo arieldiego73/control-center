@@ -1,11 +1,13 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
+import com.controlcenter.controlcenter.dao.MultiRoleDao;
 import com.controlcenter.controlcenter.dao.PersonalInfoDao;
 import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.AccountInput;
 import com.controlcenter.controlcenter.model.AccountOutput;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
+import com.controlcenter.controlcenter.model.MultiRoleInput;
 import com.controlcenter.controlcenter.model.PersonalInfoInput;
 import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
@@ -44,6 +46,9 @@ public class UserServiceImpl implements UserService{
 
   @Autowired 
   public PersonalInfoDao personalInfoDao;
+
+  @Autowired
+  public MultiRoleDao multiRoleDao;
 
   @Autowired 
   public PasswordEncoder passEnc;
@@ -94,7 +99,7 @@ public class UserServiceImpl implements UserService{
   // }
 
   @Override
-  public String addAccount(AccountInput account) {
+  public String addAccount(AccountInput account, List<Long> role_ids) {
 
     UserInfoOutput userById = userDao.getUserById(account.getEmp_id());
 
@@ -121,7 +126,7 @@ public class UserServiceImpl implements UserService{
       user.setDept_id(account.getDept_id());
       user.setSection_id(account.getSection_id());
       user.setStatus_code(account.getStatus_code());
-      user.setRole_id(account.getRole_id());
+      // user.setRole_id(account.getRole_id());
       user.setImg_src(account.getImg_src());
 
       //initializing the value of personal info.
@@ -146,6 +151,10 @@ public class UserServiceImpl implements UserService{
         activityLogDao.addActivityLog(activityLogInput);
         } catch (Exception e) {
         return e.getMessage();
+      }
+      
+      for(Long id : role_ids) {
+        multiRoleDao.addMultiRole(account.getEmp_id(), id);
       }
       return "Account Created Successfully";
     }
@@ -182,7 +191,7 @@ public class UserServiceImpl implements UserService{
     user.setDept_id(accountBody.getDept_id());
     user.setSection_id(accountBody.getSection_id());
     user.setStatus_code(accountBody.getStatus_code());
-    user.setRole_id(accountBody.getRole_id());
+    // user.setRole_id(accountBody.getRole_id());
     user.setImg_src(accountBody.getImg_src());
 
     personalInfo.setEmp_id(accountBody.getEmp_id());
@@ -263,7 +272,7 @@ public class UserServiceImpl implements UserService{
         users.setDept_id(users.getDept_id());
         users.setSection_id(users.getSection_id());
         users.setStatus_code(users.getStatus_code());
-        users.setRole_id(users.getRole_id());
+        // users.setRole_id(users.getRole_id());
         users.setImg_src(users.getImg_src());
 
         //Activitylog
