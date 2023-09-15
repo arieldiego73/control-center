@@ -20,6 +20,7 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import AddRoleTableStyle from './User.module.css';
 
 interface Data {
   role: string;
@@ -73,10 +74,6 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort<T>(
   array: readonly T[],
   comparator: (a: T, b: T) => number
@@ -199,40 +196,6 @@ interface EnhancedTableToolbarProps {
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
-
-  // return (
-  //   <Toolbar
-  //     sx={{
-  //       pl: { sm: 2 },
-  //       pr: { xs: 1, sm: 1 },
-  //       ...(numSelected > 0 && {
-  //         bgcolor: (theme) =>
-  //           alpha(
-  //             theme.palette.primary.main,
-  //             theme.palette.action.activatedOpacity
-  //           ),
-  //       }),
-  //     }}
-  //   >
-  //     {numSelected > 0 ? (
-  //       <Typography
-  //         sx={{ flex: "1 1 100%" }}
-  //         color="inherit"
-  //         variant="subtitle1"
-  //         component="div"
-  //       >
-  //         {numSelected} selected
-  //       </Typography>
-  //     ) : null}
-  //     {numSelected > 0 ? (
-  //       <Tooltip title="Delete">
-  //         <IconButton>
-  //           <DeleteIcon />
-  //         </IconButton>
-  //       </Tooltip>
-  //     ) : null}
-  //   </Toolbar>
-  // );
 }
 
 export default function AddRoleTable() {
@@ -308,12 +271,10 @@ export default function AddRoleTable() {
   );
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
+    <div className={AddRoleTableStyle.addroleTableContainer}>
+      <Paper className={AddRoleTableStyle.addroleTableHolder}>
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size="medium"
           >
@@ -325,6 +286,7 @@ export default function AddRoleTable() {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
+
             <TableBody>
               {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row.role);
@@ -354,6 +316,7 @@ export default function AddRoleTable() {
                         }}
                       />
                     </TableCell>
+
                     <TableCell
                       component="th"
                       id={labelId}
@@ -364,6 +327,7 @@ export default function AddRoleTable() {
                     >
                       {row.role}
                     </TableCell>
+
                     <TableCell align="center" sx={{ padding: "2vh 2vw" }}>
                       {row.shortname}
                     </TableCell>
@@ -378,6 +342,7 @@ export default function AddRoleTable() {
             </TableBody>
           </Table>
         </TableContainer>
+        
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -388,6 +353,6 @@ export default function AddRoleTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </Box>
+    </div>
   );
 }

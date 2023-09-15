@@ -53,7 +53,7 @@ public class UserProjectServiceImpl implements UserProjectService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Added a user project.");
+            activityLogInput.setLog_desc("Added a User Project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
@@ -80,14 +80,14 @@ public class UserProjectServiceImpl implements UserProjectService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a user project.");
+            activityLogInput.setLog_desc("Edited a User Project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "User Project Edited Successfully";
+            return "User Project edited successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -103,7 +103,7 @@ public class UserProjectServiceImpl implements UserProjectService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a user project.");
+            activityLogInput.setLog_desc("Deleted a User Project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log

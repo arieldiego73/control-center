@@ -14,10 +14,10 @@ import lombok.Setter;
 public class MultiRoleInput {
 
     @NotBlank(message = "Employee ID should not be empty.")
-    @Size(max = 50, message = "The Employee ID is not meeting the required length.")
+    @Size(max = 50, message = "The Employee ID is invalid, it should be up to 50 characters long.")
     private String emp_id;
 
     @NotNull(message = "Role ID should not be empty.")
-    @Digits(integer = 9, fraction = 0, message = "The Role ID is not meeting the required length.")
+    @Digits(integer = 9, fraction = 0, message = "The Role ID is invalid, it should be up to 9 digits long.")
     private Long role_id;
 }

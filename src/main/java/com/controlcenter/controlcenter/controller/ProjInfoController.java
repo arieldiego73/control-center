@@ -53,7 +53,7 @@ public class ProjInfoController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editProjInfoInfo(@PathVariable String id, @RequestBody ProjInfoInput projInfo) {
+    public ResponseEntity<String> editProjInfo(@PathVariable String id, @RequestBody ProjInfoInput projInfo) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
@@ -62,7 +62,7 @@ public class ProjInfoController {
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return ResponseEntity.status(200).body(projInfoService.addProjInfo(projInfo));
+                return ResponseEntity.status(200).body(projInfoService.editProjInfo(id, projInfo));
             }
     }
 

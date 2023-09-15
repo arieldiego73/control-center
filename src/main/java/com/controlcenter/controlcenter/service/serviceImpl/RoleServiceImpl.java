@@ -88,14 +88,14 @@ public class RoleServiceImpl implements RoleService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Added a department.");
+        activityLogInput.setLog_desc("Added a Role.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
 
-        return "Role Edited Successfully";
+        return "Role edited successfully";
       }
     } else {
       return "Role with the ID " + id + " cannot be found.";
@@ -136,7 +136,7 @@ public class RoleServiceImpl implements RoleService {
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
 
-        return "Role Deleted Successfully.";
+        return "Role deleted successfully.";
       }
     } else {
       return "Role with the ID " + id + " cannot be found.";
@@ -157,7 +157,7 @@ public class RoleServiceImpl implements RoleService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Restored a role.");
+        activityLogInput.setLog_desc("Restored a Role.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // Add the activity log
@@ -192,7 +192,7 @@ public class RoleServiceImpl implements RoleService {
     ActivityLogInput activityLogInput = new ActivityLogInput();
 
     activityLogInput.setEmp_id("101"); // current logged user dapat
-    activityLogInput.setLog_desc("Deleted Multiple roles.");
+    activityLogInput.setLog_desc("Deleted multiple Roles.");
 
     Long currentTimeMillis = System.currentTimeMillis();
     // add the activity log
@@ -211,14 +211,14 @@ public class RoleServiceImpl implements RoleService {
       ActivityLogInput activityLogInput = new ActivityLogInput();
 
       activityLogInput.setEmp_id("101"); // current logged user dapat
-      activityLogInput.setLog_desc("restored a multiple role.");
+      activityLogInput.setLog_desc("restored a multiple Roles.");
 
       Long currentTimeMillis = System.currentTimeMillis();
       // Add the activity log
       activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
       activityLogDao.addActivityLog(activityLogInput);
 
-      return "Roles Restored Successfully.";
+      return "Roles restored successfully.";
     } catch (Exception e) {
       return e.getMessage();
     }

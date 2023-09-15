@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { TablePagination } from '@mui/material';
 import MembersTable from './MembersTable';
-import ViewProjectDetails from './ViewProjectDetails';
+import ViewProjectDetails from './ViewProjectDetails'; 
 import { Link, useNavigate } from 'react-router-dom';
 import { FontFamily } from '@mui/joy/styles';
 
@@ -142,7 +142,7 @@ export default function ProjectTable() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead sx={{ backgroundColor: "transparent", zIndex: "1" }}>
               <TableRow>
-                {['ID', 'Project Name', 'Project Manager', 'Client', 'Duration', 'Development Type', 'Development Phase', 'Technologies', 'Member(s)', 'Status'].map((header, index) => (
+                {['ID', 'Project Name',  'Client', 'Duration', 'Development Type',  'Member(s)', 'Status'].map((header, index) => (
                   <TableCell key={index} align="center" style={{ fontWeight: "bolder", backgroundColor: "#f3f3f3", fontFamily:`${font}` }}>
                     {header}
                   </TableCell>
@@ -163,12 +163,12 @@ export default function ProjectTable() {
 											{row.projectName}
 										</span>
 									</TableCell> 
-                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"500", color:"black"}}>{row.projectManager}</TableCell>
+                  {/* <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"500", color:"black"}}>{row.projectManager}</TableCell> */}
                   <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"500", color:"black"}}>{row.client}</TableCell>
                   <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"500", color:"black"}}>{row.duration}</TableCell>
                   <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"500", color:"black"}}>{row.developmentType}</TableCell>
-                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"500", color:"black"}}>{row.developmentPhase}</TableCell>
-                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"500", color:"black"}}>{row.technoloies}</TableCell>
+                  {/* <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"500", color:"black"}}>{row.developmentPhase}</TableCell>
+                  <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"500", color:"black"}}>{row.technoloies}</TableCell> */}
                   <TableCell align="center" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"500", color:"black"}}>
                     <span
                       style={{ color: "blue", textDecoration: "underline", cursor: "pointer" , fontFamily:"Montserrat, sans-serif" }}

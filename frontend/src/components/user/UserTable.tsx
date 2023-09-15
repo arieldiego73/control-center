@@ -11,7 +11,7 @@ import { TablePagination } from "@mui/material";
 import UserTableStyle from './User.module.css'
 
 // Define the type for your row data
-interface RowData {
+interface RowData { 
 	emp_id: number;
 	username: string;
 	fname: string;
@@ -57,223 +57,231 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 	};
 
 	return (
-		<div className={UserTableStyle.tableMainContainer}>
-			<Paper className={UserTableStyle.paperTable}>
-				<TableContainer className={UserTableStyle.tableContainer}>
-					<Table stickyHeader aria-label="sticky table">
-						<TableHead
-							sx={{ backgroundColor: "transparent", zIndex: "1",borderRadius:'10px',  }}
-						>
-							<TableRow>
+	<div className={UserTableStyle.tableMainContainer}>
+		<Paper className={UserTableStyle.paperTable}>
+			<TableContainer className={UserTableStyle.tableContainer}>
+				<Table stickyHeader aria-label="sticky table">
+					{/*Title Header */}
+					<TableHead className={UserTableStyle.tableHead}>
+						<TableRow>
+							<TableCell
+								align="center"
+								style={{
+									fontWeight: "bolder",
+									backgroundColor: "white",
+									fontFamily: "Montserrat, sans-serif",
+								}}
+							>
+								Username
+							</TableCell>
+							<TableCell
+								align="center"
+								style={{
+									fontWeight: "bolder",
+									backgroundColor: "white",
+									fontFamily: "Montserrat, sans-serif",
+								}}
+							>
+								First name
+							</TableCell>
+							<TableCell
+								align="center"
+								style={{
+									fontWeight: "bolder",
+									backgroundColor: "white",
+									fontFamily: "Montserrat, sans-serif",
+								}}
+							>
+								Last name
+							</TableCell>
+							<TableCell
+								align="center"
+								style={{
+									fontWeight: "bolder",
+									backgroundColor: "white",
+									fontFamily: "Montserrat, sans-serif",
+								}}
+							>
+								Position
+							</TableCell>
+							<TableCell
+								align="center"
+								style={{
+									fontWeight: "bolder",
+									backgroundColor: "white",
+									fontFamily: "Montserrat, sans-serif",
+								}}
+							>
+								Email
+							</TableCell>
+							<TableCell
+								align="center"
+								style={{
+									fontWeight: "bolder",
+									backgroundColor: "white",
+									fontFamily: "Montserrat, sans-serif",
+								}}
+							>
+								Business unit
+							</TableCell>
+							<TableCell
+								align="center"
+								style={{
+									fontWeight: "bolder",
+									backgroundColor: "white",
+									fontFamily: "Montserrat, sans-serif",
+								}}
+							>
+								Department
+							</TableCell>
+							<TableCell
+								align="center"
+								style={{
+									fontWeight: "bolder",
+									backgroundColor: "white",
+									fontFamily: "Montserrat, sans-serif",
+								}}
+							>
+								Created
+							</TableCell>
+						</TableRow>
+					</TableHead>
+				     
+					{/*Data table */}
+					<TableBody>
+						{rows.slice(startIndex, endIndex).map((row) => (
+							<TableRow
+								key={row.emp_id} // Assuming assocID is unique
+								sx={{
+									"&:last-child td, &:last-child th": {
+										border: 0,
+									},
+								}}
+							>
 								<TableCell
+									component="th"
+									scope="row"
 									align="center"
-									style={{
-										fontWeight: "bolder",
-										backgroundColor: "white",
-										fontFamily: "Montserrat, sans-serif",
-									}}
 								>
-									Username
+									<span
+										onClick={() => handleRowClick(row)}
+										style={{
+											textDecoration: "underline",
+											cursor: "pointer",
+											color: "blue",
+										}}
+									>
+										{row.username}
+									</span>
 								</TableCell>
+
 								<TableCell
 									align="center"
 									style={{
-										fontWeight: "bolder",
-										backgroundColor: "white",
-										fontFamily: "Montserrat, sans-serif",
+										fontFamily:
+											"Montserrat, sans-serif",
+										fontWeight: "500",
+										color: "black",
 									}}
 								>
-									First name
+									{row.fname}
 								</TableCell>
+
 								<TableCell
 									align="center"
 									style={{
-										fontWeight: "bolder",
-										backgroundColor: "white",
-										fontFamily: "Montserrat, sans-serif",
+										fontFamily:
+											"Montserrat, sans-serif",
+										fontWeight: "500",
+										color: "black",
 									}}
 								>
-									Last name
+									{row.lname}
 								</TableCell>
+
 								<TableCell
 									align="center"
 									style={{
-										fontWeight: "bolder",
-										backgroundColor: "white",
-										fontFamily: "Montserrat, sans-serif",
+										fontFamily:
+											"Montserrat, sans-serif",
+										fontWeight: "500",
+										color: "black",
 									}}
 								>
-									Position
+									{row.position_sh_name}
 								</TableCell>
+
 								<TableCell
 									align="center"
 									style={{
-										fontWeight: "bolder",
-										backgroundColor: "white",
-										fontFamily: "Montserrat, sans-serif",
+										fontFamily:
+											"Montserrat, sans-serif",
+										fontWeight: "500",
+										color: "black",
 									}}
 								>
-									Email
+									{row.email}
 								</TableCell>
+
 								<TableCell
 									align="center"
 									style={{
-										fontWeight: "bolder",
-										backgroundColor: "white",
-										fontFamily: "Montserrat, sans-serif",
+										fontFamily:
+											"Montserrat, sans-serif",
+										fontWeight: "500",
+										color: "black",
 									}}
 								>
-									Business unit
+									{row.section_name}
 								</TableCell>
+								
 								<TableCell
 									align="center"
 									style={{
-										fontWeight: "bolder",
-										backgroundColor: "white",
-										fontFamily: "Montserrat, sans-serif",
+										fontFamily:
+											"Montserrat, sans-serif",
+										fontWeight: "500",
+										color: "black",
 									}}
 								>
-									Department
+									{row.dept_name}
 								</TableCell>
+								
 								<TableCell
 									align="center"
 									style={{
-										fontWeight: "bolder",
-										backgroundColor: "white",
-										fontFamily: "Montserrat, sans-serif",
+										fontFamily:
+											"Montserrat, sans-serif",
+										fontWeight: "500",
+										color: "black",
 									}}
 								>
-									Created
+									{new Intl.DateTimeFormat("en-US", {
+										year: "numeric",
+										month: "short",
+										day: "2-digit",
+										hour: "2-digit",
+										minute: "2-digit",
+										// second: "2-digit",
+										hour12: true,
+									}).format(new Date(row.reg_date))}
 								</TableCell>
 							</TableRow>
-						</TableHead>
-						<TableBody>
-							{rows.slice(startIndex, endIndex).map((row) => (
-								<TableRow
-									key={row.emp_id} // Assuming assocID is unique
-									sx={{
-										"&:last-child td, &:last-child th": {
-											border: 0,
-										},
-									}}
-								>
-									<TableCell
-										component="th"
-										scope="row"
-										align="center"
-									>
-										<span
-											onClick={() => handleRowClick(row)}
-											style={{
-												textDecoration: "underline",
-												cursor: "pointer",
-												color: "blue",
-											}}
-										>
-											{row.username}
-										</span>
-									</TableCell>
-									<TableCell
-										align="center"
-										style={{
-											fontFamily:
-												"Montserrat, sans-serif",
-											fontWeight: "500",
-											color: "black",
-										}}
-									>
-										{row.fname}
-									</TableCell>
-									<TableCell
-										align="center"
-										style={{
-											fontFamily:
-												"Montserrat, sans-serif",
-											fontWeight: "500",
-											color: "black",
-										}}
-									>
-										{row.lname}
-									</TableCell>
-									<TableCell
-										align="center"
-										style={{
-											fontFamily:
-												"Montserrat, sans-serif",
-											fontWeight: "500",
-											color: "black",
-										}}
-									>
-										{row.position_sh_name}
-									</TableCell>
-									<TableCell
-										align="center"
-										style={{
-											fontFamily:
-												"Montserrat, sans-serif",
-											fontWeight: "500",
-											color: "black",
-										}}
-									>
-										{row.email}
-									</TableCell>
-									<TableCell
-										align="center"
-										style={{
-											fontFamily:
-												"Montserrat, sans-serif",
-											fontWeight: "500",
-											color: "black",
-										}}
-									>
-										{row.section_name}
-									</TableCell>
-									<TableCell
-										align="center"
-										style={{
-											fontFamily:
-												"Montserrat, sans-serif",
-											fontWeight: "500",
-											color: "black",
-										}}
-									>
-										{row.dept_name}
-									</TableCell>
-									<TableCell
-										align="center"
-										style={{
-											fontFamily:
-												"Montserrat, sans-serif",
-											fontWeight: "500",
-											color: "black",
-										}}
-									>
-										{new Intl.DateTimeFormat("en-US", {
-											year: "numeric",
-											month: "short",
-											day: "2-digit",
-											hour: "2-digit",
-											minute: "2-digit",
-											// second: "2-digit",
-											hour12: true,
-										}).format(new Date(row.reg_date))}
-									</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
-				<TablePagination
-					rowsPerPageOptions={[10, 25, 100]}
-					component="div"
-					count={rows.length}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-				/>
-			</Paper>
-		</div>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+			<TablePagination
+				rowsPerPageOptions={[10, 25, 100]}
+				component="div"
+				count={rows.length}
+				rowsPerPage={rowsPerPage}
+				page={page}
+				onPageChange={handleChangePage}
+				onRowsPerPageChange={handleChangeRowsPerPage}
+			/>
+		</Paper>
+	</div>
 	);
 }
 

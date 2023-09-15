@@ -46,14 +46,14 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a project technology.");
+            activityLogInput.setLog_desc("Added a Project Technology.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Technology Added Successfully";
+            return "Project Technology added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -77,14 +77,14 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a project technology.");
+                activityLogInput.setLog_desc("Edited a Project Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Technology Edited Successfully";
+                return "Project Technology edited successfully.";
             }
         } else {
             return "Project Technology with the ID " + id + " cannot be found.";
@@ -105,14 +105,14 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a project technology.");
+                activityLogInput.setLog_desc("Deleted a Project Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Technology Deleted Successfully";
+                return "Project Technology deleted successfully.";
             }
         } else {
             return "Project Technology with the ID " + id + " cannot be found.";
@@ -133,14 +133,14 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a project technology.");
+                activityLogInput.setLog_desc("Restored a Project Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Technology Restored Successfully";
+                return "Project Technology restored successfully.";
             }
         } else {
             return "Project Technology with the ID " + id + " cannot be found.";

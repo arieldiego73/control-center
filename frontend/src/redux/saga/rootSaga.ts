@@ -9,10 +9,10 @@ import {
 	roleSagaDeleteBatch,
 } from "./roleSaga";
 import { sessionSaga } from "./sessionSaga";
-import departmentSaga from "./departmentSaga";
 import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBatch, devPhaseSagaUpdate } from "./devPhaseSaga";
 import { positionSaga, positionSagaAdd, positionSagaUpdate, positionSagaDelete, positionSagaDeleteBatch } from "./positionSaga";
-import { businessUnitSaga, businessUnitSagaAdd, businessUnitSagaDelete, businessUnitSagaDeleteBatch, businessUnitSagaUpdate } from "./businessUnitSaga";
+import {sectionSaga, sectionSagaAdd, sectionSagaDelete, sectionSagaDeleteBatch, sectionSagaUpdate} from "./sectionSaga";
+import {departmentSaga, departmentSagaAdd, departmentSagaDelete, departmentSagaDeleteBatch, departmentSagaUpdate} from "./departmentSaga";
 import { projectStatusSaga, projectStatusSagaAdd, projectStatusSagaUpdate, projectStatusSagaDelete, projectStatusSagaDeleteBatch } from "./projectStatusSaga";
 import { employeeStatusSaga, employeeStatusSagaAdd, employeeStatusSagaUpdate, employeeStatusSagaDelete, employeeStatusSagaDeleteBatch } from "./employeeStatusSaga";
 
@@ -30,6 +30,10 @@ export default function* rootSaga() {
 		roleSagaDeleteBatch(),
 
 		departmentSaga(),
+		departmentSagaAdd(),
+		departmentSagaUpdate(),
+		departmentSagaDelete(),
+		departmentSagaDeleteBatch(),
 
 		devPhaseSaga(),
 		devPhaseSagaAdd(),
@@ -43,12 +47,6 @@ export default function* rootSaga() {
 		positionSagaDelete(),
 		positionSagaDeleteBatch(),
 
-		businessUnitSaga(),
-		businessUnitSagaAdd(),
-		businessUnitSagaUpdate(),
-		businessUnitSagaDelete(),
-		businessUnitSagaDeleteBatch(),
-
 		projectStatusSaga(),
 		projectStatusSagaAdd(),
 		projectStatusSagaUpdate(),
@@ -59,7 +57,13 @@ export default function* rootSaga() {
 		employeeStatusSagaAdd(),
 		employeeStatusSagaUpdate(),
 		employeeStatusSagaDelete(),
-		employeeStatusSagaDeleteBatch()
+		employeeStatusSagaDeleteBatch(),
+
+		sectionSaga(),
+		sectionSagaAdd(),
+		sectionSagaUpdate(),
+		sectionSagaDelete(),
+		sectionSagaDeleteBatch()
 		// Add more sagas here
 	]);
 }

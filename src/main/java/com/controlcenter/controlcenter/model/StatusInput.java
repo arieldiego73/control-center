@@ -19,6 +19,6 @@ public class StatusInput {
     private String status_name;
 
     @NotBlank(message = "Status description should not be empty.")
-    @Size(max = 1000, message = "The Status description is invalid, it should not exceed to 1000 characters.")
+    @Size(max = 1000, message = "The Status description is invalid, it should be up to 1000 characters long.")
     private String status_desc;
 }

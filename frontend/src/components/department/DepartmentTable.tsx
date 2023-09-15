@@ -6,86 +6,64 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
-import HelpIcon from "@mui/icons-material/Help";
-import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
-import PersonFourIcon from "@mui/icons-material/Person4";
 import {
 	GridRowsProp,
 	GridRowModesModel,
 	GridRowModes,
 	DataGrid,
 	GridColDef,
-	GridToolbarContainer,
 	GridActionsCellItem,
 	GridEventListener,
 	GridRowId,
 	GridRowModel,
 	GridRowEditStopReasons,
 	GridRowSelectionModel,
-	GridToolbar,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { getRolesFetch } from "../../redux/state/roleState";
 import {
-	addRoles,
-	deleteRoles,
-	deleteRolesBatch,
-	updateRoles,
-} from "../../redux/saga/roleSaga";
-import {
-	Alert,
-	AlertColor,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
+	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
-	Snackbar,
 	TextField,
-	Typography,
-	useMediaQuery,
-	useTheme,
 } from "@mui/material";
-import DepartmentStyle from './DepartmentTable.module.css';
+import DepartmentModuleStyle from "./DepartmentTable.module.css";
+import { getSectionFetch } from "../../redux/state/sectionState";
+import {
+	addSection,
+	deleteSection,
+	deleteSectionBatch,
+	updateSection,
+} from "../../redux/saga/sectionSaga";
+import CustomPagination from "../custom_pagination/pagination";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 
-export interface SnackbarMessage {
-	message: string;
-	key: number;
-}
-
-export interface State {
-	open: boolean;
-	snackPack: readonly SnackbarMessage[];
-	messageInfo?: SnackbarMessage;
-}
-
-interface EditToolbarProps {
-	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-	setRowModesModel: (
-		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-	) => void;
-}
-
-export default function DepartmentTable() {
+const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
-	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
+	// GET ALL THE DEPARTMENT AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
-		dispatch(getRolesFetch());
+		dispatch(getSectionFetch());
 	}, [dispatch]);
 
-	// STORE THE ROLES TO 'data'
-	const data = useSelector((state: RootState) => state.roleReducer.roles);
+	// GET THE STATES
+	const sectionData = useSelector(
+		(state: RootState) => state.sectionReducer.section
+	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
-	const [rows, setRows] = React.useState<GridRowsProp>(data);
+	const [rows, setRows] = React.useState<GridRowsProp>(sectionData);
 	const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
 		{}
 	);
@@ -101,136 +79,43 @@ export default function DepartmentTable() {
 	const [ask, setAsk] = React.useState(false);
 	const [deleteId, setDeleteId] = React.useState(0);
 
-	const [snackPack, setSnackPack] = React.useState<
-		readonly SnackbarMessage[]
-	>([]);
-	const [open, setOpen] = React.useState(false);
-	const [messageInfo, setMessageInfo] = React.useState<
-		SnackbarMessage | undefined
-	>(undefined);
-	const [severity, setSeverity] = React.useState<AlertColor>("error");
-
 	const dataGridSlots = {
-		toolbar: EditToolbar,
+		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
 	};
 
-	function UnsortedIcon() {
-		return <SortIcon className="icon" />;
+	React.useEffect(() => {
+		setRows(sectionData);
+	}, [sectionData]);
+
+	const [departmentName, setDepartmentName] = React.useState("");
+	const [shortName, setShortName] = React.useState("");
+	const departmentNameRef = React.useRef<HTMLInputElement | null>(null);
+
+	function DatagridToolbar() {
+		return (
+			<DataGridEditToolbar
+				setAsk={setAsk}
+				setIsBatch={setIsBatch}
+				setDialogContentText={setDialogContentText}
+				setDialogTitle={setDialogTitle}
+				selectedId={selectedId}
+			/>
+		);
 	}
 
-	// FOR CONFIRM DIALOG
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
 	const proceedWithDelete = () => {
-		dispatch(deleteRoles({ role_id: deleteId }));
-		setRows(data);
+		dispatch(deleteSection({ section_id: deleteId }));
 		setAsk(false);
-		const success = handleClickSnackpack(
-			"A role is deleted successfully!",
-			"success"
-		);
-		success();
 	};
 
-	const proceedWithDeleteBatch = async () => {
-		dispatch(deleteRolesBatch({ batchId: selectedId }));
-		setRows(data); // update rows
+	const proceedWithDeleteBatch = () => {
+		dispatch(deleteSectionBatch({ batchId: selectedId }));
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
-		const success = handleClickSnackpack(
-			`Deleted ${selectedId.size} role/s successfully!`,
-			"success"
-		);
-		success();
 	};
-
-	// FOR SNACKPACK
-	React.useEffect(() => {
-		if (snackPack.length && !messageInfo) {
-			// Set a new snack when we don't have an active one
-			setMessageInfo({ ...snackPack[0] });
-			setSnackPack((prev) => prev.slice(1));
-			setOpen(true);
-		} else if (snackPack.length && messageInfo && open) {
-			// Close an active snack when a new one is added
-			setOpen(false);
-		}
-	}, [snackPack, messageInfo, open]);
-
-	const handleClickSnackpack =
-		(message: string, severity: AlertColor) => () => {
-			setSnackPack((prev) => [
-				...prev,
-				{ message, key: new Date().getTime() },
-			]);
-			setSeverity(severity);
-		};
-
-	const handleClose = (event: React.SyntheticEvent | Event) => {
-		setOpen(false);
-	};
-
-	const handleExited = () => {
-		setMessageInfo(undefined);
-	};
-
-	// FOR DATA GRID
-	React.useEffect(() => {
-		setRows(data);
-	}, [data]);
-
-	const [roleTitle, setRoleTitle] = React.useState("");
-	const [shortName, setShortName] = React.useState("");
-	const [userLevel, setUserLevel] = React.useState("");
-	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
-
-	function EditToolbar(props: EditToolbarProps) {
-		const handleDeleteBatch = () => {
-			setAsk(true);
-			setIsBatch(true);
-			setDialogContentText(
-				"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-			);
-			setDialogTitle(
-				`Delete ${
-					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
-				} role${selectedId.size > 1 ? "s" : ""}?`
-			);
-		};
-
-		return (
-			<GridToolbarContainer
-				sx={{
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "baseline",
-				}}
-			>
-				<Button
-					color="error"
-					variant="contained"
-					startIcon={<DeleteIcon />}
-					onClick={handleDeleteBatch}
-					hidden={true}
-					sx={{
-						marginBottom: 3,
-						fontFamily: "Montserrat, san-serif",
-						visibility: `${
-							selectedId.size !== 0 ? "visible" : "hidden"
-						}`,
-					}}
-				>
-					DELETE BATCH
-				</Button>
-				<div>
-					<GridToolbar />
-				</div>
-			</GridToolbarContainer>
-		);
-	}
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
@@ -261,7 +146,7 @@ export default function DepartmentTable() {
 		setDialogContentText(
 			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
 		);
-		setDialogTitle("Delete this role?");
+		setDialogTitle("Delete this department?");
 		setDeleteId(id as number);
 	};
 
@@ -270,62 +155,41 @@ export default function DepartmentTable() {
 			...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
-		setRows(data);
+		setRows(sectionData);
 	};
 
-	const processUpdateRow = (roleInfo: GridRowModel) => {
-		dispatch(updateRoles({ roleInfo }));
-		const success = handleClickSnackpack(
-			"Role is updated successfully",
-			"success"
-		);
-		success();
+	const processUpdateRow = (data: GridRowModel) => {
+		dispatch(updateSection({ sectionData: data }));
 	};
 
-	const processAddRow = (roleInfo: GridRowModel) => {
-		dispatch(addRoles({ roleInfo }));
-		const success = handleClickSnackpack(
-			"Role is added successfully",
-			"success"
-		);
-		success();
+	const processAddRow = (data: GridRowModel) => {
+		dispatch(addSection({ sectionData: data }));
 	};
 
 	const handleAdd = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
-			};
-			processAddRow(roleInfo);
-			setIsHidden(false);
-			setRoleTitle("");
-			setShortName("");
-			setUserLevel("");
-		} else {
-			const error = handleClickSnackpack(
-				"All fields are required! Please, try again.",
-				"error"
-			);
-			error();
-		}
+		addRecord(true);
 	};
 
 	const handleAddContinue = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
+		addRecord(false);
+	};
+
+	const addRecord = (isAddOnly: boolean) => {
+		if (departmentName && shortName) {
+			const posData: GridValidRowModel = {
+				section_name: departmentName,
+				section_sh_name: shortName,
 			};
-			processAddRow(roleInfo);
-			setRoleTitle("");
+			processAddRow(posData);
+			setDepartmentName("");
 			setShortName("");
-			setUserLevel("");
-			roleTitleRef.current?.focus();
+			if (isAddOnly) {
+				setIsHidden(false);
+			} else {
+				departmentNameRef.current?.focus();
+			}
 		} else {
-			const error = handleClickSnackpack(
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -333,18 +197,12 @@ export default function DepartmentTable() {
 		}
 	};
 
-	const handleUpdateAndAdd = (newRow: GridRowModel) => {
-		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
-			// determines whether it is update or add new
-			if (data.length === rows.length) {
-				processUpdateRow(newRow);
-			} else {
-				processAddRow(newRow);
-			}
-			setRows(data); // update the rows in the table
+	const handleUpdate = (newRow: GridRowModel) => {
+		if (newRow.section_name && newRow.section_sh_name) {
+			processUpdateRow(newRow);
 		} else {
-			const cancel = handleCancelClick(newRow.role_id);
-			const error = handleClickSnackpack(
+			const cancel = handleCancelClick(newRow.section_id);
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -360,32 +218,23 @@ export default function DepartmentTable() {
 
 	const columns: GridColDef[] = [
 		{
-			field: "title",
-			headerName: "Role",
-			width: 300,
+			field: "section_name",
+			headerName: "Department",
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
 			headerAlign: "center",
 			align: "center",
 		},
 		{
-			field: "role_sh_name",
+			field: "section_sh_name",
 			headerName: "Short Name",
 			width: 300,
-			editable: true,
-			flex: 12,
-			headerAlign: "center",
-			align: "center",
-		},
-		{
-			field: "role_user_level",
-			headerName: "User Level",
-			type: "number",
-			width: 200,
+			minWidth: 300,
+			flex: 1,
 			editable: true,
 			headerAlign: "center",
 			align: "center",
-			flex: 12,
 		},
 		{
 			field: "actions",
@@ -437,47 +286,7 @@ export default function DepartmentTable() {
 	];
 
 	return (
-		<Box
-			sx={{
-				height: "100%",
-				width: "100%",
-				"& .actions": {
-					color: "text.secondary",
-				},
-				"& .MuiDataGrid-columnHeaderTitle": {
-					fontWeight: 800,
-					fontFamily: "Montserrat, san-serif",
-					padding: "0 24px",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
-					{
-						outline: "none !important",
-					},
-				"& .MuiDataGrid-root .MuiInputBase-input": {
-					textAlign: "center",
-					backgroundColor: "#fff",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
-					padding: "0 0.8vw",
-					height: "60%",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell":
-					{
-						backgroundColor: "#cbbdbd2e",
-					},
-				"& .textPrimary": {
-					color: "text.primary",
-				},
-				".MuiDataGrid-iconButtonContainer, .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeaders .MuiDataGrid-columnSeparator":
-					{
-						visibility: "visible",
-						width: "auto",
-					},
-				".MuiDataGrid-sortIcon": {
-					opacity: "inherit !important",
-				},
-			}}
-		>
+		<Box sx={datagridBoxStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -494,14 +303,13 @@ export default function DepartmentTable() {
 					<Button
 						variant="contained"
 						color="primary"
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
-						Add Role
+						Add Department
 					</Button>
 				) : (
-					<div className={DepartmentStyle.hideButton}>
+					<div className={DepartmentModuleStyle.hideButton}>
 						<div
 							style={{
 								flexDirection: "row",
@@ -522,19 +330,22 @@ export default function DepartmentTable() {
 								}}
 							>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
-										Role
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+										}}
+									>
+										Department
 									</FormLabel>
 									<TextField
 										style={{ width: "100%" }}
 										size="small"
-										placeholder="ex: Software Developer"
 										onChange={(e) =>
-											setRoleTitle(e.target.value)
+											setDepartmentName(e.target.value)
 										}
-										value={roleTitle}
+										value={departmentName}
 										autoFocus
-										inputRef={roleTitleRef}
+										inputRef={departmentNameRef}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -545,47 +356,28 @@ export default function DepartmentTable() {
 									/>
 								</FormControl>
 								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
+									<FormLabel
+										style={{
+											fontWeight: "bold",
+										}}
+									>
 										Short Name
 									</FormLabel>
 									<TextField
 										style={{ width: "100%" }}
 										variant="outlined"
 										size="small"
-										placeholder="ex: SoftDev"
 										onChange={(e) =>
 											setShortName(e.target.value)
 										}
 										value={shortName}
-										className={DepartmentStyle.textField}
+										className={
+											DepartmentModuleStyle.textField
+										}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
 													<BadgeIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
-								<FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
-										User Level
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										variant="outlined"
-										size="small"
-										type="number"
-										placeholder="ex: 1"
-										onChange={(e) =>
-											setUserLevel(e.target.value)
-										}
-										value={userLevel}
-										className={DepartmentStyle.textField}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonFourIcon />
 												</InputAdornment>
 											),
 										}}
@@ -597,7 +389,7 @@ export default function DepartmentTable() {
 								style={{
 									flexDirection: "row",
 									display: "flex",
-									alignItems: "flex-end",
+									alignItems: "center",
 									height: "100%",
 									gap: "10px",
 								}}
@@ -609,7 +401,6 @@ export default function DepartmentTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
 									}}
 									onClick={handleAddContinue}
 								>
@@ -622,19 +413,19 @@ export default function DepartmentTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif"
 									}}
 									onClick={handleAdd}
 								>
 									Save
 								</Button>
 								<Button
-									style={{ height: "50%", fontFamily: "Montserrat, san-serif" }}
+									style={{
+										height: "50%",
+									}}
 									onClick={() => {
 										setIsHidden(false);
-										setRoleTitle("");
+										setDepartmentName("");
 										setShortName("");
-										setUserLevel("");
 									}}
 								>
 									Close
@@ -645,16 +436,18 @@ export default function DepartmentTable() {
 				)}
 			</Box>
 
+			<Divider variant="middle" />
+
 			<DataGrid
-				sx={{ height: 600, border: "none" }}
+				sx={datagridStyle}
 				rows={rows}
 				columns={columns}
 				editMode="row"
-				getRowId={(row) => row.role_id}
+				getRowId={(row) => row.section_id}
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
-				processRowUpdate={handleUpdateAndAdd}
+				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
 				onRowSelectionModelChange={(newRowSelectionModel) => {
@@ -664,91 +457,27 @@ export default function DepartmentTable() {
 				rowSelectionModel={rowSelectionModel}
 				initialState={{
 					pagination: {
-						paginationModel: { page: 0, pageSize: 25 },
-					},
-					sorting: {
-						sortModel: [{ field: "reg_id", sort: "desc" }],
+						paginationModel: { page: 0, pageSize: 10 },
 					},
 				}}
 				slots={dataGridSlots}
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
-				pageSizeOptions={[25, 50, 100]}
+				pageSizeOptions={[10, 25, 50, 100]}
 			/>
-			<Snackbar
-				key={messageInfo ? messageInfo.key : undefined}
-				open={open}
-				autoHideDuration={2000}
-				onClose={handleClose}
-				TransitionProps={{ onExited: handleExited }}
-				// message={messageInfo ? messageInfo.message : undefined}
-			>
-				<Alert
-					onClose={handleClose}
-					severity={severity}
-					sx={{ width: "100%" }}
-					variant="filled"
-				>
-					{messageInfo ? messageInfo.message : undefined}
-				</Alert>
-			</Snackbar>
-			<Dialog
-				fullScreen={fullScreen}
-				open={ask}
-				onClose={() => {
-					setAsk(false);
-				}}
-				aria-labelledby="responsive-dialog-title"
-			>
-				<DialogTitle id="responsive-dialog-title">
-					<Typography
-						fontFamily={"Montserrat, san-serif"}
-						fontWeight={700}
-						fontSize={24}
-						display={"flex"}
-						alignItems={"center"}
-						gap={1}
-					>
-						<HelpIcon
-							accentHeight={100}
-							color="error"
-							fontSize="large"
-							alignmentBaseline="middle"
-						/>
-						{dialogTitle}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText
-						fontFamily={"Montserrat, san-serif"}
-						whiteSpace={"pre-line"}
-					>
-						{dialogContentText}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button
-						variant="contained"
-						onClick={
-							isBatch ? proceedWithDeleteBatch : proceedWithDelete
-						}
-						autoFocus
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-					>
-						Delete
-					</Button>
 
-					<Button
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-						onClick={() => {
-							setAsk(false);
-						}}
-					>
-						Cancel
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<DataGridDialog
+				ask={ask}
+				setAsk={setAsk}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				isBatch={isBatch}
+				proceedWithDelete={proceedWithDelete}
+				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
 		</Box>
 	);
-}
+};
+
+export default DepartmentTable;

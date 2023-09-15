@@ -51,14 +51,14 @@ public class ProjectServiceImpl implements ProjectService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a project.");
+            activityLogInput.setLog_desc("Added a Project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Added Successfully.";
+            return "Project added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -82,14 +82,14 @@ public class ProjectServiceImpl implements ProjectService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a project.");
+                activityLogInput.setLog_desc("Edited a Project.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Edited Successfully.";
+                return "Project edited successfully.";
             }
         } else {
             return "Project with the ID " + id + " cannot be found.";
@@ -110,14 +110,14 @@ public class ProjectServiceImpl implements ProjectService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a project.");
+                activityLogInput.setLog_desc("Deleted a Project.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Deleted Successfully.";
+                return "Project deleted successfully.";
             }
         } else {
             return "Project with the ID " + id + " cannot be found.";
@@ -138,14 +138,14 @@ public class ProjectServiceImpl implements ProjectService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a project.");
+                activityLogInput.setLog_desc("Restored a Project.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Restored Successfully.";
+                return "Project restored successfully.";
             }
         } else {
             return "Project with the ID " + id + " cannot be found.";

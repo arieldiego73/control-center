@@ -21,7 +21,6 @@
 .leftSide{
   height: 90%;
   width: 50%;
-  border: 1px solid red;
 
   display: flex;
   align-items: center;
@@ -29,26 +28,149 @@
   flex-direction: column;
 
 }
-.rightSide{
-  height: 90%;
-  width: 50%;
-  border: 1px solid blue;
+
+.breadCrumbsContainer {
+  height: 30%; 
+  width: 100%;
+  display: flex;
+  align-items: center; /* Vertically center the content */
 }
 
-.breadCrumbsContainer{
-  height: 30%;
-  width: 100%;
-  border: 1px solid green;
-}
 .titleContainer{
   height: 70%;
   width: 100%;
-  border: 1px solid violet;
+
+  display: flex;
+  align-items: center;
+
 }
-/* ///////for breadcrumbs////
-.custom-link {
-  text-decoration: underline;
+
+.titleContainer span{
+  font-size: 1.5rem;
+  padding-left: 3%;
+  font-weight: 600;
+}
+
+.custom-link:hover {
+  font-weight: 600;
 }  
- .custom-link:hover {
+ .custom-link {
   text-decoration: none; 
-}  */
+  font-size: small;
+} 
+
+.rightSide{
+  height: 90%;
+  width: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 2%;
+}
+.userInfo{
+  height: 100%;
+  width: 60%;
+
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.userProfilePic{
+  height: 50px;
+  width: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 100%;
+
+  cursor: pointer;
+}
+.userName{
+  height: 95%;
+  width: 45%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-left: 5px;
+
+}
+
+.userName span{
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 10px;
+  width: 100%;
+  height: 60%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: rgb(0, 0, 80);
+
+  transition: font-weight 0.1s ease-in-out;
+  transition: border 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.userName span:hover{
+  border: 1px solid gray;
+  font-weight: 600;
+
+}
+
+.logout{
+  height: 50%;
+  width: 15%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-right: 3%;
+
+  border: 1px solid whitesmoke;
+  background-color: rgb(250, 250, 250);
+  border-radius: 10px;
+
+  transition: border 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.logout:hover{
+  border: 1px solid gray;
+}
+.logoutSpanContainer{
+  height: 50%;
+  width: 100%;
+
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoutIcon{
+  width: 30%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.logoutText{
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+}

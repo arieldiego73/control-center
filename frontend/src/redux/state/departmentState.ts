@@ -1,35 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface Departments {
-  dept_id: number,
-  dept_name: string
-}
-
-const depts: Departments[] = [{
-	dept_id: 0,
-	dept_name: ""
-}]
-
 export const departmentSlice = createSlice({
-	name: "departments",
+	name: "department",
 	initialState: {
-		departments: depts,
+		department: [],
 		isLoading: false,
+		notice: {
+			message: "",
+			severity: ""
+		},
 	},
 	reducers: {
-		getDepartmentsFetch: (state) => {
+		getDepartmentFetch: (state) => {
 			state.isLoading = true;
 		},
-		getDepartmentsSuccess: (state, action) => {
-			state.departments = action.payload;
+		getDepartmentSuccess: (state, action) => {
+			state.department = action.payload;
 			state.isLoading = false;
 		},
-		getDepartmentsError: (state) => {
-			state.isLoading = false;
-		},
+		setMessage: (state, action) => {
+			state.notice = action.payload;
+		}
 	},
 });
 
-export const { getDepartmentsFetch, getDepartmentsSuccess, getDepartmentsError } =
-	departmentSlice.actions;
+export const { getDepartmentFetch, getDepartmentSuccess, setMessage } = departmentSlice.actions;
 export default departmentSlice.reducer;

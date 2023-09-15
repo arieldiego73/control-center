@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ import com.controlcenter.controlcenter.service.SectionService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
-public class SectionServiceImpl implements SectionService{
+public class SectionServiceImpl implements SectionService {
 
     @Autowired
     public SectionDao sectionDao;
@@ -27,102 +28,158 @@ public class SectionServiceImpl implements SectionService{
     @Autowired
     public ActivityLogDao activityLogDao;
 
+    public List<SectionOutput> sectionList = new ArrayList<>();
+
     @Override
-    public List<SectionOutput> getAllSection(){
+    public List<SectionOutput> getAllSection() {
         return sectionDao.getAllSection();
     }
-    
+
+    @Override
+    public SectionOutput getSectionById(String id) {
+        return sectionDao.getSectionById(id);
+    }
+
     @Override
     public String addSection(SectionInput section) {
         try {
             sectionDao.addSection(section);
 
-            //Avtivitylog
+            // Avtivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Added a Section");
+            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setLog_desc("Added a Department");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
+            // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Section added successfully.";
+            return "Department added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
-    @Override 
+    @Override
     public String editSectionInfo(String id, SectionInput section) {
-        try {
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("section", section);
+        SectionOutput data = sectionDao.getSectionById(id);
 
-            sectionDao.editSectionInfo(paramMap);
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Department with the ID " + id + " has already been deleted.";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("id", id);
+                paramMap.put("section", section);
 
-            //Avtivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                sectionDao.editSectionInfo(paramMap);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a Section");
+                // Avtivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Edited a Department");
 
-            return "Section edited successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Department edited successfully.";
+            }
+        } else {
+            return "Department with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String logicalDeleteSection(String id) {
-        try {
-        
-            sectionDao.logicalDeleteSection(id);
+        SectionOutput data = sectionDao.getSectionById(id);
 
-            //Avtivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Department with the ID " + id + " has already been deleted.";
+            } else {
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a Section");
-
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
-
-            return "Section deleted successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+            }
+        } else {
+            return "Department with the ID " + id + " cannot be found.";
         }
+
+        sectionDao.logicalDeleteSection(id);
+
+        // Avtivitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setLog_desc("Deleted a Department");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        // add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Department deleted successfully.";
+    }
+
+    @Override
+    public String deleteMultipleSection(List<Long> ids) {
+        sectionList = sectionDao.getAllSection();
+
+        for (Long id : ids) {
+            String toString = String.valueOf(id);
+            SectionOutput section = sectionDao.getSectionById(toString);
+            if (section != null) {
+                if (section.getDel_flag() == 1) {
+                    return "Department with the ID " + id + " is already deleted.";
+                }
+            } else {
+                return "Department with the ID " + id + " cannot be found.";
+            }
+        }
+        sectionDao.deleteMultipleSection(ids);
+
+        // Acivitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setLog_desc("Deleted multiple Departments.");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        // add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Records are successfully deleted.";
     }
 
     @Override
     public String restoreSection(String id) {
-        try {
-        
-            sectionDao.restoreSection(id);
+        SectionOutput data = sectionDao.getSectionById(id);
 
-            //Avtivitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 0) {
+                return "Department with the ID " + id + " is not yet deleted.";
+            } else {
+                sectionDao.restoreSection(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a Section");
+                // Avtivitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Restored a Department");
 
-            return "Section restored successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Department restored successfully.";
+            }
+        } else {
+            return "Department with the ID " + id + " cannot be found.";
         }
     }
 }

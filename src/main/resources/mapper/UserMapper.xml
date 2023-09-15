@@ -115,6 +115,21 @@
          WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
 
+    <!-- Login -->
+    <select id="getByUsername" resultType="com.controlcenter.controlcenter.model.UserOutput">
+        SELECT emp_id,
+               username,
+               password,
+               position_id,
+               dept_id,
+               section_id,
+               role_id,
+               status_code,
+               img_src
+          FROM tbl_user
+         WHERE username COLLATE utf8mb4_bin = #{username}
+    </select>
+
     
 
     <!-- <insert id="addAccount" parameterType="map">
