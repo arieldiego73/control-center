@@ -47,6 +47,7 @@ import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
 import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
+import { Description } from "@mui/icons-material";
 
 const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -90,6 +91,7 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 
 	const [positionName, setPositionName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
+	const [description, setDescription] = React.useState("");
 	const positionNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	function DatagridToolbar() {
@@ -182,6 +184,7 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 			processAddRow(posData);
 			setPositionName("");
 			setShortName("");
+			setDescription("");
 			if (isAddOnly) {
 				setIsHidden(false);
 			} else {
@@ -228,6 +231,16 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 		{
 			field: "position_sh_name",
 			headerName: "Short Name",
+			width: 300,
+			minWidth: 300,
+			flex: 1,
+			editable: true,
+			headerAlign: "center",
+			align: "center",
+		},
+		{
+			field: "position_desc",
+			headerName: "Description",
 			width: 300,
 			minWidth: 300,
 			flex: 1,
@@ -335,6 +348,17 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 									) => setShortName(e.target.value)}
 									textFieldIcon={<BadgeIcon />}
 								/>
+								<DataGridAddTextField
+									inputLabel="Description"
+									inputValue={description}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setDescription(e.target.value)}
+									textFieldIcon={<Description />}
+								/>
 							</div>
 
 							<DataGridAddButtons
@@ -344,6 +368,7 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 									setIsHidden(false);
 									setPositionName("");
 									setShortName("");
+									setDescription("");
 								}}
 							 />
 						</div>

@@ -21,6 +21,8 @@
             tbl_department_mst AS d
         ON
             s.dept_id = d.dept_id
+        WHERE
+            s.del_flag = 0
         ORDER BY
             s.section_id DESC,
             s.reg_date DESC;

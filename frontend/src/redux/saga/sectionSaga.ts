@@ -70,12 +70,14 @@ function* updateSaga(action: ReturnType<typeof updateSection>): any {
 const apiAdd = async (
 	section_name: string,
 	section_sh_name: string,
+	dept_id: number
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/section/add";
 		return axios.post(url, {
 			section_name,
 			section_sh_name,
+			dept_id
 		});
 	} catch (error) {
 		return error
@@ -95,7 +97,8 @@ function* addSaga(action: ReturnType<typeof addSection>): any {
 		const response = yield call(
 			apiAdd,
 			action.payload.sectionData.section_name,
-			action.payload.sectionData.section_sh_name
+			action.payload.sectionData.section_sh_name,
+			action.payload.sectionData.dept_id
 		);
 		yield call(validate, response);
 	} catch (error) {

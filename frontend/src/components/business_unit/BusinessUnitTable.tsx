@@ -47,6 +47,7 @@ import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
 import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
+import { Description } from "@mui/icons-material";
 
 const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -90,6 +91,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 
 	const [businessUnitName, setBusinessUnitName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
+	const [description, setDescription] = React.useState("");
 	const businessUnitNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	function DatagridToolbar() {
@@ -182,6 +184,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 			processAddRow(posData);
 			setBusinessUnitName("");
 			setShortName("");
+			setDescription("");
 			if (isAddOnly) {
 				setIsHidden(false);
 			} else {
@@ -228,6 +231,16 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 		{
 			field: "dept_sh_name",
 			headerName: "Short Name",
+			width: 300,
+			minWidth: 300,
+			flex: 1,
+			editable: true,
+			headerAlign: "center",
+			align: "center",
+		},
+		{
+			field: "dept_desc",
+			headerName: "Description",
 			width: 300,
 			minWidth: 300,
 			flex: 1,
@@ -312,7 +325,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
-									inputLabel="Position"
+									inputLabel="Business Unit"
 									inputValue={businessUnitName}
 									inputValueSetter={(
 										e: React.ChangeEvent<
@@ -335,6 +348,17 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 									) => setShortName(e.target.value)}
 									textFieldIcon={<BadgeIcon />}
 								/>
+								<DataGridAddTextField
+									inputLabel="Description"
+									inputValue={description}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setDescription(e.target.value)}
+									textFieldIcon={<Description />}
+								/>
 							</div>
 
 							<DataGridAddButtons
@@ -344,6 +368,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 									setIsHidden(false);
 									setBusinessUnitName("");
 									setShortName("");
+									setDescription("");
 								}}
 							 />
 						</div>
