@@ -4,10 +4,16 @@
 <mapper namespace="com.controlcenter.controlcenter.dao.TechnologyDao">
 
     <select id="getAllTechnology" resultType="com.controlcenter.controlcenter.model.TechnologyOutput">
-        SELECT tech_id, tech_name, tech_sh_name 
+        SELECT tech_id, tech_name, tech_sh_name, del_flag 
           FROM tbl_technology_mst
          WHERE del_flag = 0
       ORDER BY tech_id DESC, reg_date DESC;
+    </select>
+
+    <select id="getTechnologyById" resultType="com.controlcenter.controlcenter.model.TechnologyOutput">
+        SELECT tech_id, tech_name, tech_sh_name, del_flag 
+          FROM tbl_technology_mst
+         WHERE tech_id = #{id};
     </select>
 
     <insert id="addTechnology" parameterType="com.controlcenter.controlcenter.model.TechnologyInput">
@@ -35,6 +41,15 @@
         UPDATE tbl_technology_mst
            SET del_flag = 1
          WHERE tech_id = #{id};
+    </update>
+
+    <update id="deleteMultipleTechnology">
+        UPDATE tbl_technology_mst
+           SET del_flag = 1
+         WHERE tech_id IN
+         <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </update>
 
     <update id="restoreTechnology">

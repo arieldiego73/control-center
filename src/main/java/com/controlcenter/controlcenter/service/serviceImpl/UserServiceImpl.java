@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService{
     UserOutput user = new UserOutput();
     PersonalInfoOutput personalInfo = new PersonalInfoOutput();
 
-    List<UserTable> accounts = userDao.findAll();
+    // List<UserTable> accounts = userDao.findAll();
 
     // for(UserTable account : accounts) {
     //   if(id == accountBody.getEmp_id()) {
