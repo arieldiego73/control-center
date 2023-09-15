@@ -28,7 +28,7 @@ public class UserOutput {
 
   private String status_code;
 
-  private Long role_id;
+  // private Long role_id;
   
   private String img_src;
 }

@@ -49,14 +49,14 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a project status.");
+            activityLogInput.setLog_desc("Added a Project Status.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Status Added Successfully.";
+            return "Project Status added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -80,14 +80,14 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a project status.");
+                activityLogInput.setLog_desc("Edited a Project Status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Status Edited Successfully.";
+                return "Project Status edited successfully.";
             }
         } else {
             return "Project Status with the ID " + id + " cannot be found.";
@@ -108,14 +108,14 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Delete a project status.");
+                activityLogInput.setLog_desc("Delete a Project Status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Status Deleted Successfully.";
+                return "Project Status deleted successfully.";
             }
         } else {
             return "Project Status with the ID " + id + " cannot be found.";
@@ -144,7 +144,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted a multiple postion.");
+        activityLogInput.setLog_desc("Deleted multiple Project Status.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
@@ -168,14 +168,14 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a project status.");
+                activityLogInput.setLog_desc("Restored a Project Status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Status Restored Successfully.";
+                return "Project Status restored successfully.";
             }
         } else {
             return "Project Status with the ID " + id + " cannot be found.";

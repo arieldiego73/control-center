@@ -49,7 +49,7 @@ public class StatusServiceImpl implements StatusService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a status.");
+            activityLogInput.setLog_desc("Added a Status.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
@@ -84,14 +84,14 @@ public class StatusServiceImpl implements StatusService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a status.");
+                activityLogInput.setLog_desc("Edited a Status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Status Edited Successfully.";
+                return "Status edited successfully.";
             }
         } else {
             return "Status with the code " + code + " cannot be found.";
@@ -112,14 +112,14 @@ public class StatusServiceImpl implements StatusService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a status.");
+                activityLogInput.setLog_desc("Deleted a Status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Status Deleted Successfully.";
+                return "Status deleted successfully.";
             }
         } else {
             return "Status with the code " + code + " cannot be found.";
@@ -147,7 +147,7 @@ public class StatusServiceImpl implements StatusService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted Multiple status.");
+        activityLogInput.setLog_desc("Deleted multiple Status.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
@@ -171,14 +171,14 @@ public class StatusServiceImpl implements StatusService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a status.");
+                activityLogInput.setLog_desc("Restored a Status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Status Restored Successfully.";
+                return "Status restored successfully.";
             }
         } else {
             return "Status with the code " + code + " cannot be found.";

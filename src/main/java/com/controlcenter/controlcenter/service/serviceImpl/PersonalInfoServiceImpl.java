@@ -46,14 +46,14 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a personal Information.");
+            activityLogInput.setLog_desc("Added a Personal Information.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Personal Info Added Successfully.";
+            return "Personal Information added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -78,14 +78,14 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a personal Information.");
+                activityLogInput.setLog_desc("Edited a Personal Information.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Personal Information Edited Successfully.";
+                return "Personal Information edited successfully.";
             }
         } else {
             return "Personal Information with the ID " + id + " cannot be found.";
@@ -106,14 +106,14 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a personal Information.");
+                activityLogInput.setLog_desc("Deleted a Personal Information.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Personal Information Deleted Successfully.";
+                return "Personal Information deleted successfully.";
             }
         } else {
             return "Personal Information with the ID " + id + " cannot be found.";
@@ -134,14 +134,14 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a personal Information.");
+                activityLogInput.setLog_desc("Restored a Personal Information.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Personal Information Restored Successfully.";
+                return "Personal Information restored successfully.";
             }
         } else {
             return "Personal Information with the ID " + id + " cannot be found.";

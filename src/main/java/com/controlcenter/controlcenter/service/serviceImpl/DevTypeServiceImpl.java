@@ -45,14 +45,14 @@ public class DevTypeServiceImpl implements DevTypeService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a development type.");
+            activityLogInput.setLog_desc("Added a Development Type.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Development Type Added Successfully";
+            return "Development Type added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -76,14 +76,14 @@ public class DevTypeServiceImpl implements DevTypeService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a development type.");
+                activityLogInput.setLog_desc("Edited a Development Type.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Development Type Edited Successfully";
+                return "Development Type edited successfully.";
             }
         } else {
             return "Development Type with the ID " + id + " cannot be found.";
@@ -104,14 +104,14 @@ public class DevTypeServiceImpl implements DevTypeService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a development type.");
+                activityLogInput.setLog_desc("Deleted a Development Type.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Development Type Deleted Successfully";
+                return "Development Type deleted successfully.";
             }
         } else {
             return "Development Type with the ID " + id + " cannot be found.";
@@ -132,14 +132,14 @@ public class DevTypeServiceImpl implements DevTypeService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a development type.");
+                activityLogInput.setLog_desc("Restored a Development Type.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Development Type Restored Successfully";
+                return "Development Type restored successfully.";
             }
         } else {
             return "Development Type with the ID " + id + " cannot be found.";

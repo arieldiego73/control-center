@@ -11,4 +11,5 @@ public class ProjInfoOutput {
     private int client_id;
     private int proj_status_id; 
     private int proj_id;
+    private int del_flag;
 }

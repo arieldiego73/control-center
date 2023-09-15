@@ -39,9 +39,6 @@ border: 1px solid yellow;
   align-content: center;
   padding: 1%;
   padding-right: 2%;
-  position: fixed;
-  top: 12vh;
-  right: -0.5vw;
 }
 .contentHolder {
   border-radius: 5px;
@@ -49,7 +46,7 @@ border: 1px solid yellow;
   width: 99%;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; 
   padding: 2vh 0; 
   border: 1px solid green;
   /* background: rgba( 237, 249, 255, 0.35 );

@@ -47,13 +47,13 @@ public class ClientServiceImpl implements ClientService{
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Added a client.");
+            activityLogInput.setLog_desc("Added a Client.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
-            return "Client Added Successfully.";
+            return "Client added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -78,14 +78,14 @@ public class ClientServiceImpl implements ClientService{
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); //current logged user dapat
-                activityLogInput.setLog_desc("Edited a client.");
+                activityLogInput.setLog_desc("Edited a Client.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 //add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Client Edited Successfully.";
+                return "Client edited successfully.";
             }
         } else {
             return "Client with the ID " + id + " cannot be found.";
@@ -106,14 +106,14 @@ public class ClientServiceImpl implements ClientService{
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); //current logged user dapat
-                activityLogInput.setLog_desc("Deleted a client.");
+                activityLogInput.setLog_desc("Deleted a Client.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 //add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Client Deleted Successfully.";
+                return "Client deleted successfully.";
             }
         } else {
             return "Client with the ID " + id + " cannot be found.";
@@ -133,14 +133,14 @@ public class ClientServiceImpl implements ClientService{
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); //current logged user dapat
-                activityLogInput.setLog_desc("Restored a client.");
+                activityLogInput.setLog_desc("Restored a Client.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 //add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Client Restored Successfully.";
+                return "Client restored successfully.";
             }
         } else {
             return "Client with the ID " + id + " cannot be found.";

@@ -67,7 +67,7 @@
             position_id, 
             dept_id, 
             section_id, 
-            role_id,
+            <!-- role_id, -->
             status_code, 
             img_src, 
             reg_id
@@ -79,7 +79,7 @@
             #{position_id}, 
             #{dept_id}, 
             #{section_id},
-            #{role_id}, 
+            <!-- #{role_id},  -->
             #{status_code}, 
             #{img_src}, 
             1
@@ -94,7 +94,7 @@
                position_id=#{user.position_id},
                dept_id=#{user.dept_id},
                section_id=#{user.section_id},
-               role_id=#{user.role_id},
+               <!-- role_id=#{user.role_id}, -->
                status_code=#{user.status_code},
                img_src=#{user.img_src},
                update_id = 1
@@ -102,6 +102,21 @@
     </update>
 
     <select id="getUsername" resultType="com.controlcenter.controlcenter.model.UserOutput">
+        SELECT emp_id,
+               username,
+               password,
+               position_id,
+               dept_id,
+               section_id,
+               role_id,
+               status_code,
+               img_src
+          FROM tbl_user
+         WHERE username COLLATE utf8mb4_bin = #{username}
+    </select>
+
+    <!-- Login -->
+    <select id="getByUsername" resultType="com.controlcenter.controlcenter.model.UserOutput">
         SELECT emp_id,
                username,
                password,
