@@ -5,14 +5,14 @@
 
 <!-- Fetch Data -->
     <select id="getAllDepartment" resultType="com.controlcenter.controlcenter.model.DepartmentOutput">
-        SELECT dept_id, dept_name, dept_sh_name
+        SELECT dept_id, dept_name, dept_sh_name, dept_desc, del_flag
           FROM tbl_department_mst
          WHERE del_flag = 0
       ORDER BY dept_id DESC, reg_date DESC;
     </select>
 
     <select id="getDepartmentById" resultType="com.controlcenter.controlcenter.model.DepartmentOutput">
-        SELECT dept_id, dept_name, dept_sh_name, del_flag
+        SELECT dept_id, dept_name, dept_sh_name, dept_desc, del_flag
           FROM tbl_department_mst
          WHERE dept_id = #{id};
     </select>
@@ -22,11 +22,13 @@
         INSERT INTO tbl_department_mst(
           dept_name,
           dept_sh_name,
+          dept_desc,
           reg_id
         )
         VALUES (
           #{dept_name},
           #{dept_sh_name},
+          #{dept_desc},
           1
         );
     </insert>
@@ -36,6 +38,7 @@
         UPDATE tbl_department_mst
            SET dept_name=#{department.dept_name},
                dept_sh_name=#{department.dept_sh_name},
+               dept_desc=#{department.dept_desc},
                update_id = 1
          WHERE dept_id = #{id}
     </update>
