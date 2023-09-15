@@ -51,14 +51,14 @@ public class PositionServiceImpl implements PositionService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a postion.");
+            activityLogInput.setLog_desc("Added a Postion.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Position Added Successfully.";
+            return "Position added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -82,14 +82,14 @@ public class PositionServiceImpl implements PositionService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a postion.");
+                activityLogInput.setLog_desc("Edited a Postion.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Position Info Edited Successfully.";
+                return "Position edited successfully.";
             }
         } else {
             return "Position with the ID " + id + " cannot be found.";
@@ -110,14 +110,14 @@ public class PositionServiceImpl implements PositionService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a postion.");
+                activityLogInput.setLog_desc("Deleted a Postion.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Position Deleted Successfully.";
+                return "Position deleted successfully.";
             }
         } else {
             return "Position with the ID " + id + " cannot be found.";
@@ -145,7 +145,7 @@ public class PositionServiceImpl implements PositionService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted a multiple postion.");
+        activityLogInput.setLog_desc("Deleted multiple Postions.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
@@ -168,14 +168,14 @@ public class PositionServiceImpl implements PositionService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a postion.");
+                activityLogInput.setLog_desc("Restored a Postion.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Position Restored Successfully.";
+                return "Position restored successfully.";
             }
         } else {
             return "Position with the ID " + id + " cannot be found.";

@@ -9,4 +9,5 @@ public class ProjMemberOutput {
     private Long up_role_id;
     private int upid;
     private int role_id;
+    private int del_flag;
 }

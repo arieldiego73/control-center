@@ -12,12 +12,12 @@ import lombok.Setter;
 @Setter
 public class RoleInput {
 
-    @NotBlank(message = "Role Title should not be empty.")
-    @Size(max = 100, message = "The Role Title is not meeting the required length.")
+    @NotBlank(message = "Role title should not be empty.")
+    @Size(max = 100, message = "The Role title is invalid, it should be up to 100 characters long.")
     private String title;
 
     @NotBlank(message = "Role short name should not be empty.")
-    @Size(max = 50, message = "The Role short name is not meeting the required length.")
+    @Size(max = 50, message = "The Role short name is invalid, it should be up to 50 characters long.")
     private String role_sh_name;
 
     @NotNull(message = "Role user level should not be empty.")

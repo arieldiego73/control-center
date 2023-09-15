@@ -25,7 +25,7 @@ public class ActivityLogServiceImpl implements ActivityLogService{
     public String addActivityLog(ActivityLogInput activityLog) {
         try {
             activityLogDao.addActivityLog(activityLog);
-            return "Activity Log Added Successfully.";
+            return "Activity Log added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

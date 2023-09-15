@@ -46,14 +46,14 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a project phase.");
+            activityLogInput.setLog_desc("Added a Project Phase.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Phase Added Successfully.";
+            return "Project Phase added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -77,14 +77,14 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a project phase.");
+                activityLogInput.setLog_desc("Edited a Project Phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Phase Edited Successfully.";
+                return "Project Phase edited successfully.";
             }
         } else {
             return "Project Phase with the ID " + id + " cannot be found.";
@@ -105,14 +105,14 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a project phase.");
+                activityLogInput.setLog_desc("Deleted a Project Phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Phase Deleted Successfully.";
+                return "Project Phase deleted successfully.";
             }
         } else {
             return "Project Phase with the ID " + id + " cannot be found.";
@@ -133,14 +133,14 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a project phase.");
+                activityLogInput.setLog_desc("Restored a Project Phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project Phase Restored Successfully.";
+                return "Project Phase restored successfully.";
             }
         } else {
             return "Project Phase with the ID " + id + " cannot be found.";

@@ -5,10 +5,10 @@ interface NavigationHandlerProps extends TopNavProps {
   // Additional props for NavigationHandler, if needed
 }
 
-export default function NavigationHandler({ pageTitle }: NavigationHandlerProps) {
+export default function NavigationHandler({ pageTitle, breadcrumbs }: NavigationHandlerProps) {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", width: "100%" }}>
-      <Navigations pageTitle={pageTitle} /> {/* Pass the pageTitle prop here */}
+      <Navigations pageTitle={pageTitle} breadcrumbs={breadcrumbs}/> {/* Pass the pageTitle prop here */}
     </div>
   );
 }

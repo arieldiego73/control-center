@@ -11,7 +11,7 @@ import { TablePagination } from "@mui/material";
 import UserTableStyle from './User.module.css'
 
 // Define the type for your row data
-interface RowData {
+interface RowData { 
 	emp_id: number;
 	username: string;
 	fname: string;
@@ -55,6 +55,13 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 	const handleRowClick = (row: RowData) => {
 		navigate(`/editUser/${row.username}`, { state: row.emp_id });
 	};
+
+	// const FireNav = styled(List)<{ component?: React.ElementType }>({
+	// 	'& .MuiListItemButton-root': {
+	// 		paddingLeft: 24,
+	// 		paddingRight: 24,
+	// 	},
+	// });
 
 	return (
 	<div className={UserTableStyle.tableMainContainer}>
