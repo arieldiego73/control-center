@@ -7,10 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import UserTable from "./UserTable";
 import Button from "@mui/material/Button";
-import { Add } from "@mui/icons-material"; 
+import { Add } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Grid, FormLabel, TextField, FormControl } from "@mui/material";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 //for breadcrumbs
 import { Link } from "react-router-dom";
@@ -93,21 +94,23 @@ export default function Userpage() {
   };
 
   return (
-    <div className={UserStyle.mainContainer}>
-      <div className={UserStyle.mainHolder}>
-        <div className={UserStyle.addButton} >
-          <Link to="/createuser" style={{ textDecoration: "none", color: "black" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Add />}
-              className={UserStyle.button}
-              onClick={performSearch}
-            >
-              Add User
-            </Button>
-          </Link>
-        </div>
+    <div>
+      <div className={UserStyle.addButton} >
+        <Link to="/createuser" style={{ textDecoration: "none", color: "black" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddCircleOutlineIcon />}
+            className={UserStyle.button}
+            onClick={performSearch}
+          >
+            Add User
+          </Button>
+        </Link>
+      </div>
+
+      <div className={UserStyle.mainContainer}>
+        <div className={UserStyle.mainHolder}>
 
         <div className={UserStyle.contentHolder}>
           <Box
@@ -121,7 +124,6 @@ export default function Userpage() {
           >
             {/* Start of Seach Bar */}
             <div className={UserStyle.searchBarCol}>
-               {/* Start of Name */}
               <FormControl>
                 <Grid container alignItems="center" spacing={2}>
                   <Grid item>
@@ -151,8 +153,7 @@ export default function Userpage() {
                   </Grid>
                 </Grid>
               </FormControl>
-              
-               {/* Start of Business Unit */}
+
               <FormControl>
                 <Grid container alignItems="center" spacing={2}>
                   <Grid item>
@@ -179,8 +180,6 @@ export default function Userpage() {
                   </Grid>
                 </Grid>
               </FormControl>
-              
-               {/* Start of Position */}
               <FormControl>
                 <Grid container alignItems="center" spacing={2}>
                   <Grid item>
@@ -207,8 +206,6 @@ export default function Userpage() {
                   </Grid>
                 </Grid>
               </FormControl>
-              
-               {/* Start of Department */}
               <FormControl>
                 <Grid container alignItems="center" spacing={2}>
                   <Grid item>
@@ -251,9 +248,10 @@ export default function Userpage() {
             </div>
           </Box>
 
-          {/* Start of Table */}
-          <div className={UserStyle.tableContainer}>
-            <UserTable data={data} />
+            {/* Start of Table */}
+            <div className={UserStyle.userTableContainer}>
+              <UserTable data={data} />
+            </div>
           </div>
         </div>
       </div>

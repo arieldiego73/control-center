@@ -5,25 +5,31 @@
 	display: flex;
 	flex-direction: column; 
 	align-items: center;
-	height: 83%;
+  justify-content: center;
+	height: 78%;
 	width: 82%;
-	top: 14vh;
+	top: 20vh;
 	left: 16.5vw;
 	overflow: hidden;
-  /* border: 1px solid black; */
+  background: rgba( 237, 249, 255, 0.35 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 5px );
+  -webkit-backdrop-filter: blur( 5px );
+  border-radius: 10px;
 }
 .mainHolder{
   position: fixed;
 	display: flex;
 	flex-direction: column; 
 	align-items: center;
-	height: 83%;
-	width: 82%;
-	top: 14vh;
-	left: 16.5vw;
+  justify-content: center;
+	height: 99%;
+	width: 100%;
+	top: 0;
+	left: 0;
 	overflow: hidden;
   border-radius: 15px;
-  /* border: 1px solid red; */
+border: 1px solid yellow;
 }
 .addButton {
   width: 100%;
@@ -31,22 +37,22 @@
   display: flex;
   justify-content: flex-end;
   align-content: center;
-  /* padding: 1%; */
-  padding-right: 1.5%;
+  padding: 1%;
+  padding-right: 2%;
 }
 .contentHolder {
   border-radius: 5px;
   height: 100%;
-  width: 100%;
+  width: 99%;
   align-items: center;
   flex-direction: column;
   justify-content: center; 
   padding: 2vh 0; 
-  /* border: 1px solid red; */
-  background: rgba( 237, 249, 255, 0.35 );
-  /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+  border: 1px solid green;
+  /* background: rgba( 237, 249, 255, 0.35 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 5px );
-  -webkit-backdrop-filter: blur( 5px );
+  -webkit-backdrop-filter: blur( 5px ); */
  }
 
 
@@ -65,7 +71,7 @@
   display: flex;
   flex-direction: row;
   gap: 1vh;
-  align-items: stretch;
+  align-items: flex-end;
   justify-content: center;
 }
 .textField{
@@ -85,30 +91,29 @@
   border-bottom-right-radius: 8px;
   height: 100%;
   width: 100%;
+  border: 1px solid red;
 }
 
 
 /* Attributes of UserTable */
+.userTableContainer{
+  border: 1px solid violet;
+  height: 100%;
+}
 .tableMainContainer{
   flex-direction: column;
   justify-content: center;
   align-items: space-around;
-  height: 89.80%;
+  height: 100%;
   width:100%;
-  border:1px solid red;
 }
 .paperTable{
   width: 100%;
   height: 81%;
-  background-color: transparent;
-  /* border: 1px solid blue; */
+
 }
-.tableContainer{
-  width: 100%;
-  height: 100%;
-}
+
 .tableHead {
-  background-color: transparent;
   z-index: 1; 
   border-radius:10px;
 }
