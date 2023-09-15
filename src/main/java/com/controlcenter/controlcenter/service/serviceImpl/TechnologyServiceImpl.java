@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,8 @@ import com.controlcenter.controlcenter.service.TechnologyService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
-public class TechnologyServiceImpl implements TechnologyService{
-    
+public class TechnologyServiceImpl implements TechnologyService {
+
     @Autowired
     public TechnologyDao technologyDao;
 
@@ -27,9 +28,16 @@ public class TechnologyServiceImpl implements TechnologyService{
     @Autowired
     public ActivityLogDao activityLogDao;
 
+    List<TechnologyOutput> technologyList = new ArrayList<>();
+
     @Override
     public List<TechnologyOutput> getAllTechnology() {
         return technologyDao.getAllTechnology();
+    }
+
+    @Override
+    public TechnologyOutput getTechnologyById(String id) {
+        return technologyDao.getTechnologyById(id);
     }
 
     @Override
@@ -37,14 +45,14 @@ public class TechnologyServiceImpl implements TechnologyService{
         try {
             technologyDao.addTechnology(technology);
 
-            //Activitylog 
+            // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id("101"); // current logged user dapat
             activityLogInput.setLog_desc("Added a technology.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            //Add the activity log
+            // Add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
@@ -56,70 +64,119 @@ public class TechnologyServiceImpl implements TechnologyService{
 
     @Override
     public String editTechnology(String id, TechnologyInput technology) {
-        try {
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("technology", technology);
-            technologyDao.editTechnology(paramMap);
+        TechnologyOutput data = technologyDao.getTechnologyById(id);
 
-            //Activitylog 
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Technology with the ID " + id + " has already been deleted.";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("id", id);
+                paramMap.put("technology", technology);
+                technologyDao.editTechnology(paramMap);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a technology.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Edited a technology.");
 
-            return "Technology edited successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Technology edited successfully.";
+            }
+        } else {
+            return "Technology with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String logicalDeleteTechnology(String id) {
-        try {
-            technologyDao.logicalDeleteTechnology(id);
+        TechnologyOutput data = technologyDao.getTechnologyById(id);
 
-            //Activitylog 
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Technology with the ID " + id + " has already been deleted.";
+            } else {
+                technologyDao.logicalDeleteTechnology(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a technology.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Deleted a technology.");
 
-            return "Technology deleted successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Technology deleted successfully.";
+            }
+        } else {
+            return "Technology with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
+    public String deleteMultipleTechnology(List<Long> ids) {
+        technologyList = technologyDao.getAllTechnology();
+
+        for (Long id : ids) {
+            String toString = String.valueOf(id);
+            TechnologyOutput technology = technologyDao.getTechnologyById(toString);
+            if (technology != null) {
+                if (technology.getDel_flag() == 1) {
+                    return "Technology with the ID " + id + " is already deleted.";
+                }
+            } else {
+                return "Technology with the ID " + id + " cannot be found.";
+            }
+        }
+        technologyDao.deleteMultipleTechnology(ids);
+
+        // Acivitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setLog_desc("Deleted multiple technology.");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        // add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Records are successfully deleted.";
+    }
+
+    @Override
     public String restoreTechnology(String id) {
-        try {
-            technologyDao.restoreTechnology(id);
+        TechnologyOutput data = technologyDao.getTechnologyById(id);
 
-            //Activitylog 
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 0) {
+                return "Technology with the ID " + id + " is not yet deleted.";
+            } else {
+                technologyDao.restoreTechnology(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a technology.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Restored a technology.");
 
-            return "Technology restored successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Technology restored successfully.";
+            }
+        } else {
+            return "Technology with the ID " + id + " cannot be found.";
         }
     }
 
