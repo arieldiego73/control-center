@@ -67,88 +67,42 @@ export default function CreateUser() {
 
 
   return (
-    <body>
-      <div className={CreateUserStyle.mainContainer}>
-        <div style={{ width: "97%", paddingBottom: '1%' }}>
-          <div className={CreateUserStyle.pageTitle}>
-            <span>
-              <AccountTreeOutlinedIcon fontSize="large" />
-            </span>
-            <span
-              style={{ fontSize: "1.8rem", color: "black", fontWeight: "600" }}
-            >
-              {" "}
-              CREATE USER{" "}
-            </span>
-          </div>
-        </div>
+  <div className={CreateUserStyle.mainContainer}>
+      <div className={CreateUserStyle.mainHolder}>
 
-        <div className={CreateUserStyle.midContent}>
-          {/* for breadcrumbs */}
-          <div
-            style={{
-              // border: "1px solid red",
-              paddingBottom: "1%",
-              width: "80%",
-              height: "75%",
-              paddingLeft: '1%',
-              marginLeft: '1.5%',
-              position: "relative",
-              top: "3%",
-              alignSelf: "center",
-            }}
-            role="presentation"
-            onClick={handleClick}
-          >
-            <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-              <Link
-                to="/User"
-                className={`${CreateUserStyle["custom-link"]}`}
-                style={{ color: "inherit" }}
-              >
-                User
-              </Link>
-              <Link
-                to="/createUser"
-                className={`${CreateUserStyle["custom-link"]}`}
-                style={{ color: "inherit" }}
-              >
-                Create User
-              </Link>
-            </Breadcrumbs>
-          </div>
-        </div>
-
-        <div className={CreateUserStyle.contentContainer}>
+        {/* Start of Form */}
+        <div className={CreateUserStyle.contentHolder}>
           <div className={CreateUserStyle.mainForm}>
-            <div className={CreateUserStyle.formRow1}>
-              <FormControl className={CreateUserStyle.formUsername}>
-                <FormLabel
-                  sx={{
-                    fontFamily: "Montserrat, sans-serif",
-                    color: "black",
-                    fontWeight: "400",
-                  }}
-                >
-                  Username
-                </FormLabel>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  placeholder="Username"
-                  className={CreateUserStyle.textField}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PermIdentityOutlinedIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </FormControl>
-            </div>
+
+            {/* Start of Username */}
+            <FormControl className={CreateUserStyle.formUsername}>
+              <FormLabel
+                sx={{
+                  fontFamily: "Montserrat, sans-serif",
+                  color: "black",
+                  fontWeight: "400",
+                }}
+              >
+                Username
+              </FormLabel>
+              <TextField
+                variant="outlined"
+                size="small"
+                placeholder="Username"
+                className={CreateUserStyle.textField}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PermIdentityOutlinedIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </FormControl>
+              
+            {/* Start of Associate ID and Position */}
             <div className={CreateUserStyle.formRow2}>
-              <FormControl className={CreateUserStyle.assocId}>
+              <FormControl>
                 <FormLabel
                   sx={{
                     fontFamily: "Montserrat, sans-serif",
@@ -172,7 +126,8 @@ export default function CreateUser() {
                   }}
                 />
               </FormControl>
-              <FormControl className={CreateUserStyle.position}>
+
+              <FormControl >
                 <FormLabel
                   sx={{
                     fontFamily: "Montserrat, sans-serif",
@@ -197,8 +152,10 @@ export default function CreateUser() {
                 />
               </FormControl>
             </div>
+
+            {/* Start of Full Name */}
             <div className={CreateUserStyle.formRow3}>
-              <FormControl className={CreateUserStyle.fname}>
+              <FormControl>
                 <FormLabel
                   sx={{
                     fontFamily: "Montserrat, sans-serif",
@@ -222,7 +179,8 @@ export default function CreateUser() {
                   }}
                 />
               </FormControl>
-              <FormControl className={CreateUserStyle.mname}>
+
+              <FormControl>
                 <FormLabel
                   sx={{
                     fontFamily: "Montserrat, sans-serif",
@@ -271,8 +229,10 @@ export default function CreateUser() {
                 />
               </FormControl>
             </div>
+
+            {/* Start of Email */}
             <div className={CreateUserStyle.formRow4}>
-              <FormControl className={CreateUserStyle.email}>
+              <FormControl>
                 <FormLabel
                   sx={{
                     fontFamily: "Montserrat, sans-serif",
@@ -297,8 +257,10 @@ export default function CreateUser() {
                 />
               </FormControl>
             </div>
+
+            {/* Start of Role */}
             <div className={CreateUserStyle.formRow5}>
-              <FormControl className={CreateUserStyle.email}>
+              <FormControl>
                 <FormLabel
                   sx={{
                     fontFamily: "Montserrat, sans-serif",
@@ -321,25 +283,24 @@ export default function CreateUser() {
                     ),
                   }}
                 />
-              </FormControl>
-              <div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<Add />}
-                  style={{
-                    textTransform: "none",
-                    fontFamily: "Montserrat, sans-serif",
-                  }}
-                  onClick={handleClickOpenRole}
-                  >
-                  Add Role
-                </Button>
-
-              </div>
+              </FormControl> 
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<Add />}
+                style={{
+                  textTransform: "none",
+                  fontFamily: "Montserrat, sans-serif",
+                }}
+                onClick={handleClickOpenRole}
+                >
+                Add Role
+              </Button>
             </div>
+
+            {/* Start of Business Unit and Department */}
             <div className={CreateUserStyle.formRow6}>
-              <FormControl className={CreateUserStyle.email}>
+              <FormControl>
                 <FormLabel
                   sx={{
                     fontFamily: "Montserrat, sans-serif",
@@ -363,40 +324,41 @@ export default function CreateUser() {
                   }}
                 />
               </FormControl>
+
               <Box>
-                <div className={CreateUserStyle.department}>
-                  <FormControl variant="outlined" size="small">
-                    <FormLabel
-                      sx={{
-                        fontFamily: "Montserrat, sans-serif",
-                        color: "black",
-                        fontWeight: "400",
-                      }}
-                    >
-                      Department
-                    </FormLabel>
-                    {/* <InputLabel htmlFor="demo-simple-select-label">Select Department</InputLabel> */}
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={age}
-                      onChange={handleChange}
-                      className={CreateUserStyle.textField}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <GroupsOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    >
-                      <MenuItem value={1}>department I</MenuItem>
-                      <MenuItem value={2}>department II</MenuItem>
-                      <MenuItem value={3}>department III</MenuItem>
-                      <MenuItem value={4}>department IV</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
+                <FormControl variant="outlined" size="small">
+                  <FormLabel
+                    sx={{
+                      fontFamily: "Montserrat, sans-serif",
+                      color: "black",
+                      fontWeight: "400",
+                    }}
+                  >
+                    Department
+                  </FormLabel>
+                  {/* <InputLabel htmlFor="demo-simple-select-label">Select Department</InputLabel> */}
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={age}
+                    onChange={handleChange}
+                    className={CreateUserStyle.textField}
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <GroupsOutlinedIcon />
+                      </InputAdornment>
+                    }
+                  >
+                    <MenuItem value={1}>department I</MenuItem>
+                    <MenuItem value={2}>department II</MenuItem>
+                    <MenuItem value={3}>department III</MenuItem>
+                    <MenuItem value={4}>department IV</MenuItem>
+                  </Select>
+                </FormControl>
               </Box>
             </div>
+
+            {/* Start of Button */}
             <div className={CreateUserStyle.formRow7}>
               <Button
                 variant="contained"
@@ -422,26 +384,29 @@ export default function CreateUser() {
               </Button>
             </div>
           </div>
+      
+
+          <Dialog
+            open={openRole}
+            onClose={handleCloseRole}
+            aria-describedby="alert-dialog-slide-description"
+            maxWidth="xl"
+          >
+            <DialogTitle sx={{display: 'flex', gap: '1vw', alignItems:'center', justifyContent:'flex-start'}}>
+              <PersonSearchOutlinedIcon/>
+              {"Roles"}
+            </DialogTitle>
+            <DialogContent>
+              <AddRoleTable />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseRole} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
+              <Button onClick={handleCloseRole} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Add</Button>
+            </DialogActions>
+          </Dialog>
+
         </div>
-      </div>
-      <Dialog
-          open={openRole}
-          onClose={handleCloseRole}
-          aria-describedby="alert-dialog-slide-description"
-          maxWidth="xl"
-        >
-          <DialogTitle sx={{display: 'flex', gap: '1vw', alignItems:'center', justifyContent:'flex-start'}}>
-            <PersonSearchOutlinedIcon/>
-            {"Roles"}
-          </DialogTitle>
-          <DialogContent>
-            <AddRoleTable />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseRole} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Cancel</Button>
-            <Button onClick={handleCloseRole} sx={{ fontFamily: 'Montserrat, sans-serif' }}>Add</Button>
-          </DialogActions>
-        </Dialog>
-    </body>
+      </div> 
+    </div> 
   );
 }

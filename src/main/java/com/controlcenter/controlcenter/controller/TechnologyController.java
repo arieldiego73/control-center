@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.TechnologyInput;
@@ -67,12 +68,29 @@ public class TechnologyController {
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteTechnology(@PathVariable String id) {
-        return technologyService.logicalDeleteTechnology(id);
+    public ResponseEntity<String> logicalDeleteTechnology(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(technologyService.logicalDeleteTechnology(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
+    }
+
+    @PutMapping("/delete-multiple")
+    public ResponseEntity<String> deleteMultipleTechnology(@RequestParam List<Long> ids) {
+        try {
+            return ResponseEntity.ok().body(technologyService.deleteMultipleTechnology(ids));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreTechnology(@PathVariable String id) {
-        return technologyService.restoreTechnology(id);
+    public ResponseEntity<String> restoreTechnology(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(technologyService.restoreTechnology(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }
