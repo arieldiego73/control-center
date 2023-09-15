@@ -6,87 +6,64 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
-import HelpIcon from "@mui/icons-material/Help";
-import SortIcon from "@mui/icons-material/Sort";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
-import PersonFourIcon from "@mui/icons-material/Person4";
 import {
 	GridRowsProp,
 	GridRowModesModel,
 	GridRowModes,
 	DataGrid,
 	GridColDef,
-	GridToolbarContainer,
 	GridActionsCellItem,
 	GridEventListener,
 	GridRowId,
 	GridRowModel,
 	GridRowEditStopReasons,
 	GridRowSelectionModel,
-	GridToolbar,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {
-	Alert,
-	AlertColor,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
+	Divider,
 	FormControl,
 	FormLabel,
 	InputAdornment,
-	Snackbar,
 	TextField,
-	Typography,
-	useMediaQuery,
-	useTheme,
 } from "@mui/material";
-import DevelopmentPhaseModuleStyle from "./DevelopmentPhase.module.css";
-import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
-import { addDevPhase, deleteDevPhase, deleteDevPhaseBatch, updateDevPhase } from "../../redux/saga/devPhaseSaga";
-
 import BusinessUnitModuleStyle from "./BusinessUnitTable.module.css";
-import { getBusinessUnitFetch } from "../../redux/state/businessUnitState";
-import { addBusinessUnit, deleteBusinessUnit, deleteBusinessUnitBatch, updateBusinessUnit } from "../../redux/saga/businessUnitSaga";
+import { getDepartmentFetch } from "../../redux/state/departmentState";
+import {
+	addDepartment,
+	deleteDepartment,
+	deleteDepartmentBatch,
+	updateDepartment,
+} from "../../redux/saga/departmentSaga";
+import CustomPagination from "../custom_pagination/pagination";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 
-export interface SnackbarMessage {
-	message: string;
-	key: number;
-}
-
-export interface State {
-	open: boolean;
-	snackPack: readonly SnackbarMessage[];
-	messageInfo?: SnackbarMessage;
-}
-
-interface EditToolbarProps {
-	setRowProp: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-	setRowModesModel: (
-		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-	) => void;
-}
-
-export default function BusinessUnitTable() {
+const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
-	// GET ALL THE Business Unit AND STORE THEM TO THE STATE IN REDUX
+	// GET ALL THE DEPARTMENT AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
-		dispatch(getBusinessUnitFetch());
+		dispatch(getDepartmentFetch());
 	}, [dispatch]);
 
-	// STORE THE Business Unit TO 'data'
-	const data = useSelector(
-		(state: RootState) => state.businessUnitReducer.businessUnit
+	// GET THE STATES
+	const departmentData = useSelector(
+		(state: RootState) => state.deptReducer.department
 	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
-	const [rows, setRows] = React.useState<GridRowsProp>(data);
+	const [rows, setRows] = React.useState<GridRowsProp>(departmentData);
 	const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
 		{}
 	);
@@ -102,135 +79,42 @@ export default function BusinessUnitTable() {
 	const [ask, setAsk] = React.useState(false);
 	const [deleteId, setDeleteId] = React.useState(0);
 
-	const [snackPack, setSnackPack] = React.useState<
-		readonly SnackbarMessage[]
-	>([]);
-	const [severity, setSeverity] = React.useState<AlertColor>("error");
-	const [open, setOpen] = React.useState(false);
-	const [messageInfo, setMessageInfo] = React.useState<
-		SnackbarMessage | undefined
-	>(undefined);
-
 	const dataGridSlots = {
-		toolbar: EditToolbar,
+		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
 	};
 
-	function UnsortedIcon() {
-		return <SortIcon className="icon" />;
-	}
-
-	// FOR CONFIRM DIALOG
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-	// FOR SNACKPACK
 	React.useEffect(() => {
-		if (snackPack.length && !messageInfo) {
-			// Set a new snack when we don't have an active one
-			setMessageInfo({ ...snackPack[0] });
-			setSnackPack((prev) => prev.slice(1));
-			setOpen(true);
-		} else if (snackPack.length && messageInfo && open) {
-			// Close an active snack when a new one is added
-			setOpen(false);
-		}
-	}, [snackPack, messageInfo, open]);
-
-	const handleClickSnackpack =
-		(message: string, severity: AlertColor) => () => {
-			setSnackPack((prev) => [
-				...prev,
-				{ message, key: new Date().getTime() },
-			]);
-			setSeverity(severity);
-		};
-
-	const handleClose = (event: React.SyntheticEvent | Event) => {
-		setOpen(false);
-	};
-
-	const handleExited = () => {
-		setMessageInfo(undefined);
-	};
-
-	// FOR DATA GRID
-	React.useEffect(() => {
-		setRows(data);
-	}, [data]);
+		setRows(departmentData);
+	}, [departmentData]);
 
 	const [businessUnitName, setBusinessUnitName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
-	// const [userLevel, setUserLevel] = React.useState("");
 	const businessUnitNameRef = React.useRef<HTMLInputElement | null>(null);
 
-	function EditToolbar(props: EditToolbarProps) {
-		const handleDeleteBatch = () => {
-			setAsk(true);
-			setIsBatch(true);
-			setDialogContentText(
-				"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-			);
-			setDialogTitle(
-				`Delete ${
-					selectedId.size > 1 ? `these ${selectedId.size}` : "this"
-				} development phase${selectedId.size > 1 ? "s" : ""}?`
-			);
-		};
-
+	function DatagridToolbar() {
 		return (
-			<GridToolbarContainer
-				sx={{
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "baseline",
-				}}
-			>
-				<Button
-					color="error"
-					variant="contained"
-					startIcon={<DeleteIcon />}
-					onClick={handleDeleteBatch}
-					hidden={true}
-					sx={{
-						marginBottom: 3,
-						fontFamily: "Montserrat, san-serif",
-						visibility: `${
-							selectedId.size !== 0 ? "visible" : "hidden"
-						}`,
-					}}
-				>
-					DELETE BATCH
-				</Button>
-				<div>
-					<GridToolbar />
-				</div>
-			</GridToolbarContainer>
+			<DataGridEditToolbar
+				setAsk={setAsk}
+				setIsBatch={setIsBatch}
+				setDialogContentText={setDialogContentText}
+				setDialogTitle={setDialogTitle}
+				selectedId={selectedId}
+			/>
 		);
 	}
 
 	const proceedWithDelete = () => {
-		dispatch(deleteDevPhase({ dev_phase_id: deleteId }));
-		setRows(data);
+		dispatch(deleteDepartment({ dept_id: deleteId }));
 		setAsk(false);
-		const success = handleClickSnackpack(
-			"A business unit is deleted successfully!",
-			"success"
-		);
-		success();
 	};
 
 	const proceedWithDeleteBatch = () => {
-		dispatch(deleteBusinessUnitBatch({ batchId: selectedId }));
-		setRows(data); // update rows
+		dispatch(deleteDepartmentBatch({ batchId: selectedId }));
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
-		const success = handleClickSnackpack(
-			`Deleted ${selectedId.size} business units successfully!`,
-			"success"
-		);
-		success();
 	};
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
@@ -271,58 +155,41 @@ export default function BusinessUnitTable() {
 			...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
-		setRows(data);
+		setRows(departmentData);
 	};
 
-	const processUpdateRow = (businessUnitData: GridRowModel) => {
-		dispatch(updateBusinessUnit({ businessUnitData }));
-		const success = handleClickSnackpack(
-			"Business unit is updated successfully",
-			"success"
-		);
-		success();
+	const processUpdateRow = (data: GridRowModel) => {
+		dispatch(updateDepartment({ departmentData: data }));
 	};
 
-	const processAddRow = (businessUnitData: GridRowModel) => {
-		dispatch(addBusinessUnit({ businessUnitData }));
-		const success = handleClickSnackpack(
-			"Business unit is added successfully",
-			"success"
-		);
-		success();
+	const processAddRow = (data: GridRowModel) => {
+		dispatch(addDepartment({ departmentData: data }));
 	};
 
 	const handleAdd = () => {
-		if (businessUnitName && shortName) {
-			const businessUnitData: GridValidRowModel = {
-				business_unit_name: businessUnitName,
-				business_unit_sh_name: shortName,
-			};
-			processAddRow(businessUnitData);
-			setIsHidden(false);
-			setBusinessUnitName("");
-			setShortName("");
-		} else {
-			const error = handleClickSnackpack(
-				"All fields are required! Please, try again.",
-				"error"
-			);
-			error();
-		}
+		addRecord(true);
 	};
 
 	const handleAddContinue = () => {
+		addRecord(false);
+	};
+
+	const addRecord = (isAddOnly: boolean) => {
 		if (businessUnitName && shortName) {
-			const businessUnitData: GridValidRowModel = {
-				dev_phase_name: businessUnitName,
-				dev_phase_sh_name: shortName,
+			const posData: GridValidRowModel = {
+				dept_name: businessUnitName,
+				dept_sh_name: shortName,
 			};
-			processAddRow(businessUnitData);
+			processAddRow(posData);
 			setBusinessUnitName("");
 			setShortName("");
-			businessUnitNameRef.current?.focus();
+			if (isAddOnly) {
+				setIsHidden(false);
+			} else {
+				businessUnitNameRef.current?.focus();
+			}
 		} else {
-			const error = handleClickSnackpack(
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -330,13 +197,12 @@ export default function BusinessUnitTable() {
 		}
 	};
 
-	const handleUpdateAndAdd = (newRow: GridRowModel) => {
-		if (newRow.business_unit_name && newRow.business_unit_sh_name) {
+	const handleUpdate = (newRow: GridRowModel) => {
+		if (newRow.dept_name && newRow.dept_sh_name) {
 			processUpdateRow(newRow);
-			setRows(data); // update the rows in the table
 		} else {
-			const cancel = handleCancelClick(newRow.role_id);
-			const error = handleClickSnackpack(
+			const cancel = handleCancelClick(newRow.dept_id);
+			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
 			);
@@ -352,20 +218,21 @@ export default function BusinessUnitTable() {
 
 	const columns: GridColDef[] = [
 		{
-			field: "business_unit_name",
+			field: "dept_name",
 			headerName: "Business Unit",
-			width: 300,
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
 			headerAlign: "center",
 			align: "center",
 		},
 		{
-			field: "business_unit_sh_name",
+			field: "dept_sh_name",
 			headerName: "Short Name",
 			width: 300,
+			minWidth: 300,
+			flex: 1,
 			editable: true,
-			flex: 12,
 			headerAlign: "center",
 			align: "center",
 		},
@@ -419,50 +286,7 @@ export default function BusinessUnitTable() {
 	];
 
 	return (
-		<Box
-			sx={{
-				height: "100%",
-				width: "100%",
-				"& .actions": {
-					color: "text.secondary",
-				},
-				"& .MuiDataGrid-columnHeaderTitle": {
-					fontWeight: 800,
-					fontFamily: "Montserrat, san-serif",
-					padding: "0 24px",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
-					{
-						outline: "none !important",
-					},
-				"& .MuiDataGrid-root .MuiInputBase-input": {
-					textAlign: "center",
-					backgroundColor: "#fff",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
-					padding: "0 0.8vw",
-					height: "60%",
-				},
-				"& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell":
-					{
-						backgroundColor: "#cbbdbd2e",
-					},
-				"& .textPrimary": {
-					color: "text.primary",
-				},
-				".MuiDataGrid-iconButtonContainer, .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeaders .MuiDataGrid-columnSeparator":
-					{
-						visibility: "visible",
-						width: "auto",
-					},
-				".MuiDataGrid-sortIcon": {
-					opacity: "inherit !important",
-				},
-				".MuiDataGrid-cellContent": {
-					fontWeight: "500",
-				},
-			}}
-		>
+		<Box sx={datagridBoxStyle}>
 			<Box
 				component="form"
 				onKeyDown={(e) => {
@@ -479,7 +303,6 @@ export default function BusinessUnitTable() {
 					<Button
 						variant="contained"
 						color="primary"
-						sx={{ fontFamily: "Montserrat, san-serif" }}
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
@@ -510,7 +333,6 @@ export default function BusinessUnitTable() {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Business Unit
@@ -518,7 +340,6 @@ export default function BusinessUnitTable() {
 									<TextField
 										style={{ width: "100%" }}
 										size="small"
-										placeholder="ex: Software Developer"
 										onChange={(e) =>
 											setBusinessUnitName(e.target.value)
 										}
@@ -538,7 +359,6 @@ export default function BusinessUnitTable() {
 									<FormLabel
 										style={{
 											fontWeight: "bold",
-											fontFamily: "Montserrat, san-serif",
 										}}
 									>
 										Short Name
@@ -547,7 +367,6 @@ export default function BusinessUnitTable() {
 										style={{ width: "100%" }}
 										variant="outlined"
 										size="small"
-										placeholder="ex: SoftDev"
 										onChange={(e) =>
 											setShortName(e.target.value)
 										}
@@ -564,37 +383,13 @@ export default function BusinessUnitTable() {
 										}}
 									/>
 								</FormControl>
-								{/* <FormControl>
-									<FormLabel style={{ fontWeight: "bold", fontFamily: "Montserrat, san-serif" }}>
-										User Level
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										variant="outlined"
-										size="small"
-										type="number"
-										placeholder="ex: 1"
-										onChange={(e) =>
-											setUserLevel(e.target.value)
-										}
-										value={userLevel}
-										className={DevelopmentPhaseModuleStyle.textField}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonFourIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl> */}
 							</div>
 
 							<div
 								style={{
 									flexDirection: "row",
 									display: "flex",
-									alignItems: "flex-end",
+									alignItems: "center",
 									height: "100%",
 									gap: "10px",
 								}}
@@ -606,7 +401,6 @@ export default function BusinessUnitTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAddContinue}
 								>
@@ -619,7 +413,6 @@ export default function BusinessUnitTable() {
 									style={{
 										textTransform: "none",
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={handleAdd}
 								>
@@ -628,7 +421,6 @@ export default function BusinessUnitTable() {
 								<Button
 									style={{
 										height: "50%",
-										fontFamily: "Montserrat, san-serif",
 									}}
 									onClick={() => {
 										setIsHidden(false);
@@ -644,16 +436,18 @@ export default function BusinessUnitTable() {
 				)}
 			</Box>
 
+			<Divider variant="middle" />
+
 			<DataGrid
-				sx={{ height: 650, border: "none" }}
+				sx={datagridStyle}
 				rows={rows}
 				columns={columns}
 				editMode="row"
-				getRowId={(row) => row.business_unit_id}
+				getRowId={(row) => row.dept_id}
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
-				processRowUpdate={handleUpdateAndAdd}
+				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
 				onRowSelectionModelChange={(newRowSelectionModel) => {
@@ -663,91 +457,27 @@ export default function BusinessUnitTable() {
 				rowSelectionModel={rowSelectionModel}
 				initialState={{
 					pagination: {
-						paginationModel: { page: 0, pageSize: 25 },
-					},
-					sorting: {
-						sortModel: [{ field: "reg_id", sort: "desc" }],
+						paginationModel: { page: 0, pageSize: 10 },
 					},
 				}}
 				slots={dataGridSlots}
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
 				}}
-				pageSizeOptions={[25, 50, 100]}
+				pageSizeOptions={[10, 25, 50, 100]}
 			/>
-			<Snackbar
-				key={messageInfo ? messageInfo.key : undefined}
-				open={open}
-				autoHideDuration={2000}
-				onClose={handleClose}
-				TransitionProps={{ onExited: handleExited }}
-				// message={messageInfo ? messageInfo.message : undefined}
-			>
-				<Alert
-					onClose={handleClose}
-					severity={severity}
-					sx={{ width: "100%" }}
-					variant="filled"
-				>
-					{messageInfo ? messageInfo.message : undefined}
-				</Alert>
-			</Snackbar>
-			<Dialog
-				fullScreen={fullScreen}
-				open={ask}
-				onClose={() => {
-					setAsk(false);
-				}}
-				aria-labelledby="responsive-dialog-title"
-			>
-				<DialogTitle id="responsive-dialog-title">
-					<Typography
-						fontFamily={"Montserrat, san-serif"}
-						fontWeight={700}
-						fontSize={20}
-						display={"flex"}
-						alignItems={"center"}
-						gap={1}
-					>
-						<HelpIcon
-							accentHeight={100}
-							color="error"
-							fontSize="large"
-							alignmentBaseline="middle"
-						/>
-						{dialogTitle}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText
-						fontFamily={"Montserrat, san-serif"}
-						whiteSpace={"pre-line"}
-					>
-						{dialogContentText}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button
-						variant="contained"
-						onClick={
-							isBatch ? proceedWithDeleteBatch : proceedWithDelete
-						}
-						autoFocus
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-					>
-						Delete
-					</Button>
 
-					<Button
-						sx={{ fontFamily: "Montserrat, san-serif" }}
-						onClick={() => {
-							setAsk(false);
-						}}
-					>
-						Cancel
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<DataGridDialog
+				ask={ask}
+				setAsk={setAsk}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				isBatch={isBatch}
+				proceedWithDelete={proceedWithDelete}
+				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
 		</Box>
 	);
-}
+};
+
+export default BusinessUnitTable;
