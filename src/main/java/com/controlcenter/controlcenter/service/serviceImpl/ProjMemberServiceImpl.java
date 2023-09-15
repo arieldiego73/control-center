@@ -15,10 +15,9 @@ import com.controlcenter.controlcenter.model.ProjMemberOutput;
 import com.controlcenter.controlcenter.service.ProjMemberService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
-
 @Service
-public class ProjMemberServiceImpl implements ProjMemberService{
-    
+public class ProjMemberServiceImpl implements ProjMemberService {
+
     @Autowired
     public ProjMemberDao projMemberDao;
 
@@ -27,101 +26,124 @@ public class ProjMemberServiceImpl implements ProjMemberService{
 
     @Autowired
     public ActivityLogDao activityLogDao;
-    
+
     @Override
-    public List<ProjMemberOutput> getAllProjMember(){
+    public List<ProjMemberOutput> getAllProjMember() {
         return projMemberDao.getAllProjMember();
     }
-    
+
+    @Override
+    public ProjMemberOutput getProjMemberById(String id) {
+        return projMemberDao.getProjMemberById(id);
+    }
+
     @Override
     public String addProjMember(ProjMemberInput projMember) {
         try {
             projMemberDao.addProjMember(projMember);
 
-            //Activitylog
+            // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id("101"); // current logged user dapat
             activityLogInput.setLog_desc("Added a Project Member.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
+            // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
-            
+
             return "Project Member added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
-    @Override 
+    @Override
     public String editProjMemberInfo(String id, ProjMemberInput projMember) {
-        try {
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("projMember", projMember);
+        ProjMemberOutput data = projMemberDao.getProjMemberById(id);
 
-            projMemberDao.editProjMemberInfo(paramMap);
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Project Member with the ID " + id + " has already been deleted.";
+            } else {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("id", id);
+                paramMap.put("projMember", projMember);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+                projMemberDao.editProjMemberInfo(paramMap);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a Project Member.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Edited a Project Member.");
 
-            return "Project Member edited successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Project Member edited successfully.";
+            }
+        } else {
+            return "Project Member with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String logicalDeleteProjMember(String id) {
-        try {
-            projMemberDao.logicalDeleteProjMember(id);
+        ProjMemberOutput data = projMemberDao.getProjMemberById(id);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return "Project Member with the ID " + id + " has already been deleted.";
+            } else {
+                projMemberDao.logicalDeleteProjMember(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a Project Member.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Deleted a Project Member.");
 
-            return "Project Member deleted successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Project Member deleted successfully.";
+            }
+        } else {
+            return "Project Member with the ID " + id + " cannot be found.";
         }
     }
 
     @Override
     public String restoreProjMember(String id) {
-        try {
-            projMemberDao.restoreProjMember(id);
+        ProjMemberOutput data = projMemberDao.getProjMemberById(id);
 
-            //Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (data != null) {
+            if (data.getDel_flag() == 0) {
+                return "Project Member with the ID " + id + " is not yet deleted.";
+            } else {
+                projMemberDao.restoreProjMember(id);
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a Project Member.");
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setLog_desc("Restored a Project Member.");
 
-            return "Project Member restored successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
+                Long currentTimeMillis = System.currentTimeMillis();
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+
+                return "Project Member restored successfully.";
+            }
+        } else {
+            return "Project Member with the ID " + id + " cannot be found.";
         }
     }
 }

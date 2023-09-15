@@ -24,13 +24,15 @@ export function* sectionSaga() {
 const apiUpdate = async (
 	section_id: number,
 	section_name: string,
-	section_sh_name: string
+	section_sh_name: string,
+	dept_id: number
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/section/edit/" + section_id;
 		return axios.put(url, {
 			section_name,
-			section_sh_name
+			section_sh_name,
+			dept_id
 		});
 	} catch (error) {
 		return error
@@ -52,6 +54,7 @@ function* updateSaga(action: ReturnType<typeof updateSection>): any {
 			action.payload.sectionData.section_id,
 			action.payload.sectionData.section_name,
 			action.payload.sectionData.section_sh_name,
+			action.payload.sectionData.dept_id,
 		);
 		yield call(validate, response);
 	} catch (error) {

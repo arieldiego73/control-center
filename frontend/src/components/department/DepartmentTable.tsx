@@ -28,8 +28,8 @@ import {
 	Divider,
 	FormControl,
 	FormLabel,
-	InputAdornment,
-	TextField,
+	MenuItem,
+	Select,
 } from "@mui/material";
 import DepartmentModuleStyle from "./DepartmentTable.module.css";
 import { getSectionFetch } from "../../redux/state/sectionState";
@@ -48,6 +48,13 @@ import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import { getDepartmentFetch } from "../../redux/state/departmentState";
+import {
+	addFormContainerStyles,
+	addFormStyles,
+} from "../datagrid_customs/DataGridAddFormStyles";
+import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
+import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 
 const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -55,11 +62,15 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	// GET ALL THE DEPARTMENT AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
 		dispatch(getSectionFetch());
+		dispatch(getDepartmentFetch());
 	}, [dispatch]);
 
 	// GET THE STATES
 	const sectionData = useSelector(
 		(state: RootState) => state.sectionReducer.section
+	);
+	const businessUnits = useSelector(
+		(state: RootState) => state.deptReducer.department
 	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
@@ -77,7 +88,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	const [dialogContentText, setDialogContentText] = React.useState("");
 
 	const [ask, setAsk] = React.useState(false);
-	const [deleteId, setDeleteId] = React.useState(0);
+	const [deleteId, setDeleteId] = React.useState(1);
 
 	const dataGridSlots = {
 		toolbar: DatagridToolbar,
@@ -91,6 +102,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 
 	const [departmentName, setDepartmentName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
+	const [businessUnit, setBusinessUnit] = React.useState(1);
 	const departmentNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	function DatagridToolbar() {
@@ -183,6 +195,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 			processAddRow(posData);
 			setDepartmentName("");
 			setShortName("");
+			setBusinessUnit(1);
 			if (isAddOnly) {
 				setIsHidden(false);
 			} else {
@@ -235,6 +248,20 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 			editable: true,
 			headerAlign: "center",
 			align: "center",
+		},
+		{
+			field: "dept_id",
+			headerName: "Department",
+			width: 300,
+			minWidth: 300,
+			flex: 1,
+			editable: true,
+			headerAlign: "center",
+			align: "center",
+			type: "singleSelect",
+			getOptionValue: (value: any) => value.dept_id,
+			getOptionLabel: (value: any) => value.dept_sh_name,
+			valueOptions: [...businessUnits],
 		},
 		{
 			field: "actions",
@@ -310,127 +337,73 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 					</Button>
 				) : (
 					<div className={DepartmentModuleStyle.hideButton}>
-						<div
-							style={{
-								flexDirection: "row",
-								display: "flex",
-								justifyContent: "space-around",
-								alignItems: "center",
-								width: "100%",
-							}}
-						>
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-around",
-									alignItems: "center",
-									width: "70%",
-									gap: "24px",
-								}}
-							>
-								<FormControl>
+						<div style={addFormContainerStyles}>
+							<div style={addFormStyles}>
+								<DataGridAddTextField
+									inputLabel="Department"
+									inputValue={departmentName}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setDepartmentName(e.target.value)}
+									inputRef={departmentNameRef}
+									textFieldIcon={<PersonIcon />}
+									autoFocus={true}
+								/>
+								<DataGridAddTextField
+									inputLabel="Short Name"
+									inputValue={shortName}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setShortName(e.target.value)}
+									textFieldIcon={<BadgeIcon />}
+								/>
+								<FormControl fullWidth>
 									<FormLabel
 										style={{
 											fontWeight: "bold",
 										}}
 									>
-										Department
+										Business Unit
 									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										size="small"
-										onChange={(e) =>
-											setDepartmentName(e.target.value)
-										}
-										value={departmentName}
-										autoFocus
-										inputRef={departmentNameRef}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
-								<FormControl>
-									<FormLabel
-										style={{
-											fontWeight: "bold",
-										}}
-									>
-										Short Name
-									</FormLabel>
-									<TextField
+									<Select
 										style={{ width: "100%" }}
 										variant="outlined"
 										size="small"
-										onChange={(e) =>
-											setShortName(e.target.value)
-										}
-										value={shortName}
-										className={
-											DepartmentModuleStyle.textField
-										}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<BadgeIcon />
-												</InputAdornment>
-											),
+										value={businessUnit}
+										onChange={(e) => {
+											setBusinessUnit(
+												e.target.value as number
+											);
 										}}
-									/>
+									>
+										{businessUnits.map((unit: any) => (
+											<MenuItem
+												key={unit?.dept_id}
+												value={unit?.dept_id}
+											>
+												{unit?.dept_name}
+											</MenuItem>
+										))}
+									</Select>
 								</FormControl>
 							</div>
 
-							<div
-								style={{
-									flexDirection: "row",
-									display: "flex",
-									alignItems: "center",
-									height: "100%",
-									gap: "10px",
+							<DataGridAddButtons
+								handleAdd={handleAdd}
+								handleAddContinue={handleAddContinue}
+								handleClosing={() => {
+									setIsHidden(false);
+									setDepartmentName("");
+									setShortName("");
+									setBusinessUnit(1);
 								}}
-							>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									style={{
-										textTransform: "none",
-										height: "50%",
-									}}
-									onClick={handleAddContinue}
-								>
-									Save and Continue
-								</Button>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									style={{
-										textTransform: "none",
-										height: "50%",
-									}}
-									onClick={handleAdd}
-								>
-									Save
-								</Button>
-								<Button
-									style={{
-										height: "50%",
-									}}
-									onClick={() => {
-										setIsHidden(false);
-										setDepartmentName("");
-										setShortName("");
-									}}
-								>
-									Close
-								</Button>
-							</div>
+							 />
 						</div>
 					</div>
 				)}

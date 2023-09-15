@@ -60,7 +60,7 @@ public class ProjInfoServiceImpl implements ProjInfoService {
     }
 
     @Override
-    public String editProjInfoInfo(String id, ProjInfoInput projInfo) {
+    public String editProjInfo(String id, ProjInfoInput projInfo) {
         ProjInfoOutput data = projInfoDao.getProjInfoById(id);
 
         if (data != null) {
@@ -71,7 +71,7 @@ public class ProjInfoServiceImpl implements ProjInfoService {
                 paramMap.put("id", id);
                 paramMap.put("projInfo", projInfo);
 
-                projInfoDao.editProjInfoInfo(paramMap);
+                projInfoDao.editProjInfo(paramMap);
 
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();

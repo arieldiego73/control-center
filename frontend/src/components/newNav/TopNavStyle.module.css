@@ -145,6 +145,7 @@
 
 .logout:hover{
   border: 1px solid gray;
+  font-weight: 500;
 }
 .logoutSpanContainer{
   height: 50%;

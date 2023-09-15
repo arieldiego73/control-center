@@ -53,7 +53,7 @@ public class ProjInfoController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editProjInfoInfo(@PathVariable String id, @RequestBody ProjInfoInput projInfo) {
+    public ResponseEntity<String> editProjInfo(@PathVariable String id, @RequestBody ProjInfoInput projInfo) {
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
@@ -62,18 +62,26 @@ public class ProjInfoController {
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return ResponseEntity.status(200).body(projInfoService.addProjInfo(projInfo));
+                return ResponseEntity.status(200).body(projInfoService.editProjInfo(id, projInfo));
             }
     }
 
     @PutMapping("/delete/{id}")
-    public String logicalDeleteProjInfo(@PathVariable String id) {
-        return projInfoService.logicalDeleteProjInfo(id);
+    public ResponseEntity<String> logicalDeleteProjInfo(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(projInfoService.logicalDeleteProjInfo(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreProjInfo(@PathVariable String id) {
-        return projInfoService.restoreProjInfo(id);
+    public ResponseEntity<String> restoreProjInfo(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(projInfoService.restoreProjInfo(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }
 

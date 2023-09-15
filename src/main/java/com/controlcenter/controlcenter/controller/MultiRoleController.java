@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.MultiRoleInput;
@@ -44,16 +45,16 @@ public class MultiRoleController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addMultiRole(@RequestBody MultiRoleInput multiRole){
+    public ResponseEntity<String> addMultiRole(String emp_id, Long role_id){
         //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<MultiRoleInput>> errors = validator.validate(multiRole);
+        // ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        // Validator validator = validatorFactory.getValidator();
+        // Set<ConstraintViolation<MultiRoleInput>> errors = validator.validate(multiRole);
             //Error Handling
-            if(errors.size() > 0){
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            } else{
-                return ResponseEntity.status(200).body(multiRoleService.addMultiRole(multiRole));
+            try {
+                return ResponseEntity.status(200).body(multiRoleService.addMultiRole(emp_id, role_id));
+            } catch (Exception e) {
+                return ResponseEntity.status(400).body(e.getMessage());
             }
     }
 

@@ -17,7 +17,7 @@ public interface ProjInfoDao {
 
     void addProjInfo(ProjInfoInput projInfo);
 
-    void editProjInfoInfo(Map<String, Object> paramMap);
+    void editProjInfo(Map<String, Object> paramMap);
 
     void logicalDeleteProjInfo(String id);
 

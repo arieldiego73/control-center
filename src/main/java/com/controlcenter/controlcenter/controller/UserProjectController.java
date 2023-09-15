@@ -35,7 +35,7 @@ public class UserProjectController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserProjectOutput>> getAllUserProject() {
+    public List<UserProjectOutput> getAllUserProject() {
         return userProjectService.getAllUserProject();
     }
 
@@ -67,12 +67,20 @@ public class UserProjectController {
         }
     }
     @PutMapping("/delete/{id}")
-    public String logicalDeleteUserProject(@PathVariable String id) {
-        return userProjectService.logicalDeleteUserProject(id);
+    public ResponseEntity<String> logicalDeleteUserProject(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(userProjectService.logicalDeleteUserProject(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 
     @PutMapping("/restore/{id}")
-    public String restoreUserProject(@PathVariable String id) {
-        return userProjectService.restoreUserProject(id);
+    public ResponseEntity<String> restoreUserProject(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok().body(userProjectService.restoreUserProject(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server Side Error.");
+        }
     }
 }

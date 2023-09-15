@@ -5,14 +5,14 @@
 
 <!-- Fetch Data -->
     <select id="getAllPosition" resultType="com.controlcenter.controlcenter.model.PositionOutput">
-        SELECT position_id, position_name, position_sh_name, del_flag
+        SELECT position_id, position_name, position_sh_name, position_desc, del_flag
           FROM tbl_position_mst
          WHERE del_flag = 0
       ORDER BY position_id DESC, reg_date DESC;
     </select>
 
     <select id="getPositionById" resultType="com.controlcenter.controlcenter.model.PositionOutput">
-        SELECT position_id, position_name, position_sh_name, del_flag
+        SELECT position_id, position_name, position_sh_name, position_desc, del_flag
           FROM tbl_position_mst
          WHERE position_id = #{id};
     </select>
@@ -21,12 +21,14 @@
     <insert id="addPosition" parameterType="com.controlcenter.controlcenter.model.PositionInput">
         INSERT INTO tbl_position_mst(
             position_name, 
-            position_sh_name, 
+            position_sh_name,
+            position_desc, 
             reg_id
         )
         VALUES (
             #{position_name}, 
-            #{position_sh_name}, 
+            #{position_sh_name},
+            #{position_desc}, 
             1
         );
     </insert>
@@ -36,6 +38,7 @@
         UPDATE tbl_position_mst
            SET position_name=#{position.position_name}, 
                position_sh_name=#{position.position_sh_name},
+               position_desc=#{position.position_desc},
                update_id = 1
          WHERE position_id = #{id}
     </update>

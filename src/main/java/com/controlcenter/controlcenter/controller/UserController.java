@@ -63,7 +63,7 @@ public class UserController {
   // }
 
   @PostMapping("/create-account")
-  public ResponseEntity<String> addAccount(@RequestBody AccountInput account) {
+  public ResponseEntity<String> addAccount(@RequestBody AccountInput account, @RequestParam List<Long> role_ids) {
     //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
@@ -72,7 +72,7 @@ public class UserController {
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return ResponseEntity.status(200).body(userService.addAccount(account));
+                return ResponseEntity.status(200).body(userService.addAccount(account, role_ids));
             }
   }
   // @PostMapping("/createBatch")
