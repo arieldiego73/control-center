@@ -59,6 +59,6 @@ public class AccountInput {
     @Digits(integer = 9, fraction = 0, message = "The Role ID is invalid, it should be up to 9 digits long.")
     private Long role_id;
 
-    @Size(max = 150, message = "The Image Source is invalid, it should be up to 150 characters long.")
+    @Size(max = 255, message = "The Image Source is invalid, it should be up to 255 characters long.")
     private String img_src;
 }
