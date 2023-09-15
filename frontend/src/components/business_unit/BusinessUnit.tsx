@@ -154,7 +154,7 @@ export default function Department() {
 								className={`${BusinessUnitStyle["custom-link"]}`}
 								style={{ color: "inherit" }}
 							>
-								Department
+								Business Unit
 							</Link>
 						</Breadcrumbs>
 					</div>

@@ -26,10 +26,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {
 	Divider,
-	FormControl,
-	FormLabel,
-	InputAdornment,
-	TextField,
 } from "@mui/material";
 import ProjectStatusStyle from "./ProjectStatusTable.module.css";
 import { getProjectStatusFetch } from "../../redux/state/projectStatusState";
@@ -48,6 +44,9 @@ import DataGridProps from "../datagrid_customs/DataGridProps";
 import CustomPagination from "../custom_pagination/pagination";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
+import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
+import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 
 const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -315,149 +314,43 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 					</Button>
 				) : (
 					<div className={ProjectStatusStyle.hideButton}>
-						<div
-							style={{
-								flexDirection: "row",
-								display: "flex",
-								justifyContent: "space-around",
-								alignItems: "center",
-								width: "100%",
-							}}
-						>
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-around",
-									alignItems: "center",
-									width: "70%",
-									gap: "1%",
-								}}
-							>
-								<FormControl>
-									<FormLabel
-										style={{
-											fontWeight: "bold",
-										}}
-									>
-										Project Status
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										size="small"
-										onChange={(e) =>
-											setProjectStatusName(e.target.value)
-										}
-										value={projectStatusName}
-										autoFocus
-										inputRef={projectStatusNameRef}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
-								<FormControl>
-									<FormLabel
-										style={{
-											fontWeight: "bold",
-										}}
-									>
-										Description
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										variant="outlined"
-										size="small"
-										onChange={(e) =>
-											setDescription(e.target.value)
-										}
-										value={description}
-										className={ProjectStatusStyle.textField}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<BadgeIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
-								{/* <FormControl>
-									<FormLabel style={{ fontWeight: "bold" }}>
-										User Level
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										variant="outlined"
-										size="small"
-										type="number"
-										placeholder="ex: 1"
-										onChange={(e) =>
-											setUserLevel(e.target.value)
-										}
-										value={userLevel}
-										className={ProjectStatusStyle.textField}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonFourIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl> */}
+						<div style={addFormContainerStyles}>
+							<div style={addFormStyles}>
+								<DataGridAddTextField
+									inputLabel="Project Status"
+									inputValue={projectStatusName}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setProjectStatusName(e.target.value)}
+									inputRef={projectStatusNameRef}
+									textFieldIcon={<PersonIcon />}
+									autoFocus={true}
+								/>
+								<DataGridAddTextField
+									inputLabel="Description"
+									inputValue={description}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setDescription(e.target.value)}
+									textFieldIcon={<BadgeIcon />}
+								/>
 							</div>
 
-							<div
-								style={{
-									flexDirection: "row",
-									display: "flex",
-									alignItems: "center",
-									height: "100%",
-									gap: "10px",
+							<DataGridAddButtons
+								handleAdd={handleAdd}
+								handleAddContinue={handleAddContinue}
+								handleClosing={() => {
+									setIsHidden(false);
+									setProjectStatusName("");
+									setDescription("");
 								}}
-							>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									style={{
-										textTransform: "none",
-										height: "50%",
-									}}
-									onClick={handleAddContinue}
-								>
-									Save and Continue
-								</Button>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									style={{
-										textTransform: "none",
-										height: "50%",
-									}}
-									onClick={handleAdd}
-								>
-									Save
-								</Button>
-								<Button
-									style={{
-										height: "50%",
-									}}
-									onClick={() => {
-										setIsHidden(false);
-										setProjectStatusName("");
-										setDescription("");
-									}}
-								>
-									Close
-								</Button>
-							</div>
+							 />
 						</div>
 					</div>
 				)}

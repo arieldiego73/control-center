@@ -30,5 +30,6 @@ public class SectionOutput {
     @Digits(integer = 9, fraction = 0, message = "The Business Unit ID is invalid, it should be up to 9 digits long.")
     private Long dept_id;
     
+    private String dept_name;
     private int del_flag;
 }

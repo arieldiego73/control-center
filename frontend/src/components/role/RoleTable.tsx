@@ -32,13 +32,7 @@ import {
 	deleteRolesBatch,
 	updateRoles,
 } from "../../redux/saga/roleSaga";
-import {
-	Divider,
-	FormControl,
-	FormLabel,
-	InputAdornment,
-	TextField,
-} from "@mui/material";
+import { Divider } from "@mui/material";
 import RoleModuleStyle from "./Role.module.css";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
@@ -49,6 +43,12 @@ import {
 import CustomPagination from "../custom_pagination/pagination";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
+import {
+	addFormContainerStyles,
+	addFormStyles,
+} from "../datagrid_customs/DataGridAddFormStyles";
+import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 
 const RoleTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -332,145 +332,56 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 					</Button>
 				) : (
 					<div className={RoleModuleStyle.hideButton}>
-						<div
-							style={{
-								flexDirection: "row",
-								display: "flex",
-								justifyContent: "space-around",
-								alignItems: "center",
-								width: "100%",
-							}}
-						>
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-around",
-									alignItems: "center",
-									width: "70%",
-									gap: "24px",
-								}}
-							>
-								<FormControl>
-									<FormLabel style={{ fontWeight: "bold" }}>
-										Role
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										size="small"
-										onChange={(e) =>
-											setRoleTitle(e.target.value)
-										}
-										value={roleTitle}
-										autoFocus
-										inputRef={roleTitleRef}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
-								<FormControl>
-									<FormLabel style={{ fontWeight: "bold" }}>
-										Short Name
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										variant="outlined"
-										size="small"
-										onChange={(e) =>
-											setShortName(e.target.value)
-										}
-										value={shortName}
-										className={RoleModuleStyle.textField}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<BadgeIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
-								<FormControl>
-									<FormLabel
-										style={{
-											fontWeight: "bold",
-										}}
-									>
-										User Level
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										variant="outlined"
-										size="small"
-										type="number"
-										onChange={(e) =>
-											setUserLevel(e.target.value)
-										}
-										value={userLevel}
-										className={RoleModuleStyle.textField}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonFourIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
+						<div style={addFormContainerStyles}>
+							<div style={addFormStyles}>
+								<DataGridAddTextField
+									inputLabel="Role"
+									inputValue={roleTitle}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setRoleTitle(e.target.value)}
+									inputRef={roleTitleRef}
+									textFieldIcon={<PersonIcon />}
+									autoFocus={true}
+								/>
+								<DataGridAddTextField
+									inputLabel="Short Name"
+									inputValue={shortName}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setShortName(e.target.value)}
+									textFieldIcon={<BadgeIcon />}
+								/>
+								<DataGridAddTextField
+									inputLabel="User Level"
+									inputValue={userLevel}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setUserLevel(e.target.value)}
+									textFieldIcon={<PersonFourIcon />}
+									type="number"
+								/>
 							</div>
 
-							<div
-								style={{
-									flexDirection: "row",
-									display: "flex",
-									alignItems: "center",
-									height: "100%",
-									gap: "10px",
+							<DataGridAddButtons
+								handleAdd={handleAdd}
+								handleAddContinue={handleAddContinue}
+								handleClosing={() => {
+									setIsHidden(false);
+									setRoleTitle("");
+									setShortName("");
+									setUserLevel("");
 								}}
-							>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									style={{
-										textTransform: "none",
-										height: "50%",
-									}}
-									onClick={handleAddContinue}
-								>
-									Save and Continue
-								</Button>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									style={{
-										textTransform: "none",
-										height: "50%",
-									}}
-									onClick={handleAdd}
-								>
-									Save
-								</Button>
-								<Button
-									style={{
-										height: "50%",
-									}}
-									onClick={() => {
-										setIsHidden(false);
-										setRoleTitle("");
-										setShortName("");
-										setUserLevel("");
-									}}
-								>
-									Close
-								</Button>
-							</div>
+							/>
 						</div>
 					</div>
 				)}
