@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import UserTable from "./UserTable";
 import Button from "@mui/material/Button";
-import { Add } from "@mui/icons-material";
+import { Add } from "@mui/icons-material"; 
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Grid, FormLabel, TextField, FormControl } from "@mui/material";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
@@ -96,15 +96,17 @@ export default function Userpage() {
     <div className={UserStyle.mainContainer}>
       <div className={UserStyle.mainHolder}>
         <div className={UserStyle.addButton} >
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<SearchIcon />}
-            className={UserStyle.button}
-            onClick={performSearch}
-          >
-            Add
-          </Button>
+          <Link to="/createuser" style={{ textDecoration: "none", color: "black" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<SearchIcon />}
+              className={UserStyle.button}
+              onClick={performSearch}
+            >
+              Add
+            </Button>
+          </Link>
         </div>
 
         <div className={UserStyle.contentHolder}>
