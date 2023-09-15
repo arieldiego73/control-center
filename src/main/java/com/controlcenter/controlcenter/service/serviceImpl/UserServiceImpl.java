@@ -8,11 +8,13 @@ import com.controlcenter.controlcenter.model.AccountInput;
 import com.controlcenter.controlcenter.model.AccountOutput;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.MultiRoleInput;
+import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.PersonalInfoInput;
 import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
+import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
@@ -307,4 +309,20 @@ public class UserServiceImpl implements UserService{
     }
     
   }
+
+  //get all user roles
+  @Override
+  public ResponseEntity<List<UserRoles>> getAllRolesOfUser(String emp_id) {
+    UserInfoOutput user = new UserInfoOutput();
+
+    user = userDao.getUserById(emp_id);
+
+    if(user != null) {
+      return ResponseEntity.ok(userDao.getAllRolesOfUser(emp_id));
+    } else {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+    
+  }
+
 }

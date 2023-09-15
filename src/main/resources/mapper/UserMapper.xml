@@ -52,7 +52,7 @@
                position_id,
                dept_id,
                section_id,
-               role_id,
+               <!-- role_id, -->
                status_code,
                img_src
           FROM tbl_user
@@ -130,6 +130,17 @@
          WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
 
+    <!-- get all roles of a user -->
+    <select id="getAllRolesOfUser" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserRoles">
+        SELECT tuser.username,
+               troles.role_sh_name
+          FROM tbl_user AS tuser
+            INNER JOIN tbl_multi_role AS tmr
+                ON tuser.emp_id = tmr.emp_id
+            LEFT JOIN tbl_role_mst AS troles
+                ON troles.role_id = tmr.role_id
+         WHERE tuser.emp_id = #{emp_id};
+    </select>
     
 
     <!-- <insert id="addAccount" parameterType="map">

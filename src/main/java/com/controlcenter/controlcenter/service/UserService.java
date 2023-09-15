@@ -2,9 +2,11 @@ package com.controlcenter.controlcenter.service;
 
 import com.controlcenter.controlcenter.model.AccountInput;
 import com.controlcenter.controlcenter.model.AccountOutput;
+import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
+import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.model.UserTable;
 
 import java.util.List;
@@ -29,4 +31,7 @@ public interface UserService {
   public String editAccount(String id, AccountOutput accountBody);
 
   public String getLoggedInUser(UserOutput user);
+
+  //get all user roles
+  public ResponseEntity<List<UserRoles>> getAllRolesOfUser(String emp_id);
 }
