@@ -32,9 +32,9 @@ export interface State {
 // 	info: string;
 // }
 
-export default function Department() {
+export default function BusinessUnit() {
 	const notice = useSelector(
-		(state: RootState) => state.deptReducer.notice
+		(state: RootState) => state.sectionReducer.notice
 	);
 	const isInitialAmount = React.useRef(true);
 	React.useEffect(() => {
@@ -154,7 +154,7 @@ export default function Department() {
 								className={`${DepartmentStyle["custom-link"]}`}
 								style={{ color: "inherit" }}
 							>
-								Employee Position
+								Department
 							</Link>
 						</Breadcrumbs>
 					</div>
