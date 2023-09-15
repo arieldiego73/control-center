@@ -49,14 +49,14 @@ public class SectionServiceImpl implements SectionService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a section");
+            activityLogInput.setLog_desc("Added a Department");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Section added successfully.";
+            return "Department added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -68,7 +68,7 @@ public class SectionServiceImpl implements SectionService {
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Section with the ID " + id + " has already been deleted.";
+                return "Department with the ID " + id + " has already been deleted.";
             } else {
                 Map<String, Object> paramMap = new HashMap<>();
                 paramMap.put("id", id);
@@ -80,17 +80,17 @@ public class SectionServiceImpl implements SectionService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a section");
+                activityLogInput.setLog_desc("Edited a Department");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Section edited successfully.";
+                return "Department edited successfully.";
             }
         } else {
-            return "Section with the ID " + id + " cannot be found.";
+            return "Department with the ID " + id + " cannot be found.";
         }
     }
 
@@ -100,12 +100,12 @@ public class SectionServiceImpl implements SectionService {
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Section with the ID " + id + " has already been deleted.";
+                return "Department with the ID " + id + " has already been deleted.";
             } else {
 
             }
         } else {
-            return "Section with the ID " + id + " cannot be found.";
+            return "Department with the ID " + id + " cannot be found.";
         }
 
         sectionDao.logicalDeleteSection(id);
@@ -114,14 +114,14 @@ public class SectionServiceImpl implements SectionService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted a section");
+        activityLogInput.setLog_desc("Deleted a Department");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
 
-        return "Section deleted successfully.";
+        return "Department deleted successfully.";
     }
 
     @Override
@@ -133,10 +133,10 @@ public class SectionServiceImpl implements SectionService {
             SectionOutput section = sectionDao.getSectionById(toString);
             if (section != null) {
                 if (section.getDel_flag() == 1) {
-                    return "Section with the ID " + id + " is already deleted.";
+                    return "Department with the ID " + id + " is already deleted.";
                 }
             } else {
-                return "Section with the ID " + id + " cannot be found.";
+                return "Department with the ID " + id + " cannot be found.";
             }
         }
         sectionDao.deleteMultipleSection(ids);
@@ -145,7 +145,7 @@ public class SectionServiceImpl implements SectionService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple sections.");
+        activityLogInput.setLog_desc("Deleted multiple Departments.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
@@ -161,7 +161,7 @@ public class SectionServiceImpl implements SectionService {
 
         if (data != null) {
             if (data.getDel_flag() == 0) {
-                return "Section with the ID " + id + " is not yet deleted.";
+                return "Department with the ID " + id + " is not yet deleted.";
             } else {
                 sectionDao.restoreSection(id);
 
@@ -169,17 +169,17 @@ public class SectionServiceImpl implements SectionService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a section");
+                activityLogInput.setLog_desc("Restored a Department");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Section restored successfully.";
+                return "Department restored successfully.";
             }
         } else {
-            return "Section with the ID " + id + " cannot be found.";
+            return "Department with the ID " + id + " cannot be found.";
         }
     }
 }

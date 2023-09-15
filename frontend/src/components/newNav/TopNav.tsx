@@ -1,15 +1,25 @@
 import TopNavStyle from "./TopNavStyle.module.css";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link } from "react-router-dom";
-import SampleUserImage from "../../Assets/userImage.png"
+import SampleUserImage from "../../Assets/userImage/SampleAvatar.png"
+import { ReactNode } from 'react';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export interface TopNavProps {
   pageTitle?: string; // Make pageTitle optional with '?'
+  breadcrumbs?: Breadcrumb[]; // Add breadcrumbs prop
 }
 
-export default function TopNav({ pageTitle }: TopNavProps) {
+export interface Breadcrumb {
+  label?: string;
+  icon?: ReactNode; // Use ReactNode for icons
+  to: string;
+}
+
+
+
+export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
   // Use pageTitle if provided, otherwise use a default value
   const title = pageTitle || "Default Title";
 
@@ -17,28 +27,27 @@ export default function TopNav({ pageTitle }: TopNavProps) {
     <div className={TopNavStyle.topnavContainer}>
       <div className={TopNavStyle.leftSide}>
         <div className={TopNavStyle.breadCrumbsContainer}>
-          <div style={{ paddingLeft: "3%" }}>
+          {breadcrumbs && breadcrumbs.length > 0 && (
             <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-              <Link
-                to="/User"
-                className={`${TopNavStyle["custom-link"]}`}
-                style={{ color: "inherit" }}
-              >
-                User
-              </Link>
-              <Link
-                to="/CreateUser"
-                className={`${TopNavStyle["custom-link"]}`}
-                style={{ color: "inherit" }}
-              >
-                Create User
-              </Link>
-
-              {/* Other breadcrumb links */}
+              {breadcrumbs.map((breadcrumb, index) => (
+                <Link
+                  key={index}
+                  to={breadcrumb.to}
+                  className={TopNavStyle["custom-link"]}
+                  style={{ color: "inherit" }}
+                >
+                  <div>
+                    {breadcrumb.icon} {/* Render the icon here */}
+                  </div>
+                  <div >
+                    {breadcrumb.label} {/* Render the label here */}
+                  </div>
+                </Link>
+              ))}
             </Breadcrumbs>
-          </div>
-
+          )}
         </div>
+
         <div className={TopNavStyle.titleContainer}>
           <span>{title}</span>
         </div>

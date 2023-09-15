@@ -17,8 +17,8 @@ import DashboardHandler from "./pages/DashboardHandler";
 import ActivityLogDashboardTable from "./components/dashboard/ActivityLogDashboardTable";
 import EmployeeStatusHandler from "./pages/EmployeeStatusHandler";
 import EmployeePositionHandler from "./pages/EmployeePositionHandler";
-import BusinessUnitHandler from "./pages/BusinessUnitHanlder";
 import DepartmentHandler from "./pages/DepartmentHandler";
+import BusinessUnitHandler from "./pages/BusinessUnitHandler";
 import TechnologyHandler from "./pages/TechnologyHandler";
 import test2 from "./components/test/test2";
 import Sidenav from "./components/newNav/SideNav"
