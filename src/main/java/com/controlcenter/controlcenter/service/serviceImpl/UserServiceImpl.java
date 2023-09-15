@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService{
 
     userDao.editUser(paramMap);
 
-    return "User Edited Successfully";
+    return "User edited successfully.";
   }
 
   // @Override
@@ -99,15 +99,15 @@ public class UserServiceImpl implements UserService{
     UserInfoOutput userById = userDao.getUserById(account.getEmp_id());
 
     if(userById != null) {
-      return "The Emplyee ID of " + account.getEmp_id() + " is already taken";
+      return "The Emplyee ID of " + account.getEmp_id() + " is already taken.";
     } else {
       List<UserTable> users = userDao.findAll();
 
       for(UserTable perUser : users) {
         if(account.getUsername().equals(perUser.getUsername())) {
-          return "The Username of " + account.getUsername() + " is already taken";
+          return "The Username of " + account.getUsername() + " is already taken.";
         } else if(account.getEmail().equals(perUser.getEmail())) {
-          return "The Email of " + account.getEmail() + " is already taken";
+          return "The Email of " + account.getEmail() + " is already taken.";
         }
       }
   
@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService{
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); //current logged user dapat
-        activityLogInput.setLog_desc("Added a user.");
+        activityLogInput.setLog_desc("Added a User.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         //add the activity log
@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService{
         } catch (Exception e) {
         return e.getMessage();
       }
-      return "Account Created Successfully";
+      return "Account created successfully.";
     }
   }
 
@@ -200,7 +200,7 @@ public class UserServiceImpl implements UserService{
     userDao.editUser(userMap);
     personalInfoDao.editPersonalInfo(personalInfoMap);
 
-    return "Account Edited Successfully";
+    return "Account edited successfully.";
   }
 
 
@@ -270,28 +270,28 @@ public class UserServiceImpl implements UserService{
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Login successfully.");
+            activityLogInput.setLog_desc("Log in success.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-        return "Login Successfully.";
+        return "Log in success.";
       } else {
 
         //Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Login unsuccessfully.");
+            activityLogInput.setLog_desc("Log in unsuccessful.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-        return "Login unsuccessfully.";
+        return "Log in unsuccessful.";
       }
     } else {
       return "Username and Password doesn't match.";

@@ -41,14 +41,14 @@ public class ProjInfoServiceImpl implements ProjInfoService{
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Added a project info.");
+            activityLogInput.setLog_desc("Added a Project Information.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Info Added Successfully";
+            return "Project Information added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -67,14 +67,14 @@ public class ProjInfoServiceImpl implements ProjInfoService{
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a project info.");
+            activityLogInput.setLog_desc("Edited a Project Information.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Info Info Edited Successfully";
+            return "Project Information edited successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -89,14 +89,14 @@ public class ProjInfoServiceImpl implements ProjInfoService{
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a project info.");
+            activityLogInput.setLog_desc("Deleted a Project Information.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Info Deleted Successfully";
+            return "Project Information deleted successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -111,14 +111,14 @@ public class ProjInfoServiceImpl implements ProjInfoService{
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a project info.");
+            activityLogInput.setLog_desc("Restored a Project Information.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Info Restored Successfully";
+            return "Project Information restored successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

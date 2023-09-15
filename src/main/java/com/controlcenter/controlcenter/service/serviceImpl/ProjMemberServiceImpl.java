@@ -42,14 +42,14 @@ public class ProjMemberServiceImpl implements ProjMemberService{
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Added a project member.");
+            activityLogInput.setLog_desc("Added a Project Member.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
             
-            return "Project Member Added Successfully";
+            return "Project Member added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -68,14 +68,14 @@ public class ProjMemberServiceImpl implements ProjMemberService{
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Edited a project member.");
+            activityLogInput.setLog_desc("Edited a Project Member.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Member Edited Successfully";
+            return "Project Member edited successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -90,14 +90,14 @@ public class ProjMemberServiceImpl implements ProjMemberService{
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Deleted a project member.");
+            activityLogInput.setLog_desc("Deleted a Project Member.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Member Deleted Successfully";
+            return "Project Member deleted successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -112,14 +112,14 @@ public class ProjMemberServiceImpl implements ProjMemberService{
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Restored a project member.");
+            activityLogInput.setLog_desc("Restored a Project Member.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project Member Restored Successfully";
+            return "Project Member restored successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }

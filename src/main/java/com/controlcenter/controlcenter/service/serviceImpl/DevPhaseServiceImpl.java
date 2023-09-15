@@ -55,14 +55,14 @@ public class DevPhaseServiceImpl implements DevPhaseService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Added a development phase.");
+            activityLogInput.setLog_desc("Added a Development Phase.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Development Phase Added Successfully.";
+            return "Development Phase added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -88,14 +88,14 @@ public class DevPhaseServiceImpl implements DevPhaseService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); //current logged user dapat
-                activityLogInput.setLog_desc("Edited a development phase.");
+                activityLogInput.setLog_desc("Edited a Development Phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 //add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Development Phase Edited Successfully.";
+                return "Development Phase edited successfully.";
             }
         } else{
             return "Development Phase with the ID " + id + " cannot be found.";
@@ -117,14 +117,14 @@ public class DevPhaseServiceImpl implements DevPhaseService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); //current logged user dapat
-                activityLogInput.setLog_desc("Deleted a development phase.");
+                activityLogInput.setLog_desc("Deleted a Development Phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 //add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Record is successfully deleted.";
+                return "Development Phase deleted successfully.";
             }
         } else{
             return "Development Phase with the ID " + id + " cannot be found.";
@@ -152,7 +152,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); //current logged user dapat
-        activityLogInput.setLog_desc("Deleted Multiple development phase.");
+        activityLogInput.setLog_desc("Deleted Multiple Development Phase.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         //add the activity log
@@ -178,14 +178,14 @@ public class DevPhaseServiceImpl implements DevPhaseService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); //current logged user dapat
-                activityLogInput.setLog_desc("Restored a development phase.");
+                activityLogInput.setLog_desc("Restored a Development Phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 //add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Development Phase Restored Successfully";
+                return "Development Phase restored successfully.";
             }
         } else{
             return "Development Phase with the ID " + id + " cannot be found.";
