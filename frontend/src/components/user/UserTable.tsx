@@ -75,7 +75,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 								align="center"
 								style={{
 									fontWeight: "bolder",
-									backgroundColor: "transparent",
+									backgroundColor: "white",
 									fontFamily: "Montserrat, sans-serif",
 								}}
 							>
@@ -85,7 +85,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 								align="center"
 								style={{
 									fontWeight: "bolder",
-									backgroundColor: "transparent",
+									backgroundColor: "white",
 									fontFamily: "Montserrat, sans-serif",
 								}}
 							>
@@ -95,7 +95,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 								align="center"
 								style={{
 									fontWeight: "bolder",
-									backgroundColor: "transparent",
+									backgroundColor: "white",
 									fontFamily: "Montserrat, sans-serif",
 								}}
 							>
@@ -105,7 +105,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 								align="center"
 								style={{
 									fontWeight: "bolder",
-									backgroundColor: "transparent",
+									backgroundColor: "white",
 									fontFamily: "Montserrat, sans-serif",
 								}}
 							>
@@ -115,7 +115,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 								align="center"
 								style={{
 									fontWeight: "bolder",
-									backgroundColor: "transparent",
+									backgroundColor: "white",
 									fontFamily: "Montserrat, sans-serif",
 								}}
 							>
@@ -125,7 +125,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 								align="center"
 								style={{
 									fontWeight: "bolder",
-									backgroundColor: "transparent",
+									backgroundColor: "white",
 									fontFamily: "Montserrat, sans-serif",
 								}}
 							>
@@ -135,7 +135,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 								align="center"
 								style={{
 									fontWeight: "bolder",
-									backgroundColor: "transparent",
+									backgroundColor: "white",
 									fontFamily: "Montserrat, sans-serif",
 								}}
 							>
@@ -145,7 +145,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 								align="center"
 								style={{
 									fontWeight: "bolder",
-									backgroundColor: "transparent",
+									backgroundColor: "white",
 									fontFamily: "Montserrat, sans-serif",
 								}}
 							>
