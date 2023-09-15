@@ -117,11 +117,13 @@
   color: blue;
 }
 
-
-
-
-
-
+/* Attributes of Add Role Table */
+.addroleTableContainer{
+  width: 100%;
+}
+.addroleTableHolder {
+  width: 100%;
+}
 
 
 

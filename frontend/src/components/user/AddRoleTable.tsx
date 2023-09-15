@@ -20,6 +20,7 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import AddRoleTableStyle from './User.module.css';
 
 interface Data {
   role: string;
@@ -270,12 +271,10 @@ export default function AddRoleTable() {
   );
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
+    <div className={AddRoleTableStyle.addroleTableContainer}>
+      <Paper className={AddRoleTableStyle.addroleTableHolder}>
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size="medium"
           >
@@ -287,6 +286,7 @@ export default function AddRoleTable() {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
+
             <TableBody>
               {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row.role);
@@ -316,6 +316,7 @@ export default function AddRoleTable() {
                         }}
                       />
                     </TableCell>
+
                     <TableCell
                       component="th"
                       id={labelId}
@@ -326,6 +327,7 @@ export default function AddRoleTable() {
                     >
                       {row.role}
                     </TableCell>
+
                     <TableCell align="center" sx={{ padding: "2vh 2vw" }}>
                       {row.shortname}
                     </TableCell>
@@ -340,6 +342,7 @@ export default function AddRoleTable() {
             </TableBody>
           </Table>
         </TableContainer>
+        
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -350,6 +353,6 @@ export default function AddRoleTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </Box>
+    </div>
   );
 }
