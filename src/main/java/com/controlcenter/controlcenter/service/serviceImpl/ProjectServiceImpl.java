@@ -12,6 +12,7 @@ import com.controlcenter.controlcenter.dao.ProjectDao;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.ProjectInput;
 import com.controlcenter.controlcenter.model.ProjectOutput;
+import com.controlcenter.controlcenter.model.ProjectTable;
 import com.controlcenter.controlcenter.service.ProjectService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
@@ -25,6 +26,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     public TimeFormatter timeFormatter;
+
+    @Override
+    public List<ProjectTable> projectTable() {
+        return projectDao.projectTable();
+    }
 
     @Override
     public List<ProjectOutput> getAllProject() {

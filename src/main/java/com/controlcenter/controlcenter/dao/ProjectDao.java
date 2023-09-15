@@ -7,9 +7,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.controlcenter.controlcenter.model.ProjectInput;
 import com.controlcenter.controlcenter.model.ProjectOutput;
+import com.controlcenter.controlcenter.model.ProjectTable;
 
 @Mapper
 public interface ProjectDao {
+    List<ProjectTable> projectTable();
     List<ProjectOutput> getAllProject();
 
     ProjectOutput getProjectById(String id);

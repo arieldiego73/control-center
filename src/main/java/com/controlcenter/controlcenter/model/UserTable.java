@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserTable {
-  private Long emp_id;
+  private String emp_id;
   private String username;
   private String fname;
   private String lname;

@@ -1,7 +1,7 @@
 package com.controlcenter.controlcenter.controller;
 
-import com.controlcenter.controlcenter.model.Account;
-import com.controlcenter.controlcenter.model.PersonalInfoOutput;
+import com.controlcenter.controlcenter.model.AccountInput;
+import com.controlcenter.controlcenter.model.AccountOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.model.UserTable;
@@ -63,11 +63,11 @@ public class UserController {
   // }
 
   @PostMapping("/create-account")
-  public ResponseEntity<String> addAccount(@RequestBody Account account) {
+  public ResponseEntity<String> addAccount(@RequestBody AccountInput account) {
     //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<Account>> errors = validator.validate(account);
+        Set<ConstraintViolation<AccountInput>> errors = validator.validate(account);
             //Error Handling
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
@@ -104,17 +104,16 @@ public class UserController {
   // }
 
   @PutMapping("/edit-account/{id}")
-  public ResponseEntity<String> editAccount(@PathVariable String id, @RequestBody UserOutput userBody, PersonalInfoOutput personalInfoBody) {
+  public ResponseEntity<String> editAccount(@PathVariable String id, @RequestBody AccountOutput accountBody) {
     //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<UserOutput>> userError = validator.validate(userBody);
-        Set<ConstraintViolation<PersonalInfoOutput>> personalInfoError = validator.validate(personalInfoBody);
+        Set<ConstraintViolation<AccountOutput>> error = validator.validate(accountBody);
             //Error Handling
-            if (userError.size() > 0 || personalInfoError.size() > 0) { //checks the errors from validator
-                return ResponseEntity.status(400).body(errorHandler.getErrors(userError) + errorHandler.getErrors(personalInfoError));
+            if (error.size() > 0) { //checks the errors from validator
+                return ResponseEntity.status(400).body(errorHandler.getErrors(error));
             }else{
-                return ResponseEntity.status(200).body(userService.editAccount(id, userBody, personalInfoBody));
+                return ResponseEntity.status(200).body(userService.editAccount(id, accountBody));
             }
   }
 
