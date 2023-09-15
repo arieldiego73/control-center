@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import { useNavigate } from "react-router-dom";
 import { TablePagination } from "@mui/material";
 import UserTableStyle from './User.module.css'
-
+ 
 // Define the type for your row data
 interface RowData { 
 	emp_id: number;
