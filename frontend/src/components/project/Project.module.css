@@ -1,4 +1,3 @@
-
 .mainContainer {
   position: fixed;
 	display: flex;
@@ -34,9 +33,34 @@
   padding-right: 1.5%;
 }
 
-
-
-
+/* Attributes of Project Table */
+.tableMainContainer{
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-around;
+  height: 100%;
+  width:'100%';
+}
+.paperTable{
+  width: 100%;
+  height: 81%;
+  background-color: transparent;
+  border: 1px solid blue;
+}
+.tableContainer{
+  width: 100%;
+  height: 100%;
+}
+.tableHead {
+  background-color: transparent;
+  z-index: 1; 
+  border-radius:10px;
+}
+.usernameHover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
 
 
 
