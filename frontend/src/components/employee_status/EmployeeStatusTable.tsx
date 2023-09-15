@@ -26,10 +26,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {
 	Divider,
-	FormControl,
-	FormLabel,
-	InputAdornment,
-	TextField,
 } from "@mui/material";
 import EmployeeStatusStyle from "./EmployeeStatusTable.module.css";
 import {
@@ -48,6 +44,9 @@ import CustomPagination from "../custom_pagination/pagination";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 import { getEmployeeStatusFetch } from "../../redux/state/employeeStatusState";
+import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
+import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
+import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 
 const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -318,149 +317,55 @@ const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 					</Button>
 				) : (
 					<div className={EmployeeStatusStyle.hideButton}>
-						<div
-							style={{
-								flexDirection: "row",
-								display: "flex",
-								justifyContent: "space-around",
-								alignItems: "center",
-								width: "100%",
-							}}
-						>
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-around",
-									alignItems: "center",
-									width: "70%",
-									gap: "1%",
-								}}
-							>
-								<FormControl>
-									<FormLabel
-										style={{
-											fontWeight: "bold",
-										}}
-									>
-										Employee Status Code
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										size="small"
-										onChange={(e) =>
-											setEmployeeStatusCode(e.target.value)
-										}
-										value={employeeStatusCode}
-										autoFocus
-										inputRef={employeeStatusCodeRef}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
-								<FormControl>
-									<FormLabel
-										style={{
-											fontWeight: "bold",
-										}}
-									>
-										Employee Status
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										size="small"
-										onChange={(e) =>
-											setEmployeeStatusName(e.target.value)
-										}
-										value={employeeStatusName}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
-								<FormControl>
-									<FormLabel
-										style={{
-											fontWeight: "bold",
-										}}
-									>
-										Description
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										variant="outlined"
-										size="small"
-										onChange={(e) =>
-											setDescription(e.target.value)
-										}
-										value={description}
-										className={EmployeeStatusStyle.textField}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<BadgeIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
+						<div style={addFormContainerStyles}>
+							<div style={addFormStyles}>
+								<DataGridAddTextField
+									inputLabel="Employee Status Code"
+									inputValue={employeeStatusCode}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setEmployeeStatusCode(e.target.value)}
+									inputRef={employeeStatusCodeRef}
+									textFieldIcon={<PersonIcon />}
+									autoFocus={true}
+								/>
+								<DataGridAddTextField
+									inputLabel="Employee Status"
+									inputValue={employeeStatusName}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setEmployeeStatusName(e.target.value)}
+									textFieldIcon={<PersonIcon />}
+								/>
+								<DataGridAddTextField
+									inputLabel="Description"
+									inputValue={description}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setDescription(e.target.value)}
+									textFieldIcon={<BadgeIcon />}
+								/>
 							</div>
 
-							<div
-								style={{
-									flexDirection: "row",
-									display: "flex",
-									alignItems: "center",
-									height: "100%",
-									gap: "10px",
+							<DataGridAddButtons
+								handleAdd={handleAdd}
+								handleAddContinue={handleAddContinue}
+								handleClosing={() => {
+									setIsHidden(false);
+									setEmployeeStatusCode("");
+									setEmployeeStatusName("");
+									setDescription("");
 								}}
-							>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									style={{
-										textTransform: "none",
-										height: "50%",
-									}}
-									onClick={handleAddContinue}
-								>
-									Save and Continue
-								</Button>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									style={{
-										textTransform: "none",
-										height: "50%",
-									}}
-									onClick={handleAdd}
-								>
-									Save
-								</Button>
-								<Button
-									style={{
-										height: "50%",
-									}}
-									onClick={() => {
-										setIsHidden(false);
-										setEmployeeStatusName("");
-										setDescription("");
-									}}
-								>
-									Close
-								</Button>
-							</div>
+							 />
 						</div>
 					</div>
 				)}

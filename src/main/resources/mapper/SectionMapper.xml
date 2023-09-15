@@ -7,10 +7,21 @@
 
 <!-- Fetch Data -->
     <select id="getAllSection" resultType="com.controlcenter.controlcenter.model.SectionOutput">
-       SELECT section_id, section_name, section_sh_name, dept_id, del_flag
-         FROM tbl_section_mst
-        WHERE del_flag = 0
-     ORDER BY section_id DESC, reg_date DESC;
+       SELECT
+            s.section_id,
+            s.section_name,
+            s.section_sh_name,
+            s.dept_id,
+            d.dept_name
+        FROM
+            tbl_section_mst AS s
+        JOIN
+            tbl_department_mst AS d
+        ON
+            s.dept_id = d.dept_id
+        ORDER BY
+            s.section_id DESC,
+            s.reg_date DESC;
     </select>
 
     <select id="getSectionById" resultType="com.controlcenter.controlcenter.model.SectionOutput">

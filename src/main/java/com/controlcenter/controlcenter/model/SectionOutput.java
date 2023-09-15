@@ -11,5 +11,6 @@ public class SectionOutput {
     private String section_name;
     private String section_sh_name;
     private int dept_id;
+    private String dept_name;
     private int del_flag;
 }
