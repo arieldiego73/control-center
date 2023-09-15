@@ -7,10 +7,16 @@
 
 <!-- Fetch Data -->
     <select id="getAllProjMember" resultType="com.controlcenter.controlcenter.model.ProjMemberOutput">
-       SELECT up_role_id, upid, role_id
+       SELECT up_role_id, upid, role_id, del_flag
          FROM tbl_proj_members
         WHERE del_flag = 0
      ORDER BY up_role_id DESC, reg_date DESC;
+    </select>
+
+    <select id="getProjMemberById" resultType="com.controlcenter.controlcenter.model.ProjMemberOutput">
+       SELECT up_role_id, upid, role_id, del_flag
+         FROM tbl_proj_members
+        WHERE up_role_id = #{id};
     </select>
 
 <!-- Add Data -->

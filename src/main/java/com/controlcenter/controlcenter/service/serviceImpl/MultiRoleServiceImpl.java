@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.MultiRoleDao;
+import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.MultiRoleInput;
 import com.controlcenter.controlcenter.model.MultiRoleOutput;
+import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.service.MultiRoleService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
@@ -27,6 +29,9 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     @Autowired
     public ActivityLogDao activityLogDao;
 
+    @Autowired
+    public UserDao userDao;
+
     @Override
     public List<MultiRoleOutput> getAllMultiRole(){
         return multiRoleDao.getAllMultiRole();
@@ -38,9 +43,10 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     }
 
     @Override
-    public String addMultiRole(MultiRoleInput multiRole){
-        try{
-            multiRoleDao.addMultiRole(multiRole);
+    public String addMultiRole(String emp_id, Long role_id){
+        UserInfoOutput user = userDao.getUserById(emp_id);
+        if(user != null){
+            multiRoleDao.addMultiRole(emp_id, role_id);
 
             //Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
@@ -54,8 +60,8 @@ public class MultiRoleServiceImpl implements MultiRoleService{
             activityLogDao.addActivityLog(activityLogInput);
 
             return "Multi Role Added Successfully";
-        } catch (Exception e) {
-            return e.getMessage();
+        } else {
+            return "User with Employee ID of " + emp_id + " cannot be found";
         }
     }
 

@@ -49,7 +49,7 @@ public class TechnologyServiceImpl implements TechnologyService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); // current logged user dapat
-            activityLogInput.setLog_desc("Added a technology.");
+            activityLogInput.setLog_desc("Added a Technology.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // Add the activity log
@@ -79,7 +79,7 @@ public class TechnologyServiceImpl implements TechnologyService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a technology.");
+                activityLogInput.setLog_desc("Edited a Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
@@ -107,7 +107,7 @@ public class TechnologyServiceImpl implements TechnologyService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a technology.");
+                activityLogInput.setLog_desc("Deleted a Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
@@ -142,7 +142,7 @@ public class TechnologyServiceImpl implements TechnologyService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple technology.");
+        activityLogInput.setLog_desc("Deleted multiple Technologies.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
@@ -166,7 +166,7 @@ public class TechnologyServiceImpl implements TechnologyService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a technology.");
+                activityLogInput.setLog_desc("Restored a Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
