@@ -56,6 +56,13 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 		navigate(`/editUser/${row.username}`, { state: row.emp_id });
 	};
 
+	// const FireNav = styled(List)<{ component?: React.ElementType }>({
+	// 	'& .MuiListItemButton-root': {
+	// 		paddingLeft: 24,
+	// 		paddingRight: 24,
+	// 	},
+	// });
+
 	return (
 	<div className={UserTableStyle.tableMainContainer}>
 		<Paper className={UserTableStyle.paperTable}>

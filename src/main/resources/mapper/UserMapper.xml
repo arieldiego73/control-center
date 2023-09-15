@@ -94,7 +94,7 @@
                position_id=#{user.position_id},
                dept_id=#{user.dept_id},
                section_id=#{user.section_id},
-               role_id=#{user.role_id},
+               <!-- role_id=#{user.role_id}, -->
                status_code=#{user.status_code},
                img_src=#{user.img_src},
                update_id = 1
