@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class ProjInfoInput {
 
-    @NotNull(message = "Development Type ID should not be empty.")
+    //@NotNull(message = "Development Type ID should not be empty.")
     @Digits(integer = 9, fraction = 0, message = "The Development Type ID is invalid, it should be up to 9 digits long.")
     private Long dev_type_id;
 
