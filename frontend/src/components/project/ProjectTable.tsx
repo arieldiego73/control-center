@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { TablePagination } from '@mui/material';
 import MembersTable from './MembersTable';
-import ViewProjectDetails from './ViewProjectDetails';
+import ViewProjectDetails from './ViewProjectDetails'; 
 import { Link, useNavigate } from 'react-router-dom';
 import { FontFamily } from '@mui/joy/styles';
 

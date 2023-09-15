@@ -11,7 +11,7 @@ import { TablePagination } from "@mui/material";
 import UserTableStyle from './User.module.css'
 
 // Define the type for your row data
-interface RowData {
+interface RowData { 
 	emp_id: number;
 	username: string;
 	fname: string;
