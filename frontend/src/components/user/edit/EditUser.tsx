@@ -459,37 +459,6 @@ export default function EditUser() {
 					</Button>
 				</DialogActions>
 			</Dialog>
-
-			{/* <Dialog
-				open={openTechnology}
-				onClose={handleCloseTechnology}
-				aria-describedby="alert-dialog-slide-description"
-				maxWidth="xl"
-			>
-				<DialogTitle>
-					<FontAwesomeIcon icon={faUser} size="1x" color="black" />
-					{"Technology"}
-				</DialogTitle>
-
-				<DialogContent>
-					<AddRoleTable />
-				</DialogContent>
-
-				<DialogActions>
-					<Button
-						onClick={handleCloseTechnology}
-						sx={{ fontFamily: "Montserrat, sans-serif" }}
-					>
-						Cancel
-					</Button>
-					<Button
-						onClick={handleCloseTechnology}
-						sx={{ fontFamily: "Montserrat, sans-serif" }}
-					>
-						Save
-					</Button>
-				</DialogActions>
-			</Dialog> */}
 			
 			{/*Dialog of Add Role */}
 			<Dialog
@@ -513,7 +482,7 @@ export default function EditUser() {
 				<DialogContent>
 					<AddRoleTable />
 				</DialogContent>
-
+ 
 				<DialogActions>
 					<Button
 						onClick={handleCloseRole}

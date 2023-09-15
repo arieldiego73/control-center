@@ -103,8 +103,8 @@ export default function Userpage() {
             startIcon={<AddCircleOutlineIcon />}
             className={UserStyle.button}
             onClick={performSearch}
-          >
-            Add User
+          > 
+            Add User 
           </Button>
         </Link>
       </div>
