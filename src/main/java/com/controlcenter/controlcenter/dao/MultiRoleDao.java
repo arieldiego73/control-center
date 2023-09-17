@@ -9,7 +9,6 @@ import com.controlcenter.controlcenter.model.MultiRoleOutput;
 @Mapper
 public interface MultiRoleDao {
     List<MultiRoleOutput> getAllMultiRole();
-
     MultiRoleOutput getMultiRoleById(String id);
     void addMultiRole(String emp_id, Long role_id);
     void editMultiRoleInfo(Map<String, Object> paramMap);

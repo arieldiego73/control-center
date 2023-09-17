@@ -26,10 +26,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {
 	Divider,
-	FormControl,
-	FormLabel,
-	InputAdornment,
-	TextField,
 } from "@mui/material";
 import PositionModuleStyle from "./EmployeePositionTable.module.css";
 import { getPositionFetch } from "../../redux/state/positionState";
@@ -48,6 +44,10 @@ import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
+import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
+import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
+import { Description } from "@mui/icons-material";
 
 const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -91,6 +91,7 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 
 	const [positionName, setPositionName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
+	const [description, setDescription] = React.useState("");
 	const positionNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	function DatagridToolbar() {
@@ -175,14 +176,16 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const addRecord = (isAddOnly: boolean) => {
-		if (positionName && shortName) {
+		if (positionName && shortName && description) {
 			const posData: GridValidRowModel = {
 				position_name: positionName,
 				position_sh_name: shortName,
+				position_desc: description,
 			};
 			processAddRow(posData);
 			setPositionName("");
 			setShortName("");
+			setDescription("");
 			if (isAddOnly) {
 				setIsHidden(false);
 			} else {
@@ -198,7 +201,7 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
-		if (newRow.position_name && newRow.position_sh_name) {
+		if (newRow.position_name && newRow.position_sh_name && newRow.position_desc) {
 			processUpdateRow(newRow);
 		} else {
 			const cancel = handleCancelClick(newRow.position_id);
@@ -229,6 +232,16 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 		{
 			field: "position_sh_name",
 			headerName: "Short Name",
+			width: 300,
+			minWidth: 300,
+			flex: 1,
+			editable: true,
+			headerAlign: "center",
+			align: "center",
+		},
+		{
+			field: "position_desc",
+			headerName: "Description",
 			width: 300,
 			minWidth: 300,
 			flex: 1,
@@ -310,151 +323,55 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 					</Button>
 				) : (
 					<div className={PositionModuleStyle.hideButton}>
-						<div
-							style={{
-								flexDirection: "row",
-								display: "flex",
-								justifyContent: "space-around",
-								alignItems: "center",
-								width: "100%",
-							}}
-						>
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-around",
-									alignItems: "center",
-									width: "70%",
-									gap: "24px",
-								}}
-							>
-								<FormControl>
-									<FormLabel
-										style={{
-											fontWeight: "bold",
-										}}
-									>
-										Position
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										size="small"
-										onChange={(e) =>
-											setPositionName(e.target.value)
-										}
-										value={positionName}
-										autoFocus
-										inputRef={positionNameRef}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
-								<FormControl>
-									<FormLabel
-										style={{
-											fontWeight: "bold",
-										}}
-									>
-										Short Name
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										variant="outlined"
-										size="small"
-										onChange={(e) =>
-											setShortName(e.target.value)
-										}
-										value={shortName}
-										className={
-											PositionModuleStyle.textField
-										}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<BadgeIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl>
-								{/* <FormControl>
-									<FormLabel style={{ fontWeight: "bold" }}>
-										User Level
-									</FormLabel>
-									<TextField
-										style={{ width: "100%" }}
-										variant="outlined"
-										size="small"
-										type="number"
-										placeholder="ex: 1"
-										onChange={(e) =>
-											setUserLevel(e.target.value)
-										}
-										value={userLevel}
-										className={PositionModuleStyle.textField}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonFourIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</FormControl> */}
+						<div style={addFormContainerStyles}>
+							<div style={addFormStyles}>
+								<DataGridAddTextField
+									inputLabel="Position"
+									inputValue={positionName}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setPositionName(e.target.value)}
+									inputRef={positionNameRef}
+									textFieldIcon={<PersonIcon />}
+									autoFocus={true}
+								/>
+								<DataGridAddTextField
+									inputLabel="Short Name"
+									inputValue={shortName}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setShortName(e.target.value)}
+									textFieldIcon={<BadgeIcon />}
+								/>
+								<DataGridAddTextField
+									inputLabel="Description"
+									inputValue={description}
+									inputValueSetter={(
+										e: React.ChangeEvent<
+											| HTMLInputElement
+											| HTMLTextAreaElement
+										>
+									) => setDescription(e.target.value)}
+									textFieldIcon={<Description />}
+								/>
 							</div>
 
-							<div
-								style={{
-									flexDirection: "row",
-									display: "flex",
-									alignItems: "center",
-									height: "100%",
-									gap: "10px",
+							<DataGridAddButtons
+								handleAdd={handleAdd}
+								handleAddContinue={handleAddContinue}
+								handleClosing={() => {
+									setIsHidden(false);
+									setPositionName("");
+									setShortName("");
+									setDescription("");
 								}}
-							>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									style={{
-										textTransform: "none",
-										height: "50%",
-									}}
-									onClick={handleAddContinue}
-								>
-									Save and Continue
-								</Button>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									style={{
-										textTransform: "none",
-										height: "50%",
-									}}
-									onClick={handleAdd}
-								>
-									Save
-								</Button>
-								<Button
-									style={{
-										height: "50%",
-									}}
-									onClick={() => {
-										setIsHidden(false);
-										setPositionName("");
-										setShortName("");
-									}}
-								>
-									Close
-								</Button>
-							</div>
+							 />
 						</div>
 					</div>
 				)}

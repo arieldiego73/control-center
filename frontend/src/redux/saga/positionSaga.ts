@@ -24,13 +24,15 @@ export function* positionSaga() {
 const apiUpdate = async (
 	position_id: number,
 	position_name: string,
-	position_sh_name: string
+	position_sh_name: string,
+	position_desc: string
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/position/edit/" + position_id;
 		return axios.put(url, {
 			position_name,
-			position_sh_name
+			position_sh_name,
+			position_desc
 		});
 	} catch (error) {
 		return error
@@ -52,6 +54,7 @@ function* updateSaga(action: ReturnType<typeof updatePosition>): any {
 			action.payload.positionData.position_id,
 			action.payload.positionData.position_name,
 			action.payload.positionData.position_sh_name,
+			action.payload.positionData.position_desc,
 		);
 		yield call(validate, response);
 	} catch (error) {
@@ -67,12 +70,14 @@ function* updateSaga(action: ReturnType<typeof updatePosition>): any {
 const apiAdd = async (
 	position_name: string,
 	position_sh_name: string,
+	position_desc: string
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/position/add";
 		return axios.post(url, {
 			position_name,
 			position_sh_name,
+			position_desc
 		});
 	} catch (error) {
 		return error
@@ -92,7 +97,8 @@ function* addSaga(action: ReturnType<typeof addPosition>): any {
 		const response = yield call(
 			apiAdd,
 			action.payload.positionData.position_name,
-			action.payload.positionData.position_sh_name
+			action.payload.positionData.position_sh_name,
+			action.payload.positionData.position_desc
 		);
 		yield call(validate, response);
 	} catch (error) {

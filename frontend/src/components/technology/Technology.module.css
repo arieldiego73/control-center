@@ -3,14 +3,14 @@
 	display: flex;
 	flex-direction: column; 
 	align-items: center;
-	height: 85%;
-	width: 91%;
+	height: 90vh;
+	width: 93%;
 	top: 10vh;
 	left: 7vw;
 	overflow: hidden;
 }
 .mainContainer h4 {
-	position: relative; 
+	position: relative;
 	height: 5%;
 }
 .mainContainer h6 {
@@ -22,15 +22,12 @@
 	height: 2%;
 }
 .contentContainer {
-	/* width: 97%;
-	position: relative;
-	align-self: center; */
 	width: 97%;
 	height: 80%;
 	display: flex;
 	flex-direction: column;
 	gap: 1vh;
-}
+  }
 
 .contentHolder {
 	background: rgba(255, 255, 255, 0.05);
@@ -38,6 +35,7 @@
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(3px);
 	border-radius: 10px;
+	
 }
 
 .hideButton {
@@ -47,26 +45,37 @@
 	align-items: center;
 	flex-direction: column;
 }
-.pageTitle{
+
+/* for breadcrumbs */
+.custom-link {
+	text-decoration: underline;
+  }
+  
+.custom-link:hover {
+	text-decoration: none; /* Remove underline on hover */
+  }
+
+  .pageTitle{
 	display: flex;
 	align-items: center;
 	justify-content: start;
 	gap: .5%;
 	height: 100%;
   }
-
+  
+  
+  
   .midContent {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
   }
-
-    /* for breadcrumbs */
-.custom-link {
+  /* for breadcrumbs */
+  .custom-link {
 	text-decoration: underline;
   }
   
-.custom-link:hover {
+  .custom-link:hover {
 	text-decoration: none; /* Remove underline on hover */
   }
