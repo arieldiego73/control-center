@@ -176,10 +176,11 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const addRecord = (isAddOnly: boolean) => {
-		if (positionName && shortName) {
+		if (positionName && shortName && description) {
 			const posData: GridValidRowModel = {
 				position_name: positionName,
 				position_sh_name: shortName,
+				position_desc: description,
 			};
 			processAddRow(posData);
 			setPositionName("");
@@ -200,7 +201,7 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
-		if (newRow.position_name && newRow.position_sh_name) {
+		if (newRow.position_name && newRow.position_sh_name && newRow.position_desc) {
 			processUpdateRow(newRow);
 		} else {
 			const cancel = handleCancelClick(newRow.position_id);

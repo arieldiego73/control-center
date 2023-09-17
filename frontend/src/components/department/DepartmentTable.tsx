@@ -103,7 +103,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 
 	const [departmentName, setDepartmentName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
-	const [businessUnit, setBusinessUnit] = React.useState(1);
+	const [businessUnit, setBusinessUnit] = React.useState(0);
 	const [description, setDescription] = React.useState("");
 	const departmentNameRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -189,16 +189,17 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const addRecord = (isAddOnly: boolean) => {
-		if (departmentName && shortName) {
+		if (departmentName && shortName && businessUnit !== 0 && description) {
 			const posData: GridValidRowModel = {
 				section_name: departmentName,
 				section_sh_name: shortName,
 				dept_id: businessUnit,
+				section_desc: description,
 			};
 			processAddRow(posData);
 			setDepartmentName("");
 			setShortName("");
-			setBusinessUnit(1);
+			setBusinessUnit(0);
 			setDescription("");
 			if (isAddOnly) {
 				setIsHidden(false);
@@ -215,7 +216,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
-		if (newRow.section_name && newRow.section_sh_name) {
+		if (newRow.section_name && newRow.section_sh_name && newRow.dept_id !== 0 && newRow.section_desc) {
 			processUpdateRow(newRow);
 		} else {
 			const cancel = handleCancelClick(newRow.section_id);

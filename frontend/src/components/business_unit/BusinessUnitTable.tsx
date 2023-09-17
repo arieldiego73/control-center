@@ -176,10 +176,11 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const addRecord = (isAddOnly: boolean) => {
-		if (businessUnitName && shortName) {
+		if (businessUnitName && shortName && description) {
 			const posData: GridValidRowModel = {
 				dept_name: businessUnitName,
 				dept_sh_name: shortName,
+				dept_desc: description
 			};
 			processAddRow(posData);
 			setBusinessUnitName("");
@@ -200,7 +201,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
-		if (newRow.dept_name && newRow.dept_sh_name) {
+		if (newRow.dept_name && newRow.dept_sh_name && newRow.dept_desc) {
 			processUpdateRow(newRow);
 		} else {
 			const cancel = handleCancelClick(newRow.dept_id);

@@ -24,13 +24,15 @@ export function* departmentSaga() {
 const apiUpdate = async (
 	dept_id: number,
 	dept_name: string,
-	dept_sh_name: string
+	dept_sh_name: string,
+	dept_desc: string
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/department/edit/" + dept_id;
 		return axios.put(url, {
 			dept_name,
-			dept_sh_name
+			dept_sh_name,
+			dept_desc
 		});
 	} catch (error) {
 		return error
@@ -52,6 +54,7 @@ function* updateSaga(action: ReturnType<typeof updateDepartment>): any {
 			action.payload.departmentData.dept_id,
 			action.payload.departmentData.dept_name,
 			action.payload.departmentData.dept_sh_name,
+			action.payload.departmentData.dept_desc,
 		);
 		yield call(validate, response);
 	} catch (error) {
@@ -67,12 +70,14 @@ function* updateSaga(action: ReturnType<typeof updateDepartment>): any {
 const apiAdd = async (
 	dept_name: string,
 	dept_sh_name: string,
+	dept_desc: string,
 ): Promise<any> => {
 	try {
 		const url = "http://localhost:8080/department/add";
 		return axios.post(url, {
 			dept_name,
 			dept_sh_name,
+			dept_desc,
 		});
 	} catch (error) {
 		return error
@@ -92,7 +97,8 @@ function* addSaga(action: ReturnType<typeof addDepartment>): any {
 		const response = yield call(
 			apiAdd,
 			action.payload.departmentData.dept_name,
-			action.payload.departmentData.dept_sh_name
+			action.payload.departmentData.dept_sh_name,
+			action.payload.departmentData.dept_desc,
 		);
 		yield call(validate, response);
 	} catch (error) {
