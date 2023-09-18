@@ -47,14 +47,14 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     }
     
     @Override
-    public String addDevPhase(DevPhaseInput devPhase) {
+    public String addDevPhase(DevPhaseInput devPhase, String emp_id) {
         try {
             devPhaseDao.addDevPhase(devPhase);
 
             //Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id(emp_id); //current logged user dapat
             activityLogInput.setLog_desc("Added a Development Phase.");
 
             Long currentTimeMillis = System.currentTimeMillis();
@@ -69,7 +69,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     }
 
     @Override 
-    public String editDevPhaseInfo(String id, DevPhaseInput devPhase) {
+    public String editDevPhaseInfo(String id, DevPhaseInput devPhase, String emp_id) {
         DevPhaseOutput data = devPhaseDao.getDevPhaseById(id);
 
         if(data != null){
@@ -87,7 +87,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
                 //Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id(emp_id); //current logged user dapat
                 activityLogInput.setLog_desc("Edited a Development Phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -103,7 +103,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     }
 
     @Override
-    public String logicalDeleteDevPhase(String id) {
+    public String logicalDeleteDevPhase(String id, String emp_id) {
         DevPhaseOutput data = devPhaseDao.getDevPhaseById(id);
 
         if(data != null){
@@ -116,7 +116,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
                 //Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id(emp_id); //current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Development Phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -132,7 +132,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     }
 
     @Override
-    public String deleteMultipleDevPhase(List<Long> ids) {
+    public String deleteMultipleDevPhase(List<Long> ids, String emp_id) {
         devPhaseList = devPhaseDao.getAllDevPhase();
 
         for(Long id : ids) {
@@ -151,7 +151,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
         //Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); //current logged user dapat
+        activityLogInput.setEmp_id(emp_id); //current logged user dapat
         activityLogInput.setLog_desc("Deleted Multiple Development Phase.");
 
         Long currentTimeMillis = System.currentTimeMillis();

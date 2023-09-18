@@ -9,7 +9,7 @@ public interface ClientService {
     
     public List<ClientOutput> getAllClient();
     public ClientOutput getClientById(String id);
-    public String addClient(ClientInput client);
+    public String addClient(ClientInput client, String emp_id);
     public String editClient(String id, ClientInput client);
     public String logicalDeleteClient(String id);
     public String restoreClient(String id);

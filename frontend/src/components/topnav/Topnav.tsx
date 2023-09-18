@@ -126,11 +126,12 @@ export default function TopNav() {
                   width: "95%",
                   height: "115px",
                   borderRadius: "20px",
-                  backgroundColor: "#daf1ff",
+                  backgroundColor: "transparent",
                   flexDirection: "column",
                   justifyContent: "flex-start",
                   alignItems: "center",
                   padding: "1%",
+                  border:'1px solid white'
                 }}
               >
                 <div

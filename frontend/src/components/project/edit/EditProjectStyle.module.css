@@ -1,27 +1,44 @@
-body {
-  height: 100%;
-  width: 100%;
-  background-image: url(../../../Assets/bg6.png);
-  background-size: cover;
-  background-repeat: repeat;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  font-family: "Montserrat", sans-serif;
-}
 
 .mainContainer {
   position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 85%;
-  width: 91%;
-  top: 10vh;
-  left: 7vw; 
-  overflow: hidden;
+	display: flex;
+	flex-direction: column; 
+	align-items: center;
+     justify-content: center; 
+	height: 78%;
+	width: 82%;
+	top: 20vh;
+	left: 16.5vw;
+	overflow: hidden;
+    background: rgba( 237, 249, 255, 0.35 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 5px );
+    -webkit-backdrop-filter: blur( 5px );
+    border-radius: 10px;
 }
-
+.mainHolder {
+  position: fixed;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  /* justify-content: center; */
+  height: 99%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  border-radius: 15px;
+  
+}
+.contentHolder {
+  border-radius: 5px;
+  height: 90%;
+  width: 99%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center; 
+  /* padding: 2vh 0;  */
+}
 .contentContainer{
   width: 95%;
   height: 75%;
@@ -58,8 +75,14 @@ body {
 
 .mainForm {
   display: flex;
-  gap: 2vh;
-  width: 100%;
+    flex-direction: column;
+    gap: 3vh;
+    width: 95%;
+    padding: 2%;
+    /* border: 1px solid red; */
+    height: 90%;
+    overflow-y: scroll  ;
+    overflow-x: hidden;
 }
 .mainFormCol1,
 .mainFormCol2 {
