@@ -2,6 +2,7 @@ package com.controlcenter.controlcenter.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.controlcenter.controlcenter.model.StatusInput;
@@ -9,11 +10,11 @@ import com.controlcenter.controlcenter.model.StatusOutput;
 
 public interface StatusService {
 
-    public List<StatusOutput> getAllStatus();
+    public ResponseEntity<List<StatusOutput>> getAllStatus();
 
     public StatusOutput getStatusById(String id);
 
-    public String addStatus(StatusInput status);
+    public String addStatus(StatusInput status, String emp_id);
 
     public String editStatusInfo(String code, StatusOutput status);
 

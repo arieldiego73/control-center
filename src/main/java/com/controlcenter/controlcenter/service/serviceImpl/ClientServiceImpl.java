@@ -38,7 +38,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public String addClient(ClientInput client) {
+    public String addClient(ClientInput client, String emp_id) {
 
         try {
             clientDao.addClient(client);
@@ -46,7 +46,7 @@ public class ClientServiceImpl implements ClientService{
             //Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id(emp_id); //current logged user dapat
             activityLogInput.setLog_desc("Added a Client.");
 
             Long currentTimeMillis = System.currentTimeMillis();

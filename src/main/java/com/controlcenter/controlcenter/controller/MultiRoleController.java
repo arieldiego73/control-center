@@ -86,7 +86,8 @@ public class MultiRoleController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    return ResponseEntity.status(200).body(multiRoleService.editMultiRoleInfo(id, multiRole));
+                    String emp_id = httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(multiRoleService.editMultiRoleInfo(id, multiRole, emp_id));
                 }
         } else {
             // User is not authenticated 
@@ -101,7 +102,8 @@ public class MultiRoleController {
 
         if (isAuthenticated != null && isAuthenticated) {
             try {
-                return ResponseEntity.ok().body(multiRoleService.logicalDeleteMultiRole(id));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(multiRoleService.logicalDeleteMultiRole(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }

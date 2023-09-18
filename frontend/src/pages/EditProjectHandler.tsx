@@ -1,16 +1,14 @@
-import EditProject from "../components/project/edit/EditProject";
-import { Sidenav } from "../components/sidenav/Sidenav";
+import EditProj from "../components/project/edit/EditProject";
+import NavigationHandler from "./NavigationHandler";
 
 export default function EditUserHandler (){
     return(
-        <div style={{display: 'flex', flexDirection:'column'}}>
-            <div>
-                <Sidenav/> 
-            </div>
-            <div>
-                <EditProject />
-            </div>
-        </div>
+        <div style={{ flexDirection: "column", display: "flex" }}>
+		
+        <NavigationHandler/> 
+         <EditProj/>
+  
+		</div>
         
        
     )

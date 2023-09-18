@@ -180,6 +180,7 @@ export default function Userpage() {
                     </Grid>
                   </Grid>
                 </FormControl>
+
                 <FormControl>
                   <Grid container alignItems="center" spacing={2}>
                     <Grid item>
@@ -206,6 +207,7 @@ export default function Userpage() {
                     </Grid>
                   </Grid>
                 </FormControl>
+
                 <FormControl>
                   <Grid container alignItems="center" spacing={2}>
                     <Grid item>
@@ -232,6 +234,8 @@ export default function Userpage() {
                     </Grid>
                   </Grid>
                 </FormControl>
+
+                
                 {/* Start of Search Button */}
                 <div>
                   <Button

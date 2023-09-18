@@ -81,7 +81,8 @@ public class ClientController{
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
-                return ResponseEntity.status(200).body(clientService.addClient(client));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.status(200).body(clientService.addClient(client, emp_id));
             } 
         } else {
             // User is not authenticated

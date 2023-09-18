@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -28,8 +29,8 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
     public ActivityLogDao activityLogDao;
 
     @Override
-    public List<ProjectTechnologyOutput> getAllProjectTechnology() {
-        return projectTechnologyDao.getAllProjectTechnology();
+    public ResponseEntity<List<ProjectTechnologyOutput>> getAllProjectTechnology() {
+        return ResponseEntity.ok(projectTechnologyDao.getAllProjectTechnology());
     }
 
     @Override
@@ -38,14 +39,14 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
     }
 
     @Override
-    public String addProjectTechnology(ProjectTechnologyInput projectTechnology) {
+    public String addProjectTechnology(ProjectTechnologyInput projectTechnology, String emp_id) {
         try {
             projectTechnologyDao.addProjectTechnology(projectTechnology);
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Project Technology.");
 
             Long currentTimeMillis = System.currentTimeMillis();

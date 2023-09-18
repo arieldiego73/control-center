@@ -65,7 +65,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public String editPositionInfo(String id, PositionInput position) {
+    public String editPositionInfo(String id, PositionInput position, String emp_id) {
         PositionOutput data = positionDao.getPositionById(id);
 
         if (data != null) {
@@ -81,7 +81,7 @@ public class PositionServiceImpl implements PositionService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Postion.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -97,7 +97,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public String logicalDeletePosition(String id) {
+    public String logicalDeletePosition(String id, String emp_id) {
         PositionOutput data = positionDao.getPositionById(id);
 
         if (data != null) {
@@ -109,7 +109,7 @@ public class PositionServiceImpl implements PositionService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Postion.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -125,7 +125,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public String deleteMultiplePosition(@RequestParam List<Long> ids) {
+    public String deleteMultiplePosition(@RequestParam List<Long> ids, String emp_id) {
         positionList = positionDao.getAllPosition();
 
         for (Long id : ids) {
@@ -144,7 +144,7 @@ public class PositionServiceImpl implements PositionService {
         // Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
         activityLogInput.setLog_desc("Deleted multiple Postions.");
 
         Long currentTimeMillis = System.currentTimeMillis();
