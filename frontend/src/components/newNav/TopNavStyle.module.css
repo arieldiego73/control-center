@@ -92,59 +92,55 @@
 }
 .userName{
   height: 95%;
-  width: 45%;
+  width: 60%;
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
-  margin-left: 5px;
 
 }
-
-.userName span{
-  border: 1px solid rgb(221, 221, 221);
-  border-radius: 10px;
+.borderUserName{
+  height: 100%;
   width: 100%;
-  height: 60%;
+}
+
+.toolTip{
+border: 1px solid rgb(233, 233, 233);
+background-color:rgb(250, 250, 250);
+border-radius: 10px;
+height: 70%;
+width: 80%;
+margin-left: 0.5vw;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: all 0.2s ease-in-out;
+}
+.toolTip:hover{
+  font-weight: 500;
+  border: 1px solid rgb(117, 117, 117);
+}
+.logout{
+  height: 4vh;
+  width: 60%;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  color: rgb(0, 0, 80);
+  border: 1px solid transparent;
 
-  transition: font-weight 0.1s ease-in-out;
+  /* background-color: rgb(250, 250, 250); */
+  border-radius: 10px;
+
   transition: border 0.1s ease-in-out;
   cursor: pointer;
 }
 
-.userName span:hover{
-  border: 1px solid gray;
-  font-weight: 600;
-
-}
-
-.logout{
-  height: 50%;
-  width: 15%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-right: 3%;
-
-  border: 1px solid whitesmoke;
-  background-color: rgb(250, 250, 250);
-  border-radius: 10px;
-
-  transition: border 0.2s ease-in-out;
-  cursor: pointer;
-}
-
 .logout:hover{
-  border: 1px solid gray;
+  border: 1px solid rgb(201, 201, 201);;
   font-weight: 500;
 }
 .logoutSpanContainer{
@@ -156,22 +152,48 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 3%;
 }
 
 .logoutIcon{
-  width: 30%;
+
   height: 100%;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  color: red;
 }
 .logoutText{
   height: 100%;
 
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  font-size: 15px;
 
+}
+.manageAccButton{
+text-decoration: none;
+color: black;
+width: 60%;
+height: 4vh;
+border: 1px solid rgb(233, 233, 233);
+border-radius: 10px;
+background-color: rgb(250, 250, 250);
+}
+.manageAccButton:hover{
+  border: 1px solid rgb(201, 201, 201);;
+  font-weight: 500;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  z-index: 9999; /* Make sure the overlay is on top of everything */
 }

@@ -48,14 +48,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public String addDepartment(DepartmentInput department) {
-
+    public String addDepartment(DepartmentInput department, String emp_id) {
         try {
             departmentDao.addDepartment(department);
 
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Business Unit.");
 
             Long currentTimeMillis = System.currentTimeMillis();
@@ -71,7 +70,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public String editDepartmentInfo(String id, DepartmentInput department) {
+    public String editDepartmentInfo(String id, DepartmentInput department, String emp_id) {
         DepartmentOutput data = departmentDao.getDepartmentById(id);
 
         if (data != null) {
@@ -88,7 +87,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Business Unit.");
 
                 Long currentTimeMillis = System.currentTimeMillis();

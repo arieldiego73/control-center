@@ -17,7 +17,7 @@ import React, { useState } from "react";
 
 // for dropdown in others link
 const othersDropDownData = [
-    { icon: <People />, label: 'Development Phase', path: '/project' },
+    { icon: <People />, label: 'Development Phase', path: '/DevelopmentPhase' },
     { icon: <Dns />, label: 'Project Status', path: '/project' },
     { icon: <PermMedia />, label: 'Employee Status', path: '/project' },
     { icon: <Public />, label: 'Employee Position', path: '/project' },
@@ -327,7 +327,7 @@ export default function SideNav() {
                 </ThemeProvider>
             </Box>
             <Routes>
-                <Route path="/project" element={<DevelopmentPhase />} />
+                <Route path="/DevelopmentPhase" element={<DevelopmentPhase />} />
                 <Route path="/project" element={<ProjectStatus />} />
                 <Route path="/project" element={<EmployeeStatus />} />
                 <Route path="/project" element={<EmployeePosition />} />

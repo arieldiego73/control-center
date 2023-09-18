@@ -43,14 +43,14 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public String addPosition(PositionInput position) {
+    public String addPosition(PositionInput position, String emp_id) {
         try {
             positionDao.addPosition(position);
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Postion.");
 
             Long currentTimeMillis = System.currentTimeMillis();

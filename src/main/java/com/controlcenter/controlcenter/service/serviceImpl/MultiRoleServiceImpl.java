@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -33,8 +34,8 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     public UserDao userDao;
 
     @Override
-    public List<MultiRoleOutput> getAllMultiRole(){
-        return multiRoleDao.getAllMultiRole();
+    public ResponseEntity<List<MultiRoleOutput>> getAllMultiRole(){
+        return ResponseEntity.ok().body(multiRoleDao.getAllMultiRole());
     }
 
     @Override
@@ -51,7 +52,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
             //Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id(emp_id); //current logged user dapat
             activityLogInput.setLog_desc("Added a Multiple Role.");
 
             Long currentTimeMillis = System.currentTimeMillis();

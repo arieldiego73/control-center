@@ -2,17 +2,17 @@ package com.controlcenter.controlcenter.controller;
 
 import com.controlcenter.controlcenter.model.AccountInput;
 import com.controlcenter.controlcenter.model.AccountOutput;
-import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
-import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validation;
@@ -139,8 +139,9 @@ public class UserController {
   }
 
   //get all roles of user
-  @GetMapping("/roles/{emp_id}")
-  public ResponseEntity<List<UserRoles>> getAllRolesOfUser(@PathVariable String emp_id) {
+  @GetMapping("/roles")
+  public ResponseEntity<List<Map<String, Object>>> getAllRolesOfUser(String emp_id, HttpSession http) {
+    emp_id = http.getAttribute("session").toString();
     return userService.getAllRolesOfUser(emp_id);
   }
 }

@@ -46,6 +46,16 @@ public class AuthController {
         return response;
     }
 
+    // Logout remove httpsession
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        if (session != null) {
+        session.invalidate();
+        }
+        return "{\"status\":\"success\"}";
+    }
+
+
     //Checker session
     @GetMapping("/check")
     public ResponseEntity<Map<String, Object>> checkSession(HttpSession httpSession) {

@@ -1,8 +1,10 @@
 package com.controlcenter.controlcenter.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -36,62 +38,112 @@ public class PositionController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<PositionOutput>> getAllPosition() {
-        return positionService.getAllPosition();
+    public ResponseEntity<List<PositionOutput>> getAllPosition(HttpSession httpSession) {
+        // Check if the user is authenticated 
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        
+        if (isAuthenticated != null && isAuthenticated) {
+            // User is authenticated
+            return positionService.getAllPosition();
+        } else {
+            // User is not authenticated
+            return ResponseEntity.status(401).body(new ArrayList<PositionOutput>());
+        }
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addPosition(@RequestBody PositionInput position) {
-        //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<PositionInput>> errors = validator.validate(position);
-            //Error Handling
-            if(errors.size() > 0){
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            } else{
-                return ResponseEntity.status(200).body(positionService.addPosition(position));
+    public ResponseEntity<String> addPosition(@RequestBody PositionInput position, HttpSession httpSession) {
+        // Check if the user is authenticated
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+        if (isAuthenticated != null && isAuthenticated) {
+            // User is authenticated,  proceed with adding
+            //For Validation
+            ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+            Validator validator = validatorFactory.getValidator();
+            Set<ConstraintViolation<PositionInput>> errors = validator.validate(position);
+                //Error Handling
+                if(errors.size() > 0){
+                    return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+                } else{
+                    String emp_id = httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(positionService.addPosition(position, emp_id));
+                }
+        } else {
+             // is not authenticated
+             return ResponseEntity.status(401).body("Unauthorized");
             }
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editPositionInfo(@PathVariable String id, @RequestBody PositionInput position) {
-        //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<PositionInput>> errors = validator.validate(position);
-            //Error Handling
-            if(errors.size() > 0){
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            } else{
-                return ResponseEntity.status(200).body(positionService.editPositionInfo(id, position));
-            }
+    public ResponseEntity<String> editPositionInfo(@PathVariable String id, @RequestBody PositionInput position, HttpSession httpSession) {
+        // Check if the user is authenticated
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        
+        if (isAuthenticated != null && isAuthenticated){
+            // User is authenticated,  proceed with adding
+            //For Validation
+            ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+            Validator validator = validatorFactory.getValidator();
+            Set<ConstraintViolation<PositionInput>> errors = validator.validate(position);
+                //Error Handling
+                if(errors.size() > 0){
+                    return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+                } else{
+                    return ResponseEntity.status(200).body(positionService.editPositionInfo(id, position));
+                }
+        } else {
+            // User is not authenticated 
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeletePosition(@PathVariable String id) {
-        try {
-            return ResponseEntity.ok().body(positionService.logicalDeletePosition(id));
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Server Side Error.");
+    public ResponseEntity<String> logicalDeletePosition(@PathVariable String id, HttpSession httpSession) {
+        // Check if the user is authenticated
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+        if (isAuthenticated != null && isAuthenticated) {
+            try {
+                return ResponseEntity.ok().body(positionService.logicalDeletePosition(id));
+            } catch (Exception e) {
+                return ResponseEntity.status(500).body("Server Side Error.");
+            }
+        } else {
+          // User is not authenticated
+          return ResponseEntity.status(401).body("Unauthorized");
         }
     }
 
     @PutMapping("/delete-multiple")
-    public ResponseEntity<String> deleteMultiplePosition(@RequestParam List<Long> ids) {
-        try {
-            return ResponseEntity.ok().body(positionService.deleteMultiplePosition(ids));
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Server Side Error.");
+    public ResponseEntity<String> deleteMultiplePosition(@RequestParam List<Long> ids, HttpSession httpSession) {
+         // Check uf the user is authenticated
+         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+         if (isAuthenticated != null && isAuthenticated){
+            try {
+                return ResponseEntity.ok().body(positionService.deleteMultiplePosition(ids));
+            } catch (Exception e) {
+                return ResponseEntity.status(500).body("Server Side Error.");
+            }
+        } else {
+             // User is not authenticated
+             return ResponseEntity.status(401).body("Unauthorized");
         }
     }
 
     @PutMapping("/restore/{id}")
-    public ResponseEntity<String> restorePosition(@PathVariable String id) {
-        try {
-            return ResponseEntity.ok().body(positionService.restorePosition(id));
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Server Side Error.");
-        }
+    public ResponseEntity<String> restorePosition(@PathVariable String id, HttpSession httpSession) {
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+        if (isAuthenticated != null && isAuthenticated){
+            try {
+                return ResponseEntity.ok().body(positionService.restorePosition(id));
+            } catch (Exception e) {
+                return ResponseEntity.status(500).body("Server Side Error.");
+            }
+        } else {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }       
     }
 }
