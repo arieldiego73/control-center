@@ -54,7 +54,7 @@ export default function DevelopmentPhase() {
 	// 	info: "",
 	// 	vertical: "top",
 	// 	horizontal: "right",
-	// });
+	// }); 
 	// const { vertical, horizontal, info } = origin;
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]

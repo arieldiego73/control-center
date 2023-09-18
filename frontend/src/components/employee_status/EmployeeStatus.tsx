@@ -96,53 +96,7 @@ export default function ProjectStatus() {
 
 	return (
 		<div className={EmployeeStatusStyle.mainContainer}>
-			<div style={{ width: "97%", paddingBottom: "1%" }}>
-				<div className={EmployeeStatusStyle.pageTitle}>
-					<span>
-						<AccountTreeOutlinedIcon fontSize="large" />
-					</span>
-					<span
-						style={{
-							fontSize: "1.8rem",
-							color: "black",
-							fontWeight: "600",
-						}}
-					>
-						{" "}
-						EMPLOYEE STATUS
-					</span>
-				</div>
-			</div>
-
 			<div className={EmployeeStatusStyle.contentContainer}>
-				<div className={EmployeeStatusStyle.midContent}>
-					{/* for breadcrumbs */}
-					<div
-						style={{
-							// border: "1px solid red",
-							paddingBottom: "1%",
-							width: "80%",
-							height: "75%",
-							paddingLeft: "1%",
-							position: "relative",
-							top: "3%",
-							alignSelf: "center",
-						}}
-						role="presentation"
-						onClick={handleClick}
-					>
-						<Breadcrumbs maxItems={2} aria-label="breadcrumb">
-							<Link
-								to="/projectStatus"
-								className={`${EmployeeStatusStyle["custom-link"]}`}
-								style={{ color: "inherit" }}
-							>
-								Project Status
-							</Link>
-						</Breadcrumbs>
-					</div>
-				</div>
-
 				<div className={EmployeeStatusStyle.contentHolder}>
 					<div
 						style={{
