@@ -66,7 +66,8 @@ public class DevPhaseController {
                 if (errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    return ResponseEntity.status(200).body(devPhaseService.addDevPhase(devPhase));
+                    String emp_id = httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(devPhaseService.addDevPhase(devPhase, emp_id));
                 }
         } else {
             // is not authenticated
@@ -89,7 +90,8 @@ public class DevPhaseController {
                 if (errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    return ResponseEntity.status(200).body(devPhaseService.editDevPhaseInfo(id, devPhase));
+                    String emp_id = httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(devPhaseService.editDevPhaseInfo(id, devPhase, emp_id));
                 }
         } else {
             // User is not authenticated 
@@ -104,7 +106,8 @@ public class DevPhaseController {
 
         if (isAuthenticated != null && isAuthenticated){
             try {
-            return ResponseEntity.ok().body(devPhaseService.deleteMultipleDevPhase(ids));
+                String emp_id = httpSession.getAttribute("session").toString();
+            return ResponseEntity.ok().body(devPhaseService.deleteMultipleDevPhase(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");
             }
@@ -121,7 +124,8 @@ public class DevPhaseController {
 
         if (isAuthenticated != null && isAuthenticated){
             try {
-                return ResponseEntity.ok().body(devPhaseService.logicalDeleteDevPhase(id));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(devPhaseService.logicalDeleteDevPhase(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");
             }
