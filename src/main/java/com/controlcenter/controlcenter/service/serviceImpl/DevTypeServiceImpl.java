@@ -60,7 +60,7 @@ public class DevTypeServiceImpl implements DevTypeService {
     }
 
     @Override
-    public String editDevTypeInfo(String id, DevTypeInput devType) {
+    public String editDevTypeInfo(String id, DevTypeInput devType, String emp_id) {
         DevTypeOutput data = devTypeDao.getDevTypeById(id);
 
         if (data != null) {
@@ -76,7 +76,7 @@ public class DevTypeServiceImpl implements DevTypeService {
                 // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Development Type.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -92,7 +92,7 @@ public class DevTypeServiceImpl implements DevTypeService {
     }
 
     @Override
-    public String logicalDeleteDevType(String id) {
+    public String logicalDeleteDevType(String id, String emp_id) {
         DevTypeOutput data = devTypeDao.getDevTypeById(id);
 
         if (data != null) {
@@ -104,7 +104,7 @@ public class DevTypeServiceImpl implements DevTypeService {
                 // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Development Type.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
