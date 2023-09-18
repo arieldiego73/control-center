@@ -2,15 +2,17 @@ package com.controlcenter.controlcenter.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.controlcenter.controlcenter.model.ProjectTechnologyInput;
 import com.controlcenter.controlcenter.model.ProjectTechnologyOutput;
 
 public interface ProjectTechnologyService {
-    public List<ProjectTechnologyOutput> getAllProjectTechnology();
+    public ResponseEntity<List<ProjectTechnologyOutput>> getAllProjectTechnology();
 
     public ProjectTechnologyOutput getProjectTechnologyById(String id);
 
-    public String addProjectTechnology(ProjectTechnologyInput projectTechnology);
+    public String addProjectTechnology(ProjectTechnologyInput projectTechnology, String emp_id);
 
     public String editProjectTechnology(String id, ProjectTechnologyInput projectTechnology);
 

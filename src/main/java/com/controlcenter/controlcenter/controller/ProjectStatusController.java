@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.DepartmentOutput;
 import com.controlcenter.controlcenter.model.ProjectStatusInput;
 import com.controlcenter.controlcenter.model.ProjectStatusOutput;
 import com.controlcenter.controlcenter.service.ProjectStatusService;
