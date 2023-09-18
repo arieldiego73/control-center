@@ -11,10 +11,10 @@ import com.controlcenter.controlcenter.model.DevPhaseOutput;
 public interface DevPhaseService {
     public ResponseEntity<List<DevPhaseOutput>> getAllDevPhase();
     public DevPhaseOutput getDevPhaseById(String id);
-    public String addDevPhase(DevPhaseInput devPhase);
-    public String editDevPhaseInfo(String id, DevPhaseInput devPhase);
-    public String logicalDeleteDevPhase(String id);
-    public String deleteMultipleDevPhase(@RequestParam List<Long> ids);
+    public String addDevPhase(DevPhaseInput devPhase, String emp_id);
+    public String editDevPhaseInfo(String id, DevPhaseInput devPhase, String emp_id);
+    public String logicalDeleteDevPhase(String id, String emp_id);
+    public String deleteMultipleDevPhase(@RequestParam List<Long> ids, String emp_id);
     public String restoreDevPhase(String id);
     
 }
