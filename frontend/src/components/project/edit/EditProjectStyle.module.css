@@ -196,3 +196,10 @@
 .custom-link:hover {
   text-decoration: none; /* Remove underline on hover */
 }
+.gridContainer{
+  width: 50%;
+  padding-bottom: 2%;
+}
+.qlContainer {
+  height:300px; 
+}

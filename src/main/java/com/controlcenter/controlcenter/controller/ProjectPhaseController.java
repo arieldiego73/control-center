@@ -88,7 +88,8 @@ public class ProjectPhaseController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    return ResponseEntity.status(200).body(projectPhaseService.editProjectPhase(id, projectPhase));   
+                    String emp_id = httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(projectPhaseService.editProjectPhase(id, projectPhase, emp_id));   
                 }
         } else {
              // User is not authenticated 
@@ -103,7 +104,8 @@ public class ProjectPhaseController {
 
          if (isAuthenticated != null && isAuthenticated) {
             try {
-                return ResponseEntity.ok().body(projectPhaseService.logicalDeleteProjectPhase(id));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(projectPhaseService.logicalDeleteProjectPhase(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }

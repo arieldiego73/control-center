@@ -14,9 +14,9 @@ public interface ProjectPhaseService {
 
     public String addProjectPhase(ProjectPhaseInput projectPhase, String emp_id);
 
-    public String editProjectPhase(String id, ProjectPhaseInput projectPhase);
+    public String editProjectPhase(String id, ProjectPhaseInput projectPhase, String emp_id);
 
-    public String logicalDeleteProjectPhase(String id);
+    public String logicalDeleteProjectPhase(String id, String emp_id);
 
     public String restoreProjectPhase(String id);
 }

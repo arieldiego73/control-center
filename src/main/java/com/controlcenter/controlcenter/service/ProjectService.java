@@ -14,8 +14,8 @@ public interface ProjectService {
     public ResponseEntity<List<ProjectOutput>> getAllProject();
     public ProjectOutput getProjectById(String id);
     public String addProject(ProjectInput project, String emp_id);
-    public String editProjectInfo(String id, ProjectInput project);
-    public String logicalDeleteProject(String id);
+    public String editProjectInfo(String id, ProjectInput project, String emp_id);
+    public String logicalDeleteProject(String id, String emp_id);
     public String restoreProject(String id);
     
 }

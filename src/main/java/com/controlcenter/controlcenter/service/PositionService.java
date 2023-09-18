@@ -15,11 +15,11 @@ public interface PositionService {
 
     public String addPosition(PositionInput position, String emp_id);
 
-    public String editPositionInfo(String id, PositionInput position);
+    public String editPositionInfo(String id, PositionInput position, String emp_id);
 
-    public String logicalDeletePosition(String id);
+    public String logicalDeletePosition(String id, String emp_id);
 
-    public String deleteMultiplePosition(@RequestParam List<Long> ids);
+    public String deleteMultiplePosition(@RequestParam List<Long> ids, String emp_id);
 
     public String restorePosition(String id);
 }

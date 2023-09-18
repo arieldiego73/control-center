@@ -338,9 +338,10 @@ export default function NewProj() {
 
             <div className={StyleNewProject.col2}>
               <div className={StyleNewProject.gridContainer}>
-                <FormControl className={StyleNewProject.assocId}>
+        
                   Project Description
                   <ReactQuillEditor
+                    className={StyleNewProject.qlContainer}
                     theme="snow"
                     value={value}
                     // maxLines={`8`}
@@ -348,9 +349,9 @@ export default function NewProj() {
                     onChange={setValue}
                     modules={modules}
                     placeholder="Project description..."
-                    style={{ backgroundColor: "whitesmoke" }}
+                    // style={{ backgroundColor: "whitesmoke" }}
                   />
-                </FormControl>
+            
               </div>
             </div>
 

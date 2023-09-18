@@ -121,9 +121,6 @@ border-radius: 15px;
   width: 500px;
 }
 
-.assocId .textField {
-  width: 1000px;
-}
 
 .email .textField {
   width: 500px;
@@ -166,4 +163,11 @@ border-radius: 15px;
   justify-content: space-between;
   width: 100%;
   margin-bottom:.5%;
+}
+.gridContainer{
+  width: 50%;
+  padding-bottom: 2%;
+}
+.qlContainer {
+  height:300px; 
 }
