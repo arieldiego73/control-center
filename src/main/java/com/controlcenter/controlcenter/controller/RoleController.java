@@ -1,6 +1,5 @@
 package com.controlcenter.controlcenter.controller;
 
-import com.controlcenter.controlcenter.model.DepartmentOutput;
 import com.controlcenter.controlcenter.model.RoleInput;
 import com.controlcenter.controlcenter.model.RoleOutput;
 import com.controlcenter.controlcenter.service.RoleService;
