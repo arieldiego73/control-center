@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,8 +32,8 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     List<ProjectStatusOutput> projectStatusList = new ArrayList<>();
 
     @Override
-    public List<ProjectStatusOutput> getAllProjectStatus() {
-        return projectStatusDao.getAllProjectStatus();
+    public ResponseEntity<List<ProjectStatusOutput>> getAllProjectStatus() {
+        return ResponseEntity.ok(projectStatusDao.getAllProjectStatus());
     }
 
     @Override
@@ -41,14 +42,14 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     }
 
     @Override
-    public String addProjectStatus(ProjectStatusInput projectStatus) {
+    public String addProjectStatus(ProjectStatusInput projectStatus, String emp_id) {
         try {
             projectStatusDao.addProjectStatus(projectStatus);
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Project Status.");
 
             Long currentTimeMillis = System.currentTimeMillis();

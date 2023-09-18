@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -28,8 +29,8 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
     public ActivityLogDao activityLogDao;
 
     @Override
-    public List<ProjectPhaseOutput> getAllProjectPhase() {
-        return projectPhaseDao.getAllProjectPhase();
+    public ResponseEntity<List<ProjectPhaseOutput>> getAllProjectPhase() {
+        return ResponseEntity.ok(projectPhaseDao.getAllProjectPhase());
     }
 
     @Override
@@ -38,14 +39,14 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
     }
 
     @Override
-    public String addProjectPhase(ProjectPhaseInput projectPhase) {
+    public String addProjectPhase(ProjectPhaseInput projectPhase, String emp_id) {
         try {
             projectPhaseDao.addProjectPhase(projectPhase);
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Project Phase.");
 
             Long currentTimeMillis = System.currentTimeMillis();
@@ -60,7 +61,7 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
     }
 
     @Override
-    public String editProjectPhase(String id, ProjectPhaseInput projectPhase) {
+    public String editProjectPhase(String id, ProjectPhaseInput projectPhase, String emp_id) {
         ProjectPhaseOutput data = projectPhaseDao.getProjectPhaseById(id);
 
         if (data != null) {
@@ -76,7 +77,7 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Project Phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -92,7 +93,7 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
     }
 
     @Override
-    public String logicalDeleteProjectPhase(String id) {
+    public String logicalDeleteProjectPhase(String id, String emp_id) {
         ProjectPhaseOutput data = projectPhaseDao.getProjectPhaseById(id);
 
         if (data != null) {
@@ -104,7 +105,7 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Project Phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();

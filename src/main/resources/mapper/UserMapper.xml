@@ -134,7 +134,8 @@
 
     <!-- get all roles of a user -->
     <select id="getAllRolesOfUser" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserRoles">
-        SELECT tuser.username,
+        SELECT tuser.emp_id,
+               tuser.username,
                troles.role_sh_name
           FROM tbl_user AS tuser
             INNER JOIN tbl_multi_role AS tmr

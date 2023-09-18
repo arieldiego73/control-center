@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +33,8 @@ public class UserProjectServiceImpl implements UserProjectService {
     public ErrorHandler errorHandler;
 
     @Override
-    public List<UserProjectOutput> getAllUserProject() {
-        return userProjectDao.getAllUserProject();
+    public ResponseEntity<List<UserProjectOutput>> getAllUserProject() {
+        return ResponseEntity.ok(userProjectDao.getAllUserProject());
     }
 
     @Override
@@ -44,14 +43,14 @@ public class UserProjectServiceImpl implements UserProjectService {
     }
 
     @Override
-    public String addUserProject(UserProjectInput userProject) {
+    public String addUserProject(UserProjectInput userProject, String emp_id) {
         try {
             userProjectDao.addUserProject(userProject);
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a User Project.");
 
             Long currentTimeMillis = System.currentTimeMillis();

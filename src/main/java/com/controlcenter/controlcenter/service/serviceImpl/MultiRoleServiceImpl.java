@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -33,8 +34,8 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     public UserDao userDao;
 
     @Override
-    public List<MultiRoleOutput> getAllMultiRole(){
-        return multiRoleDao.getAllMultiRole();
+    public ResponseEntity<List<MultiRoleOutput>> getAllMultiRole(){
+        return ResponseEntity.ok().body(multiRoleDao.getAllMultiRole());
     }
 
     @Override
@@ -51,7 +52,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
             //Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id(emp_id); //current logged user dapat
             activityLogInput.setLog_desc("Added a Multiple Role.");
 
             Long currentTimeMillis = System.currentTimeMillis();
@@ -66,7 +67,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     }
 
     @Override
-    public String editMultiRoleInfo(String id, MultiRoleInput multiRole){
+    public String editMultiRoleInfo(String id, MultiRoleInput multiRole, String emp_id){
         try{
 
             MultiRoleOutput data = multiRoleDao.getMultiRoleById(id);
@@ -83,7 +84,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
                 //Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id(emp_id); //current logged user dapat
                 activityLogInput.setLog_desc("Edited a Multiple Role.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -99,14 +100,14 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     }
 
     @Override
-    public String logicalDeleteMultiRole(String id){
+    public String logicalDeleteMultiRole(String id, String emp_id){
         try{
             multiRoleDao.logicalDeleteMultiRole(id);
 
             //Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id(emp_id); //current logged user dapat
             activityLogInput.setLog_desc("Deleted a Multiple Role.");
 
             Long currentTimeMillis = System.currentTimeMillis();

@@ -1,26 +1,21 @@
-.mainContainer {
+.mainContainer{
 	position: fixed;
+	top: 15vh;
+	left: 16.5vw;
+	width: 82%;
+	height: 83%;
+
+}
+.contentContainer {
+	position: fixed;
+	top: 15vh;
+	left: 16.5vw;
+	width: 82%;
+	height: 83%;
 	display: flex;
-	flex-direction: column; 
-	align-items: center;
-	height: 90%;
-	width: 93%;
-	top: 10vh;
-	left: 7vw;
-	overflow: hidden;
-}
-.mainContainer h4 {
-	position: relative;
-	height: 5%;
-}
-.mainContainer h6 {
-	position: relative;
-	top: 0;
-	left: 0;
-	margin: 5px;
-	padding: 1vh;
-	height: 2%;
-}
+	flex-direction: column;
+	gap: 1vh;
+  }
 .contentContainer {
 	/* width: 97%;
 	position: relative;
@@ -31,6 +26,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 1vh;
+	height: 100%;
 }
 
 .contentHolder {

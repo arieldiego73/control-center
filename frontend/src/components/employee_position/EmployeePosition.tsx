@@ -96,22 +96,23 @@ export default function EmployeePosition() {
 
 	return (
 		<div className={EmployeePositionStyle.mainContainer}>
-			<div style={{ width: "97%", paddingBottom: "1%" }}>
-				<div className={EmployeePositionStyle.pageTitle}>
-					<span>
-						<AccountTreeOutlinedIcon fontSize="large" />
-					</span>
-					<span
+			<div className={EmployeePositionStyle.contentContainer}>
+				<div className={EmployeePositionStyle.contentHolder}>
+					<div
 						style={{
-							fontSize: "1.8rem",
-							color: "black",
-							fontWeight: "600",
+							backgroundColor: "transparent",
+							// borderBottomLeftRadius: "8px",
+							// borderBottomRightRadius: "8px",
+							height: "100%",
 						}}
 					>
-						{" "}
-						EMPLOYEE POSITION{" "}
-					</span>
-					<Snackbar
+						<EmployeePositionTable
+							createSnackpack={handleClickSnackpack}
+						/>
+					</div>
+				</div>
+			</div>
+			<Snackbar
 						key={messageInfo ? messageInfo.key : undefined}
 						open={open}
 						autoHideDuration={2000}
@@ -128,53 +129,6 @@ export default function EmployeePosition() {
 							{messageInfo ? messageInfo.message : undefined}
 						</Alert>
 					</Snackbar>
-				</div>
-			</div>
-
-			<div className={EmployeePositionStyle.contentContainer}>
-				<div className={EmployeePositionStyle.midContent}>
-					{/* for breadcrumbs */}
-					<div
-						style={{
-							// border: "1px solid red",
-							paddingBottom: "1%",
-							width: "80%",
-							height: "75%",
-							paddingLeft: "1%",
-							position: "relative",
-							top: "3%",
-							alignSelf: "center",
-						}}
-						role="presentation"
-						onClick={handleClick}
-					>
-						<Breadcrumbs maxItems={2} aria-label="breadcrumb">
-							<Link
-								to="/employeeposition"
-								className={`${EmployeePositionStyle["custom-link"]}`}
-								style={{ color: "inherit" }}
-							>
-								Employee Position
-							</Link>
-						</Breadcrumbs>
-					</div>
-				</div>
-
-				<div className={EmployeePositionStyle.contentHolder}>
-					<div
-						style={{
-							backgroundColor: "transparent",
-							// borderBottomLeftRadius: "8px",
-							// borderBottomRightRadius: "8px",
-							height: "100%",
-						}}
-					>
-						<EmployeePositionTable
-							createSnackpack={handleClickSnackpack}
-						/>
-					</div>
-				</div>
-			</div>
 		</div>
 	);
 }

@@ -6,7 +6,7 @@ import {
 	Checkbox,
 	Dialog,
 	DialogActions,
-	DialogContent,
+	DialogContent, 
 	DialogContentText,
 	DialogTitle,
 	FormControl,
