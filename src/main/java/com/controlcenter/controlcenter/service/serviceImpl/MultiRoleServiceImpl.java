@@ -52,7 +52,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
             //Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); //current logged user dapat
+            activityLogInput.setEmp_id(emp_id); //current logged user dapat
             activityLogInput.setLog_desc("Added a Multiple Role.");
 
             Long currentTimeMillis = System.currentTimeMillis();
