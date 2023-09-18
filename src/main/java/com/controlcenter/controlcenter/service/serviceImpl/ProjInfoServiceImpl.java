@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -28,8 +29,8 @@ public class ProjInfoServiceImpl implements ProjInfoService {
     public ActivityLogDao activityLogDao;
 
     @Override
-    public List<ProjInfoOutput> getAllProjInfo() {
-        return projInfoDao.getAllProjInfo();
+    public ResponseEntity<List<ProjInfoOutput>> getAllProjInfo() {
+        return ResponseEntity.ok(projInfoDao.getAllProjInfo());
     }
 
     @Override
@@ -38,14 +39,14 @@ public class ProjInfoServiceImpl implements ProjInfoService {
     }
 
     @Override
-    public String addProjInfo(ProjInfoInput projInfo) {
+    public String addProjInfo(ProjInfoInput projInfo, String emp_id) {
         try {
             projInfoDao.addProjInfo(projInfo);
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Project Information.");
 
             Long currentTimeMillis = System.currentTimeMillis();
