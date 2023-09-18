@@ -61,7 +61,7 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
     }
 
     @Override
-    public String editPersonalInfo(String id, PersonalInfoInput personalInfo) {
+    public String editPersonalInfo(String id, PersonalInfoInput personalInfo, String emp_id) {
         PersonalInfoOutput data = personalInfoDao.getPersonalInfoById(id);
 
         if (data != null) {
@@ -78,7 +78,7 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
                 // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Personal Information.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -94,7 +94,7 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
     }
 
     @Override
-    public String logicalDeletePersonalInfo(String id) {
+    public String logicalDeletePersonalInfo(String id, String emp_id) {
         PersonalInfoOutput data = personalInfoDao.getPersonalInfoById(id);
 
         if (data != null) {
@@ -106,7 +106,7 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
                 // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Personal Information.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
