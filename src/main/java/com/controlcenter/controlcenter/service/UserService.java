@@ -2,14 +2,13 @@ package com.controlcenter.controlcenter.service;
 
 import com.controlcenter.controlcenter.model.AccountInput;
 import com.controlcenter.controlcenter.model.AccountOutput;
-import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
-import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.model.UserTable;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
@@ -33,5 +32,5 @@ public interface UserService {
   public String getLoggedInUser(UserOutput user);
 
   //get all user roles
-  public ResponseEntity<List<UserRoles>> getAllRolesOfUser(String emp_id);
+  public ResponseEntity<List<Map<String, Object>>> getAllRolesOfUser(String emp_id);
 }

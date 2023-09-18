@@ -3,11 +3,8 @@ package com.controlcenter.controlcenter.dao;
 import java.util.HashMap;
 import java.util.List;
 
-
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
