@@ -13,7 +13,7 @@ public interface PositionService {
     
     public PositionOutput getPositionById(String id);
 
-    public String addPosition(PositionInput position);
+    public String addPosition(PositionInput position, String emp_id);
 
     public String editPositionInfo(String id, PositionInput position);
 
