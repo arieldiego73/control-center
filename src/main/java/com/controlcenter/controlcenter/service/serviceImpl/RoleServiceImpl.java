@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,8 +31,8 @@ public class RoleServiceImpl implements RoleService {
   public List<RoleOutput> roleList = new ArrayList<>();
 
   @Override
-  public List<RoleOutput> getAllRole() {
-    return roleDao.getAllRole();
+  public ResponseEntity<List<RoleOutput>> getAllRole() {
+    return ResponseEntity.ok(roleDao.getAllRole());
   }
 
   @Override
@@ -40,14 +41,14 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
-  public String addRole(RoleInput role) {
+  public String addRole(RoleInput role, String emp_id) {
 
     try {
       roleDao.addRole(role);
       // Activitylog
       ActivityLogInput activityLogInput = new ActivityLogInput();
 
-      activityLogInput.setEmp_id("101"); // current logged user dapat
+      activityLogInput.setEmp_id(emp_id); // current logged user dapat
       activityLogInput.setLog_desc("Added a role.");
 
       Long currentTimeMillis = System.currentTimeMillis();

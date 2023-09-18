@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.controlcenter.controlcenter.model.DepartmentOutput;
 import com.controlcenter.controlcenter.model.ProjMemberInput;
 import com.controlcenter.controlcenter.model.ProjMemberOutput;
 import com.controlcenter.controlcenter.service.ProjMemberService;
