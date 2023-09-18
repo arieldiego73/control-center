@@ -2,7 +2,6 @@ package com.controlcenter.controlcenter.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 
 import com.controlcenter.controlcenter.model.MultiRoleInput;
 import com.controlcenter.controlcenter.model.MultiRoleOutput;

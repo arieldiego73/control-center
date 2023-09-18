@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;

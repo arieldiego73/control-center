@@ -2,7 +2,6 @@ package com.controlcenter.controlcenter.service;
 
 import com.controlcenter.controlcenter.model.AccountInput;
 import com.controlcenter.controlcenter.model.AccountOutput;
-import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
