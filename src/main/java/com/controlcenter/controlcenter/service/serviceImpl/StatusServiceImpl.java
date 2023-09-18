@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -31,8 +32,8 @@ public class StatusServiceImpl implements StatusService {
     public List<StatusOutput> statusList = new ArrayList<>();
 
     @Override
-    public List<StatusOutput> getAllStatus() {
-        return statusDao.getAllStatus();
+    public ResponseEntity<List<StatusOutput>> getAllStatus() {
+        return ResponseEntity.ok(statusDao.getAllStatus());
     }
 
     @Override
@@ -41,14 +42,14 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public String addStatus(StatusInput status) {
+    public String addStatus(StatusInput status, String emp_id) {
         try {
             statusDao.addStatus(status);
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Status.");
 
             Long currentTimeMillis = System.currentTimeMillis();
