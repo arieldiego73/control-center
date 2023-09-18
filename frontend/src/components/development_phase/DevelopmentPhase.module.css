@@ -1,29 +1,34 @@
-.mainContainer {
-	position: fixed;
+/* .mainContainer {
+    position: fixed;
 	display: flex;
 	flex-direction: column; 
 	align-items: center;
-	height: 90vh;
-	width: 93%;
-	top: 10vh;
-	left: 7vw;
+     justify-content: center;
+	height: 78%;
+	width: 82%;
+	top: 20vh;
+	left: 16.5vw;
 	overflow: hidden;
-}
-.mainContainer h4 {
-	position: relative;
-	height: 5%;
-}
-.mainContainer h6 {
-	position: relative;
-	top: 0;
-	left: 0;
-	margin: 5px;
-	padding: 1vh;
-	height: 2%;
+    background: rgba( 237, 249, 255, 0.35 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 5px );
+    -webkit-backdrop-filter: blur( 5px );
+    border-radius: 10px;
+    } */
+.mainContainer{
+	position: fixed;
+	top: 15vh;
+	left: 16.5vw;
+	width: 82%;
+	height: 83%;
+
 }
 .contentContainer {
-	width: 97%;
-	height: 80%;
+	position: fixed;
+	top: 15vh;
+	left: 16.5vw;
+	width: 82%;
+	height: 83%;
 	display: flex;
 	flex-direction: column;
 	gap: 1vh;
@@ -35,7 +40,7 @@
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(3px);
 	border-radius: 10px;
-	
+	height: 100%;
 }
 
 .hideButton {

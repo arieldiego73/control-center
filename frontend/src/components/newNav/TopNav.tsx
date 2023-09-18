@@ -82,14 +82,17 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
 
             <Tooltip title="Account settings"
               onClick={handleClick}
-              style={{ border: "1px solid green", marginLeft:"0.5vw", marginRight:"2vw" }}
+              className={TopNavStyle.toolTip}
               aria-controls={open ? "account-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
+
               <span className={TopNavStyle.spanUserName}>
                 Shernan Jenesis Mateo
               </span>
+
+
             </Tooltip>
 
             <Menu
@@ -100,12 +103,11 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               PaperProps={{
                 elevation: 0,
                 sx: {
-                  border:'1px solid red',
                   overflow: "visible",
                   filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                   mt: 1.5,
-                  width: 400,
-                  height: 180,
+                  width: 350,
+
                   borderRadius: "20px",
                   "& .MuiAvatar-root": {
                     width: 32,
@@ -135,97 +137,73 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                   disableRipple
                   style={{
                     width: "95%",
-                    height: "115px",
+                    height: "100%",
                     borderRadius: "20px",
-                    backgroundColor: "#daf1ff",
+                    display: "flex",
                     flexDirection: "column",
-                    justifyContent: "flex-start",
+                    justifyContent: "space-around",
                     alignItems: "center",
+                    gap: "2vh",
                     padding: "1%",
+                    cursor: "default",
+                    backgroundColor: "white",
                   }}
                 >
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "row",
+                      flexDirection: "column",
                       alignItems: "center",
                     }}
                   >
-                    <img
-                      alt=""
-                      style={{
-                        width: "3vw",
-                        height: "3vw",
-                        marginRight: "8px",
-                      }}
-                      src={SampleUserImage}
-                      onClick={handleClose}
-                    />
-                    <div style={{ position: "relative" }}>
-                      <IconButton
+                    <div style={{ display: "flex", flexDirection: "column", }}>
+                      <img
+                        alt=""
                         style={{
-                          position: "absolute",
-                          top: "6%",
-                          right: "0",
+                          width: "6vw",
+                          height: "6vw",
+                          borderRadius: "100%"
                         }}
-                        size="small"
-                        color="primary"
-                        onClick={handleCameraClick}
-                      >
-                        <PhotoCameraIcon />
-                      </IconButton>
+                        src={SampleUserImage}
+                        onClick={handleClose}
+                      />
                     </div>
-                    <text style={{ fontSize: "20px" }}>
-                      Shernan Jenesis Mateo
+
+                    <text style={{ fontSize: "20px", fontWeight:"bold" }}>
+                      Hi, Shernan Jenesis!
+                    </text>
+                    <text style={{ fontSize: "12px", }}>
+                      smateo@tspi.com.ph
                     </text>
                   </div>
-
-                  <div style={{ width: "100%", marginLeft: "70%" }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1vh", width:"100%" }}>
                     <Link
                       to="/createuser"
-                      style={{ textDecoration: "none", color: "black" }}
+                      className={TopNavStyle.manageAccButton}
                     >
-                      <Button
-                        style={{
-                          backgroundColor: "white",
-                          borderRadius: "20px",
-                          paddingLeft: "20px",
-                          paddingRight: "20px",
-                        }}
-                        href="#contained-buttons"
-                      >
-                        <text style={{ color: "black", fontSize: "10px" }}>
-                          {" "}
+                      <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+
+                        <text style={{ color: "black", fontSize: "15px" }}>
                           Manage your Account
                         </text>
-                      </Button>
+
+                      </div>
                     </Link>
+                    <div className={TopNavStyle.logout}>
+                      <div className={TopNavStyle.logoutSpanContainer}>
+                        <span className={TopNavStyle.logoutIcon}>
+                          <LogoutIcon />
+                        </span>
+                        <span className={TopNavStyle.logoutText}>Log out</span>
+                      </div>
+                    </div>
                   </div>
                 </MenuItem>
               </div>
-
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingTop: "1%",
-                }}
-                onClick={handleClose}
-              ></div>
             </Menu>
           </div>
-          <div className={TopNavStyle.logout}>
-            <div className={TopNavStyle.logoutSpanContainer}>
-              <span className={TopNavStyle.logoutIcon}>
-                <LogoutIcon style={{ color: "red", height: "20px" }} />
-              </span>
-              <span className={TopNavStyle.logoutText}>Log out</span>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
