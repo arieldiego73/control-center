@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,14 +50,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public String addDepartment(DepartmentInput department) {
-
+    public String addDepartment(DepartmentInput department, String emp_id) {
         try {
             departmentDao.addDepartment(department);
 
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Business Unit.");
 
             Long currentTimeMillis = System.currentTimeMillis();

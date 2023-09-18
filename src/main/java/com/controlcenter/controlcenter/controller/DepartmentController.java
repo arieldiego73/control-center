@@ -66,7 +66,8 @@ public class DepartmentController {
             if (errors.size() > 0) {
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
-                return ResponseEntity.status(200).body(departmentService.addDepartment(department));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.status(200).body(departmentService.addDepartment(department, emp_id));
             }
         } else {
             // is not authenticated

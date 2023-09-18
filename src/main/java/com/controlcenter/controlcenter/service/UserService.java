@@ -9,6 +9,7 @@ import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.model.UserTable;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
@@ -32,5 +33,5 @@ public interface UserService {
   public String getLoggedInUser(UserOutput user);
 
   //get all user roles
-  public ResponseEntity<List<UserRoles>> getAllRolesOfUser(String emp_id);
+  public ResponseEntity<List<Map<String, Object>>> getAllRolesOfUser(String emp_id);
 }
