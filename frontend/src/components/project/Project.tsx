@@ -63,31 +63,30 @@ export default function Project() {
   const breadcrumbItems = [{ label: "Projects", href: "/project" }];
 
   return (
-    <div> 
-        <div className={ProjectStyle.addButton}>
-          <Link
-            to="/createuser"
-            style={{ textDecoration: "none", color: "black" }}
+    <div>
+      <div className={ProjectStyle.addButton}>
+        <Link
+          to="/NewProj"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Add />}
+            className={ProjectStyle.button}
+            // onClick={performSearch}
           >
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Add />}
-              className={ProjectStyle.button}
-              // onClick={performSearch}
-            >
-              Add User
-            </Button>
-          </Link>
-        </div>
+            Add Project
+          </Button>
+        </Link>
+      </div>
       <div className={ProjectStyle.mainContainer}>
         <div className={ProjectStyle.mainHolder}>
-        
-
           <div className={ProjectStyle.contentHolder}>
             <div className={ProjectStyle.searchBarContainer}>
-              {/* Start of first search bar */} 
+              {/* Start of first search bar */}
               <div className={ProjectStyle.searchBarCol}>
+                {/* Start of Project Name Search */}
                 <FormControl>
                   <Grid container alignItems="center" spacing={2}>
                     <Grid item>
@@ -112,6 +111,7 @@ export default function Project() {
                   </Grid>
                 </FormControl>
 
+                {/* Start of Project Manager Search */}
                 <FormControl>
                   <Grid container alignItems="center" spacing={2}>
                     <Grid item>
@@ -136,7 +136,12 @@ export default function Project() {
                   </Grid>
                 </FormControl>
 
-                <FormControl>
+                {/* Start of Client Search */}
+                <FormControl   style={{
+                    // display: "flex",
+                    // justifyContent: "center",
+                 
+                  }}>
                   <Grid container alignItems="center" spacing={2}>
                     <Grid item>
                       <FormLabel
@@ -145,6 +150,8 @@ export default function Project() {
                           width: "100%",
                           color: "black",
                           fontWeight: "400",
+                        
+
                         }}
                       >
                         Client :{" "}
@@ -160,8 +167,15 @@ export default function Project() {
                   </Grid>
                 </FormControl>
 
-                <FormControl>
-                <Grid container alignItems="center" spacing={2}>
+                {/* Start of Status Dropdown */}
+                <FormControl
+                  style={{
+                    // display: "flex",
+                    // justifyContent: "center",
+                  }}
+                >
+                  <Grid style={{ justifyContent:'center', display:'flex'}}>
+                  <Grid container alignItems="center">
                     <Grid item>
                       <FormLabel
                         sx={{
@@ -169,20 +183,24 @@ export default function Project() {
                           width: "100%",
                           color: "black",
                           fontWeight: "400",
+                          // marginRight: "2%",
                         }}
                       >
-                        Status : 
+                        Status :
                       </FormLabel>
                     </Grid>
-                    <Grid>
-                      {" "}
-                      {/* Let this Grid item take up remaining space */}
+
+                    <Grid >
                       <FormControl
                         variant="outlined"
-                     
                         size="small"
-                        style={{ width: "100%", paddingLeft:'20px'}}
-                        className={ProjectStyle.projFormControl}
+                        sx={{ minWidth: 120,  }}
+                        style={{
+                          // display: "flex",
+                          // justifyContent: "space-between",
+
+                        }}
+          
                       >
                         <Select
                           labelId="demo-simple-select-label"
@@ -190,7 +208,7 @@ export default function Project() {
                           value={status}
                           onChange={handleChange}
                           className={ProjectStyle.projStatus}
-                          sx={{ width: "100%" }}
+                          // sx={{ width: "100%" }}
                           inputProps={{
                             classes: {
                               root: ProjectStyle.projSelectRoot,
@@ -205,27 +223,38 @@ export default function Project() {
                       </FormControl>
                     </Grid>
                   </Grid>
+                  </Grid>
+                 
                 </FormControl>
-                 {/* Start of Search Button */}
-                <div>
+
+                <div> 
                   <Button
                     variant="contained"
                     color="primary"
                     startIcon={<SearchIcon />}
-                    className={ProjectStyle.button}
+              
                     // onClick={performSearch}
                     style={{height:"40px"}}
-                
                   >
                     Search
                   </Button>
                 </div>
 
-             
-            </div>
+                {/* Start of Search Button */}
+                {/* <FormControl   style={{ height: "40px", border: "1px solid yellow", width: "10%", display:'flex', justifyContent:'center' }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<SearchIcon />}
+                    // className={ProjectStyle.button}
+                    // onClick={performSearch}
+                    // style={{ height: "40px", border: "1px solid yellow", width: '200px' }}
+                  >
+                    Search
+                  </Button>
+                </FormControl> */}
               </div>
-
-            
+            </div>
 
             {/* Start of Table */}
             <div className={ProjectStyle.tableContainer}>

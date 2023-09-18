@@ -1,65 +1,53 @@
-body {
-  height: 100%;
-  width: 100%;
-  background-image: url(../../../Assets/bg5.jpeg);
-  background-size: cover;
-  background-repeat: repeat;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  font-family: "Montserrat", sans-serif;
-}
 
 .mainContainer {
   position: fixed;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 85%;
-    width: 91%;
-    top: 10vh;
-    left: 7vw;
-    overflow: hidden;
+	display: flex;
+	flex-direction: column; 
+	align-items: center;
+     justify-content: center; 
+	height: 78%;
+	width: 82%;
+	top: 20vh;
+	left: 16.5vw;
+	overflow: hidden;
+    background: rgba( 237, 249, 255, 0.35 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 5px );
+    -webkit-backdrop-filter: blur( 5px );
+    border-radius: 10px;
 }
-
-.contentContainer{
-  width: 95%;
-  height: 75%;
-  display: flex;
+.mainHolder {
+  position: fixed;
+display: flex;
+flex-direction: column; 
+align-items: center;
+justify-content: center;
+height: 99%;
+width: 100%;
+top: 0;
+left: 0;
+overflow: hidden;
+border-radius: 15px;
+  
+}
+.contentHolder {
+  border-radius: 5px;
+  height: 90%;
+  width: 99%;
+  align-items: center;
   flex-direction: column;
-  padding: 1%;
-  display: flex;
-  justify-content: start;
-  background: rgba( 255, 255, 255, 0.05 );
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 3px );
-  -webkit-backdrop-filter: blur( 3px );
-  border-radius: 10px;
+  justify-content: center; 
+  /* padding: 2vh 0;  */
 }
-.heading {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  gap: 1vw;
-  height: 8%;
-  width: 98%;
-  margin: 1% 2%;
-}
-.breadCrumbs {
-  width: 95%;
-}
-.pageTitle{
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  gap: .5%;
-  height: 100%;
-}
-
 .mainForm {
   display: flex;
-  gap: 2vh;
-  width: 100%;
+    flex-direction: column;
+    gap: 3vh;
+    width: 95%;
+    padding: 2%;
+    border: 1px solid red;
+    height: 90%;
+    overflow: scroll;
 }
 .mainFormCol1,
 .mainFormCol2 {
@@ -108,6 +96,7 @@ body {
 .formRow6 {
   display: flex;
   gap: 4vw;
+  /* border: 1px solid red; */
 }
 .formRow7 {
   display: flex;
@@ -125,6 +114,7 @@ body {
 .formRow8 {
   display: flex;
   padding-left: 1vw;
+  gap: 4vw;
 }
 .formUsername .textField {
   width: 500px;
@@ -142,6 +132,11 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.projectManager{
+  flex-direction: row;
+  display: flex;
 }
 
 .checkboxContainer {
