@@ -3,6 +3,7 @@ package com.controlcenter.controlcenter.controller;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -40,7 +41,7 @@ public class DepartmentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addDepartment(@RequestBody DepartmentInput department) {
+    public ResponseEntity<String> addDepartment(@RequestBody DepartmentInput department, HttpSession http) {
         // For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
@@ -49,7 +50,8 @@ public class DepartmentController {
         if (errors.size() > 0) {
             return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
         } else {
-            return ResponseEntity.status(200).body(departmentService.addDepartment(department));
+            String emp_id = http.getAttribute("session").toString();
+            return ResponseEntity.status(200).body(departmentService.addDepartment(department, emp_id));
         }
     }
 
