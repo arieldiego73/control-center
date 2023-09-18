@@ -48,11 +48,15 @@ public class AuthController {
 
     // Logout remove httpsession
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public Map<String, String> logout(HttpSession session) {
+        Map<String, String> response = new HashMap<>();
+        
         if (session != null) {
-        session.invalidate();
+            session.invalidate();
         }
-        return "{\"status\":\"success\"}";
+        response.put("Status", "success");
+        
+        return response;
     }
 
 
