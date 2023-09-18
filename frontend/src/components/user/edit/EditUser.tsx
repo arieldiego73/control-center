@@ -34,6 +34,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 //for breadcrumbs
 import { getSectionFetch } from "../../../redux/state/sectionState";
 import { getRolesFetch } from "../../../redux/state/roleState";
+import { getPositionFetch } from "../../../redux/state/positionState";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -66,19 +67,11 @@ export default function EditUser() {
 
 	React.useEffect(() => {
 		dispatch(getUserInfo({ userId }));
-	}, [dispatch, userId]);
-
-	React.useEffect(() => {
 		dispatch(getDepartmentFetch());
-	}, [dispatch]);
-
-	React.useEffect(() => {
 		dispatch(getSectionFetch());
-	}, [dispatch]);
-
-	React.useEffect(() => {
 		dispatch(getRolesFetch());
-	}, [dispatch]);
+		dispatch(getPositionFetch());
+	}, [dispatch, userId]);
 
 	// get the stored state of the user
 	let userData: any | null = useSelector(
@@ -91,7 +84,7 @@ export default function EditUser() {
 		setFirstName(userData.fname);
 		setMiddleName(userData.mname);
 		setLastName(userData.lname);
-		setPosition(userData.position_name);
+		setPosition(userData.position_id);
 		setEmail(userData.email);
 		setSelectedRoles([]); // INSERT HERE THE ROLES OF THE USER
 		setBusinessUnit(userData.dept_id);
@@ -103,7 +96,7 @@ export default function EditUser() {
 	const [firstName, setFirstName] = useState("");
 	const [middleName, setMiddleName] = useState("");
 	const [lastName, setLastName] = useState("");
-	const [position, setPosition] = useState("");
+	const [position, setPosition] = useState(0);
 	const [email, setEmail] = useState("");
 	// const [role, setRole] = useState("");
 	const [businessUnit, setBusinessUnit] = useState(0);
@@ -126,6 +119,11 @@ export default function EditUser() {
 
 	//FOR ROLES OPTIONS
 	const roles = useSelector((state: RootState) => state.roleReducer.roles);
+
+	//FOR POSITION OPTIONS
+	const positions = useSelector(
+		(state: RootState) => state.positionReducer.position
+	);
 
 	const proceedWithCancel = () => {
 		userData = null;
@@ -202,24 +200,34 @@ export default function EditUser() {
 								/>
 							</FormControl>
 
-							<FormControl>
+							<FormControl variant="outlined" size="small">
 								<FormLabel>Position</FormLabel>
-								<TextField
-									variant="outlined"
-									size="small"
-									className={UserDetailStyle.textField}
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position="start">
-												<PermIdentityOutlinedIcon />
-											</InputAdornment>
-										),
-									}}
+								<Select
+									labelId="demo-simple-select-label"
+									id="demo-simple-select"
 									value={position} // Bind value to state
 									onChange={(e) =>
-										setPosition(e.target.value)
-									} // Update state on change
-								/>
+										setPosition(e.target.value as number)
+									}
+									className={UserDetailStyle.textField}
+									startAdornment={
+										<InputAdornment position="start">
+											<GroupsOutlinedIcon />
+										</InputAdornment>
+									}
+								>
+									<MenuItem key={0} value={0}>
+										{"<Select a position>"}
+									</MenuItem>
+									{positions.map((pos: any) => (
+										<MenuItem
+											key={pos?.position_id}
+											value={pos?.position_id}
+										>
+											{pos?.position_name}
+										</MenuItem>
+									))}
+								</Select>
 							</FormControl>
 						</div>
 
@@ -373,6 +381,9 @@ export default function EditUser() {
 										</InputAdornment>
 									}
 								>
+									<MenuItem key={0} value={0}>
+										{"<Select a department>"}
+									</MenuItem>
 									{sections.map((sect: any) => (
 										<MenuItem value={sect?.section_id}>
 											{sect?.section_name}
@@ -401,6 +412,9 @@ export default function EditUser() {
 											</InputAdornment>
 										}
 									>
+										<MenuItem key={0} value={0}>
+										{"<Select a business unit>"}
+									</MenuItem>
 										{depts.map((dept: any) => (
 											<MenuItem value={dept?.dept_id}>
 												{dept?.dept_name}

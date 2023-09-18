@@ -19,4 +19,5 @@ public class UserInfoOutput {
   private int del_flag;
   private int section_id;
   private int dept_id;
+  private int position_id;
 }

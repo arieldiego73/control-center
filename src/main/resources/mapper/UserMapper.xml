@@ -32,6 +32,7 @@
                info_master.mname,
                info_master.lname,
                position_master.position_name,
+               position_master.position_id,
                info_master.email,
                section_master.section_id,
                section_master.section_name,
