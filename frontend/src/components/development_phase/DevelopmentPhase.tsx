@@ -96,53 +96,7 @@ export default function DevelopmentPhase() {
 
 	return (
 		<div className={DevStyle.mainContainer}>
-			<div style={{ width: "97%", paddingBottom: "1%" }}>
-				<div className={DevStyle.pageTitle}>
-					<span>
-						<AccountTreeOutlinedIcon fontSize="large" />
-					</span>
-					<span
-						style={{
-							fontSize: "1.8rem",
-							color: "black",
-							fontWeight: "600",
-						}}
-					>
-						{" "}
-						DEVELOPMENT PHASE{" "}
-					</span>
-				</div>
-			</div>
-
 			<div className={DevStyle.contentContainer}>
-				<div className={DevStyle.midContent}>
-					{/* for breadcrumbs */}
-					<div
-						style={{
-							// border: "1px solid red",
-							paddingBottom: "1%",
-							width: "80%",
-							height: "75%",
-							paddingLeft: "1%",
-							position: "relative",
-							top: "3%",
-							alignSelf: "center",
-						}}
-						role="presentation"
-						onClick={handleClick}
-					>
-						<Breadcrumbs maxItems={2} aria-label="breadcrumb">
-							<Link
-								to="/DevelopmentPhase"
-								className={`${DevStyle["custom-link"]}`}
-								style={{ color: "inherit" }}
-							>
-								Development Phase
-							</Link>
-						</Breadcrumbs>
-					</div>
-				</div>
-
 				<div className={DevStyle.contentHolder}>
 					<div
 						style={{
