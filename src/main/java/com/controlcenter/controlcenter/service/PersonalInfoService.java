@@ -15,9 +15,9 @@ public interface PersonalInfoService {
 
     public String addPersonalInfo(PersonalInfoInput personalInfo, String emp_id);
 
-    public String editPersonalInfo(String id, PersonalInfoInput personalInfo);
+    public String editPersonalInfo(String id, PersonalInfoInput personalInfo, String emp_id);
 
-    public String logicalDeletePersonalInfo(String id);
+    public String logicalDeletePersonalInfo(String id, String emp_id);
 
     public String restorePersonalInfo(String id);
 }

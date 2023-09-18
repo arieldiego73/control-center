@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -31,8 +32,8 @@ public class TechnologyServiceImpl implements TechnologyService {
     List<TechnologyOutput> technologyList = new ArrayList<>();
 
     @Override
-    public List<TechnologyOutput> getAllTechnology() {
-        return technologyDao.getAllTechnology();
+    public ResponseEntity<List<TechnologyOutput>> getAllTechnology() {
+        return ResponseEntity.ok(technologyDao.getAllTechnology());
     }
 
     @Override
@@ -41,14 +42,14 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
-    public String addTechnology(TechnologyInput technology) {
+    public String addTechnology(TechnologyInput technology, String emp_id) {
         try {
             technologyDao.addTechnology(technology);
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Technology.");
 
             Long currentTimeMillis = System.currentTimeMillis();
