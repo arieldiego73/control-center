@@ -22,7 +22,8 @@ import com.controlcenter.controlcenter.shared.TimeFormatter;
 import java.util.HashMap;
 // import java.util.Collections;
 import java.util.List;
-
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -312,17 +313,25 @@ public class UserServiceImpl implements UserService{
 
   //get all user roles
   @Override
-  public ResponseEntity<List<UserRoles>> getAllRolesOfUser(String emp_id) {
-    UserInfoOutput user = new UserInfoOutput();
+  public ResponseEntity<List<Map<String, Object>>> getAllRolesOfUser(String emp_id) {
+    List<UserRoles> rolesOfUser = userDao.getAllRolesOfUser(emp_id);
+    List<Map<String, Object>> allRoles = rolesOfUser.stream()
+      .map(role -> {
+        Map<String, Object> currentRoles = new HashMap<>();
+        currentRoles.put("role", role.getRole_sh_name());
+        return currentRoles;
+      }).collect(Collectors.toList());
 
-    user = userDao.getUserById(emp_id);
+    return ResponseEntity.ok(allRoles);
 
-    if(user != null) {
-      return ResponseEntity.ok(userDao.getAllRolesOfUser(emp_id));
-    } else {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
-    
+    // if(user != null) {
+    //   allRoles.put("emp_id", user.getEmp_id());
+    //   return ResponseEntity.ok(allRoles);
+    // } else {
+    //   allRoles.put("error", 404);
+    //   allRoles.put("message", "This user does not have a role yet");
+    //   return ResponseEntity.status(404).body(allRoles);
+    // }
   }
 
 }
