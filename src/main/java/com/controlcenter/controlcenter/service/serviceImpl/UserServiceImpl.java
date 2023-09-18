@@ -7,8 +7,6 @@ import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.AccountInput;
 import com.controlcenter.controlcenter.model.AccountOutput;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
-import com.controlcenter.controlcenter.model.MultiRoleInput;
-import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.PersonalInfoInput;
 import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
