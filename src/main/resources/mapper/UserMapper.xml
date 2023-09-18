@@ -33,7 +33,9 @@
                info_master.lname,
                position_master.position_name,
                info_master.email,
+               section_master.section_id,
                section_master.section_name,
+               department_master.dept_id,
                department_master.dept_name,
                role_master.title,
                users.del_flag

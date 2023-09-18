@@ -1,26 +1,16 @@
 import React from "react";
 import UserStyle from "./User.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { getUsersFetch } from "../../redux/state/userState";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import UserTable from "./UserTable";
 import Button from "@mui/material/Button";
-import { Add } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Grid, FormLabel, TextField, FormControl } from "@mui/material";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 //for breadcrumbs
 import { Link } from "react-router-dom";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-
-//for breadcrumbs
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-  console.info("You clicked a breadcrumb.");
-}
 
 // Define the type for your row data
 interface RowData {
@@ -96,13 +86,12 @@ export default function Userpage() {
   return (
     <div>
       <div className={UserStyle.addButton} >
-        <Link to="/createuser" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/user/create-user" style={{ textDecoration: "none", color: "black" }}>
           <Button
             variant="contained"
             color="primary"
             startIcon={<AddCircleOutlineIcon />}
             className={UserStyle.button}
-            onClick={performSearch}
           > 
             Add User 
           </Button>
@@ -129,7 +118,6 @@ export default function Userpage() {
                     <Grid item>
                       <FormLabel
                         sx={{
-                          fontFamily: "Montserrat, sans-serif",
                           width: "100%",
                           color: "black",
                           fontWeight: "400",
@@ -159,7 +147,6 @@ export default function Userpage() {
                     <Grid item>
                       <FormLabel
                         sx={{
-                          fontFamily: "Montserrat, sans-serif",
                           width: "100%",
                           color: "black",
                           fontWeight: "400",
@@ -185,7 +172,6 @@ export default function Userpage() {
                     <Grid item>
                       <FormLabel
                         sx={{
-                          fontFamily: "Montserrat, sans-serif",
                           width: "100%",
                           color: "black",
                           fontWeight: "400",
@@ -211,7 +197,6 @@ export default function Userpage() {
                     <Grid item>
                       <FormLabel
                         sx={{
-                          fontFamily: "Montserrat, sans-serif",
                           width: "100%",
                           color: "black",
                           fontWeight: "400",
