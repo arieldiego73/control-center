@@ -17,4 +17,7 @@ public class UserInfoOutput {
   private String dept_name;
   private String title;
   private int del_flag;
+  private int section_id;
+  private int dept_id;
+  private int position_id;
 }

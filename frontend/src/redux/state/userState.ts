@@ -17,6 +17,10 @@ export const userSlice = createSlice({
 			dept_name: "",
 		},
 		isLoading: false,
+		notice: {
+			message: "",
+			severity: ""
+		},
 	},
 	reducers: {
 		getUsersFetch: (state) => {
@@ -33,9 +37,12 @@ export const userSlice = createSlice({
 		getUsersError: (state) => {
 			state.isLoading = false;
 		},
+		setMessage: (state, action) => {
+			state.notice = action.payload;
+		}
 	},
 });
 
-export const { getUsersFetch, getUsersSuccess, getUserInfoSuccess, getUsersError } =
+export const { getUsersFetch, getUsersSuccess, getUserInfoSuccess, getUsersError, setMessage } =
 	userSlice.actions;
 export default userSlice.reducer;

@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +70,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public String editDepartmentInfo(String id, DepartmentInput department) {
+    public String editDepartmentInfo(String id, DepartmentInput department, String emp_id) {
         DepartmentOutput data = departmentDao.getDepartmentById(id);
 
         if (data != null) {
@@ -89,7 +87,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Business Unit.");
 
                 Long currentTimeMillis = System.currentTimeMillis();

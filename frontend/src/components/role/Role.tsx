@@ -93,22 +93,21 @@ export default function Role() {
 
 	return (
 		<div className={RoleStyle.mainContainer}>
-			<div style={{ width: "97%", paddingBottom: "1%" }}>
-				<div className={RoleStyle.pageTitle}>
-					<span>
-						<AccountTreeOutlinedIcon fontSize="large" />
-					</span>
-					<span
+			<div className={RoleStyle.contentContainer}>
+				<div className={RoleStyle.contentHolder}>
+					<div
 						style={{
-							fontSize: "1.8rem",
-							color: "black",
-							fontWeight: "600",
+							backgroundColor: "transparent",
+							// borderBottomLeftRadius: "8px",
+							// borderBottomRightRadius: "8px",
+							height: "100%",
 						}}
 					>
-						{" "}
-						ROLE{" "}
-					</span>
-					<Snackbar
+						<RoleTable createSnackpack={handleClickSnackpack} />
+					</div>
+				</div>
+			</div>
+			<Snackbar
 						key={messageInfo ? messageInfo.key : undefined}
 						open={open}
 						autoHideDuration={2000}
@@ -125,50 +124,6 @@ export default function Role() {
 							{messageInfo ? messageInfo.message : undefined}
 						</Alert>
 					</Snackbar>
-				</div>
-			</div>
-
-			<div className={RoleStyle.contentContainer}>
-				<div className={RoleStyle.midContent}>
-					{/* for breadcrumbs */}
-					<div
-						style={{
-							// border: "1px solid red",
-							paddingBottom: "1%",
-							width: "80%",
-							height: "75%",
-							paddingLeft: "1%",
-							position: "relative",
-							top: "3%",
-							alignSelf: "center",
-						}}
-						role="presentation"
-						onClick={handleClick}
-					>
-						<Breadcrumbs maxItems={2} aria-label="breadcrumb">
-							<Link
-								to="/role"
-								className={`${RoleStyle["custom-link"]}`}
-								style={{ color: "inherit" }}
-							>
-								Role
-							</Link>
-						</Breadcrumbs>
-					</div>
-				</div>
-				<div className={RoleStyle.contentHolder}>
-					<div
-						style={{
-							backgroundColor: "transparent",
-							// borderBottomLeftRadius: "8px",
-							// borderBottomRightRadius: "8px",
-							height: "100%",
-						}}
-					>
-						<RoleTable createSnackpack={handleClickSnackpack} />
-					</div>
-				</div>
-			</div>
 		</div>
 	);
 }

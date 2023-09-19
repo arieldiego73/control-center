@@ -17,13 +17,13 @@ import React, { useState } from "react";
 
 // for dropdown in others link
 const othersDropDownData = [
-    { icon: <People />, label: 'Development Phase', path: '/project' },
-    { icon: <Dns />, label: 'Project Status', path: '/project' },
-    { icon: <PermMedia />, label: 'Employee Status', path: '/project' },
-    { icon: <Public />, label: 'Employee Position', path: '/project' },
-    { icon: <Public />, label: ' Business Units', path: '/project' },
-    { icon: <Public />, label: 'Departments', path: '/project' },
-    { icon: <Public />, label: 'Technologies', path: '/project' },
+    { icon: <People />, label: 'Development Phase', path: '/DevelopmentPhase' },
+    { icon: <Dns />, label: 'Project Status', path: '/projectStatus' },
+    { icon: <PermMedia />, label: 'Employee Status', path: '/employeestatus' },
+    { icon: <Public />, label: 'Employee Position', path: '/employeeposition' },
+    { icon: <Public />, label: ' Business Units', path: '/businessunit' },
+    { icon: <Public />, label: 'Departments', path: '/department' },
+    { icon: <Public />, label: 'Technologies', path: '/technology' },
 ];
 
 function DevelopmentPhase() {
@@ -327,13 +327,13 @@ export default function SideNav() {
                 </ThemeProvider>
             </Box>
             <Routes>
-                <Route path="/project" element={<DevelopmentPhase />} />
-                <Route path="/project" element={<ProjectStatus />} />
-                <Route path="/project" element={<EmployeeStatus />} />
-                <Route path="/project" element={<EmployeePosition />} />
-                <Route path="/project" element={<BusinessUnits />} />
-                <Route path="/project" element={<Departments />} />
-                <Route path="/project" element={<Technologies />} />
+                <Route path="/DevelopmentPhase" element={<DevelopmentPhase />} />
+                <Route path="/projectStatus" element={<ProjectStatus />} />
+                <Route path="/employeestatus" element={<EmployeeStatus />} />
+                <Route path="/employeeposition" element={<EmployeePosition />} />
+                <Route path="/businessunit" element={<BusinessUnits />} />
+                <Route path="/department" element={<Departments />} />
+                <Route path="/technology" element={<Technologies />} />
             </Routes>
         </div>
     );

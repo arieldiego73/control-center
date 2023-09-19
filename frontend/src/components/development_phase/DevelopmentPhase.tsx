@@ -7,6 +7,8 @@ import { Alert, AlertColor, Snackbar } from "@mui/material";
 
 //for breadcrumbs
 import { Link } from "react-router-dom";
+
+
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { RootState } from "../../redux/store/store";
 import { useSelector } from "react-redux";
@@ -54,7 +56,7 @@ export default function DevelopmentPhase() {
 	// 	info: "",
 	// 	vertical: "top",
 	// 	horizontal: "right",
-	// });
+	// }); 
 	// const { vertical, horizontal, info } = origin;
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]
@@ -96,53 +98,7 @@ export default function DevelopmentPhase() {
 
 	return (
 		<div className={DevStyle.mainContainer}>
-			<div style={{ width: "97%", paddingBottom: "1%" }}>
-				<div className={DevStyle.pageTitle}>
-					<span>
-						<AccountTreeOutlinedIcon fontSize="large" />
-					</span>
-					<span
-						style={{
-							fontSize: "1.8rem",
-							color: "black",
-							fontWeight: "600",
-						}}
-					>
-						{" "}
-						DEVELOPMENT PHASE{" "}
-					</span>
-				</div>
-			</div>
-
 			<div className={DevStyle.contentContainer}>
-				<div className={DevStyle.midContent}>
-					{/* for breadcrumbs */}
-					<div
-						style={{
-							// border: "1px solid red",
-							paddingBottom: "1%",
-							width: "80%",
-							height: "75%",
-							paddingLeft: "1%",
-							position: "relative",
-							top: "3%",
-							alignSelf: "center",
-						}}
-						role="presentation"
-						onClick={handleClick}
-					>
-						<Breadcrumbs maxItems={2} aria-label="breadcrumb">
-							<Link
-								to="/DevelopmentPhase"
-								className={`${DevStyle["custom-link"]}`}
-								style={{ color: "inherit" }}
-							>
-								Development Phase
-							</Link>
-						</Breadcrumbs>
-					</div>
-				</div>
-
 				<div className={DevStyle.contentHolder}>
 					<div
 						style={{

@@ -8,10 +8,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useNavigate } from "react-router-dom";
 import { TablePagination } from "@mui/material";
-import UserTableStyle from './User.module.css'
- 
+import UserTableStyle from "./User.module.css";
+
 // Define the type for your row data
-interface RowData { 
+interface RowData {
 	emp_id: number;
 	username: string;
 	fname: string;
@@ -53,7 +53,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 	const navigate = useNavigate();
 
 	const handleRowClick = (row: RowData) => {
-		navigate(`/editUser/${row.username}`, { state: row.emp_id });
+		navigate(`/user/editUser/${row.username}`, { state: row.emp_id });
 	};
 
 	// const FireNav = styled(List)<{ component?: React.ElementType }>({
@@ -64,232 +64,168 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 	// });
 
 	return (
-	<div className={UserTableStyle.tableMainContainer}>
-		<Paper className={UserTableStyle.paperTable}>
-			<TableContainer className={UserTableStyle.tableContainer}>
-				<Table stickyHeader aria-label="sticky table">
-					{/*Title Header */}
-					<TableHead className={UserTableStyle.tableHead}>
-						<TableRow>
-							<TableCell
-								align="center"
-								style={{
-									fontWeight: "bolder",
-									backgroundColor: "white",
-									fontFamily: "Montserrat, sans-serif",
-								}}
-							>
-								Username
-							</TableCell>
-							<TableCell
-								align="center"
-								style={{
-									fontWeight: "bolder",
-									backgroundColor: "white",
-									fontFamily: "Montserrat, sans-serif",
-								}}
-							>
-								First name
-							</TableCell>
-							<TableCell
-								align="center"
-								style={{
-									fontWeight: "bolder",
-									backgroundColor: "white",
-									fontFamily: "Montserrat, sans-serif",
-								}}
-							>
-								Last name
-							</TableCell>
-							<TableCell
-								align="center"
-								style={{
-									fontWeight: "bolder",
-									backgroundColor: "white",
-									fontFamily: "Montserrat, sans-serif",
-								}}
-							>
-								Position
-							</TableCell>
-							<TableCell
-								align="center"
-								style={{
-									fontWeight: "bolder",
-									backgroundColor: "white",
-									fontFamily: "Montserrat, sans-serif",
-								}}
-							>
-								Email
-							</TableCell>
-							<TableCell
-								align="center"
-								style={{
-									fontWeight: "bolder",
-									backgroundColor: "white",
-									fontFamily: "Montserrat, sans-serif",
-								}}
-							>
-								Business unit
-							</TableCell>
-							<TableCell
-								align="center"
-								style={{
-									fontWeight: "bolder",
-									backgroundColor: "white",
-									fontFamily: "Montserrat, sans-serif",
-								}}
-							>
-								Department
-							</TableCell>
-							<TableCell
-								align="center"
-								style={{
-									fontWeight: "bolder",
-									backgroundColor: "white",
-									fontFamily: "Montserrat, sans-serif",
-								}}
-							>
-								Created
-							</TableCell>
-						</TableRow>
-					</TableHead>
-				     
-					{/*Data table */}
-					<TableBody>
-						{rows.slice(startIndex, endIndex).map((row) => (
-							<TableRow
-								key={row.emp_id} // Assuming assocID is unique
-								sx={{
-									"&:last-child td, &:last-child th": {
-										border: 0,
-									},
-								}}
-							>
-								<TableCell
-									component="th"
-									scope="row"
-									align="center"
-								>
-									<span
-										onClick={() => handleRowClick(row)}
-										style={{
-											textDecoration: "underline",
-											cursor: "pointer",
-											color: "blue",
-										}}
-									>
-										{row.username}
-									</span>
-								</TableCell>
-
+		<div className={UserTableStyle.tableMainContainer}>
+			<Paper className={UserTableStyle.paperTable}>
+				<TableContainer className={UserTableStyle.tableContainer}>
+					<Table stickyHeader aria-label="sticky table">
+						{/*Title Header */}
+						<TableHead className={UserTableStyle.tableHead}>
+							<TableRow>
 								<TableCell
 									align="center"
 									style={{
-										fontFamily:
-											"Montserrat, sans-serif",
-										fontWeight: "500",
-										color: "black",
+										fontWeight: "bolder",
+										backgroundColor: "white",
 									}}
 								>
-									{row.fname}
+									Username
 								</TableCell>
-
 								<TableCell
 									align="center"
 									style={{
-										fontFamily:
-											"Montserrat, sans-serif",
-										fontWeight: "500",
-										color: "black",
+										fontWeight: "bolder",
+										backgroundColor: "white",
 									}}
 								>
-									{row.lname}
+									First name
 								</TableCell>
-
 								<TableCell
 									align="center"
 									style={{
-										fontFamily:
-											"Montserrat, sans-serif",
-										fontWeight: "500",
-										color: "black",
+										fontWeight: "bolder",
+										backgroundColor: "white",
 									}}
 								>
-									{row.position_sh_name}
+									Last name
 								</TableCell>
-
 								<TableCell
 									align="center"
 									style={{
-										fontFamily:
-											"Montserrat, sans-serif",
-										fontWeight: "500",
-										color: "black",
+										fontWeight: "bolder",
+										backgroundColor: "white",
 									}}
 								>
-									{row.email}
+									Position
 								</TableCell>
-
 								<TableCell
 									align="center"
 									style={{
-										fontFamily:
-											"Montserrat, sans-serif",
-										fontWeight: "500",
-										color: "black",
+										fontWeight: "bolder",
+										backgroundColor: "white",
 									}}
 								>
-									{row.section_name}
+									Email
 								</TableCell>
-								
 								<TableCell
 									align="center"
 									style={{
-										fontFamily:
-											"Montserrat, sans-serif",
-										fontWeight: "500",
-										color: "black",
+										fontWeight: "bolder",
+										backgroundColor: "white",
 									}}
 								>
-									{row.dept_name}
+									Business Unit
 								</TableCell>
-								
 								<TableCell
 									align="center"
 									style={{
-										fontFamily:
-											"Montserrat, sans-serif",
-										fontWeight: "500",
-										color: "black",
+										fontWeight: "bolder",
+										backgroundColor: "white",
 									}}
 								>
-									{new Intl.DateTimeFormat("en-US", {
-										year: "numeric",
-										month: "short",
-										day: "2-digit",
-										hour: "2-digit",
-										minute: "2-digit",
-										// second: "2-digit",
-										hour12: true,
-									}).format(new Date(row.reg_date))}
+									Department
+								</TableCell>
+								<TableCell
+									align="center"
+									style={{
+										fontWeight: "bolder",
+										backgroundColor: "white",
+									}}
+								>
+									Created
 								</TableCell>
 							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</TableContainer>
-			<TablePagination
-				rowsPerPageOptions={[10, 25, 100]}
-				component="div"
-				count={rows.length}
-				rowsPerPage={rowsPerPage}
-				page={page}
-				onPageChange={handleChangePage}
-				onRowsPerPageChange={handleChangeRowsPerPage}
-			/>
-		</Paper>
-	</div>
+						</TableHead>
+
+						{/*Data table */}
+						<TableBody>
+							{rows.slice(startIndex, endIndex).map((row) => (
+								<TableRow
+									key={row.emp_id}
+									sx={{
+										"&:last-child td, &:last-child th": {
+											border: 0,
+										},
+									}}
+								>
+									<TableCell
+										component="th"
+										scope="row"
+										align="center"
+									>
+										<span
+											onClick={() => handleRowClick(row)}
+											style={{
+												textDecoration: "underline",
+												cursor: "pointer",
+												color: "blue",
+											}}
+										>
+											{row.username}
+										</span>
+									</TableCell>
+
+									<TableCell align="center">
+										{row.fname}
+									</TableCell>
+
+									<TableCell align="center">
+										{row.lname}
+									</TableCell>
+
+									<TableCell align="center">
+										{row.position_sh_name}
+									</TableCell>
+
+									<TableCell align="center">
+										{row.email}
+									</TableCell>
+
+									<TableCell align="center">
+									{row.dept_name}
+									</TableCell>
+
+									<TableCell align="center">
+										{row.section_name}
+									</TableCell>
+
+									<TableCell align="center">
+										{new Intl.DateTimeFormat("en-US", {
+											year: "numeric",
+											month: "short",
+											day: "2-digit",
+											hour: "2-digit",
+											minute: "2-digit",
+											// second: "2-digit",
+											hour12: true,
+										}).format(new Date(row.reg_date))}
+									</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+				<TablePagination
+					rowsPerPageOptions={[10, 25, 100]}
+					component="div"
+					count={rows.length}
+					rowsPerPage={rowsPerPage}
+					page={page}
+					onPageChange={handleChangePage}
+					onRowsPerPageChange={handleChangeRowsPerPage}
+				/>
+			</Paper>
+		</div>
 	);
-}
+};
 
 export default UserTable;

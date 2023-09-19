@@ -46,7 +46,7 @@ public class DepartmentController {
             return departmentService.getAllDepartment();
         } else {
             // User is not authenticated
-            return ResponseEntity.ok(new ArrayList<DepartmentOutput>());
+            return ResponseEntity.status(401).body(new ArrayList<DepartmentOutput>());
         }
     }
 
@@ -91,7 +91,8 @@ public class DepartmentController {
             if (errors.size() > 0) {
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
-                return ResponseEntity.status(200).body(departmentService.editDepartmentInfo(id, department));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.status(200).body(departmentService.editDepartmentInfo(id, department, emp_id));
             } 
         } else {
             // User is not authenticated 
@@ -144,7 +145,6 @@ public class DepartmentController {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
         } else {
-            // User is not authenticated
             return ResponseEntity.status(401).body("Unauthorized");
         }                                                   
     }

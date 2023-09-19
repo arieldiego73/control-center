@@ -1,8 +1,10 @@
 package com.controlcenter.controlcenter.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -36,60 +38,111 @@ public class ProjectController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/project-table")
-    public List<ProjectTable> projectTable() {
-        return projectService.projectTable();
+    public ResponseEntity<List<ProjectTable>> projectTable(HttpSession httpSession) {
+        // Check if the user is authenticated 
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        
+        if (isAuthenticated != null && isAuthenticated) {
+            // User is authenticated
+            return projectService.projectTable();
+        } else {
+            // User is not authenticated
+            return ResponseEntity.status(401).body(new ArrayList<ProjectTable>());
+        }
     }
 
     @GetMapping("/all")
-    public List<ProjectOutput> getAllProject() {
-        return projectService.getAllProject();
+    public ResponseEntity<List<ProjectOutput>> getAllProject(HttpSession httpSession) {
+        // Check if the user is authenticated 
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        
+        if (isAuthenticated != null && isAuthenticated) {
+            // User is authenticated
+            return projectService.getAllProject();
+        } else {
+            // User is not authenticated
+            return ResponseEntity.status(401).body(new ArrayList<ProjectOutput>());
+        }
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProject(@RequestBody ProjectInput project, @RequestParam List<Long> dev_phase_ids, @RequestParam List<Long> dev_tech_ids){
-        //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<ProjectInput>> errors = validator.validate(project);
-        System.out.println(dev_phase_ids);
-        System.out.println(dev_tech_ids);
-            //Error Handling
-            if(errors.size() > 0){
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            } else{
-                return ResponseEntity.status(200).body(projectService.addProject(project));   
-            }
+    public ResponseEntity<String> addProject(@RequestBody ProjectInput project, HttpSession httpSession){
+       // Check if the user is authenticated
+       Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+       if (isAuthenticated != null && isAuthenticated) {
+           // User is authenticated,  proceed with adding
+           //For Validation
+            ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+            Validator validator = validatorFactory.getValidator();
+            Set<ConstraintViolation<ProjectInput>> errors = validator.validate(project);
+                //Error Handling
+                if(errors.size() > 0){
+                    return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+                } else{
+                    String emp_id = httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(projectService.addProject(project, emp_id));   
+                }
+            } else {
+                // is not authenticated
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editProjectInfo(@PathVariable String id, @RequestBody ProjectInput project) {
-        //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<ProjectInput>> errors = validator.validate(project);
-            //Error Handling
-            if(errors.size() > 0){
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            } else{
-                return ResponseEntity.status(200).body(projectService.editProjectInfo(id, project));
+    public ResponseEntity<String> editProjectInfo(@PathVariable String id, @RequestBody ProjectInput project, HttpSession httpSession) {
+        // Check if the user is authenticated
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        
+        if (isAuthenticated != null && isAuthenticated){
+            // User is authenticated,  proceed with adding
+            //For Validation
+            ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+            Validator validator = validatorFactory.getValidator();
+            Set<ConstraintViolation<ProjectInput>> errors = validator.validate(project);
+                //Error Handling
+                if(errors.size() > 0){
+                    return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+                } else{
+                    String emp_id = httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(projectService.editProjectInfo(id, project, emp_id));
+                }
+            } else {
+                // User is not authenticated 
+                return ResponseEntity.status(401).body("Unauthorized");
             }
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteProject(@PathVariable String id) {
-        try {
-            return ResponseEntity.ok().body(projectService.logicalDeleteProject(id));
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Server Side Error.");
+    public ResponseEntity<String> logicalDeleteProject(@PathVariable String id, HttpSession httpSession) {
+         // Check uf the user is authenticated
+         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+         if (isAuthenticated != null && isAuthenticated){
+            try {
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(projectService.logicalDeleteProject(id, emp_id));
+            } catch (Exception e) {
+                return ResponseEntity.status(500).body("Server Side Error.");
+            }
+        } else {
+             // User is not authenticated
+             return ResponseEntity.status(401).body("Unauthorized");
         }
     }
 
     @PutMapping("/restore/{id}")
-    public ResponseEntity<String> restoreProject(@PathVariable String id) {
-        try {
-            return ResponseEntity.ok().body(projectService.restoreProject(id));
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Server Side Error.");
-        }
+    public ResponseEntity<String> restoreProject(@PathVariable String id, HttpSession httpSession) {
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+        if (isAuthenticated != null && isAuthenticated){
+            try {
+                return ResponseEntity.ok().body(projectService.restoreProject(id));
+            } catch (Exception e) {
+                return ResponseEntity.status(500).body("Server Side Error.");
+            }
+        } else {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }    
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -28,13 +29,13 @@ public class ProjectServiceImpl implements ProjectService {
     public TimeFormatter timeFormatter;
 
     @Override
-    public List<ProjectTable> projectTable() {
-        return projectDao.projectTable();
+    public ResponseEntity<List<ProjectTable>> projectTable() {
+        return ResponseEntity.ok(projectDao.projectTable());
     }
 
     @Override
-    public List<ProjectOutput> getAllProject() {
-        return projectDao.getAllProject();
+    public ResponseEntity<List<ProjectOutput>> getAllProject() {
+        return ResponseEntity.ok(projectDao.getAllProject());
     }
 
     @Override
@@ -43,14 +44,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public String addProject(ProjectInput project) {
+    public String addProject(ProjectInput project, String emp_id) {
         try {
             projectDao.addProject(project);
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
@@ -65,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public String editProjectInfo(String id, ProjectInput project) {
+    public String editProjectInfo(String id, ProjectInput project, String emp_id) {
         ProjectOutput data = projectDao.getProjectById(id);
 
         if (data != null) {
@@ -81,7 +82,7 @@ public class ProjectServiceImpl implements ProjectService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Project.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -97,7 +98,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public String logicalDeleteProject(String id) {
+    public String logicalDeleteProject(String id, String emp_id) {
         ProjectOutput data = projectDao.getProjectById(id);
 
         if (data != null) {
@@ -109,7 +110,7 @@ public class ProjectServiceImpl implements ProjectService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Project.");
 
                 Long currentTimeMillis = System.currentTimeMillis();

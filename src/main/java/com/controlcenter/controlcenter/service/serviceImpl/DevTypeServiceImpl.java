@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -27,8 +28,8 @@ public class DevTypeServiceImpl implements DevTypeService {
     public ActivityLogDao activityLogDao;
 
     @Override
-    public List<DevTypeOutput> getAllDevType() {
-        return devTypeDao.getAllDevType();
+    public ResponseEntity<List<DevTypeOutput>> getAllDevType() {
+        return ResponseEntity.ok().body(devTypeDao.getAllDevType());
     }
 
     @Override
@@ -37,14 +38,14 @@ public class DevTypeServiceImpl implements DevTypeService {
     }
 
     @Override
-    public String addDevType(DevTypeInput devType) {
+    public String addDevType(DevTypeInput devType, String emp_id) {
         try {
             devTypeDao.addDevType(devType);
 
             // Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added a Development Type.");
 
             Long currentTimeMillis = System.currentTimeMillis();
@@ -59,7 +60,7 @@ public class DevTypeServiceImpl implements DevTypeService {
     }
 
     @Override
-    public String editDevTypeInfo(String id, DevTypeInput devType) {
+    public String editDevTypeInfo(String id, DevTypeInput devType, String emp_id) {
         DevTypeOutput data = devTypeDao.getDevTypeById(id);
 
         if (data != null) {
@@ -75,7 +76,7 @@ public class DevTypeServiceImpl implements DevTypeService {
                 // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Development Type.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -91,7 +92,7 @@ public class DevTypeServiceImpl implements DevTypeService {
     }
 
     @Override
-    public String logicalDeleteDevType(String id) {
+    public String logicalDeleteDevType(String id, String emp_id) {
         DevTypeOutput data = devTypeDao.getDevTypeById(id);
 
         if (data != null) {
@@ -103,7 +104,7 @@ public class DevTypeServiceImpl implements DevTypeService {
                 // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Development Type.");
 
                 Long currentTimeMillis = System.currentTimeMillis();

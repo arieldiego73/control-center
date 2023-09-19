@@ -5,9 +5,11 @@ import com.controlcenter.controlcenter.model.RoleOutput;
 import com.controlcenter.controlcenter.service.RoleService;
 import com.controlcenter.controlcenter.shared.ErrorHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -35,71 +37,131 @@ public class RoleController {
   private ErrorHandler errorHandler;
 
   @GetMapping("/all")
-  public List<RoleOutput> getAllRole() {
-    return roleService.getAllRole();
+  public ResponseEntity<List<RoleOutput>> getAllRole(HttpSession httpSession) {
+    // Check if the user is authenticated 
+    Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        
+    if (isAuthenticated != null && isAuthenticated) {
+        // User is authenticated
+        return roleService.getAllRole();
+    } else {
+            // User is not authenticated
+          return ResponseEntity.status(401).body(new ArrayList<RoleOutput>());
+    }
   }
 
   @PostMapping("/add")
-  public ResponseEntity<String> addRole(@RequestBody RoleInput roleInput) {
-    //For Validation
-    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-    Validator validator = validatorFactory.getValidator();
-    Set<ConstraintViolation<RoleInput>> errors = validator.validate(roleInput);
-      //Error Handling
-      if (errors.size() > 0) { //checks the errors from validator
-          return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-      }else{
-          return ResponseEntity.status(200).body(roleService.addRole(roleInput));
-      }
+  public ResponseEntity<String> addRole(@RequestBody RoleInput roleInput, HttpSession httpSession) {
+     // Check if the user is authenticated
+     Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+    if (isAuthenticated != null && isAuthenticated) {
+         // User is authenticated,  proceed with adding
+         //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<RoleInput>> errors = validator.validate(roleInput);
+          //Error Handling
+          if (errors.size() > 0) { //checks the errors from validator
+              return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+          }else{
+              String emp_id = httpSession.getAttribute("session").toString();
+              return ResponseEntity.status(200).body(roleService.addRole(roleInput, emp_id));
+          }
+    } else {
+      // is not authenticated
+      return ResponseEntity.status(401).body("Unauthorized");
+    }
 }
 
   @PutMapping("/edit/{id}")
-  public ResponseEntity<String> editRoleInfo(@PathVariable String id, @RequestBody RoleInput roleInput) {
-    //For Validation
-    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-    Validator validator = validatorFactory.getValidator();
-    Set<ConstraintViolation<RoleInput>> errors = validator.validate(roleInput);
-      //Error Handling
-      if (errors.size() > 0) { //checks the errors from validator
-          return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-      }else{
-          return ResponseEntity.status(200).body(roleService.editRoleInfo(id, roleInput));
-      }
+  public ResponseEntity<String> editRoleInfo(@PathVariable String id, @RequestBody RoleInput roleInput, HttpSession httpSession) {
+    // Check if the user is authenticated
+    Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        
+    if (isAuthenticated != null && isAuthenticated){
+        // User is authenticated,  proceed with adding
+        //For Validation
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<RoleInput>> errors = validator.validate(roleInput);
+          //Error Handling
+          if (errors.size() > 0) { //checks the errors from validator
+              return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+          }else{
+              return ResponseEntity.status(200).body(roleService.editRoleInfo(id, roleInput));
+          }
+    } else {
+      // User is not authenticated 
+      return ResponseEntity.status(401).body("Unauthorized");
+    }
   }
 
   @PutMapping("/delete/{id}")
-  public ResponseEntity<String> logicalDeleteRole(@PathVariable String id) {
-    try {
-      return ResponseEntity.ok().body(roleService.logicalDeleteRole(id));
-    } catch (Exception e) {
-      return ResponseEntity.status(500).body("Server Side Error.");
+  public ResponseEntity<String> logicalDeleteRole(@PathVariable String id, HttpSession httpSession) {
+    // Check if the user is authenticated
+    Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+    if (isAuthenticated != null && isAuthenticated) {
+        try {
+          return ResponseEntity.ok().body(roleService.logicalDeleteRole(id));
+        } catch (Exception e) {
+          return ResponseEntity.status(500).body("Server Side Error.");
+        }
+    } else {
+        // User is not authenticated
+        return ResponseEntity.status(401).body("Unauthorized");
     }
   }
 
   @PutMapping("/restore/{id}")
-  public ResponseEntity<String> restoreRole(@PathVariable String id) {
-      try {
-        return ResponseEntity.ok().body(roleService.restoreRole(id));
-      } catch (Exception e) {
-        return ResponseEntity.status(500).body("Server Side Error.");
-      }
+  public ResponseEntity<String> restoreRole(@PathVariable String id, HttpSession httpSession) {
+    // Check if the user is authenticated
+    Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+    if (isAuthenticated != null && isAuthenticated) {  
+        try {
+          return ResponseEntity.ok().body(roleService.restoreRole(id));
+        } catch (Exception e) {
+          return ResponseEntity.status(500).body("Server Side Error.");
+        }
+    } else {
+      // User is not authenticated
+      return ResponseEntity.status(401).body("Unauthorized");
+    }
   }
 
   @PutMapping("/delete-multiple")
-  public ResponseEntity<String> deleteMultipleRole(@RequestParam List<Long> ids, @RequestParam List<Long> devPhaseids) {
-    try {
-      return ResponseEntity.ok().body(roleService.deleteMultipleRole(ids));
-    } catch (Exception e) {
-      return ResponseEntity.status(500).body("Server Side Error.");
+  public ResponseEntity<String> deleteMultipleRole(@RequestParam List<Long> ids, HttpSession httpSession) {
+    // Check if the user is authenticated
+    Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+    if (isAuthenticated != null && isAuthenticated) {
+        try {
+          return ResponseEntity.ok().body(roleService.deleteMultipleRole(ids));
+        } catch (Exception e) {
+          return ResponseEntity.status(500).body("Server Side Error.");
+        }
+    } else {
+      // User is not authenticated
+      return ResponseEntity.status(401).body("Unauthorized");
     }
   }
 
   @PutMapping("/restore-multiple")
-  public ResponseEntity<String> restoreMultipleRole(@RequestParam List<Long> ids) {
-    try {
-      return ResponseEntity.ok().body(roleService.restoreMultipleRole(ids));
-    } catch (Exception e) {
-      return ResponseEntity.status(500).body("Server Side Error.");
+  public ResponseEntity<String> restoreMultipleRole(@RequestParam List<Long> ids, HttpSession httpSession) {
+    // Check if the user is authenticated
+    Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+    if (isAuthenticated != null && isAuthenticated) {
+        try {
+          return ResponseEntity.ok().body(roleService.restoreMultipleRole(ids));
+        } catch (Exception e) {
+          return ResponseEntity.status(500).body("Server Side Error.");
+        }
+    } else {
+      // User is not authenticated
+      return ResponseEntity.status(401).body("Unauthorized");
     }
   }
 }

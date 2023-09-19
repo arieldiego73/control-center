@@ -96,22 +96,23 @@ export default function BusinessUnit() {
 
 	return (
 		<div className={DepartmentStyle.mainContainer}>
-			<div style={{ width: "97%", paddingBottom: "1%" }}>
-				<div className={DepartmentStyle.pageTitle}>
-					<span>
-						<AccountTreeOutlinedIcon fontSize="large" />
-					</span>
-					<span
+			<div className={DepartmentStyle.contentContainer}>
+				<div className={DepartmentStyle.contentHolder}>
+					<div
 						style={{
-							fontSize: "1.8rem",
-							color: "black",
-							fontWeight: "600",
+							backgroundColor: "transparent",
+							// borderBottomLeftRadius: "8px",
+							// borderBottomRightRadius: "8px",
+							height: "100%",
 						}}
-					>
-						{" "}
-						DEPARTMENT{" "}
-					</span>
-					<Snackbar
+					> 
+						<DepartmentTable
+							createSnackpack={handleClickSnackpack}
+						/>
+					</div>
+				</div>
+			</div>
+			<Snackbar
 						key={messageInfo ? messageInfo.key : undefined}
 						open={open}
 						autoHideDuration={2000}
@@ -128,53 +129,6 @@ export default function BusinessUnit() {
 							{messageInfo ? messageInfo.message : undefined}
 						</Alert>
 					</Snackbar>
-				</div>
-			</div>
-
-			<div className={DepartmentStyle.contentContainer}>
-				<div className={DepartmentStyle.midContent}>
-					{/* for breadcrumbs */}
-					<div
-						style={{
-							// border: "1px solid red",
-							paddingBottom: "1%",
-							width: "80%",
-							height: "75%",
-							paddingLeft: "1%",
-							position: "relative",
-							top: "3%",
-							alignSelf: "center",
-						}}
-						role="presentation"
-						onClick={handleClick}
-					>
-						<Breadcrumbs maxItems={2} aria-label="breadcrumb">
-							<Link
-								to="/employeeposition"
-								className={`${DepartmentStyle["custom-link"]}`}
-								style={{ color: "inherit" }}
-							>
-								Department
-							</Link>
-						</Breadcrumbs>
-					</div>
-				</div>
-
-				<div className={DepartmentStyle.contentHolder}>
-					<div
-						style={{
-							backgroundColor: "transparent",
-							// borderBottomLeftRadius: "8px",
-							// borderBottomRightRadius: "8px",
-							height: "100%",
-						}}
-					>
-						<DepartmentTable
-							createSnackpack={handleClickSnackpack}
-						/>
-					</div>
-				</div>
-			</div>
 		</div>
 	);
 }
