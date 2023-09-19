@@ -90,7 +90,8 @@ public class UserProjectController {
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return ResponseEntity.status(200).body(userProjectService.editUserProjectInfo(id, userProject));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.status(200).body(userProjectService.editUserProjectInfo(id, userProject, emp_id));
             }
         } else {
             // User is not authenticated 
@@ -104,7 +105,8 @@ public class UserProjectController {
 
         if (isAuthenticated != null && isAuthenticated) {
             try {
-                return ResponseEntity.ok().body(userProjectService.logicalDeleteUserProject(id));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(userProjectService.logicalDeleteUserProject(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }

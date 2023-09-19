@@ -63,7 +63,7 @@ const FireNav = styled(List)<{ component?: React.ElementType }>({
         marginRight: 16,
     },
     '& .MuiSvgIcon-root': {
-        fontSize: 20,
+        fontSize: 30,
     },
     '& .css-1mttud9': {
         paddingBottom: 0,

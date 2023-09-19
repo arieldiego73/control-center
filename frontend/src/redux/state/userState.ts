@@ -16,11 +16,13 @@ export const userSlice = createSlice({
 			section_name: "",
 			dept_name: "",
 		},
+		userRoles: [],
 		isLoading: false,
 		notice: {
 			message: "",
 			severity: ""
 		},
+		isAddSuccess: false,
 	},
 	reducers: {
 		getUsersFetch: (state) => {
@@ -34,15 +36,22 @@ export const userSlice = createSlice({
 			state.userInfo = action.payload;
 			state.isLoading = false;
 		},
-		getUsersError: (state) => {
+		getUserRolesSuccess: (state, action) => {
+			state.userRoles = action.payload;
 			state.isLoading = false;
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
-		}
+		},
+		addUserSuccess: (state) => {
+			state.isAddSuccess = true;
+		},
+		addUserReset: (state) => {
+			state.isAddSuccess = false;
+		},
 	},
 });
 
-export const { getUsersFetch, getUsersSuccess, getUserInfoSuccess, getUsersError, setMessage } =
+export const { getUsersFetch, getUsersSuccess, getUserInfoSuccess, getUserRolesSuccess, setMessage, addUserSuccess, addUserReset } =
 	userSlice.actions;
 export default userSlice.reducer;

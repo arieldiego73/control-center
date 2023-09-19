@@ -256,7 +256,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 		},
 		{
 			field: "dept_id",
-			headerName: "Department",
+			headerName: "Business Unit",
 			width: 300,
 			minWidth: 300,
 			flex: 1,
