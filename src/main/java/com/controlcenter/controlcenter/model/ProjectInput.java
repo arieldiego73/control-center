@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProjectInput {
-
     @NotBlank(message = "Project name should not be empty.")
     @Size(max = 100, message = "The Project name is invalid, it should be up to 100 characters long.")
     private String proj_name;

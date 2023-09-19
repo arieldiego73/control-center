@@ -40,23 +40,23 @@ public class UserProjectController {
     @GetMapping("/all")
     public ResponseEntity<List<UserProjectOutput>> getAllUserProject(HttpSession httpSession) {
         // Check if the user is authenticated 
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated
             return userProjectService.getAllUserProject();
-        } else {
-            // User is not authenticated
-            return ResponseEntity.status(401).body(new ArrayList<UserProjectOutput>());
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body(new ArrayList<UserProjectOutput>());
+        // }
     }
 
     @PostMapping("/add")
     public ResponseEntity<String> addUserProject(@RequestBody UserProjectInput userProject, HttpSession httpSession){
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -69,18 +69,18 @@ public class UserProjectController {
                     String emp_id = httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(userProjectService.addUserProject(userProject, emp_id));
                 }
-        } else {
-            // is not authenticated
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // is not authenticated
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<String> editUserProjectInfo(@PathVariable String id, @RequestBody UserProjectInput userProject, HttpSession httpSession) {
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        if (isAuthenticated != null && isAuthenticated){
+        // if (isAuthenticated != null && isAuthenticated){
             // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -92,40 +92,40 @@ public class UserProjectController {
             }else{
                 return ResponseEntity.status(200).body(userProjectService.editUserProjectInfo(id, userProject));
             }
-        } else {
-            // User is not authenticated 
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // User is not authenticated 
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
     @PutMapping("/delete/{id}")
     public ResponseEntity<String> logicalDeleteUserProject(@PathVariable String id, HttpSession httpSession) {
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             try {
                 return ResponseEntity.ok().body(userProjectService.logicalDeleteUserProject(id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-            // User is not authenticated
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/restore/{id}")
     public ResponseEntity<String> restoreUserProject(@PathVariable String id, HttpSession httpSession) {
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated){
+        // if (isAuthenticated != null && isAuthenticated){
             try {
                 return ResponseEntity.ok().body(userProjectService.restoreUserProject(id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-            return ResponseEntity.status(401).body("Unauthorized");
-        }     
+    //     } else {
+    //         return ResponseEntity.status(401).body("Unauthorized");
+    //     }     
     }
 }

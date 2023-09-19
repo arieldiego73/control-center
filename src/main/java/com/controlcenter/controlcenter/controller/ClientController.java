@@ -39,38 +39,38 @@ public class ClientController{
     @GetMapping("/all")
     public List<ClientOutput> getAllClient(HttpSession httpSession) {
         // Check if the user is authenticated 
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        if (isAuthenticated != null && isAuthenticated) {
-            // User is authenticated
+        // if (isAuthenticated != null && isAuthenticated) {
+        //     // User is authenticated
             return clientService.getAllClient();
-        } else {
-            // User is not authenticated
-            return new ArrayList<>();
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return new ArrayList<>();
+        // }
     }
 
     @GetMapping("/client-id/{id}")
     public ClientOutput getClientById(@PathVariable String id, HttpSession httpSession) {
         
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated){
+        // if (isAuthenticated != null && isAuthenticated){
             // User is authenticated
             return clientService.getClientById(id);
-        } else {
-            // User is not authenticated
-            return null;
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return null;
+        // }
     }
 
     @PostMapping("/add")
     public ResponseEntity<String> addClient(@RequestBody ClientInput client, HttpSession httpSession) {
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated){
+        // if (isAuthenticated != null && isAuthenticated){
             // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -84,18 +84,18 @@ public class ClientController{
                 String emp_id = httpSession.getAttribute("session").toString();
                 return ResponseEntity.status(200).body(clientService.addClient(client, emp_id));
             } 
-        } else {
-            // User is not authenticated
-                return ResponseEntity.status(401).body("Unauthorized");
-            }        
+        // } else {
+        //     // User is not authenticated
+        //         return ResponseEntity.status(401).body("Unauthorized");
+        //     }        
     }
 
     @PutMapping("/edit/{id}") 
     public ResponseEntity<String> editClient(@PathVariable String id,@RequestBody ClientInput client, HttpSession httpSession) {
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated){
+        // if (isAuthenticated != null && isAuthenticated){
             // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -107,42 +107,42 @@ public class ClientController{
                 }else{
                     return ResponseEntity.status(200).body(clientService.editClient(id, client));
                 }
-        } else {
-            return ResponseEntity.status(401).body("Unauthorized");
-        } 
+        // } else {
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // } 
     }
 
     @PutMapping("/delete/{id}")
     public ResponseEntity<String> logicalDeleteClient(@PathVariable String id, HttpSession httpSession) {
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             try {
                 return ResponseEntity.ok(clientService.logicalDeleteClient(id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/restore/{id}")
     public ResponseEntity<String> restoreClient(@PathVariable String id, HttpSession httpSession) {
         // Check if the user is authenticated before allowing access to the "/restore/{id}" endpoint
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             try {
                 return ResponseEntity.ok(clientService.restoreClient(id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-            // User is not authenticated, you can handle this case (e.g., redirect to login)
-            // For simplicity, returning a 401 Unauthorized status here, but you can handle it as needed
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // User is not authenticated, you can handle this case (e.g., redirect to login)
+        //     // For simplicity, returning a 401 Unauthorized status here, but you can handle it as needed
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 }

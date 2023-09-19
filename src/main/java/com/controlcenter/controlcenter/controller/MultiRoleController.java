@@ -38,15 +38,15 @@ public class MultiRoleController {
     @GetMapping("/all")
     public ResponseEntity<List<MultiRoleOutput>> getAllMultiRole(HttpSession httpSession) {
          // Check if the user is authenticated 
-         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-         if (isAuthenticated != null && isAuthenticated) {
+        //  if (isAuthenticated != null && isAuthenticated) {
              // User is authenticated
             return multiRoleService.getAllMultiRole();
-        } else {
-            // User is not authenticated
-            return ResponseEntity.status(401).body(new ArrayList<MultiRoleOutput>());
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body(new ArrayList<MultiRoleOutput>());
+        // }
     }
 
     @GetMapping("/multi-role-id/{id}")
@@ -57,26 +57,26 @@ public class MultiRoleController {
     @PostMapping("/add")
     public ResponseEntity<String> addMultiRole(String emp_id, Long role_id, HttpSession httpSession){
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             try {
                 return ResponseEntity.status(200).body(multiRoleService.addMultiRole(emp_id, role_id));
             } catch (Exception e) {
                 return ResponseEntity.status(400).body(e.getMessage());
             }
-        } else {
-            // User is not authenticated
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<String> editMultiRoleInfo(@PathVariable String id, @RequestBody MultiRoleInput multiRole, HttpSession httpSession) {
          // Check if the user is authenticated
-         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-         if (isAuthenticated != null && isAuthenticated){
+        //  if (isAuthenticated != null && isAuthenticated){
              // User is authenticated,  proceed with adding
              //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -89,43 +89,43 @@ public class MultiRoleController {
                     String emp_id = httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(multiRoleService.editMultiRoleInfo(id, multiRole, emp_id));
                 }
-        } else {
-            // User is not authenticated 
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // User is not authenticated 
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/delete/{id}")
     public ResponseEntity<String> logicalDeleteMultiRole(@PathVariable String id, HttpSession httpSession) {
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             try {
                 String emp_id = httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(multiRoleService.logicalDeleteMultiRole(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-             // User is not authenticated
-             return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //      // User is not authenticated
+        //      return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/restore/{id}")
     public ResponseEntity<String> restoreMultiRole(@PathVariable String id, HttpSession httpSession) {
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated){
+        // if (isAuthenticated != null && isAuthenticated){
             try {
                 return ResponseEntity.ok().body(multiRoleService.restoreMultiRole(id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-            return ResponseEntity.status(401).body("Unauthorized");
-        }        
+        // } else {
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }        
     }
 
 }

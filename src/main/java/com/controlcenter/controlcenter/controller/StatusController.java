@@ -39,37 +39,37 @@ public class StatusController {
     @GetMapping("/all")
     public ResponseEntity<List<StatusOutput>> getAllStatus(HttpSession httpSession) {
         // Check if the user is authenticated 
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated
             return statusService.getAllStatus();
-        } else {
-            // User is not authenticated
-            return ResponseEntity.status(401).body(new ArrayList<StatusOutput>());
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body(new ArrayList<StatusOutput>());
+        // }
     }
 
     @GetMapping("/status-code/{id}")
     public StatusOutput getStatusById(@PathVariable String id, HttpSession httpSession) {
         // Check if the user is authenticated 
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated
             return statusService.getStatusById(id);
-        } else {
-            // User is not authenticated
-            return null;
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return null;
+        // }
     }
 
     @PostMapping("/add")
     public ResponseEntity<String> addStatus(@RequestBody StatusInput status, HttpSession httpSession) {
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -82,18 +82,18 @@ public class StatusController {
                 String emp_id = httpSession.getAttribute("session").toString();
                 return ResponseEntity.status(200).body(statusService.addStatus(status, emp_id));
             }
-        } else {
-            // is not authenticated
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // is not authenticated
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/edit/{code}")
     public ResponseEntity<String> editStatusInfo(@PathVariable String code, @RequestBody StatusOutput status, HttpSession httpSession) {
          // Check if the user is authenticated
-         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-         if (isAuthenticated != null && isAuthenticated){
+        //  if (isAuthenticated != null && isAuthenticated){
              // User is authenticated,  proceed with adding
              // For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -105,59 +105,59 @@ public class StatusController {
             } else {
                 return ResponseEntity.status(200).body(statusService.editStatusInfo(code, status));
             }
-        } else {
-            // User is not authenticated 
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // User is not authenticated 
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/delete/{code}")
     public ResponseEntity<String> logicalDeleteStatus(@PathVariable String code, HttpSession httpSession) {
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             try {
                 return ResponseEntity.ok().body(statusService.logicalDeleteStatus(code));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-            // User is not authenticated
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/delete-multiple")
     public ResponseEntity<String> deleteMultipleStatus(@RequestParam List<String> ids, HttpSession httpSession) {
         // Check uf the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated){
+        // if (isAuthenticated != null && isAuthenticated){
             try {
                 return ResponseEntity.ok().body(statusService.deleteMultipleStatus(ids));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-            // User is not authenticated
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/restore/{code}")
     public ResponseEntity<String> restoreStatus(@PathVariable String code, HttpSession httpSession) {
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated){
+        // if (isAuthenticated != null && isAuthenticated){
             try {
                 return ResponseEntity.ok().body(statusService.restoreStatus(code));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-            // User is not authenticated
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 }
