@@ -61,7 +61,7 @@ public class ProjMemberServiceImpl implements ProjMemberService {
     }
 
     @Override
-    public String editProjMemberInfo(String id, ProjMemberInput projMember) {
+    public String editProjMemberInfo(String id, ProjMemberInput projMember, String emp_id) {
         ProjMemberOutput data = projMemberDao.getProjMemberById(id);
 
         if (data != null) {
@@ -77,7 +77,7 @@ public class ProjMemberServiceImpl implements ProjMemberService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Project Member.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -93,7 +93,7 @@ public class ProjMemberServiceImpl implements ProjMemberService {
     }
 
     @Override
-    public String logicalDeleteProjMember(String id) {
+    public String logicalDeleteProjMember(String id, String emp_id) {
         ProjMemberOutput data = projMemberDao.getProjMemberById(id);
 
         if (data != null) {
@@ -105,7 +105,7 @@ public class ProjMemberServiceImpl implements ProjMemberService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Project Member.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
