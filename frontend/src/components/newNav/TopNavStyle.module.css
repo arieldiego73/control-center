@@ -34,6 +34,8 @@
   width: 100%;
   display: flex;
   align-items: center; /* Vertically center the content */
+  margin-top: 1%;
+  margin-left: 5%;
 }
 
 .titleContainer{

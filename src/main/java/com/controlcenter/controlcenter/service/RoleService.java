@@ -14,15 +14,13 @@ public interface RoleService {
 
   public String addRole(RoleInput role, String emp_id);
 
-  public String editRoleInfo(String id, RoleInput role);
+  public String editRoleInfo(String id, RoleInput role, String emp_id);
 
-  public String logicalDeleteRole(String id);
+  public String logicalDeleteRole(String id, String emp_id);
 
   public String restoreRole(String id);
 
-  public String deleteMultipleRole(
-    @RequestParam List<Long> ids
-  );
+  public String deleteMultipleRole(@RequestParam List<Long> ids, String emp_id);
 
   public String restoreMultipleRole(@RequestParam List<Long> ids);
 }

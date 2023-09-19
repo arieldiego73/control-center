@@ -37,17 +37,17 @@ public class TechnologyController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<TechnologyOutput>> getAllTechnology(HttpSession httpSession) {
-        // Check if the user is authenticated 
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+    public ResponseEntity<List<TechnologyOutput>> getAllTechnology() {
+        // // Check if the user is authenticated 
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        if (isAuthenticated != null && isAuthenticated) {
-            // User is authenticated
+        // if (isAuthenticated != null && isAuthenticated) {
+        //     // User is authenticated
             return technologyService.getAllTechnology();
-        } else {
-            // User is not authenticated
-            return ResponseEntity.status(401).body(new ArrayList<TechnologyOutput>());
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body(new ArrayList<TechnologyOutput>());
+        // }
     }
 
     @PostMapping("/add")

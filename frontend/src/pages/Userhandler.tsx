@@ -6,11 +6,11 @@ import HomeIcon from '@mui/icons-material/Home';
 
 export default function Userhandler() {
 
-  const pageTitle = "USER PAGE";
+  const pageTitle = "USERS";
 
   const breadcrumbs = [
     { icon: <HomeIcon style={{height:"20px", marginTop:"5px"}}/>,  to: "/dashboard"  }, // Example breadcrumb data
-    { label: "User", to: "/user" },
+    { label: "Users", to: "/user" },
   ];
 
   return (
@@ -20,7 +20,7 @@ export default function Userhandler() {
     </div>
   );
 }
-
+ 
 
   
 		// <div style={{ flexDirection: "column", display: "flex" }}>

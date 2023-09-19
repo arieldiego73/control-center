@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class UserRoles {
     private String emp_id;
+    private Long role_id;
     private String username;
     private String role_sh_name;
 }

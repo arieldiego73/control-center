@@ -16,18 +16,6 @@
 	flex-direction: column;
 	gap: 1vh;
   }
-.contentContainer {
-	/* width: 97%;
-	position: relative;
-	align-self: center; */
-
-	width: 97%;
-	height: 80%;
-	display: flex;
-	flex-direction: column;
-	gap: 1vh;
-	height: 100%;
-}
 
 .contentHolder {
 	background: rgba(255, 255, 255, 0.05);
@@ -35,6 +23,7 @@
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(3px);
 	border-radius: 10px;
+	height: 100%;
 }
 
 .hideButton {

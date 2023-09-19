@@ -72,7 +72,7 @@ public class RoleServiceImpl implements RoleService {
   // }
 
   @Override
-  public String editRoleInfo(String id, RoleInput role) {
+  public String editRoleInfo(String id, RoleInput role, String emp_id) {
     RoleOutput data = roleDao.getRoleById(id);
 
     if (data != null) {
@@ -88,8 +88,8 @@ public class RoleServiceImpl implements RoleService {
         // Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); // current logged user dapat
-        activityLogInput.setLog_desc("Added a Role.");
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+        activityLogInput.setLog_desc("Edited a Role.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
@@ -116,7 +116,7 @@ public class RoleServiceImpl implements RoleService {
   // }
 
   @Override
-  public String logicalDeleteRole(String id) {
+  public String logicalDeleteRole(String id, String emp_id) {
     RoleOutput data = roleDao.getRoleById(id);
 
     if (data != null) {
@@ -129,7 +129,7 @@ public class RoleServiceImpl implements RoleService {
         // Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
         activityLogInput.setLog_desc("Deleted a Role.");
 
         Long currentTimeMillis = System.currentTimeMillis();
@@ -173,7 +173,7 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
-  public String deleteMultipleRole(List<Long> ids) {
+  public String deleteMultipleRole(List<Long> ids, String emp_id) {
     roleList = roleDao.getAllRole();
 
     for (Long id : ids) {
@@ -192,7 +192,7 @@ public class RoleServiceImpl implements RoleService {
     // Acivitylog
     ActivityLogInput activityLogInput = new ActivityLogInput();
 
-    activityLogInput.setEmp_id("101"); // current logged user dapat
+    activityLogInput.setEmp_id(emp_id); // current logged user dapat
     activityLogInput.setLog_desc("Deleted multiple Roles.");
 
     Long currentTimeMillis = System.currentTimeMillis();

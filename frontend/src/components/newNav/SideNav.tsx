@@ -23,7 +23,7 @@ const othersDropDownData = [
     { icon: <Public />, label: 'Employee Position', path: '/employeeposition' },
     { icon: <Public />, label: ' Business Units', path: '/businessunit' },
     { icon: <Public />, label: 'Departments', path: '/department' },
-    { icon: <Public />, label: 'Technologies', path: '/project' },
+    { icon: <Public />, label: 'Technologies', path: '/technology' },
 ];
 
 function DevelopmentPhase() {
@@ -333,7 +333,7 @@ export default function SideNav() {
                 <Route path="/employeeposition" element={<EmployeePosition />} />
                 <Route path="/businessunit" element={<BusinessUnits />} />
                 <Route path="/department" element={<Departments />} />
-                <Route path="/project" element={<Technologies />} />
+                <Route path="/technology" element={<Technologies />} />
             </Routes>
         </div>
     );
