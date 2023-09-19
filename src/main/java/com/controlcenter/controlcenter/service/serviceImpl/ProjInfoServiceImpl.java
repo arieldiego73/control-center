@@ -61,7 +61,7 @@ public class ProjInfoServiceImpl implements ProjInfoService {
     }
 
     @Override
-    public String editProjInfo(String id, ProjInfoInput projInfo) {
+    public String editProjInfo(String id, ProjInfoInput projInfo, String emp_id) {
         ProjInfoOutput data = projInfoDao.getProjInfoById(id);
 
         if (data != null) {
@@ -77,7 +77,7 @@ public class ProjInfoServiceImpl implements ProjInfoService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Project Information.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -93,7 +93,7 @@ public class ProjInfoServiceImpl implements ProjInfoService {
     }
 
     @Override
-    public String logicalDeleteProjInfo(String id) {
+    public String logicalDeleteProjInfo(String id, String emp_id) {
         ProjInfoOutput data = projInfoDao.getProjInfoById(id);
 
         if (data != null) {
@@ -105,7 +105,7 @@ public class ProjInfoServiceImpl implements ProjInfoService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Project Information.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
