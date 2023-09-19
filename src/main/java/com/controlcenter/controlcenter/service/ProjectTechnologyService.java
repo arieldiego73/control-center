@@ -18,5 +18,5 @@ public interface ProjectTechnologyService {
 
     public String logicalDeleteProjectTechnology(String id, String emp_id);
 
-    public String restoreProjectTechnology(String id);
+    public String restoreProjectTechnology(String id, String emp_id);
 }

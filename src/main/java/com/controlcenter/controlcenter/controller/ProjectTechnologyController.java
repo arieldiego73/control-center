@@ -122,7 +122,8 @@ public class ProjectTechnologyController {
 
         if (isAuthenticated != null && isAuthenticated){
             try {
-                return ResponseEntity.ok().body(projectTechnologyService.restoreProjectTechnology(id));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(projectTechnologyService.restoreProjectTechnology(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
