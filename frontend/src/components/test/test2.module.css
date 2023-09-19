@@ -1,66 +1,87 @@
-.ProjGraphContainer {
-  height: 350px;
-  width: 45%;
-  display: flex;
+/* Attributes of Create User Page */
+.mainContainer {
+  position: fixed;
+	display: flex;
+	flex-direction: column; 
+	align-items: center;
   justify-content: center;
-  align-content: center;
-  padding-top: 2%;
-  /* backgroundColor: black, */
-  /* border: 1px solid black, */
-}
-
-/* Attributes of Main Container */
-.card {
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  background-color: rgba(255, 255, 255, 0.75);
+	height: 78%;
+	width: 82%;
+	top: 20vh;
+	left: 16.5vw;
+	overflow: hidden;
+  background: rgba( 237, 249, 255, 0.35 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 5px );
+  -webkit-backdrop-filter: blur( 5px );
   border-radius: 10px;
-  border: 1px solid rgba(209, 213, 219, 0.3);
-  align-items: flex-end;
-  display: flex;
-  height: 95%;
-  width: 90%;
-}
-.textHolder{
-  flex-direction: column;
-  display: flex;
-  justify-content: end;
-  width: 100%;
-  /* border:1px solid red; */
-}
-
-/* Attributes of Text Title */
-.textTitle{
-  padding-left: 2%;
-  font-weight: bold;
-  font-size: 20px;
-}
-.textSubtitle {
-  padding-left: 2%;
-  font-size: 15px; 
-}
-
-/* Attributes of Information Container */
-.infoContainer{
-  padding: 2%;
-  flex-direction: row;
-  display: flex;
-  justify-content: flex-start;
-  align-content: center;
-}
-.textInfo{
-  font-size: 12px; 
-  color: grey;
-}
-
-/* Attributes of Graph */
-.graphContainer{
-  background: linear-gradient(#2a7ebb, #579ed1);
-  height: 30%;
-  width: 38%;
+  /* border: 1px solid blue; */
+  }
+.mainHolder {
+  position: fixed;
+	display: flex;
+	flex-direction: column; 
+	align-items: center;
+  justify-content: center;
+	height: 99%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	overflow: hidden;
   border-radius: 15px;
-  position: absolute;
-  margin-bottom: 12%;
-  z-index: 1;
- margin-top:3%;
+  /* border: 1px solid blue;  */
 }
+
+/* Attributes of Form holder */
+.contentHolder {
+  border-radius: 5px;
+  height: 90%;
+  width: 99%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center; 
+  padding: 2vh 0; 
+}
+.mainForm {
+  display: flex;
+  flex-direction: row;
+  gap: 3vh;
+  width: 95%;
+  padding: 2%;
+}
+
+/* Attributes of Form  */
+.mainForm .textField{
+  width: 300px;
+  background-color: transparent;
+}
+
+.textFieldProfile{
+  width: 250px;
+  background-color: transparent;
+}
+.formRow2, .formRow3, .formRow5, .formRow6{
+  display: flex;
+  gap: 4vw;
+}
+.formRow5 Button{
+  height: 2rem;
+  margin-top: 3.5vh;
+}
+.formRow7{
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+  gap: 0.5vw;
+  margin-right: 1%;
+  left: 50%;
+  top: 5%;
+  position: relative;
+  /* border: 1px solid red; */
+}
+
+/* Attributes of Button */
+/* .formRow7{
+  align-self: flex-end;
+} */
+

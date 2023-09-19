@@ -25,7 +25,8 @@ import Sidenav from "./components/newNav/SideNav"
 import Topnav from "./components/newNav/Navigations"
 import Navigations from "./pages/NavigationHandler"
 import UserGraph from "./components/dashboard/user_graph/UserGraph";
-
+import DevelopmentTypeHandler from "./pages/DevelopmentTypeHandler";
+import TestHandler from "./pages/TestHandler";
 
 function App() {
 	return (
@@ -58,6 +59,8 @@ function App() {
 				{/* <Route path="/NewNav" Component={NewNav} /> */}
 				<Route path="/navigations" Component={Navigations} />
 				<Route path="/UserGraph" Component={UserGraph} />
+				<Route path="/DevType" Component={DevelopmentTypeHandler} />
+				<Route path="/TestHandler" Component={TestHandler} />
 
 
 	
