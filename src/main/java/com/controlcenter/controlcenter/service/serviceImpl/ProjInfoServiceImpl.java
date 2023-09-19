@@ -121,7 +121,7 @@ public class ProjInfoServiceImpl implements ProjInfoService {
     }
 
     @Override
-    public String restoreProjInfo(String id) {
+    public String restoreProjInfo(String id, String emp_id) {
         ProjInfoOutput data = projInfoDao.getProjInfoById(id);
 
         if (data != null) {
@@ -133,7 +133,7 @@ public class ProjInfoServiceImpl implements ProjInfoService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Restored a Project Information.");
 
                 Long currentTimeMillis = System.currentTimeMillis();

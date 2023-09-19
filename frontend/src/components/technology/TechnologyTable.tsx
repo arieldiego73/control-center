@@ -299,6 +299,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 					display: "flex",
 					justifyContent: "flex-end",
 					padding: "12px",
+					
 				}}
 			>
 				{!isHidden ? (

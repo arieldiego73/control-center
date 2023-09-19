@@ -1,29 +1,17 @@
-.mainContainer {
+.mainContainer{
 	position: fixed;
-	display: flex;
-	flex-direction: column; 
-	align-items: center;
-	height: 90vh;
-	width: 93%;
-	top: 10vh;
-	left: 7vw;
-	overflow: hidden;
-}
-.mainContainer h4 {
-	position: relative;
-	height: 5%;
-}
-.mainContainer h6 {
-	position: relative;
-	top: 0;
-	left: 0;
-	margin: 5px;
-	padding: 1vh;
-	height: 2%;
+	top: 15vh;
+	left: 16.5vw;
+	width: 82%;
+	height: 83%;
+
 }
 .contentContainer {
-	width: 97%;
-	height: 80%;
+	position: fixed;
+	top: 15vh;
+	left: 16.5vw;
+	width: 82%;
+	height: 83%;
 	display: flex;
 	flex-direction: column;
 	gap: 1vh;
@@ -35,7 +23,7 @@
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(3px);
 	border-radius: 10px;
-	
+	height: 100%;
 }
 
 .hideButton {

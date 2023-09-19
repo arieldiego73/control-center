@@ -89,7 +89,7 @@ export default function ProjectStatus() {
 	const handleClose = (event: React.SyntheticEvent | Event) => {
 		setOpen(false);
 	};
-
+ 
 	const handleExited = () => {
 		setMessageInfo(undefined);
 	};
