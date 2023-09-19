@@ -16,6 +16,7 @@ import {departmentSaga, departmentSagaAdd, departmentSagaDelete, departmentSagaD
 import { projectStatusSaga, projectStatusSagaAdd, projectStatusSagaUpdate, projectStatusSagaDelete, projectStatusSagaDeleteBatch } from "./projectStatusSaga";
 import { employeeStatusSaga, employeeStatusSagaAdd, employeeStatusSagaUpdate, employeeStatusSagaDelete, employeeStatusSagaDeleteBatch } from "./employeeStatusSaga";
 import { technologySaga, technologySagaAdd, technologySagaDelete, technologySagaDeleteBatch, technologySagaUpdate } from "./technologySaga";
+import projectSaga from "./projectSaga";
 
 export default function* rootSaga() {
 	yield all([
@@ -24,6 +25,8 @@ export default function* rootSaga() {
 		userSagaFetchUserRoles(),
 		userSagaAdd(),
 		userSagaUpdate(),
+
+		projectSaga(),
 		
 		sessionSaga(),
 
