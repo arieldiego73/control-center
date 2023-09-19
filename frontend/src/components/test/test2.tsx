@@ -55,15 +55,12 @@ export default function Test() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [selectedRoles, setSelectedRoles] = React.useState<string[]>([]);
+  const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
   const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
     const {
       target: { value },
     } = event;
-    setSelectedRoles(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    setSelectedRoles(event.target.value as number[]);
   };
 
   React.useEffect(() => {

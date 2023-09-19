@@ -15,12 +15,15 @@ export const userSlice = createSlice({
 			title: "",
 			section_name: "",
 			dept_name: "",
+			position_id: 0,
+			dept_id: 0,
+			section_id: 0,
 		},
 		userRoles: [],
 		isLoading: false,
 		notice: {
 			message: "",
-			severity: ""
+			severity: "",
 		},
 		isAddSuccess: false,
 	},
@@ -49,9 +52,35 @@ export const userSlice = createSlice({
 		addUserReset: (state) => {
 			state.isAddSuccess = false;
 		},
+		clearUserInfo: (state) => {
+			state.userInfo = {
+				emp_id: "",
+				username: "",
+				fname: "",
+				mname: "",
+				lname: "",
+				position_name: "",
+				email: "",
+				title: "",
+				section_name: "",
+				dept_name: "",
+				position_id: 0,
+				dept_id: 0,
+				section_id: 0,
+			};
+			state.userRoles = [];
+		},
 	},
 });
 
-export const { getUsersFetch, getUsersSuccess, getUserInfoSuccess, getUserRolesSuccess, setMessage, addUserSuccess, addUserReset } =
-	userSlice.actions;
+export const {
+	getUsersFetch,
+	getUsersSuccess,
+	getUserInfoSuccess,
+	getUserRolesSuccess,
+	setMessage,
+	addUserSuccess,
+	addUserReset,
+	clearUserInfo,
+} = userSlice.actions;
 export default userSlice.reducer;

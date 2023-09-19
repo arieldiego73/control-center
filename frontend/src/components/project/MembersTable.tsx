@@ -25,11 +25,11 @@ function createData(
 
 const rows = [
   createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Frontend developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Backend developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Designer, Frontend developer, Backend Developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Frontend developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Backend developer'),
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Designer, Frontend developer, Backend Developer'),
+  createData('Ariel', 'Diego','Design Engineer', 'Backend developer'),
+  createData('Ricky', 'Galpo','Design Engineer Trainee', 'Designer, Frontend developer, Backend Developer'),
+  createData('Charlene', 'Espanol','Design Engineer Trainee', 'Frontend developer'),
+  createData('Allona', 'Fabre','Design Engineer Trainee', 'Backend developer'),
+  createData('Christian', 'Jacinto','Project Manager', 'Designer, Frontend developer, Backend Developer'),
   
 ];
 

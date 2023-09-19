@@ -27,7 +27,11 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserInfo, getUserRoles } from "../../../redux/saga/userSaga";
+import {
+	getUserInfo,
+	getUserRoles,
+	updateUserInfo,
+} from "../../../redux/saga/userSaga";
 import { RootState } from "../../../redux/store/store";
 import HelpIcon from "@mui/icons-material/Help";
 import { getDepartmentFetch } from "../../../redux/state/departmentState";
@@ -38,6 +42,7 @@ import { getSectionFetch } from "../../../redux/state/sectionState";
 import { getRolesFetch } from "../../../redux/state/roleState";
 import { getPositionFetch } from "../../../redux/state/positionState";
 import { Snackbar } from "@material-ui/core";
+import { addUserReset, clearUserInfo } from "../../../redux/state/userState";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -49,6 +54,7 @@ const MenuProps = {
 		},
 	},
 };
+const GLOBAL_TIMEOUT = 2000;
 
 export interface SnackbarMessage {
 	message: string;
@@ -65,8 +71,16 @@ export default function EditUser() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const location = useLocation();
-
+	
 	const userId = location.state;
+	
+	// get the stored state of the user
+	const userInfoData = useSelector((state: RootState) => state.userReducer.userInfo);
+	const [userData, setUserData] = React.useState<typeof userInfoData | null>(null);
+
+	React.useEffect(() => {
+		setUserData(userInfoData)
+	}, [userInfoData])
 
 	React.useEffect(() => {
 		dispatch(getUserInfo({ userId }));
@@ -76,25 +90,14 @@ export default function EditUser() {
 		dispatch(getRolesFetch());
 		dispatch(getPositionFetch());
 	}, [dispatch, userId]);
-
-	// get the stored state of the user
-	let userData: any | null = useSelector(
-		(state: RootState) => state.userReducer.userInfo
-	);
+	
 	const userRoles: any[] = useSelector(
 		(state: RootState) => state.userReducer.userRoles
 	);
 
 	const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
 	const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
-		const {
-			target,
-		} = event;
-		setSelectedRoles(
-			// On autofill we get a stringified value.
-			// typeof value === "string" ? value.split(",") : value
-			target.value as number[]
-		);
+		setSelectedRoles(event.target.value as number[]);
 	};
 
 	const notice = useSelector((state: RootState) => state.userReducer.notice);
@@ -150,23 +153,37 @@ export default function EditUser() {
 		setMessageInfo(undefined);
 	};
 
+	const isAddSuccess = useSelector(
+		(state: RootState) => state.userReducer.isAddSuccess
+	);
 	React.useEffect(() => {
-		setAssocID(userData.emp_id);
-		setUsername(userData.username);
-		setFirstName(userData.fname);
-		setMiddleName(userData.mname);
-		setLastName(userData.lname);
-		setPosition(userData.position_id ? userData.position_id : 0);
-		setEmail(userData.email);
-		setBusinessUnit(userData.dept_id ? userData.dept_id : 0);
-		setDepartment(userData.section_id ? userData.section_id : 0);
+		if (isAddSuccess) {
+			dispatch(addUserReset());
+			setTimeout(() => {
+				navigate("/user");
+			}, GLOBAL_TIMEOUT);
+		}
+	});
+
+	React.useEffect(() => {
+		if (userData) {
+			setAssocID(userData.emp_id);
+			setUsername(userData.username);
+			setFirstName(userData.fname);
+			setMiddleName(userData.mname);
+			setLastName(userData.lname);
+			setPosition(userData.position_id ? userData.position_id : 0);
+			setEmail(userData.email);
+			setBusinessUnit(userData.dept_id ? userData.dept_id : 0);
+			setDepartment(userData.section_id ? userData.section_id : 0);
+		}
 	}, [userData]);
 
 	React.useEffect(() => {
 		const roles = userRoles.map((e) => {
 			const values = Object.keys(e);
 			return parseInt(values[0]);
-		})
+		});
 		setSelectedRoles(roles);
 	}, [userRoles]);
 
@@ -204,22 +221,52 @@ export default function EditUser() {
 	);
 
 	const proceedWithCancel = () => {
-		userData = null;
+		dispatch(clearUserInfo());
 		navigate("/user");
 	};
 
 	const proceedWithSaving = () => {
-		// SAVE THE INFO HERE
-		navigate("/user");
+		const data = {
+			emp_id: assocID,
+			username: username,
+			fname: firstName,
+			mname: middleName,
+			lname: lastName,
+			position_id: position,
+			email: email,
+			section_id: department,
+			dept_id: businessUnit,
+			selectedRoles: selectedRoles,
+		};
+		dispatch(updateUserInfo({ data }));
+		setAsk(false);
 	};
 
 	const handleSave = () => {
-		setAsk(true);
-		setDialogTitle("Save the record?");
-		setDialogContentText(
-			"Upon proceeding, the modifications on the record \nmade will be saved."
-		);
-		setIsSaving(true);
+		if (
+			assocID &&
+			username &&
+			firstName &&
+			middleName &&
+			lastName &&
+			position &&
+			email &&
+			department &&
+			businessUnit &&
+			selectedRoles.length > 0
+		) {
+			setAsk(true);
+			setDialogTitle("Save the record?");
+			setDialogContentText(
+				"Upon proceeding, the modifications on the record \nmade will be saved."
+			);
+			setIsSaving(true);
+		} else {
+			handleClickSnackpack(
+				"All fields are required. Please, try again.",
+				"error"
+			)();
+		}
 	};
 
 	const handleCancel = () => {
@@ -483,7 +530,10 @@ export default function EditUser() {
 											{"<Select a department>"}
 										</MenuItem>
 										{sections.map((sect: any) => (
-											<MenuItem key={sect?.section_id} value={sect?.section_id}>
+											<MenuItem
+												key={sect?.section_id}
+												value={sect?.section_id}
+											>
 												{sect?.section_name}
 											</MenuItem>
 										))}
@@ -519,7 +569,10 @@ export default function EditUser() {
 												{"<Select a business unit>"}
 											</MenuItem>
 											{depts.map((dept: any) => (
-												<MenuItem key={dept?.dept_id} value={dept?.dept_id}>
+												<MenuItem
+													key={dept?.dept_id}
+													value={dept?.dept_id}
+												>
 													{dept?.dept_name}
 												</MenuItem>
 											))}
@@ -573,7 +626,7 @@ export default function EditUser() {
 								>
 									<HelpIcon
 										accentHeight={100}
-										color="disabled"
+										color="error"
 										fontSize="large"
 										alignmentBaseline="middle"
 									/>
@@ -619,10 +672,10 @@ export default function EditUser() {
 			<Snackbar
 				key={messageInfo ? messageInfo.key : undefined}
 				open={open}
-				autoHideDuration={2000}
+				autoHideDuration={GLOBAL_TIMEOUT}
 				onClose={handleClose}
 				TransitionProps={{ onExited: handleExited }}
-				// anchorOrigin={{ vertical, horizontal }}
+				anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
 			>
 				<Alert
 					onClose={handleClose}
