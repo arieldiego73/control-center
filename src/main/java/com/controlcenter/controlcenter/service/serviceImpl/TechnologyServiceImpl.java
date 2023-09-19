@@ -64,7 +64,7 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
-    public String editTechnology(String id, TechnologyInput technology) {
+    public String editTechnology(String id, TechnologyInput technology, String emp_id) {
         TechnologyOutput data = technologyDao.getTechnologyById(id);
 
         if (data != null) {
@@ -79,7 +79,7 @@ public class TechnologyServiceImpl implements TechnologyService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -95,7 +95,7 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
-    public String logicalDeleteTechnology(String id) {
+    public String logicalDeleteTechnology(String id, String emp_id) {
         TechnologyOutput data = technologyDao.getTechnologyById(id);
 
         if (data != null) {
@@ -107,7 +107,7 @@ public class TechnologyServiceImpl implements TechnologyService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -123,7 +123,7 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
-    public String deleteMultipleTechnology(List<Long> ids) {
+    public String deleteMultipleTechnology(List<Long> ids, String emp_id) {
         technologyList = technologyDao.getAllTechnology();
 
         for (Long id : ids) {
@@ -142,7 +142,7 @@ public class TechnologyServiceImpl implements TechnologyService {
         // Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
         activityLogInput.setLog_desc("Deleted multiple Technologies.");
 
         Long currentTimeMillis = System.currentTimeMillis();

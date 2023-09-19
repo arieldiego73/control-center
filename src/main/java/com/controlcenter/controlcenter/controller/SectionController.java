@@ -90,7 +90,8 @@ public class SectionController {
                 if (errors.size() > 0) { //checks the errors from validator
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
-                    return ResponseEntity.status(200).body(sectionService.editSectionInfo(id, section));
+                    String emp_id = httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(sectionService.editSectionInfo(id, section, emp_id));
                 }
         // } else {
         //     // User is not authenticated 
@@ -105,7 +106,8 @@ public class SectionController {
 
         //  if (isAuthenticated != null && isAuthenticated) {
              try {
-                return ResponseEntity.ok().body(sectionService.logicalDeleteSection(id));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(sectionService.logicalDeleteSection(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
@@ -122,7 +124,8 @@ public class SectionController {
 
     //    if (isAuthenticated != null && isAuthenticated){
            try {
-                return ResponseEntity.ok().body(sectionService.deleteMultipleSection(ids));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(sectionService.deleteMultipleSection(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }

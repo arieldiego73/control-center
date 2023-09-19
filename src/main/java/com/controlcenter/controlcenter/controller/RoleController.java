@@ -89,7 +89,8 @@ public class RoleController {
           if (errors.size() > 0) { //checks the errors from validator
               return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
           }else{
-              return ResponseEntity.status(200).body(roleService.editRoleInfo(id, roleInput));
+            String emp_id = httpSession.getAttribute("session").toString();
+              return ResponseEntity.status(200).body(roleService.editRoleInfo(id, roleInput, emp_id));
           }
     // } else {
     //   // User is not authenticated 
@@ -104,7 +105,8 @@ public class RoleController {
 
     // if (isAuthenticated != null && isAuthenticated) {
         try {
-          return ResponseEntity.ok().body(roleService.logicalDeleteRole(id));
+          String emp_id = httpSession.getAttribute("session").toString();
+          return ResponseEntity.ok().body(roleService.logicalDeleteRole(id, emp_id));
         } catch (Exception e) {
           return ResponseEntity.status(500).body("Server Side Error.");
         }
@@ -138,7 +140,8 @@ public class RoleController {
 
     // if (isAuthenticated != null && isAuthenticated) {
         try {
-          return ResponseEntity.ok().body(roleService.deleteMultipleRole(ids));
+          String emp_id = httpSession.getAttribute("session").toString();
+          return ResponseEntity.ok().body(roleService.deleteMultipleRole(ids, emp_id));
         } catch (Exception e) {
           return ResponseEntity.status(500).body("Server Side Error.");
         }

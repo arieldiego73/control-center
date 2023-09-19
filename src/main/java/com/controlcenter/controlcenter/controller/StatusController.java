@@ -103,7 +103,8 @@ public class StatusController {
             if (errors.size() > 0) { // checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
-                return ResponseEntity.status(200).body(statusService.editStatusInfo(code, status));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.status(200).body(statusService.editStatusInfo(code, status, emp_id));
             }
         // } else {
         //     // User is not authenticated 
@@ -118,7 +119,8 @@ public class StatusController {
 
         // if (isAuthenticated != null && isAuthenticated) {
             try {
-                return ResponseEntity.ok().body(statusService.logicalDeleteStatus(code));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(statusService.logicalDeleteStatus(code, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
@@ -135,7 +137,8 @@ public class StatusController {
 
         // if (isAuthenticated != null && isAuthenticated){
             try {
-                return ResponseEntity.ok().body(statusService.deleteMultipleStatus(ids));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(statusService.deleteMultipleStatus(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }

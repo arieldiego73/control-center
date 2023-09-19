@@ -26,56 +26,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {
 	Divider,
-	FormControl,
-	FormLabel,
-	MenuItem,
-	Select,
 } from "@mui/material";
-import DepartmentModuleStyle from "./DepartmentTable.module.css";
-import { getSectionFetch } from "../../redux/state/sectionState";
+import DevelopmentTypeStyle from "./DevelopmentType.module.css";
+import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
 import {
-	addSection,
-	deleteSection,
-	deleteSectionBatch,
-	updateSection,
-} from "../../redux/saga/sectionSaga";
-import CustomPagination from "../custom_pagination/pagination";
+	addDevPhase,
+	deleteDevPhase,
+	deleteDevPhaseBatch,
+	updateDevPhase,
+} from "../../redux/saga/devPhaseSaga";
 import {
 	datagridBoxStyle,
 	datagridStyle,
 } from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
+import CustomPagination from "../custom_pagination/pagination";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
-import { getDepartmentFetch } from "../../redux/state/departmentState";
-import {
-	addFormContainerStyles,
-	addFormStyles,
-} from "../datagrid_customs/DataGridAddFormStyles";
+import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
 import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
-import { Description } from "@mui/icons-material";
 
-const DepartmentTable: React.FC<DataGridProps> = (props) => {
+const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
-	// GET ALL THE DEPARTMENT AND STORE THEM TO THE STATE IN REDUX
+	// GET ALL THE DEV PHASE AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
-		dispatch(getSectionFetch());
-		dispatch(getDepartmentFetch());
+		dispatch(getDevPhaseFetch());
 	}, [dispatch]);
 
-	// GET THE STATES
-	const sectionData = useSelector(
-		(state: RootState) => state.sectionReducer.section
-	);
-	const businessUnits = useSelector(
-		(state: RootState) => state.deptReducer.department
+	// STORE THE DEV PHASE TO 'data'
+	const data = useSelector(
+		(state: RootState) => state.devPhaseReducer.devPhase
 	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
-	const [rows, setRows] = React.useState<GridRowsProp>(sectionData);
+	const [rows, setRows] = React.useState<GridRowsProp>(data);
 	const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
 		{}
 	);
@@ -89,7 +76,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	const [dialogContentText, setDialogContentText] = React.useState("");
 
 	const [ask, setAsk] = React.useState(false);
-	const [deleteId, setDeleteId] = React.useState(1);
+	const [deleteId, setDeleteId] = React.useState(0);
 
 	const dataGridSlots = {
 		toolbar: DatagridToolbar,
@@ -98,14 +85,12 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	React.useEffect(() => {
-		setRows(sectionData);
-	}, [sectionData]);
+		setRows(data);
+	}, [data]);
 
-	const [departmentName, setDepartmentName] = React.useState("");
+	const [devPhaseName, setDevPhaseName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
-	const [businessUnit, setBusinessUnit] = React.useState(0);
-	const [description, setDescription] = React.useState("");
-	const departmentNameRef = React.useRef<HTMLInputElement | null>(null);
+	const devPhaseNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	function DatagridToolbar() {
 		return (
@@ -120,12 +105,14 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	}
 
 	const proceedWithDelete = () => {
-		dispatch(deleteSection({ section_id: deleteId }));
+		dispatch(deleteDevPhase({ dev_phase_id: deleteId }));
+		setRows(data);
 		setAsk(false);
 	};
 
 	const proceedWithDeleteBatch = () => {
-		dispatch(deleteSectionBatch({ batchId: selectedId }));
+		dispatch(deleteDevPhaseBatch({ batchId: selectedId }));
+		setRows(data); // update rows
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
@@ -160,7 +147,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 		setDialogContentText(
 			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
 		);
-		setDialogTitle("Delete this department?");
+		setDialogTitle("Delete this phase?");
 		setDeleteId(id as number);
 	};
 
@@ -169,15 +156,17 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 			...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
-		setRows(sectionData);
+		setRows(data);
 	};
 
-	const processUpdateRow = (data: GridRowModel) => {
-		dispatch(updateSection({ sectionData: data }));
+	const processUpdateRow = (devPhaseData: GridRowModel) => {
+		dispatch(updateDevPhase({ devPhaseData }));
+		setRows(data); // update rows
 	};
 
-	const processAddRow = (data: GridRowModel) => {
-		dispatch(addSection({ sectionData: data }));
+	const processAddRow = (devPhaseData: GridRowModel) => {
+		dispatch(addDevPhase({ devPhaseData }));
+		setRows(data); // update rows
 	};
 
 	const handleAdd = () => {
@@ -189,22 +178,18 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const addRecord = (isAddOnly: boolean) => {
-		if (departmentName && shortName && businessUnit !== 0 && description) {
+		if (devPhaseName && shortName) {
 			const posData: GridValidRowModel = {
-				section_name: departmentName,
-				section_sh_name: shortName,
-				dept_id: businessUnit,
-				section_desc: description,
+				dev_phase_name: devPhaseName,
+				dev_phase_sh_name: shortName,
 			};
 			processAddRow(posData);
-			setDepartmentName("");
+			setDevPhaseName("");
 			setShortName("");
-			setBusinessUnit(0);
-			setDescription("");
 			if (isAddOnly) {
 				setIsHidden(false);
 			} else {
-				departmentNameRef.current?.focus();
+				devPhaseNameRef.current?.focus();
 			}
 		} else {
 			const error = props.createSnackpack(
@@ -216,10 +201,10 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
-		if (newRow.section_name && newRow.section_sh_name && newRow.dept_id !== 0 && newRow.section_desc) {
+		if (newRow.dev_phase_name && newRow.dev_phase_sh_name) {
 			processUpdateRow(newRow);
 		} else {
-			const cancel = handleCancelClick(newRow.section_id);
+			const cancel = handleCancelClick(newRow.dev_phase_id);
 			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
@@ -236,8 +221,8 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 
 	const columns: GridColDef[] = [
 		{
-			field: "section_name",
-			headerName: "Department",
+			field: "dev_phase_name",
+			headerName: "Development Phase",
 			minWidth: 300,
 			flex: 1,
 			editable: true,
@@ -245,33 +230,8 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 			align: "center",
 		},
 		{
-			field: "section_sh_name",
+			field: "dev_phase_sh_name",
 			headerName: "Short Name",
-			width: 300,
-			minWidth: 300,
-			flex: 1,
-			editable: true,
-			headerAlign: "center",
-			align: "center",
-		},
-		{
-			field: "dept_id",
-			headerName: "Business Unit",
-			width: 300,
-			minWidth: 300,
-			flex: 1,
-			editable: true,
-			headerAlign: "center",
-			align: "center",
-			type: "singleSelect",
-			getOptionValue: (value: any) => value.dept_id,
-			getOptionLabel: (value: any) => value.dept_sh_name,
-			valueOptions: [...businessUnits],
-		},
-		{
-			field: "section_desc",
-			headerName: "Description",
-			width: 300,
 			minWidth: 300,
 			flex: 1,
 			editable: true,
@@ -282,7 +242,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 			field: "actions",
 			type: "actions",
 			headerName: "Actions",
-			width: 200,
+			minWidth: 200,
 			cellClassName: "actions",
 			getActions: ({ id }) => {
 				const isInEditMode =
@@ -348,22 +308,22 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
-						Add Department
+						Add Development Type
 					</Button>
 				) : (
-					<div className={DepartmentModuleStyle.hideButton}>
+					<div className={DevelopmentTypeStyle.hideButton}>
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
-									inputLabel="Department"
-									inputValue={departmentName}
+									inputLabel="Development Phase"
+									inputValue={devPhaseName}
 									inputValueSetter={(
 										e: React.ChangeEvent<
 											| HTMLInputElement
 											| HTMLTextAreaElement
 										>
-									) => setDepartmentName(e.target.value)}
-									inputRef={departmentNameRef}
+									) => setDevPhaseName(e.target.value)}
+									inputRef={devPhaseNameRef}
 									textFieldIcon={<PersonIcon />}
 									autoFocus={true}
 								/>
@@ -378,46 +338,6 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 									) => setShortName(e.target.value)}
 									textFieldIcon={<BadgeIcon />}
 								/>
-								<FormControl fullWidth>
-									<FormLabel
-										style={{
-											fontWeight: "bold",
-										}}
-									>
-										Business Unit
-									</FormLabel>
-									<Select
-										style={{ width: "100%" }}
-										variant="outlined"
-										size="small"
-										value={businessUnit}
-										onChange={(e) => {
-											setBusinessUnit(
-												e.target.value as number
-											);
-										}}
-									>
-										{businessUnits.map((unit: any) => (
-											<MenuItem
-												key={unit?.dept_id}
-												value={unit?.dept_id}
-											>
-												{unit?.dept_name}
-											</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-								<DataGridAddTextField
-									inputLabel="Description"
-									inputValue={description}
-									inputValueSetter={(
-										e: React.ChangeEvent<
-											| HTMLInputElement
-											| HTMLTextAreaElement
-										>
-									) => setDescription(e.target.value)}
-									textFieldIcon={<Description />}
-								/>
 							</div>
 
 							<DataGridAddButtons
@@ -425,10 +345,8 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 								handleAddContinue={handleAddContinue}
 								handleClosing={() => {
 									setIsHidden(false);
-									setDepartmentName("");
+									setDevPhaseName("");
 									setShortName("");
-									setBusinessUnit(1);
-									setDescription("");
 								}}
 							 />
 						</div>
@@ -443,7 +361,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 				rows={rows}
 				columns={columns}
 				editMode="row"
-				getRowId={(row) => row.section_id}
+				getRowId={(row) => row.dev_phase_id}
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
@@ -480,4 +398,4 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	);
 };
 
-export default DepartmentTable;
+export default DevelopmentTypeTable;

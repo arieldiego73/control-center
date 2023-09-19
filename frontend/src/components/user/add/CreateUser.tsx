@@ -2,6 +2,8 @@ import CreateUserStyle from "./CreateUser.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
+	Alert,
+	AlertColor,
 	Box,
 	Checkbox,
 	Dialog,
@@ -16,6 +18,7 @@ import {
 	MenuItem,
 	Select,
 	SelectChangeEvent,
+	Snackbar,
 	Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -35,6 +38,7 @@ import { getSectionFetch } from "../../../redux/state/sectionState";
 import { getRolesFetch } from "../../../redux/state/roleState";
 import { getPositionFetch } from "../../../redux/state/positionState";
 import { addUserInfo } from "../../../redux/saga/userSaga";
+import { addUserReset } from "../../../redux/state/userState";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -46,50 +50,99 @@ const MenuProps = {
 		},
 	},
 };
+const GLOBAL_TIMEOUT = 2000;
 
-export default function EditUser() {
+export interface SnackbarMessage {
+	message: string;
+	key: number;
+}
+
+export interface State {
+	open: boolean;
+	snackPack: readonly SnackbarMessage[];
+	messageInfo?: SnackbarMessage;
+}
+
+export default function CreateUser() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const [selectedRoles, setSelectedRoles] = React.useState<string[]>([]);
+	const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
 	const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
-		const {
-			target: { value },
-		} = event;
-		setSelectedRoles(
-			// On autofill we get a stringified value.
-			typeof value === "string" ? value.split(",") : value
-		);
+		setSelectedRoles(event.target.value as number[]);
+	};
+
+	const notice = useSelector((state: RootState) => state.userReducer.notice);
+	const isInitialAmount = React.useRef(true);
+	React.useEffect(() => {
+		if (!isInitialAmount.current) {
+			if (notice.message && notice.severity) {
+				handleClickSnackpack(
+					notice.message,
+					notice.severity as AlertColor
+				)();
+			}
+		} else {
+			isInitialAmount.current = false;
+		}
+	}, [notice]);
+
+	const [snackPack, setSnackPack] = React.useState<
+		readonly SnackbarMessage[]
+	>([]);
+	const [severity, setSeverity] = React.useState<AlertColor>("error");
+	const [open, setOpen] = React.useState(false);
+	const [messageInfo, setMessageInfo] = React.useState<
+		SnackbarMessage | undefined
+	>(undefined);
+
+	React.useEffect(() => {
+		if (snackPack.length && !messageInfo) {
+			// Set a new snack when we don't have an active one
+			setMessageInfo({ ...snackPack[0] });
+			setSnackPack((prev) => prev.slice(1));
+			setOpen(true);
+		} else if (snackPack.length && messageInfo && open) {
+			// Close an active snack when a new one is added
+			setOpen(false);
+		}
+	}, [snackPack, messageInfo, open]);
+
+	const handleClickSnackpack =
+		(message: string, severity: AlertColor) => () => {
+			setSnackPack((prev) => [
+				...prev,
+				{ message, key: new Date().getTime() },
+			]);
+			setSeverity(severity);
+		};
+
+	const handleClose = (event: React.SyntheticEvent | Event) => {
+		setOpen(false);
+	};
+
+	const handleExited = () => {
+		setMessageInfo(undefined);
 	};
 
 	React.useEffect(() => {
 		dispatch(getDepartmentFetch());
-	}, [dispatch]);
-
-	React.useEffect(() => {
 		dispatch(getSectionFetch());
-	}, [dispatch]);
-
-	React.useEffect(() => {
 		dispatch(getRolesFetch());
-	}, [dispatch]);
-
-	React.useEffect(() => {
 		dispatch(getPositionFetch());
 	}, [dispatch]);
 
-	// React.useEffect(() => {
-	// 	setAssocID(userData.emp_id);
-	// 	setUsername(userData.username);
-	// 	setFirstName(userData.fname);
-	// 	setMiddleName(userData.mname);
-	// 	setLastName(userData.lname);
-	// 	setPosition(userData.position_name);
-	// 	setEmail(userData.email);
-	// 	setSelectedRoles([]); // INSERT HERE THE ROLES OF THE USER
-	// 	setBusinessUnit(userData.dept_id);
-	// 	setDepartment(userData.section_id);
-	// }, [userData, userId]);
+	const isAddSuccess = useSelector(
+		(state: RootState) => state.userReducer.isAddSuccess
+	);
+	React.useEffect(() => {
+		if (isAddSuccess) {
+			dispatch(addUserReset());
+			setTimeout(() => {
+				navigate("/user");
+			}, GLOBAL_TIMEOUT);
+		}
+	});
 
 	const [assocID, setAssocID] = useState("");
 	const [username, setUsername] = useState("");
@@ -137,22 +190,39 @@ export default function EditUser() {
 			lname: lastName,
 			position_id: position,
 			email: email,
-			section_id: businessUnit,
-			dept_id: department,
-		  selectedRoles: selectedRoles
+			section_id: department,
+			dept_id: businessUnit,
+			selectedRoles: selectedRoles,
 		};
-    console.log("data", data)
-    dispatch(addUserInfo({data}));
-		// navigate("/user");
+		dispatch(addUserInfo({ data }));
+		setAsk(false);
 	};
 
 	const handleSave = () => {
-		setAsk(true);
-		setDialogTitle("Save the record?");
-		setDialogContentText(
-			"Upon proceeding, the modifications on the record \nmade will be saved."
-		);
-		setIsSaving(true);
+		if (
+			assocID &&
+			username &&
+			firstName &&
+			middleName &&
+			lastName &&
+			position &&
+			email &&
+			department &&
+			businessUnit &&
+			selectedRoles.length > 0
+		) {
+			setAsk(true);
+			setDialogTitle("Save the record?");
+			setDialogContentText(
+				"Upon proceeding, the modifications on the record \nmade will be saved."
+			);
+			setIsSaving(true);
+		} else {
+			handleClickSnackpack(
+				"All fields are required. Please, try again.",
+				"error"
+			)();
+		}
 	};
 
 	const handleCancel = () => {
@@ -165,91 +235,19 @@ export default function EditUser() {
 	};
 
 	return (
-		<div className={CreateUserStyle.mainContainer}>
-			<div className={CreateUserStyle.mainHolder}>
-				{/* Start of Form */}
-				<div className={CreateUserStyle.contentHolder}>
-					<div className={CreateUserStyle.mainForm}>
-						{/* Start of Username */}
-						<FormControl>
-							<FormLabel>Username</FormLabel>
-							<TextField
-								variant="outlined"
-								size="small"
-								placeholder="Username"
-								className={CreateUserStyle.textField}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<PermIdentityOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
-								value={username} // Bind value to state
-								onChange={(e) => setUsername(e.target.value)} // Update state on change
-							/>
-						</FormControl>
-
-						{/* Start of Associate ID and Position */}
-						<div className={CreateUserStyle.formRow2}>
+		<>
+			<div className={CreateUserStyle.mainContainer}>
+				<div className={CreateUserStyle.mainHolder}>
+					{/* Start of Form */}
+					<div className={CreateUserStyle.contentHolder}>
+						<div className={CreateUserStyle.mainForm}>
+							{/* Start of Username */}
 							<FormControl>
-								<FormLabel>Associate ID</FormLabel>
+								<FormLabel>Username</FormLabel>
 								<TextField
 									variant="outlined"
 									size="small"
-									placeholder="Associate ID"
-									className={CreateUserStyle.textField}
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position="start">
-												<AssignmentIndOutlinedIcon />
-											</InputAdornment>
-										),
-									}}
-									value={assocID} // Bind value to state
-									onChange={(e) => setAssocID(e.target.value)} // Update state on change
-								/>
-							</FormControl>
-
-							<FormControl variant="outlined" size="small">
-								<FormLabel>Position</FormLabel>
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									value={position} // Bind value to state
-									onChange={(e) =>
-										setPosition(e.target.value as number)
-									}
-									className={CreateUserStyle.textField}
-									startAdornment={
-										<InputAdornment position="start">
-											<GroupsOutlinedIcon />
-										</InputAdornment>
-									}
-								>
-									<MenuItem key={0} value={0}>
-										{"<Select a position>"}
-									</MenuItem>
-									{positions.map((pos: any) => (
-										<MenuItem
-											key={pos?.position_id}
-											value={pos?.position_id}
-										>
-											{pos?.position_name}
-										</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-						</div>
-
-						{/* Start of Full Name */}
-						<div className={CreateUserStyle.formRow3}>
-							<FormControl>
-								<FormLabel>First Name</FormLabel>
-								<TextField
-									variant="outlined"
-									size="small"
-									placeholder="First Name"
+									placeholder="Username"
 									className={CreateUserStyle.textField}
 									InputProps={{
 										startAdornment: (
@@ -258,172 +256,44 @@ export default function EditUser() {
 											</InputAdornment>
 										),
 									}}
-									value={firstName} // Bind value to state
+									value={username} // Bind value to state
 									onChange={(e) =>
-										setFirstName(e.target.value)
+										setUsername(e.target.value)
 									} // Update state on change
 								/>
 							</FormControl>
 
-							<FormControl>
-								<FormLabel>Middle Name</FormLabel>
-								<TextField
-									variant="outlined"
-									size="small"
-									placeholder="Middle Name"
-									className={CreateUserStyle.textField}
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position="start">
-												<PermIdentityOutlinedIcon />
-											</InputAdornment>
-										),
-									}}
-									value={middleName} // Bind value to state
-									onChange={(e) =>
-										setMiddleName(e.target.value)
-									} // Update state on change
-								/>
-							</FormControl>
+							{/* Start of Associate ID and Position */}
+							<div className={CreateUserStyle.formRow2}>
+								<FormControl>
+									<FormLabel>Associate ID</FormLabel>
+									<TextField
+										variant="outlined"
+										size="small"
+										placeholder="Associate ID"
+										className={CreateUserStyle.textField}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<AssignmentIndOutlinedIcon />
+												</InputAdornment>
+											),
+										}}
+										value={assocID} // Bind value to state
+										onChange={(e) =>
+											setAssocID(e.target.value)
+										} // Update state on change
+									/>
+								</FormControl>
 
-							<FormControl>
-								<FormLabel>Last Name</FormLabel>
-								<TextField
-									variant="outlined"
-									size="small"
-									placeholder="Last Name"
-									className={CreateUserStyle.textField}
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position="start">
-												<PermIdentityOutlinedIcon />
-											</InputAdornment>
-										),
-									}}
-									value={lastName} // Bind value to state
-									onChange={(e) =>
-										setLastName(e.target.value)
-									} // Update state on change
-								/>
-							</FormControl>
-						</div>
-
-						{/* Start of Email */}
-						<div>
-							<FormControl>
-								<FormLabel>Email</FormLabel>
-								<TextField
-									variant="outlined"
-									size="small"
-									placeholder="Email"
-									className={CreateUserStyle.textField}
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position="start">
-												<EmailOutlinedIcon />
-											</InputAdornment>
-										),
-									}}
-									value={email} // Bind value to state
-									onChange={(e) => setEmail(e.target.value)} // Update state on change
-								/>
-							</FormControl>
-						</div>
-
-						{/* Start of Role */}
-						<div className={CreateUserStyle.formRow5}>
-							<FormControl>
-								<FormLabel>Role</FormLabel>
-								<Select
-									labelId="multiple-checkbox-label"
-									id="multiple-checkbox"
-									multiple
-									value={selectedRoles}
-									onChange={handleChange}
-									renderValue={(selected) => {
-										const selectedTitles: string[] =
-											selectedRoles.map((roleId) => {
-												const matchingRole: any =
-													roles.find(
-														(role: any) =>
-															role.role_id ===
-															roleId
-													);
-												return matchingRole
-													? matchingRole.title
-													: "";
-											});
-										return selectedTitles.join(", ");
-									}}
-									MenuProps={MenuProps}
-									size="small"
-									sx={{ width: "500px", maxWidth: "300px" }}
-								>
-									{roles.map((role: any) => (
-										<MenuItem
-											key={role.role_id}
-											value={role.role_id}
-										>
-											<Checkbox
-												checked={
-													selectedRoles.indexOf(
-														role.role_id as never
-													) > -1
-												}
-											/>
-											<ListItemText
-												primary={role.title}
-											/>
-										</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-						</div>
-
-						{/* Start of Business Unit and Department */}
-						<div className={CreateUserStyle.formRow6}>
-							<FormControl variant="outlined" size="small">
-								<FormLabel>Department</FormLabel>
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									value={businessUnit} // Bind value to state
-									onChange={(e) =>
-										setBusinessUnit(
-											e.target.value as number
-										)
-									}
-									className={CreateUserStyle.textField}
-									startAdornment={
-										<InputAdornment position="start">
-											<GroupsOutlinedIcon />
-										</InputAdornment>
-									}
-								>
-                  <MenuItem key={0} value={0}>
-										{"<Select a department>"}
-									</MenuItem>
-									{sections.map((sect: any) => (
-										<MenuItem
-											key={sect?.section_id}
-											value={sect?.section_id}
-										>
-											{sect?.section_name}
-										</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-
-							<Box>
 								<FormControl variant="outlined" size="small">
-									<FormLabel>Busines Unit</FormLabel>
-
+									<FormLabel>Position</FormLabel>
 									<Select
 										labelId="demo-simple-select-label"
 										id="demo-simple-select"
-										value={department} // Bind value to state
+										value={position} // Bind value to state
 										onChange={(e) =>
-											setDepartment(
+											setPosition(
 												e.target.value as number
 											)
 										}
@@ -434,9 +304,187 @@ export default function EditUser() {
 											</InputAdornment>
 										}
 									>
-                    <MenuItem key={0} value={0}>
-										{"<Select a business unit>"}
-									</MenuItem>
+										<MenuItem key={0} value={0}>
+											{"<Select a position>"}
+										</MenuItem>
+										{positions.map((pos: any) => (
+											<MenuItem
+												key={pos?.position_id}
+												value={pos?.position_id}
+											>
+												{pos?.position_name}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+							</div>
+
+							{/* Start of Full Name */}
+							<div className={CreateUserStyle.formRow3}>
+								<FormControl>
+									<FormLabel>First Name</FormLabel>
+									<TextField
+										variant="outlined"
+										size="small"
+										placeholder="First Name"
+										className={CreateUserStyle.textField}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<PermIdentityOutlinedIcon />
+												</InputAdornment>
+											),
+										}}
+										value={firstName} // Bind value to state
+										onChange={(e) =>
+											setFirstName(e.target.value)
+										} // Update state on change
+									/>
+								</FormControl>
+
+								<FormControl>
+									<FormLabel>Middle Name</FormLabel>
+									<TextField
+										variant="outlined"
+										size="small"
+										placeholder="Middle Name"
+										className={CreateUserStyle.textField}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<PermIdentityOutlinedIcon />
+												</InputAdornment>
+											),
+										}}
+										value={middleName} // Bind value to state
+										onChange={(e) =>
+											setMiddleName(e.target.value)
+										} // Update state on change
+									/>
+								</FormControl>
+
+								<FormControl>
+									<FormLabel>Last Name</FormLabel>
+									<TextField
+										variant="outlined"
+										size="small"
+										placeholder="Last Name"
+										className={CreateUserStyle.textField}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<PermIdentityOutlinedIcon />
+												</InputAdornment>
+											),
+										}}
+										value={lastName} // Bind value to state
+										onChange={(e) =>
+											setLastName(e.target.value)
+										} // Update state on change
+									/>
+								</FormControl>
+							</div>
+
+							{/* Start of Email */}
+							<div>
+								<FormControl>
+									<FormLabel>Email</FormLabel>
+									<TextField
+										variant="outlined"
+										size="small"
+										placeholder="Email"
+										className={CreateUserStyle.textField}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<EmailOutlinedIcon />
+												</InputAdornment>
+											),
+										}}
+										value={email} // Bind value to state
+										onChange={(e) =>
+											setEmail(e.target.value)
+										} // Update state on change
+									/>
+								</FormControl>
+							</div>
+
+							{/* Start of Role */}
+							<div className={CreateUserStyle.formRow5}>
+								<FormControl>
+									<FormLabel>Role</FormLabel>
+									<Select
+										labelId="multiple-checkbox-label"
+										id="multiple-checkbox"
+										multiple
+										value={selectedRoles}
+										onChange={handleChange}
+										renderValue={(selected) => {
+											const selectedTitles: string[] =
+												selectedRoles.map((roleId) => {
+													const matchingRole: any =
+														roles.find(
+															(role: any) =>
+																role.role_id ===
+																roleId
+														);
+													return matchingRole
+														? matchingRole.title
+														: "";
+												});
+											return selectedTitles.join(", ");
+										}}
+										MenuProps={MenuProps}
+										size="small"
+										sx={{
+											width: "500px",
+											maxWidth: "300px",
+										}}
+									>
+										{roles.map((role: any) => (
+											<MenuItem
+												key={role.role_id}
+												value={role.role_id}
+											>
+												<Checkbox
+													checked={
+														selectedRoles.indexOf(
+															role.role_id as never
+														) > -1
+													}
+												/>
+												<ListItemText
+													primary={role.title}
+												/>
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+							</div>
+
+							{/* Start of Business Unit and Department */}
+							<div className={CreateUserStyle.formRow6}>
+								<FormControl variant="outlined" size="small">
+									<FormLabel>Business Unit</FormLabel>
+									<Select
+										labelId="demo-simple-select-label"
+										id="demo-simple-select"
+										value={businessUnit} // Bind value to state
+										onChange={(e) =>
+											setBusinessUnit(
+												e.target.value as number
+											)
+										}
+										className={CreateUserStyle.textField}
+										startAdornment={
+											<InputAdornment position="start">
+												<GroupsOutlinedIcon />
+											</InputAdornment>
+										}
+									>
+										<MenuItem key={0} value={0}>
+											{"<Select a business unit>"}
+										</MenuItem>
 										{depts.map((dept: any) => (
 											<MenuItem
 												key={dept?.dept_id}
@@ -447,95 +495,151 @@ export default function EditUser() {
 										))}
 									</Select>
 								</FormControl>
-							</Box>
+
+								<Box>
+									<FormControl
+										variant="outlined"
+										size="small"
+									>
+										<FormLabel>Department</FormLabel>
+
+										<Select
+											labelId="demo-simple-select-label"
+											id="demo-simple-select"
+											value={department} // Bind value to state
+											onChange={(e) =>
+												setDepartment(
+													e.target.value as number
+												)
+											}
+											className={
+												CreateUserStyle.textField
+											}
+											startAdornment={
+												<InputAdornment position="start">
+													<GroupsOutlinedIcon />
+												</InputAdornment>
+											}
+										>
+											<MenuItem key={0} value={0}>
+												{"<Select a department>"}
+											</MenuItem>
+											{sections.map((sect: any) => (
+												<MenuItem
+													key={sect?.section_id}
+													value={sect?.section_id}
+												>
+													{sect?.section_name}
+												</MenuItem>
+											))}
+										</Select>
+									</FormControl>
+								</Box>
+							</div>
+
+							{/* Start of Button */}
+							<div className={CreateUserStyle.formRow7}>
+								<Button
+									variant="contained"
+									color="primary"
+									startIcon={<SaveOutlinedIcon />}
+									style={{ textTransform: "none" }}
+									onClick={handleSave}
+								>
+									SAVE
+								</Button>
+
+								<Button
+									variant="contained"
+									startIcon={<CancelOutlinedIcon />}
+									style={{
+										textTransform: "none",
+										backgroundColor: "gray",
+									}}
+									onClick={handleCancel}
+								>
+									CANCEL
+								</Button>
+							</div>
 						</div>
 
-						{/* Start of Button */}
-						<div className={CreateUserStyle.formRow7}>
-							<Button
-								variant="contained"
-								color="primary"
-								startIcon={<SaveOutlinedIcon />}
-								style={{ textTransform: "none" }}
-								onClick={handleSave}
-							>
-								SAVE
-							</Button>
+						{/*Dialog of Edit Confirmation */}
+						<Dialog
+							open={ask}
+							onClose={() => {
+								setAsk(false);
+							}}
+							aria-labelledby="responsive-dialog-title"
+							aria-describedby="alert-dialog-description"
+						>
+							<DialogTitle id="responsive-dialog-title">
+								<Typography
+									fontWeight={700}
+									fontSize={20}
+									display={"flex"}
+									alignItems={"center"}
+									gap={1}
+								>
+									<HelpIcon
+										accentHeight={100}
+										color="error"
+										fontSize="large"
+										alignmentBaseline="middle"
+									/>
+									{dialogTitle}
+								</Typography>
+							</DialogTitle>
 
-							<Button
-								variant="contained"
-								startIcon={<CancelOutlinedIcon />}
-								style={{
-									textTransform: "none",
-									backgroundColor: "gray",
-								}}
-								onClick={handleCancel}
-							>
-								CANCEL
-							</Button>
-						</div>
+							<DialogContent>
+								<DialogContentText
+									whiteSpace={"pre-line"}
+									id="alert-dialog-description"
+								>
+									{dialogContentText}
+								</DialogContentText>
+							</DialogContent>
+
+							<DialogActions>
+								<Button
+									variant="contained"
+									onClick={
+										isSaving
+											? proceedWithSaving
+											: proceedWithCancel
+									}
+									autoFocus
+								>
+									{isSaving ? "Save" : "Cancel"}
+								</Button>
+
+								<Button
+									onClick={() => {
+										setAsk(false);
+									}}
+								>
+									Continue editing
+								</Button>
+							</DialogActions>
+						</Dialog>
 					</div>
-
-					{/*Dialog of Edit Confirmation */}
-					<Dialog
-						open={ask}
-						onClose={() => {
-							setAsk(false);
-						}}
-						aria-labelledby="responsive-dialog-title"
-						aria-describedby="alert-dialog-description"
-					>
-						<DialogTitle id="responsive-dialog-title">
-							<Typography
-								fontWeight={700}
-								fontSize={20}
-								display={"flex"}
-								alignItems={"center"}
-								gap={1}
-							>
-								<HelpIcon
-									accentHeight={100}
-									color="disabled"
-									fontSize="large"
-									alignmentBaseline="middle"
-								/>
-								{dialogTitle}
-							</Typography>
-						</DialogTitle>
-
-						<DialogContent>
-							<DialogContentText
-								whiteSpace={"pre-line"}
-								id="alert-dialog-description"
-							>
-								{dialogContentText}
-							</DialogContentText>
-						</DialogContent>
-
-						<DialogActions>
-							<Button
-								variant="contained"
-								onClick={
-									isSaving
-										? proceedWithSaving
-										: proceedWithCancel
-								}
-								autoFocus
-							>
-								{isSaving ? "Save" : "Cancel"}
-							</Button>
-
-							<Button
-								onClick={() => {
-									setAsk(false);
-								}}
-							>
-								Continue editing
-							</Button>
-						</DialogActions>
-					</Dialog>
 				</div>
 			</div>
-		</div>
+			<Snackbar
+				key={messageInfo ? messageInfo.key : undefined}
+				open={open}
+				autoHideDuration={GLOBAL_TIMEOUT}
+				onClose={handleClose}
+				TransitionProps={{ onExited: handleExited }}
+			>
+				<Alert
+					onClose={handleClose}
+					severity={severity}
+					sx={{ width: "100%" }}
+					variant="filled"
+				>
+					{messageInfo ? messageInfo.message : undefined}
+				</Alert>
+			</Snackbar>
+		</>
 	);
 }

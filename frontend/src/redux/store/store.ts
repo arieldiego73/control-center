@@ -11,11 +11,13 @@ import projectStatusReducer from "../state/projectStatusState"
 import employeeStatusReducer from "../state/employeeStatusState"
 import sectionReducer from "../state/sectionState"
 import technologyReducer from "../state/technologyState"
+import projectReducer from "../state/projectState"
 
 const saga = createSagaMiddleware();
 const store = configureStore({
 	reducer: {
 		userReducer: userReducer,
+		projectReducer: projectReducer,
 		sessionReducer: sessionReducer,
 		roleReducer: roleReducer,
 		deptReducer: departmentReducer,

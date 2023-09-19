@@ -105,20 +105,20 @@ public class UserServiceImpl implements UserService{
   // }
 
   @Override
-  public String addAccount(AccountInput account, List<Long> role_ids) {
+  public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids) {
 
     UserInfoOutput userById = userDao.getUserById(account.getEmp_id());
 
     if(userById != null) {
-      return "The Emplyee ID of " + account.getEmp_id() + " is already taken.";
+      return ResponseEntity.badRequest().body("The Emplyee ID of " + account.getEmp_id() + " is already taken.");
     } else {
       List<UserTable> users = userDao.findAll();
 
       for(UserTable perUser : users) {
         if(account.getUsername().equals(perUser.getUsername())) {
-          return "The Username of " + account.getUsername() + " is already taken.";
+          return ResponseEntity.badRequest().body("The Username of " + account.getUsername() + " is already taken.");
         } else if(account.getEmail().equals(perUser.getEmail())) {
-          return "The Email of " + account.getEmail() + " is already taken.";
+          return ResponseEntity.badRequest().body("The Email of " + account.getEmail() + " is already taken.");
         }
       }
   
@@ -156,13 +156,13 @@ public class UserServiceImpl implements UserService{
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
         } catch (Exception e) {
-        return e.getMessage();
+        return ResponseEntity.status(404).body(e.getMessage());
       }
       
       for(Long id : role_ids) {
         multiRoleDao.addMultiRole(account.getEmp_id(), id);
       }
-      return "Account Created Successfully";
+      return ResponseEntity.ok("Account Created Successfully");
     }
   }
 

@@ -42,8 +42,6 @@ export default function Project() {
     dispatch(getUsersFetch());
   }, [dispatch]);
 
-  console.log(data);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState(data);
 

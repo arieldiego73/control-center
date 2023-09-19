@@ -64,7 +64,7 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public String editStatusInfo(String code, StatusOutput status) {
+    public String editStatusInfo(String code, StatusOutput status, String emp_id) {
 
         StatusOutput statusById = statusDao.getStatusById(code);
 
@@ -84,7 +84,7 @@ public class StatusServiceImpl implements StatusService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -100,7 +100,7 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public String logicalDeleteStatus(String code) {
+    public String logicalDeleteStatus(String code, String emp_id) {
         StatusOutput statusById = statusDao.getStatusById(code);
 
         if (statusById != null) {
@@ -112,7 +112,7 @@ public class StatusServiceImpl implements StatusService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -128,7 +128,7 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public String deleteMultipleStatus(List<String> ids) {
+    public String deleteMultipleStatus(List<String> ids, String emp_id) {
         statusList = statusDao.getAllStatus();
 
         for (String id : ids) {
@@ -147,7 +147,7 @@ public class StatusServiceImpl implements StatusService {
         // Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
         activityLogInput.setLog_desc("Deleted multiple Status.");
 
         Long currentTimeMillis = System.currentTimeMillis();

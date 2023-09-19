@@ -1,6 +1,6 @@
 // rootSaga.js
 import { all } from "redux-saga/effects";
-import userSaga, { userSagaAdd, userSagaFetchUserInfo } from "./userSaga";
+import userSaga, { userSagaAdd, userSagaFetchUserInfo, userSagaFetchUserRoles, userSagaUpdate } from "./userSaga";
 import {
 	roleSagaUpdate,
 	roleSaga,
@@ -16,12 +16,17 @@ import {departmentSaga, departmentSagaAdd, departmentSagaDelete, departmentSagaD
 import { projectStatusSaga, projectStatusSagaAdd, projectStatusSagaUpdate, projectStatusSagaDelete, projectStatusSagaDeleteBatch } from "./projectStatusSaga";
 import { employeeStatusSaga, employeeStatusSagaAdd, employeeStatusSagaUpdate, employeeStatusSagaDelete, employeeStatusSagaDeleteBatch } from "./employeeStatusSaga";
 import { technologySaga, technologySagaAdd, technologySagaDelete, technologySagaDeleteBatch, technologySagaUpdate } from "./technologySaga";
+import projectSaga from "./projectSaga";
 
 export default function* rootSaga() {
 	yield all([
 		userSaga(),
 		userSagaFetchUserInfo(),
+		userSagaFetchUserRoles(),
 		userSagaAdd(),
+		userSagaUpdate(),
+
+		projectSaga(),
 		
 		sessionSaga(),
 
