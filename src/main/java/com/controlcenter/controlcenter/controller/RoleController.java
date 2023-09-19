@@ -86,7 +86,7 @@ public class RoleController {
   }
 
   @PutMapping("/delete-multiple")
-  public ResponseEntity<String> deleteMultipleRole(@RequestParam List<Long> ids) {
+  public ResponseEntity<String> deleteMultipleRole(@RequestParam List<Long> ids, @RequestParam List<Long> devPhaseids) {
     try {
       return ResponseEntity.ok().body(roleService.deleteMultipleRole(ids));
     } catch (Exception e) {

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.ProjectInput;
@@ -45,11 +46,13 @@ public class ProjectController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProject(@RequestBody ProjectInput project){
+    public ResponseEntity<String> addProject(@RequestBody ProjectInput project, @RequestParam List<Long> dev_phase_ids, @RequestParam List<Long> dev_tech_ids){
         //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<ProjectInput>> errors = validator.validate(project);
+        System.out.println(dev_phase_ids);
+        System.out.println(dev_tech_ids);
             //Error Handling
             if(errors.size() > 0){
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));

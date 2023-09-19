@@ -28,10 +28,10 @@ public interface UserService {
 
   public String addAccount(AccountInput account, List<Long> role_ids);
 
-  public String editAccount(String id, AccountOutput accountBody);
+  public String editAccount(String id, AccountOutput accountBody, List<Long> role_ids);
 
   public String getLoggedInUser(UserOutput user);
 
   //get all user roles
-  public ResponseEntity<List<Map<String, Object>>> getAllRolesOfUser(String emp_id);
+  public ResponseEntity<List<Map<Long, Object>>> getAllRolesOfUser(String emp_id);
 }

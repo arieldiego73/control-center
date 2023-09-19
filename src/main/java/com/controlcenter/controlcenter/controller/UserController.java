@@ -107,17 +107,17 @@ public class UserController {
   // }
 
   @PutMapping("/edit-account/{id}")
-  public ResponseEntity<String> editAccount(@PathVariable String id, @RequestBody AccountOutput accountBody) {
+  public ResponseEntity<String> editAccount(@PathVariable String id, @RequestBody AccountOutput accountBody, @RequestParam List<Long> role_ids) {
     //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<AccountOutput>> error = validator.validate(accountBody);
-            //Error Handling
-            if (error.size() > 0) { //checks the errors from validator
-                return ResponseEntity.status(400).body(errorHandler.getErrors(error));
-            }else{
-                return ResponseEntity.status(200).body(userService.editAccount(id, accountBody));
-            }
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    Validator validator = validatorFactory.getValidator();
+    Set<ConstraintViolation<AccountOutput>> error = validator.validate(accountBody);
+      //Error Handling
+      if (error.size() > 0) { //checks the errors from validator
+        return ResponseEntity.status(400).body(errorHandler.getErrors(error));
+      }else{
+        return ResponseEntity.status(200).body(userService.editAccount(id, accountBody, role_ids));
+      }
   }
 
   @PostMapping("/login")
@@ -141,8 +141,8 @@ public class UserController {
 
   //get all roles of user
   @GetMapping("/roles")
-  public ResponseEntity<List<Map<String, Object>>> getAllRolesOfUser(String emp_id, HttpSession http) {
-    emp_id = http.getAttribute("session").toString();
+  public ResponseEntity<List<Map<Long, Object>>> getAllRolesOfUser(HttpSession http) {
+    String emp_id = http.getAttribute("session").toString();
     return userService.getAllRolesOfUser(emp_id);
   }
 }

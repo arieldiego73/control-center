@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.controlcenter.controlcenter.dao.DepartmentDao">
+
+<!-- Fetch Data -->
+    <!-- <select id="getAllDepartment" resultType="com.controlcenter.controlcenter.model.DepartmentOutput">
+        SELECT dept_id, dept_name, dept_sh_name, dept_desc, del_flag
+          FROM tbl_department_mst
+         WHERE del_flag = 0
+      ORDER BY dept_id DESC, reg_date DESC;
+    </select> -->
+
+    <!-- <select id="getDepartmentById" resultType="com.controlcenter.controlcenter.model.DepartmentOutput">
+        SELECT dept_id, dept_name, dept_sh_name, dept_desc, del_flag
+          FROM tbl_department_mst
+         WHERE dept_id = #{id};
+    </select> -->
+
+<!-- Add Data -->
+    <insert id="addManagers" parameterType="com.controlcenter.controlcenter.model.DepartmentInput">
+        INSERT INTO tbl_department_mst(
+          dept_name,
+          dept_sh_name,
+          dept_desc,
+          reg_id
+        )
+        VALUES (
+          #{dept_name},
+          #{dept_sh_name},
+          #{dept_desc},
+          1
+        );
+    </insert>
+
+<!-- Update Data -->
+    <!-- <update id="editDepartmentInfo" parameterType="map">
+        UPDATE tbl_department_mst
+           SET dept_name=#{department.dept_name},
+               dept_sh_name=#{department.dept_sh_name},
+               dept_desc=#{department.dept_desc},
+               update_id = 1
+         WHERE dept_id = #{id}
+    </update> -->
+
+<!-- Delete Data -->
+    <!-- <update id="logicalDeleteDepartment">
+        UPDATE tbl_department_mst
+           SET del_flag=1
+         WHERE dept_id = #{id}
+    </update> -->
+
+    <!-- <delete id="deleteMultipleDepartment">
+        UPDATE tbl_department_mst
+           SET del_flag = 1
+         WHERE dept_id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete> -->
+    
+<!-- Restore Data -->
+    <!-- <update id="restoreDepartment">
+        UPDATE tbl_department_mst
+           SET del_flag=0
+         WHERE dept_id = #{id}
+    </update> -->
+
+</mapper>

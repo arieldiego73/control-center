@@ -13,4 +13,5 @@ public interface MultiRoleService {
     public String editMultiRoleInfo(String id, MultiRoleInput multiRole);
     public String logicalDeleteMultiRole(String id);
     public String restoreMultiRole(String id);
+    public String permaDeleteRole(String emp_id, Long role_id);
 }
