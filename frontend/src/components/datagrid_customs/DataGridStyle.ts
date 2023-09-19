@@ -46,5 +46,5 @@ export const datagridBoxStyle = {
 };
 
 export const datagridStyle = {
-	height: "92.2%",
+	height: "88%",
 }
