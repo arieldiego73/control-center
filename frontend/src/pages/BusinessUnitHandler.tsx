@@ -11,7 +11,7 @@ export default function BusinessUnitHandler() {
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
 		{ label: "Business Unit", to: "/businessunit" },
 	];
-
+ 
 	return (
 		<div style={{ flexDirection: "column", display: "flex" }}>
 			<NavigationHandler pageTitle={pageTitle} breadcrumbs={breadcrumbs} /> {/* Pass the pageTitle and breadcrumbs prop here */}

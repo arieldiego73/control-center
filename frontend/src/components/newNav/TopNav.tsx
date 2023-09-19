@@ -45,7 +45,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
       <div className={TopNavStyle.leftSide}>
         <div className={TopNavStyle.breadCrumbsContainer}>
           {breadcrumbs && breadcrumbs.length > 0 && (
-            <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+            <Breadcrumbs aria-label="breadcrumb">
               {breadcrumbs.map((breadcrumb, index) => (
                 <Link
                   key={index}
