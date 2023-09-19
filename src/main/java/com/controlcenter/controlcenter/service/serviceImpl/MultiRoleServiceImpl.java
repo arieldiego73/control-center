@@ -15,6 +15,7 @@ import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.MultiRoleInput;
 import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
+import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.service.MultiRoleService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
@@ -138,6 +139,26 @@ public class MultiRoleServiceImpl implements MultiRoleService{
             activityLogDao.addActivityLog(activityLogInput);
 
             return "Multi Role Restored Successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String permaDeleteRole(String emp_id, Long role_id) {
+        try {
+            // List<UserRoles> allRoles = userDao.getAllRolesOfUser(emp_id);
+
+            // for(UserRoles role : allRoles) {
+            //     if(role != null) {
+            //         multiRoleDao.permaDeleteRoleOfUser(emp_id, role_id);
+            //     } else {
+            //         return "Hello Madlang People Mabuhay";
+            //     }
+            // }
+            multiRoleDao.permaDeleteRoleOfUser(emp_id, role_id);
+            return "Role Removed Successfully";
+
         } catch (Exception e) {
             return e.getMessage();
         }
