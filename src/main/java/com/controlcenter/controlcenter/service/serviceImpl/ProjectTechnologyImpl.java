@@ -61,7 +61,7 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
     }
 
     @Override
-    public String editProjectTechnology(String id, ProjectTechnologyInput projectTechnology) {
+    public String editProjectTechnology(String id, ProjectTechnologyInput projectTechnology, String emp_id) {
         ProjectTechnologyOutput data = projectTechnologyDao.getProjectTechnologyById(id);
 
         if (data != null) {
@@ -77,7 +77,7 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Project Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -93,7 +93,7 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
     }
 
     @Override
-    public String logicalDeleteProjectTechnology(String id) {
+    public String logicalDeleteProjectTechnology(String id, String emp_id) {
         ProjectTechnologyOutput data = projectTechnologyDao.getProjectTechnologyById(id);
 
         if (data != null) {
@@ -105,7 +105,7 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Project Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -121,7 +121,7 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
     }
 
     @Override
-    public String restoreProjectTechnology(String id) {
+    public String restoreProjectTechnology(String id, String emp_id) {
         ProjectTechnologyOutput data = projectTechnologyDao.getProjectTechnologyById(id);
 
         if (data != null) {
@@ -133,7 +133,7 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Restored a Project Technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
