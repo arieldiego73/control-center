@@ -1,6 +1,8 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import {
+	addUserSuccess,
 	getUserInfoSuccess,
+	getUserRolesSuccess,
 	getUsersFetch,
 	getUsersSuccess,
 	setMessage,
@@ -21,7 +23,6 @@ interface Data {
 	selectedRoles: string[];
 }
 
-
 function* workGetUsersFetch(): any {
 	const users = yield call(() =>
 		fetch("http://localhost:8080/user/all").then((res) => res.json())
@@ -36,37 +37,13 @@ function* userSaga() {
 // FETCH A SINGLE USER
 function* fetchUserInfoSaga(action: ReturnType<typeof getUserInfo>): any {
 	try {
-		const res = yield call(apiFetchUserInfo, action.payload.userId);
-		if (res?.request?.status === 200) {
-			yield put(getUserInfoSuccess(res?.data));
-			yield put(
-				setMessage({
-					message: res?.data,
-					severity: "success",
-				})
-			);
-		} else if (res?.request?.status > 200) {
-			yield put(
-				setMessage({
-					message: res?.response?.data,
-					severity: "error",
-				})
-			);
-		} else {
-			yield put(
-				setMessage({
-					message: res,
-					severity: "error",
-				})
-			);
-		}
-	} catch (err: any) {
-		yield put(
-			setMessage({
-				message: err?.response?.data,
-				severity: "error",
-			})
+		const responseUserInfo = yield call(
+			apiFetchUserInfo,
+			action.payload.userId
 		);
+		yield call(validate, responseUserInfo, false, true, false);
+	} catch (error) {
+		yield call(catchErr, error);
 	}
 }
 
@@ -86,7 +63,34 @@ export const getUserInfo = createAction<{
 	userId: any;
 }>("users/getUserInfo");
 
+// FETCH A SINGLE USER'S ROLES
+function* fetchUserRolesSaga(action: ReturnType<typeof getUserRoles>): any {
+	try {
+		const responseUserRoles = yield call(
+			apiFetchUserRoles,
+			action.payload.userId
+		);
+		yield call(validate, responseUserRoles, false, false, true);
+	} catch (error) {
+		yield call(catchErr, error);
+	}
+}
 
+export function* userSagaFetchUserRoles() {
+	yield takeLatest(getUserRoles.type, fetchUserRolesSaga);
+}
+
+const apiFetchUserRoles = async (userId: any): Promise<any> => {
+	try {
+		return axios.get(`http://localhost:8080/user/roles/${userId}`);
+	} catch (error) {
+		return error;
+	}
+};
+
+export const getUserRoles = createAction<{
+	userId: any;
+}>("users/getUserRoles");
 
 // ADD
 const apiAdd = async (data: Data): Promise<any> => {
@@ -108,7 +112,7 @@ const apiAdd = async (data: Data): Promise<any> => {
 			dept_id: data.dept_id,
 			status_code: "TRA",
 			password: "tsukiden+",
-			img_src: "sample_img"
+			img_src: "sample_img",
 		});
 	} catch (error) {
 		return error;
@@ -126,23 +130,41 @@ export function* userSagaAdd() {
 function* addSaga(action: ReturnType<typeof addUserInfo>): any {
 	try {
 		const response = yield call(apiAdd, action.payload.data);
-		yield call(validate, response);
+		yield call(validate, response, true, false, false);
 	} catch (error) {
 		yield call(catchErr, error);
 	}
 }
 
-
 // VALIDATE THE RESPONSE
-function* validate(res: any) {
+function* validate(
+	res: any,
+	isAdd?: boolean,
+	isFetchSingleUser?: boolean,
+	isFetchingRoles?: boolean
+) {
 	if (res?.request?.status === 200) {
-		yield put(getUsersFetch());
-		yield put(
-			setMessage({
-				message: res?.data,
-				severity: "success",
-			})
-		);
+		if (isAdd) {
+			yield put(
+				setMessage({
+					message: res?.data,
+					severity: "success",
+				})
+			);
+			yield put(addUserSuccess()); // if the action is Add User, change the state of isAddSuccess to true
+		} else if (isFetchSingleUser) {
+			yield put(getUserInfoSuccess(res?.data));
+		} else if (isFetchingRoles) {
+			yield put(getUserRolesSuccess(res?.data));
+		} else {
+			yield put(getUsersFetch());
+			yield put(
+				setMessage({
+					message: res?.data,
+					severity: "success",
+				})
+			);
+		}
 	} else if (res?.request?.status > 200) {
 		yield put(
 			setMessage({

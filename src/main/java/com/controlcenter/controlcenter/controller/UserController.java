@@ -74,7 +74,7 @@ public class UserController {
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return ResponseEntity.status(200).body(userService.addAccount(account, role_ids));
+                return userService.addAccount(account, role_ids);
             }
   }
   // @PostMapping("/createBatch")
@@ -138,10 +138,15 @@ public class UserController {
     return userService.getUsername(username);
   }
 
-  //get all roles of user
+  //get all roles of currently logged in user
   @GetMapping("/roles")
-  public ResponseEntity<List<Map<String, Object>>> getAllRolesOfUser(String emp_id, HttpSession http) {
-    emp_id = http.getAttribute("session").toString();
+  public ResponseEntity<List<Map<Long, Object>>> getAllRolesOfLoggedInUser(HttpSession http) {
+    String emp_id = http.getAttribute("session").toString();
+    return userService.getAllRolesOfUser(emp_id);
+  }
+
+  @GetMapping("/roles/{emp_id}")
+  public ResponseEntity<List<Map<Long, Object>>> getAllRolesOfUser(@PathVariable String emp_id) {
     return userService.getAllRolesOfUser(emp_id);
   }
 }
