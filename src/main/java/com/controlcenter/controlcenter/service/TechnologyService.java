@@ -15,11 +15,11 @@ public interface TechnologyService {
 
     public String addTechnology(TechnologyInput technology, String emp_id);
 
-    public String editTechnology(String id, TechnologyInput technology);
+    public String editTechnology(String id, TechnologyInput technology, String emp_id);
 
-    public String logicalDeleteTechnology(String id);
+    public String logicalDeleteTechnology(String id, String emp_id);
 
-    public String deleteMultipleTechnology(@RequestParam List<Long> ids);
+    public String deleteMultipleTechnology(@RequestParam List<Long> ids, String emp_id);
 
     public String restoreTechnology(String id);
 }

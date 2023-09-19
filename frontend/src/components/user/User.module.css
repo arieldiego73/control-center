@@ -33,7 +33,7 @@
 
 }
 .addButton {
-  width: 100%;
+  width: 50%;
   height: 40px;
   display: flex;
   justify-content: flex-end;
@@ -43,6 +43,7 @@
   position: fixed;
   top: 12vh;
   right: -0.5vw; 
+  /* border: 1px solid red; */
 }
 .contentHolder { 
   border-radius: 5px;

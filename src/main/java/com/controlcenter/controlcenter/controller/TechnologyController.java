@@ -1,6 +1,5 @@
 package com.controlcenter.controlcenter.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -89,7 +88,8 @@ public class TechnologyController {
                 if (errors.size() > 0) { //checks the errors from validator
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
-                    return ResponseEntity.status(200).body(technologyService.editTechnology(id, technology));
+                    String emp_id = httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(technologyService.editTechnology(id, technology, emp_id));
                 }
         } else {
             // User is not authenticated 
@@ -104,7 +104,8 @@ public class TechnologyController {
 
         if (isAuthenticated != null && isAuthenticated) {
             try {
-                return ResponseEntity.ok().body(technologyService.logicalDeleteTechnology(id));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(technologyService.logicalDeleteTechnology(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
@@ -121,7 +122,8 @@ public class TechnologyController {
 
         if (isAuthenticated != null && isAuthenticated){
             try {
-                return ResponseEntity.ok().body(technologyService.deleteMultipleTechnology(ids));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(technologyService.deleteMultipleTechnology(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }

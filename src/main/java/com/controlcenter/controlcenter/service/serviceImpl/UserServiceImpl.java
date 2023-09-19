@@ -3,12 +3,16 @@ package com.controlcenter.controlcenter.service.serviceImpl;
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.MultiRoleDao;
 import com.controlcenter.controlcenter.dao.PersonalInfoDao;
+import com.controlcenter.controlcenter.dao.RoleDao;
 import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.AccountInput;
 import com.controlcenter.controlcenter.model.AccountOutput;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
+import com.controlcenter.controlcenter.model.MultiRoleInput;
+import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.PersonalInfoInput;
 import com.controlcenter.controlcenter.model.PersonalInfoOutput;
+import com.controlcenter.controlcenter.model.RoleOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
 import com.controlcenter.controlcenter.model.UserOutput;
@@ -17,6 +21,7 @@ import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 // import java.util.Collections;
 import java.util.List;
@@ -50,6 +55,9 @@ public class UserServiceImpl implements UserService{
 
   @Autowired
   public MultiRoleDao multiRoleDao;
+
+  @Autowired
+  public RoleDao roleDao;
 
   @Autowired 
   public PasswordEncoder passEnc;
@@ -162,28 +170,13 @@ public class UserServiceImpl implements UserService{
   }
 
   @Override
-  public String editAccount(String id, AccountOutput accountBody) {
+  public String editAccount(String id, AccountOutput accountBody, List<Long> role_ids) {
     HashMap<String, Object> userMap = new HashMap<>();
     HashMap<String, Object> personalInfoMap = new HashMap<>();
+    List<Long> listOfRolesToBeDeleted = new ArrayList<>();
 
     UserOutput user = new UserOutput();
     PersonalInfoOutput personalInfo = new PersonalInfoOutput();
-
-    // List<UserTable> accounts = userDao.findAll();
-
-    // for(UserTable account : accounts) {
-    //   if(id == accountBody.getEmp_id()) {
-    //     if(accountBody.getDel_flag() == 1) {
-    //       return "User with the Employee ID of " + id + " has already been deleted";
-    //     } else if(accountBody.getUsername().equals(account.getUsername())) {
-    //       return "The Username " + accountBody.getUsername() + " is already taken";
-    //     } else if (accountBody.getEmail().equals(account.getEmail())) {
-    //       return "The Email " + accountBody.getEmail() + " is already taken";
-    //     }
-    //   } else {
-    //     return "User with Employee ID of " + id + " cannot be found";
-    //   }
-    // }
 
     user.setEmp_id(accountBody.getEmp_id());
     user.setUsername(accountBody.getUsername());
@@ -206,6 +199,30 @@ public class UserServiceImpl implements UserService{
 
     personalInfoMap.put("id", id);
     personalInfoMap.put("personalInfo", personalInfo);
+
+    List<RoleOutput> listOfRoles = roleDao.getAllRole();
+
+    
+    for(RoleOutput role : listOfRoles) {
+      multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role.getRole_id());
+    }
+
+    if(role_ids == null) {
+      return "This user must have atleast one role";
+    } else {
+      for(Long role_id : role_ids) {
+        multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
+      }  
+    }
+    
+    // for(Long role_id : listOfRolesToBeDeleted) {
+    //   multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role_id);
+    // }
+
+
+    // for(Long role_id : role_ids) {
+      
+    // }
 
     userDao.editUser(userMap);
     personalInfoDao.editPersonalInfo(personalInfoMap);
@@ -311,12 +328,12 @@ public class UserServiceImpl implements UserService{
 
   //get all user roles
   @Override
-  public ResponseEntity<List<Map<String, Object>>> getAllRolesOfUser(String emp_id) {
+  public ResponseEntity<List<Map<Long, Object>>> getAllRolesOfUser(String emp_id) {
     List<UserRoles> rolesOfUser = userDao.getAllRolesOfUser(emp_id);
-    List<Map<String, Object>> allRoles = rolesOfUser.stream()
+    List<Map<Long, Object>> allRoles = rolesOfUser.stream()
       .map(role -> {
-        Map<String, Object> currentRoles = new HashMap<>();
-        currentRoles.put("role", role.getRole_sh_name());
+        Map<Long, Object> currentRoles = new HashMap<>();
+        currentRoles.put(role.getRole_id(), role.getRole_sh_name());
         return currentRoles;
       }).collect(Collectors.toList());
 
