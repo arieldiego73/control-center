@@ -64,7 +64,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public String editSectionInfo(String id, SectionInput section) {
+    public String editSectionInfo(String id, SectionInput section, String emp_id) {
         SectionOutput data = sectionDao.getSectionById(id);
 
         if (data != null) {
@@ -80,7 +80,7 @@ public class SectionServiceImpl implements SectionService {
                 // Avtivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Section");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -96,7 +96,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public String logicalDeleteSection(String id) {
+    public String logicalDeleteSection(String id, String emp_id) {
         SectionOutput data = sectionDao.getSectionById(id);
 
         if (data != null) {
@@ -114,7 +114,7 @@ public class SectionServiceImpl implements SectionService {
         // Avtivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
         activityLogInput.setLog_desc("Deleted a Section");
 
         Long currentTimeMillis = System.currentTimeMillis();
@@ -126,7 +126,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public String deleteMultipleSection(List<Long> ids) {
+    public String deleteMultipleSection(List<Long> ids, String emp_id) {
         sectionList = sectionDao.getAllSection();
 
         for (Long id : ids) {
@@ -145,7 +145,7 @@ public class SectionServiceImpl implements SectionService {
         // Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
         activityLogInput.setLog_desc("Deleted multiple Section.");
 
         Long currentTimeMillis = System.currentTimeMillis();
