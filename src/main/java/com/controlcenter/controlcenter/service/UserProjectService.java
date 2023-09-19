@@ -14,9 +14,9 @@ public interface UserProjectService {
 
     public String addUserProject(UserProjectInput userProject, String emp_id);
 
-    public String editUserProjectInfo(String id, UserProjectInput userProject);
+    public String editUserProjectInfo(String id, UserProjectInput userProject, String emp_id);
 
-    public String logicalDeleteUserProject(String id);
+    public String logicalDeleteUserProject(String id, String emp_id);
 
     public String restoreUserProject(String id);
 }
