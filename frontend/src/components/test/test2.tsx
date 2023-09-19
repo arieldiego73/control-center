@@ -36,7 +36,10 @@ import { getRolesFetch } from "../../redux/state/roleState";
 import { getPositionFetch } from "../../redux/state/positionState";
 import { addUserInfo } from "../../redux/saga/userSaga";
 import user from "../../Assets/userImage.png";
-
+import man from "../../Assets/mandp.jpg";
+import imgTest from "../../Assets/imgtest2.png";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { styled } from "@mui/material/styles";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -52,15 +55,12 @@ export default function Test() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [selectedRoles, setSelectedRoles] = React.useState<string[]>([]);
+  const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
   const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
     const {
       target: { value },
     } = event;
-    setSelectedRoles(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    setSelectedRoles(event.target.value as number[]);
   };
 
   React.useEffect(() => {
@@ -92,7 +92,7 @@ export default function Test() {
   // 	setDepartment(userData.section_id);
   // }, [userData, userId]);
 
-  const [assocID, setAssocID] = useState(""); 
+  const [assocID, setAssocID] = useState("");
   const [empStatus, setEmpStatus] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -102,10 +102,11 @@ export default function Test() {
   const [email, setEmail] = useState("");
   const [businessUnit, setBusinessUnit] = useState(0);
   const [department, setDepartment] = useState(0);
-
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isSaving, setIsSaving] = React.useState(false);
 
   //FOR DROPDOWN CONFIG (BUSINESS UNIT)
@@ -123,7 +124,17 @@ export default function Test() {
   const positions = useSelector(
     (state: RootState) => state.positionReducer.position
   );
-
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+  });
   const proceedWithCancel = () => {
     navigate("/user");
   };
@@ -176,32 +187,60 @@ export default function Test() {
                 display: "flex",
                 width: "19.68%",
                 height: "600px",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               {/* Start of Profile */}
               <div
                 style={{
-                  width: "15vw",
-                  height: "15vw",
                   display: "flex",
                   justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  gap: "5%",
                 }}
               >
-                <img
-                  alt=""
-                  src={user}
-                  style={{ width: "100%", height: "100%" }}
-                />
+                <div
+                  style={{
+                    // border: "2px solid black",
+                    // borderRadius: "150px",
+                    width: "15vw",
+                    height: "15vw",
+                  }}
+                >
+                  <img
+                    alt=""
+                    src={imgTest  }
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "150px",
+                      border:'3px solid black'
+                    }}
+                  />
+                </div>
+
+                <div className={TestStyle.toolTip}>
+                  <Button 
+                    className={TestStyle.buttonProfile}     
+                    component="label"
+                    startIcon={<CloudUploadIcon />}
+                  >
+                    Edit Profile
+                    <VisuallyHiddenInput type="file" />
+                  </Button>
+                </div>
               </div>
 
-              {/* Start of Form */}
+              {/* Start of Form of Profile*/}
               <div
                 style={{
                   height: "100%",
                   width: "100%",
                 }}
               >
-                 {/* Start of username form */}
+                {/* Start of username form */}
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <FormControl
                     style={{
@@ -284,14 +323,36 @@ export default function Test() {
               </div>
             </div>
 
-            <div style={{  width: "80%", height: "600px",}}>
-              <div style={{justifyContent:'center', display:"flex", width:'100%', height:'90%',  }}>
-              
-                <div style={{padding:'1%', height:'80%', width:'95%', display:'flex', flexDirection:'column', gap: "5%"}}>
+            <div style={{ width: "80%", height: "600px" }}>
+              {/* Start of Form*/}
+              <div
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  width: "100%",
+                  height: "90%",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "1%",
+                    height: "80%",
+                    width: "95%",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "5%",
+                  }}
+                >
                   {/* Start of Name Form */}
-                  <div  style={{display: "flex", justifyContent: "flex-start", gap: '5vw',}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      gap: "5vw",
+                    }}
+                  >
                     <FormControl>
-                    <FormLabel>First Name</FormLabel>
+                      <FormLabel>First Name</FormLabel>
                       <TextField
                         variant="outlined"
                         size="small"
@@ -349,35 +410,40 @@ export default function Test() {
                   </div>
 
                   {/* Start of Position and Role Form */}
-                  <div  style={{display: "flex", justifyContent: "flex-start", gap: '5vw', paddingTop:'1%'}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      gap: "5vw",
+                      paddingTop: "1%",
+                    }}
+                  >
                     <FormControl variant="outlined" size="small">
                       <FormLabel>Position</FormLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={position}
-                          onChange={(e) =>
-                            setPosition(e.target.value as number) 
-                          }
-                          className={TestStyle.textField}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <GroupsOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        >
-                          <MenuItem key={0} value={0}>
-                            {"<Select a position>"}
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={position}
+                        onChange={(e) => setPosition(e.target.value as number)}
+                        className={TestStyle.textField}
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <GroupsOutlinedIcon />
+                          </InputAdornment>
+                        }
+                      >
+                        <MenuItem key={0} value={0}>
+                          {"<Select a position>"}
+                        </MenuItem>
+                        {positions.map((pos: any) => (
+                          <MenuItem
+                            key={pos?.position_id}
+                            value={pos?.position_id}
+                          >
+                            {pos?.position_name}
                           </MenuItem>
-                          {positions.map((pos: any) => (
-                            <MenuItem
-                              key={pos?.position_id}
-                              value={pos?.position_id}
-                            >
-                              {pos?.position_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
+                        ))}
+                      </Select>
                     </FormControl>
 
                     <FormControl>
@@ -389,18 +455,14 @@ export default function Test() {
                         value={selectedRoles}
                         onChange={handleChange}
                         renderValue={(selected) => {
-                          const selectedTitles: string[] =
-                            selectedRoles.map((roleId) => {
-                              const matchingRole: any =
-                                roles.find(
-                                  (role: any) =>
-                                    role.role_id ===
-                                    roleId
-                                );
-                              return matchingRole
-                                ? matchingRole.title
-                                : "";
-                            });
+                          const selectedTitles: string[] = selectedRoles.map(
+                            (roleId) => {
+                              const matchingRole: any = roles.find(
+                                (role: any) => role.role_id === roleId
+                              );
+                              return matchingRole ? matchingRole.title : "";
+                            }
+                          );
                           return selectedTitles.join(", ");
                         }}
                         MenuProps={MenuProps}
@@ -408,20 +470,14 @@ export default function Test() {
                         sx={{ width: "500px", maxWidth: "300px" }}
                       >
                         {roles.map((role: any) => (
-                          <MenuItem
-                            key={role.role_id}
-                            value={role.role_id}
-                          >
+                          <MenuItem key={role.role_id} value={role.role_id}>
                             <Checkbox
                               checked={
-                                selectedRoles.indexOf(
-                                  role.role_id as never
-                                ) > -1
+                                selectedRoles.indexOf(role.role_id as never) >
+                                -1
                               }
                             />
-                            <ListItemText
-                              primary={role.title}
-                            />
+                            <ListItemText primary={role.title} />
                           </MenuItem>
                         ))}
                       </Select>
@@ -429,7 +485,14 @@ export default function Test() {
                   </div>
 
                   {/* Start of Email Form */}
-                  <div  style={{display: "flex", justifyContent: "flex-start", gap: '5vw', paddingTop:'1%'}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      gap: "5vw",
+                      paddingTop: "1%",
+                    }}
+                  >
                     <FormControl>
                       <FormLabel>Email</FormLabel>
                       <TextField
@@ -444,14 +507,21 @@ export default function Test() {
                             </InputAdornment>
                           ),
                         }}
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </FormControl>
                   </div>
-                  
+
                   {/* Start of Department and Business Unit Form */}
-                  <div  style={{display: "flex", justifyContent: "flex-start", gap: '5vw', paddingTop:'1%'}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      gap: "5vw",
+                      paddingTop: "1%",
+                    }}
+                  >
                     <FormControl variant="outlined" size="small">
                       <FormLabel>Department</FormLabel>
                       <Select
@@ -459,9 +529,7 @@ export default function Test() {
                         id="demo-simple-select"
                         value={businessUnit}
                         onChange={(e) =>
-                          setBusinessUnit(
-                            e.target.value as number
-                          )
+                          setBusinessUnit(e.target.value as number)
                         }
                         className={TestStyle.textField}
                         startAdornment={
@@ -489,11 +557,9 @@ export default function Test() {
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={department} 
+                        value={department}
                         onChange={(e) =>
-                          setDepartment(
-                            e.target.value as number
-                          )
+                          setDepartment(e.target.value as number)
                         }
                         className={TestStyle.textField}
                         startAdornment={
@@ -503,90 +569,68 @@ export default function Test() {
                         }
                       >
                         <MenuItem key={0} value={0}>
-                        {"<Select a business unit>"}
-                      </MenuItem>
-                        {depts.map((dept: any) => (
-                          <MenuItem
-                            key={dept?.dept_id}
-                            value={dept?.dept_id}
-                          >
-                            {dept?.dept_name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>   
-
-                   {/* Start of Password and Confirm Password Form */}
-                   <div  style={{display: "flex", justifyContent: "flex-start", gap: '5vw', paddingTop:'1%'}}>
-                    <FormControl variant="outlined" size="small">
-                      <FormLabel>Department</FormLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={businessUnit}
-                        onChange={(e) =>
-                          setBusinessUnit(
-                            e.target.value as number
-                          )
-                        }
-                        className={TestStyle.textField}
-                        startAdornment={
-                          <InputAdornment position="start">
-                            <GroupsOutlinedIcon />
-                          </InputAdornment>
-                        }
-                      >
-                        <MenuItem key={0} value={0}>
-                          {"<Select a department>"}
+                          {"<Select a business unit>"}
                         </MenuItem>
-                        {sections.map((sect: any) => (
-                          <MenuItem
-                            key={sect?.section_id}
-                            value={sect?.section_id}
-                          >
-                            {sect?.section_name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-
-                    <FormControl variant="outlined" size="small">
-                      <FormLabel>Busines Unit</FormLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={department} 
-                        onChange={(e) =>
-                          setDepartment(
-                            e.target.value as number
-                          )
-                        }
-                        className={TestStyle.textField}
-                        startAdornment={
-                          <InputAdornment position="start">
-                            <GroupsOutlinedIcon />
-                          </InputAdornment>
-                        }
-                      >
-                        <MenuItem key={0} value={0}>
-                        {"<Select a business unit>"}
-                      </MenuItem>
                         {depts.map((dept: any) => (
-                          <MenuItem
-                            key={dept?.dept_id}
-                            value={dept?.dept_id}
-                          >
+                          <MenuItem key={dept?.dept_id} value={dept?.dept_id}>
                             {dept?.dept_name}
                           </MenuItem>
                         ))}
                       </Select>
                     </FormControl>
-                  </div>   
+                  </div>
+
+                  {/* Start of Password and Confirm Password Form */}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      gap: "5vw",
+                      paddingTop: "1%",
+                    }}
+                  >
+                    <FormControl>
+                      <FormLabel>Password</FormLabel>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        placeholder="Password"
+                        className={TestStyle.textField}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PermIdentityOutlinedIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </FormControl>
+
+                    <FormControl>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        placeholder="Confirm Password"
+                        className={TestStyle.textField}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PermIdentityOutlinedIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                      />
+                    </FormControl>
+                  </div>
                 </div>
               </div>
-            
 
+              {/* Start of Button*/}
               <div className={TestStyle.formRow7}>
                 <Button
                   variant="contained"
@@ -611,7 +655,6 @@ export default function Test() {
                 </Button>
               </div>
             </div>
-
 
             {/*Dialog of Edit Confirmation */}
             <Dialog

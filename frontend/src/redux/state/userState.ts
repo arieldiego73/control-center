@@ -15,12 +15,17 @@ export const userSlice = createSlice({
 			title: "",
 			section_name: "",
 			dept_name: "",
+			position_id: 0,
+			dept_id: 0,
+			section_id: 0,
 		},
+		userRoles: [],
 		isLoading: false,
 		notice: {
 			message: "",
-			severity: ""
+			severity: "",
 		},
+		isAddSuccess: false,
 	},
 	reducers: {
 		getUsersFetch: (state) => {
@@ -34,15 +39,48 @@ export const userSlice = createSlice({
 			state.userInfo = action.payload;
 			state.isLoading = false;
 		},
-		getUsersError: (state) => {
+		getUserRolesSuccess: (state, action) => {
+			state.userRoles = action.payload;
 			state.isLoading = false;
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
-		}
+		},
+		addUserSuccess: (state) => {
+			state.isAddSuccess = true;
+		},
+		addUserReset: (state) => {
+			state.isAddSuccess = false;
+		},
+		clearUserInfo: (state) => {
+			state.userInfo = {
+				emp_id: "",
+				username: "",
+				fname: "",
+				mname: "",
+				lname: "",
+				position_name: "",
+				email: "",
+				title: "",
+				section_name: "",
+				dept_name: "",
+				position_id: 0,
+				dept_id: 0,
+				section_id: 0,
+			};
+			state.userRoles = [];
+		},
 	},
 });
 
-export const { getUsersFetch, getUsersSuccess, getUserInfoSuccess, getUsersError, setMessage } =
-	userSlice.actions;
+export const {
+	getUsersFetch,
+	getUsersSuccess,
+	getUserInfoSuccess,
+	getUserRolesSuccess,
+	setMessage,
+	addUserSuccess,
+	addUserReset,
+	clearUserInfo,
+} = userSlice.actions;
 export default userSlice.reducer;
