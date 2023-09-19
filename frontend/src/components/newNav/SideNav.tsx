@@ -14,6 +14,7 @@ import { People, Dns, PermMedia, Public, ArrowRight, Home, KeyboardArrowDown, Se
 import DashboardSvg from "../../Assets/icons/dashboard.svg";
 
 import React, { useState } from "react";
+// import DevelopmentTypeHandler from "../../pages/DevelopmentTypeHandler";
 
 // for dropdown in others link
 const othersDropDownData = [
@@ -23,7 +24,8 @@ const othersDropDownData = [
     { icon: <Public />, label: 'Employee Position', path: '/employeeposition' },
     { icon: <Public />, label: ' Business Units', path: '/businessunit' },
     { icon: <Public />, label: 'Departments', path: '/department' },
-    { icon: <Public />, label: 'Technologies', path: '/project' },
+    { icon: <Public />, label: 'Technologies', path: '/technology' },
+    { icon: <Public />, label: 'Development Type', path: '/devType' },
 ];
 
 function DevelopmentPhase() {
@@ -47,6 +49,9 @@ function Departments() {
 function Technologies() {
     return <div>Hosting Content</div>;
 }
+function DevelopmentTypeHandler() {
+    return <div>Hosting Content</div>;
+}
 
 const FireNav = styled(List)<{ component?: React.ElementType }>({
     '& .MuiListItemButton-root': {
@@ -58,7 +63,7 @@ const FireNav = styled(List)<{ component?: React.ElementType }>({
         marginRight: 16,
     },
     '& .MuiSvgIcon-root': {
-        fontSize: 20,
+        fontSize: 30,
     },
     '& .css-1mttud9': {
         paddingBottom: 0,
@@ -333,7 +338,8 @@ export default function SideNav() {
                 <Route path="/employeeposition" element={<EmployeePosition />} />
                 <Route path="/businessunit" element={<BusinessUnits />} />
                 <Route path="/department" element={<Departments />} />
-                <Route path="/project" element={<Technologies />} />
+                <Route path="/technology" element={<Technologies />} />
+                <Route path="/devType" element={<DevelopmentTypeHandler />} />
             </Routes>
         </div>
     );

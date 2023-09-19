@@ -27,7 +27,7 @@ public interface UserService {
 
   public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids);
 
-  public String editAccount(String id, AccountOutput accountBody);
+  public String editAccount(String id, AccountOutput accountBody, List<Long> role_ids);
 
   public String getLoggedInUser(UserOutput user);
 

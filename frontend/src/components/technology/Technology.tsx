@@ -96,53 +96,7 @@ export default function DevelopmentPhase() {
 
 	return (
 		<div className={Technology.mainContainer}>
-			<div style={{ width: "97%", paddingBottom: "1%" }}>
-				<div className={Technology.pageTitle}>
-					<span>
-						<AccountTreeOutlinedIcon fontSize="large" />
-					</span>
-					<span
-						style={{
-							fontSize: "1.8rem",
-							color: "black",
-							fontWeight: "600",
-						}}
-					>
-						{" "}
-						TECHNOLOGY{" "}
-					</span>
-				</div>
-			</div>
-
 			<div className={Technology.contentContainer}>
-				<div className={Technology.midContent}>
-					{/* for breadcrumbs */}
-					<div
-						style={{
-							// border: "1px solid red",
-							paddingBottom: "1%",
-							width: "80%",
-							height: "75%",
-							paddingLeft: "1%",
-							position: "relative",
-							top: "3%",
-							alignSelf: "center",
-						}}
-						role="presentation"
-						onClick={handleClick}
-					>
-						<Breadcrumbs maxItems={2} aria-label="breadcrumb">
-							<Link
-								to="/DevelopmentPhase"
-								className={`${Technology["custom-link"]}`}
-								style={{ color: "inherit" }}
-							>
-								Technology
-							</Link>
-						</Breadcrumbs>
-					</div>
-				</div>
-
 				<div className={Technology.contentHolder}>
 					<div
 						style={{

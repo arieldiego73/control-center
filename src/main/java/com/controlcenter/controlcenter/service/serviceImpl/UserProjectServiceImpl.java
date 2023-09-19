@@ -65,7 +65,7 @@ public class UserProjectServiceImpl implements UserProjectService {
     }
 
     @Override
-    public String editUserProjectInfo(String id, UserProjectInput userProject) {
+    public String editUserProjectInfo(String id, UserProjectInput userProject, String emp_id) {
         UserProjectOutput data = userProjectDao.getUserProjectById(id);
 
         if (data != null) {
@@ -82,7 +82,7 @@ public class UserProjectServiceImpl implements UserProjectService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a User Project.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -98,7 +98,7 @@ public class UserProjectServiceImpl implements UserProjectService {
     }
 
     @Override
-    public String logicalDeleteUserProject(String id) {
+    public String logicalDeleteUserProject(String id, String emp_id) {
         UserProjectOutput data = userProjectDao.getUserProjectById(id);
 
         if (data != null) {
@@ -110,7 +110,7 @@ public class UserProjectServiceImpl implements UserProjectService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a User Project.");
 
                 Long currentTimeMillis = System.currentTimeMillis();

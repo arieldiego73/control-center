@@ -106,17 +106,17 @@ public class UserController {
   // }
 
   @PutMapping("/edit-account/{id}")
-  public ResponseEntity<String> editAccount(@PathVariable String id, @RequestBody AccountOutput accountBody) {
+  public ResponseEntity<String> editAccount(@PathVariable String id, @RequestBody AccountOutput accountBody, @RequestParam List<Long> role_ids) {
     //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<AccountOutput>> error = validator.validate(accountBody);
-            //Error Handling
-            if (error.size() > 0) { //checks the errors from validator
-                return ResponseEntity.status(400).body(errorHandler.getErrors(error));
-            }else{
-                return ResponseEntity.status(200).body(userService.editAccount(id, accountBody));
-            }
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    Validator validator = validatorFactory.getValidator();
+    Set<ConstraintViolation<AccountOutput>> error = validator.validate(accountBody);
+      //Error Handling
+      if (error.size() > 0) { //checks the errors from validator
+        return ResponseEntity.status(400).body(errorHandler.getErrors(error));
+      }else{
+        return ResponseEntity.status(200).body(userService.editAccount(id, accountBody, role_ids));
+      }
   }
 
   @PostMapping("/login")

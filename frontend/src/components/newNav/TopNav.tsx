@@ -3,7 +3,6 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link } from "react-router-dom";
 import SampleUserImage from "../../Assets/userImage/SampleAvatar.png";
 import { ReactNode } from 'react';
-
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
@@ -45,7 +44,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
       <div className={TopNavStyle.leftSide}>
         <div className={TopNavStyle.breadCrumbsContainer}>
           {breadcrumbs && breadcrumbs.length > 0 && (
-            <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+            <Breadcrumbs aria-label="breadcrumb">
               {breadcrumbs.map((breadcrumb, index) => (
                 <Link
                   key={index}

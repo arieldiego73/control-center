@@ -63,7 +63,7 @@ export interface State {
 	messageInfo?: SnackbarMessage;
 }
 
-export default function EditUser() {
+export default function CreateUser() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 

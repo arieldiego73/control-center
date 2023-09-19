@@ -1,14 +1,15 @@
-import React from "react";
-import RoleStyle from "./Role.module.css";
-import RoleTable from "./RoleTable";
+import DevTypeStyle from "./DevelopmentType.module.css";
+import DevelopmentTypeTable from "./DevelopmentTypeTable";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
+
+import * as React from "react";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 
 //for breadcrumbs
 import { Link } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
+import { useSelector } from "react-redux";
 
 //for breadcrumbs
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
@@ -31,8 +32,10 @@ export interface State {
 // 	info: string;
 // }
 
-export default function Role() {
-	const notice = useSelector((state: RootState) => state.roleReducer.notice);
+export default function DevelopmentType() {
+	const notice = useSelector(
+		(state: RootState) => state.devPhaseReducer.notice
+	);
 	const isInitialAmount = React.useRef(true);
 	React.useEffect(() => {
 		if (!isInitialAmount.current) {
@@ -51,7 +54,7 @@ export default function Role() {
 	// 	info: "",
 	// 	vertical: "top",
 	// 	horizontal: "right",
-	// });
+	// }); 
 	// const { vertical, horizontal, info } = origin;
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]
@@ -92,9 +95,9 @@ export default function Role() {
 	};
 
 	return (
-		<div className={RoleStyle.mainContainer}>
-			<div className={RoleStyle.contentContainer}>
-				<div className={RoleStyle.contentHolder}>
+		<div className={DevTypeStyle.mainContainer}>
+			<div className={DevTypeStyle.contentContainer}>
+				<div className={DevTypeStyle.contentHolder}>
 					<div
 						style={{
 							backgroundColor: "transparent",
@@ -103,27 +106,30 @@ export default function Role() {
 							height: "100%",
 						}}
 					>
-						<RoleTable createSnackpack={handleClickSnackpack} />
+						<DevelopmentTypeTable
+							createSnackpack={handleClickSnackpack}
+						/>
 					</div>
 				</div>
 			</div>
+
 			<Snackbar
-						key={messageInfo ? messageInfo.key : undefined}
-						open={open}
-						autoHideDuration={2000}
-						onClose={handleClose}
-						TransitionProps={{ onExited: handleExited }}
-						// anchorOrigin={{ vertical, horizontal }}
-					>
-						<Alert
-							onClose={handleClose}
-							severity={severity}
-							sx={{ width: "100%" }}
-							variant="filled"
-						>
-							{messageInfo ? messageInfo.message : undefined}
-						</Alert>
-					</Snackbar>
+				key={messageInfo ? messageInfo.key : undefined}
+				open={open}
+				autoHideDuration={2000}
+				onClose={handleClose}
+				TransitionProps={{ onExited: handleExited }}
+				// anchorOrigin={{ vertical, horizontal }}
+			>
+				<Alert
+					onClose={handleClose}
+					severity={severity}
+					sx={{ width: "100%" }}
+					variant="filled"
+				>
+					{messageInfo ? messageInfo.message : undefined}
+				</Alert>
+			</Snackbar>
 		</div>
 	);
 }
