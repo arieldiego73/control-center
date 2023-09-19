@@ -67,15 +67,9 @@ export default function CreateUser() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const [selectedRoles, setSelectedRoles] = React.useState<string[]>([]);
+	const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
 	const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
-		const {
-			target: { value },
-		} = event;
-		setSelectedRoles(
-			// On autofill we get a stringified value.
-			typeof value === "string" ? value.split(",") : value
-		);
+		setSelectedRoles(event.target.value as number[]);
 	};
 
 	const notice = useSelector((state: RootState) => state.userReducer.notice);
@@ -149,19 +143,6 @@ export default function CreateUser() {
 			}, GLOBAL_TIMEOUT);
 		}
 	});
-
-	// React.useEffect(() => {
-	// 	setAssocID(userData.emp_id);
-	// 	setUsername(userData.username);
-	// 	setFirstName(userData.fname);
-	// 	setMiddleName(userData.mname);
-	// 	setLastName(userData.lname);
-	// 	setPosition(userData.position_name);
-	// 	setEmail(userData.email);
-	// 	setSelectedRoles([]); // INSERT HERE THE ROLES OF THE USER
-	// 	setBusinessUnit(userData.dept_id);
-	// 	setDepartment(userData.section_id);
-	// }, [userData, userId]);
 
 	const [assocID, setAssocID] = useState("");
 	const [username, setUsername] = useState("");
@@ -601,7 +582,7 @@ export default function CreateUser() {
 								>
 									<HelpIcon
 										accentHeight={100}
-										color="disabled"
+										color="error"
 										fontSize="large"
 										alignmentBaseline="middle"
 									/>
@@ -649,7 +630,6 @@ export default function CreateUser() {
 				autoHideDuration={GLOBAL_TIMEOUT}
 				onClose={handleClose}
 				TransitionProps={{ onExited: handleExited }}
-				anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
 			>
 				<Alert
 					onClose={handleClose}
