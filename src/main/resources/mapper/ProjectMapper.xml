@@ -11,15 +11,18 @@
               tc.client_name,
               tproj.start_date,
               tproj.end_date, 
-              (select count(*) from tbl_user_project as tup where tup.proj_id = tproj.proj_id) as members,
+              devtype.dev_type_name,
+              (SELECT COUNT(*) FROM tbl_user_project AS tup WHERE tup.proj_id = tproj.proj_id) AS members,
               ps.proj_status_name
          FROM tbl_project_mst AS tproj
-              inner join tbl_proj_info as tpi 
-                  on tproj.proj_id = tpi.proj_id
-              left join tbl_clients_mst as tc 
-                  on tpi.client_id = tc.client_id
-              left join tbl_proj_status_mst as ps
-                  on tpi.proj_status_id = ps.proj_status_id
+              INNER JOIN tbl_proj_info AS tpi 
+                  ON tproj.proj_id = tpi.proj_id
+              LEFT JOIN tbl_clients_mst AS tc 
+                  ON tpi.client_id = tc.client_id
+              LEFT JOIN tbl_dev_type_mst AS devtype
+                  ON tpi.dev_type_id = devtype.dev_type_id
+              LEFT JOIN tbl_proj_status_mst AS ps
+                  ON tpi.proj_status_id = ps.proj_status_id
         WHERE tproj.del_flag = 0
      ORDER BY tproj.proj_id DESC, tproj.reg_date DESC;
     </select>
@@ -38,7 +41,7 @@
     </select>
 
 <!-- Add Data -->
-    <insert id="addProject" parameterType="com.controlcenter.controlcenter.model.ProjectInput">
+    <insert id="addProject" parameterType="com.controlcenter.controlcenter.model.ProjectOutput" useGeneratedKeys="true" keyProperty="proj_id">
         INSERT INTO tbl_project_mst(
             proj_name, proj_code, 
             proj_description, 

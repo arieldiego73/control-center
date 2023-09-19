@@ -23,13 +23,11 @@
 <insert id="addProjectTechnology" parameterType="com.controlcenter.controlcenter.model.ProjectTechnologyInput">
     INSERT INTO tbl_proj_tech (
         tech_id, 
-        proj_id, 
-        reg_id
+        proj_id
     )
     VALUES (
         #{tech_id}, 
-        #{proj_id}, 
-        1
+        #{proj_id}
     )
 </insert>
 

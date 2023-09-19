@@ -13,6 +13,7 @@ public class ProjectTable {
     private String client_name;
     private Date start_date;
     private Date end_date;
+    private String dev_type_name;
     private int members;
     private String proj_status_name;
 }
