@@ -15,11 +15,11 @@ public interface SectionService {
 
     public String addSection(SectionInput section, String emp_id);
 
-    public String editSectionInfo(String id, SectionInput section);
+    public String editSectionInfo(String id, SectionInput section, String emp_id);
 
-    public String logicalDeleteSection(String id);
+    public String logicalDeleteSection(String id, String emp_id);
 
-    public String deleteMultipleSection(@RequestParam List<Long> ids);
+    public String deleteMultipleSection(@RequestParam List<Long> ids, String emp_id);
 
     public String restoreSection(String id);
 }

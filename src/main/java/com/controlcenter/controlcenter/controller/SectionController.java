@@ -30,7 +30,7 @@ import com.controlcenter.controlcenter.shared.ErrorHandler;
 @RequestMapping("/section")
 
 public class SectionController {
-       
+
     @Autowired
     public SectionService sectionService;
 
@@ -39,9 +39,9 @@ public class SectionController {
 
     @GetMapping("/all")
     public ResponseEntity<List<SectionOutput>> getAllSection(HttpSession httpSession) {
-        // Check if the user is authenticated 
+        // Check if the user is authenticated
         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
-        
+
         if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated
             return sectionService.getAllSection();
@@ -52,23 +52,23 @@ public class SectionController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addSection(@RequestBody SectionInput section, HttpSession httpSession){
+    public ResponseEntity<String> addSection(@RequestBody SectionInput section, HttpSession httpSession) {
         // Check if the user is authenticated
         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         if (isAuthenticated != null && isAuthenticated) {
-            // User is authenticated,  proceed with adding
-            //For Validation
+            // User is authenticated, proceed with adding
+            // For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
             Validator validator = validatorFactory.getValidator();
             Set<ConstraintViolation<SectionInput>> errors = validator.validate(section);
-                //Error Handling
-                if (errors.size() > 0) { //checks the errors from validator
-                    return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-                }else{
-                    String emp_id = httpSession.getAttribute("session").toString();
-                    return ResponseEntity.status(200).body(sectionService.addSection(section, emp_id));
-                }
+            // Error Handling
+            if (errors.size() > 0) { // checks the errors from validator
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+            } else {
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.status(200).body(sectionService.addSection(section, emp_id));
+            }
         } else {
             // is not authenticated
             return ResponseEntity.status(401).body("Unauthorized");
@@ -76,36 +76,39 @@ public class SectionController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editSectionInfo(@PathVariable String id, @RequestBody SectionInput section, HttpSession httpSession) {
+    public ResponseEntity<String> editSectionInfo(@PathVariable String id, @RequestBody SectionInput section,
+            HttpSession httpSession) {
         // Check if the user is authenticated
         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
-        
-        if (isAuthenticated != null && isAuthenticated){
-            // User is authenticated,  proceed with adding
-            //For Validation
+
+        if (isAuthenticated != null && isAuthenticated) {
+            // User is authenticated, proceed with adding
+            // For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
             Validator validator = validatorFactory.getValidator();
             Set<ConstraintViolation<SectionInput>> errors = validator.validate(section);
-                //Error Handling
-                if (errors.size() > 0) { //checks the errors from validator
-                    return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-                }else{
-                    return ResponseEntity.status(200).body(sectionService.editSectionInfo(id, section));
-                }
+            // Error Handling
+            if (errors.size() > 0) { // checks the errors from validator
+                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+            } else {
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.status(200).body(sectionService.editSectionInfo(id, section, emp_id));
+            }
         } else {
-            // User is not authenticated 
+            // User is not authenticated
             return ResponseEntity.status(401).body("Unauthorized");
         }
     }
 
     @PutMapping("/delete/{id}")
     public ResponseEntity<String> logicalDeleteSection(@PathVariable String id, HttpSession httpSession) {
-         // Check if the user is authenticated
-         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Check if the user is authenticated
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-         if (isAuthenticated != null && isAuthenticated) {
-             try {
-                return ResponseEntity.ok().body(sectionService.logicalDeleteSection(id));
+        if (isAuthenticated != null && isAuthenticated) {
+            try {
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(sectionService.logicalDeleteSection(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
@@ -117,35 +120,36 @@ public class SectionController {
 
     @PutMapping("/delete-multiple")
     public ResponseEntity<String> deleteMultipleSection(@RequestParam List<Long> ids, HttpSession httpSession) {
-       // Check uf the user is authenticated
-       Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Check uf the user is authenticated
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-       if (isAuthenticated != null && isAuthenticated){
-           try {
-                return ResponseEntity.ok().body(sectionService.deleteMultipleSection(ids));
+        if (isAuthenticated != null && isAuthenticated) {
+            try {
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(sectionService.deleteMultipleSection(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
         } else {
-         // User is not authenticated
-         return ResponseEntity.status(401).body("Unauthorized");
+            // User is not authenticated
+            return ResponseEntity.status(401).body("Unauthorized");
         }
     }
 
     @PutMapping("/restore/{id}")
     public ResponseEntity<String> restoreSection(@PathVariable String id, HttpSession httpSession) {
         // Check uf the user is authenticated
-       Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-       if (isAuthenticated != null && isAuthenticated){
+        if (isAuthenticated != null && isAuthenticated) {
             try {
                 return ResponseEntity.ok().body(sectionService.restoreSection(id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
         } else {
-          // User is not authenticated
-         return ResponseEntity.status(401).body("Unauthorized");
+            // User is not authenticated
+            return ResponseEntity.status(401).body("Unauthorized");
         }
     }
 }
