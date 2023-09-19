@@ -14,9 +14,9 @@ public interface ProjectTechnologyService {
 
     public String addProjectTechnology(ProjectTechnologyInput projectTechnology, String emp_id);
 
-    public String editProjectTechnology(String id, ProjectTechnologyInput projectTechnology);
+    public String editProjectTechnology(String id, ProjectTechnologyInput projectTechnology, String emp_id);
 
-    public String logicalDeleteProjectTechnology(String id);
+    public String logicalDeleteProjectTechnology(String id, String emp_id);
 
     public String restoreProjectTechnology(String id);
 }

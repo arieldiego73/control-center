@@ -88,7 +88,8 @@ public class ProjectTechnologyController {
                 if (errors.size() > 0) { //checks the errors from validator
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
-                    return ResponseEntity.status(200).body(projectTechnologyService.editProjectTechnology(id, projectTechnology));
+                    String emp_id = httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(projectTechnologyService.editProjectTechnology(id, projectTechnology, emp_id));
                 }
         } else {
             // User is not authenticated 
@@ -103,7 +104,8 @@ public class ProjectTechnologyController {
 
          if (isAuthenticated != null && isAuthenticated) {
             try {
-                return ResponseEntity.ok().body(projectTechnologyService.logicalDeleteProjectTechnology(id));
+                String emp_id = httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(projectTechnologyService.logicalDeleteProjectTechnology(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
