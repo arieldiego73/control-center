@@ -105,7 +105,7 @@ export default function BusinessUnit() {
 							// borderBottomRightRadius: "8px",
 							height: "100%",
 						}}
-					>
+					> 
 						<DepartmentTable
 							createSnackpack={handleClickSnackpack}
 						/>
