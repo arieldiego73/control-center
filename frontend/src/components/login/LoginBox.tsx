@@ -161,7 +161,6 @@ const LoginBox = () => {
 						style={{
 							textAlign: "center",
 							fontSize: "13px",
-							fontFamily: "Montserrat",
 						}}
 						error={!isValid}
 					>
@@ -174,7 +173,6 @@ const LoginBox = () => {
 						sx={{
 							mt: 3,
 							mb: 2,
-							fontFamily: "Montserrat",
 							fontWeight: 700,
 						}}
 					>
@@ -192,7 +190,6 @@ const LoginBox = () => {
 						sx={{
 							mt: 3,
 							mb: 2,
-							fontFamily: "Montserrat",
 							color: "secondary",
 						}}
 						startIcon={<Info />}
