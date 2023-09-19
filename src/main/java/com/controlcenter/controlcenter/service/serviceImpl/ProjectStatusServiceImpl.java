@@ -64,7 +64,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     }
 
     @Override
-    public String editProjectStatus(String id, ProjectStatusInput projectStatus) {
+    public String editProjectStatus(String id, ProjectStatusInput projectStatus, String emp_id) {
         ProjectStatusOutput data = projectStatusDao.getProjectStatusById(id);
 
         if (data != null) {
@@ -80,7 +80,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Edited a Project Status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -96,7 +96,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     }
 
     @Override
-    public String logicalDeleteProjectStatus(String id) {
+    public String logicalDeleteProjectStatus(String id, String emp_id) {
         ProjectStatusOutput data = projectStatusDao.getProjectStatusById(id);
 
         if (data != null) {
@@ -108,7 +108,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Delete a Project Status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -124,7 +124,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     }
 
     @Override
-    public String deleteMultipleProjectStatus(@RequestParam List<Long> ids) {
+    public String deleteMultipleProjectStatus(@RequestParam List<Long> ids, String emp_id) {
         projectStatusList = projectStatusDao.getAllProjectStatus();
 
         for (Long id : ids) {
@@ -144,7 +144,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
         // Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
         activityLogInput.setLog_desc("Deleted multiple Project Status.");
 
         Long currentTimeMillis = System.currentTimeMillis();
