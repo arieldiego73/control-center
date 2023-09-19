@@ -9,6 +9,7 @@ export default function DashboardHandler (){
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
+        { label: "Dashboard", to: "/dashboard" },
 	];
 
     return(

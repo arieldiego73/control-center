@@ -84,4 +84,20 @@
 /* .formRow7{
   align-self: flex-end;
 } */
+.toolTip{
+  width: 78%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 
+  }
+  .buttonProfile:hover{
+  font-weight: bolder;
+  }
+  .buttonProfile{
+    width: 100%;
+    /* margin-top: 4%; */
+  }

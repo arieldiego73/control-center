@@ -2,7 +2,6 @@ import CreateUser from "../components/user/add/CreateUser";
 import NavigationHandler from "./NavigationHandler";
 import HomeIcon from '@mui/icons-material/Home';
 
-
 export default function CreateUserHandler (){
     const pageTitle = "CREATE USER";
 
