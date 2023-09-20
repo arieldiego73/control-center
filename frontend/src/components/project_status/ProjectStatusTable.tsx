@@ -308,7 +308,7 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 						Add Status
 					</Button>
 				) : (
-					<div className={ProjectStatusStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
