@@ -74,7 +74,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
             <img
               src={SampleUserImage}
               alt="User"
-              style={{ height: "100%", width: "100%" }}
+              style={{ height: "100%", width: "100%", borderRadius:"100%" }}
             />
           </div>
           <div className={TopNavStyle.userName}>

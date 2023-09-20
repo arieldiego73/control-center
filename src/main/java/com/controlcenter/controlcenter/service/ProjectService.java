@@ -13,7 +13,7 @@ public interface ProjectService {
     public ResponseEntity<List<ProjectTable>> projectTable();
     public ResponseEntity<List<ProjectOutput>> getAllProject();
     public ProjectOutput getProjectById(String id);
-    public String addProject(ProjectInput project, String emp_id);
+    public String addProject(ProjectOutput project, String emp_id, List<String> manager_ids, List<Long> client_ids, Long type_id, List<Long> phase_ids, List<Long> tech_ids, List<String> member_ids);
     public String editProjectInfo(String id, ProjectInput project, String emp_id);
     public String logicalDeleteProject(String id, String emp_id);
     public String restoreProject(String id);

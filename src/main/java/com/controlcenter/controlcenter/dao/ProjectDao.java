@@ -16,7 +16,7 @@ public interface ProjectDao {
 
     ProjectOutput getProjectById(String id);
 
-    void addProject(ProjectInput project);
+    Long addProject(ProjectOutput project);
 
     void editProjectInfo(Map<String, Object> paramMap);
 
