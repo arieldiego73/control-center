@@ -15,7 +15,7 @@ const DataGridAddButtons: React.FC<DataGridAddButtonsProps> = (props) => {
 			style={{
 				flexDirection: "row",
 				display: "flex",
-				alignItems: "center",
+				alignItems: "end",
 				height: "100%",
 				gap: "10px",
 			}}
