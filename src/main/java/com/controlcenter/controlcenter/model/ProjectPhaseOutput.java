@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ProjectPhaseOutput {
     private Long proj_phase_id;
-    private int dev_phase_id;
-    private int proj_id;
+    private Long dev_phase_id;
+    private Long proj_id;
     private int del_flag;
 }

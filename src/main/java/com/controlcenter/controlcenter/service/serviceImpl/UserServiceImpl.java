@@ -60,12 +60,21 @@ public class UserServiceImpl implements UserService{
   public PasswordEncoder passEnc;
 
   @Override
-  public ResponseEntity<List<UserTable>> findAll() {
+  public ResponseEntity<List<UserTable>> userTable() {
     try {
-      List<UserTable> users = userDao.findAll();
+      List<UserTable> users = userDao.userTable();
       return ResponseEntity.ok(users);
     } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      return ResponseEntity.status(404).build();
+    }
+  }
+
+  public ResponseEntity<List<UserOutput>> getAllUser() {
+    try {
+      List<UserOutput> users = userDao.getAllUser();
+      return ResponseEntity.ok(users);
+    } catch (Exception e) {
+      return ResponseEntity.status(404).build();
     }
   }
 
@@ -112,7 +121,7 @@ public class UserServiceImpl implements UserService{
     if(userById != null) {
       return ResponseEntity.badRequest().body("The Emplyee ID of " + account.getEmp_id() + " is already taken.");
     } else {
-      List<UserTable> users = userDao.findAll();
+      List<UserTable> users = userDao.userTable();
 
       for(UserTable perUser : users) {
         if(account.getUsername().equals(perUser.getUsername())) {
@@ -174,6 +183,8 @@ public class UserServiceImpl implements UserService{
     UserOutput user = new UserOutput();
     PersonalInfoOutput personalInfo = new PersonalInfoOutput();
 
+    List<RoleOutput> listOfRoles = roleDao.getAllRole();
+
     user.setEmp_id(accountBody.getEmp_id());
     user.setUsername(accountBody.getUsername());
     user.setPassword(passEnc.encode(accountBody.getPassword()));
@@ -196,29 +207,13 @@ public class UserServiceImpl implements UserService{
     personalInfoMap.put("id", id);
     personalInfoMap.put("personalInfo", personalInfo);
 
-    List<RoleOutput> listOfRoles = roleDao.getAllRole();
-
-    
     for(RoleOutput role : listOfRoles) {
       multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role.getRole_id());
     }
 
-    if(role_ids == null) {
-      return "This user must have atleast one role";
-    } else {
-      for(Long role_id : role_ids) {
-        multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
-      }  
-    }
-    
-    // for(Long role_id : listOfRolesToBeDeleted) {
-    //   multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role_id);
-    // }
-
-
-    // for(Long role_id : role_ids) {
-      
-    // }
+    for(Long role_id : role_ids) {
+      multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
+    }  
 
     userDao.editUser(userMap);
     personalInfoDao.editPersonalInfo(personalInfoMap);

@@ -55,4 +55,10 @@
            SET del_flag = 0
         WHERE upid = #{id}
     </update>
+
+<!-- Define the delete query -->
+    <delete id="permaDeleteProjectMember">
+        DELETE FROM tbl_user_project
+        WHERE proj_id = #{proj_id} AND emp_id = #{emp_id} 
+    </delete>
 </mapper>

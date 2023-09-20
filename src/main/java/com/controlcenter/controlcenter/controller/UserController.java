@@ -41,9 +41,14 @@ public class UserController {
   @Autowired
   ErrorHandler errorHandler;
 
+  @GetMapping("/user-table")
+  public ResponseEntity<List<UserTable>> userTable() {
+    return userService.userTable();
+  }
+
   @GetMapping("/all")
-  public ResponseEntity<List<UserTable>> getAllUsers() {
-    return userService.findAll();
+  public ResponseEntity<List<UserOutput>> getAllUser() {
+    return userService.getAllUser();
   }
 
   @GetMapping("/info/{id}")

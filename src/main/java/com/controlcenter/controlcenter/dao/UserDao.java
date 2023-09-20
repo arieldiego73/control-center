@@ -13,7 +13,10 @@ import com.controlcenter.controlcenter.model.UserTable;
 
 @Mapper
 public interface UserDao {
-  List<UserTable> findAll();
+  List<UserTable> userTable();
+
+  List<UserOutput> getAllUser();
+
   UserInfoOutput getUserById(String id);
   void insertUser(UserInput user);
   void editUser(HashMap<String, Object> paramMap);

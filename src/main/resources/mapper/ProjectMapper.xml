@@ -85,4 +85,10 @@
         WHERE proj_id = #{id}
     </update>
 
+<!-- Define the delete query -->
+    <delete id="permaDeleteRoleOfUser">
+        DELETE FROM tbl_multi_role
+        WHERE emp_id = #{emp_id} AND role_id = #{role_id}
+    </delete>
+
 </mapper>
