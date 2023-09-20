@@ -8,7 +8,12 @@ import { Provider } from "react-redux";
 import store from "./redux/store/store";
 import { Global, css } from "@emotion/react";
 
-
+const globalStyles = css`
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+  * {
+  font-family: "Roboto", sans-serif;
+}
+`;
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
@@ -16,6 +21,7 @@ const root = ReactDOM.createRoot(
 root.render(
 	// <React.StrictMode>
 	<Provider store={store}>
+		<Global styles={globalStyles} />
 		<App />
 	</Provider>
 	// </React.StrictMode>
