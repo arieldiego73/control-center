@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { getRolesFetch } from "../../redux/state/roleState";
 import { Divider } from "@mui/material";
-import RoleModuleStyle from "./Role.module.css";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
 import {datagridBoxStyle,datagridStyle,} from "../datagrid_customs/DataGridStyle";
@@ -325,7 +324,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 	 					Add Role
 					</Button>
 				) : (
-					<div className={RoleModuleStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField

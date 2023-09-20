@@ -1,5 +1,4 @@
 import React from "react";
-import RoleStyle from "./Role.module.css";
 import RoleTable from "./RoleTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -71,10 +70,10 @@ export default function Role() {
 	};
 
 	return (
-		<div className={RoleStyle.mainContainer}>
-			<div className={RoleStyle.contentContainer}>
-				<div className={RoleStyle.contentHolder}>
-					<div className={RoleStyle.tableHolder}>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<RoleTable createSnackpack={handleClickSnackpack} />
 					</div>
 				</div>
