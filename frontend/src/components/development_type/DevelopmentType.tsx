@@ -1,21 +1,8 @@
-import DevTypeStyle from "./DevelopmentType.module.css";
-import DevelopmentTypeTable from "./DevelopmentTypeTable";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-
 import * as React from "react";
+import DevelopmentTypeTable from "./DevelopmentTypeTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-
-//for breadcrumbs
-import { Link } from "react-router-dom";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { RootState } from "../../redux/store/store";
 import { useSelector } from "react-redux";
-
-//for breadcrumbs
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-	event.preventDefault();
-	console.info("You clicked a breadcrumb.");
-}
 
 export interface SnackbarMessage {
 	message: string;
@@ -27,10 +14,6 @@ export interface State {
 	snackPack: readonly SnackbarMessage[];
 	messageInfo?: SnackbarMessage;
 }
-
-// interface SnackbarState extends SnackbarOrigin {
-// 	info: string;
-// }
 
 export default function DevelopmentType() {
 	const notice = useSelector(
@@ -95,17 +78,10 @@ export default function DevelopmentType() {
 	};
 
 	return (
-		<div className={DevTypeStyle.mainContainer}>
-			<div className={DevTypeStyle.contentContainer}>
-				<div className={DevTypeStyle.contentHolder}>
-					<div
-						style={{
-							backgroundColor: "transparent",
-							// borderBottomLeftRadius: "8px",
-							// borderBottomRightRadius: "8px",
-							height: "100%",
-						}}
-					>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<DevelopmentTypeTable
 							createSnackpack={handleClickSnackpack}
 						/>
@@ -119,7 +95,7 @@ export default function DevelopmentType() {
 				autoHideDuration={2000}
 				onClose={handleClose}
 				TransitionProps={{ onExited: handleExited }}
-				// anchorOrigin={{ vertical, horizontal }}
+			// anchorOrigin={{ vertical, horizontal }}
 			>
 				<Alert
 					onClose={handleClose}

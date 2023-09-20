@@ -9,6 +9,25 @@ import CancelIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import PersonFourIcon from "@mui/icons-material/Person4";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+import { getRolesFetch } from "../../redux/state/roleState";
+import { Divider } from "@mui/material";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import {datagridBoxStyle,datagridStyle,} from "../datagrid_customs/DataGridStyle";
+import CustomPagination from "../custom_pagination/pagination";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
+import {addFormContainerStyles,addFormStyles,} from "../datagrid_customs/DataGridAddFormStyles";
+import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
+import {
+	addRoles,
+	deleteRoles,
+	deleteRolesBatch,
+	updateRoles,
+} from "../../redux/saga/roleSaga";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -23,32 +42,6 @@ import {
 	GridRowSelectionModel,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
-import { getRolesFetch } from "../../redux/state/roleState";
-import {
-	addRoles,
-	deleteRoles,
-	deleteRolesBatch,
-	updateRoles,
-} from "../../redux/saga/roleSaga";
-import { Divider } from "@mui/material";
-import RoleModuleStyle from "./Role.module.css";
-import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
-import DataGridProps from "../datagrid_customs/DataGridProps";
-import {
-	datagridBoxStyle,
-	datagridStyle,
-} from "../datagrid_customs/DataGridStyle";
-import CustomPagination from "../custom_pagination/pagination";
-import DataGridDialog from "../datagrid_customs/DataGridDialog";
-import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
-import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
-import {
-	addFormContainerStyles,
-	addFormStyles,
-} from "../datagrid_customs/DataGridAddFormStyles";
-import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 
 const RoleTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -328,10 +321,10 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
-						Add Role
+	 					Add Role
 					</Button>
 				) : (
-					<div className={RoleModuleStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField

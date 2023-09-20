@@ -1,20 +1,8 @@
 import React from "react";
-import RoleStyle from "./Role.module.css";
 import RoleTable from "./RoleTable";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-
-//for breadcrumbs
-import { Link } from "react-router-dom";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-
-//for breadcrumbs
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-	event.preventDefault();
-	console.info("You clicked a breadcrumb.");
-}
 
 export interface SnackbarMessage {
 	message: string;
@@ -26,10 +14,6 @@ export interface State {
 	snackPack: readonly SnackbarMessage[];
 	messageInfo?: SnackbarMessage;
 }
-
-// interface SnackbarState extends SnackbarOrigin {
-// 	info: string;
-// }
 
 export default function Role() {
 	const notice = useSelector((state: RootState) => state.roleReducer.notice);
@@ -47,12 +31,6 @@ export default function Role() {
 		}
 	}, [notice]);
 
-	// const [origin, setOrigin] = React.useState<SnackbarState>({
-	// 	info: "",
-	// 	vertical: "top",
-	// 	horizontal: "right",
-	// });
-	// const { vertical, horizontal, info } = origin;
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]
 	>([]);
@@ -92,38 +70,31 @@ export default function Role() {
 	};
 
 	return (
-		<div className={RoleStyle.mainContainer}>
-			<div className={RoleStyle.contentContainer}>
-				<div className={RoleStyle.contentHolder}>
-					<div
-						style={{
-							backgroundColor: "transparent",
-							// borderBottomLeftRadius: "8px",
-							// borderBottomRightRadius: "8px",
-							height: "100%",
-						}}
-					>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<RoleTable createSnackpack={handleClickSnackpack} />
 					</div>
 				</div>
 			</div>
 			<Snackbar
-						key={messageInfo ? messageInfo.key : undefined}
-						open={open}
-						autoHideDuration={2000}
-						onClose={handleClose}
-						TransitionProps={{ onExited: handleExited }}
-						// anchorOrigin={{ vertical, horizontal }}
-					>
-						<Alert
-							onClose={handleClose}
-							severity={severity}
-							sx={{ width: "100%" }}
-							variant="filled"
-						>
-							{messageInfo ? messageInfo.message : undefined}
-						</Alert>
-					</Snackbar>
+				key={messageInfo ? messageInfo.key : undefined}
+				open={open}
+				autoHideDuration={2000}
+				onClose={handleClose}
+				TransitionProps={{ onExited: handleExited }}
+				// anchorOrigin={{ vertical, horizontal }}
+			>
+				<Alert
+					onClose={handleClose}
+					severity={severity}
+					sx={{ width: "100%" }}
+					variant="filled"
+				>
+					{messageInfo ? messageInfo.message : undefined}
+				</Alert>
+			</Snackbar>
 		</div>
 	);
 }

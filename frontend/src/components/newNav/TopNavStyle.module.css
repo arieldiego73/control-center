@@ -3,32 +3,25 @@
   width: 82%;
   border-radius: 10px;
   overflow: hidden;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 2%;
-  
   background: rgba( 237, 249, 255, 0.35 );
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 5px );
   -webkit-backdrop-filter: blur( 5px );
   border-radius: 10px;
-
-  position: fixed;
+  position: fixed; 
 }
-
 .leftSide{
   height: 90%;
   width: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
 }
-
 .breadCrumbsContainer {
   height: 30%; 
   width: 100%;
@@ -37,61 +30,40 @@
   margin-top: 1%;
   margin-left: 5%;
 }
-
 .titleContainer{
   height: 70%;
   width: 100%;
-
   display: flex;
   align-items: center;
-
 }
-
 .titleContainer span{
   font-size: 1.5rem;
   padding-left: 3%;
   font-weight: 600;
 }
-
-.custom-link:hover {
-  font-weight: 600;
-}  
- .custom-link {
-  text-decoration: none; 
-  font-size: small;
-} 
-
 .rightSide{
   height: 90%;
   width: 50%;
-
   display: flex;
   align-items: center;
   justify-content: flex-end;
-
   gap: 2%;
 }
 .userInfo{
   height: 100%;
   width: 100%;
-
-
   display: flex;
   align-items: center;
   justify-content: flex-end;
-
   padding-right: 24px;
 }
 .userProfilePic{
   height: 50px;
   width: 50px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 100%;
-
   cursor: pointer;
 }
 .userName{
@@ -99,103 +71,143 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-
-
 }
-.borderUserName{
-  height: 100%;
-  width: 100%;
-}
-
 .toolTip{
-border: 1px solid rgb(233, 233, 233);
-background-color:rgb(250, 250, 250);
-border-radius: 10px;
-height: 70%;
-margin-left: 0.5vw;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-transition: all 0.2s ease-in-out;
-padding: 0 24px;
+  border: 1px solid rgb(233, 233, 233);
+  background-color:rgb(250, 250, 250);
+  border-radius: 10px;
+  height: 70%;
+  margin-left: 0.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding: 0 24px;
 }
 .toolTip:hover{
   font-weight: 500;
   border: 1px solid rgb(117, 117, 117);
 }
-.logout{
-  height: 4vh;
-  width: 60%;
-
+.topNavName{
+  justify-content: center;
   display: flex;
+}
+.menuHolder{
+  width: 95%;
+  height: 100%;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 2vh;
+  padding: 1%;
+  cursor: default;
+  background-color: white;
+}
+.profileInfoHolder{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.imageHolder{
+  display: flex;
+  flex-direction: column;
+ }
+ .imgSize{
+  width: 6vw;
+  height: 6vw;
+  border-radius: 100%;
+}
+.manageButtonContainer{
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  border: 1px solid transparent;
-
-  /* background-color: rgb(250, 250, 250); */
-  border-radius: 10px;
-
-  transition: border 0.1s ease-in-out;
-  cursor: pointer;
-}
-
-.logout:hover{
-  border: 1px solid rgb(201, 201, 201);;
-  font-weight: 500;
-}
-.logoutSpanContainer{
-  height: 50%;
+  gap: 1vh;
   width: 100%;
-
-  border-radius: 10px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3%;
-}
-
-.logoutIcon{
-
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: red;
-}
-.logoutText{
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-
 }
 .manageAccButton{
-text-decoration: none;
-color: black;
-width: 60%;
-height: 4vh;
-border: 1px solid rgb(233, 233, 233);
-border-radius: 10px;
-background-color: rgb(250, 250, 250);
-}
-.manageAccButton:hover{
-  border: 1px solid rgb(201, 201, 201);;
-  font-weight: 500;
-}
+  text-decoration: none;
+  color: black;
+  width: 60%;
+  height: 4vh;
+  border: 1px solid rgb(233, 233, 233);
+  border-radius: 10px;
+  background-color: rgb(250, 250, 250);
+  }
+  .manageAccButton:hover{
+    border: 1px solid rgb(201, 201, 201);;
+    font-weight: 500;
+  }
+  .holder{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logout{
+    height: 4vh;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    transition: border 0.1s ease-in-out;
+    cursor: pointer;
+  }
+  .logout:hover{
+    border: 1px solid rgb(201, 201, 201);;
+    font-weight: 500;
+  }
+  .logoutSpanContainer{
+    height: 50%;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3%;
+  }
+  .logoutIcon{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: red;
+  }
+  .logoutText{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  }
+  
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-  z-index: 9999; /* Make sure the overlay is on top of everything */
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

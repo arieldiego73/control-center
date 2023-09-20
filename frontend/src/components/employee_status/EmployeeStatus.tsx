@@ -1,25 +1,12 @@
-import EmployeeStatusStyle from "./EmployeeStatusTable.module.css";
-import EmployeeStatusTable from "./EmployeeStatusTable";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-
 import * as React from "react";
+import EmployeeStatusTable from "./EmployeeStatusTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-
-//for breadcrumbs
-import { Link } from "react-router-dom";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 
-//for breadcrumbs
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-	event.preventDefault();
-	console.info("You clicked a breadcrumb.");
-}
-
 export interface SnackbarMessage {
 	message: string;
-	key: number;
+	key: number; 
 }
 
 export interface State {
@@ -28,9 +15,6 @@ export interface State {
 	messageInfo?: SnackbarMessage;
 }
 
-// interface SnackbarState extends SnackbarOrigin {
-// 	info: string;
-// }
 
 export default function ProjectStatus() {
 	const notice = useSelector(
@@ -50,12 +34,6 @@ export default function ProjectStatus() {
 		}
 	}, [notice]);
 
-	// const [origin, setOrigin] = React.useState<SnackbarState>({
-	// 	info: "",
-	// 	vertical: "top",
-	// 	horizontal: "right",
-	// });
-	// const { vertical, horizontal, info } = origin;
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]
 	>([]);
@@ -95,17 +73,10 @@ export default function ProjectStatus() {
 	};
 
 	return (
-		<div className={EmployeeStatusStyle.mainContainer}>
-			<div className={EmployeeStatusStyle.contentContainer}>
-				<div className={EmployeeStatusStyle.contentHolder}>
-					<div
-						style={{
-							backgroundColor: "transparent",
-							// borderBottomLeftRadius: "8px",
-							// borderBottomRightRadius: "8px",
-							height: "100%",
-						}}
-					>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<EmployeeStatusTable
 							createSnackpack={handleClickSnackpack}
 						/>

@@ -2,13 +2,6 @@
   height: 80%; 
   width: 35%;
   padding: 2%;
-  /* border: 1px solid black;
-  width: 30%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  padding-top: 2%;
-  background-color: black; */
 }
 
 /* Attributes of Main Container */
@@ -22,14 +15,12 @@
   display: flex;
   height: 300px;
   width: 100%;
-  /* top: 2%; */
 }
 .textHolder{
   flex-direction: column;
   display: flex;
   justify-content: end;
   width: 100%;
-  /* border:1px solid red; */
 }
 
 /* Attributes of Text Title */
@@ -65,7 +56,7 @@
 .graphContainer{
   background: linear-gradient(#46a34a, #56af5a, #63b967);
   height: 30%;
-  width: 27%;
+  width: 27%; 
   border-radius: 15px;
   position: absolute;
   margin-bottom: 12%;
