@@ -3,32 +3,25 @@
   width: 82%;
   border-radius: 10px;
   overflow: hidden;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 2%;
-  
   background: rgba( 237, 249, 255, 0.35 );
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 5px );
   -webkit-backdrop-filter: blur( 5px );
   border-radius: 10px;
-
-  position: fixed;
+  position: fixed; 
 }
-
 .leftSide{
   height: 90%;
   width: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
 }
-
 .breadCrumbsContainer {
   height: 30%; 
   width: 100%;
@@ -37,21 +30,97 @@
   margin-top: 1%;
   margin-left: 5%;
 }
-
 .titleContainer{
   height: 70%;
   width: 100%;
-
   display: flex;
   align-items: center;
-
 }
-
 .titleContainer span{
   font-size: 1.5rem;
   padding-left: 3%;
   font-weight: 600;
 }
+.rightSide{
+  height: 90%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2%;
+}
+.userInfo{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 24px;
+}
+.userProfilePic{
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  cursor: pointer;
+}
+.userName{
+  height: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.toolTip{
+  border: 1px solid rgb(233, 233, 233);
+  background-color:rgb(250, 250, 250);
+  border-radius: 10px;
+  height: 70%;
+  margin-left: 0.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding: 0 24px;
+}
+.toolTip:hover{
+  font-weight: 500;
+  border: 1px solid rgb(117, 117, 117);
+}
+.topNavName{
+  justify-content: center;
+  display: flex;
+}
+.profileInfoHolder{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .custom-link:hover {
   font-weight: 600;
@@ -61,69 +130,15 @@
   font-size: small;
 } 
 
-.rightSide{
-  height: 90%;
-  width: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
-  gap: 2%;
-}
-.userInfo{
-  height: 100%;
-  width: 100%;
 
 
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
 
-  padding-right: 24px;
-}
-.userProfilePic{
-  height: 50px;
-  width: 50px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 100%;
-
-  cursor: pointer;
-}
-.userName{
-  height: 95%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-
-
-}
 .borderUserName{
   height: 100%;
   width: 100%;
 }
 
-.toolTip{
-border: 1px solid rgb(233, 233, 233);
-background-color:rgb(250, 250, 250);
-border-radius: 10px;
-height: 70%;
-margin-left: 0.5vw;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-transition: all 0.2s ease-in-out;
-padding: 0 24px;
-}
-.toolTip:hover{
-  font-weight: 500;
-  border: 1px solid rgb(117, 117, 117);
-}
+
 .logout{
   height: 4vh;
   width: 60%;
