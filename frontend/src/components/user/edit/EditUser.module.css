@@ -1,38 +1,39 @@
-/* Attributes of Edit User Page */
+/* Attributes of Create User Page */
 .mainContainer {
     position: fixed;
-	display: flex;
-	flex-direction: column; 
-	align-items: center;
-     justify-content: center;
-	height: 78%;
-	width: 82%;
-	top: 20vh;
-	left: 16.5vw;
-	overflow: hidden;
+      display: flex;
+      flex-direction: column;   
+      align-items: center;
+    justify-content: center;
+      height: 78%;
+      width: 82%;
+      top: 20vh;
+      left: 16.5vw;
+      overflow: hidden;
     background: rgba( 237, 249, 255, 0.35 );
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
     backdrop-filter: blur( 5px );
     -webkit-backdrop-filter: blur( 5px );
     border-radius: 10px;
-    }
-.mainHolder {
+    /* border: 1px solid blue; */
+  }
+  .mainHolder {
     position: fixed;
-	display: flex; 
-	flex-direction: column; 
-	align-items: center;
-  justify-content: center;
-	height: 99%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	overflow: hidden;
-  border-radius: 15px;
-    
-}
-
-/* Attributes of Form holder */
-.contentHolder {
+      display: flex;
+      flex-direction: column; 
+      align-items: center;
+    justify-content: center;
+      height: 99%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+    border-radius: 15px;
+    /* border: 1px solid blue;  */
+  }
+  
+  /* Attributes of Form holder */
+  .contentHolder {
     border-radius: 5px;
     height: 90%;
     width: 99%;
@@ -40,36 +41,165 @@
     flex-direction: column;
     justify-content: center; 
     padding: 2vh 0; 
-}
-.mainForm {
+  }
+  .mainForm {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 3vh;
     width: 95%;
     padding: 2%;
-    border: 1px solid red;
-}
-
-/* Attributes of Form  */
-.mainForm .textField{
+  }
+  
+  /* Attributes of Left Form  */
+  .leftFormPlaceHolder {
+    flex-direction: column;
+    display: flex;
+    width: 19.68%;
+    height: 600px;
+    justify-content: center;
+    align-items: center;
+  }
+  .profileHolder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5%;
+  }
+  .imgContainer {
+    width: 15vw;
+    height: 15vw;
+  }
+  .imgSize{
+    width: 100%;
+    height: 100%;
+    border-radius: 150px;
+    border: 3px solid black;
+  }
+  .toolTip{
+    width: 78%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  .buttonProfile{
+    width: 100%;
+  }
+  .buttonProfile:hover{
+    font-weight: bolder;
+  }
+  
+  /* Attributes of Form Profile */
+  .formProfileContainer {
+    height: 100%; 
+    width: 100%;
+  }
+  .textFieldProfile{
+    width: 250px;
+    background-color: transparent;
+  }
+  
+  /* Attributes of Other Form  */
+  .otherFormContainer{
+    width: 80%;
+    height: 600px
+  }
+  .otherFormPlaceholder{
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    height: 90%;
+  }
+  .form{
+    padding: 1%;
+    height: 80%;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    gap: 5%;
+  }
+  .nameForm{
+    display: flex;
+    justify-content: flex-start;
+    gap: 5vw;
+  }
+  .mainForm .textField{
     width: 300px;
-    background-color: #f5f5f5;
-}
-.formRow2, .formRow3, .formRow5, .formRow6{
+    background-color: transparent;
+  }
+  .formHolder{
     display: flex;
-    gap: 4vw;
-}
-.formRow5 Button{
-    height: 2rem;
-    margin-top: 3.5vh;
-}
-.formRow7{
+    justify-content: flex-start;
+    gap: 5vw;
+    padding-top: 1%;
+  }
+  
+  /* Attributes of Button */
+  .formRow7{
     display: flex;
+    justify-content: flex-end;
+    width: 50%;
     gap: 0.5vw;
-}
-
-/* Attributes of Button */
-.formRow7{
-    align-self: flex-end;
-}
-
+    margin-right: 1%;
+    left: 50%;
+    top: 5%;
+    position: relative;
+    /* border: 1px solid red; */
+  }
+  .saveButton{
+    text-transform: none;
+  }
+  .cancelButton{
+    text-transform: none;
+    background-color: gray;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
