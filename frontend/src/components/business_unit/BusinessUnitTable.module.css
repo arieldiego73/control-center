@@ -8,33 +8,3 @@
 }
 
 /* Attribute of Business Unit Main */
-.mainContainer{
-	position: fixed;
-	top: 15vh;
-	left: 16.5vw;
-	width: 82%;
-	height: 83%;
- 
-}
-.contentContainer {
-	position: fixed;
-	top: 15vh;
-	left: 16.5vw;
-	width: 82%;
-	height: 83%;
-	display: flex;
-	flex-direction: column;
-	gap: 1vh;
-}
-.contentHolder {
-	background: rgba(255, 255, 255, 0.05);
-	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(3px);
-	border-radius: 10px;
-	height: 100%;
-}
-.tableHolder{
-	background-color: transparent;
-	height: 100%;
-}
