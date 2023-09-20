@@ -2,15 +2,8 @@
   height: 80%; 
   width: 35%;
   padding: 2%;
-  /* border: 1px solid black;
-  width: 30%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  padding-top: 2%;
-  background-color: black; */
 }
-  
+
 /* Attributes of Main Container */
 .card { 
   backdrop-filter: blur(16px) saturate(180%);
@@ -22,14 +15,12 @@
   display: flex;
   height: 300px;
   width: 100%;
-  /* top: 2%; */
 }
 .textHolder{
   flex-direction: column;
   display: flex;
   justify-content: end;
   width: 100%;
-  /* border:1px solid red; */
 }
 
 /* Attributes of Text Title */

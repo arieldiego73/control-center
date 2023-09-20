@@ -8,61 +8,53 @@
 	top: 14vh;
 	left: 16.5vw;
 	overflow: hidden;
-    /* border: 1px solid red; */
 }
-.midContent{
-    width: 97%;
-}
-
-/* Attributes of Header */
 .contentContainer{
     width: 97%;
-    height: 93%;
+    height: 93%; 
     position: relative;
     top: 5%;
     align-self: center; 
 
 }
 .contentHolder{
-    /* margin: 20; */
-    /* background: rgba( 255, 255, 255, 0.05 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 20px );
-    -webkit-backdrop-filter: blur( 3px ); */
     border-radius: 10px;
     height: 100%;
     flex-direction: column;
     display: flex;
 }
-.searchBarContainer{
-    display: flex;
+.graphHolder{
     flex-direction: row;
-    gap: 12px;
-    align-items:right;
-}
-.searchBarHolder1 {
-    margin-Top: 10;
-    margin-Bottom: 10;
-    padding-Right: 5px;
     display: flex;
-    margin-bottom: 5px;
+    justify-content: center;
+    align-items: center;
 }
-.searchBarHolder2{
-    margin-Top: 10;
-    margin-Bottom: 10;
+.tableHolder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.buttonContainer{
-    margin-top: 15px;
+/* Attributes of Activity Log  */
+.activityLogContainer{
+    justify-content: center;
+    align-items: space-around;
+    height: 100%;
+    width: 96%;
+    border-radius:20px;
 }
-contentHolder
-/* Attributes of Table */
-.tableContainer{
+.paper{
+    width: 100%;
+    height: 100%;
     background-color: transparent;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    height: 80%;
+    border-radius: 20px;
 }
+.actLogTable {
+    width: 100%; 
+    height: 100%; 
+    overflow: hidden ;
+}
+
 
 
 

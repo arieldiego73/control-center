@@ -1,17 +1,11 @@
-// ActivityLogDashboardTable
-
 import * as React from "react";
+import ActLogStyle from "./Dashboard.module.css";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { TablePagination } from "@mui/material";
-import { Pagination } from "@mui/material";
-import Sticky from "react-sticky-el";
-import { Typography } from "@material-ui/core";
 
 function createData(
   date: string,
@@ -38,7 +32,7 @@ const rows = [
     "Charlene Valdez",
     "9:59 AM"
   ),
-  
+
   createData(
     " ",
     "Role",
@@ -72,7 +66,6 @@ const rows = [
 export default function ActivityLogDashboardTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -95,20 +88,9 @@ export default function ActivityLogDashboardTable() {
   };
 
   return (
-    <div
-      style={{
-        justifyContent: "center",
-        alignItems: "space-around",
-        height: "100%",
-        width: "96%",
-        // border: "1px solid red",
-		borderRadius:'20px',
-      }}
-    >
-      <Paper
-        sx={{ width: "100%", height: "100%", backgroundColor: "transparent",  borderRadius:'20px', }}
-      >
-        <TableContainer sx={{ width: "100%", height: "100%", overflow:'hidden',}}>
+    <div className={ActLogStyle.activityLogContainer}>
+      <Paper className={ActLogStyle.paper}>
+        <TableContainer className={ActLogStyle.actLogTable}>
           <Table>
             <TableBody>
               {rows.map((row) => (
@@ -116,26 +98,19 @@ export default function ActivityLogDashboardTable() {
                   key={row.page}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell style={{fontWeight:'bold'}}align="left">{row.date}</TableCell>
-                  <TableCell  align="left">{row.time}</TableCell>
+                  <TableCell style={{ fontWeight: "bold" }} align="left">
+                    {row.date}
+                  </TableCell>
+                  <TableCell align="left">{row.time}</TableCell>
 
-                  <TableCell align="left">{row.user} - {row.action}</TableCell>
-    
-                  {/* <TableCell align="left"></TableCell> */}
+                  <TableCell align="left">
+                    {row.user} - {row.action}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <TablePagination
-			rowsPerPageOptions={[5, 25, 100]}
-			component="div"
-			count={rows.length}
-			rowsPerPage={rowsPerPage}
-			page={page}
-			onPageChange={handleChangePage}
-			onRowsPerPageChange={handleChangeRowsPerPage}
-		/> */}
       </Paper>
     </div>
   );
