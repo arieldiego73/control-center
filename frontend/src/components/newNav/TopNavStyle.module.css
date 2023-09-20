@@ -93,124 +93,121 @@
   justify-content: center;
   display: flex;
 }
+.menuHolder{
+  width: 95%;
+  height: 100%;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 2vh;
+  padding: 1%;
+  cursor: default;
+  background-color: white;
+}
 .profileInfoHolder{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.custom-link:hover {
-  font-weight: 600;
-}  
- .custom-link {
-  text-decoration: none; 
-  font-size: small;
-} 
-
-
-
-
-.borderUserName{
-  height: 100%;
+.imageHolder{
+  display: flex;
+  flex-direction: column;
+ }
+ .imgSize{
+  width: 6vw;
+  height: 6vw;
+  border-radius: 100%;
+}
+.manageButtonContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1vh;
   width: 100%;
-}
-
-
-.logout{
-  height: 4vh;
-  width: 60%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid transparent;
-
-  /* background-color: rgb(250, 250, 250); */
-  border-radius: 10px;
-
-  transition: border 0.1s ease-in-out;
-  cursor: pointer;
-}
-
-.logout:hover{
-  border: 1px solid rgb(201, 201, 201);;
-  font-weight: 500;
-}
-.logoutSpanContainer{
-  height: 50%;
-  width: 100%;
-
-  border-radius: 10px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3%;
-}
-
-.logoutIcon{
-
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: red;
-}
-.logoutText{
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-
 }
 .manageAccButton{
-text-decoration: none;
-color: black;
-width: 60%;
-height: 4vh;
-border: 1px solid rgb(233, 233, 233);
-border-radius: 10px;
-background-color: rgb(250, 250, 250);
-}
-.manageAccButton:hover{
-  border: 1px solid rgb(201, 201, 201);;
-  font-weight: 500;
-}
+  text-decoration: none;
+  color: black;
+  width: 60%;
+  height: 4vh;
+  border: 1px solid rgb(233, 233, 233);
+  border-radius: 10px;
+  background-color: rgb(250, 250, 250);
+  }
+  .manageAccButton:hover{
+    border: 1px solid rgb(201, 201, 201);;
+    font-weight: 500;
+  }
+  .holder{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logout{
+    height: 4vh;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    transition: border 0.1s ease-in-out;
+    cursor: pointer;
+  }
+  .logout:hover{
+    border: 1px solid rgb(201, 201, 201);;
+    font-weight: 500;
+  }
+  .logoutSpanContainer{
+    height: 50%;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3%;
+  }
+  .logoutIcon{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: red;
+  }
+  .logoutText{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  }
+  
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-  z-index: 9999; /* Make sure the overlay is on top of everything */
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
