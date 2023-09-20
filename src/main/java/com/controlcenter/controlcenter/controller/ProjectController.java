@@ -2,6 +2,7 @@ package com.controlcenter.controlcenter.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -49,6 +50,24 @@ public class ProjectController {
         //     // User is not authenticated
         //     return ResponseEntity.status(401).body(new ArrayList<ProjectTable>());
         // }
+    }
+
+    //get all managers of a project
+    @GetMapping("/managers/{proj_id}")
+    public ResponseEntity<List<Map<String, Object>>> getAllManagersOfProject(@PathVariable String proj_id) {
+        return projectService.getAllManagersOfProject(proj_id);
+    }
+
+    //get all development phases of a project
+    @GetMapping("/development-phases/{proj_id}")
+    public ResponseEntity<List<Map<Long, Object>>> getAllPhasesOfProject(@PathVariable String proj_id) {
+        return projectService.getAllPhasesOfProject(proj_id);
+    }
+
+    //get all members of a project
+    @GetMapping("/members/{proj_id}")
+    public ResponseEntity<List<Map<String, Object>>> getAllMembersOfProject(@PathVariable String proj_id) {
+        return projectService.getAllMembersOfProject(proj_id);
     }
 
     @GetMapping("/all")

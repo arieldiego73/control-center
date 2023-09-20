@@ -150,6 +150,7 @@ public class UserController {
     return userService.getAllRolesOfUser(emp_id);
   }
 
+  //get all roles of a user
   @GetMapping("/roles/{emp_id}")
   public ResponseEntity<List<Map<Long, Object>>> getAllRolesOfUser(@PathVariable String emp_id) {
     return userService.getAllRolesOfUser(emp_id);

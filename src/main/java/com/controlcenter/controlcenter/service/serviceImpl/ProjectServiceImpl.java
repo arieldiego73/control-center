@@ -3,6 +3,7 @@ package com.controlcenter.controlcenter.service.serviceImpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +23,23 @@ import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.dao.UserProjectDao;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.ClientOutput;
+import com.controlcenter.controlcenter.model.DevPhaseOutput;
+import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.ProjInfoInput;
 import com.controlcenter.controlcenter.model.ProjMemberInput;
 import com.controlcenter.controlcenter.model.ProjMemberOutput;
 import com.controlcenter.controlcenter.model.ProjectInput;
 import com.controlcenter.controlcenter.model.ProjectManagerInput;
+import com.controlcenter.controlcenter.model.ProjectManagerOutput;
 import com.controlcenter.controlcenter.model.ProjectOutput;
 import com.controlcenter.controlcenter.model.ProjectPhaseInput;
 import com.controlcenter.controlcenter.model.ProjectPhaseOutput;
 import com.controlcenter.controlcenter.model.ProjectTable;
 import com.controlcenter.controlcenter.model.ProjectTechnologyInput;
+import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.model.UserProjectInput;
+import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.service.ProjectService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
@@ -76,6 +82,53 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ResponseEntity<List<ProjectTable>> projectTable() {
         return ResponseEntity.ok(projectDao.projectTable());
+    }
+
+    //get all managers of a project
+    @Override
+    public ResponseEntity<List<Map<String, Object>>> getAllManagersOfProject(String proj_id) {
+        List<PersonalInfoOutput> managersOfProject = projectDao.getAllManagersOfProject(proj_id);
+        List<Map<String, Object>> allManagers = managersOfProject.stream()
+        .map(manager -> {
+            Map<String, Object> currentManagers = new HashMap<>();
+            String fullName = manager.getFname() + " " + manager.getLname();
+            currentManagers.put(manager.getEmp_id(), fullName);
+            return currentManagers;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(allManagers);
+    }
+
+    //get all development phases of a project
+    @Override
+    public ResponseEntity<List<Map<Long, Object>>> getAllPhasesOfProject(String proj_id) {
+        List<DevPhaseOutput> phasesOfProject = projectDao.getAllPhasesOfProject(proj_id);
+        List<Map<Long, Object>> allPhases = phasesOfProject.stream()
+        .map(phase -> {
+            Map<Long, Object> currentPhases = new HashMap<>();
+            currentPhases.put(phase.getDev_phase_id(), phase.getDev_phase_name());
+            return currentPhases;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(allPhases);
+    }
+
+    //get all members of a project
+    public ResponseEntity<List<Map<String, Object>>> getAllMembersOfProject(String proj_id) {
+        List<UserInfoOutput> membersOfProject = projectDao.getAllMembersOfProject(proj_id);
+        
+        List<Map<String, Object>> allMembers = membersOfProject.stream()
+        .map(member -> {
+            UserInfoOutput user = userDao.getUserById(member.getEmp_id());
+            Map<String, Object> currentMembers = new HashMap<>();
+            String fullName = member.getFname() + " " + member.getLname();
+            currentMembers.put("First Name", user.getFname());
+            currentMembers.put("Last Name", user.getLname());
+            currentMembers.put("Position", user.getPosition_name());
+            return currentMembers;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(allMembers);
     }
 
     @Override
@@ -311,4 +364,5 @@ public class ProjectServiceImpl implements ProjectService {
             return "Project with the ID " + id + " cannot be found.";
         }
     }
+
 }

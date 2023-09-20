@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ProjMemberOutput {
     private Long up_role_id;
-    private int upid;
-    private int role_id;
+    private Long upid;
+    private Long role_id;
     private int del_flag;
 }

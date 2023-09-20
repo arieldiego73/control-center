@@ -2,8 +2,8 @@ import TopNavStyle from "./TopNavStyle.module.css";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link } from "react-router-dom";
 import SampleUserImage from "../../Assets/userImage/SampleAvatar.png";
-import { ReactNode } from 'react';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { ReactNode } from "react";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
 
@@ -14,7 +14,7 @@ export interface TopNavProps {
 
 export interface Breadcrumb {
   label?: string;
-  icon?: ReactNode; // Use ReactNode for icons 
+  icon?: ReactNode; // Use ReactNode for icons
   to: string;
 }
 
@@ -73,21 +73,20 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
             <img
               src={SampleUserImage}
               alt="User"
-              style={{ height: "100%", width: "100%", borderRadius:"100%" }}
+              style={{ height: "100%", width: "100%", borderRadius: "100%" }}
             />
           </div>
 
           <div className={TopNavStyle.userName}>
-            <Tooltip title="Account settings"
+            <Tooltip
+              title="Account settings"
               onClick={handleClick}
               className={TopNavStyle.toolTip}
               aria-controls={open ? "account-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <span >
-                Shernan Jenesis Mateo
-              </span>
+              <span>Shernan Jenesis Mateo</span>
             </Tooltip>
 
             <Menu
@@ -128,56 +127,35 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
               <div className={TopNavStyle.topNavName}>
-                <MenuItem
-                  disableRipple
-                  style={{
-                    width: "95%",
-                    height: "100%",
-                    borderRadius: "20px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-around",
-                    alignItems: "center",
-                    gap: "2vh",
-                    padding: "1%",
-                    cursor: "default",
-                    backgroundColor: "white",
-                  }}
-                >
-                  <div  className={TopNavStyle.profileInfoHolder}>
-                    <div style={{ display: "flex", flexDirection: "column", }}>
+                <MenuItem disableRipple className={TopNavStyle.menuHolder}>
+                  <div className={TopNavStyle.profileInfoHolder}>
+                    <div className={TopNavStyle.imageHolder}>
                       <img
                         alt=""
-                        style={{
-                          width: "6vw",
-                          height: "6vw",
-                          borderRadius: "100%"
-                        }}
+                        className={TopNavStyle.imgSize}
                         src={SampleUserImage}
                         onClick={handleClose}
                       />
                     </div>
 
-                    <text style={{ fontSize: "20px", fontWeight:"bold" }}>
+                    <text style={{ fontSize: "20px", fontWeight: "bold" }}>
                       Hi, Shernan Jenesis!
                     </text>
-                    <text style={{ fontSize: "12px", }}>
-                      smateo@tspi.com.ph
-                    </text>
+                    <text style={{ fontSize: "12px" }}>smateo@tspi.com.ph</text>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1vh", width:"100%" }}>
+
+                  <div className={TopNavStyle.manageButtonContainer}>
                     <Link
                       to="/createuser"
                       className={TopNavStyle.manageAccButton}
                     >
-                      <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-
+                      <div  className={TopNavStyle.holder}>
                         <text style={{ color: "black", fontSize: "15px" }}>
                           Manage your Account
                         </text>
-
                       </div>
                     </Link>
+                    
                     <div className={TopNavStyle.logout}>
                       <div className={TopNavStyle.logoutSpanContainer}>
                         <span className={TopNavStyle.logoutIcon}>
@@ -192,7 +170,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
             </Menu>
           </div>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }
