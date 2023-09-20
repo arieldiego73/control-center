@@ -1,5 +1,4 @@
 import * as React from "react";
-import DepartmentStyle from "./DepartmentTable.module.css";
 import DepartmentTable from "./DepartmentTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -74,10 +73,10 @@ export default function BusinessUnit() {
 	};
 
 	return (
-		<div className={DepartmentStyle.mainContainer}>
-			<div className={DepartmentStyle.contentContainer}>
-				<div className={DepartmentStyle.contentHolder}>
-					<div className={DepartmentStyle.tableHolder}> 
+		<div className="mainContainer">
+		<div className="contentContainer">
+			<div className="contentHolder">
+				<div className="tableHolder">
 						<DepartmentTable
 							createSnackpack={handleClickSnackpack}
 						/>
