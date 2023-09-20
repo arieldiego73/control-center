@@ -1,5 +1,4 @@
 import * as React from "react";
-import EmployeePositionStyle from "./EmployeePositionTable.module.css";
 import EmployeePositionTable from "./EmployeePositionTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -74,10 +73,10 @@ export default function EmployeePosition() {
 	};
 
 	return (
-		<div className={EmployeePositionStyle.mainContainer}>
-			<div className={EmployeePositionStyle.contentContainer}>
-				<div className={EmployeePositionStyle.contentHolder}>
-					<div className={EmployeePositionStyle.tableHolder}>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<EmployeePositionTable
 							createSnackpack={handleClickSnackpack}
 						/>

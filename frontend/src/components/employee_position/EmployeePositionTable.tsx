@@ -11,7 +11,6 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Divider, } from "@mui/material";
-import PositionModuleStyle from "./EmployeePositionTable.module.css";
 import { getPositionFetch } from "../../redux/state/positionState";
 import CustomPagination from "../custom_pagination/pagination";
 import {datagridBoxStyle, datagridStyle,} from "../datagrid_customs/DataGridStyle";
@@ -317,7 +316,7 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 						Add Position
 					</Button>
 				) : (
-					<div className={PositionModuleStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
