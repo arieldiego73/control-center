@@ -1,5 +1,4 @@
 import * as React from "react";
-import DevTypeStyle from "./DevelopmentType.module.css";
 import DevelopmentTypeTable from "./DevelopmentTypeTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { RootState } from "../../redux/store/store";
@@ -79,10 +78,10 @@ export default function DevelopmentType() {
 	};
 
 	return (
-		<div className={DevTypeStyle.mainContainer}>
-			<div className={DevTypeStyle.contentContainer}>
-				<div className={DevTypeStyle.contentHolder}>
-					<div className={DevTypeStyle.tableHolder}>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<DevelopmentTypeTable
 							createSnackpack={handleClickSnackpack}
 						/>
@@ -96,7 +95,7 @@ export default function DevelopmentType() {
 				autoHideDuration={2000}
 				onClose={handleClose}
 				TransitionProps={{ onExited: handleExited }}
-				// anchorOrigin={{ vertical, horizontal }}
+			// anchorOrigin={{ vertical, horizontal }}
 			>
 				<Alert
 					onClose={handleClose}

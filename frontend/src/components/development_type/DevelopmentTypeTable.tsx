@@ -11,7 +11,6 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Divider,} from "@mui/material";
-import DevelopmentTypeStyle from "./DevelopmentType.module.css";
 import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
 import {datagridBoxStyle, datagridStyle, } from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
@@ -306,7 +305,7 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 						Add Development Type
 					</Button>
 				) : (
-					<div className={DevelopmentTypeStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
