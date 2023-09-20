@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 import SampleUserImage from "../../Assets/userImage/SampleAvatar.png";
 import { ReactNode } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Box, Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import { Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
 export interface TopNavProps {
   pageTitle?: string; // Make pageTitle optional with '?'
@@ -15,7 +14,7 @@ export interface TopNavProps {
 
 export interface Breadcrumb {
   label?: string;
-  icon?: ReactNode; // Use ReactNode for icons
+  icon?: ReactNode; // Use ReactNode for icons 
   to: string;
 }
 
@@ -77,8 +76,8 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               style={{ height: "100%", width: "100%", borderRadius:"100%" }}
             />
           </div>
-          <div className={TopNavStyle.userName}>
 
+          <div className={TopNavStyle.userName}>
             <Tooltip title="Account settings"
               onClick={handleClick}
               className={TopNavStyle.toolTip}
@@ -86,12 +85,9 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-
-              <span className={TopNavStyle.spanUserName}>
+              <span >
                 Shernan Jenesis Mateo
               </span>
-
-
             </Tooltip>
 
             <Menu
@@ -131,7 +127,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <div style={{ justifyContent: "center", display: "flex" }}>
+              <div className={TopNavStyle.topNavName}>
                 <MenuItem
                   disableRipple
                   style={{
@@ -148,13 +144,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                     backgroundColor: "white",
                   }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
+                  <div  className={TopNavStyle.profileInfoHolder}>
                     <div style={{ display: "flex", flexDirection: "column", }}>
                       <img
                         alt=""
