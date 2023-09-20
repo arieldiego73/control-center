@@ -38,23 +38,23 @@ public class PersonalInfoController {
     @GetMapping("/all")
     public ResponseEntity<List<PersonalInfoOutput>> getAllPersonalInfo(HttpSession httpSession) {
         // Check if the user is authenticated 
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated
             return personalInfoService.getAllPersonalInfo();
-        } else {
-            // User is not authenticated
-            return ResponseEntity.status(401).body(new ArrayList<PersonalInfoOutput>());
-        }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body(new ArrayList<PersonalInfoOutput>());
+        // }
     }
 
     @PostMapping("/add")
     public ResponseEntity<String> addPersonalInfo(@RequestBody PersonalInfoInput personalInfo, HttpSession httpSession) {
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated) {
+        // if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -67,18 +67,18 @@ public class PersonalInfoController {
                     String emp_id = httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(personalInfoService.addPersonalInfo(personalInfo, emp_id));
                 }
-        } else {
-             // is not authenticated
-             return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //      // is not authenticated
+        //      return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<String> editPersonalInfo(@PathVariable String id, @RequestBody PersonalInfoInput personalInfo, HttpSession httpSession) {
         // Check if the user is authenticated
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        if (isAuthenticated != null && isAuthenticated){
+        // if (isAuthenticated != null && isAuthenticated){
             // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -91,42 +91,42 @@ public class PersonalInfoController {
                     String emp_id = httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(personalInfoService.editPersonalInfo(id, personalInfo, emp_id));
                 }
-        } else {
-            // User is not authenticated 
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //     // User is not authenticated 
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("delete/{id}")
     public ResponseEntity<String> logicalDeletePersonalInfo(@PathVariable String id, HttpSession httpSession) {
          // Check if the user is authenticated
-         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-         if (isAuthenticated != null && isAuthenticated) {
+        //  if (isAuthenticated != null && isAuthenticated) {
             try {
                 String emp_id = httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(personalInfoService.logicalDeletePersonalInfo(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-          // User is not authenticated
-          return ResponseEntity.status(401).body("Unauthorized");
-        }
+        // } else {
+        //   // User is not authenticated
+        //   return ResponseEntity.status(401).body("Unauthorized");
+        // }
     }
 
     @PutMapping("restore/{id}")
     public ResponseEntity<String> restorePersonalInfo(@PathVariable String id, HttpSession httpSession) {
-        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        if (isAuthenticated != null && isAuthenticated){
+        // if (isAuthenticated != null && isAuthenticated){
             try {
                 return ResponseEntity.ok().body(personalInfoService.restorePersonalInfo(id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        } else {
-            return ResponseEntity.status(401).body("Unauthorized");
-        }         
+        // } else {
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }         
     }
 }

@@ -15,7 +15,6 @@ import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.MultiRoleInput;
 import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
-import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.service.MultiRoleService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 

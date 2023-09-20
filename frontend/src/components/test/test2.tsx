@@ -1,22 +1,30 @@
 import TestStyle from "./test2.module.css";
+import user from "../../Assets/userImage.png";
+import man from "../../Assets/mandp.jpg";
+import imgTest from "../../Assets/imgtest2.png";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
-  Box,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  FormControl,
-  FormLabel,
-  InputAdornment,
-  ListItemText,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Typography,
+	Alert,
+	AlertColor,
+	Box,
+	Checkbox,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	FormControl,  
+	FormLabel,
+	InputAdornment,
+	ListItemText,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	Snackbar,
+	Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
@@ -35,95 +43,112 @@ import { getSectionFetch } from "../../redux/state/sectionState";
 import { getRolesFetch } from "../../redux/state/roleState";
 import { getPositionFetch } from "../../redux/state/positionState";
 import { addUserInfo } from "../../redux/saga/userSaga";
-import user from "../../Assets/userImage.png";
-import man from "../../Assets/mandp.jpg";
-import imgTest from "../../Assets/imgtest2.png";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { styled } from "@mui/material/styles";
+import { addUserReset } from "../../redux/state/userState";
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
+	PaperProps: {
+		style: {
+			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+			width: 250,
+		},
+	},
 };
+const GLOBAL_TIMEOUT = 2000;
+
+export interface SnackbarMessage {
+	message: string;
+	key: number;
+}
+
+export interface State {
+	open: boolean;
+	snackPack: readonly SnackbarMessage[];
+	messageInfo?: SnackbarMessage;
+}
 
 export default function Test() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
-  const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
-  const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedRoles(event.target.value as number[]);
-  };
+	const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
+	const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
+		setSelectedRoles(event.target.value as number[]);
+	};
 
-  React.useEffect(() => {
-    dispatch(getDepartmentFetch());
-  }, [dispatch]);
+	const notice = useSelector((state: RootState) => state.userReducer.notice);
+	const isInitialAmount = React.useRef(true);
+	React.useEffect(() => {
+		if (!isInitialAmount.current) {
+			if (notice.message && notice.severity) {
+				handleClickSnackpack(
+					notice.message,
+					notice.severity as AlertColor
+				)();
+			}
+		} else {
+			isInitialAmount.current = false;
+		}
+	}, [notice]);
 
-  React.useEffect(() => {
-    dispatch(getSectionFetch());
-  }, [dispatch]);
+	const [snackPack, setSnackPack] = React.useState<
+		readonly SnackbarMessage[]
+	>([]);
+	const [severity, setSeverity] = React.useState<AlertColor>("error");
+	const [open, setOpen] = React.useState(false);
+	const [messageInfo, setMessageInfo] = React.useState<
+		SnackbarMessage | undefined
+	>(undefined);
 
-  React.useEffect(() => {
-    dispatch(getRolesFetch());
-  }, [dispatch]);
+	React.useEffect(() => {
+		if (snackPack.length && !messageInfo) {
+			// Set a new snack when we don't have an active one
+			setMessageInfo({ ...snackPack[0] });
+			setSnackPack((prev) => prev.slice(1));
+			setOpen(true);
+		} else if (snackPack.length && messageInfo && open) {
+			// Close an active snack when a new one is added
+			setOpen(false);
+		}
+	}, [snackPack, messageInfo, open]);
 
-  React.useEffect(() => {
-    dispatch(getPositionFetch());
-  }, [dispatch]);
+	const handleClickSnackpack =
+		(message: string, severity: AlertColor) => () => {
+			setSnackPack((prev) => [
+				...prev,
+				{ message, key: new Date().getTime() },
+			]);
+			setSeverity(severity);
+		};
 
-  // React.useEffect(() => {
-  // 	setAssocID(userData.emp_id);
-  // 	setUsername(userData.username);
-  // 	setFirstName(userData.fname);
-  // 	setMiddleName(userData.mname);
-  // 	setLastName(userData.lname);
-  // 	setPosition(userData.position_name);
-  // 	setEmail(userData.email);
-  // 	setSelectedRoles([]); // INSERT HERE THE ROLES OF THE USER
-  // 	setBusinessUnit(userData.dept_id);
-  // 	setDepartment(userData.section_id);
-  // }, [userData, userId]);
+	const handleClose = (event: React.SyntheticEvent | Event) => {
+		setOpen(false);
+	};
 
-  const [assocID, setAssocID] = useState("");
-  const [empStatus, setEmpStatus] = useState("");
-  const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [position, setPosition] = useState(0);
-  const [email, setEmail] = useState("");
-  const [businessUnit, setBusinessUnit] = useState(0);
-  const [department, setDepartment] = useState(0);
-  const [ask, setAsk] = React.useState(false);
-  const [dialogTitle, setDialogTitle] = React.useState("");
-  const [dialogContentText, setDialogContentText] = React.useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [isSaving, setIsSaving] = React.useState(false);
+	const handleExited = () => {
+		setMessageInfo(undefined);
+	};
 
-  //FOR DROPDOWN CONFIG (BUSINESS UNIT)
-  const depts = useSelector((state: RootState) => state.deptReducer.department);
+	React.useEffect(() => {
+		dispatch(getDepartmentFetch());
+		dispatch(getSectionFetch());
+		dispatch(getRolesFetch());
+		dispatch(getPositionFetch());
+	}, [dispatch]);
 
-  //FOR DROPDOWN CONFIG (DEPARTMENT)
-  const sections = useSelector(
-    (state: RootState) => state.sectionReducer.section
-  );
+	const isAddSuccess = useSelector(
+		(state: RootState) => state.userReducer.isAddSuccess
+	);
+	React.useEffect(() => {
+		if (isAddSuccess) {
+			dispatch(addUserReset());
+			setTimeout(() => {
+				navigate("/user");
+			}, GLOBAL_TIMEOUT);
+		}
+	});
 
-  //FOR ROLES OPTIONS
-  const roles = useSelector((state: RootState) => state.roleReducer.roles);
-
-  //FOR POSITION OPTIONS
-  const positions = useSelector(
-    (state: RootState) => state.positionReducer.position
-  );
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -135,80 +160,113 @@ export default function Test() {
     whiteSpace: "nowrap",
     width: 1,
   });
-  const proceedWithCancel = () => {
-    navigate("/user");
-  };
 
-  const proceedWithSaving = () => {
-    const data = {
-      emp_id: assocID,
-      username: username,
-      fname: firstName,
-      mname: middleName,
-      lname: lastName,
-      position_id: position,
-      email: email,
-      section_id: businessUnit,
-      dept_id: department,
-      selectedRoles: selectedRoles,
-    };
-    console.log("data", data);
-    dispatch(addUserInfo({ data }));
-    // navigate("/user");
-  };
+	const [assocID, setAssocID] = useState("");
+  const [empStatus, setEmpStatus] = useState("");
+	const [username, setUsername] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [middleName, setMiddleName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [position, setPosition] = useState(0);
+	const [email, setEmail] = useState("");
+	const [businessUnit, setBusinessUnit] = useState(0);
+	const [department, setDepartment] = useState(0);
+  const [password, setPassword] = useState(0);
+  const [confirmPassword, setConfirmPassword] = useState(0);
+  
+	const [ask, setAsk] = React.useState(false);
+	const [dialogTitle, setDialogTitle] = React.useState("");
+	const [dialogContentText, setDialogContentText] = React.useState("");
+	const [isSaving, setIsSaving] = React.useState(false);
 
-  const handleSave = () => {
-    setAsk(true);
-    setDialogTitle("Save the record?");
-    setDialogContentText(
-      "Upon proceeding, the modifications on the record \nmade will be saved."
-    );
-    setIsSaving(true);
-  };
+	//FOR DROPDOWN CONFIG (BUSINESS UNIT)
+	const depts = useSelector(
+		(state: RootState) => state.deptReducer.department
+	);
 
-  const handleCancel = () => {
-    setAsk(true);
-    setDialogTitle("Cancel the edit?");
-    setDialogContentText(
-      "Modifications made with the record will be \nlost forever."
-    );
-    setIsSaving(false);
-  };
+	//FOR DROPDOWN CONFIG (DEPARTMENT)
+	const sections = useSelector(
+		(state: RootState) => state.sectionReducer.section
+	);
+
+	//FOR ROLES OPTIONS
+	const roles = useSelector((state: RootState) => state.roleReducer.roles);
+
+	//FOR POSITION OPTIONS
+	const positions = useSelector(
+		(state: RootState) => state.positionReducer.position
+	);
+
+	const proceedWithCancel = () => {
+		navigate("/user");
+	};
+
+	const proceedWithSaving = () => {
+		const data = {
+			emp_id: assocID,
+			username: username,
+			fname: firstName,
+			mname: middleName,
+			lname: lastName,
+			position_id: position,
+			email: email,
+			section_id: department,
+			dept_id: businessUnit,
+			selectedRoles: selectedRoles,
+		};
+		dispatch(addUserInfo({ data }));
+		setAsk(false);
+	};
+
+	const handleSave = () => {
+		if (
+			assocID &&
+			username &&
+			firstName &&
+			middleName &&
+			lastName &&
+			position &&
+			email &&
+			department &&
+			businessUnit &&
+			selectedRoles.length > 0
+		) {
+			setAsk(true);
+			setDialogTitle("Save the record?");
+			setDialogContentText(
+				"Upon proceeding, the modifications on the record \nmade will be saved."
+			);
+			setIsSaving(true);
+		} else {
+			handleClickSnackpack(
+				"All fields are required. Please, try again.",
+				"error"
+			)();
+		}
+	};
+
+	const handleCancel = () => {
+		setAsk(true);
+		setDialogTitle("Cancel the edit?");
+		setDialogContentText(
+			"Modifications made with the record will be \nlost forever."
+		);
+		setIsSaving(false);
+	};
+
 
   return (
+  <>
     <div className={TestStyle.mainContainer}>
       <div className={TestStyle.mainHolder}>
         {/* Start of Form */}
         <div className={TestStyle.contentHolder}>
           <div className={TestStyle.mainForm}>
-            <div
-              style={{
-                flexDirection: "column",
-                display: "flex",
-                width: "19.68%",
-                height: "600px",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <div style={{flexDirection: "column", display: "flex", width: "19.68%", height: "600px", justifyContent: "center", alignItems: "center",}} >
+              
               {/* Start of Profile */}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  gap: "5%",
-                }}
-              >
-                <div
-                  style={{
-                    // border: "2px solid black",
-                    // borderRadius: "150px",
-                    width: "15vw",
-                    height: "15vw",
-                  }}
-                >
+              <div style={{display: "flex", justifyContent: "center",alignItems: "center",flexDirection: "column",gap: "5%",}}>
+                <div style={{ width: "15vw", height: "15vw", }}>
                   <img
                     alt=""
                     src={imgTest  }
@@ -234,12 +292,8 @@ export default function Test() {
               </div>
 
               {/* Start of Form of Profile*/}
-              <div
-                style={{
-                  height: "100%",
-                  width: "100%",
-                }}
-              >
+              <div style={{height: "100%",  width: "100%", }}>
+                
                 {/* Start of username form */}
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <FormControl
@@ -323,34 +377,13 @@ export default function Test() {
               </div>
             </div>
 
+            {/* Start of other Form */}
             <div style={{ width: "80%", height: "600px" }}>
-              {/* Start of Form*/}
-              <div
-                style={{
-                  justifyContent: "center",
-                  display: "flex",
-                  width: "100%",
-                  height: "90%",
-                }}
-              >
-                <div
-                  style={{
-                    padding: "1%",
-                    height: "80%",
-                    width: "95%",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "5%",
-                  }}
-                >
+              <div style={{justifyContent: "center", display: "flex", width: "100%", height: "90%",}}>
+                <div style={{padding: "1%", height: "80%", width: "95%", display: "flex", flexDirection: "column", gap: "5%",}}>
+                  
                   {/* Start of Name Form */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-start",
-                      gap: "5vw",
-                    }}
-                  >
+                  <div style={{display: "flex",justifyContent: "flex-start", gap: "5vw",}}>
                     <FormControl>
                       <FormLabel>First Name</FormLabel>
                       <TextField
@@ -410,14 +443,7 @@ export default function Test() {
                   </div>
 
                   {/* Start of Position and Role Form */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-start",
-                      gap: "5vw",
-                      paddingTop: "1%",
-                    }}
-                  >
+                  <div style={{display: "flex", justifyContent: "flex-start", gap: "5vw", paddingTop: "1%",}}>
                     <FormControl variant="outlined" size="small">
                       <FormLabel>Position</FormLabel>
                       <Select
@@ -485,14 +511,7 @@ export default function Test() {
                   </div>
 
                   {/* Start of Email Form */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-start",
-                      gap: "5vw",
-                      paddingTop: "1%",
-                    }}
-                  >
+                  <div style={{display: "flex", justifyContent: "flex-start",gap: "5vw",paddingTop: "1%",}}>
                     <FormControl>
                       <FormLabel>Email</FormLabel>
                       <TextField
@@ -514,22 +533,15 @@ export default function Test() {
                   </div>
 
                   {/* Start of Department and Business Unit Form */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-start",
-                      gap: "5vw",
-                      paddingTop: "1%",
-                    }}
-                  >
+                  <div style={{  display: "flex",justifyContent: "flex-start", gap: "5vw", paddingTop: "1%",}}>
                     <FormControl variant="outlined" size="small">
                       <FormLabel>Department</FormLabel>
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={businessUnit}
+                        value={department}
                         onChange={(e) =>
-                          setBusinessUnit(e.target.value as number)
+                          setDepartment(e.target.value as number)
                         }
                         className={TestStyle.textField}
                         startAdornment={
@@ -557,9 +569,9 @@ export default function Test() {
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={department}
+                        value={businessUnit}
                         onChange={(e) =>
-                          setDepartment(e.target.value as number)
+                          setBusinessUnit(e.target.value as number)
                         }
                         className={TestStyle.textField}
                         startAdornment={
@@ -589,7 +601,7 @@ export default function Test() {
                       paddingTop: "1%",
                     }}
                   >
-                    <FormControl>
+                    {/* <FormControl>
                       <FormLabel>Password</FormLabel>
                       <TextField
                         variant="outlined"
@@ -624,8 +636,10 @@ export default function Test() {
                         }}
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
+
+                       
                       />
-                    </FormControl>
+                    </FormControl> */}
                   </div>
                 </div>
               </div>
@@ -714,86 +728,22 @@ export default function Test() {
         </div>
       </div>
     </div>
-  );
-}
-
-{
-  /* <div className={TestStyle.mainContainer}>
-<div className={TestStyle.mainHolder}>
- 
-  <div className={TestStyle.contentHolder}>
-    <div className={TestStyle.mainForm}>
-     
-
-      <div className={TestStyle.formRow6}>
-
-
-        <Box>
-          
-        </Box>
-      </div>
-
-  
-     
-
-    <Dialog
-      open={ask}
-      onClose={() => {
-        setAsk(false);
-      }}
-      aria-labelledby="responsive-dialog-title"
-      aria-describedby="alert-dialog-description"
+    	<Snackbar
+      key={messageInfo ? messageInfo.key : undefined}
+      open={open}
+      autoHideDuration={GLOBAL_TIMEOUT}
+      onClose={handleClose}
+      TransitionProps={{ onExited: handleExited }}
     >
-      <DialogTitle id="responsive-dialog-title">
-        <Typography
-          fontWeight={700}
-          fontSize={20}
-          display={"flex"}
-          alignItems={"center"}
-          gap={1}
-        >
-          <HelpIcon
-            accentHeight={100}
-            color="disabled"
-            fontSize="large"
-            alignmentBaseline="middle"
-          />
-          {dialogTitle}
-        </Typography>
-      </DialogTitle>
-
-      <DialogContent>
-        <DialogContentText
-          whiteSpace={"pre-line"}
-          id="alert-dialog-description"
-        >
-          {dialogContentText}
-        </DialogContentText>
-      </DialogContent>
-
-      <DialogActions>
-        <Button
-          variant="contained"
-          onClick={
-            isSaving
-              ? proceedWithSaving
-              : proceedWithCancel
-          }
-          autoFocus
-        >
-          {isSaving ? "Save" : "Cancel"}
-        </Button>
-
-        <Button
-          onClick={() => {
-            setAsk(false);
-          }}
-        >
-          Continue editing
-        </Button>
-      </DialogActions>
-    </Dialog>
-  </div>
-</div>
-</div> */
+      <Alert
+        onClose={handleClose}
+        severity={severity}
+        sx={{ width: "100%" }}
+        variant="filled"
+      >
+        {messageInfo ? messageInfo.message : undefined}
+      </Alert>
+    </Snackbar>
+  </>
+  );
 }

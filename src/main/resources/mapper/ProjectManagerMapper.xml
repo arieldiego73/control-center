@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.controlcenter.controlcenter.dao.DepartmentDao">
+<mapper namespace="com.controlcenter.controlcenter.dao.ProjectManagerDao">
 
 <!-- Fetch Data -->
     <!-- <select id="getAllDepartment" resultType="com.controlcenter.controlcenter.model.DepartmentOutput">
@@ -18,18 +18,14 @@
     </select> -->
 
 <!-- Add Data -->
-    <insert id="addManagers" parameterType="com.controlcenter.controlcenter.model.DepartmentInput">
-        INSERT INTO tbl_department_mst(
-          dept_name,
-          dept_sh_name,
-          dept_desc,
-          reg_id
+    <insert id="addManagers">
+        INSERT INTO tbl_proj_manager(
+          proj_id,
+          emp_id
         )
         VALUES (
-          #{dept_name},
-          #{dept_sh_name},
-          #{dept_desc},
-          1
+          #{proj_id},
+          #{emp_id}
         );
     </insert>
 

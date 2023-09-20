@@ -8,8 +8,6 @@ import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.model.AccountInput;
 import com.controlcenter.controlcenter.model.AccountOutput;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
-import com.controlcenter.controlcenter.model.MultiRoleInput;
-import com.controlcenter.controlcenter.model.MultiRoleOutput;
 import com.controlcenter.controlcenter.model.PersonalInfoInput;
 import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.RoleOutput;
@@ -21,7 +19,6 @@ import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 // import java.util.Collections;
 import java.util.List;
@@ -173,7 +170,6 @@ public class UserServiceImpl implements UserService{
   public String editAccount(String id, AccountOutput accountBody, List<Long> role_ids) {
     HashMap<String, Object> userMap = new HashMap<>();
     HashMap<String, Object> personalInfoMap = new HashMap<>();
-    List<Long> listOfRolesToBeDeleted = new ArrayList<>();
 
     UserOutput user = new UserOutput();
     PersonalInfoOutput personalInfo = new PersonalInfoOutput();
