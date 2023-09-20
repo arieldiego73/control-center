@@ -1,5 +1,4 @@
 import * as React from "react";
-import BusinessUnitStyle from "./BusinessUnitTable.module.css";
 import BusinessUnitTable from "./BusinessUnitTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { useSelector } from "react-redux";

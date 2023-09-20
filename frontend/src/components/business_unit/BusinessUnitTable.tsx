@@ -1,6 +1,5 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import BusinessUnitModuleStyle from "./BusinessUnitTable.module.css";
 import Button from "@mui/material/Button";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
@@ -317,7 +316,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 						Add Business Unit
 					</Button>
 				) : (
-					<div className={BusinessUnitModuleStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
