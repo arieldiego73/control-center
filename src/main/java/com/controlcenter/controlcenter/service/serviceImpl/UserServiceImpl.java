@@ -317,7 +317,7 @@ public class UserServiceImpl implements UserService{
     
   }
 
-  //get all user roles
+  //get all roles of a user
   @Override
   public ResponseEntity<List<Map<Long, Object>>> getAllRolesOfUser(String emp_id) {
     List<UserRoles> rolesOfUser = userDao.getAllRolesOfUser(emp_id);
@@ -329,15 +329,6 @@ public class UserServiceImpl implements UserService{
       }).collect(Collectors.toList());
 
     return ResponseEntity.ok(allRoles);
-
-    // if(user != null) {
-    //   allRoles.put("emp_id", user.getEmp_id());
-    //   return ResponseEntity.ok(allRoles);
-    // } else {
-    //   allRoles.put("error", 404);
-    //   allRoles.put("message", "This user does not have a role yet");
-    //   return ResponseEntity.status(404).body(allRoles);
-    // }
   }
 
 }

@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserProjectOutput {
+public class ProjectManagerOutput {
+    private Long pmid;
+
+    private Long proj_id;
+
     private String emp_id;
-    private String fname;
-    private String lname;
-    private int del_flag;
 }
