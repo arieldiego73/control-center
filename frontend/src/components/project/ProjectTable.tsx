@@ -36,78 +36,33 @@ export interface RowData {
 	status: string;
 }
 
-// const rows: RowData[] = [
-//   {
-//     id: 1,
-//     projectName: "firstProj",
-//     projectManager: "John Doe",
-//     client: "McDo",
-//     duration: "07/01/23 - 10/30/23",
-//     developmentType: "Waterfall",
-//     developmentPhase: "Design Phase",
-//     technoloies: "Java, React, MySQL",
-//     members: 6,
-//     status: "in progress",
-//   },
-//   {
-//     id: 2,
-//     projectName: "firstProj",
-//     projectManager: "John Doe",
-//     client: "Jollibee",
-//     duration: "07/01/23 - 10/30/23",
-//     developmentType: "Agile",
-//     developmentPhase: "Design Phase",
-//     technoloies: "Java, React, MySQL",
-//     members: 6,
-//     status: "in progress",
-//   }
-// ];
+interface ProjectTableProps {
+	projectData: any[];
+}
 
-export default function ProjectTable() {
-  const dispatch = useDispatch();
+const ProjectTable: React.FC<ProjectTableProps> = (props) => {
+	const { projectData } = props;
 
-  React.useEffect(() => {
-    dispatch(getProjectsFetch());
-  })
-
-	const projects = useSelector(
-		(state: RootState) => state.projectReducer.projects
-	);
-
-	const [rows, setRows] = React.useState(projects);
+	const [rows, setRows] = React.useState(projectData);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
 	const [openMembers, setOpenMembers] = React.useState(false); // Separate state for members dialog
-	const [openProjectDetails, setOpenProjectDetails] = React.useState(false); // Separate state for project details dialog
-
-	const [selectedProject, setSelectedProject] = React.useState<string | null>(
-		null
-	);
 	const [selectedMembers, setSelectedMembers] = React.useState<number | null>(
 		null
 	);
 
 	React.useEffect(() => {
-		setRows(projects);
-	}, [projects]);
+		setRows(projectData);
+	}, [projectData]);
 
 	const handleClickOpenMembers = (members: number) => {
 		setSelectedMembers(members);
 		setOpenMembers(true); // Open the members dialog
 	};
 
-	const handleClickOpenProjectDetails = (projectName: string) => {
-		setSelectedProject(projectName);
-		setOpenProjectDetails(true); // Open the project details dialog
-	};
-
 	const handleCloseMembers = () => {
 		setOpenMembers(false); // Close the members dialog
-	};
-
-	const handleCloseProjectDetails = () => {
-		setOpenProjectDetails(false); // Close the project details dialog
 	};
 
 	const handleChangePage = (event: unknown, newPage: number) => {
@@ -121,33 +76,11 @@ export default function ProjectTable() {
 		setPage(0);
 	};
 
-	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = (members: number) => {
-		setSelectedMembers(members);
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const startIndex = page * rowsPerPage;
-	const endIndex = startIndex + rowsPerPage;
-
 	const navigate = useNavigate();
 
 	const handleRowClick = (row: any) => {
 		navigate(`/editProject/${row.projectName}`, { state: row });
 	};
-
-	const [showData, setShowData] = React.useState(false);
-
-	const toggleMiddleNameVisibility = () => {
-		setShowData(!showData);
-	};
-
-	const font = "Montserrat, sans-serif";
 
 	return (
 		<div className={ProjectTableStyle.tableMainContainer}>
@@ -162,7 +95,7 @@ export default function ProjectTable() {
 									"Project Name",
 									"Client",
 									"Duration",
-									// "Development Type",
+									"Development Type",
 									"Member(s)",
 									"Status",
 								].map((header, index) => (
@@ -172,7 +105,6 @@ export default function ProjectTable() {
 										style={{
 											fontWeight: "bolder",
 											backgroundColor: "white",
-											fontFamily: `${font}`,
 										}}
 									>
 										{header}
@@ -195,7 +127,6 @@ export default function ProjectTable() {
 											"&:last-child td, &:last-child th":
 												{
 													border: 0,
-													fontFamily: `${font}`,
 												},
 										}}
 									>
@@ -228,9 +159,6 @@ export default function ProjectTable() {
 										<TableCell
 											align="center"
 											style={{
-												fontFamily:
-													"Montserrat, sans-serif",
-												fontWeight: "500",
 												color: "black",
 											}}
 										>
@@ -239,30 +167,22 @@ export default function ProjectTable() {
 										<TableCell
 											align="center"
 											style={{
-												fontFamily:
-													"Montserrat, sans-serif",
-												fontWeight: "500",
 												color: "black",
 											}}
 										>
 											{row.start_date}
 										</TableCell>
-										{/* <TableCell
-                      align="center"
-                      style={{
-                        fontFamily: "Montserrat, sans-serif",
-                        fontWeight: "500",
-                        color: "black",
-                      }}
-                    >
-                      {row.developmentType}
-                    </TableCell> */}
 										<TableCell
 											align="center"
 											style={{
-												fontFamily:
-													"Montserrat, sans-serif",
-												fontWeight: "500",
+												color: "black",
+											}}
+										>
+											{row.developmentType}
+										</TableCell>
+										<TableCell
+											align="center"
+											style={{
 												color: "black",
 											}}
 										>
@@ -271,8 +191,6 @@ export default function ProjectTable() {
 													color: "blue",
 													textDecoration: "underline",
 													cursor: "pointer",
-													fontFamily:
-														"Montserrat, sans-serif",
 												}}
 												onClick={() =>
 													handleClickOpenMembers(
@@ -286,9 +204,6 @@ export default function ProjectTable() {
 										<TableCell
 											align="center"
 											style={{
-												fontFamily:
-													"Montserrat, sans-serif",
-												fontWeight: "500",
 												color: "black",
 											}}
 										>
@@ -356,3 +271,5 @@ export default function ProjectTable() {
 		</div>
 	);
 }
+
+export default ProjectTable;
