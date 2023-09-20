@@ -24,17 +24,27 @@ const data = [
 
 export default function EmpStatusGraph() {
   return (
-    <div className={EmpStatGraphStyle.EmpStatusGraphContainer  }>
+    <div className={EmpStatGraphStyle.EmpStatusGraphContainer}>
       <div
-        style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center",}}>
-
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         {/* Main Container */}
         <div className={EmpStatGraphStyle.card}>
           <div className={EmpStatGraphStyle.textHolder}>
-
             {/* Text Title */}
-            <text  className={EmpStatGraphStyle.textTitle}> EMPLOYEE STATUS </text>
-            <text className={EmpStatGraphStyle.textSubtitle}> +15% increase than last month </text>
+            <text className={EmpStatGraphStyle.textTitle}>
+              {" "}
+              EMPLOYEE STATUS{" "}
+            </text>
+            <text className={EmpStatGraphStyle.textSubtitle}>
+              {" "}
+              +15% increase than last month{" "}
+            </text>
 
             <Divider style={{ padding: "1%" }} variant="middle" />
 
@@ -47,12 +57,15 @@ export default function EmpStatusGraph() {
                   paddingRight: ".5%",
                 }}
               />
-              <text className={EmpStatGraphStyle.textInfo}> Updated 4 mins ago </text>
+              <text className={EmpStatGraphStyle.textInfo}>
+                {" "}
+                Updated 4 mins ago{" "}
+              </text>
             </div>
           </div>
         </div>
 
-       {/* Graph */}
+        {/* Graph */}
         <div className={EmpStatGraphStyle.graphContainer}>
           <ResponsiveBar
             data={data}
@@ -64,7 +77,7 @@ export default function EmpStatusGraph() {
             colors="white"
             animate={true}
             enableLabel={false}
-            axisTop={null}
+            axisTop={null} 
             axisRight={null}
             axisLeft={{
               tickSize: 5,
@@ -86,46 +99,3 @@ export default function EmpStatusGraph() {
     </div>
   );
 }
-
-// import * as React from 'react';
-// import testStyle from "./test2.module.css"
-
-// import ReactQuill, { Quill } from "react-quill";
-// import "react-quill/dist/quill.snow.css";
-// import { useState } from 'react';
-
-// const modules = {
-//   toolbar: [
-//     [{ header: [1, 2, 3, 4, 5, 6, false] }],
-//     ["bold", "italic", "underline"],
-//     [
-//       { list: "ordered"},
-//       { list: "bullet"},
-
-//     ]
-//   ]
-// };
-
-// export default function ToggleButtonsMultiple() {
-
-//   const [value, setValue] = useState("");
-
-//   return (
-//     <div className={testStyle.descriptionContainer}>
-//       <div className={testStyle.toolbar}>
-//         <div className={testStyle.editor}>
-//           Editor
-//           <ReactQuill
-//             theme='snow'
-//             value={value}
-//             className={testStyle.editorInput}
-//             onChange={setValue}
-//             onKeyPress={() => console.log(value)}
-//             modules={modules}
-//           />
-
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
