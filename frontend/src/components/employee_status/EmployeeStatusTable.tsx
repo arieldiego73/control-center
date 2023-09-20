@@ -8,6 +8,26 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+import { Divider,} from "@mui/material";
+import EmployeeStatusStyle from "./EmployeeStatusTable.module.css";
+import { datagridBoxStyle, datagridStyle,} from "../datagrid_customs/DataGridStyle";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import CustomPagination from "../custom_pagination/pagination";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import { getEmployeeStatusFetch } from "../../redux/state/employeeStatusState";
+import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
+import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
+import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
+import {
+	addEmployeeStatus,
+	deleteEmployeeStatus,
+	deleteEmployeeStatusBatch,
+	updateEmployeeStatus,
+} from "../../redux/saga/employeeStatusSaga";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -19,34 +39,9 @@ import {
 	GridRowId,
 	GridRowModel,
 	GridRowEditStopReasons,
-	GridRowSelectionModel,
+	GridRowSelectionModel, 
 	GridValidRowModel,
 } from "@mui/x-data-grid";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
-import {
-	Divider,
-} from "@mui/material";
-import EmployeeStatusStyle from "./EmployeeStatusTable.module.css";
-import {
-	addEmployeeStatus,
-	deleteEmployeeStatus,
-	deleteEmployeeStatusBatch,
-	updateEmployeeStatus,
-} from "../../redux/saga/employeeStatusSaga";
-import {
-	datagridBoxStyle,
-	datagridStyle,
-} from "../datagrid_customs/DataGridStyle";
-import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
-import DataGridProps from "../datagrid_customs/DataGridProps";
-import CustomPagination from "../custom_pagination/pagination";
-import DataGridDialog from "../datagrid_customs/DataGridDialog";
-import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
-import { getEmployeeStatusFetch } from "../../redux/state/employeeStatusState";
-import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
-import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
-import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 
 const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();

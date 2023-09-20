@@ -1,10 +1,20 @@
+/* Attributes of button @ Table */
+.hideButton {
+	border-radius: 10px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+/* Attribute of Business Unit Main */
 .mainContainer{
 	position: fixed;
 	top: 15vh;
 	left: 16.5vw;
 	width: 82%;
 	height: 83%;
-
+ 
 }
 .contentContainer {
 	position: fixed;
@@ -15,8 +25,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 1vh;
-  }
-
+}
 .contentHolder {
 	background: rgba(255, 255, 255, 0.05);
 	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -25,45 +34,7 @@
 	border-radius: 10px;
 	height: 100%;
 }
-
-.hideButton {
-	border-radius: 10px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-}
-
-/* for breadcrumbs */
-.custom-link {
-	text-decoration: underline;
-  }
-  
-.custom-link:hover {
-	text-decoration: none; /* Remove underline on hover */
-  }
-
-  .pageTitle{
-	display: flex;
-	align-items: center;
-	justify-content: start;
-	gap: .5%;
+.tableHolder{
+	background-color: transparent;
 	height: 100%;
-  }
-  
-  
-  
-  .midContent {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 100%;
-  }
-  /* for breadcrumbs */
-  .custom-link {
-	text-decoration: underline;
-  }
-  
-  .custom-link:hover {
-	text-decoration: none; /* Remove underline on hover */
-  }
+}

@@ -1,21 +1,9 @@
+import * as React from "react";
 import DepartmentStyle from "./DepartmentTable.module.css";
 import DepartmentTable from "./DepartmentTable";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-
-import * as React from "react";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-
-//for breadcrumbs
-import { Link } from "react-router-dom";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-
-//for breadcrumbs
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-	event.preventDefault();
-	console.info("You clicked a breadcrumb.");
-}
 
 export interface SnackbarMessage {
 	message: string;
@@ -28,9 +16,6 @@ export interface State {
 	messageInfo?: SnackbarMessage;
 }
 
-// interface SnackbarState extends SnackbarOrigin {
-// 	info: string;
-// }
 
 export default function BusinessUnit() {
 	const notice = useSelector(
@@ -50,12 +35,6 @@ export default function BusinessUnit() {
 		}
 	}, [notice]);
 
-	// const [origin, setOrigin] = React.useState<SnackbarState>({
-	// 	info: "",
-	// 	vertical: "top",
-	// 	horizontal: "right",
-	// });
-	// const { vertical, horizontal, info } = origin;
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]
 	>([]);
@@ -98,14 +77,7 @@ export default function BusinessUnit() {
 		<div className={DepartmentStyle.mainContainer}>
 			<div className={DepartmentStyle.contentContainer}>
 				<div className={DepartmentStyle.contentHolder}>
-					<div
-						style={{
-							backgroundColor: "transparent",
-							// borderBottomLeftRadius: "8px",
-							// borderBottomRightRadius: "8px",
-							height: "100%",
-						}}
-					> 
+					<div className={DepartmentStyle.tableHolder}> 
 						<DepartmentTable
 							createSnackpack={handleClickSnackpack}
 						/>
@@ -113,22 +85,22 @@ export default function BusinessUnit() {
 				</div>
 			</div>
 			<Snackbar
-						key={messageInfo ? messageInfo.key : undefined}
-						open={open}
-						autoHideDuration={2000}
-						onClose={handleClose}
-						TransitionProps={{ onExited: handleExited }}
-						// anchorOrigin={{ vertical, horizontal }}
-					>
-						<Alert
-							onClose={handleClose}
-							severity={severity}
-							sx={{ width: "100%" }}
-							variant="filled"
-						>
-							{messageInfo ? messageInfo.message : undefined}
-						</Alert>
-					</Snackbar>
+				key={messageInfo ? messageInfo.key : undefined}
+				open={open}
+				autoHideDuration={2000}
+				onClose={handleClose}
+				TransitionProps={{ onExited: handleExited }}
+				// anchorOrigin={{ vertical, horizontal }}
+			>
+				<Alert
+					onClose={handleClose}
+					severity={severity}
+					sx={{ width: "100%" }}
+					variant="filled"
+				>
+					{messageInfo ? messageInfo.message : undefined}
+				</Alert>
+			</Snackbar>
 		</div>
 	);
 }

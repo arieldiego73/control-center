@@ -8,6 +8,26 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+import { Divider,} from "@mui/material";
+import DevelopmentTypeStyle from "./DevelopmentType.module.css";
+import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
+import {datagridBoxStyle, datagridStyle, } from "../datagrid_customs/DataGridStyle";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import CustomPagination from "../custom_pagination/pagination";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
+import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
+import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
+import {
+	addDevPhase,
+	deleteDevPhase,
+	deleteDevPhaseBatch,
+	updateDevPhase,
+} from "../../redux/saga/devPhaseSaga";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -17,36 +37,11 @@ import {
 	GridActionsCellItem,
 	GridEventListener,
 	GridRowId,
-	GridRowModel,
+	GridRowModel, 
 	GridRowEditStopReasons,
 	GridRowSelectionModel,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
-import {
-	Divider,
-} from "@mui/material";
-import DevelopmentTypeStyle from "./DevelopmentType.module.css";
-import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
-import {
-	addDevPhase,
-	deleteDevPhase,
-	deleteDevPhaseBatch,
-	updateDevPhase,
-} from "../../redux/saga/devPhaseSaga";
-import {
-	datagridBoxStyle,
-	datagridStyle,
-} from "../datagrid_customs/DataGridStyle";
-import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
-import DataGridProps from "../datagrid_customs/DataGridProps";
-import CustomPagination from "../custom_pagination/pagination";
-import DataGridDialog from "../datagrid_customs/DataGridDialog";
-import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
-import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
-import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
-import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 
 const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();

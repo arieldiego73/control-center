@@ -1,21 +1,9 @@
+import * as React from "react";
 import Technology from "./Technology.module.css";
 import TechnologyTable from "./TechnologyTable";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-
-import * as React from "react";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-
-//for breadcrumbs
-import { Link } from "react-router-dom";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { RootState } from "../../redux/store/store";
 import { useSelector } from "react-redux";
-
-//for breadcrumbs
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-	event.preventDefault();
-	console.info("You clicked a breadcrumb.");
-}
 
 export interface SnackbarMessage {
 	message: string;
@@ -28,9 +16,7 @@ export interface State {
 	messageInfo?: SnackbarMessage;
 }
 
-// interface SnackbarState extends SnackbarOrigin {
-// 	info: string;
-// }
+
 
 export default function DevelopmentPhase() {
 	const notice = useSelector(
@@ -50,12 +36,6 @@ export default function DevelopmentPhase() {
 		}
 	}, [notice]);
 
-	// const [origin, setOrigin] = React.useState<SnackbarState>({
-	// 	info: "",
-	// 	vertical: "top",
-	// 	horizontal: "right",
-	// });
-	// const { vertical, horizontal, info } = origin;
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]
 	>([]);
@@ -98,14 +78,7 @@ export default function DevelopmentPhase() {
 		<div className={Technology.mainContainer}>
 			<div className={Technology.contentContainer}>
 				<div className={Technology.contentHolder}>
-					<div
-						style={{
-							backgroundColor: "transparent",
-							// borderBottomLeftRadius: "8px",
-							// borderBottomRightRadius: "8px",
-							height: "100%",
-						}}
-					>
+					<div className={Technology.tableHolder}>
 						<TechnologyTable
 							createSnackpack={handleClickSnackpack}
 						/>

@@ -1,21 +1,10 @@
+import * as React from "react";
 import ProjectStatusStyle from "./ProjectStatusTable.module.css";
 import ProjectStatusTable from "./ProjectStatusTable";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-
-import * as React from "react";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-
-//for breadcrumbs
-import { Link } from "react-router-dom";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 
-//for breadcrumbs
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-	event.preventDefault();
-	console.info("You clicked a breadcrumb.");
-}
 
 export interface SnackbarMessage {
 	message: string;
@@ -27,10 +16,6 @@ export interface State {
 	snackPack: readonly SnackbarMessage[];
 	messageInfo?: SnackbarMessage;
 }
-
-// interface SnackbarState extends SnackbarOrigin {
-// 	info: string;
-// }
 
 export default function ProjectStatus() {
 	const notice = useSelector(
@@ -50,12 +35,6 @@ export default function ProjectStatus() {
 		}
 	}, [notice]);
 
-	// const [origin, setOrigin] = React.useState<SnackbarState>({
-	// 	info: "",
-	// 	vertical: "top",
-	// 	horizontal: "right",
-	// });
-	// const { vertical, horizontal, info } = origin;
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]
 	>([]);
@@ -98,14 +77,7 @@ export default function ProjectStatus() {
 		<div className={ProjectStatusStyle.mainContainer}>
 			<div className={ProjectStatusStyle.contentContainer}>
 				<div className={ProjectStatusStyle.contentHolder}>
-					<div
-						style={{
-							backgroundColor: "transparent",
-							// borderBottomLeftRadius: "8px",
-							// borderBottomRightRadius: "8px",
-							height: "100%",
-						}}
-					>
+					<div className={ProjectStatusStyle.tableHolder}>
 						<ProjectStatusTable
 							createSnackpack={handleClickSnackpack}
 						/>

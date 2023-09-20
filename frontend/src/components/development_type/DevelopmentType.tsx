@@ -1,21 +1,9 @@
+import * as React from "react";
 import DevTypeStyle from "./DevelopmentType.module.css";
 import DevelopmentTypeTable from "./DevelopmentTypeTable";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-
-import * as React from "react";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-
-//for breadcrumbs
-import { Link } from "react-router-dom";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { RootState } from "../../redux/store/store";
 import { useSelector } from "react-redux";
-
-//for breadcrumbs
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-	event.preventDefault();
-	console.info("You clicked a breadcrumb.");
-}
 
 export interface SnackbarMessage {
 	message: string;
@@ -27,10 +15,6 @@ export interface State {
 	snackPack: readonly SnackbarMessage[];
 	messageInfo?: SnackbarMessage;
 }
-
-// interface SnackbarState extends SnackbarOrigin {
-// 	info: string;
-// }
 
 export default function DevelopmentType() {
 	const notice = useSelector(
@@ -98,14 +82,7 @@ export default function DevelopmentType() {
 		<div className={DevTypeStyle.mainContainer}>
 			<div className={DevTypeStyle.contentContainer}>
 				<div className={DevTypeStyle.contentHolder}>
-					<div
-						style={{
-							backgroundColor: "transparent",
-							// borderBottomLeftRadius: "8px",
-							// borderBottomRightRadius: "8px",
-							height: "100%",
-						}}
-					>
+					<div className={DevTypeStyle.tableHolder}>
 						<DevelopmentTypeTable
 							createSnackpack={handleClickSnackpack}
 						/>
