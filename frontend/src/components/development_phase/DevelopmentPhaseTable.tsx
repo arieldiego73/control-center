@@ -306,7 +306,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 						Add Phase
 					</Button>
 				) : (
-					<div className={DevelopmentPhaseModuleStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField

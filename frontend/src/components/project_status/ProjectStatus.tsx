@@ -1,5 +1,4 @@
 import * as React from "react";
-import ProjectStatusStyle from "./ProjectStatusTable.module.css";
 import ProjectStatusTable from "./ProjectStatusTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -74,10 +73,10 @@ export default function ProjectStatus() {
 	};
 
 	return (
-		<div className={ProjectStatusStyle.mainContainer}>
-			<div className={ProjectStatusStyle.contentContainer}>
-				<div className={ProjectStatusStyle.contentHolder}>
-					<div className={ProjectStatusStyle.tableHolder}>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<ProjectStatusTable
 							createSnackpack={handleClickSnackpack}
 						/>

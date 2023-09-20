@@ -1,10 +1,8 @@
 import * as React from "react";
-import BusinessUnitStyle from "./BusinessUnitTable.module.css";
 import BusinessUnitTable from "./BusinessUnitTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-
 
 export interface SnackbarMessage {
 	message: string;
@@ -73,10 +71,10 @@ export default function Department() {
 	};
 
 	return (
-		<div className={BusinessUnitStyle.mainContainer}>
-			<div className={BusinessUnitStyle.contentContainer}>
-				<div className={BusinessUnitStyle.contentHolder}>
-					<div className={BusinessUnitStyle.tableHolder}>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<BusinessUnitTable
 							createSnackpack={handleClickSnackpack}
 						/>

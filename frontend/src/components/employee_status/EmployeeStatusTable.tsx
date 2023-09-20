@@ -11,7 +11,6 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Divider,} from "@mui/material";
-import EmployeeStatusStyle from "./EmployeeStatusTable.module.css";
 import { datagridBoxStyle, datagridStyle,} from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
@@ -311,7 +310,7 @@ const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 						Add Status
 					</Button>
 				) : (
-					<div className={EmployeeStatusStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField

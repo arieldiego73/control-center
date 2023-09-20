@@ -73,10 +73,10 @@ export default function DevelopmentPhase() {
 	};
 
 	return (
-		<div className={DevStyle.mainContainer}>
-			<div className={DevStyle.contentContainer}>
-				<div className={DevStyle.contentHolder}>
-					<div className={DevStyle.tableHolder}>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<DevelopmentPhaseTable
 							createSnackpack={handleClickSnackpack}
 						/>
