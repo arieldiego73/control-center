@@ -11,7 +11,6 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import {Divider, } from "@mui/material";
-import ProjectStatusStyle from "./ProjectStatusTable.module.css";
 import { getProjectStatusFetch } from "../../redux/state/projectStatusState";
 import {datagridBoxStyle,datagridStyle,} from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";

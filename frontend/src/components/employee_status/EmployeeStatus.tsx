@@ -1,5 +1,4 @@
 import * as React from "react";
-import EmployeeStatusStyle from "./EmployeeStatusTable.module.css";
 import EmployeeStatusTable from "./EmployeeStatusTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -74,10 +73,10 @@ export default function ProjectStatus() {
 	};
 
 	return (
-		<div className={EmployeeStatusStyle.mainContainer}>
-			<div className={EmployeeStatusStyle.contentContainer}>
-				<div className={EmployeeStatusStyle.contentHolder}>
-					<div className={EmployeeStatusStyle.tableHolder}>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<EmployeeStatusTable
 							createSnackpack={handleClickSnackpack}
 						/>
