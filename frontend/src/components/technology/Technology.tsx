@@ -1,5 +1,4 @@
 import * as React from "react";
-import Technology from "./Technology.module.css";
 import TechnologyTable from "./TechnologyTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { RootState } from "../../redux/store/store";
@@ -75,10 +74,10 @@ export default function DevelopmentPhase() {
 	};
 
 	return (
-		<div className={Technology.mainContainer}>
-			<div className={Technology.contentContainer}>
-				<div className={Technology.contentHolder}>
-					<div className={Technology.tableHolder}>
+		<div className="mainContainer">
+			<div className="contentContainer">
+				<div className="contentHolder">
+					<div className="tableHolder">
 						<TechnologyTable
 							createSnackpack={handleClickSnackpack}
 						/>

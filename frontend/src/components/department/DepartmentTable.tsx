@@ -10,7 +10,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import DepartmentModuleStyle from "./DepartmentTable.module.css";
 import { getSectionFetch } from "../../redux/state/sectionState";
 import {addSection, deleteSection, deleteSectionBatch, updateSection, } from "../../redux/saga/sectionSaga";
 import CustomPagination from "../custom_pagination/pagination";
@@ -340,7 +339,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 						Add Department
 					</Button>
 				) : (
-					<div className={DepartmentModuleStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
