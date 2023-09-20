@@ -62,4 +62,10 @@
          WHERE dept_id = #{id}
     </update> -->
 
+<!-- Define the delete query -->
+    <delete id="permaDeleteProjectManager">
+        DELETE FROM tbl_proj_manager
+        WHERE proj_id = #{proj_id} AND emp_id = #{emp_id} 
+    </delete>
+
 </mapper>
