@@ -395,7 +395,18 @@ public class ProjectServiceImpl implements ProjectService {
             if (data.getDel_flag() == 1) {
                 return "Project with the ID " + id + " has already been deleted.";
             } else {
+                //setting the del_flag of tbl_project_mst to 1 based on the selected project
                 projectDao.logicalDeleteProject(id);
+                //setting the del_flag of tbl_proj_info to 1 based on the selected project
+                projInfoDao.logicalDeleteProjInfo(id);
+                //setting the del_flag of tbl_proj_manager to 1 based on the selected project
+                projectManagerDao.logicalDeleteProjectManager(id);
+                //setting the del_flag of tbl_proj_phase to 1 based on the selected project
+                projectPhaseDao.logicalDeleteProjectPhase(id);
+                //setting the del_flag of tbl_proj_tech to 1 based on the selected project
+                projectTechnologyDao.logicalDeleteProjectTechnology(id);
+                //setting the del_flag of tbl_user_project to 1 based on the selected project
+                userProjectDao.logicalDeleteUserProject(id);
 
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
@@ -423,7 +434,18 @@ public class ProjectServiceImpl implements ProjectService {
             if (data.getDel_flag() == 0) {
                 return "Project with the ID " + id + " is not yet deleted.";
             } else {
+                //setting the del_flag of tbl_project_mst to 0 based on the selected project
                 projectDao.restoreProject(id);
+                //setting the del_flag of tbl_proj_info to 0 based on the selected project
+                projInfoDao.restoreProjInfo(id);
+                //setting the del_flag of tbl_proj_manager to 0 based on the selected project
+                projectManagerDao.restoreProjectManager(id);
+                //setting the del_flag of tbl_proj_phase to 0 based on the selected project
+                projectPhaseDao.restoreProjectPhase(id);
+                //setting the del_flag of tbl_proj_tech to 0 based on the selected project
+                projectTechnologyDao.restoreProjectTechnology(id);
+                //setting the del_flag of tbl_user_project to 0 based on the selected project
+                userProjectDao.restoreUserProject(id);
 
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
