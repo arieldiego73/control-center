@@ -13,7 +13,9 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
-  public ResponseEntity<List<UserTable>> findAll();
+  public ResponseEntity<List<UserTable>> userTable();
+
+  public ResponseEntity<List<UserOutput>> getAllUser();
 
   public ResponseEntity<UserInfoOutput> getUserById(String id);
   

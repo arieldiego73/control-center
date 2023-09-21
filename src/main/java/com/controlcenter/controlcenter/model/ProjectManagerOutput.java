@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProjectPhaseOutput {
-    private Long proj_phase_id;
-    private Long dev_phase_id;
+public class ProjectManagerOutput {
+    private Long pmid;
+
     private Long proj_id;
-    private int del_flag;
+
+    private String emp_id;
 }

@@ -21,4 +21,6 @@ public interface ProjectPhaseDao {
     void logicalDeleteProjectPhase(String id);
 
     void restoreProjectPhase(String id);
+
+    void permaDeleteProjectPhase(ProjectPhaseInput projectPhase);
 }

@@ -42,10 +42,8 @@
         UPDATE tbl_proj_info
            SET dev_type_id=#{projInfo.dev_type_id}, 
                client_id=#{projInfo.client_id}, 
-               proj_status_id=#{projInfo.proj_status_id}, 
-               proj_id=#{projInfo.client_id},
-               update_id = 1
-         WHERE proj_info_id = #{id}
+               proj_status_id=#{projInfo.proj_status_id}
+         WHERE proj_id = #{projInfo.proj_id}
     </update>
 
 <!-- Logical Delete Data -->

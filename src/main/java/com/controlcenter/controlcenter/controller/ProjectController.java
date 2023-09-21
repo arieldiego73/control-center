@@ -2,6 +2,7 @@ package com.controlcenter.controlcenter.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -51,6 +52,24 @@ public class ProjectController {
         // }
     }
 
+    //get all managers of a project
+    @GetMapping("/managers/{proj_id}")
+    public ResponseEntity<List<Map<String, Object>>> getAllManagersOfProject(@PathVariable String proj_id) {
+        return projectService.getAllManagersOfProject(proj_id);
+    }
+
+    //get all development phases of a project
+    @GetMapping("/development-phases/{proj_id}")
+    public ResponseEntity<List<Map<Long, Object>>> getAllPhasesOfProject(@PathVariable String proj_id) {
+        return projectService.getAllPhasesOfProject(proj_id);
+    }
+
+    //get all members of a project
+    @GetMapping("/members/{proj_id}")
+    public ResponseEntity<List<Map<String, Object>>> getAllMembersOfProject(@PathVariable String proj_id) {
+        return projectService.getAllMembersOfProject(proj_id);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<ProjectOutput>> getAllProject(HttpSession httpSession) {
         // Check if the user is authenticated 
@@ -66,7 +85,7 @@ public class ProjectController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProject(@RequestBody ProjectOutput project, @RequestParam List<String> manager_ids, @RequestParam List<Long> client_ids, @RequestParam Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam List<String> member_ids,  HttpSession httpSession){
+    public ResponseEntity<String> addProject(@RequestBody ProjectOutput project, @RequestParam List<String> manager_ids, @RequestParam Long client_id, @RequestParam Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam Long project_status_id, @RequestParam List<String> member_ids,  HttpSession httpSession){
        // Check if the user is authenticated
     //    Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -81,7 +100,7 @@ public class ProjectController {
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
                     String emp_id = httpSession.getAttribute("session").toString();
-                    return ResponseEntity.status(200).body(projectService.addProject(project, emp_id, manager_ids, client_ids, type_id, phase_ids, tech_ids, member_ids));   
+                    return projectService.addProject(project, emp_id, manager_ids, client_id, type_id, phase_ids, tech_ids, project_status_id, member_ids);   
                 }
         //     } else {
         //         // is not authenticated
@@ -90,7 +109,7 @@ public class ProjectController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editProjectInfo(@PathVariable String id, @RequestBody ProjectInput project, HttpSession httpSession) {
+    public ResponseEntity<String> editProjectInfo(@PathVariable String id, @RequestBody ProjectInput project, @RequestParam List<String> manager_ids, @RequestParam Long client_id, @RequestParam Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam Long project_status_id, @RequestParam List<String> member_ids, HttpSession httpSession) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -105,7 +124,7 @@ public class ProjectController {
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
                     String emp_id = httpSession.getAttribute("session").toString();
-                    return ResponseEntity.status(200).body(projectService.editProjectInfo(id, project, emp_id));
+                    return projectService.editProjectInfo(id, project, emp_id, manager_ids, client_id, type_id, phase_ids, tech_ids, project_status_id, member_ids);
                 }
             // } else {
             //     // User is not authenticated 

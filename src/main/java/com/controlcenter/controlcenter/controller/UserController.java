@@ -41,9 +41,14 @@ public class UserController {
   @Autowired
   ErrorHandler errorHandler;
 
+  @GetMapping("/user-table")
+  public ResponseEntity<List<UserTable>> userTable() {
+    return userService.userTable();
+  }
+
   @GetMapping("/all")
-  public ResponseEntity<List<UserTable>> getAllUsers() {
-    return userService.findAll();
+  public ResponseEntity<List<UserOutput>> getAllUser() {
+    return userService.getAllUser();
   }
 
   @GetMapping("/info/{id}")
@@ -145,6 +150,7 @@ public class UserController {
     return userService.getAllRolesOfUser(emp_id);
   }
 
+  //get all roles of a user
   @GetMapping("/roles/{emp_id}")
   public ResponseEntity<List<Map<Long, Object>>> getAllRolesOfUser(@PathVariable String emp_id) {
     return userService.getAllRolesOfUser(emp_id);

@@ -3,6 +3,7 @@ package com.controlcenter.controlcenter.service.serviceImpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +19,27 @@ import com.controlcenter.controlcenter.dao.ProjectManagerDao;
 import com.controlcenter.controlcenter.dao.ProjectPhaseDao;
 import com.controlcenter.controlcenter.dao.ProjectTechnologyDao;
 import com.controlcenter.controlcenter.dao.TechnologyDao;
+import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.dao.UserProjectDao;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
+import com.controlcenter.controlcenter.model.ClientOutput;
+import com.controlcenter.controlcenter.model.DevPhaseOutput;
+import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.ProjInfoInput;
+import com.controlcenter.controlcenter.model.ProjMemberInput;
+import com.controlcenter.controlcenter.model.ProjMemberOutput;
 import com.controlcenter.controlcenter.model.ProjectInput;
+import com.controlcenter.controlcenter.model.ProjectManagerInput;
+import com.controlcenter.controlcenter.model.ProjectManagerOutput;
 import com.controlcenter.controlcenter.model.ProjectOutput;
 import com.controlcenter.controlcenter.model.ProjectPhaseInput;
+import com.controlcenter.controlcenter.model.ProjectPhaseOutput;
 import com.controlcenter.controlcenter.model.ProjectTable;
 import com.controlcenter.controlcenter.model.ProjectTechnologyInput;
+import com.controlcenter.controlcenter.model.UserInfoOutput;
+import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.model.UserProjectInput;
+import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.service.ProjectService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
@@ -58,6 +71,9 @@ public class ProjectServiceImpl implements ProjectService {
     public UserProjectDao userProjectDao;
 
     @Autowired
+    public UserDao userDao;
+
+    @Autowired
     public ActivityLogDao activityLogDao;
 
     @Autowired
@@ -66,6 +82,53 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ResponseEntity<List<ProjectTable>> projectTable() {
         return ResponseEntity.ok(projectDao.projectTable());
+    }
+
+    //get all managers of a project
+    @Override
+    public ResponseEntity<List<Map<String, Object>>> getAllManagersOfProject(String proj_id) {
+        List<PersonalInfoOutput> managersOfProject = projectDao.getAllManagersOfProject(proj_id);
+        List<Map<String, Object>> allManagers = managersOfProject.stream()
+        .map(manager -> {
+            Map<String, Object> currentManagers = new HashMap<>();
+            String fullName = manager.getFname() + " " + manager.getLname();
+            currentManagers.put(manager.getEmp_id(), fullName);
+            return currentManagers;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(allManagers);
+    }
+
+    //get all development phases of a project
+    @Override
+    public ResponseEntity<List<Map<Long, Object>>> getAllPhasesOfProject(String proj_id) {
+        List<DevPhaseOutput> phasesOfProject = projectDao.getAllPhasesOfProject(proj_id);
+        List<Map<Long, Object>> allPhases = phasesOfProject.stream()
+        .map(phase -> {
+            Map<Long, Object> currentPhases = new HashMap<>();
+            currentPhases.put(phase.getDev_phase_id(), phase.getDev_phase_name());
+            return currentPhases;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(allPhases);
+    }
+
+    //get all members of a project
+    public ResponseEntity<List<Map<String, Object>>> getAllMembersOfProject(String proj_id) {
+        List<UserInfoOutput> membersOfProject = projectDao.getAllMembersOfProject(proj_id);
+        
+        List<Map<String, Object>> allMembers = membersOfProject.stream()
+        .map(member -> {
+            UserInfoOutput user = userDao.getUserById(member.getEmp_id());
+            Map<String, Object> currentMembers = new HashMap<>();
+            String fullName = member.getFname() + " " + member.getLname();
+            currentMembers.put("First Name", user.getFname());
+            currentMembers.put("Last Name", user.getLname());
+            currentMembers.put("Position", user.getPosition_name());
+            return currentMembers;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(allMembers);
     }
 
     @Override
@@ -79,8 +142,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public String addProject(ProjectOutput project, String emp_id, List<String> manager_ids, List<Long> client_ids, Long type_id, List<Long> phase_ids, List<Long> tech_ids, List<String> member_ids) {
-        ProjInfoInput projInfo = new ProjInfoInput();
+    public ResponseEntity<String> addProject(ProjectOutput project, String emp_id, List<String> manager_ids, Long client_id, Long type_id, List<Long> phase_ids, List<Long> tech_ids, Long project_status_id, List<String> member_ids) {
+        ProjInfoInput projectInfo = new ProjInfoInput();
+        ProjectManagerInput projectManager = new ProjectManagerInput();
         ProjectPhaseInput projectPhase = new ProjectPhaseInput();
         ProjectTechnologyInput projectTechnology = new ProjectTechnologyInput();
         UserProjectInput userProject = new UserProjectInput();
@@ -90,9 +154,20 @@ public class ProjectServiceImpl implements ProjectService {
 
             Long projectToBeSaved = project.getProj_id();
 
+            //initializing the value of project info before saving.
+            projectInfo.setDev_type_id(type_id);
+            projectInfo.setClient_id(client_id);
+            projectInfo.setProj_status_id(project_status_id);
+            projectInfo.setProj_id(project.getProj_id());
+            
+            //saving of project info on tbl_proj_info table
+            projInfoDao.addProjInfo(projectInfo);
+
             //iterating all manager_ids which are emp_id and saving them to be multiple project manager
             for(String manager_id : manager_ids) {
-                projectManagerDao.addManagers(projectToBeSaved, manager_id);
+                projectManager.setProj_id(projectToBeSaved);
+                projectManager.setEmp_id(manager_id);
+                projectManagerDao.addManagers(projectManager);
             }
             
             //iterating all development phase id before saving them to be multiple project development phase
@@ -108,17 +183,6 @@ public class ProjectServiceImpl implements ProjectService {
                 projectTechnology.setProj_id(projectToBeSaved);
                 projectTechnologyDao.addProjectTechnology(projectTechnology);
             }
-
-            //initializing the value of project info before saving.
-            projInfo.setDev_type_id(type_id);
-            for(Long client_id : client_ids) {
-                projInfo.setClient_id(client_id);
-            }
-            projInfo.setProj_status_id(1L);
-            projInfo.setProj_id(project.getProj_id());
-            
-            //saving of project info on tbl_proj_info table
-            projInfoDao.addProjInfo(projInfo);
 
             //iterating all employee id before saving them as project members
             for(String member_id : member_ids) {
@@ -138,25 +202,94 @@ public class ProjectServiceImpl implements ProjectService {
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Project added successfully.";
+            return ResponseEntity.status(200).body("Project added successfully.");
         } catch (Exception e) {
-            return e.getMessage();
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 
     @Override
-    public String editProjectInfo(String id, ProjectInput project, String emp_id) {
-        ProjectOutput data = projectDao.getProjectById(id);
+    public ResponseEntity<String> editProjectInfo(String id, ProjectInput projectBody, String emp_id, List<String> manager_ids, Long client_id, Long type_id, List<Long> phase_ids, List<Long> tech_ids, Long project_status_id, List<String> member_ids) {
+        ProjectOutput project = projectDao.getProjectById(id);
+        
+        ProjInfoInput projectInfo = new ProjInfoInput();
 
-        if (data != null) {
-            if (data.getDel_flag() == 1) {
-                return "Project with the ID " + id + " has already been deleted.";
+        ProjectManagerInput projectManager = new ProjectManagerInput();
+        ProjectPhaseInput projectPhase = new ProjectPhaseInput();
+        UserProjectInput projectMember = new UserProjectInput();
+        
+        List<UserOutput> listOfManagers = userDao.getAllUser();
+        List<ProjectPhaseOutput> listOfDevelopmentPhases = projectPhaseDao.getAllProjectPhase();
+        List<UserOutput> listOfMembers = userDao.getAllUser();
+
+
+        if (project != null) {
+            if (project.getDel_flag() == 1) {
+                return ResponseEntity.status(400).body("Project with the ID " + id + " has already been deleted.");
             } else {
-                Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("id", id);
-                paramMap.put("project", project);
+                //initializing the value of project
+                Map<String, Object> projectMap = new HashMap<>();
 
-                projectDao.editProjectInfo(paramMap);
+                //putting the values into hashmap
+                projectMap.put("id", id);
+                projectMap.put("project", projectBody);
+
+                //initializing the value of project info before saving.
+                Map<String, Object> projectInfoMap = new HashMap<>();
+                projectInfo.setDev_type_id(type_id);
+                projectInfo.setClient_id(client_id);
+                projectInfo.setProj_status_id(project_status_id);
+                projectInfo.setProj_id(project.getProj_id());
+
+                //putting the values into hashmap
+                projectInfoMap.put("id", id);
+                projectInfoMap.put("projInfo", projectInfo);
+
+                //deleting all records from composite table tbl_proj_manager
+                for(UserOutput manager : listOfManagers) {
+                    projectManager.setProj_id(project.getProj_id());
+                    projectManager.setEmp_id(manager.getEmp_id());
+                    projectManagerDao.permaDeleteProjectManager(projectManager);
+                }
+
+                //adding records from composite table tbl_proj_manager
+                for(String manager_id : manager_ids) {
+                    projectManager.setProj_id(project.getProj_id());
+                    projectManager.setEmp_id(manager_id);
+                    projectManagerDao.addManagers(projectManager);
+                }
+
+                //deleting all records from composite table tbl_proj_phase
+                for(ProjectPhaseOutput developmentPhase : listOfDevelopmentPhases) {
+                    projectPhase.setProj_id(project.getProj_id());
+                    projectPhase.setDev_phase_id(developmentPhase.getDev_phase_id());
+                    projectPhaseDao.permaDeleteProjectPhase(projectPhase);
+                }
+
+                //adding records from composite table tbl_proj_phase
+                for(Long phase_id : phase_ids) {
+                    projectPhase.setProj_id(project.getProj_id());
+                    projectPhase.setDev_phase_id(phase_id);
+                    projectPhaseDao.addProjectPhase(projectPhase);
+                }
+
+                for(UserOutput member : listOfMembers) {
+                    projectMember.setProj_id(project.getProj_id());
+                    projectMember.setEmp_id(member.getEmp_id());
+                    userProjectDao.permaDeleteProjectMember(projectMember);
+                }
+
+                for(String member_id : member_ids) {
+                    projectMember.setProj_id(project.getProj_id());
+                    projectMember.setEmp_id(member_id);
+                    userProjectDao.addUserProject(projectMember);
+                }
+                
+                //saving the new value of the project
+                projectDao.editProjectInfo(projectMap);
+
+                //saving of project info on tbl_proj_info table
+                projInfoDao.editProjInfo(projectInfoMap);
 
                 // Activitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
@@ -169,10 +302,10 @@ public class ProjectServiceImpl implements ProjectService {
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project edited successfully.";
+                return ResponseEntity.status(200).body("Project edited successfully.");
             }
         } else {
-            return "Project with the ID " + id + " cannot be found.";
+            return ResponseEntity.status(404).body("Project with the ID " + id + " cannot be found.");
         }
     }
 
@@ -231,4 +364,5 @@ public class ProjectServiceImpl implements ProjectService {
             return "Project with the ID " + id + " cannot be found.";
         }
     }
+
 }

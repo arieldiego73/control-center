@@ -55,4 +55,11 @@
            SET del_flag = 0
         WHERE proj_phase_id = #{id}
     </update>
+
+<!-- Define the delete query -->
+    <delete id="permaDeleteProjectPhase">
+        DELETE FROM tbl_proj_phase
+        WHERE dev_phase_id = #{dev_phase_id} AND proj_id = #{proj_id} 
+    </delete>
+
 </mapper>

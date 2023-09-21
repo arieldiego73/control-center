@@ -21,4 +21,6 @@ public interface UserProjectDao {
     void logicalDeleteUserProject(String id);
 
     void restoreUserProject(String id);
+
+    void permaDeleteProjectMember(UserProjectInput projectMember);
 }

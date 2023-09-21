@@ -1,13 +1,33 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
+import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
-import BadgeIcon from "@mui/icons-material/Badge";
+import BadgeIcon from "@mui/icons-material/Badge"; 
+import { Description } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+import {Divider,} from "@mui/material";
+import { getDepartmentFetch } from "../../redux/state/departmentState";
+import CustomPagination from "../custom_pagination/pagination";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import DataGridProps from "../datagrid_customs/DataGridProps";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import { datagridBoxStyle, datagridStyle, } from "../datagrid_customs/DataGridStyle";
+import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
+import { 
+	addDepartment, 
+	deleteDepartment, 
+	deleteDepartmentBatch, 
+	updateDepartment, } 
+from "../../redux/saga/departmentSaga";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -22,32 +42,6 @@ import {
 	GridRowSelectionModel,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
-import {
-	Divider,
-} from "@mui/material";
-import BusinessUnitModuleStyle from "./BusinessUnitTable.module.css";
-import { getDepartmentFetch } from "../../redux/state/departmentState";
-import {
-	addDepartment,
-	deleteDepartment,
-	deleteDepartmentBatch,
-	updateDepartment,
-} from "../../redux/saga/departmentSaga";
-import CustomPagination from "../custom_pagination/pagination";
-import {
-	datagridBoxStyle,
-	datagridStyle,
-} from "../datagrid_customs/DataGridStyle";
-import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
-import DataGridProps from "../datagrid_customs/DataGridProps";
-import DataGridDialog from "../datagrid_customs/DataGridDialog";
-import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
-import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
-import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
-import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
-import { Description } from "@mui/icons-material";
 
 const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -322,7 +316,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 						Add Business Unit
 					</Button>
 				) : (
-					<div className={BusinessUnitModuleStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField

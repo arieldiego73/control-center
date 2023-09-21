@@ -2,7 +2,10 @@ package com.controlcenter.controlcenter.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.controlcenter.controlcenter.model.ProjectManagerInput;
+
 @Mapper
 public interface ProjectManagerDao {
-    void addManagers(Long proj_id, String emp_id);
+    void addManagers(ProjectManagerInput projectManager);
+    void permaDeleteProjectManager(ProjectManagerInput projectManager);
 }

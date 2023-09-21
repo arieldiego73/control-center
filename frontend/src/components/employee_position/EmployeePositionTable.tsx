@@ -8,38 +8,12 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
-import {
-	GridRowsProp,
-	GridRowModesModel,
-	GridRowModes,
-	DataGrid,
-	GridColDef,
-	GridActionsCellItem,
-	GridEventListener,
-	GridRowId,
-	GridRowModel,
-	GridRowEditStopReasons,
-	GridRowSelectionModel,
-	GridValidRowModel,
-} from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import {
-	Divider,
-} from "@mui/material";
-import PositionModuleStyle from "./EmployeePositionTable.module.css";
+import { Divider, } from "@mui/material";
 import { getPositionFetch } from "../../redux/state/positionState";
-import {
-	addPosition,
-	deletePosition,
-	deletePositionBatch,
-	updatePosition,
-} from "../../redux/saga/positionSaga";
 import CustomPagination from "../custom_pagination/pagination";
-import {
-	datagridBoxStyle,
-	datagridStyle,
-} from "../datagrid_customs/DataGridStyle";
+import {datagridBoxStyle, datagridStyle,} from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
@@ -48,6 +22,26 @@ import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataG
 import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 import { Description } from "@mui/icons-material";
+import {
+	addPosition,
+	deletePosition,
+	deletePositionBatch,
+	updatePosition,
+} from "../../redux/saga/positionSaga";
+import {
+	GridRowsProp,
+	GridRowModesModel,
+	GridRowModes,
+	DataGrid,
+	GridColDef,
+	GridActionsCellItem, 
+	GridEventListener,
+	GridRowId,
+	GridRowModel,
+	GridRowEditStopReasons,
+	GridRowSelectionModel,
+	GridValidRowModel,
+} from "@mui/x-data-grid";
 
 const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -322,7 +316,7 @@ const EmployeePositionTable: React.FC<DataGridProps> = (props) => {
 						Add Position
 					</Button>
 				) : (
-					<div className={PositionModuleStyle.hideButton}>
+					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField

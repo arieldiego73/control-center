@@ -28,17 +28,24 @@ const data = [
 
 export default function ProjectGraph() {
   return (
-    <div className={ProjGraphStyle.ProjGraphContainer  }>
+    <div className={ProjGraphStyle.ProjGraphContainer}>
       <div
-        style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center",}}>
-
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         {/* Main Container */}
         <div className={ProjGraphStyle.card}>
           <div className={ProjGraphStyle.textHolder}>
-
             {/* Text Title */}
-            <text  className={ProjGraphStyle.textTitle}> PROJECT STATUS </text>
-            <text className={ProjGraphStyle.textSubtitle}> PROJECT STATUS </text>
+            <text className={ProjGraphStyle.textTitle}> PROJECT STATUS </text>
+            <text className={ProjGraphStyle.textSubtitle}>
+              {" "}
+              PROJECT STATUS{" "}
+            </text>
 
             <Divider style={{ padding: "1%" }} variant="middle" />
 
@@ -51,12 +58,15 @@ export default function ProjectGraph() {
                   paddingRight: ".5%",
                 }}
               />
-              <text className={ProjGraphStyle.textInfo}> Updated 4 mins ago </text>
+              <text className={ProjGraphStyle.textInfo}>
+                {" "}
+                Updated 4 mins ago{" "}
+              </text>
             </div>
           </div>
         </div>
 
-       {/* Graph */}
+        {/* Graph */}
         <div className={ProjGraphStyle.graphContainer}>
           <ResponsiveBar
             data={data}
@@ -90,46 +100,3 @@ export default function ProjectGraph() {
     </div>
   );
 }
-
-// import * as React from 'react';
-// import testStyle from "./test2.module.css"
-
-// import ReactQuill, { Quill } from "react-quill";
-// import "react-quill/dist/quill.snow.css";
-// import { useState } from 'react';
-
-// const modules = {
-//   toolbar: [
-//     [{ header: [1, 2, 3, 4, 5, 6, false] }],
-//     ["bold", "italic", "underline"],
-//     [
-//       { list: "ordered"},
-//       { list: "bullet"},
-
-//     ]
-//   ]
-// };
-
-// export default function ToggleButtonsMultiple() {
-
-//   const [value, setValue] = useState("");
-
-//   return (
-//     <div className={testStyle.descriptionContainer}>
-//       <div className={testStyle.toolbar}>
-//         <div className={testStyle.editor}>
-//           Editor
-//           <ReactQuill
-//             theme='snow'
-//             value={value}
-//             className={testStyle.editorInput}
-//             onChange={setValue}
-//             onKeyPress={() => console.log(value)}
-//             modules={modules}
-//           />
-
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }

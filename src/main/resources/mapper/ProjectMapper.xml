@@ -85,4 +85,53 @@
         WHERE proj_id = #{id}
     </update>
 
+<!-- Define the delete query -->
+    <delete id="permaDeleteRoleOfUser">
+        DELETE FROM tbl_multi_role
+        WHERE emp_id = #{emp_id} AND role_id = #{role_id}
+    </delete>
+
+<!-- Select all managers of a project -->
+    <select id="getAllManagersOfProject" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.PersonalInfoOutput">
+        SELECT tmanager.emp_id,
+               tpi.fname,
+               tpi.lname
+          FROM tbl_project_mst AS tproj
+            INNER JOIN tbl_proj_manager AS tmanager
+                ON tproj.proj_id = tmanager.proj_id
+            LEFT JOIN tbl_personal_info AS tpi
+                ON tpi.emp_id = tmanager.emp_id
+        WHERE tmanager.proj_id = #{proj_id};
+    </select>
+
+<!-- Select all development phases of a project -->
+    <select id="getAllPhasesOfProject" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.DevPhaseOutput">
+        SELECT tpp.dev_phase_id,
+               tphase.dev_phase_name
+          FROM tbl_project_mst AS tproj
+            INNER JOIN tbl_proj_phase AS tpp
+                ON tproj.proj_id = tpp.proj_id
+            LEFT JOIN tbl_dev_phase_mst AS tphase
+                ON tphase.dev_phase_id = tpp.dev_phase_id
+        WHERE tpp.proj_id = #{proj_id};
+    </select>
+
+<!-- Select all members of a project -->
+    <select id="getAllMembersOfProject" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserInfoOutput">
+        SELECT tup.emp_id,
+               tpi.fname,
+               tpi.lname,
+               tposition.position_sh_name
+          FROM tbl_project_mst AS tproj
+            INNER JOIN tbl_user_project AS tup
+                ON tproj.proj_id = tup.proj_id
+            LEFT JOIN tbl_personal_info AS tpi
+                ON tpi.emp_id = tup.emp_id
+            LEFT JOIN tbl_user AS tuser
+                ON tuser.emp_id = tup.emp_id
+            LEFT JOIN tbl_position_mst AS tposition
+                ON tposition.position_id = tuser.position_id
+        WHERE tup.proj_id = #{proj_id};
+    </select>
+
 </mapper>
