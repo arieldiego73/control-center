@@ -32,7 +32,7 @@
 }
 .contentHolder {
   border-radius: 5px;
-  height: 90%;
+  height: 95%;
   width: 99%;
   align-items: center;
   flex-direction: column;
@@ -139,7 +139,7 @@
 .formRow5 Button,
 .formRow7 Button {
   height: 2rem;
-  margin-top: 3.5vh;
+  /* margin-top: 3.5vh; */
 }
 
 .formRow7 {
