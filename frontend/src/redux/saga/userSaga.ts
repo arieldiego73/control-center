@@ -25,7 +25,7 @@ interface Data {
 
 function* workGetUsersFetch(): any {
 	const users = yield call(() =>
-		fetch("http://localhost:8080/user/all").then((res) => res.json())
+		fetch("http://localhost:8080/user/user-table").then((res) => res.json())
 	);
 	yield put(getUsersSuccess(users));
 }

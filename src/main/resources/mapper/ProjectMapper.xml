@@ -92,7 +92,7 @@
     </delete>
 
 <!-- Select all managers of a project -->
-    <select id="getAllManagersOfProject" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.PersonalInfoOutput">
+    <select id="getAllManagersOfProject" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserInfoOutput">
         SELECT tmanager.emp_id,
                tpi.fname,
                tpi.lname
@@ -134,4 +134,51 @@
         WHERE tup.proj_id = #{proj_id};
     </select>
 
+<!-- Select all development technologies of a project -->
+    <select id="getAllTechnologiesOfProject" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.TechnologyOutput">
+        SELECT ttech.tech_id,
+               ttech.tech_name
+          FROM tbl_project_mst AS tproj
+            INNER JOIN tbl_proj_tech AS tpt
+                ON tproj.proj_id = tpt.proj_id
+            LEFT JOIN tbl_technology_mst AS ttech
+                ON ttech.tech_id = tpt.tech_id
+        WHERE tpt.proj_id = #{proj_id};
+    </select>
+
+<!-- Select the client of a project -->
+    <select id="getClientOfProject" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.ClientOutput">
+        SELECT tclient.client_id,
+               tclient.client_name
+          FROM tbl_project_mst AS tproj
+            INNER JOIN tbl_proj_info AS tpi
+                ON tproj.proj_id = tpi.proj_id
+            LEFT JOIN tbl_clients_mst AS tclient
+                ON tclient.client_id = tpi.client_id
+        WHERE tpi.proj_id = #{proj_id};
+    </select>
+
+<!-- Select the development type of a project -->
+    <select id="getDevelopmentTypeOfProject" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.DevTypeOutput">
+        SELECT tdt.dev_type_id,
+               tdt.dev_type_name
+          FROM tbl_project_mst AS tproj
+            INNER JOIN tbl_proj_info AS tpi
+                ON tproj.proj_id = tpi.proj_id
+            LEFT JOIN tbl_dev_type_mst AS tdt
+                ON tdt.dev_type_id = tpi.dev_type_id
+        WHERE tpi.proj_id = #{proj_id};
+    </select>
+
+<!-- Select the status type of a project -->
+    <select id="getStatusOfProject" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.ProjectStatusOutput">
+        SELECT tps.proj_status_id,
+               tps.proj_status_name
+          FROM tbl_project_mst AS tproj
+            INNER JOIN tbl_proj_info AS tpi
+                ON tproj.proj_id = tpi.proj_id
+            LEFT JOIN tbl_proj_status_mst AS tps
+                ON tps.proj_status_id = tpi.proj_status_id
+        WHERE tpi.proj_id = #{proj_id};
+    </select>
 </mapper>

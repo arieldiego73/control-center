@@ -19,6 +19,14 @@ public interface ProjectService {
     public ResponseEntity<List<Map<Long, Object>>> getAllPhasesOfProject(String proj_id);
     //get all members of a project
     public ResponseEntity<List<Map<String, Object>>> getAllMembersOfProject(String proj_id);
+    //get all development technologies of a project
+    public ResponseEntity<List<Map<Long, Object>>> getAllTechnologiesOfProject(String proj_id);
+    //get the client of a project
+    public ResponseEntity<List<Map<Long, Object>>> getClientOfProject(String proj_id);
+    //get the development type of a project
+    public ResponseEntity<List<Map<Long, Object>>> getDevelopmentOfProject(String proj_id);
+    //get the status of a project
+    public ResponseEntity<List<Map<Long, Object>>> getStatusOfProject(String proj_id);
 
     public ResponseEntity<List<ProjectOutput>> getAllProject();
     public ProjectOutput getProjectById(String id);

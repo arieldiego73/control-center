@@ -24,6 +24,7 @@ import com.controlcenter.controlcenter.dao.UserProjectDao;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.ClientOutput;
 import com.controlcenter.controlcenter.model.DevPhaseOutput;
+import com.controlcenter.controlcenter.model.DevTypeOutput;
 import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.ProjInfoInput;
 import com.controlcenter.controlcenter.model.ProjMemberInput;
@@ -34,8 +35,11 @@ import com.controlcenter.controlcenter.model.ProjectManagerOutput;
 import com.controlcenter.controlcenter.model.ProjectOutput;
 import com.controlcenter.controlcenter.model.ProjectPhaseInput;
 import com.controlcenter.controlcenter.model.ProjectPhaseOutput;
+import com.controlcenter.controlcenter.model.ProjectStatusOutput;
 import com.controlcenter.controlcenter.model.ProjectTable;
 import com.controlcenter.controlcenter.model.ProjectTechnologyInput;
+import com.controlcenter.controlcenter.model.ProjectTechnologyOutput;
+import com.controlcenter.controlcenter.model.TechnologyOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.model.UserProjectInput;
@@ -87,7 +91,7 @@ public class ProjectServiceImpl implements ProjectService {
     //get all managers of a project
     @Override
     public ResponseEntity<List<Map<String, Object>>> getAllManagersOfProject(String proj_id) {
-        List<PersonalInfoOutput> managersOfProject = projectDao.getAllManagersOfProject(proj_id);
+        List<UserInfoOutput> managersOfProject = projectDao.getAllManagersOfProject(proj_id);
         List<Map<String, Object>> allManagers = managersOfProject.stream()
         .map(manager -> {
             Map<String, Object> currentManagers = new HashMap<>();
@@ -114,6 +118,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     //get all members of a project
+    @Override
     public ResponseEntity<List<Map<String, Object>>> getAllMembersOfProject(String proj_id) {
         List<UserInfoOutput> membersOfProject = projectDao.getAllMembersOfProject(proj_id);
         
@@ -121,7 +126,6 @@ public class ProjectServiceImpl implements ProjectService {
         .map(member -> {
             UserInfoOutput user = userDao.getUserById(member.getEmp_id());
             Map<String, Object> currentMembers = new HashMap<>();
-            String fullName = member.getFname() + " " + member.getLname();
             currentMembers.put("First Name", user.getFname());
             currentMembers.put("Last Name", user.getLname());
             currentMembers.put("Position", user.getPosition_name());
@@ -129,6 +133,62 @@ public class ProjectServiceImpl implements ProjectService {
         }).collect(Collectors.toList());
 
         return ResponseEntity.ok(allMembers);
+    }
+
+    //get all development technologies of a project
+    @Override
+    public ResponseEntity<List<Map<Long, Object>>> getAllTechnologiesOfProject(String proj_id) {
+        List<TechnologyOutput> technologiesOfProject = projectDao.getAllTechnologiesOfProject(proj_id);
+        List<Map<Long, Object>> allTechnologies = technologiesOfProject.stream()
+        .map(technology -> {
+            Map<Long, Object> currentTechnologies = new HashMap<>();
+            currentTechnologies.put(technology.getTech_id(), technology.getTech_name());
+            return currentTechnologies;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(allTechnologies);
+    }
+
+    //get the client of a project
+    @Override
+    public ResponseEntity<List<Map<Long, Object>>> getClientOfProject(String proj_id) {
+        List<ClientOutput> clientOfProject = projectDao.getClientOfProject(proj_id);
+        List<Map<Long, Object>> allClient = clientOfProject.stream()
+        .map(client -> {
+            Map<Long, Object> currentClient = new HashMap<>();
+            currentClient.put(client.getClient_id(), client.getClient_name());
+            return currentClient;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(allClient);
+    }
+
+    //get the development type of a project
+    @Override
+    public ResponseEntity<List<Map<Long, Object>>> getDevelopmentOfProject(String proj_id) {
+        List<DevTypeOutput> developmentTypeOfProject = projectDao.getDevelopmentTypeOfProject(proj_id);
+        List<Map<Long, Object>> allDevelopmentType = developmentTypeOfProject.stream()
+        .map(developmentType -> {
+            Map<Long, Object> currentDevelopmentType = new HashMap<>();
+            currentDevelopmentType.put(developmentType.getDev_type_id(), developmentType.getDev_type_name());
+            return currentDevelopmentType;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(allDevelopmentType);
+    }
+
+    //get the status of a project
+    @Override
+    public ResponseEntity<List<Map<Long, Object>>> getStatusOfProject(String proj_id) {
+        List<ProjectStatusOutput> statusOfProject = projectDao.getStatusOfProject(proj_id);
+        List<Map<Long, Object>> allStatus = statusOfProject.stream()
+        .map(status -> {
+            Map<Long, Object> currentStatus = new HashMap<>();
+            currentStatus.put(status.getProj_status_id(), status.getProj_status_name());
+            return currentStatus;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(allStatus);
     }
 
     @Override
@@ -216,10 +276,12 @@ public class ProjectServiceImpl implements ProjectService {
 
         ProjectManagerInput projectManager = new ProjectManagerInput();
         ProjectPhaseInput projectPhase = new ProjectPhaseInput();
+        ProjectTechnologyInput projectTechnology = new ProjectTechnologyInput();
         UserProjectInput projectMember = new UserProjectInput();
         
         List<UserOutput> listOfManagers = userDao.getAllUser();
         List<ProjectPhaseOutput> listOfDevelopmentPhases = projectPhaseDao.getAllProjectPhase();
+        List<ProjectTechnologyOutput> listOfDevelopmentTechnologies = projectTechnologyDao.getAllProjectTechnology();
         List<UserOutput> listOfMembers = userDao.getAllUser();
 
 
@@ -273,12 +335,28 @@ public class ProjectServiceImpl implements ProjectService {
                     projectPhaseDao.addProjectPhase(projectPhase);
                 }
 
+                //deleting all records from composite table tbl_proj_tech
+                for(ProjectTechnologyOutput developmentTechnology : listOfDevelopmentTechnologies) {
+                    projectTechnology.setProj_id(project.getProj_id());
+                    projectTechnology.setTech_id(developmentTechnology.getTech_id());
+                    projectTechnologyDao.permaDeleteProjectTechnology(projectTechnology);
+                }
+
+                //adding records from composite table tbl_proj_tech
+                for(Long tech_id : tech_ids) {
+                    projectTechnology.setProj_id(project.getProj_id());
+                    projectTechnology.setTech_id(tech_id);
+                    projectTechnologyDao.addProjectTechnology(projectTechnology);
+                }
+
+                //deleting all records from composite table tbl_proj_members
                 for(UserOutput member : listOfMembers) {
                     projectMember.setProj_id(project.getProj_id());
                     projectMember.setEmp_id(member.getEmp_id());
                     userProjectDao.permaDeleteProjectMember(projectMember);
                 }
 
+                //adding records from composite table tbl_proj_members
                 for(String member_id : member_ids) {
                     projectMember.setProj_id(project.getProj_id());
                     projectMember.setEmp_id(member_id);
