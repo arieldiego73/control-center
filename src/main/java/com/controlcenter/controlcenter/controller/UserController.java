@@ -120,8 +120,26 @@ public class UserController {
       if (error.size() > 0) { //checks the errors from validator
         return ResponseEntity.status(400).body(errorHandler.getErrors(error));
       }else{
-        return ResponseEntity.status(200).body(userService.editAccount(id, accountBody, role_ids));
+        return userService.editAccount(id, accountBody, role_ids);
       }
+  }
+
+  @PutMapping("/delete/{id}")
+  public ResponseEntity<String> logicalDeleteUser(@PathVariable String id) {
+    try {
+      return userService.logicalDeleteUser(id);
+    } catch (Exception e) {
+      return ResponseEntity.status(500).build();
+    }
+  }
+
+  @PutMapping("/restore/{id}")
+  public ResponseEntity<String> restoreUser(@PathVariable String id) {
+    try {
+      return userService.restoreUser(id);
+    } catch (Exception e) {
+      return ResponseEntity.status(500).build();
+    }
   }
 
   @PostMapping("/login")

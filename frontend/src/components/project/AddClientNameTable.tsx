@@ -4,25 +4,29 @@ import {
 	GridRowsProp,
 	DataGrid,
 	GridColDef,
+	GridRowParams,
 	GridRowSelectionModel,
-  GridRowId,
 } from "@mui/x-data-grid";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import { datagridBoxStyle } from "../datagrid_customs/DataGridStyle";
 import CustomPagination from "../custom_pagination/pagination";
+import { getClientFetch } from "../../redux/state/clientState";
 
-interface SelectProjectMembersTableProps {
+interface SelectClientTableProps {
+	setClient: React.Dispatch<
+		React.SetStateAction<GridRowParams| undefined>
+	>;
   data: any[];
-  selected: GridRowSelectionModel | undefined;
-  temporarySetter: React.Dispatch<React.SetStateAction<GridRowSelectionModel | undefined>>;
 }
 
-const AddMemberTable: React.FC<SelectProjectMembersTableProps> = (props) => {
-  const { data, selected, temporarySetter } = props;
+const AddClientNameTable: React.FC<SelectClientTableProps> = (props) => {
+  const { setClient, data } = props;
 
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
 	const [rowSelectionModel, setRowSelectionModel] =
-		React.useState<GridRowSelectionModel>(selected as GridRowId[]);
+		React.useState<GridRowSelectionModel>([2]);
 
 	const dataGridSlots = {
 		columnUnsortedIcon: UnsortedIcon,
@@ -35,19 +39,16 @@ const AddMemberTable: React.FC<SelectProjectMembersTableProps> = (props) => {
 
 	const columns: GridColDef[] = [
 		{
-			field: "fname",
-			headerName: "Name",
+			field: "client_name",
+			headerName: "Client",
 			flex: 1,
 			headerAlign: "center",
 			align: "center",
-      valueGetter(params) {
-          return params.row.fname + " " + params.row.lname
-      },
 		},
 		{
-			field: "position_sh_name",
-			headerName: "Position",
-			flex: 0.8,
+			field: "client_sh_name",
+			headerName: "Short Name",
+			flex: 1,
 			headerAlign: "center",
 			align: "center",
 		},
@@ -59,15 +60,15 @@ const AddMemberTable: React.FC<SelectProjectMembersTableProps> = (props) => {
 				sx={{ width: 500 }}
 				rows={rows}
 				columns={columns}
-				getRowId={(row) => row.emp_id}
+				getRowId={(row) => row.client_id}
 				keepNonExistentRowsSelected
 				disableColumnMenu
+				hideFooterSelectedRowCount
 				rowSelectionModel={rowSelectionModel}
-        checkboxSelection
 				onRowSelectionModelChange={(newRowSelectionModel) => {
 					setRowSelectionModel(newRowSelectionModel);
-          temporarySetter(newRowSelectionModel)
 				}}
+				onRowClick={(params) => setClient(params.row)}
 				initialState={{
 					pagination: {
 						paginationModel: { page: 0, pageSize: 10 },
@@ -80,4 +81,4 @@ const AddMemberTable: React.FC<SelectProjectMembersTableProps> = (props) => {
 	);
 };
 
-export default AddMemberTable;
+export default AddClientNameTable;

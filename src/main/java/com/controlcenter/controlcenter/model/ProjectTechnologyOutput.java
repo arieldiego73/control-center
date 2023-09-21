@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ProjectTechnologyOutput {
     private Long proj_tech_id;
-    private int tech_id; //fk from technology tbl
-    private int proj_id; //fk from project tbl
+    private Long tech_id; //fk from technology tbl
+    private Long proj_id; //fk from project tbl
     private int del_flag;
 }

@@ -41,16 +41,22 @@
 </update>
 
 <!-- Logical Delete Data -->
-    <update id="logicalDeleteProjectTechnology" parameterType="map">
+    <update id="logicalDeleteProjectTechnology" parameterType="java.lang.String">
         UPDATE tbl_proj_tech
            SET del_flag = 1
-        WHERE proj_tech_id = #{id}
+        WHERE proj_id = #{id}
     </update>
 
 <!-- Restore Data -->
-    <update id="restoreProjectTechnology" parameterType="map">
+    <update id="restoreProjectTechnology" parameterType="java.lang.String">
         UPDATE tbl_proj_tech
            SET del_flag = 0
-        WHERE proj_tech_id = #{id}
+        WHERE proj_id = #{id}
     </update>
+
+<!-- Define the delete query -->
+    <delete id="permaDeleteProjectTechnology">
+        DELETE FROM tbl_proj_tech
+        WHERE tech_id = #{tech_id} AND proj_id = #{proj_id} 
+    </delete>
 </mapper>

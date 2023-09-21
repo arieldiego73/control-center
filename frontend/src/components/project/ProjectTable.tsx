@@ -19,9 +19,6 @@ import { TablePagination } from "@mui/material";
 import MembersTable from "./MembersTable";
 import { useNavigate } from "react-router-dom";
 import ProjectTableStyle from "./Project.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
-import { getProjectsFetch } from "../../redux/state/projectState";
 
 export interface RowData {
 	id: number;
@@ -81,6 +78,12 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 	const handleRowClick = (row: any) => {
 		navigate(`/editProject/${row.projectName}`, { state: row });
 	};
+
+	const durationDateFormatter = new Intl.DateTimeFormat("en-US", {
+		year: "numeric",
+		month: "short",
+		day: "2-digit",
+	});
 
 	return (
 		<div className={ProjectTableStyle.tableMainContainer}>
@@ -170,7 +173,12 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 												color: "black",
 											}}
 										>
-											{row.start_date}
+											{durationDateFormatter.format(
+												new Date(row.start_date)
+											)}{" - "}
+											{durationDateFormatter.format(
+												new Date(row.end_date)
+											)}
 										</TableCell>
 										<TableCell
 											align="center"
@@ -178,7 +186,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 												color: "black",
 											}}
 										>
-											{row.developmentType}
+											{row.dev_type_name}
 										</TableCell>
 										<TableCell
 											align="center"
@@ -270,6 +278,6 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 			</Paper>
 		</div>
 	);
-}
+};
 
 export default ProjectTable;

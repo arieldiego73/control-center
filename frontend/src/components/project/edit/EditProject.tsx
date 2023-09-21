@@ -1,41 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import EditProjectStyle from "./EditProjectStyle.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
-  Box,
-  FormControl,
-  FormLabel,
-  InputAdornment,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  IconButton,
-  Grid,
+	FormControl,
+	FormLabel,
+	InputAdornment,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	Grid,
+	Stack,
+	Chip,
+	Avatar,
+	Paper,
+	Typography,
+	List,
+	ListItem,
+	ListItemAvatar,
+	ListItemText,
+	IconButton,
+	OutlinedInput,
+	Box,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import EditIcon from "@mui/icons-material/Edit";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
-import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
-import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
-import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
-import FormatBoldIcon from "@mui/icons-material/FormatBold";
-import FormatItalicIcon from "@mui/icons-material/FormatItalic";
-import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
-import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import Divider from "@mui/material/Divider";
-import Paper from "@mui/material/Paper";
-import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -45,590 +42,775 @@ import Checkbox from "@mui/material/Checkbox";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddMemberTable from "../AddMemberTable";
-import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import InputBase from "@mui/material/InputBase";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import SettingsEthernetOutlinedIcon from "@mui/icons-material/SettingsEthernetOutlined";
 import AddProjManagerTable from "../AddProjManagerTable";
-import AddTechnologyTable from "../AddTechnologyTable";
 import ReactQuillEditor from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-//for breadcrumbs
 import { Link } from "react-router-dom";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-//for breadcrumbs
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-  event.preventDefault();
-  console.info("You clicked a breadcrumb.");
-}
-
-const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-  "& .MuiToggleButtonGroup-grouped": {
-    margin: theme.spacing(0.5),
-    border: 0,
-    "&.Mui-disabled": {
-      border: 0,
-    },
-    "&:not(:first-of-type)": {
-      borderRadius: theme.shape.borderRadius,
-    },
-    "&:first-of-type": {
-      borderRadius: theme.shape.borderRadius,
-    },
-  },
-}));
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
+import { useDispatch, useSelector } from "react-redux";
+import { getClientFetch } from "../../../redux/state/clientState";
+import { RootState } from "../../../redux/store/store";
+import { getDevPhaseFetch } from "../../../redux/state/devPhaseState";
+import AddClientNameTable from "../AddClientNameTable";
+import { GridRowParams, GridRowSelectionModel } from "@mui/x-data-grid";
+import { getUsersFetch } from "../../../redux/state/userState";
+import { getTechnologyFetch } from "../../../redux/state/technologyState";
 
 export default function EditProj() {
-  const [alignment, setAlignment] = React.useState("left");
-  const [formats, setFormats] = React.useState(() => ["italic"]);
-  const [age, setAge] = React.useState("");
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
-  //for description box (formatting toolbar)
-  const [value, setValue] = useState("");
+	const dispatch = useDispatch();
 
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["bold", "italic", "underline"],
-      [{ list: "ordered" }, { list: "bullet" }],
-    ],
-  };
+	const [projectName, setProjectName] = React.useState("");
+	const [selectedStartDate, setSelectedStartDate] =
+		React.useState<Date | null>(null);
+	const [selectedEndDate, setSelectedEndDate] = React.useState<Date | null>(
+		null
+	);
 
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
+	// PROJECT MANAGER VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	const [projectManager, setProjectManager] =
+		useState<GridRowSelectionModel>(); // Will hold the current project managers of the current project
+	const [selectedProjectManagers, setSelectedProjectManagers] = useState<
+		string[]
+	>([]); // Variable that holds the selected project managers
+	const [temporaryManagers, setTemporaryManagers] = useState<GridRowSelectionModel>(); // for temporary selected managers
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	
+	// PROJECT MEMBERS VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	const [projectMembers, setProjectMembers] =
+		useState<GridRowSelectionModel>();
+	const [selectedProjectMembers, setSelectedProjectMembers] = useState<
+	string[]
+	>([]); // Variable that holds the selected project members
+	const [temporaryMembers, setTemporaryMembers] = useState<GridRowSelectionModel>(); // for temporary selected members
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-  const handleFormat = (
-    event: React.MouseEvent<HTMLElement>,
-    newFormats: string[]
-  ) => {
-    setFormats(newFormats);
-  };
+	const [projectClient, setProjectClient] = useState<GridRowParams>();
+	const [projectDescription, setProjectDescription] = useState("");
+	const [projectDevPhase, setProjectDevPhase] = useState<number[]>([]);
+	const [projectTechnologies, setProjectTechnologies] = useState<number[]>(
+		[]
+	);
+	const [status, setStatus] = useState("");
 
-  const handleAlignment = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
-  ) => {
-    setAlignment(newAlignment);
-  };
+	React.useEffect(() => {
+		dispatch(getClientFetch());
+		dispatch(getDevPhaseFetch());
+		dispatch(getUsersFetch()); // to fetch all users for project manager selections
+		dispatch(getTechnologyFetch());
+	}, [dispatch]);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
-  };
+	const clientsData = useSelector(
+		(state: RootState) => state.clientReducer.clients
+	);
+	const devPhaseData = useSelector(
+		(state: RootState) => state.devPhaseReducer.devPhase
+	);
+	const usersData = useSelector(
+		(state: RootState) => state.userReducer.users
+	);
+	const technologies = useSelector(
+		(state: RootState) => state.techReducer.technology
+	);
 
-  const breadcrumbItems = [
-    { label: "Projects", href: "/project" },
-    { label: "Add new project", href: "/NewProj" },
-  ];
+	//for description box (formatting toolbar)
+	const [value, setValue] = useState("");
 
-  const [open, setOpen] = React.useState(false);
-  const [openProjManager, setOpenProjManager] = React.useState(false);
-  const [openTechnology, setOpenTechnology] = React.useState(false);
+	const modules = {
+		toolbar: [
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+			["bold", "italic", "underline"],
+			[{ list: "ordered" }, { list: "bullet" }],
+		],
+	};
 
-  const handleClickOpenTechnology = () => {
-    setOpenTechnology(true);
-  };
+	const [openMembers, setOpenMembers] = React.useState(false);
+	const [openProjManager, setOpenProjManager] = React.useState(false);
+	const [openClientName, setOpenClientName] = React.useState(false);
 
-  const handleCloseTechnology = () => {
-    setOpenTechnology(false);
-  };
+	React.useEffect(() => {
+		setSelectedProjectManagers(() => {
+			return usersData
+				.filter((user: any) =>
+					projectManager?.includes(
+						user?.emp_id
+					)
+				)
+				.map(
+					(user: any) =>
+						`${user?.fname} ${user?.lname}`
+				)
+				.sort();
+		});
+	}, [projectManager, usersData]);
+	// this will trigger re-render of the chips of project members when the dependencies has changed
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+	React.useEffect(() => {
+		setSelectedProjectMembers(() => {
+			return usersData
+				.filter((user: any) =>
+					projectMembers?.includes(
+						user?.emp_id
+					)
+				)
+				.map(
+					(user: any) =>
+						`${user?.fname} ${user?.lname}`
+				)
+				.sort();
+		});
+	}, [projectMembers, usersData]);
+	// this will trigger re-render of the chips of project members when dependencies has changed
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+	const handleSelectDevPhaseChange = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => setProjectDevPhase([...projectDevPhase, parseInt(event.target.name)]);
 
-  const handleClickOpenProjManager = () => {
-    setOpenProjManager(true);
-  };
+	const handleSelectTechnologies = (
+		e: SelectChangeEvent<typeof projectTechnologies>
+	) => setProjectTechnologies(e.target.value as number[]);
 
-  const handleCloseProjManager = () => {
-    setOpenProjManager(false);
-  };
+	const handleTechValueRendering = () => {
+		const selectedTechs: string[] = projectTechnologies.map((techId) => {
+			const matchingTech: any = technologies.find(
+				(tech: any) => tech.tech_id === techId
+			);
+			return matchingTech ? matchingTech.tech_name : "";
+		});
+		return (
+			<Box
+				sx={{
+					display: "flex",
+					flexWrap: "wrap",
+					gap: 0.5,
+				}}
+			>
+				{selectedTechs.map((value) => (
+					<Chip key={value} label={value} />
+				))}
+			</Box>
+		);
+	};
 
-  return (
-    <div className={EditProjectStyle.mainContainer}>
-      <div className={EditProjectStyle.mainHolder}>
-        <div className={EditProjectStyle.contentHolder}>
-          <div className={EditProjectStyle.mainForm}>
-            <FormControl>
-              <FormLabel
-                sx={{
-                  fontFamily: "Montserrat, sans-serif",
-                  color: "black",
-                  fontWeight: "400",
-                }}
-              >
-                Project Name
-              </FormLabel>
+	return (
+		<div className={EditProjectStyle.mainContainer}>
+			<div className={EditProjectStyle.mainHolder}>
+				<div className={EditProjectStyle.contentHolder}>
+					<div className={EditProjectStyle.mainForm}>
+						{/* CLIENT NAME */}
+						<div className={EditProjectStyle.formRow6}>
+							<FormControl
+								style={{
+									flexDirection: "row",
+									display: "flex",
+									gap: "20px",
+									alignItems: "flex-end",
+								}}
+							>
+								<div
+									style={{
+										flexDirection: "column",
+										display: "flex",
+									}}
+								>
+									{/* <FormLabel
+										sx={{
+											color: "black",
+											fontWeight: "400",
+										}}
+									>
+										Client Name
+									</FormLabel> */}
 
-              <TextField
-                style={{ backgroundColor: "transparent", maxWidth: "570px" }}
-                variant="outlined"
-                size="small"
-                placeholder="Project Name"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <FolderOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </FormControl>
+									{/* <TextField
+										variant="outlined"
+										size="small"
+										placeholder="Client Name"
+										style={{
+											backgroundColor: "transparent",
+										}}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<PermIdentityOutlinedIcon />
+                                                    </InputAdornment>
+                                                    ),
+                                                }}
+                                            /> */}
+									<List sx={{ width: "100%", maxWidth: 400 }}>
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar
+													sx={{
+														backgroundColor:
+															"background.secondary",
+														width: 84,
+														height: 84,
+														marginRight: "12px",
+														overflow: "visible",
+													}}
+												>
+													F
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText secondary="Client name">
+												<Typography
+													variant="h4"
+													style={{ fontWeight: 900 }}
+												>
+													Facebook
+												</Typography>
+											</ListItemText>
+										</ListItem>
+									</List>
+									<Button
+										variant="contained"
+										size="small"
+										onClick={() => setOpenClientName(true)}
+										color="success"
+										startIcon={<EditIcon />}
+									>
+										Change
+									</Button>
+								</div>
+							</FormControl>
+						</div>
 
-            <div className={EditProjectStyle.formRow3}>
-              <FormControl>
-                <FormLabel
-                  sx={{
-                    fontFamily: "Montserrat, sans-serif",
-                    color: "black",
-                    fontWeight: "400",
-                  }}
-                >
-                  Start Date
-                </FormLabel>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker />
-                </LocalizationProvider>
-              </FormControl>
+						{/* PROJECT NAME */}
+						<FormControl>
+							<FormLabel
+								sx={{
+									color: "black",
+									fontWeight: "400",
+								}}
+							>
+								Project Name
+							</FormLabel>
 
-              <FormControl>
-                <FormLabel
-                  sx={{
-                    fontFamily: "Montserrat, sans-serif",
-                    color: "black",
-                    fontWeight: "400",
-                  }}
-                >
-                  End Date
-                </FormLabel>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker />
-                </LocalizationProvider>
-              </FormControl>
-            </div>
+							<TextField
+								style={{
+									backgroundColor: "transparent",
+									width: "570px",
+									minWidth: "200px",
+								}}
+								variant="outlined"
+								size="small"
+								placeholder="Project Name"
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<FolderOutlinedIcon />
+										</InputAdornment>
+									),
+								}}
+							/>
+						</FormControl>
 
-            <div className={EditProjectStyle.formRow5}>
-              <FormControl
-                style={{ flexDirection: "row", display: "flex", gap: "20px" }}
-              >
-                <div style={{ flexDirection: "column", display: "flex" }}>
-                  <FormLabel
-                    sx={{
-                      fontFamily: "Montserrat, sans-serif",
-                      color: "black",
-                      fontWeight: "400",
-                    }}
-                  >
-                    Project Manager
-                  </FormLabel>
+						{/* DATES */}
+						<div className={EditProjectStyle.formRow3}>
+							<FormControl>
+								<FormLabel
+									sx={{
+										color: "black",
+										fontWeight: "400",
+									}}
+								>
+									Start Date
+								</FormLabel>
+								<LocalizationProvider
+									dateAdapter={AdapterDayjs}
+								>
+									<DatePicker
+										value={selectedStartDate}
+										onChange={(e) =>
+											setSelectedStartDate(e)
+										}
+									/>
+								</LocalizationProvider>
+							</FormControl>
 
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    placeholder="Project Manager"
-                    style={{ backgroundColor: "transparent" }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <PermIdentityOutlinedIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </div>
+							<FormControl>
+								<FormLabel
+									sx={{
+										color: "black",
+										fontWeight: "400",
+									}}
+								>
+									End Date
+								</FormLabel>
+								<LocalizationProvider
+									dateAdapter={AdapterDayjs}
+								>
+									<DatePicker
+										value={selectedEndDate}
+										onChange={(e) => setSelectedEndDate(e)}
+									/>
+								</LocalizationProvider>
+							</FormControl>
+						</div>
 
-                <Button
-                  onClick={handleClickOpenProjManager}
-                  variant="contained"
-                  color="primary"
-                  startIcon={<Add />}
-                  style={{
-                    textTransform: "none",
-                    fontFamily: "Montserrat, sans-serif",
-                  }}
-                >
-                  Add Project Manager
-                </Button>
-              </FormControl>
-            </div>
+						{/* PROJECT MANAGERS */}
+						<div className={EditProjectStyle.formRow5}>
+							<FormControl
+								style={{
+									flexDirection: "column",
+									display: "flex",
+									// gap: "20px",
+								}}
+							>
+								<FormLabel
+									sx={{
+										color: "black",
+										fontWeight: "400",
+									}}
+								>
+									Project Manager
+								</FormLabel>
+								<Paper elevation={2} sx={{ padding: 2 }}>
+									<Stack
+										direction="row"
+										spacing={1}
+										width={530}
+										useFlexGap
+										flexWrap="wrap"
+									>
+										{selectedProjectManagers.map(
+											(manager) => (
+												<Chip
+													avatar={
+														<Avatar>
+															{manager
+																.charAt(0)
+																.toLocaleUpperCase()}
+														</Avatar>
+													}
+													label={manager}
+												/>
+											)
+										)}
+										<div>
+											<Button
+												onClick={() =>
+													setOpenProjManager(true)
+												}
+												variant="contained"
+												color="primary"
+												startIcon={<Add />}
+												style={{
+													textTransform: "none",
+												}}
+											>
+												Add Project Manager
+											</Button>
+										</div>
+									</Stack>
+								</Paper>
+								{/* <div
+									style={{
+										flexDirection: "column",
+										display: "flex",
+									}}
+								>
 
-            <div className={EditProjectStyle.formRow6}>
-              <FormControl>
-                <FormLabel
-                  sx={{
-                    fontFamily: "Montserrat, sans-serif",
-                    color: "black",
-                    fontWeight: "400",
-                  }}
-                >
-                  Client Name
-                </FormLabel>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  placeholder="Client Name"
-                  style={{ backgroundColor: "transparent" }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <GroupsOutlinedIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </FormControl>
-            </div>
+									<TextField
+										variant="outlined"
+										size="small"
+										placeholder="Project Manager"
+										style={{
+											backgroundColor: "transparent",
+										}}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<PermIdentityOutlinedIcon />
+												</InputAdornment>
+											),
+										}}
+									/>
+								</div> */}
+							</FormControl>
+						</div>
 
-            <div className={EditProjectStyle.col2}>
-              <div className={EditProjectStyle.gridContainer}>
-               
-                  Project Description
-                  <ReactQuillEditor
-                   className={EditProjectStyle.qlContainer}
-                    theme="snow"
-                    value={value}
-                    // maxLines={`8`}
-                    // scrollOnMaxLines={true}
-                    onChange={setValue}
-                    modules={modules}
-                    placeholder="Project description..."
-                    // style={{ backgroundColor: "whitesmoke" }}
-                  />
-              
-              </div>
-            </div>
+						{/* PROJECT DESCRIPTION */}
+						<div className={EditProjectStyle.col2}>
+							<div className={EditProjectStyle.gridContainer}>
+								Project Description
+								<ReactQuillEditor
+									className={EditProjectStyle.qlContainer}
+									theme="snow"
+									value={value}
+									// maxLines={`8`}
+									// scrollOnMaxLines={true}
+									onChange={setValue}
+									modules={modules}
+									placeholder="Project description..."
+									// style={{ backgroundColor: "whitesmoke" }}
+								/>
+							</div>
+						</div>
 
-            <div className={EditProjectStyle.formRow6}>
-              <FormLabel
-                style={{
-                  paddingTop: ".5%",
-                  fontFamily: "Montserrat, sans-serif",
-                  color: "black",
-                  fontWeight: "400",
-                }}
-              >
-                Development Phase
-              </FormLabel>
-              <FormGroup
-                style={{
-                  flexDirection: "row",
-                  display: "flex",
-                  fontFamily: "Montserrat, sans-serif",
-                }}
-              >
-                <FormControlLabel control={<Checkbox />} label="RQS" />
-                <FormControlLabel control={<Checkbox />} label="BD" />
-                <FormControlLabel control={<Checkbox />} label="DD" />
-                <FormControlLabel control={<Checkbox />} label="CD" />
-                <FormControlLabel control={<Checkbox />} label="UT" />
-                <FormControlLabel control={<Checkbox />} label="CT" />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="UAT"
-                />
-                <FormControlLabel control={<Checkbox />} label="MAINTENANCE" />
-              </FormGroup>
-            </div>
+						{/* DEVELOPMENT PHASE */}
+						<div className={EditProjectStyle.formRow6}>
+							<FormLabel
+								style={{
+									paddingTop: ".5%",
+									color: "black",
+									fontWeight: "400",
+								}}
+							>
+								Development Phase
+							</FormLabel>
+							<FormGroup
+								style={{
+									flexDirection: "row",
+									display: "flex",
+								}}
+							>
+								{devPhaseData.map((phase: any) => (
+									<FormControlLabel
+										control={
+											<Checkbox
+												name={phase.dev_phase_id}
+												checked={projectDevPhase.includes(
+													phase.dev_phase_id
+												)}
+												onChange={
+													handleSelectDevPhaseChange
+												}
+											/>
+										}
+										label={phase.dev_phase_sh_name}
+									/>
+								))}
+							</FormGroup>
+						</div>
 
-            <div className={EditProjectStyle.formRow5}>
-              <FormControl
-                style={{ flexDirection: "row", display: "flex", gap: "20px" }}
-              >
-                <div style={{ flexDirection: "column", display: "flex" }}>
-                  <FormLabel
-                    sx={{
-                      fontFamily: "Montserrat, sans-serif",
-                      color: "black",
-                      fontWeight: "400",
-                    }}
-                  >
-                    Technology
-                  </FormLabel>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    placeholder="Technology"
-                    style={{ backgroundColor: "transparent" }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <SettingsEthernetOutlinedIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </div>
-                <Button
-                  onClick={handleClickOpenTechnology}
-                  variant="contained"
-                  color="primary"
-                  startIcon={<Add />}
-                  style={{
-                    textTransform: "none",
-                    fontFamily: "Montserrat, sans-serif",
-                  }}
-                >
-                  Add Technology
-                </Button>
-              </FormControl>
-            </div>
+						{/* TECHNOLOGY */}
+						<div className={EditProjectStyle.formRow5}>
+							<FormControl
+								style={{
+									flexDirection: "row",
+									display: "flex",
+									gap: "20px",
+								}}
+							>
+								<div
+									style={{
+										flexDirection: "column",
+										display: "flex",
+									}}
+								>
+									<FormLabel
+										sx={{
+											color: "black",
+											fontWeight: "400",
+										}}
+									>
+										Technology
+									</FormLabel>
+									<Select
+										labelId="multiple-checkbox-label"
+										id="multiple-checkbox"
+										multiple
+										value={projectTechnologies}
+										onChange={handleSelectTechnologies}
+										input={<OutlinedInput />}
+										renderValue={handleTechValueRendering}
+										// MenuProps={MenuProps}
+										size="small"
+										sx={{
+											minWidth: 250,
+											maxWidth: 560,
+										}}
+									>
+										{technologies.map((tech: any) => (
+											<MenuItem
+												key={tech.tech_id}
+												value={tech.tech_id}
+											>
+												<Checkbox
+													checked={
+														projectTechnologies.indexOf(
+															tech.tech_id as never
+														) > -1
+													}
+												/>
+												<ListItemText
+													primary={tech.tech_name}
+												/>
+											</MenuItem>
+										))}
+									</Select>
+								</div>
+							</FormControl>
+						</div>
 
-            <div className={EditProjectStyle.formRow5}>
-              <FormControl
-                style={{ flexDirection: "row", display: "flex", gap: "20px" }}
-              >
-                <div style={{ flexDirection: "column", display: "flex" }}>
-                  <FormLabel
-                    sx={{
-                      fontFamily: "Montserrat, sans-serif",
-                      color: "black",
-                      fontWeight: "400",
-                    }}
-                  >
-                    Members
-                  </FormLabel>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    placeholder="Members"
-                    style={{ backgroundColor: "transparent" }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <GroupsOutlinedIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </div>
+						{/* MEMBERS */}
+						<div className={EditProjectStyle.formRow5}>
+							<FormControl
+								style={{
+									flexDirection: "row",
+									display: "flex",
+									gap: "20px",
+								}}
+							>
+								<div
+									style={{
+										flexDirection: "column",
+										display: "flex",
+									}}
+								>
+									<FormLabel
+										sx={{
+											color: "black",
+											fontWeight: "400",
+										}}
+									>
+										Members
+									</FormLabel>
+									<Paper elevation={2} sx={{ padding: 2 }}>
+										<Stack
+											direction="row"
+											spacing={1}
+											width={530}
+											useFlexGap
+											flexWrap="wrap"
+										>
+											{selectedProjectMembers.map(
+												(member) => (
+													<Chip
+														avatar={
+															<Avatar>
+																{member
+																	.charAt(0)
+																	.toLocaleUpperCase()}
+															</Avatar>
+														}
+														label={member}
+													/>
+												)
+											)}
+											<div>
+												<Button
+													onClick={() =>
+														setOpenMembers(true)
+													}
+													variant="contained"
+													color="primary"
+													startIcon={<Add />}
+													style={{
+														textTransform: "none",
+													}}
+												>
+													Add Project Member
+												</Button>
+											</div>
+										</Stack>
+									</Paper>
+								</div>
+							</FormControl>
+						</div>
 
-                <Button
-                  onClick={handleClickOpen}
-                  variant="contained"
-                  color="primary"
-                  startIcon={<Add />}
-                  style={{
-                    textTransform: "none",
-                    fontFamily: "Montserrat, sans-serif",
-                  }}
-                >
-                  Add Members
-                </Button>
-              </FormControl>
-            </div>
+						{/* STATUS */}
+						<div className={EditProjectStyle.formRow8}>
+							<div className="projStatus">
+								<Grid container alignItems="center" spacing={2}>
+									<div className="projStatusContent">
+										<Grid item>
+											<FormLabel
+												sx={{
+													fontFamily:
+														"Montserrat, sans-serif",
+													width: "100%",
+													color: "black",
+													fontWeight: "400",
+												}}
+											>
+												Status
+											</FormLabel>
+										</Grid>
+										<Grid item xs>
+											<FormControl
+												variant="outlined"
+												size="small"
+												style={{ width: "100%" }}
+											>
+												<Select
+													labelId="demo-simple-select-label"
+													id="demo-simple-select"
+													onChange={(event) =>
+														setStatus(
+															event.target
+																.value as string
+														)
+													}
+													sx={{ width: "200px" }}
+												>
+													<MenuItem value={1}>
+														Open
+													</MenuItem>
+													<MenuItem value={2}>
+														Close
+													</MenuItem>
+													<MenuItem value={3}>
+														Cancelled
+													</MenuItem>
+												</Select>
+											</FormControl>
+										</Grid>
+									</div>
+								</Grid>
+							</div>
+						</div>
+					</div>
 
-            <div className={EditProjectStyle.formRow8}>
-              <div className="projStatus">
-                <Grid container alignItems="center" spacing={2}>
-                  <div className="projStatusContent">
-                    <Grid item>
-                      <FormLabel
-                        sx={{
-                          fontFamily: "Montserrat, sans-serif",
-                          width: "100%",
-                          color: "black",
-                          fontWeight: "400",
-                        }}
-                      >
-                        Status
-                      </FormLabel>
-                    </Grid>
-                    <Grid item xs>
-                      <FormControl
-                        variant="outlined"
-                        size="small"
-                        style={{ width: "100%" }}
-                      >
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          onChange={handleChange}
-                          sx={{ width: "200px" }}
-                        >
-                          <MenuItem value={1}>Open</MenuItem>
-                          <MenuItem value={2}>Close</MenuItem>
-                          <MenuItem value={3}>Cancelled</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                  </div>
-                </Grid>
-              </div>
-            </div>
+					{/* POPUPS */}
 
-            <div className={EditProjectStyle.formRow7}>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<SaveOutlinedIcon />}
-                style={{
-                  textTransform: "none",
-                  fontFamily: "Montserrat, sans-serif",
-                }}
-              >
-                SAVE
-              </Button>
-              <Link
-                to="/project"
-                style={{
-                  textDecoration: "none",
-                  fontFamily: "Montserrat, sans-serif",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  startIcon={<CancelOutlinedIcon />}
-                  style={{
-                    textTransform: "none",
-                    backgroundColor: "gray",
-                    fontFamily: "Montserrat, sans-serif",
-                  }}
-                >
-                  CANCEL
-                </Button>
-              </Link>
-            </div>
-          </div>
+					{/* Clients */}
+					<Dialog
+						open={openClientName}
+						aria-describedby="alert-dialog-slide-description"
+					>
+						<DialogTitle>
+							<FontAwesomeIcon
+								icon={faUser}
+								size="1x"
+								color="black"
+							/>
+							{"Project Manager"}
+						</DialogTitle>
+						<DialogContent>
+							<AddClientNameTable
+								setClient={setProjectClient}
+								data={clientsData}
+							/>
+						</DialogContent>
+						<DialogActions>
+							<Button onClick={() => setOpenClientName(false)}>
+								Cancel
+							</Button>
+							<Button
+								variant="contained"
+								onClick={() => setOpenClientName(false)}
+							>
+								Save
+							</Button>
+						</DialogActions>
+					</Dialog>
 
-          {/* Popup */}
+					{/* Project Manager */}
+					<Dialog
+						open={openProjManager}
+						aria-describedby="alert-dialog-slide-description"
+					>
+						<DialogTitle>
+							<FontAwesomeIcon
+								icon={faUser}
+								size="1x"
+								color="black"
+							/>
+							{"Project Manager"}
+						</DialogTitle>
+						<DialogContent>
+							<AddProjManagerTable
+								selected={projectManager}
+								data={usersData}
+								temporarySetter={setTemporaryManagers}
+							/>
+						</DialogContent>
+						<DialogActions>
+							<Button onClick={() => setOpenProjManager(false)}>
+								Cancel
+							</Button>
+							<Button
+								variant="contained"
+								onClick={() => {
+									setProjectManager(temporaryManagers)
+									setOpenProjManager(false);
+								}}
+							>
+								Save
+							</Button>
+						</DialogActions>
+					</Dialog>
 
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle>
-              <FontAwesomeIcon icon={faUser} size="1x" color="black" />
-              {"Members"}
-            </DialogTitle>
-            <DialogContent>
-              <AddMemberTable />
-            </DialogContent>
-            <DialogActions>
-              <Button
-                onClick={handleClose}
-                sx={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleClose}
-                sx={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                Save
-              </Button>
-            </DialogActions>
-          </Dialog>
+					{/* Members */}
+					<Dialog
+						open={openMembers}
+						aria-describedby="alert-dialog-slide-description"
+					>
+						<DialogTitle>
+							<FontAwesomeIcon
+								icon={faUser}
+								size="1x"
+								color="black"
+							/>
+							{"Members"}
+						</DialogTitle>
+						<DialogContent>
+							<AddMemberTable
+								data={usersData}
+								selected={projectMembers}
+								temporarySetter={setTemporaryMembers}
+							/>
+						</DialogContent>
+						<DialogActions>
+							<Button onClick={() => setOpenMembers(false)}>
+								Cancel
+							</Button>
+							<Button
+								onClick={() => {
+									setProjectMembers(temporaryMembers)
+									setOpenMembers(false);
+								}}
+							>
+								Save
+							</Button>
+						</DialogActions>
+					</Dialog>
 
-          <Dialog
-            open={openProjManager}
-            onClose={handleClose}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle>
-              <FontAwesomeIcon icon={faUser} size="1x" color="black" />
-              {"Project Manager"}
-            </DialogTitle>
-            <DialogContent>
-              <AddProjManagerTable />
-            </DialogContent>
-            <DialogActions>
-              <Button
-                onClick={handleCloseProjManager}
-                sx={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleCloseProjManager}
-                sx={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                Save
-              </Button>
-            </DialogActions>
-          </Dialog>
-
-          <Dialog
-            open={openTechnology}
-            onClose={handleCloseTechnology}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle>
-              <FontAwesomeIcon icon={faUser} size="1x" color="black" />
-              {"Technology"}
-            </DialogTitle>
-            <DialogContent>
-              <AddProjManagerTable />
-            </DialogContent>
-            <DialogActions>
-              <Button
-                onClick={handleCloseTechnology}
-                sx={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleCloseTechnology}
-                sx={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                Save
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-      </div>
-    </div>
-  );
+					{/* SAVING BUTTONS */}
+					<div
+						style={{
+							display: "flex",
+							gap: "8px",
+							justifyContent: "flex-end",
+						}}
+					>
+						<Button
+							variant="contained"
+							color="primary"
+							startIcon={<SaveOutlinedIcon />}
+							style={{
+								textTransform: "none",
+							}}
+						>
+							SAVE
+						</Button>
+						<Link
+							to="/project"
+							style={{
+								textDecoration: "none",
+							}}
+						>
+							<Button
+								variant="contained"
+								startIcon={<CancelOutlinedIcon />}
+								style={{
+									textTransform: "none",
+									backgroundColor: "gray",
+								}}
+							>
+								CANCEL
+							</Button>
+						</Link>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }

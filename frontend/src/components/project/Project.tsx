@@ -18,23 +18,28 @@ import {
 	Box,
 } from "@mui/material";
 import { getProjectsFetch } from "../../redux/state/projectState";
+import { getProjectStatusFetch } from "../../redux/state/projectStatusState";
 
 export default function Project() {
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {
 		dispatch(getProjectsFetch());
+		dispatch(getProjectStatusFetch());
 	}, [dispatch]);
 
 	const data = useSelector(
 		(state: RootState) => state.projectReducer.projects
 	);
+	const statuses = useSelector(
+		(state: RootState) => state.projectStatusReducer.projectStatus
+	);
 
 	const [projectData, setProjectData] = useState(data);
 	const [searchQuery, setSearchQuery] = React.useState({
-		projName: "",
-		client: "",
-		status: "",
+		proj_name: "",
+		client_name: "",
+		proj_status_name: "",
 	});
 
 	React.useEffect(() => {
@@ -61,18 +66,17 @@ export default function Project() {
 		const filteredData = data.filter((project: any) => {
 			const projNameMatch = project.proj_name
 				.toLowerCase()
-				.includes(searchQuery.projName.toLowerCase());
+				.includes(searchQuery.proj_name.toLowerCase());
 			const clientMatch = project.client_name
 				.toLowerCase()
-				.includes(searchQuery.client.toLowerCase());
+				.includes(searchQuery.client_name.toLowerCase());
 			const statusMatch = project.proj_status_name
 				.toLowerCase()
-				.includes(searchQuery.client.toLowerCase());
+				.includes(searchQuery.proj_status_name.toLowerCase());
 			return projNameMatch && clientMatch && statusMatch;
 		});
 
 		setProjectData(filteredData);
-		console.log("FILTERED DATA:", projectData);
 	};
 
 	return (
@@ -129,8 +133,8 @@ export default function Project() {
 											<TextField
 												variant="outlined"
 												size="small"
-												name="projName"
-												value={searchQuery.projName}
+												name="proj_name"
+												value={searchQuery.proj_name}
 												onChange={handleInputChange}
 												className={
 													ProjectStyle.textField
@@ -162,8 +166,8 @@ export default function Project() {
 											<TextField
 												variant="outlined"
 												size="small"
-												name="client"
-												value={searchQuery.client}
+												name="client_name"
+												value={searchQuery.client_name}
 												onChange={handleInputChange}
 												className={
 													ProjectStyle.textField
@@ -207,9 +211,9 @@ export default function Project() {
 													<Select
 														labelId="demo-simple-select-label"
 														id="demo-simple-select"
-														name="status"
+														name="proj_status_name"
 														value={
-															searchQuery.status
+															searchQuery.proj_status_name
 														}
 														onChange={
 															handleSelectInputChange
@@ -226,15 +230,16 @@ export default function Project() {
 															},
 														}}
 													>
-														<MenuItem value={1}>
-															Open
-														</MenuItem>
-														<MenuItem value={2}>
-															Close
-														</MenuItem>
-														<MenuItem value={3}>
-															Cancelled
-														</MenuItem>
+																<MenuItem value="">
+																	{"<Select status>"}
+																</MenuItem>
+														{statuses.map(
+															(status: any) => (
+																<MenuItem value={status.proj_status_name}>
+																	{status.proj_status_name}
+																</MenuItem>
+															)
+														)}
 													</Select>
 												</FormControl>
 											</Grid>

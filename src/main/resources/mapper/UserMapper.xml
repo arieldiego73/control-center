@@ -161,8 +161,22 @@
                 ON tuser.emp_id = tmr.emp_id
             LEFT JOIN tbl_role_mst AS troles
                 ON troles.role_id = tmr.role_id
-         WHERE tuser.emp_id = #{emp_id};
+         WHERE tuser.emp_id = #{emp_id} AND tmr.del_flag = 0;
     </select>
+
+<!-- logical deletion of user -->
+    <update id="logicalDeleteUser" parameterType="java.lang.String">
+        UPDATE tbl_user
+           SET del_flag = 1
+         WHERE emp_id = #{id};
+    </update>
+
+<!-- restore user -->
+    <update id="restoreUser" parameterType="java.lang.String">
+        UPDATE tbl_user
+           SET del_flag = 0
+         WHERE emp_id = #{id};
+    </update>
     
 
     <!-- <insert id="addAccount" parameterType="map">

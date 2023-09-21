@@ -53,14 +53,14 @@
     <update id="logicalDeletePersonalInfo">
         UPDATE tbl_personal_info
            SET del_flag = 1
-         WHERE pid = #{id}
+         WHERE emp_id = #{id}
     </update>
 
 <!-- Restore Data -->
     <update id="restorePersonalInfo">
         UPDATE tbl_personal_info
            SET del_flag = 0
-         WHERE pid = #{id}
+         WHERE emp_id = #{id}
     </update>
     
 </mapper>

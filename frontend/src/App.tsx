@@ -43,7 +43,6 @@ function App() {
 				{/* <Route path="/modal" Component={Modal} /> */}
 				<Route path="/role" Component={RoleHandler} />
 				<Route path="/NewProj" Component={NewProjHandler} />
-				<Route path="/AddMemberTable" Component={AddMemberTable} />
 				{/* <Route path="/User/:name" Component={UserDetails} /> */}
 				<Route path="/developmentphase" Component={DevelopmentPhaseHandler} />
 				<Route path="/projectStatus" Component={ProjectStatusHandler} />
