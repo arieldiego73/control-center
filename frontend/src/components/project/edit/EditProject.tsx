@@ -11,7 +11,6 @@ import {
 	MenuItem,
 	Select,
 	SelectChangeEvent,
-	Grid,
 	Stack,
 	Chip,
 	Avatar,
@@ -21,18 +20,14 @@ import {
 	ListItem,
 	ListItemAvatar,
 	ListItemText,
-	IconButton,
 	OutlinedInput,
 	Box,
 } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
-import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -44,9 +39,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddMemberTable from "../AddMemberTable";
-import InputBase from "@mui/material/InputBase";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
-import SettingsEthernetOutlinedIcon from "@mui/icons-material/SettingsEthernetOutlined";
 import AddProjManagerTable from "../AddProjManagerTable";
 import ReactQuillEditor from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -60,6 +53,7 @@ import AddClientNameTable from "../AddClientNameTable";
 import { GridRowParams, GridRowSelectionModel } from "@mui/x-data-grid";
 import { getUsersFetch } from "../../../redux/state/userState";
 import { getTechnologyFetch } from "../../../redux/state/technologyState";
+import { getProjectStatusFetch } from "../../../redux/state/projectStatusState";
 
 export default function EditProj() {
 	const dispatch = useDispatch();
@@ -77,16 +71,18 @@ export default function EditProj() {
 	const [selectedProjectManagers, setSelectedProjectManagers] = useState<
 		string[]
 	>([]); // Variable that holds the selected project managers
-	const [temporaryManagers, setTemporaryManagers] = useState<GridRowSelectionModel>(); // for temporary selected managers
+	const [temporaryManagers, setTemporaryManagers] =
+		useState<GridRowSelectionModel>(); // for temporary selected managers
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	
+
 	// PROJECT MEMBERS VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const [projectMembers, setProjectMembers] =
 		useState<GridRowSelectionModel>();
 	const [selectedProjectMembers, setSelectedProjectMembers] = useState<
-	string[]
+		string[]
 	>([]); // Variable that holds the selected project members
-	const [temporaryMembers, setTemporaryMembers] = useState<GridRowSelectionModel>(); // for temporary selected members
+	const [temporaryMembers, setTemporaryMembers] =
+		useState<GridRowSelectionModel>(); // for temporary selected members
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 	const [projectClient, setProjectClient] = useState<GridRowParams>();
@@ -95,13 +91,14 @@ export default function EditProj() {
 	const [projectTechnologies, setProjectTechnologies] = useState<number[]>(
 		[]
 	);
-	const [status, setStatus] = useState("");
+	const [status, setStatus] = useState(0);
 
 	React.useEffect(() => {
 		dispatch(getClientFetch());
 		dispatch(getDevPhaseFetch());
 		dispatch(getUsersFetch()); // to fetch all users for project manager selections
 		dispatch(getTechnologyFetch());
+		dispatch(getProjectStatusFetch());
 	}, [dispatch]);
 
 	const clientsData = useSelector(
@@ -115,6 +112,9 @@ export default function EditProj() {
 	);
 	const technologies = useSelector(
 		(state: RootState) => state.techReducer.technology
+	);
+	const statuses = useSelector(
+		(state: RootState) => state.projectStatusReducer.projectStatus
 	);
 
 	//for description box (formatting toolbar)
@@ -135,15 +135,8 @@ export default function EditProj() {
 	React.useEffect(() => {
 		setSelectedProjectManagers(() => {
 			return usersData
-				.filter((user: any) =>
-					projectManager?.includes(
-						user?.emp_id
-					)
-				)
-				.map(
-					(user: any) =>
-						`${user?.fname} ${user?.lname}`
-				)
+				.filter((user: any) => projectManager?.includes(user?.emp_id))
+				.map((user: any) => `${user?.fname} ${user?.lname}`)
 				.sort();
 		});
 	}, [projectManager, usersData]);
@@ -152,15 +145,8 @@ export default function EditProj() {
 	React.useEffect(() => {
 		setSelectedProjectMembers(() => {
 			return usersData
-				.filter((user: any) =>
-					projectMembers?.includes(
-						user?.emp_id
-					)
-				)
-				.map(
-					(user: any) =>
-						`${user?.fname} ${user?.lname}`
-				)
+				.filter((user: any) => projectMembers?.includes(user?.emp_id))
+				.map((user: any) => `${user?.fname} ${user?.lname}`)
 				.sort();
 		});
 	}, [projectMembers, usersData]);
@@ -472,9 +458,10 @@ export default function EditProj() {
 							>
 								{devPhaseData.map((phase: any) => (
 									<FormControlLabel
+										key={phase.dev_phase_id}
 										control={
 											<Checkbox
-												name={phase.dev_phase_id}
+												name={String(phase.dev_phase_id)}
 												checked={projectDevPhase.includes(
 													phase.dev_phase_id
 												)}
@@ -513,15 +500,12 @@ export default function EditProj() {
 										Technology
 									</FormLabel>
 									<Select
-										labelId="multiple-checkbox-label"
-										id="multiple-checkbox"
+										size="small"
 										multiple
 										value={projectTechnologies}
 										onChange={handleSelectTechnologies}
 										input={<OutlinedInput />}
 										renderValue={handleTechValueRendering}
-										// MenuProps={MenuProps}
-										size="small"
 										sx={{
 											minWidth: 250,
 											maxWidth: 560,
@@ -618,52 +602,52 @@ export default function EditProj() {
 						{/* STATUS */}
 						<div className={EditProjectStyle.formRow8}>
 							<div className="projStatus">
-								<Grid container alignItems="center" spacing={2}>
-									<div className="projStatusContent">
-										<Grid item>
-											<FormLabel
-												sx={{
-													fontFamily:
-														"Montserrat, sans-serif",
-													width: "100%",
-													color: "black",
-													fontWeight: "400",
-												}}
-											>
-												Status
-											</FormLabel>
-										</Grid>
-										<Grid item xs>
-											<FormControl
-												variant="outlined"
-												size="small"
-												style={{ width: "100%" }}
-											>
-												<Select
-													labelId="demo-simple-select-label"
-													id="demo-simple-select"
-													onChange={(event) =>
-														setStatus(
-															event.target
-																.value as string
-														)
+								<div className="projStatusContent">
+									<FormControl
+										variant="outlined"
+										size="small"
+									>
+										<FormLabel
+											sx={{
+												color: "black",
+												fontWeight: "400",
+											}}
+										>
+											Status
+										</FormLabel>
+										<Select
+											value={status}
+											onChange={(e) =>
+												setStatus(
+													e.target.value as number
+												)
+											}
+											startAdornment={
+												<InputAdornment position="start">
+													<GroupsOutlinedIcon />
+												</InputAdornment>
+											}
+											sx={{
+												minWidth: 250,
+												maxWidth: 560,
+											}}
+										>
+											<MenuItem key={0} value={0}>
+												{"<Select a status>"}
+											</MenuItem>
+											{statuses.map((status: any) => (
+												<MenuItem
+													key={status?.proj_status_id}
+													value={
+														status?.proj_status_id
 													}
-													sx={{ width: "200px" }}
 												>
-													<MenuItem value={1}>
-														Open
-													</MenuItem>
-													<MenuItem value={2}>
-														Close
-													</MenuItem>
-													<MenuItem value={3}>
-														Cancelled
-													</MenuItem>
-												</Select>
-											</FormControl>
-										</Grid>
-									</div>
-								</Grid>
+													{status?.proj_status_name}
+												</MenuItem>
+											))}
+										</Select>
+									</FormControl>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -729,7 +713,7 @@ export default function EditProj() {
 							<Button
 								variant="contained"
 								onClick={() => {
-									setProjectManager(temporaryManagers)
+									setProjectManager(temporaryManagers);
 									setOpenProjManager(false);
 								}}
 							>
@@ -764,7 +748,7 @@ export default function EditProj() {
 							</Button>
 							<Button
 								onClick={() => {
-									setProjectMembers(temporaryMembers)
+									setProjectMembers(temporaryMembers);
 									setOpenMembers(false);
 								}}
 							>
