@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService{
   }
 
   @Override
-  public String editAccount(String id, AccountOutput accountBody, List<Long> role_ids) {
+  public ResponseEntity<String> editAccount(String id, AccountOutput accountBody, List<Long> role_ids) {
     HashMap<String, Object> userMap = new HashMap<>();
     HashMap<String, Object> personalInfoMap = new HashMap<>();
 
@@ -218,10 +218,27 @@ public class UserServiceImpl implements UserService{
     userDao.editUser(userMap);
     personalInfoDao.editPersonalInfo(personalInfoMap);
 
-    return "Account edited successfully.";
+    return ResponseEntity.ok("Account edited successfully.");
   }
 
 
+  //setting the del_flag of user to 1
+  @Override
+  public ResponseEntity<String> logicalDeleteUser(String id) {
+    userDao.logicalDeleteUser(id);
+    personalInfoDao.logicalDeletePersonalInfo(id);
+    multiRoleDao.logicalDeleteMultiRole(id);
+    return ResponseEntity.ok("User has been deleted.");
+  }
+
+  //setting the del_flag of user to 0
+  @Override
+  public ResponseEntity<String> restoreUser(String id) {
+    userDao.restoreUser(id);
+    personalInfoDao.restorePersonalInfo(id);
+    multiRoleDao.restoreMultiRole(id);
+    return ResponseEntity.ok("User has been restored.");
+  }
   //   @Override
   //   public String insertUserBatch(List<User> users) {
   //     try {
