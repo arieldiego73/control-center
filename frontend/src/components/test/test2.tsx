@@ -1,46 +1,108 @@
-import React, { useState } from "react";
-import TestStyle from "./test2.module.css";
-import imgTest from "../../Assets/imgtest2.png";
-import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import HelpIcon from "@mui/icons-material/Help";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { styled } from "@mui/material/styles";
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import StyleNewProject from "./test2.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useNavigate, useLocation} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
-import { getDepartmentFetch } from "../../redux/state/departmentState";
-import { getSectionFetch } from "../../redux/state/sectionState";
-import { getRolesFetch } from "../../redux/state/roleState";
-import { getPositionFetch } from "../../redux/state/positionState";
-import { addUserInfo } from "../../redux/saga/userSaga";
-import { addUserReset, clearUserInfo} from "../../redux/state/userState";
-import { getUserInfo, getUserRoles, updateUserInfo, } from "../../redux/saga/userSaga";
 import {
-  Alert,
-  AlertColor,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
+  Box,
   FormControl,
   FormLabel,
   InputAdornment,
-  ListItemText,
   MenuItem,
   Select,
   SelectChangeEvent,
-  Snackbar,
-  Typography,
+  IconButton,
+  Grid,
 } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import imgTest from "../../Assets/imgtest2.png";
+
+import { styled, alpha } from "@mui/material/styles";
+import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
+import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+import { Add } from "@mui/icons-material";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
+import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
+import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
+import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
+import FormatBoldIcon from "@mui/icons-material/FormatBold";
+import FormatItalicIcon from "@mui/icons-material/FormatItalic";
+import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
+import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Divider from "@mui/material/Divider";
+import Paper from "@mui/material/Paper";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import SearchIcon from "@mui/icons-material/Search";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import InputBase from "@mui/material/InputBase";
+import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import SettingsEthernetOutlinedIcon from "@mui/icons-material/SettingsEthernetOutlined";
+
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import ReactQuillEditor from "react-quill";
+
+//for breadcrumbs
+import { Link } from "react-router-dom";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
+
+//for breadcrumbs
+function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  event.preventDefault();
+  console.info("You clicked a breadcrumb.");
+}
+
+// const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+//   "& .MuiToggleButtonGroup-grouped": {
+//     margin: theme.spacing(0.5),
+//     border: 0,
+//     "&.Mui-disabled": {
+//       border: 0,
+//     },
+//     "&:not(:first-of-type)": {
+//       borderRadius: theme.shape.borderRadius,
+//     },
+//     "&:first-of-type": {
+//       borderRadius: theme.shape.borderRadius,
+//     },
+//   },
+// }));
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(3),
+    width: "auto",
+  },
+}));
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -54,725 +116,357 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
 
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
-  };
-  const GLOBAL_TIMEOUT = 2000;
-  
-  export interface SnackbarMessage {
-    message: string;
-    key: number;
-  }
-  
-  export interface State {
-    open: boolean;
-    snackPack: readonly SnackbarMessage[];
-    messageInfo?: SnackbarMessage;
-  }
-  
-  export default function EditUser() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const location = useLocation();
-    
-    const userId = location.state;
-    
-    // get the stored state of the user
-    const userInfoData = useSelector((state: RootState) => state.userReducer.userInfo);
-    const [userData, setUserData] = React.useState<typeof userInfoData | null>(null);
-  
-    React.useEffect(() => {
-      setUserData(userInfoData)
-    }, [userInfoData])
-  
-    React.useEffect(() => {
-      dispatch(getUserInfo({ userId }));
-      dispatch(getUserRoles({ userId }));
-      dispatch(getDepartmentFetch());
-      dispatch(getSectionFetch());
-      dispatch(getRolesFetch());
-      dispatch(getPositionFetch());
-    }, [dispatch, userId]);
-    
-    const userRoles: any[] = useSelector(
-      (state: RootState) => state.userReducer.userRoles
-    );
-  
-    const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
-    const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
-      setSelectedRoles(event.target.value as number[]);
-    };
-  
-    const notice = useSelector((state: RootState) => state.userReducer.notice);
-    const isInitialAmount = React.useRef(true);
-    React.useEffect(() => {
-      if (!isInitialAmount.current) {
-        if (notice.message && notice.severity) {
-          handleClickSnackpack(
-            notice.message,
-            notice.severity as AlertColor
-          )();
-        }
-      } else {
-        isInitialAmount.current = false;
-      }
-    }, [notice]);
-  
-    const [snackPack, setSnackPack] = React.useState<
-      readonly SnackbarMessage[]
-    >([]);
-    const [severity, setSeverity] = React.useState<AlertColor>("error");
-    const [open, setOpen] = React.useState(false);
-    const [messageInfo, setMessageInfo] = React.useState<
-      SnackbarMessage | undefined
-    >(undefined);
-  
-    React.useEffect(() => {
-      if (snackPack.length && !messageInfo) {
-        // Set a new snack when we don't have an active one
-        setMessageInfo({ ...snackPack[0] });
-        setSnackPack((prev) => prev.slice(1));
-        setOpen(true);
-      } else if (snackPack.length && messageInfo && open) {
-        // Close an active snack when a new one is added
-        setOpen(false);
-      }
-    }, [snackPack, messageInfo, open]);
-  
-    const handleClickSnackpack =
-      (message: string, severity: AlertColor) => () => {
-        setSnackPack((prev) => [
-          ...prev,
-          { message, key: new Date().getTime() },
-        ]);
-        setSeverity(severity);
-      };
-  
-    const handleClose = (event: React.SyntheticEvent | Event) => {
-      setOpen(false);
-    };
-  
-    const handleExited = () => {
-      setMessageInfo(undefined);
-    };
-  
-    const isAddSuccess = useSelector(
-      (state: RootState) => state.userReducer.isAddSuccess
-    );
-    React.useEffect(() => {
-      if (isAddSuccess) {
-        dispatch(addUserReset());
-        setTimeout(() => {
-          navigate("/user");
-        }, GLOBAL_TIMEOUT);
-      }
-    });
-  
-    React.useEffect(() => {
-      if (userData) {
-        setAssocID(userData.emp_id);
-        setUsername(userData.username);
-        setFirstName(userData.fname);
-        setMiddleName(userData.mname);
-        setLastName(userData.lname);
-        setPosition(userData.position_id ? userData.position_id : 0);
-        setEmail(userData.email);
-        setBusinessUnit(userData.dept_id ? userData.dept_id : 0);
-        setDepartment(userData.section_id ? userData.section_id : 0);
-      }
-    }, [userData]);
-  
-    React.useEffect(() => {
-      const roles = userRoles.map((e) => {
-        const values = Object.keys(e);
-        return parseInt(values[0]);
-      });
-      setSelectedRoles(roles);
-    }, [userRoles]);
+  },
+}));
 
-    const [username, setUsername] = useState("");
-    const [assocID, setAssocID] = useState("");
-    const [empStatus, setEmpStatus] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [middleName, setMiddleName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [position, setPosition] = useState(0);
-    // for role
-    const [email, setEmail] = useState("");
-    const [businessUnit, setBusinessUnit] = useState(0);
-    const [department, setDepartment] = useState(0);
-    // const [password, setPassword] = useState(0);
-    // const [confirmPassword, setConfirmPassword] = useState(0);
-    const [ask, setAsk] = React.useState(false);
-    const [dialogTitle, setDialogTitle] = React.useState("");
-    const [dialogContentText, setDialogContentText] = React.useState("");
-    const [isSaving, setIsSaving] = React.useState(false);
-  
-    //FOR DROPDOWN CONFIG (BUSINESS UNIT)
-    const depts = useSelector(
-      (state: RootState) => state.deptReducer.department
-    );
-  
-    //FOR DROPDOWN CONFIG (DEPARTMENT)
-    const sections = useSelector(
-      (state: RootState) => state.sectionReducer.section
-    );
-  
-    //FOR ROLES OPTIONS
-    const roles = useSelector((state: RootState) => state.roleReducer.roles);
-  
-    //FOR POSITION OPTIONS
-    const positions = useSelector(
-      (state: RootState) => state.positionReducer.position
-    );
-  
-    const proceedWithCancel = () => {
-      dispatch(clearUserInfo());
-      navigate("/user");
-    };
-  
-    const proceedWithSaving = () => {
-      const data = {
-        emp_id: assocID,
-        username: username,
-        fname: firstName,
-        mname: middleName,
-        lname: lastName,
-        position_id: position,
-        email: email,
-        section_id: department,
-        dept_id: businessUnit,
-        selectedRoles: selectedRoles,
-      };
-      dispatch(updateUserInfo({ data }));
-      setAsk(false);
-    };
-  
-    const handleSave = () => {
-      if (
-        assocID &&
-        username &&
-        firstName &&
-        middleName &&
-        lastName &&
-        position &&
-        email &&
-        department &&
-        businessUnit &&
-        selectedRoles.length > 0
-      ) {
-        setAsk(true);
-        setDialogTitle("Save the record?");
-        setDialogContentText(
-          "Upon proceeding, the modifications on the record \nmade will be saved."
-        );
-        setIsSaving(true);
-      } else {
-        handleClickSnackpack(
-          "All fields are required. Please, try again.",
-          "error"
-        )();
-      }
-    };
-  
-    const handleCancel = () => {
-      setAsk(true);
-      setDialogTitle("Cancel the edit?");
-      setDialogContentText(
-        "Modifications made with the record will be \nlost forever."
-      );
-      setIsSaving(false);
-    };
+export default function NewProj() {
+  const [alignment, setAlignment] = React.useState("left");
+  const [formats, setFormats] = React.useState(() => ["italic"]);
+  const [age, setAge] = React.useState("");
+  const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
+
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+  };
+
+  const handleFormat = (
+    event: React.MouseEvent<HTMLElement>,
+    newFormats: string[]
+  ) => {
+    setFormats(newFormats);
+  };
+
+  const handleAlignment = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setAlignment(newAlignment);
+  };
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setAge(event.target.value as string);
+  };
+
+  const breadcrumbItems = [
+    { label: "Projects", href: "/project" },
+    { label: "Add new project", href: "/NewProj" },
+  ];
+
+  const [open, setOpen] = React.useState(false);
+  const [openProjManager, setOpenProjManager] = React.useState(false);
+  const [openTechnology, setOpenTechnology] = React.useState(false);
+
+  const handleClickOpenTechnology = () => {
+    setOpenTechnology(true);
+  };
+
+  const handleCloseTechnology = () => {
+    setOpenTechnology(false);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleClickOpenProjManager = () => {
+    setOpenProjManager(true);
+  };
+
+  const handleCloseProjManager = () => {
+    setOpenProjManager(false);
+  };
+
+  //for description box (formatting toolbar)
+  const [value, setValue] = useState("");
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["bold", "italic", "underline"],
+      [{ list: "ordered" }, { list: "bullet" }],
+    ],
+  };
 
   return (
-    <>
-      <div className={TestStyle.mainContainer}>
-        <div className={TestStyle.mainHolder}>
-          {/* Start of Form */}
-          <div className={TestStyle.contentHolder}>
-            <div className={TestStyle.mainForm}>
+    <div className={StyleNewProject.mainContainer}>
+      {/* <div className={StyleNewProject.mainHolder}> */}
+      {/* Start of Form */}
+      {/* <div className={StyleNewProject.contentHolder}> */}
+      <div className={StyleNewProject.mainForm}>
+        {/* Start of Left Form */}
+        <div className={StyleNewProject.leftFormPlaceHolder}>
+           <div className={StyleNewProject.profileHolder}>
+              <div className={StyleNewProject.imgContainer}>
+                <img alt="" src={imgTest} className={StyleNewProject.imgSize} />
+              </div>
+      
+              <div className={StyleNewProject.formProfileContainer}>
+                {/* Start of username form */}
+                <div style={{height:"100%", width:'100%', display: "flex", justifyContent: "center", flexDirection:"column"}} >
+                    <div style={{ display: "flex", justifyContent: "center"  }}>
+                  <FormControl>
+                    <FormLabel> Client Name </FormLabel>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      placeholder="Username"
+                      className={StyleNewProject.textFieldProfile1}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <GroupsOutlinedIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </FormControl>
+                </div>
 
-              {/* Start of Left Form */}
-              <div className={TestStyle.leftFormPlaceHolder}>
-                
-                {/* Start of Profile */}
-                <div className={TestStyle.profileHolder}>
-                  <div className={TestStyle.imgContainer}>
-                    <img
-                      alt=""
-                      src={imgTest}
-                      className={TestStyle.imgSize}
+                {/* Start of Assoc id form */}
+                <div style={{ display: "flex", justifyContent: "center", paddingTop:"5%"}}>
+                  <FormControl style={{width:'84%'}}>
+                    <FormLabel> Client Name </FormLabel>
+                    <Grid className={StyleNewProject.textFieldProfile}>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        onChange={handleChange}
+                        sx={{ width: "250%" }}
+                      >
+                        <MenuItem value={1}>Open</MenuItem>
+                        <MenuItem value={2}>Close</MenuItem>
+                        <MenuItem value={3}>Cancelled</MenuItem>
+                      </Select>
+                    </Grid>
+                  </FormControl>
+                </div>
+                </div>
+              
+              </div>
+          </div>
+        </div>
+      
+        <div className={StyleNewProject.otherFormContainer} >
+          <div style={{height:"100%", backgroundColor:'white', borderRadius: '10px',  }}>
+            <div className={StyleNewProject.otherFormPlaceholder}>
+              <div className={StyleNewProject.form}>
+                <div className={StyleNewProject.formHolder}>
+                  <FormControl>
+                    <FormLabel>Project Name</FormLabel>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      placeholder="Email"
+                      className={StyleNewProject.projNametextField}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <FolderOutlinedIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </FormControl>
+                </div>
+
+                <div className={StyleNewProject.formHolder}>
+                  <FormControl>
+                    <FormLabel>Project Manager</FormLabel>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      placeholder="Email"
+                      className={StyleNewProject.textField}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <FolderOutlinedIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </FormControl>
+                </div>
+
+                <div className={StyleNewProject.formHolder}>
+                  <FormControl
+                    style={{ flexDirection: "row", display: "flex", gap: "2%" }}
+                  >
+                    <div style={{ flexDirection: "column", display: "flex" }}>
+                      <FormLabel>Start Date</FormLabel>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker />
+                      </LocalizationProvider>
+                    </div>
+
+                    <div style={{ flexDirection: "column", display: "flex" }}>
+                      <FormLabel>End Date</FormLabel>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker />
+                      </LocalizationProvider>
+                    </div>
+                  </FormControl>
+                </div>
+
+                <div className={StyleNewProject.formHolder}>
+                  <div className={StyleNewProject.gridContainer}>
+                    <FormLabel> Project Description</FormLabel>
+                    <ReactQuillEditor
+                      className={StyleNewProject.qlContainer}
+                      theme="snow"
+                      value={value}
+                      // maxLines={`8`}
+                      // scrollOnMaxLines={true}
+                      onChange={setValue}
+                      modules={modules}
+                      placeholder="Project description..."
+                      style={{
+                        backgroundColor: "transparent",
+                        borderRadius: "10px",
+                      }}
                     />
                   </div>
-
-                  <div className={TestStyle.toolTip}>
-                    <Button
-                      className={TestStyle.buttonProfile}
-                      component="label"
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      Edit Profile
-                      <VisuallyHiddenInput type="file" />
-                    </Button>
-                  </div>
                 </div>
 
-                {/* Start of Form of Profile*/}
-                <div className={TestStyle.formProfileContainer}>
-                  {/* Start of username form */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <FormControl
-                      style={{
-                        paddingTop: "20px",
-                        display: "flex",
-                        justifyContent: "center",
+                <div className={StyleNewProject.formHolderMembers}>
+                  <FormControl>
+                    <FormLabel>Members</FormLabel>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      placeholder="Email"
+                      className={StyleNewProject.textField}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <GroupsOutlinedIcon />
+                          </InputAdornment>
+                        ),
                       }}
-                    > 
-                      <FormLabel> Username </FormLabel>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Username"
-                        className={TestStyle.textFieldProfile}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <PermIdentityOutlinedIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                      />
-                    </FormControl>
-                  </div>
+                    />
+                  </FormControl>
+                </div>
 
-                  {/* Start of Assoc id form */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <FormControl
-                      style={{
-                        paddingTop: "20px",
-                        display: "flex",
-                        justifyContent: "center",
+                <div className={StyleNewProject.formHolder}>
+                  <FormControl>
+                    <FormLabel>Development Type</FormLabel>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      placeholder="Email"
+                      className={StyleNewProject.textField}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <GroupsOutlinedIcon />
+                          </InputAdornment>
+                        ),
                       }}
-                    > 
-                      <FormLabel> Associate ID </FormLabel>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Associate ID"
-                        className={TestStyle.textFieldProfile}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <AssignmentIndOutlinedIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={assocID}
-                        onChange={(e) => setAssocID(e.target.value)}
-                      />
-                    </FormControl>
-                  </div>
+                    />
+                  </FormControl>
+                  
+                </div>
 
-                  {/* Start of Emp Status form */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <FormControl
+                <div className={StyleNewProject.formHolder}>
+                  <FormControl>
+                    <FormLabel>Development Phase</FormLabel>
+                    <FormGroup
                       style={{
-                        paddingTop: "20px",
+                        flexDirection: "row",
                         display: "flex",
-                        justifyContent: "center",
+                        fontFamily: "Montserrat, sans-serif",
                       }}
                     >
-                      <FormLabel> Employee Status </FormLabel>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Employee Status"
-                        className={TestStyle.textFieldProfile}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <AssignmentIndOutlinedIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={empStatus}
-                        onChange={(e) => setEmpStatus(e.target.value)}
+                      <FormControlLabel control={<Checkbox />} label="RQS" />
+                      <FormControlLabel control={<Checkbox />} label="BD" />
+                      <FormControlLabel control={<Checkbox />} label="DD" />
+                      <FormControlLabel control={<Checkbox />} label="CD" />
+                      <FormControlLabel control={<Checkbox />} label="UT" />
+                      <FormControlLabel control={<Checkbox />} label="CT" />
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked />}
+                        label="UAT"
                       />
-                    </FormControl>
-                  </div>
+                      <FormControlLabel control={<Checkbox />} label="MAINTENANCE" />
+                    </FormGroup>
+                  </FormControl>
+                  
+                </div>
+
+                <div className={StyleNewProject.formHolderTechnology}>
+                  <FormControl>
+                    <FormLabel>Technology</FormLabel>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      placeholder="Email"
+                      className={StyleNewProject.textField}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <GroupsOutlinedIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </FormControl>
+                  
                 </div>
               </div>
+            </div>
 
-              {/* Start of other Form */}
-              <div className={TestStyle.otherFormContainer}>
-                <div  className={TestStyle.otherFormPlaceholder}>
-                  <div className={TestStyle.form}>
-
-                    {/* Start of Name Form */}
-                    <div className={TestStyle.nameForm}>
-                      <FormControl>
-                        <FormLabel>First Name</FormLabel>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          placeholder="First Name"
-                          className={TestStyle.textField}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <PermIdentityOutlinedIcon />
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
-                        />
-                      </FormControl>
-
-                      <FormControl>
-                        <FormLabel>Middle Name</FormLabel>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          placeholder="Middle Name"
-                          className={TestStyle.textField}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <PermIdentityOutlinedIcon />
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={middleName}
-                          onChange={(e) => setMiddleName(e.target.value)}
-                        />
-                      </FormControl>
-
-                      <FormControl>
-                        <FormLabel>Last Name</FormLabel>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          placeholder="Last Name"
-                          className={TestStyle.textField}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <PermIdentityOutlinedIcon />
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-
-                    {/* Start of Position and Role Form */}
-                    <div className={TestStyle.formHolder}>
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Position</FormLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={position}
-                          onChange={(e) =>
-                            setPosition(e.target.value as number)
-                          }
-                          className={TestStyle.textField}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <GroupsOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        >
-                          <MenuItem key={0} value={0}>
-                            {"<Select a position>"}
-                          </MenuItem>
-                          {positions.map((pos: any) => (
-                            <MenuItem
-                              key={pos?.position_id}
-                              value={pos?.position_id}
-                            >
-                              {pos?.position_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-
-                      <FormControl>
-                        <FormLabel>Role</FormLabel>
-                        <Select
-                          labelId="multiple-checkbox-label"
-                          id="multiple-checkbox"
-                          multiple
-                          value={selectedRoles}
-                          onChange={handleChange}
-                          renderValue={(selected) => {
-                            const selectedTitles: string[] = selectedRoles.map(
-                              (roleId) => {
-                                const matchingRole: any = roles.find(
-                                  (role: any) => role.role_id === roleId
-                                );
-                                return matchingRole ? matchingRole.title : "";
-                              }
-                            );
-                            return selectedTitles.join(", ");
-                          }}
-                          MenuProps={MenuProps}
-                          size="small"
-                          sx={{ width: "500px", maxWidth: "300px" }}
-                        >
-                          {roles.map((role: any) => (
-                            <MenuItem key={role.role_id} value={role.role_id}>
-                              <Checkbox
-                                checked={
-                                  selectedRoles.indexOf(role.role_id as never) >
-                                  -1
-                                }
-                              />
-                              <ListItemText primary={role.title} />
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </div>
-
-                    {/* Start of Email Form */}
-                    <div className={TestStyle.formHolder}>
-                      <FormControl>
-                        <FormLabel>Email</FormLabel>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          placeholder="Email"
-                          className={TestStyle.textField}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <EmailOutlinedIcon />
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-
-                    {/* Start of Department and Business Unit Form */}
-                    <div className={TestStyle.formHolder}>
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Department</FormLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={department}
-                          onChange={(e) =>
-                            setDepartment(e.target.value as number)
-                          }
-                          className={TestStyle.textField}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <GroupsOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        >
-                          <MenuItem key={0} value={0}>
-                            {"<Select a department>"}
-                          </MenuItem>
-                          {sections.map((sect: any) => (
-                            <MenuItem
-                              key={sect?.section_id}
-                              value={sect?.section_id}
-                            >
-                              {sect?.section_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Busines Unit</FormLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={businessUnit}
-                          onChange={(e) =>
-                            setBusinessUnit(e.target.value as number)
-                          }
-                          className={TestStyle.textField}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <GroupsOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        >
-                          <MenuItem key={0} value={0}>
-                            {"<Select a business unit>"}
-                          </MenuItem>
-                          {depts.map((dept: any) => (
-                            <MenuItem key={dept?.dept_id} value={dept?.dept_id}>
-                              {dept?.dept_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </div>
-
-                    {/* Start of Password and Confirm Password Form */}
-                    <div className={TestStyle.formHolder}>
-                      {/* <FormControl>
-                      <FormLabel>Password</FormLabel>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Password"
-                        className={TestStyle.textField}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <PermIdentityOutlinedIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </FormControl>
-
-                    <FormControl>
-                      <FormLabel>Confirm Password</FormLabel>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Confirm Password"
-                        className={TestStyle.textField}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <PermIdentityOutlinedIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-
-                        
-                      />
-                    </FormControl> */}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Start of Button*/}
-                <div className={TestStyle.formRow7}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<SaveOutlinedIcon />}
-                    className={TestStyle.saveButton}
-                    onClick={handleSave}
-                  >
-                    SAVE
-                  </Button>
-
-                  <Button
-                    variant="contained"
-                    startIcon={<CancelOutlinedIcon />}
-                    className={TestStyle.cancelButton}
-                    onClick={handleCancel}
-                  >
-                    CANCEL
-                  </Button>
-                </div>
-              </div>
-
-              {/*Dialog of Edit Confirmation */}
-              <Dialog
-                open={ask}
-                onClose={() => {
-                  setAsk(false);
-                }}
-                aria-labelledby="responsive-dialog-title"
-                aria-describedby="alert-dialog-description"
+            {/* Start of Button*/}
+            <div className={StyleNewProject.formRow7}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<SaveOutlinedIcon />}
+                className={StyleNewProject.saveButton}
+            
               >
-                <DialogTitle id="responsive-dialog-title">
-                  <Typography
-                    fontWeight={700}
-                    fontSize={20}
-                    display={"flex"}
-                    alignItems={"center"}
-                    gap={1}
-                  >
-                    <HelpIcon
-                      accentHeight={100}
-                      color="error"
-                      fontSize="large"
-                      alignmentBaseline="middle"
-                    />
-                    {dialogTitle}
-                  </Typography>
-                </DialogTitle>
+                SAVE
+              </Button>
 
-                <DialogContent>
-                  <DialogContentText
-                    whiteSpace={"pre-line"}
-                    id="alert-dialog-description"
-                  >
-                    {dialogContentText}
-                  </DialogContentText>
-                </DialogContent>
-
-                <DialogActions>
-                  <Button
-                    variant="contained"
-                    onClick={isSaving ? proceedWithSaving : proceedWithCancel}
-                    autoFocus
-                  >
-                    {isSaving ? "Save" : "Cancel"}
-                  </Button>
-
-                  <Button
-                    onClick={() => {
-                      setAsk(false);
-                    }}
-                  >
-                    Continue editing
-                  </Button>
-                </DialogActions>
-              </Dialog>
+              <Button
+                variant="contained"
+                startIcon={<CancelOutlinedIcon />}
+                className={StyleNewProject.cancelButton}
+              
+              >
+                CANCEL
+              </Button>
             </div>
           </div>
         </div>
+       
       </div>
-      <Snackbar
-				key={messageInfo ? messageInfo.key : undefined}
-				open={open}
-				autoHideDuration={GLOBAL_TIMEOUT}
-				onClose={handleClose}
-				TransitionProps={{ onExited: handleExited }}
-				anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-			>
-				<Alert
-					onClose={handleClose}
-					severity={severity}
-					sx={{ width: "100%" }}
-					variant="filled"
-				>
-					{messageInfo ? messageInfo.message : undefined}
-				</Alert>
-			</Snackbar>
-    </>
+      {/* </div> */}
+      {/* </div> */}
+    </div>
   );
 }
