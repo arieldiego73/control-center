@@ -21,4 +21,6 @@ public interface ProjectTechnologyDao {
     void logicalDeleteProjectTechnology(String id);
 
     void restoreProjectTechnology(String id);
+
+    void permaDeleteProjectTechnology(ProjectTechnologyInput projectTechnology);
 }

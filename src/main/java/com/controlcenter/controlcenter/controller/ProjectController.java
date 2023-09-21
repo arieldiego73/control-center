@@ -70,6 +70,30 @@ public class ProjectController {
         return projectService.getAllMembersOfProject(proj_id);
     }
 
+    //get all development technologies of a project
+    @GetMapping("/development-technologies/{proj_id}")
+    public ResponseEntity<List<Map<Long, Object>>> getAllTechnologiesOfProject(@PathVariable String proj_id) {
+        return projectService.getAllTechnologiesOfProject(proj_id);
+    }
+
+    //get the client of a project
+    @GetMapping("/client/{proj_id}")
+    public ResponseEntity<List<Map<Long, Object>>> getClientOfProject(@PathVariable String proj_id) {
+        return projectService.getClientOfProject(proj_id);
+    }
+
+    //get the development type of a project
+    @GetMapping("/development-type/{proj_id}")
+    public ResponseEntity<List<Map<Long, Object>>> getDevelopmentOfProject(@PathVariable String proj_id) {
+        return projectService.getDevelopmentOfProject(proj_id);
+    }
+
+    //get the status of a project
+    @GetMapping("/status/{proj_id}")
+    public ResponseEntity<List<Map<Long, Object>>> getStatusOfProject(@PathVariable String proj_id) {
+        return projectService.getStatusOfProject(proj_id);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<ProjectOutput>> getAllProject(HttpSession httpSession) {
         // Check if the user is authenticated 

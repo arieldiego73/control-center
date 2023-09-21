@@ -8,4 +8,7 @@ import com.controlcenter.controlcenter.model.ProjectManagerInput;
 public interface ProjectManagerDao {
     void addManagers(ProjectManagerInput projectManager);
     void permaDeleteProjectManager(ProjectManagerInput projectManager);
+    void logicalDeleteProjectManager(String id);
+
+    void restoreProjectManager(String id);
 }

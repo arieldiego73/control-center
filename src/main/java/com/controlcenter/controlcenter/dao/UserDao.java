@@ -21,6 +21,13 @@ public interface UserDao {
   void insertUser(UserInput user);
   void editUser(HashMap<String, Object> paramMap);
   // void insertUserBatch(List<User> users);
+
+  //setting the del_flag of user to 1
+  void logicalDeleteUser(String id);
+  
+  //setting the del_flag of user to 0
+  void restoreUser(String id); 
+
   UserOutput getUserByUsername(UserOutput username);
   UserOutput getUsername(String username);
 
