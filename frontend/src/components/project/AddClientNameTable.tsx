@@ -16,27 +16,17 @@ import { getClientFetch } from "../../redux/state/clientState";
 
 interface SelectClientTableProps {
 	setClient: React.Dispatch<
-		React.SetStateAction<GridRowParams<any> | undefined>
+		React.SetStateAction<GridRowParams| undefined>
 	>;
+  data: any[];
 }
 
 const AddClientNameTable: React.FC<SelectClientTableProps> = (props) => {
-	const dispatch = useDispatch();
+  const { setClient, data } = props;
 
-	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
-	React.useEffect(() => {
-		dispatch(getClientFetch());
-	}, [dispatch]);
-
-	// STORE THE ROLES TO 'data'
-	const data = useSelector((state: RootState) => state.clientReducer.clients);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
 	const [rowSelectionModel, setRowSelectionModel] =
 		React.useState<GridRowSelectionModel>([2]);
-
-	React.useEffect(() => {
-		console.log(rowSelectionModel);
-	}, [rowSelectionModel]);
 
 	const dataGridSlots = {
 		columnUnsortedIcon: UnsortedIcon,
@@ -78,7 +68,7 @@ const AddClientNameTable: React.FC<SelectClientTableProps> = (props) => {
 				onRowSelectionModelChange={(newRowSelectionModel) => {
 					setRowSelectionModel(newRowSelectionModel);
 				}}
-				onRowClick={(params) => props.setClient(params.row)}
+				onRowClick={(params) => setClient(params.row)}
 				initialState={{
 					pagination: {
 						paginationModel: { page: 0, pageSize: 10 },
