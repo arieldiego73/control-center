@@ -18,27 +18,61 @@
 }
 .mainHolder {
   position: fixed;
-display: flex;
-flex-direction: column; 
-align-items: center;
-/* justify-content: center; */
-height: 99%;
-width: 100%;
-top: 0;
-left: 0;
-overflow: hidden;
-border-radius: 15px;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  /* justify-content: center; */
+  height: 99%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  border-radius: 15px;
   
 }
 .contentHolder {
   border-radius: 5px;
-  height: 90%;
+  height: 95%;
   width: 99%;
   align-items: center;
   flex-direction: column;
   justify-content: center; 
   /* padding: 2vh 0;  */
 }
+.contentContainer{
+  width: 95%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  padding: 1%;
+  display: flex;
+  justify-content: start;
+  background: rgba( 255, 255, 255, 0.05 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 3px );
+  -webkit-backdrop-filter: blur( 3px );
+  border-radius: 10px;
+}
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 1vw;
+  height: 8%;
+  width: 98%;
+  margin: 1% 2%;
+}
+.breadCrumbs {
+  width: 95%;
+}
+.pageTitle{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: .5%;
+  height: 100%;
+}
+
 .mainForm {
   display: flex;
     flex-direction: column;
@@ -46,7 +80,7 @@ border-radius: 15px;
     width: 95%;
     padding: 2%;
     /* border: 1px solid red; */
-    height: 99%;
+    height: 90%;
     overflow-y: scroll  ;
     overflow-x: hidden;
 }
@@ -97,7 +131,6 @@ border-radius: 15px;
 .formRow6 {
   display: flex;
   gap: 4vw;
-  /* border: 1px solid red; */
 }
 .formRow7 {
   display: flex;
@@ -106,7 +139,7 @@ border-radius: 15px;
 .formRow5 Button,
 .formRow7 Button {
   height: 2rem;
-  margin-top: 3.5vh;
+  /* margin-top: 3.5vh; */
 }
 
 .formRow7 {
@@ -114,13 +147,14 @@ border-radius: 15px;
 }
 .formRow8 {
   display: flex;
-  padding-left: 1vw;
-  gap: 4vw;
 }
 .formUsername .textField {
   width: 500px;
 }
 
+.assocId .textField {
+  width: 1000px;
+}
 
 .email .textField {
   width: 500px;
@@ -130,11 +164,6 @@ border-radius: 15px;
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.projectManager{
-  flex-direction: row;
-  display: flex;
 }
 
 .checkboxContainer {
@@ -150,19 +179,21 @@ border-radius: 15px;
   display: flex;
   flex-direction: column;
 }
-.custom-link {
-  text-decoration: underline;
-}
 
-.custom-link:hover {
-  text-decoration: none; /* Remove underline on hover */
-}
 .midContent {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   margin-bottom:.5%;
+}
+
+.custom-link {
+  text-decoration: underline;
+}
+
+.custom-link:hover {
+  text-decoration: none; /* Remove underline on hover */
 }
 .gridContainer{
   width: 50%;

@@ -22,6 +22,9 @@ import {
 	ListItemText,
 	OutlinedInput,
 	Box,
+	AlertColor,
+	Snackbar,
+	Alert,
 } from "@mui/material";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
@@ -54,16 +57,78 @@ import { GridRowParams, GridRowSelectionModel } from "@mui/x-data-grid";
 import { getUsersFetch } from "../../../redux/state/userState";
 import { getTechnologyFetch } from "../../../redux/state/technologyState";
 import { getProjectStatusFetch } from "../../../redux/state/projectStatusState";
+import dayjs, { Dayjs } from "dayjs";
 
-export default function EditProj() {
+export interface SnackbarMessage {
+	message: string;
+	key: number;
+}
+
+export interface State {
+	open: boolean;
+	snackPack: readonly SnackbarMessage[];
+	messageInfo?: SnackbarMessage;
+}
+
+const GLOBAL_TIMEOUT = 2000;
+
+export default function EditProject() {
 	const dispatch = useDispatch();
 
-	const [projectName, setProjectName] = React.useState("");
-	const [selectedStartDate, setSelectedStartDate] =
-		React.useState<Date | null>(null);
-	const [selectedEndDate, setSelectedEndDate] = React.useState<Date | null>(
-		null
-	);
+	// FOR SNACKPACK ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	const notice = useSelector((state: RootState) => state.userReducer.notice);
+	const isInitialAmount = React.useRef(true);
+	React.useEffect(() => {
+		if (!isInitialAmount.current) {
+			if (notice.message && notice.severity) {
+				handleClickSnackpack(
+					notice.message,
+					notice.severity as AlertColor
+				)();
+			}
+		} else {
+			isInitialAmount.current = false;
+		}
+	}, [notice]);
+
+	const [snackPack, setSnackPack] = React.useState<
+		readonly SnackbarMessage[]
+	>([]);
+	const [severity, setSeverity] = React.useState<AlertColor>("error");
+	const [open, setOpen] = React.useState(false);
+	const [messageInfo, setMessageInfo] = React.useState<
+		SnackbarMessage | undefined
+	>(undefined);
+
+	React.useEffect(() => {
+		if (snackPack.length && !messageInfo) {
+			// Set a new snack when we don't have an active one
+			setMessageInfo({ ...snackPack[0] });
+			setSnackPack((prev) => prev.slice(1));
+			setOpen(true);
+		} else if (snackPack.length && messageInfo && open) {
+			// Close an active snack when a new one is added
+			setOpen(false);
+		}
+	}, [snackPack, messageInfo, open]);
+
+	const handleClickSnackpack =
+		(message: string, severity: AlertColor) => () => {
+			setSnackPack((prev) => [
+				...prev,
+				{ message, key: new Date().getTime() },
+			]);
+			setSeverity(severity);
+		};
+
+	const handleClose = (event: React.SyntheticEvent | Event) => {
+		setOpen(false);
+	};
+
+	const handleExited = () => {
+		setMessageInfo(undefined);
+	};
+	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 	// PROJECT MANAGER VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const [projectManager, setProjectManager] =
@@ -85,12 +150,21 @@ export default function EditProj() {
 		useState<GridRowSelectionModel>(); // for temporary selected members
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+	// PROJECT CLIENT VARIABLES :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const [projectClient, setProjectClient] = useState<GridRowParams>();
+	const [clientName, setClientName] = useState("Select a client")
+	const [selectedClientId, setSelectedClientId] = useState<number[]>([])
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	
 	const [projectDescription, setProjectDescription] = useState("");
 	const [projectDevPhase, setProjectDevPhase] = useState<number[]>([]);
 	const [projectTechnologies, setProjectTechnologies] = useState<number[]>(
 		[]
 	);
+	const [projectName, setProjectName] = React.useState("");
+	const [selectedStartDate, setSelectedStartDate] =
+		React.useState<Dayjs | null>(dayjs());
+	const [selectedEndDate, setSelectedEndDate] = React.useState<Dayjs | null>(dayjs().add(1, 'day'));
 	const [status, setStatus] = useState(0);
 
 	React.useEffect(() => {
@@ -117,9 +191,6 @@ export default function EditProj() {
 		(state: RootState) => state.projectStatusReducer.projectStatus
 	);
 
-	//for description box (formatting toolbar)
-	const [value, setValue] = useState("");
-
 	const modules = {
 		toolbar: [
 			[{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -131,6 +202,13 @@ export default function EditProj() {
 	const [openMembers, setOpenMembers] = React.useState(false);
 	const [openProjManager, setOpenProjManager] = React.useState(false);
 	const [openClientName, setOpenClientName] = React.useState(false);
+
+	// React.useEffect(() => {
+	// 	if (projectClient) {
+	// 		setClientName(projectClient.row?.client_name)
+	// 		setSelectedClientId(projectClient.row?.client_id)
+	// 	}
+	// }, [projectClient])
 
 	React.useEffect(() => {
 		setSelectedProjectManagers(() => {
@@ -151,6 +229,40 @@ export default function EditProj() {
 		});
 	}, [projectMembers, usersData]);
 	// this will trigger re-render of the chips of project members when dependencies has changed
+
+	const handleProjectDurationChange = (e: Dayjs | null, type: string) => {
+		if (type === "start") {
+			if (selectedEndDate && e) {
+				if (e.isBefore(selectedEndDate)) {
+					setSelectedStartDate(dayjs(e));
+				} else {
+					handleClickSnackpack(
+						"The start date cannot be later than the end. Please, try again.",
+						"error"
+					)();
+					setSelectedStartDate(dayjs());
+					setSelectedEndDate(dayjs().add(1, 'day'));
+				}
+			} else {
+				setSelectedStartDate(dayjs(e));
+			}
+		} else {
+			if (selectedStartDate && e) {
+				if (e.isAfter(selectedStartDate)) {
+					setSelectedEndDate(dayjs(e));
+				} else {
+					handleClickSnackpack(
+						"The end date cannot be earlier than the start. Please, try again.",
+						"error"
+					)();
+					setSelectedStartDate(dayjs());
+					setSelectedEndDate(dayjs().add(1, 'day'));
+				}
+			} else {
+				setSelectedEndDate(dayjs(e));
+			}
+		}
+	}
 
 	const handleSelectDevPhaseChange = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -240,7 +352,7 @@ export default function EditProj() {
 														overflow: "visible",
 													}}
 												>
-													F
+													{clientName.charAt(0).toLocaleUpperCase()}
 												</Avatar>
 											</ListItemAvatar>
 											<ListItemText secondary="Client name">
@@ -248,7 +360,7 @@ export default function EditProj() {
 													variant="h4"
 													style={{ fontWeight: 900 }}
 												>
-													Facebook
+													{clientName}
 												</Typography>
 											</ListItemText>
 										</ListItem>
@@ -293,6 +405,8 @@ export default function EditProj() {
 										</InputAdornment>
 									),
 								}}
+								value={projectName}
+								onChange={(e) => setProjectName(e.target.value)}
 							/>
 						</FormControl>
 
@@ -312,9 +426,8 @@ export default function EditProj() {
 								>
 									<DatePicker
 										value={selectedStartDate}
-										onChange={(e) =>
-											setSelectedStartDate(e)
-										}
+										reduceAnimations
+										onChange={(e) => handleProjectDurationChange(e, "start")}
 									/>
 								</LocalizationProvider>
 							</FormControl>
@@ -333,7 +446,8 @@ export default function EditProj() {
 								>
 									<DatePicker
 										value={selectedEndDate}
-										onChange={(e) => setSelectedEndDate(e)}
+										reduceAnimations
+										onChange={(e) => handleProjectDurationChange(e, "end")}
 									/>
 								</LocalizationProvider>
 							</FormControl>
@@ -428,13 +542,10 @@ export default function EditProj() {
 								<ReactQuillEditor
 									className={EditProjectStyle.qlContainer}
 									theme="snow"
-									value={value}
-									// maxLines={`8`}
-									// scrollOnMaxLines={true}
-									onChange={setValue}
+									value={projectDescription}
+									onChange={(e) => setProjectDescription(e)}
 									modules={modules}
 									placeholder="Project description..."
-									// style={{ backgroundColor: "whitesmoke" }}
 								/>
 							</div>
 						</div>
@@ -461,7 +572,9 @@ export default function EditProj() {
 										key={phase.dev_phase_id}
 										control={
 											<Checkbox
-												name={String(phase.dev_phase_id)}
+												name={String(
+													phase.dev_phase_id
+												)}
 												checked={projectDevPhase.includes(
 													phase.dev_phase_id
 												)}
@@ -671,6 +784,7 @@ export default function EditProj() {
 							<AddClientNameTable
 								setClient={setProjectClient}
 								data={clientsData}
+								selectedClientId={selectedClientId}
 							/>
 						</DialogContent>
 						<DialogActions>
@@ -679,7 +793,13 @@ export default function EditProj() {
 							</Button>
 							<Button
 								variant="contained"
-								onClick={() => setOpenClientName(false)}
+								onClick={() => {
+									if (projectClient) {
+										setClientName(projectClient.row?.client_name)
+										setSelectedClientId(projectClient.row?.client_id)
+									}
+									setOpenClientName(false)
+								}}
 							>
 								Save
 							</Button>
@@ -795,6 +915,22 @@ export default function EditProj() {
 					</div>
 				</div>
 			</div>
+			<Snackbar
+				key={messageInfo ? messageInfo.key : undefined}
+				open={open}
+				autoHideDuration={GLOBAL_TIMEOUT}
+				onClose={handleClose}
+				TransitionProps={{ onExited: handleExited }}
+			>
+				<Alert
+					onClose={handleClose}
+					severity={severity}
+					sx={{ width: "100%" }}
+					variant="filled"
+				>
+					{messageInfo ? messageInfo.message : undefined}
+				</Alert>
+			</Snackbar>
 		</div>
 	);
 }
