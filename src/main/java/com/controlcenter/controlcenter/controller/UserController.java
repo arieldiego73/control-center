@@ -56,6 +56,11 @@ public class UserController {
     return userService.getUserById(id);
   }
 
+  @GetMapping("/multiple-user")
+  public ResponseEntity<List<UserInfoOutput>> getMultipleUserById(@RequestParam List<String> emp_ids) {
+    return userService.getMultipleUserById(emp_ids);
+  }
+
   // @PostMapping("/create")
   // public String createUser(@RequestBody UserInput user) {
   //   UserInput userHashed = user;
@@ -157,7 +162,7 @@ public class UserController {
   }
 
   @GetMapping("/username")
-  public ResponseEntity<UserOutput> getUserByUsername(@RequestParam @Valid @NotBlank String username) {
+  public UserOutput getUserByUsername(@RequestParam @Valid @NotBlank String username) {
     return userService.getUsername(username);
   }
 

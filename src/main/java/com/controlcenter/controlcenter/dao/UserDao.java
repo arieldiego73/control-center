@@ -18,6 +18,10 @@ public interface UserDao {
   List<UserOutput> getAllUser();
 
   UserInfoOutput getUserById(String id);
+
+  //get multiple user using request paran
+  List<UserInfoOutput> getMultipleUserById(String id);
+  
   void insertUser(UserInput user);
   void editUser(HashMap<String, Object> paramMap);
   // void insertUserBatch(List<User> users);
