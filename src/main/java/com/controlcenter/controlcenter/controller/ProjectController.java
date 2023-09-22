@@ -108,6 +108,11 @@ public class ProjectController {
         // }
     }
 
+    @GetMapping("attribute/{proj_id}")
+    public ResponseEntity<Map<String, Object>> getAttributesOfProject(@PathVariable String proj_id) {
+        return projectService.getAttributesOfProject(proj_id);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<String> addProject(@RequestBody ProjectOutput project, @RequestParam List<String> manager_ids, @RequestParam Long client_id, @RequestParam Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam Long project_status_id, @RequestParam List<String> member_ids){
        // Check if the user is authenticated

@@ -15,3 +15,10 @@
   height: 8%;
   width: 82%;
 }
+@media screen and (max-width: 1199px) {
+  .sideNavMainContainer{
+    width: 6%;
+    margin-top: 3%;
+    margin-left: 1.5%;
+  }
+}

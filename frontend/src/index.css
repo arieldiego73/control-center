@@ -8,6 +8,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-image: url(../src/Assets/bg6.png);
 
+
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -21,7 +22,6 @@ code {
 	left: 16.5vw;
 	width: 82%;
 	height: 83%;
- 
 }
 .contentContainer {
 	position: fixed;
@@ -53,4 +53,55 @@ code {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+}
+
+@media screen and (max-width: 1199px) {
+	.mainContainer{
+		position: fixed;
+		top: 13vh;
+		left: 2vw;
+		width: 96%;
+		height: 83%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		
+	}
+	.contentContainer {
+		position: fixed;
+		top: 13vh;
+		left: 2vw;
+		width: 96%;
+		height: 83%;
+		display: flex;
+		flex-direction: column;
+		gap: 1vh;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.mainContainer{
+		position: fixed;
+		top: 13vh;
+		left: 2vw;
+		width: 96%;
+		height: 83%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		
+	}
+	.contentContainer {
+		position: fixed;
+		top: 13vh;
+		left: 2vw;
+		width: 96%;
+		height: 83%;
+		display: flex;
+		flex-direction: column;
+		gap: 1vh;
+	}
+}
+@media screen and (max-height: 680px) {
+
 }

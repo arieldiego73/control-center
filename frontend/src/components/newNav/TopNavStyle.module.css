@@ -1,5 +1,5 @@
 .topnavContainer {
-  height: 8%;
+  height: 65px;
   width: 82%;
   border-radius: 10px;
   overflow: hidden;
@@ -187,27 +187,24 @@
     font-size: 15px;
   }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  @media screen and (max-width: 1199px) {
+    .topnavContainer {
+      width: 90%;
+      left: 8vw;
+    }
+  }
+  @media screen and (max-width: 850px) {
+    .topnavContainer {
+      width: 88%;
+      left: 10vw;
+    }
+  }
+  @media screen and (max-width: 650px) {
+    .userProfilePic, .breadCrumbsContainer {
+      display: none;
+    }
+    .topnavContainer {
+      width: 86%;
+      left: 12vw;
+    }
+  }

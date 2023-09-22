@@ -19,6 +19,7 @@ import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 // import java.util.Collections;
 import java.util.List;
@@ -86,6 +87,31 @@ public class UserServiceImpl implements UserService{
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+  }
+
+  //getting multiple user by emp_id using request param
+  @Override
+  public ResponseEntity<List<UserInfoOutput>> getMultipleUserById(List<String> emp_ids) {
+    List<Map<String, Object>> listOfUsers = new ArrayList<>();
+    List<UserInfoOutput> listOfInfo = new ArrayList<>();
+    Map<String, Object> allUsers = new HashMap<>();
+    // for(String emp_id : emp_ids) {
+    //   List<UserInfoOutput> multipleUsers = userDao.getMultipleUserById(emp_id);
+    //   List<Map<String, Object>> allUsers = multipleUsers.stream()
+    //     .map(user -> {
+    //       Map<String, Object> currentUsers = new HashMap<>();
+    //       currentUsers.put(user.getEmp_id(), userDao.getUserById(user.getEmp_id()));
+    //       return currentUsers;
+    //     }).collect(Collectors.toList());
+    //   }
+    // for(String emp_id : emp_ids) {
+    //   allUsers.put(emp_id, userDao.getUserById(emp_id));
+    // }
+    for(String emp_id : emp_ids) {
+      listOfInfo.add(userDao.getUserById(emp_id));
+    }
+    // listOfUsers.add(allUsers);
+    return ResponseEntity.ok(listOfInfo);
   }
 
   @Override
@@ -255,13 +281,8 @@ public class UserServiceImpl implements UserService{
   // }
 
   @Override
-  public ResponseEntity<UserOutput> getUsername(String username) {
-    try {
-      UserOutput user = userDao.getUsername(username);
-      return ResponseEntity.ok(user);
-    } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
+  public UserOutput getUsername(String username) {
+      return userDao.getUsername(username);
   }
 
   // @Override

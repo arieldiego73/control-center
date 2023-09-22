@@ -1,33 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
-import SideNavStyle from "./SideNavStyle.module.css";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import smallLogo from "../../Assets/small logo.png";
+import BurgerMenu from "./BurgerMenu";
 import {
-    Box,
-    Divider,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    Paper,
-    ThemeProvider,
-    createTheme,
-    styled,
-  } from "@mui/material";
+  Box,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  ThemeProvider,
+  createTheme,
+  styled,
+} from "@mui/material";
 import {
-    People,
-    Dns,
-    PermMedia,
-    Public,
-    KeyboardArrowDown,
-    } 
-    from "@mui/icons-material";
+  People,
+  Dns,
+  PermMedia,
+  Public,
+  KeyboardArrowDown,
+}
+  from "@mui/icons-material";
 
 // for dropdown in others link
 const othersDropDownData = [
@@ -84,287 +84,332 @@ const FireNav = styled(List)<{ component?: React.ElementType }>({
 });
 
 export default function SideNav() {
+
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(false);
 
+
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  // Add an event listener to update the screenWidth state when the window is resized
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
+  const isScreenSmall = screenWidth < 1200;
+
+
+  const sidenavContainerStyle: React.CSSProperties = {
+    height: isScreenSmall ? "50px" : "94%",
+    width: isScreenSmall ? "50px" : "13%",
+    display: "flex", // Display as flex
+    flexDirection: "column", // Stack items vertically
+    alignItems: isScreenSmall ? "center" : "stretch", // Center items if small screen, otherwise stretch
+    justifyContent: isScreenSmall ? "center" : "stretch", // Center items if small screen, otherwise stretch
+    borderRadius: "10px",
+    overflow: "hidden",
+    gap: "2%",
+    background: "rgba( 237, 249, 255, 0.35 )",
+    boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+    backdropFilter: "blur( 25px )",
+    position: "fixed",
+
+    // top: isScreenSmall ? "4vh" : "4vh",
+  };
+
   return (
-    <div className={SideNavStyle.sidenavContainer}>
-      <div className={SideNavStyle.sideNavHolder}>
-        <ThemeProvider
-          theme={createTheme({
-            components: {
-              MuiListItemButton: {
-                defaultProps: {
-                  disableTouchRipple: true,
+
+    <div style={sidenavContainerStyle}>
+      {/* Conditionally render the burgerMenuContainer */}
+      {isScreenSmall && (
+        <div style={{ display: "flex" , height:"100%", width:"100%", alignItems:"center", justifyContent:"center"}}>
+          <BurgerMenu />
+        </div>
+      )}
+      {!isScreenSmall && (
+        <div style={{display:"flex", height:"100%", width:"100%"}}>
+          <ThemeProvider
+            theme={createTheme({
+              components: {
+                MuiListItemButton: {
+                  defaultProps: {
+                    disableTouchRipple: true,
+                  },
                 },
               },
-            },
-            palette: {
-              mode: "dark",
-              primary: { main: "rgb(102, 157, 246)" },
-              background: { paper: "rgba(237, 249, 255, 0.35)" }, // Updated background color
-            },
-          })}
-        >
-          <Paper
-            elevation={0}
-            sx={{
-              width: "100%",
-              height: "100%",
-              boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-              backdropFilter: "blur(5px)",
-              WebkitBackdropFilter: "blur(5px)",
-            }}
+              palette: {
+                mode: "dark",
+                primary: { main: "rgb(102, 157, 246)" },
+                background: { paper: "rgba(237, 249, 255, 0.35)" }, // Updated background color
+              },
+            })}
           >
-            {/* Updated styles */}
-            <FireNav component="nav" disablePadding>
-              <Link to="/dashboard" style={{ textDecoration: "none" }}>
-                <ListItemButton style={{ height: "65px" }}>
-                  <img
-                    src={smallLogo}
-                    alt="Small Logo"
-                    style={{ height: "100%", width: "100%" }}
-                  />
-                </ListItemButton>
-              </Link>
-              <Divider
-                sx={{
-                  backgroundColor: "rgb(102, 157, 246)",
-                  marginBottom: "20px",
-                }}
-              />
+            <Paper
+              elevation={0}
+              sx={{
+                width: "100%",
+                height: "100%",
+                boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+                backdropFilter: "blur(5px)",
+                WebkitBackdropFilter: "blur(5px)",
+              }}
+            >
+              {/* Updated styles */}
+              <FireNav component="nav" disablePadding>
+                <Link to="/dashboard" style={{ textDecoration: "none" }}>
+                  <ListItemButton style={{ height: "65px" }}>
+                    <img
+                      src={smallLogo}
+                      alt="Small Logo"
+                      style={{ height: "100%", width: "100%" }}
+                    />
+                  </ListItemButton>
+                </Link>
+                <Divider
+                  sx={{
+                    backgroundColor: "rgb(102, 157, 246)",
+                    marginBottom: "20px",
+                  }}
+                />
 
-              <Link to="/dashboard" style={{ textDecoration: "none" }}>
-                <ListItem component="div" disablePadding>
-                  <ListItemButton
-                    sx={{
-                      height: 56,
-                      "&:hover": {
-                        backgroundColor: "white",
-                        "& .MuiListItemText-primary": {
-                          fontWeight: 900,
-                          color: "#ec610b",
+                <Link to="/dashboard" style={{ textDecoration: "none" }}>
+                  <ListItem component="div" disablePadding>
+                    <ListItemButton
+                      sx={{
+                        height: 56,
+                        "&:hover": {
+                          backgroundColor: "white",
+                          "& .MuiListItemText-primary": {
+                            fontWeight: 900,
+                            color: "#ec610b",
+                          },
+                          "& .MuiSvgIcon-root": {
+                            color: "#ec610b",
+                          },
                         },
-                        "& .MuiSvgIcon-root": {
-                          color: "#ec610b",
-                        },
-                      },
-                    }}
-                  >
-                    <ListItemIcon>
+                      }}
+                    >
+                      <ListItemIcon>
                         <DashboardIcon style={{ color: "#ec610b" }} />
-                    </ListItemIcon>
+                      </ListItemIcon>
 
-                    <ListItemText
-                      primary="Dashboard"
-                      primaryTypographyProps={{
-                        color: "black",
-                        fontWeight: "medium",
-                        variant: "body2",
-                      }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
+                      <ListItemText
+                        primary="Dashboard"
+                        primaryTypographyProps={{
+                          color: "black",
+                          fontWeight: "medium",
+                          variant: "body2",
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
 
-              <Link to="/user" style={{ textDecoration: "none" }}>
-                <ListItem component="div" disablePadding>
-                  <ListItemButton
-                    sx={{
-                      height: 56,
-                      "&:hover": {
-                        backgroundColor: "white",
-                        "& .MuiListItemText-primary": {
-                          fontWeight: 900,
-                          color: "#5fb663",
+                <Link to="/user" style={{ textDecoration: "none" }}>
+                  <ListItem component="div" disablePadding>
+                    <ListItemButton
+                      sx={{
+                        height: 56,
+                        "&:hover": {
+                          backgroundColor: "white",
+                          "& .MuiListItemText-primary": {
+                            fontWeight: 900,
+                            color: "#5fb663",
+                          },
                         },
-                      },
-                    }}
-                  >
-                    <ListItemIcon>
-                      <PersonIcon style={{ color: "#5fb663" }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="User"
-                      primaryTypographyProps={{
-                        color: "black",
-                        fontWeight: "medium",
-                        variant: "body2",
                       }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-              {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
-              <Link to="/project" style={{ textDecoration: "none" }}>
-                <ListItem component="div" disablePadding>
-                  <ListItemButton
-                    sx={{
-                      height: 56,
-                      "&:hover": {
-                        backgroundColor: "white",
-                        "& .MuiListItemText-primary": {
-                          fontWeight: 900,
-                          color: "#549ccf",
+                    >
+                      <ListItemIcon>
+                        <PersonIcon style={{ color: "#5fb663" }} />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="User"
+                        primaryTypographyProps={{
+                          color: "black",
+                          fontWeight: "medium",
+                          variant: "body2",
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+                {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
+                <Link to="/project" style={{ textDecoration: "none" }}>
+                  <ListItem component="div" disablePadding>
+                    <ListItemButton
+                      sx={{
+                        height: 56,
+                        "&:hover": {
+                          backgroundColor: "white",
+                          "& .MuiListItemText-primary": {
+                            fontWeight: 900,
+                            color: "#549ccf",
+                          },
                         },
-                      },
-                    }}
-                  >
-                    <ListItemIcon>
-                      <AccountTreeIcon style={{ color: "#549ccf" }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Project"
-                      primaryTypographyProps={{
-                        color: "black",
-                        fontWeight: "medium",
-                        variant: "body2",
                       }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-              {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
-              <Link to="/role" style={{ textDecoration: "none" }}>
-                <ListItem component="div" disablePadding>
-                  <ListItemButton
-                    sx={{
-                      height: 56,
-                      "&:hover": {
-                        backgroundColor: "white",
-                        "& .MuiListItemText-primary": {
-                          fontWeight: 900,
-                          color: "#5900b3",
+                    >
+                      <ListItemIcon>
+                        <AccountTreeIcon style={{ color: "#549ccf" }} />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Project"
+                        primaryTypographyProps={{
+                          color: "black",
+                          fontWeight: "medium",
+                          variant: "body2",
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+                {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
+                <Link to="/role" style={{ textDecoration: "none" }}>
+                  <ListItem component="div" disablePadding>
+                    <ListItemButton
+                      sx={{
+                        height: 56,
+                        "&:hover": {
+                          backgroundColor: "white",
+                          "& .MuiListItemText-primary": {
+                            fontWeight: 900,
+                            color: "#5900b3",
+                          },
                         },
-                      },
-                    }}
-                  >
-                    <ListItemIcon>
-                      <PersonSearchIcon style={{ color: "#5900b3" }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Role"
-                      primaryTypographyProps={{
-                        color: "black",
-                        fontWeight: "medium",
-                        variant: "body2",
                       }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-              {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column", // Stack the containers vertically
-                }}
-              >
+                    >
+                      <ListItemIcon>
+                        <PersonSearchIcon style={{ color: "#5900b3" }} />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Role"
+                        primaryTypographyProps={{
+                          color: "black",
+                          fontWeight: "medium",
+                          variant: "body2",
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+                {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
                 <Box
                   sx={{
-                    bgcolor: open ? "rgba(71, 98, 130, 0.2)" : null,
-                    pb: open ? 2 : 0,
+                    display: "flex",
+                    flexDirection: "column", // Stack the containers vertically
                   }}
                 >
-                  <ListItemButton
-                    alignItems="flex-start"
-                    onClick={() => {
-                      setOpen(!open);
-                      setActive(!active);
-                    }}
+                  <Box
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      px: 3,
-                      pt: 2.5,
-                      pb: 2.5, // Keep consistent padding for both active and inactive states
-                      "&:hover": {
-                        "& svg": {
-                          color: "#595959",
-                        },
-                        backgroundColor: active
-                          ? "rgba(71, 98, 130, 0.2)"
-                          : "white",
-                        "& .MuiListItemText-primary": {
-                          fontWeight: active ? "bold" : "bold",
-                          color: "#595959",
-                          border: "0 solid transparent",
-                        },
-                      },
+                      bgcolor: open ? "rgba(71, 98, 130, 0.2)" : null,
+                      pb: open ? 2 : 0,
                     }}
                   >
-                    <ListItemIcon style={{ margin: "0" }}>
-                      <MoreHorizIcon style={{ color: "black" }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      style={{
+                    <ListItemButton
+                      alignItems="flex-start"
+                      onClick={() => {
+                        setOpen(!open);
+                        setActive(!active);
+                      }}
+                      sx={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "flex-start",
-                        paddingLeft: "12px",
+                        justifyContent: "center",
+                        px: 3,
+                        pt: 2.5,
+                        pb: 2.5, // Keep consistent padding for both active and inactive states
+                        "&:hover": {
+                          "& svg": {
+                            color: "#595959",
+                          },
+                          backgroundColor: active
+                            ? "rgba(71, 98, 130, 0.2)"
+                            : "white",
+                          "& .MuiListItemText-primary": {
+                            fontWeight: active ? "bold" : "bold",
+                            color: "#595959",
+                            border: "0 solid transparent",
+                          },
+                        },
                       }}
-                      primary="Others"
-                      primaryTypographyProps={{
-                        fontSize: 15,
-                        fontWeight: "medium",
-                        lineHeight: "20px",
-                        mb: "2px",
-                        color: "black",
-                      }}
-                    />
-                    <KeyboardArrowDown
-                      sx={{
-                        mr: -1,
-                        opacity: 1, // Make sure the arrow is initially visible
-                        transform: open ? "rotate(-180deg)" : "rotate(0)",
-                        transition: "0.2s",
-                        color: "#595959", // Set the initial color to the desired color
-                      }}
-                    />
-                  </ListItemButton>
-                </Box>
-                {open && (
-                  <Box>
-                    {othersDropDownData.map((item) => (
-                      <Link
-                        key={item.label}
-                        to={item.path}
-                        style={{ textDecoration: "none", color: "inherit" }}
-                      >
-                        <ListItemButton
-                          sx={{
-                            py: 0,
-                            minHeight: 32,
-                            color: "rgba(255,255,255,.8)",
-                            marginTop: "5px",
-                            "&:hover": {
-                              backgroundColor: "white",
-                              "& .MuiListItemText-primary": {
-                                fontWeight: 900,
-                                color: "#595959",
-                              },
-                            },
-                          }}
-                        >
-                          <ListItemText
-                            primary={item.label}
-                            primaryTypographyProps={{
-                              fontSize: 14,
-                              fontWeight: "medium",
-                              color: "primary",
-                            }}
-                          />
-                        </ListItemButton>
-                      </Link>
-                    ))}
+                    >
+                      <ListItemIcon style={{ margin: "0" }}>
+                        <MoreHorizIcon style={{ color: "black" }} />
+                      </ListItemIcon>
+                      <ListItemText
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "flex-start",
+                          paddingLeft: "12px",
+                        }}
+                        primary="Others"
+                        primaryTypographyProps={{
+                          fontSize: 15,
+                          fontWeight: "medium",
+                          lineHeight: "20px",
+                          mb: "2px",
+                          color: "black",
+                        }}
+                      />
+                      <KeyboardArrowDown
+                        sx={{
+                          mr: -1,
+                          opacity: 1, // Make sure the arrow is initially visible
+                          transform: open ? "rotate(-180deg)" : "rotate(0)",
+                          transition: "0.2s",
+                          color: "#595959", // Set the initial color to the desired color
+                        }}
+                      />
+                    </ListItemButton>
                   </Box>
-                )}
-              </Box>
-            </FireNav>
-          </Paper>
-        </ThemeProvider>
-      </div>
+                  {open && (
+                    <Box>
+                      {othersDropDownData.map((item) => (
+                        <Link
+                          key={item.label}
+                          to={item.path}
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                          <ListItemButton
+                            sx={{
+                              py: 0,
+                              minHeight: 32,
+                              color: "rgba(255,255,255,.8)",
+                              marginTop: "5px",
+                              "&:hover": {
+                                backgroundColor: "white",
+                                "& .MuiListItemText-primary": {
+                                  fontWeight: 900,
+                                  color: "#595959",
+                                },
+                              },
+                            }}
+                          >
+                            <ListItemText
+                              primary={item.label}
+                              primaryTypographyProps={{
+                                fontSize: 14,
+                                fontWeight: "medium",
+                                color: "primary",
+                              }}
+                            />
+                          </ListItemButton>
+                        </Link>
+                      ))}
+                    </Box>
+                  )}
+                </Box>
+              </FireNav>
+            </Paper>
+          </ThemeProvider>
+        </div>
+      )}
       <Routes>
         <Route path="/DevelopmentPhase" element={<DevelopmentPhase />} />
         <Route path="/projectStatus" element={<ProjectStatus />} />
@@ -376,5 +421,7 @@ export default function SideNav() {
         <Route path="/devType" element={<DevelopmentTypeHandler />} />
       </Routes>
     </div>
+
+
   );
 }

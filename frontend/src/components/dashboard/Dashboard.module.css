@@ -8,7 +8,7 @@
 	top: 14vh;
 	left: 16.5vw;
 	overflow: hidden;
-}
+} 
 .contentContainer{
     width: 97%;
     height: 93%; 
@@ -56,8 +56,24 @@
 }
 
 
-
-
+@media screen and (max-width: 1199px) {
+    .mainContainer {
+        position: fixed;
+        height: 83%;
+        width: 96%;
+        top: 8vh;
+        left: 2vw;
+    } 
+}
+@media screen and (max-width: 950px) {
+    .mainContainer {
+        position: fixed;
+        height: 83%;
+        width: 96%;
+        top: 6vh;
+        left: 2vw;
+    } 
+}
 
 
 

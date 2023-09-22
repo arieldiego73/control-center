@@ -28,6 +28,9 @@ public interface ProjectService {
     //get the status of a project
     public ResponseEntity<List<Map<Long, Object>>> getStatusOfProject(String proj_id);
 
+    //get the attributes of a project
+    public ResponseEntity<Map<String, Object>> getAttributesOfProject(String proj_id);
+
     public ResponseEntity<List<ProjectOutput>> getAllProject();
     public ProjectOutput getProjectById(String id);
     public ResponseEntity<String> addProject(ProjectOutput project, String emp_id, List<String> manager_ids, Long client_id, Long type_id, List<Long> phase_ids, List<Long> tech_ids, Long project_status_id, List<String> member_ids);
