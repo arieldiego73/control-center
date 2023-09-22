@@ -9,14 +9,15 @@ import {
 	roleSagaDeleteBatch,
 } from "./roleSaga";
 import { sessionSaga } from "./sessionSaga";
-import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBatch, devPhaseSagaUpdate } from "./devPhaseSaga";
+import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBatch, devPhaseSagaUpdate } from "./devPhaseSaga"
+import {devTypeSaga, devTypeSagaAdd, devTypeSagaDelete, devTypeSagaDeleteBatch, devTypeSagaUpdate } from "./devTypeSaga";
 import { positionSaga, positionSagaAdd, positionSagaUpdate, positionSagaDelete, positionSagaDeleteBatch } from "./positionSaga";
-import {sectionSaga, sectionSagaAdd, sectionSagaDelete, sectionSagaDeleteBatch, sectionSagaUpdate} from "./sectionSaga";
-import {departmentSaga, departmentSagaAdd, departmentSagaDelete, departmentSagaDeleteBatch, departmentSagaUpdate} from "./departmentSaga";
+import { sectionSaga, sectionSagaAdd, sectionSagaDelete, sectionSagaDeleteBatch, sectionSagaUpdate } from "./sectionSaga";
+import { departmentSaga, departmentSagaAdd, departmentSagaDelete, departmentSagaDeleteBatch, departmentSagaUpdate } from "./departmentSaga";
 import { projectStatusSaga, projectStatusSagaAdd, projectStatusSagaUpdate, projectStatusSagaDelete, projectStatusSagaDeleteBatch } from "./projectStatusSaga";
 import { employeeStatusSaga, employeeStatusSagaAdd, employeeStatusSagaUpdate, employeeStatusSagaDelete, employeeStatusSagaDeleteBatch } from "./employeeStatusSaga";
 import { technologySaga, technologySagaAdd, technologySagaDelete, technologySagaDeleteBatch, technologySagaUpdate } from "./technologySaga";
-import projectSaga from "./projectSaga";
+import { projectSaga, projectSagaAdd } from "./projectSaga";
 import { clientSaga, clientSagaAdd, clientSagaDelete, clientSagaDeleteBatch, clientSagaUpdate } from "./clientSaga";
 
 export default function* rootSaga() {
@@ -28,6 +29,7 @@ export default function* rootSaga() {
 		userSagaUpdate(),
 
 		projectSaga(),
+		projectSagaAdd(),
 		
 		sessionSaga(),
 
@@ -84,6 +86,12 @@ export default function* rootSaga() {
 		clientSagaUpdate(),
 		clientSagaDelete(),
 		clientSagaDeleteBatch(),
+
+		devTypeSaga(),
+		devTypeSagaAdd(),
+		devTypeSagaUpdate(),
+		devTypeSagaDelete(),
+		devTypeSagaDeleteBatch(),
 		// Add more sagas here
 	]);
 }

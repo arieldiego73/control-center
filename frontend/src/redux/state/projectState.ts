@@ -9,6 +9,7 @@ export const userSlice = createSlice({
 			message: "",
 			severity: "",
 		},
+		isAddSuccess: false,
 	},
 	reducers: {
 		getProjectsFetch: (state) => {
@@ -21,6 +22,12 @@ export const userSlice = createSlice({
 		setMessage: (state, action) => {
 			state.notice = action.payload;
 		},
+		addProjectSuccess: (state) => {
+			state.isAddSuccess = true;
+		},
+		addProjectReset: (state) => {
+			state.isAddSuccess = false;
+		},
 	},
 });
 
@@ -28,5 +35,7 @@ export const {
 	getProjectsFetch,
 	getProjectsSuccess,
 	setMessage,
+	addProjectSuccess,
+	addProjectReset,
 } = userSlice.actions;
 export default userSlice.reducer;
