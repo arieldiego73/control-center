@@ -49,6 +49,30 @@
          WHERE users.del_flag = 0 AND users.emp_id = #{id};
     </select>
 
+    <select id="getMultipleUserById" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserInfoOutput">
+        SELECT users.emp_id,
+               users.username,
+               info_master.fname,
+               info_master.mname,
+               info_master.lname,
+               position_master.position_name,
+               position_master.position_id,
+               info_master.email,
+               section_master.section_id,
+               section_master.section_name,
+               department_master.dept_id,
+               department_master.dept_name,
+               role_master.title,
+               users.del_flag
+          FROM tbl_personal_info AS info_master
+    INNER JOIN tbl_user AS users ON users.emp_id = info_master.emp_id
+    INNER JOIN tbl_role_mst AS role_master ON users.role_id = role_master.role_id
+    INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
+    INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
+    INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
+         WHERE users.del_flag = 0 AND users.emp_id = #{id};
+    </select>
+
     <select id="getAllUser" resultType="com.controlcenter.controlcenter.model.UserOutput">
         SELECT emp_id,
                username,

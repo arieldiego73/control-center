@@ -27,6 +27,7 @@ import com.controlcenter.controlcenter.model.DevPhaseOutput;
 import com.controlcenter.controlcenter.model.DevTypeOutput;
 import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.ProjInfoInput;
+import com.controlcenter.controlcenter.model.ProjInfoOutput;
 import com.controlcenter.controlcenter.model.ProjMemberInput;
 import com.controlcenter.controlcenter.model.ProjMemberOutput;
 import com.controlcenter.controlcenter.model.ProjectInput;
@@ -76,6 +77,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     public UserDao userDao;
+
+    @Autowired
+    public ProjectService projectService;
 
     @Autowired
     public ActivityLogDao activityLogDao;
@@ -194,6 +198,68 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ResponseEntity<List<ProjectOutput>> getAllProject() {
         return ResponseEntity.ok(projectDao.getAllProject());
+    }
+
+    //get the attributes of a project
+    @Override
+    public ResponseEntity<Map<String, Object>> getAttributesOfProject(String proj_id) {
+        ProjectOutput project = projectDao.getProjectById(proj_id);
+
+        ProjInfoOutput projInfo = projInfoDao.getProjInfoById(proj_id);
+
+        List<UserInfoOutput> projectManagers = projectDao.getAllManagersOfProject(proj_id);
+        
+        List<String> allManagers = projectManagers
+        .stream()
+        .map(manager -> {
+            return manager.getEmp_id();
+        }).collect(Collectors.toList());
+
+        List<DevTypeOutput> developmentTypes = projectDao.getDevelopmentTypeOfProject(proj_id);
+
+        List<Long> allDevelopmentTypes = developmentTypes
+        .stream()
+        .map(developmentType -> {
+            return developmentType.getDev_type_id();
+        }).collect(Collectors.toList());
+
+        List<DevPhaseOutput> developmentPhases = projectDao.getAllPhasesOfProject(proj_id);
+
+        List<Long> allDevelopmentPhases = developmentPhases
+        .stream()
+        .map(developmentPhase -> {
+            return developmentPhase.getDev_phase_id();
+        }).collect(Collectors.toList());
+
+        List<TechnologyOutput> technologies = projectDao.getAllTechnologiesOfProject(proj_id);
+
+        List<Long> allTechnologies = technologies
+        .stream()
+        .map(technology -> {
+            return technology.getTech_id();
+        }).collect(Collectors.toList());
+
+        List<UserInfoOutput> members = projectDao.getAllMembersOfProject(proj_id);
+
+        List<String> allMembers = members
+        .stream()
+        .map(member -> {
+            return member.getEmp_id();
+        }).collect(Collectors.toList());
+        
+        Map<String, Object> projectAttributes = new HashMap<>();
+        projectAttributes.put("proj_name", project.getProj_name());
+        projectAttributes.put("manager_emp_id", allManagers);
+        projectAttributes.put("client_id", projInfo.getClient_id());
+        projectAttributes.put("start_date", project.getStart_date());
+        projectAttributes.put("end_date", project.getEnd_date());
+        projectAttributes.put("dev_type_id", allDevelopmentTypes);
+        projectAttributes.put("dev_phase_id", allDevelopmentPhases);
+        projectAttributes.put("tech_id", allTechnologies);
+        projectAttributes.put("member_emp_id", allMembers);
+
+        
+        return ResponseEntity.ok(projectAttributes);
     }
 
     @Override

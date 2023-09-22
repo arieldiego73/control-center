@@ -18,6 +18,8 @@ public interface UserService {
   public ResponseEntity<List<UserOutput>> getAllUser();
 
   public ResponseEntity<UserInfoOutput> getUserById(String id);
+
+  public ResponseEntity<List<UserInfoOutput>> getMultipleUserById(List<String> emp_id);
   
   public String editUser(String id, UserInput user);
 
@@ -31,7 +33,7 @@ public interface UserService {
 
   // public UserOutput getUserByUsername(UserOutput username);
 
-  public ResponseEntity<UserOutput> getUsername(String username);
+  public UserOutput getUsername(String username);
 
   public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids);
 
