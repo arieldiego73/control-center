@@ -17,14 +17,8 @@
 }
 @media screen and (max-width: 1199px) {
   .sideNavMainContainer{
-    height: 93%;
     width: 6%;
     margin-top: 3%;
     margin-left: 1.5%;
-  }
-}
-@media screen and (max-width: 900px) {
-  .navigationsContainer {
-    gap: 4%;
   }
 }

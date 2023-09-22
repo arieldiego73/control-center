@@ -58,18 +58,18 @@ code {
 @media screen and (max-width: 1199px) {
 	.mainContainer{
 		position: fixed;
-		top: 15vh;
+		top: 13vh;
 		left: 2vw;
 		width: 96%;
 		height: 83%;
-		border: 1px solid green;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		
 	}
 	.contentContainer {
 		position: fixed;
-		top: 15vh;
+		top: 13vh;
 		left: 2vw;
 		width: 96%;
 		height: 83%;
@@ -77,4 +77,31 @@ code {
 		flex-direction: column;
 		gap: 1vh;
 	}
+}
+
+@media screen and (max-width: 900px) {
+	.mainContainer{
+		position: fixed;
+		top: 13vh;
+		left: 2vw;
+		width: 96%;
+		height: 83%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		
+	}
+	.contentContainer {
+		position: fixed;
+		top: 13vh;
+		left: 2vw;
+		width: 96%;
+		height: 83%;
+		display: flex;
+		flex-direction: column;
+		gap: 1vh;
+	}
+}
+@media screen and (max-height: 680px) {
+
 }

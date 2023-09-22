@@ -1,5 +1,5 @@
 .topnavContainer {
-  height: 8%;
+  height: 65px;
   width: 82%;
   border-radius: 10px;
   overflow: hidden;
@@ -189,43 +189,22 @@
   
   @media screen and (max-width: 1199px) {
     .topnavContainer {
-      height: 8%;
       width: 90%;
-      border-radius: 10px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2%;
-      background: rgba( 237, 249, 255, 0.35 );
-      box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-      backdrop-filter: blur( 5px );
-      -webkit-backdrop-filter: blur( 5px );
-      border-radius: 10px;
-      position: fixed;
       left: 8vw;
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  @media screen and (max-width: 850px) {
+    .topnavContainer {
+      width: 88%;
+      left: 10vw;
+    }
+  }
+  @media screen and (max-width: 650px) {
+    .userProfilePic, .breadCrumbsContainer {
+      display: none;
+    }
+    .topnavContainer {
+      width: 86%;
+      left: 12vw;
+    }
+  }

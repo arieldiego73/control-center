@@ -74,6 +74,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               src={SampleUserImage}
               alt="User"
               style={{ height: "100%", width: "100%", borderRadius: "100%" }}
+              className={TopNavStyle.mainImage}
             />
           </div>
 
@@ -86,7 +87,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <span>Shernan Jenesis Mateo</span>
+              <span className={TopNavStyle.mainName}>Shernan Jenesis Mateo</span>
             </Tooltip>
 
             <Menu
@@ -149,13 +150,13 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                       to="/createuser"
                       className={TopNavStyle.manageAccButton}
                     >
-                      <div  className={TopNavStyle.holder}>
+                      <div className={TopNavStyle.holder}>
                         <text style={{ color: "black", fontSize: "15px" }}>
                           Manage your Account
                         </text>
                       </div>
                     </Link>
-                    
+
                     <div className={TopNavStyle.logout}>
                       <div className={TopNavStyle.logoutSpanContainer}>
                         <span className={TopNavStyle.logoutIcon}>

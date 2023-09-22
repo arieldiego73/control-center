@@ -119,7 +119,7 @@ export default function SideNav() {
     boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
     backdropFilter: "blur( 25px )",
     position: "fixed",
-    border:"1px solid red",
+
     // top: isScreenSmall ? "4vh" : "4vh",
   };
 
