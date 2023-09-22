@@ -19,14 +19,15 @@ interface SelectClientTableProps {
 		React.SetStateAction<GridRowParams| undefined>
 	>;
   data: any[];
+  selectedClientId: number[];
 }
 
 const AddClientNameTable: React.FC<SelectClientTableProps> = (props) => {
-  const { setClient, data } = props;
+  const { setClient, data, selectedClientId } = props;
 
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
 	const [rowSelectionModel, setRowSelectionModel] =
-		React.useState<GridRowSelectionModel>([2]);
+		React.useState<GridRowSelectionModel>(selectedClientId);
 
 	const dataGridSlots = {
 		columnUnsortedIcon: UnsortedIcon,
@@ -68,7 +69,7 @@ const AddClientNameTable: React.FC<SelectClientTableProps> = (props) => {
 				onRowSelectionModelChange={(newRowSelectionModel) => {
 					setRowSelectionModel(newRowSelectionModel);
 				}}
-				onRowClick={(params) => setClient(params.row)}
+				onRowClick={(params) => setClient(params)}
 				initialState={{
 					pagination: {
 						paginationModel: { page: 0, pageSize: 10 },
