@@ -746,7 +746,7 @@ export default function NewProj() {
 													fontWeight: "400",
 												}}
 											>
-												Development Type
+												{"Development Type (optional)"}
 											</FormLabel>
 											<Select
 												value={devType}

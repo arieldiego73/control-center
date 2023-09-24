@@ -41,7 +41,6 @@ export function* projectSaga() {
 
 // ADD A PROJECT :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 const apiAdd = async (data: Data): Promise<any> => {
-	console.log("data", data)
 	try {
 		const params = new URLSearchParams();
 		params.append("client_id", data.clientId.toString());
@@ -61,7 +60,6 @@ const apiAdd = async (data: Data): Promise<any> => {
 		params.append("type_id", data.devTypeId.toString())
 		const url = `http://localhost:8080/project/add?${params}`;
 		
-		console.log("params", params)
 		return axios.post(url, {
 			proj_name: data.proj_name,
             proj_code: data.proj_code,
@@ -85,10 +83,8 @@ export function* projectSagaAdd() {
 function* addSaga(action: ReturnType<typeof addProject>): any {
 	try {
 		const response = yield call(apiAdd, action.payload.data);
-		console.log("RES", response)
 		yield call(validate, response);
 	} catch (error) {
-		console.log("ERROR", error)
 		yield call(catchErr, error);
 	}
 }

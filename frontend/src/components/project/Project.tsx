@@ -230,12 +230,12 @@ export default function Project() {
 															},
 														}}
 													>
-																<MenuItem value="">
+																<MenuItem key={0} value="">
 																	{"<Select status>"}
 																</MenuItem>
 														{statuses.map(
 															(status: any) => (
-																<MenuItem value={status.proj_status_name}>
+																<MenuItem key={status.proj_status_id} value={status.proj_status_name}>
 																	{status.proj_status_name}
 																</MenuItem>
 															)
