@@ -92,7 +92,7 @@ function* addSaga(action: ReturnType<typeof addProject>): any {
 }
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-// FETCH A SINGLE PROJECT
+// FETCH A SINGLE PROJECT ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 const apiFetchProjectInfo = async (projectId: any): Promise<any> => {
 	try {
 		return axios.get(`http://localhost:8080/project/attribute/${projectId}`);
@@ -120,7 +120,7 @@ export function* projectSagaFetchProjectInfo() {
 export const getProjectInfo = createAction<{
 	projectId: any;
 }>("project/getProjectInfo");
-
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 

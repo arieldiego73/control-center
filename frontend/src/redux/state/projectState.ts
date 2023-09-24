@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const userSlice = createSlice({
+export const projectSlice = createSlice({
 	name: "project",
 	initialState: {
 		projects: [],
@@ -47,5 +47,5 @@ export const {
 	addProjectSuccess,
 	addProjectReset,
 	clearProjectInfo,
-} = userSlice.actions;
-export default userSlice.reducer;
+} = projectSlice.actions;
+export default projectSlice.reducer;

@@ -58,7 +58,11 @@ import { getUsersFetch } from "../../../redux/state/userState";
 import { getTechnologyFetch } from "../../../redux/state/technologyState";
 import { getProjectStatusFetch } from "../../../redux/state/projectStatusState";
 import dayjs, { Dayjs } from "dayjs";
-import { Data, addProject, getProjectInfo } from "../../../redux/saga/projectSaga";
+import {
+	Data,
+	addProject,
+	getProjectInfo,
+} from "../../../redux/saga/projectSaga";
 import { getDevTypeFetch } from "../../../redux/state/devTypeState";
 
 export interface SnackbarMessage {
@@ -78,34 +82,35 @@ export default function EditProject() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const projectId = location.state
+	const PROJECT_ID = location.state;
 
 	React.useEffect(() => {
-		if (projectId) {
-			dispatch(getProjectInfo({ projectId }))
+		if (PROJECT_ID) {
+			dispatch(getProjectInfo({ projectId: PROJECT_ID }));
 		} else {
-			navigate("/project")
+			navigate("/project"); // if the location.state is cleared, navigate back to the table
 		}
-	}, [])
+	}, []);
 
-	const projectInfo: any = useSelector((state: RootState) => state.projectReducer.projectInfo)
+	const projectInfo: any = useSelector(
+		(state: RootState) => state.projectReducer.projectInfo
+	);
 	React.useEffect(() => {
 		console.log("projectInfo", projectInfo);
-		// if (projectInfo) {
-		// 	setProjectName(projectInfo.proj_name)
-		// 	setProjectDescription(projectInfo.)
-		// 		projectDescription &&
-		// 		selectedStartDate &&
-		// 		selectedEndDate &&
-		// 		selectedClientId &&
-		// 		status &&
-		// 		projectManager &&
-		// 		projectManager &&
-		// 		projectMembers &&
-		// 		projectDevPhase &&
-		// 		projectTechnologies
-		// }
-	}, [projectInfo])
+		if (projectInfo) {
+			setProjectName(projectInfo.proj_name);
+			// setProjectDescription(projectInfo.)
+			setSelectedStartDate(dayjs(projectInfo.start_date));
+			setSelectedEndDate(dayjs(projectInfo.end_date));
+			setSelectedClientId(projectInfo.client_id);
+			// setStatus(projectInfo.status)
+			setProjectManager(projectInfo.manager_emp_id);
+			setProjectMembers(projectInfo.member_emp_id);
+			setProjectDevPhase(projectInfo.dev_phase_id);
+			setProjectTechnologies(projectInfo.tech_id);
+			setDevType(projectInfo.dev_type_id);
+		}
+	}, [projectInfo]);
 
 	// FOR SNACKPACK ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const notice = useSelector(
@@ -301,11 +306,14 @@ export default function EditProject() {
 	const handleSelectDevPhaseChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
-		const id = parseInt(event.target.name)
+		const id = parseInt(event.target.name);
 		const idIndex = projectDevPhase.indexOf(id);
 
 		if (idIndex !== -1) {
-			const newProjectDevPhase = [...projectDevPhase.slice(0, idIndex), ...projectDevPhase.slice(idIndex + 1)];
+			const newProjectDevPhase = [
+				...projectDevPhase.slice(0, idIndex),
+				...projectDevPhase.slice(idIndex + 1),
+			];
 			setProjectDevPhase(newProjectDevPhase);
 		} else {
 			setProjectDevPhase([...projectDevPhase, id]);

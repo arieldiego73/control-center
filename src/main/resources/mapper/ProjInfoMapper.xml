@@ -16,7 +16,7 @@
     <select id="getProjInfoById" resultType="com.controlcenter.controlcenter.model.ProjInfoOutput">
         SELECT proj_info_id, dev_type_id, client_id, proj_status_id, proj_id, del_flag
          FROM tbl_proj_info
-        WHERE proj_info_id = #{id};
+        WHERE proj_id = #{id};
     </select>
 
 <!-- Add Data -->
