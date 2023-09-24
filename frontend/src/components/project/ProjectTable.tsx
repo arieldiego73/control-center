@@ -76,7 +76,8 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 	const navigate = useNavigate();
 
 	const handleRowClick = (row: any) => {
-		navigate(`/editProject/${row.projectName}`, { state: row });
+		console.log(row);
+		navigate(`/editProject/${row.proj_name}`, { state: row.proj_id });
 	};
 
 	const durationDateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -246,7 +247,6 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 								alignItems: "center",
 								justifyContent: "flex-start",
 								gap: "1vw",
-								fontFamily: "Montserrat, sans-serif",
 							}}
 						>
 							<div>
@@ -260,7 +260,6 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 								style={{
 									fontSize: "2vh",
 									fontWeight: "600",
-									fontFamily: "Montserrat, sans-serif",
 								}}
 							>
 								{"Member(s)"}

@@ -47,7 +47,7 @@ import AddProjManagerTable from "../AddProjManagerTable";
 import ReactQuillEditor from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientFetch } from "../../../redux/state/clientState";
 import { RootState } from "../../../redux/store/store";
@@ -58,7 +58,7 @@ import { getUsersFetch } from "../../../redux/state/userState";
 import { getTechnologyFetch } from "../../../redux/state/technologyState";
 import { getProjectStatusFetch } from "../../../redux/state/projectStatusState";
 import dayjs, { Dayjs } from "dayjs";
-import { Data, addProject } from "../../../redux/saga/projectSaga";
+import { Data, addProject, getProjectInfo } from "../../../redux/saga/projectSaga";
 import { getDevTypeFetch } from "../../../redux/state/devTypeState";
 
 export interface SnackbarMessage {
@@ -76,6 +76,36 @@ const GLOBAL_TIMEOUT = 3000;
 
 export default function EditProject() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const location = useLocation();
+	const projectId = location.state
+
+	React.useEffect(() => {
+		if (projectId) {
+			dispatch(getProjectInfo({ projectId }))
+		} else {
+			navigate("/project")
+		}
+	}, [])
+
+	const projectInfo: any = useSelector((state: RootState) => state.projectReducer.projectInfo)
+	React.useEffect(() => {
+		console.log("projectInfo", projectInfo);
+		// if (projectInfo) {
+		// 	setProjectName(projectInfo.proj_name)
+		// 	setProjectDescription(projectInfo.)
+		// 		projectDescription &&
+		// 		selectedStartDate &&
+		// 		selectedEndDate &&
+		// 		selectedClientId &&
+		// 		status &&
+		// 		projectManager &&
+		// 		projectManager &&
+		// 		projectMembers &&
+		// 		projectDevPhase &&
+		// 		projectTechnologies
+		// }
+	}, [projectInfo])
 
 	// FOR SNACKPACK ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const notice = useSelector(

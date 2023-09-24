@@ -2,6 +2,8 @@ import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 // import { createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
+	addProjectSuccess,
+	getProjectInfoSuccess,
 	getProjectsFetch,
 	getProjectsSuccess,
 	setMessage,
@@ -83,23 +85,81 @@ export function* projectSagaAdd() {
 function* addSaga(action: ReturnType<typeof addProject>): any {
 	try {
 		const response = yield call(apiAdd, action.payload.data);
-		yield call(validate, response);
+		yield call(validate, response, "add");
 	} catch (error) {
 		yield call(catchErr, error);
 	}
 }
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-// VALIDATE THE RESPONSE
-function* validate(res: any) {
-	if (res?.request?.status === 200) {
-		yield put(getProjectsFetch());
-		yield put(
-			setMessage({
-				message: res?.data,
-				severity: "success",
-			})
+// FETCH A SINGLE PROJECT
+const apiFetchProjectInfo = async (projectId: any): Promise<any> => {
+	try {
+		return axios.get(`http://localhost:8080/project/attribute/${projectId}`);
+	} catch (error) {
+		return error;
+	}
+};
+
+function* fetchProjectInfoSaga(action: ReturnType<typeof getProjectInfo>): any {
+	try {
+		const responseProjectInfo = yield call(
+			apiFetchProjectInfo,
+			action.payload.projectId
 		);
+		yield call(validate, responseProjectInfo, "info");
+	} catch (error) {
+		yield call(catchErr, error);
+	}
+}
+
+export function* projectSagaFetchProjectInfo() {
+	yield takeLatest(getProjectInfo.type, fetchProjectInfoSaga);
+}
+
+export const getProjectInfo = createAction<{
+	projectId: any;
+}>("project/getProjectInfo");
+
+
+
+
+// VALIDATE THE RESPONSE
+function* validate(res: any, action?: string) {
+	if (res?.request?.status === 200) {
+		switch (action) {
+			case "add":
+				yield put(
+					setMessage({
+						message: res?.data + " Redirecting...",
+						severity: "success",
+					})
+				);
+				yield put(addProjectSuccess());
+				break;
+			case "info":
+				yield put(getProjectInfoSuccess(res?.data));
+				break;
+			case "update":
+				yield put(
+					setMessage({
+						message: res?.data + " Redirecting...",
+						severity: "success",
+					})
+				);
+				yield put(getProjectsFetch());
+				yield put(addProjectSuccess());
+				break;
+			default:
+				yield put(
+					setMessage({
+						message: res?.data,
+						severity: "success",
+					})
+				);
+				yield put(getProjectsFetch());
+				break;
+		}
 	} else if (res?.request?.status > 200) {
 		yield put(
 			setMessage({

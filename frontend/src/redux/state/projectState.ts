@@ -4,6 +4,7 @@ export const userSlice = createSlice({
 	name: "project",
 	initialState: {
 		projects: [],
+		projectInfo: [],
 		isLoading: false,
 		notice: {
 			message: "",
@@ -19,6 +20,10 @@ export const userSlice = createSlice({
 			state.projects = action.payload;
 			state.isLoading = false;
 		},
+		getProjectInfoSuccess: (state, action) => {
+			state.projectInfo = action.payload;
+			state.isLoading = false;
+		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
 		},
@@ -28,14 +33,19 @@ export const userSlice = createSlice({
 		addProjectReset: (state) => {
 			state.isAddSuccess = false;
 		},
+		clearProjectInfo: (state) => {
+			state.projectInfo = []
+		},
 	},
 });
 
 export const {
 	getProjectsFetch,
 	getProjectsSuccess,
+	getProjectInfoSuccess,
 	setMessage,
 	addProjectSuccess,
 	addProjectReset,
+	clearProjectInfo,
 } = userSlice.actions;
 export default userSlice.reducer;
