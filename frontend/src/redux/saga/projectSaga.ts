@@ -4,6 +4,7 @@ import axios from "axios";
 import {
 	addProjectSuccess,
 	getProjectInfoSuccess,
+	getProjectMembersSuccess,
 	getProjectsFetch,
 	getProjectsSuccess,
 	setMessage,
@@ -122,6 +123,92 @@ export const getProjectInfo = createAction<{
 }>("project/getProjectInfo");
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+// FETCH PROJECT MEMBERS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+const apiFetchProjectMembers = async (projectId: any): Promise<any> => {
+	try {
+		return axios.get(`http://localhost:8080/project/members/${projectId}`);
+	} catch (error) {
+		return error;
+	}
+};
+
+function* fetchProjectMembersSaga(action: ReturnType<typeof getProjectMembers>): any {
+	try {
+		const responseProjectMembers = yield call(
+			apiFetchProjectMembers,
+			action.payload.projectId
+		);
+		yield call(validate, responseProjectMembers, "members");
+	} catch (error) {
+		yield call(catchErr, error);
+	}
+}
+
+export function* projectSagaFetchProjectMembers() {
+	yield takeLatest(getProjectMembers.type, fetchProjectMembersSaga);
+}
+
+export const getProjectMembers = createAction<{
+	projectId: any;
+}>("project/getProjectMembers");
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+// UPDATE PROJECT ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+const apiUpdate = async (data: Data, projectId: any): Promise<any> => {
+	try {
+		const params = new URLSearchParams();
+		params.append("client_id", data.clientId.toString());
+		data.selectedManagers.forEach((id) => {
+			params.append("manager_ids", id.toString());
+		});
+		data.selectedMembers.forEach((id) => {
+			params.append("member_ids", id.toString());
+		});
+		data.selectedDevPhase.forEach((id) => {
+			params.append("phase_ids", id.toString());
+		});
+		data.selectedTechnologies.forEach((id) => {
+			params.append("tech_ids", id.toString());
+		});
+		params.append("project_status_id", data.projectStatusId.toString())
+		params.append("type_id", data.devTypeId.toString())
+		const url = `http://localhost:8080/project/edit/${projectId}?${params}`;
+		
+		return axios.put(url, {
+			proj_name: data.proj_name,
+            proj_code: data.proj_code,
+            proj_description: data.proj_description,
+            start_date: data.start_date,
+            end_date: data.end_date,
+		});
+	} catch (error) {
+		return error;
+	}
+};
+
+export const updateProject = createAction<{
+	data: Data;
+	projectId: any;
+}>("project/updateProject");
+
+export function* projectSagaUpdate() {
+	yield takeLatest(updateProject.type, updateSaga);
+}
+
+function* updateSaga(action: ReturnType<typeof updateProject>): any {
+	try {
+		const response = yield call(apiUpdate, action.payload.data, action.payload.projectId);
+		// console.log("response", response)
+		yield call(validate, response, "update");
+	} catch (error) {
+		// console.log("error", error)
+		yield call(catchErr, error);
+	}
+}
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
 
 
 // VALIDATE THE RESPONSE
@@ -139,6 +226,9 @@ function* validate(res: any, action?: string) {
 				break;
 			case "info":
 				yield put(getProjectInfoSuccess(res?.data));
+				break;
+			case "members":
+				yield put(getProjectMembersSuccess(res?.data));
 				break;
 			case "update":
 				yield put(

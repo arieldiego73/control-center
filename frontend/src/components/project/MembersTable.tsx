@@ -1,70 +1,79 @@
+import * as React from "react";
+import { Box } from "@mui/material";
+import { GridColDef, DataGrid, GridValidRowModel } from "@mui/x-data-grid";
+import { datagridBoxStyle } from "../datagrid_customs/DataGridStyle";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import CustomPagination from "../custom_pagination/pagination";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+import { getProjectMembers } from "../../redux/saga/projectSaga";
 
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { Paper } from '@mui/material';
-
-
-interface MembersTableProps {
-  members: number | null;
+interface MembersTableProp {
+	projectId: number;
 }
 
+const MembersTable: React.FC<MembersTableProp> = (props) => {
+	const dispatch = useDispatch();
+	const { projectId } = props;
 
-function createData(
-  firstName: string,
-  lastName: string,
-  position: string,
-  role: string,
-) {
-  return { firstName, lastName, position, role };
-}
+  React.useEffect(() => {
+		dispatch(getProjectMembers({ projectId }));
+	}, [dispatch, projectId]);
 
-const rows = [
-  createData('Shernan Jenesis', 'Mateo','Design Engineer Trainee', 'Frontend developer'),
-  createData('Ariel', 'Diego','Design Engineer', 'Backend developer'),
-  createData('Ricky', 'Galpo','Design Engineer Trainee', 'Designer, Frontend developer, Backend Developer'),
-  createData('Charlene', 'Espanol','Design Engineer Trainee', 'Frontend developer'),
-  createData('Allona', 'Fabre','Design Engineer Trainee', 'Backend developer'),
-  createData('Christian', 'Jacinto','Project Manager', 'Designer, Frontend developer, Backend Developer'),
-  
-];
+	const projectMembers = useSelector(
+		(state: RootState) => state.projectReducer.projectMembers
+	);
 
-export default function MembersTable({ members }: MembersTableProps)  {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <TableContainer component={Paper} style={{ width: '100%', maxHeight: '70vh' }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" sx={{ backgroundColor: "rgb(243, 243, 243)", padding: "2vh 5vw", fontWeight: "600" }}>First name</TableCell>
-              <TableCell align="center" sx={{ backgroundColor: "rgb(243, 243, 243)", padding: "2vh 5vw", fontWeight: "600" }}>Last name</TableCell>
-              <TableCell align="center" sx={{ backgroundColor: "rgb(243, 243, 243)", padding: "2vh 5vw", fontWeight: "600" }}>Position</TableCell>
-              <TableCell align="center" sx={{ backgroundColor: "rgb(243, 243, 243)", padding: "2vh 5vw", fontWeight: "600" }}>Role</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.firstName}>
-                <TableCell align="center" sx={{ padding: "2vh 2vw" }}>{row.firstName}</TableCell>
-                <TableCell align="center" sx={{ padding: "2vh 5vw" }}>{row.lastName}</TableCell>
-                <TableCell align="center" sx={{ padding: "2vh 5vw" }}>{row.position}</TableCell>
-                <TableCell align="center" sx={{ padding: "2vh 5vw" }}>{row.role}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
-  );
-}
+	React.useEffect(() => {
+		setRows(projectMembers);
+	}, [projectMembers]);
 
+	const [rows, setRows] =
+		React.useState<readonly GridValidRowModel[]>(projectMembers);
 
+	const dataGridSlots = {
+		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
+	};
 
+	const columns: GridColDef[] = [
+		{
+			field: "name",
+			headerName: "Name",
+			flex: 1,
+			headerAlign: "center",
+			align: "center",
+			valueGetter(params) {
+				return params.row.first_name + " " + params.row.last_name;
+			},
+		},
+		{
+			field: "position_name",
+			headerName: "Position",
+			flex: 1,
+			headerAlign: "center",
+			align: "center",
+		},
+	];
 
+	return (
+		<Box sx={datagridBoxStyle}>
+			<DataGrid
+				sx={{ width: 500 }}
+				rows={rows}
+				columns={columns}
+				getRowId={(row) => row.emp_id}
+				disableColumnMenu
+				initialState={{
+					pagination: {
+						paginationModel: { page: 0, pageSize: 10 },
+					},
+				}}
+				slots={dataGridSlots}
+				pageSizeOptions={[10, 25, 50, 100]}
+			/>
+		</Box>
+	);
+};
 
-
-
+export default MembersTable;

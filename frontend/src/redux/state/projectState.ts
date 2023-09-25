@@ -15,6 +15,13 @@ interface ProjectInfoData {
 	start_date: string;
 }
 
+interface ProjectMembersData {
+	emp_id: string;
+	position_name: string;
+	first_name: string;
+	last_name: string;
+}
+
 const projInfoInitState: ProjectInfoData = {
 	end_date: "",
 	status_code: 0,
@@ -27,14 +34,24 @@ const projInfoInitState: ProjectInfoData = {
 	proj_code: "",
 	dev_phase_id: [],
 	client_id: 0,
-	start_date: ""
-}
+	start_date: "",
+};
+
+const members: ProjectMembersData[] = [
+	{
+		emp_id: "",
+		position_name: "",
+		first_name: "",
+		last_name: "",
+	},
+];
 
 export const projectSlice = createSlice({
 	name: "project",
 	initialState: {
 		projects: [],
 		projectInfo: projInfoInitState,
+		projectMembers: members,
 		isLoading: false,
 		notice: {
 			message: "",
@@ -53,6 +70,9 @@ export const projectSlice = createSlice({
 		getProjectInfoSuccess: (state, action) => {
 			state.projectInfo = action.payload;
 			state.isLoading = false;
+		},
+		getProjectMembersSuccess: (state, action) => {
+			state.projectMembers = action.payload;
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
@@ -73,6 +93,7 @@ export const {
 	getProjectsFetch,
 	getProjectsSuccess,
 	getProjectInfoSuccess,
+	getProjectMembersSuccess,
 	setMessage,
 	addProjectSuccess,
 	addProjectReset,
