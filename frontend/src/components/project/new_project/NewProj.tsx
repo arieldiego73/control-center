@@ -172,7 +172,7 @@ export default function NewProj() {
 		dayjs().add(1, "day")
 	);
 	const [status, setStatus] = useState(0);
-	const [devType, setDevType] = useState(0);
+	const [devType, setDevType] = useState(1);
 
 	React.useEffect(() => {
 		dispatch(getClientFetch());
@@ -271,11 +271,14 @@ export default function NewProj() {
 	const handleSelectDevPhaseChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
-		const id = parseInt(event.target.name)
+		const id = parseInt(event.target.name);
 		const idIndex = projectDevPhase.indexOf(id);
 
 		if (idIndex !== -1) {
-			const newProjectDevPhase = [...projectDevPhase.slice(0, idIndex), ...projectDevPhase.slice(idIndex + 1)];
+			const newProjectDevPhase = [
+				...projectDevPhase.slice(0, idIndex),
+				...projectDevPhase.slice(idIndex + 1),
+			];
 			setProjectDevPhase(newProjectDevPhase);
 		} else {
 			setProjectDevPhase([...projectDevPhase, id]);
@@ -293,6 +296,7 @@ export default function NewProj() {
 			);
 			return matchingTech ? matchingTech.tech_name : "";
 		});
+
 		return (
 			<Box
 				sx={{
@@ -301,9 +305,13 @@ export default function NewProj() {
 					gap: 0.5,
 				}}
 			>
-				{selectedTechs.map((value) => (
-					<Chip key={value} label={value} />
-				))}
+				{projectTechnologies.length > 0 ? (
+					selectedTechs.map((value) => (
+						<Chip color="success" key={value} label={value} />
+					))
+				) : (
+					<Chip key={0} label="Select technologies..." />
+				)}
 			</Box>
 		);
 	};
@@ -705,8 +713,9 @@ export default function NewProj() {
 											renderValue={
 												handleTechValueRendering
 											}
+											displayEmpty
 											sx={{
-												minWidth: 250,
+												width: 560,
 												maxWidth: 560,
 											}}
 										>
