@@ -36,7 +36,7 @@ public class StatusController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<StatusOutput>> getAllStatus(HttpSession httpSession) {
+    public ResponseEntity<List<StatusOutput>> getAllStatus() {
         // Check if the user is authenticated 
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -50,7 +50,7 @@ public class StatusController {
     }
 
     @GetMapping("/status-code/{id}")
-    public StatusOutput getStatusById(@PathVariable String id, HttpSession httpSession) {
+    public StatusOutput getStatusById(@PathVariable String id) {
         // Check if the user is authenticated 
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -64,7 +64,7 @@ public class StatusController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addStatus(@RequestBody StatusInput status, HttpSession httpSession) {
+    public ResponseEntity<String> addStatus(@RequestBody StatusInput status) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -78,7 +78,7 @@ public class StatusController {
             if (errors.size() > 0) { // checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.status(200).body(statusService.addStatus(status, emp_id));
             }
         // } else {
@@ -88,7 +88,7 @@ public class StatusController {
     }
 
     @PutMapping("/edit/{code}")
-    public ResponseEntity<String> editStatusInfo(@PathVariable String code, @RequestBody StatusOutput status, HttpSession httpSession) {
+    public ResponseEntity<String> editStatusInfo(@PathVariable String code, @RequestBody StatusOutput status) {
          // Check if the user is authenticated
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -102,7 +102,7 @@ public class StatusController {
             if (errors.size() > 0) { // checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.status(200).body(statusService.editStatusInfo(code, status, emp_id));
             }
         // } else {
@@ -112,13 +112,13 @@ public class StatusController {
     }
 
     @PutMapping("/delete/{code}")
-    public ResponseEntity<String> logicalDeleteStatus(@PathVariable String code, HttpSession httpSession) {
+    public ResponseEntity<String> logicalDeleteStatus(@PathVariable String code) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(statusService.logicalDeleteStatus(code, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
@@ -130,13 +130,13 @@ public class StatusController {
     }
 
     @PutMapping("/delete-multiple")
-    public ResponseEntity<String> deleteMultipleStatus(@RequestParam List<String> ids, HttpSession httpSession) {
+    public ResponseEntity<String> deleteMultipleStatus(@RequestParam List<String> ids) {
         // Check uf the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(statusService.deleteMultipleStatus(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
