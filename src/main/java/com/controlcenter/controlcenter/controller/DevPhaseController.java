@@ -37,7 +37,7 @@ public class DevPhaseController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<DevPhaseOutput>> getAllDevPhase(HttpSession httpSession) {
+    public ResponseEntity<List<DevPhaseOutput>> getAllDevPhase() {
          // Check if the user is authenticated 
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -51,7 +51,7 @@ public class DevPhaseController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addDevPhase(@RequestBody DevPhaseInput devPhase, HttpSession httpSession){
+    public ResponseEntity<String> addDevPhase(@RequestBody DevPhaseInput devPhase){
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -65,7 +65,7 @@ public class DevPhaseController {
                 if (errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(devPhaseService.addDevPhase(devPhase, emp_id));
                 }
         // } else {
@@ -75,7 +75,7 @@ public class DevPhaseController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase, HttpSession httpSession) {
+    public ResponseEntity<String> editDevPhaseInfo(@PathVariable String id, @RequestBody DevPhaseInput devPhase) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -89,7 +89,7 @@ public class DevPhaseController {
                 if (errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(devPhaseService.editDevPhaseInfo(id, devPhase, emp_id));
                 }
         // } else {
@@ -99,13 +99,13 @@ public class DevPhaseController {
     }
 
     @PutMapping("/delete-multiple")
-    public ResponseEntity<String> deleteMultipleDevPhase(@RequestParam List<Long> ids, HttpSession httpSession) {
+    public ResponseEntity<String> deleteMultipleDevPhase(@RequestParam List<Long> ids) {
         // Check uf the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
             return ResponseEntity.ok().body(devPhaseService.deleteMultipleDevPhase(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");
@@ -117,13 +117,13 @@ public class DevPhaseController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteDevPhase(@PathVariable String id, HttpSession httpSession) {
+    public ResponseEntity<String> logicalDeleteDevPhase(@PathVariable String id) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(devPhaseService.logicalDeleteDevPhase(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");
