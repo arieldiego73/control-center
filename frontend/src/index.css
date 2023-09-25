@@ -18,17 +18,17 @@ code {
 
 .mainContainer{
 	position: fixed;
-	top: 15vh;
+	top: 140px;
 	left: 16.5vw;
-	width: 82%;
-	height: 83%;
+	width: 82vw;
+	height: 89vh;
 }
 .contentContainer {
-	position: fixed;
-	top: 15vh;
-	left: 16.5vw;
-	width: 82%;
-	height: 83%;
+	position: relative;
+	/* top: 12vh;
+	left: 16.5vw; */
+	width: 100%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	gap: 1vh;
@@ -55,53 +55,36 @@ code {
 	flex-direction: column;
 }
 
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 2559px) {
 	.mainContainer{
-		position: fixed;
-		top: 13vh;
-		left: 2vw;
-		width: 96%;
-		height: 83%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		
-	}
-	.contentContainer {
-		position: fixed;
-		top: 13vh;
-		left: 2vw;
-		width: 96%;
-		height: 83%;
-		display: flex;
-		flex-direction: column;
-		gap: 1vh;
+		top: 130px;
+		height: 87vh;
 	}
 }
-
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1900px) {
 	.mainContainer{
-		position: fixed;
-		top: 13vh;
-		left: 2vw;
-		width: 96%;
-		height: 83%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		
-	}
-	.contentContainer {
-		position: fixed;
-		top: 13vh;
-		left: 2vw;
-		width: 96%;
-		height: 83%;
-		display: flex;
-		flex-direction: column;
-		gap: 1vh;
+		top: 120px;
+		height: 87vh;
 	}
 }
-@media screen and (max-height: 680px) {
-
+@media screen and (max-width: 1400px) {
+	.mainContainer{
+		top: 110px;
+		height: 87vh;
+	}
+}
+@media screen and (max-width: 1200px) {
+	.mainContainer{
+		position: fixed;
+		top: 100px;
+		left: 2vw;
+		width: 96vw;
+		height: 87vh;
+	}
+}
+@media screen and (max-width: 750px) {
+	.mainContainer{
+		top: 90px;
+		height: 87vh;
+	}
 }
