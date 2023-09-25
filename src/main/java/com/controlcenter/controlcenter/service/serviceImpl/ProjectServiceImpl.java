@@ -11,28 +11,22 @@ import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.ClientDao;
-import com.controlcenter.controlcenter.dao.DevPhaseDao;
 import com.controlcenter.controlcenter.dao.DevTypeDao;
 import com.controlcenter.controlcenter.dao.ProjInfoDao;
 import com.controlcenter.controlcenter.dao.ProjectDao;
 import com.controlcenter.controlcenter.dao.ProjectManagerDao;
 import com.controlcenter.controlcenter.dao.ProjectPhaseDao;
 import com.controlcenter.controlcenter.dao.ProjectTechnologyDao;
-import com.controlcenter.controlcenter.dao.TechnologyDao;
 import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.dao.UserProjectDao;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.ClientOutput;
 import com.controlcenter.controlcenter.model.DevPhaseOutput;
 import com.controlcenter.controlcenter.model.DevTypeOutput;
-import com.controlcenter.controlcenter.model.PersonalInfoOutput;
 import com.controlcenter.controlcenter.model.ProjInfoInput;
 import com.controlcenter.controlcenter.model.ProjInfoOutput;
-import com.controlcenter.controlcenter.model.ProjMemberInput;
-import com.controlcenter.controlcenter.model.ProjMemberOutput;
 import com.controlcenter.controlcenter.model.ProjectInput;
 import com.controlcenter.controlcenter.model.ProjectManagerInput;
-import com.controlcenter.controlcenter.model.ProjectManagerOutput;
 import com.controlcenter.controlcenter.model.ProjectOutput;
 import com.controlcenter.controlcenter.model.ProjectPhaseInput;
 import com.controlcenter.controlcenter.model.ProjectPhaseOutput;
@@ -44,7 +38,6 @@ import com.controlcenter.controlcenter.model.TechnologyOutput;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.model.UserProjectInput;
-import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.service.ProjectService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
@@ -130,9 +123,10 @@ public class ProjectServiceImpl implements ProjectService {
         .map(member -> {
             UserInfoOutput user = userDao.getUserById(member.getEmp_id());
             Map<String, Object> currentMembers = new HashMap<>();
-            currentMembers.put("First Name", user.getFname());
-            currentMembers.put("Last Name", user.getLname());
-            currentMembers.put("Position", user.getPosition_name());
+            currentMembers.put("emp_id", user.getEmp_id());
+            currentMembers.put("first_name", user.getFname());
+            currentMembers.put("last_name", user.getLname());
+            currentMembers.put("position_name", user.getPosition_name());
             return currentMembers;
         }).collect(Collectors.toList());
 
@@ -249,6 +243,8 @@ public class ProjectServiceImpl implements ProjectService {
         
         Map<String, Object> projectAttributes = new HashMap<>();
         projectAttributes.put("proj_name", project.getProj_name());
+        projectAttributes.put("proj_code", project.getProj_code());
+        projectAttributes.put("proj_desc", project.getProj_description());
         projectAttributes.put("manager_emp_id", allManagers);
         projectAttributes.put("client_id", projInfo.getClient_id());
         projectAttributes.put("start_date", project.getStart_date());
@@ -256,6 +252,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectAttributes.put("dev_type_id", allDevelopmentTypes);
         projectAttributes.put("dev_phase_id", allDevelopmentPhases);
         projectAttributes.put("tech_id", allTechnologies);
+        projectAttributes.put("status_code", projInfo.getProj_status_id());
         projectAttributes.put("member_emp_id", allMembers);
 
         

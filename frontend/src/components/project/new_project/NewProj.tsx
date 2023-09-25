@@ -60,6 +60,7 @@ import { getProjectStatusFetch } from "../../../redux/state/projectStatusState";
 import dayjs, { Dayjs } from "dayjs";
 import { Data, addProject } from "../../../redux/saga/projectSaga";
 import { getDevTypeFetch } from "../../../redux/state/devTypeState";
+import stringAvatar from "../../custom_color/avatar_custom_color";
 
 export interface SnackbarMessage {
 	message: string;
@@ -73,6 +74,7 @@ export interface State {
 }
 
 const GLOBAL_TIMEOUT = 3000;
+const DEFAULT_MANAGER_ID = 100;
 
 export default function NewProj() {
 	const dispatch = useDispatch();
@@ -169,10 +171,10 @@ export default function NewProj() {
 	const [selectedStartDate, setSelectedStartDate] =
 		React.useState<Dayjs | null>(dayjs());
 	const [selectedEndDate, setSelectedEndDate] = React.useState<Dayjs | null>(
-		dayjs().add(1, "day")
+		dayjs().add(1, "month")
 	);
 	const [status, setStatus] = useState(0);
-	const [devType, setDevType] = useState(0);
+	const [devType, setDevType] = useState(1);
 
 	React.useEffect(() => {
 		dispatch(getClientFetch());
@@ -271,11 +273,14 @@ export default function NewProj() {
 	const handleSelectDevPhaseChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
-		const id = parseInt(event.target.name)
+		const id = parseInt(event.target.name);
 		const idIndex = projectDevPhase.indexOf(id);
 
 		if (idIndex !== -1) {
-			const newProjectDevPhase = [...projectDevPhase.slice(0, idIndex), ...projectDevPhase.slice(idIndex + 1)];
+			const newProjectDevPhase = [
+				...projectDevPhase.slice(0, idIndex),
+				...projectDevPhase.slice(idIndex + 1),
+			];
 			setProjectDevPhase(newProjectDevPhase);
 		} else {
 			setProjectDevPhase([...projectDevPhase, id]);
@@ -287,12 +292,16 @@ export default function NewProj() {
 	) => setProjectTechnologies(e.target.value as number[]);
 
 	const handleTechValueRendering = () => {
-		const selectedTechs: string[] = projectTechnologies.map((techId) => {
+		const selectedTechs: string[] = [];
+		projectTechnologies.forEach((techId) => {
 			const matchingTech: any = technologies.find(
 				(tech: any) => tech.tech_id === techId
 			);
-			return matchingTech ? matchingTech.tech_name : "";
+			if (matchingTech) {
+				selectedTechs.push(matchingTech.tech_name)
+			}
 		});
+
 		return (
 			<Box
 				sx={{
@@ -301,9 +310,13 @@ export default function NewProj() {
 					gap: 0.5,
 				}}
 			>
-				{selectedTechs.map((value) => (
-					<Chip key={value} label={value} />
-				))}
+				{projectTechnologies.length > 0 ? (
+					selectedTechs.map((value) => (
+						<Chip color="success" key={value} label={value} />
+					))
+				) : (
+					<Chip key={0} label="Select technologies..." />
+				)}
 			</Box>
 		);
 	};
@@ -316,8 +329,6 @@ export default function NewProj() {
 			selectedEndDate &&
 			selectedClientId &&
 			status &&
-			projectManager &&
-			projectManager &&
 			projectMembers &&
 			projectDevPhase &&
 			projectTechnologies
@@ -338,7 +349,7 @@ export default function NewProj() {
 				projectStatusId: status,
 				devTypeId: devType,
 				clientId: selectedClientId,
-				selectedManagers: projectManager as number[],
+				selectedManagers: projectManager ? projectManager as number[] : [DEFAULT_MANAGER_ID],
 				selectedMembers: projectMembers as number[],
 				selectedDevPhase: projectDevPhase,
 				selectedTechnologies: projectTechnologies,
@@ -564,11 +575,11 @@ export default function NewProj() {
 												(manager) => (
 													<Chip
 														avatar={
-															<Avatar>
-																{manager
-																	.charAt(0)
-																	.toLocaleUpperCase()}
-															</Avatar>
+															<Avatar
+																{...stringAvatar(
+																	manager
+																)}
+															/>
 														}
 														label={manager}
 													/>
@@ -705,8 +716,9 @@ export default function NewProj() {
 											renderValue={
 												handleTechValueRendering
 											}
+											displayEmpty
 											sx={{
-												minWidth: 250,
+												width: 560,
 												maxWidth: 560,
 											}}
 										>
@@ -765,7 +777,7 @@ export default function NewProj() {
 													maxWidth: 560,
 												}}
 											>
-												<MenuItem key={0} value={0}>
+												<MenuItem key={0} value={1}>
 													{"<None is selected>"}
 												</MenuItem>
 												{devTypes.map(
@@ -828,13 +840,11 @@ export default function NewProj() {
 													(member) => (
 														<Chip
 															avatar={
-																<Avatar>
-																	{member
-																		.charAt(
-																			0
-																		)
-																		.toLocaleUpperCase()}
-																</Avatar>
+																<Avatar
+																	{...stringAvatar(
+																		member
+																	)}
+																/>
 															}
 															label={member}
 														/>

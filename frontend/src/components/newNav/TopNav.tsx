@@ -69,14 +69,6 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
       </div>
       <div className={TopNavStyle.rightSide}>
         <div className={TopNavStyle.userInfo}>
-          <div className={TopNavStyle.userProfilePic}>
-            <img
-              src={SampleUserImage}
-              alt="User"
-              style={{ height: "100%", width: "100%", borderRadius: "100%" }}
-              className={TopNavStyle.mainImage}
-            />
-          </div>
 
           <div className={TopNavStyle.userName}>
             <Tooltip
@@ -87,7 +79,18 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <span className={TopNavStyle.mainName}>Shernan Jenesis Mateo</span>
+              <div style={{}}>
+                <div className={TopNavStyle.userProfilePic}>
+                  <img
+                    src={SampleUserImage}
+                    alt="User"
+                    style={{ height: "100%", width: "100%", borderRadius: "100%" }}
+                    className={TopNavStyle.mainImage}
+                  />
+                </div>
+                <div className={TopNavStyle.mainName}>Shernan Jenesis Mateo</div>
+              </div>
+
             </Tooltip>
 
             <Menu

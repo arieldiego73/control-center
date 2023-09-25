@@ -92,9 +92,7 @@ public class UserServiceImpl implements UserService{
   //getting multiple user by emp_id using request param
   @Override
   public ResponseEntity<List<UserInfoOutput>> getMultipleUserById(List<String> emp_ids) {
-    List<Map<String, Object>> listOfUsers = new ArrayList<>();
     List<UserInfoOutput> listOfInfo = new ArrayList<>();
-    Map<String, Object> allUsers = new HashMap<>();
     // for(String emp_id : emp_ids) {
     //   List<UserInfoOutput> multipleUsers = userDao.getMultipleUserById(emp_id);
     //   List<Map<String, Object>> allUsers = multipleUsers.stream()

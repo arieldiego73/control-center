@@ -45,16 +45,14 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
 	const [openMembers, setOpenMembers] = React.useState(false); // Separate state for members dialog
-	const [selectedMembers, setSelectedMembers] = React.useState<number | null>(
-		null
-	);
+	const [projectId, setProjectId] = React.useState<number>(0);
 
 	React.useEffect(() => {
 		setRows(projectData);
 	}, [projectData]);
 
-	const handleClickOpenMembers = (members: number) => {
-		setSelectedMembers(members);
+	const handleClickOpenMembers = (id: number) => {
+		setProjectId(id);
 		setOpenMembers(true); // Open the members dialog
 	};
 
@@ -203,7 +201,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 												}}
 												onClick={() =>
 													handleClickOpenMembers(
-														row.members
+														row.proj_id
 													)
 												}
 											>
@@ -268,7 +266,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 					</DialogTitle>
 					<DialogContent>
 						{/* Pass selectedMembers to MembersTable */}
-						<MembersTable members={selectedMembers} />
+						<MembersTable projectId={projectId} />
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={handleCloseMembers}>Close</Button>

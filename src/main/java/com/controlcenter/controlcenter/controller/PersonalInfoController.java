@@ -1,6 +1,5 @@
 package com.controlcenter.controlcenter.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +35,7 @@ public class PersonalInfoController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<PersonalInfoOutput>> getAllPersonalInfo(HttpSession httpSession) {
+    public ResponseEntity<List<PersonalInfoOutput>> getAllPersonalInfo() {
         // Check if the user is authenticated 
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -50,7 +49,7 @@ public class PersonalInfoController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addPersonalInfo(@RequestBody PersonalInfoInput personalInfo, HttpSession httpSession) {
+    public ResponseEntity<String> addPersonalInfo(@RequestBody PersonalInfoInput personalInfo) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -64,7 +63,7 @@ public class PersonalInfoController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(personalInfoService.addPersonalInfo(personalInfo, emp_id));
                 }
         // } else {
@@ -74,7 +73,7 @@ public class PersonalInfoController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editPersonalInfo(@PathVariable String id, @RequestBody PersonalInfoInput personalInfo, HttpSession httpSession) {
+    public ResponseEntity<String> editPersonalInfo(@PathVariable String id, @RequestBody PersonalInfoInput personalInfo) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -88,7 +87,7 @@ public class PersonalInfoController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(personalInfoService.editPersonalInfo(id, personalInfo, emp_id));
                 }
         // } else {
@@ -98,13 +97,13 @@ public class PersonalInfoController {
     }
 
     @PutMapping("delete/{id}")
-    public ResponseEntity<String> logicalDeletePersonalInfo(@PathVariable String id, HttpSession httpSession) {
+    public ResponseEntity<String> logicalDeletePersonalInfo(@PathVariable String id) {
          // Check if the user is authenticated
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         //  if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(personalInfoService.logicalDeletePersonalInfo(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");

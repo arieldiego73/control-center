@@ -13,8 +13,8 @@ public interface DepartmentService {
     public DepartmentOutput getDepartmentById(String id);
     public String addDepartment(DepartmentInput department, String emp_id);
     public String editDepartmentInfo(String id, DepartmentInput department, String emp_id);
-    public String logicalDeleteDepartment(String id);
-    public String deleteMultipleDepartment(@RequestParam List<Long> ids);
+    public String logicalDeleteDepartment(String id, String emp_id);
+    public String deleteMultipleDepartment(@RequestParam List<Long> ids, String emp_id);
     public String restoreDepartment(String id);
 }
 
