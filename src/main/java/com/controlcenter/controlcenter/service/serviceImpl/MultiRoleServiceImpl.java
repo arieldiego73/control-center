@@ -44,7 +44,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
     }
 
     @Override
-    public String addMultiRole(String emp_id, Long role_id){
+    public String addMultiRole(String emp_id, Long role_id, String emp_ID){
         UserInfoOutput user = userDao.getUserById(emp_id);
         if(user != null){
             multiRoleDao.addMultiRole(emp_id, role_id);
@@ -52,7 +52,7 @@ public class MultiRoleServiceImpl implements MultiRoleService{
             //Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id(emp_id); //current logged user dapat
+            activityLogInput.setEmp_id(emp_ID); //current logged user dapat
             activityLogInput.setLog_desc("Added a Multiple Role.");
 
             Long currentTimeMillis = System.currentTimeMillis();
