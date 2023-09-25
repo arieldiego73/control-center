@@ -60,7 +60,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public String editClient(String id, ClientInput client) {
+    public String editClient(String id, ClientInput client, String emp_id) {
         ClientOutput data = clientDao.getClientById(id);
 
         if(data != null) {
@@ -77,7 +77,7 @@ public class ClientServiceImpl implements ClientService{
                 //Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id(emp_id); //current logged user dapat
                 activityLogInput.setLog_desc("Edited a Client.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -93,7 +93,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public String logicalDeleteClient(String id) {
+    public String logicalDeleteClient(String id, String emp_id) {
         ClientOutput client = clientDao.getClientById(id);
         
         if(client != null) {
@@ -105,7 +105,7 @@ public class ClientServiceImpl implements ClientService{
                 //Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id(emp_id); //current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Client.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
