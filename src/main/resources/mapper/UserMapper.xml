@@ -28,6 +28,7 @@
     <select id="getUserById" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserInfoOutput">
         SELECT users.emp_id,
                users.username,
+               users.status_code,
                info_master.fname,
                info_master.mname,
                info_master.lname,
@@ -46,12 +47,14 @@
     INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
     INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
     INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
+    INNER JOIN tbl_status_mst AS user_status ON users.status_code = user_status.status_code
          WHERE users.del_flag = 0 AND users.emp_id = #{id};
     </select>
 
     <select id="getMultipleUserById" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserInfoOutput">
         SELECT users.emp_id,
                users.username,
+               users.status_code,
                info_master.fname,
                info_master.mname,
                info_master.lname,
@@ -70,6 +73,7 @@
     INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
     INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
     INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
+    INNER JOIN tbl_status_mst AS user_status ON users.status_code = user_status.status_code
          WHERE users.del_flag = 0 AND users.emp_id = #{id};
     </select>
 

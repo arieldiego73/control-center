@@ -11,6 +11,7 @@ public class UserInfoOutput {
   private String fname;
   private String mname;
   private String lname;
+  private String status_code;
   private String position_name;
   private String email;
   private String section_name;
