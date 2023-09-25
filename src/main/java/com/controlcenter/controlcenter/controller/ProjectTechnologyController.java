@@ -35,7 +35,7 @@ public class ProjectTechnologyController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProjectTechnologyOutput>> getProjectTechnology(HttpSession httpSession){
+    public ResponseEntity<List<ProjectTechnologyOutput>> getProjectTechnology(){
         // Check if the user is authenticated 
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -49,7 +49,7 @@ public class ProjectTechnologyController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProjectTechnology(ProjectTechnologyInput projectTechnology, HttpSession httpSession){
+    public ResponseEntity<String> addProjectTechnology(ProjectTechnologyInput projectTechnology){
          // Check if the user is authenticated
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -63,7 +63,7 @@ public class ProjectTechnologyController {
                 if (errors.size() > 0) { //checks the errors from validator
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(projectTechnologyService.addProjectTechnology(projectTechnology, emp_id));
                 }
         // } else {
@@ -73,7 +73,7 @@ public class ProjectTechnologyController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editProjectTechnology(@PathVariable String id, @RequestBody ProjectTechnologyInput projectTechnology, HttpSession httpSession){
+    public ResponseEntity<String> editProjectTechnology(@PathVariable String id, @RequestBody ProjectTechnologyInput projectTechnology){
          // Check if the user is authenticated
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -87,7 +87,7 @@ public class ProjectTechnologyController {
                 if (errors.size() > 0) { //checks the errors from validator
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(projectTechnologyService.editProjectTechnology(id, projectTechnology, emp_id));
                 }
         // } else {
@@ -97,13 +97,13 @@ public class ProjectTechnologyController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteProjectTechnology(@PathVariable String id, HttpSession httpSession){
+    public ResponseEntity<String> logicalDeleteProjectTechnology(@PathVariable String id){
          // Check if the user is authenticated
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         //  if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(projectTechnologyService.logicalDeleteProjectTechnology(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
