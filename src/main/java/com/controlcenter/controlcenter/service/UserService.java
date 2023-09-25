@@ -24,7 +24,7 @@ public interface UserService {
   public String editUser(String id, UserInput user);
 
   //setting the del_flag of user to 1
-  public ResponseEntity<String> logicalDeleteUser(String id);
+  public ResponseEntity<String> logicalDeleteUser(String id, String emp_id);
 
   //setting the del_flag of user to 0
   public ResponseEntity<String> restoreUser(String id);
@@ -35,9 +35,9 @@ public interface UserService {
 
   public UserOutput getUsername(String username);
 
-  public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids);
+  public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids, String emp_id);
 
-  public ResponseEntity<String> editAccount(String id, AccountOutput accountBody, List<Long> role_ids);
+  public ResponseEntity<String> editAccount(String id, AccountOutput accountBody, List<Long> role_ids, String emp_id);
 
   public String getLoggedInUser(UserOutput user);
 

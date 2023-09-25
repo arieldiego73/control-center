@@ -84,7 +84,8 @@ public class UserController {
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                return userService.addAccount(account, role_ids);
+              String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                return userService.addAccount(account, role_ids, emp_id);
             }
   }
   // @PostMapping("/createBatch")
@@ -125,14 +126,16 @@ public class UserController {
       if (error.size() > 0) { //checks the errors from validator
         return ResponseEntity.status(400).body(errorHandler.getErrors(error));
       }else{
-        return userService.editAccount(id, accountBody, role_ids);
+        String emp_id = "101"; // httpSession.getAttribute("session").toString();
+        return userService.editAccount(id, accountBody, role_ids, emp_id);
       }
   }
 
   @PutMapping("/delete/{id}")
   public ResponseEntity<String> logicalDeleteUser(@PathVariable String id) {
     try {
-      return userService.logicalDeleteUser(id);
+      String emp_id = "101"; // httpSession.getAttribute("session").toString();
+      return userService.logicalDeleteUser(id, emp_id);
     } catch (Exception e) {
       return ResponseEntity.status(500).build();
     }
