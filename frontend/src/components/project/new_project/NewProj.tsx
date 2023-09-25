@@ -60,6 +60,7 @@ import { getProjectStatusFetch } from "../../../redux/state/projectStatusState";
 import dayjs, { Dayjs } from "dayjs";
 import { Data, addProject } from "../../../redux/saga/projectSaga";
 import { getDevTypeFetch } from "../../../redux/state/devTypeState";
+import stringAvatar from "../../custom_color/avatar_custom_color";
 
 export interface SnackbarMessage {
 	message: string;
@@ -169,7 +170,7 @@ export default function NewProj() {
 	const [selectedStartDate, setSelectedStartDate] =
 		React.useState<Dayjs | null>(dayjs());
 	const [selectedEndDate, setSelectedEndDate] = React.useState<Dayjs | null>(
-		dayjs().add(1, "day")
+		dayjs().add(1, "month")
 	);
 	const [status, setStatus] = useState(0);
 	const [devType, setDevType] = useState(1);
@@ -290,11 +291,14 @@ export default function NewProj() {
 	) => setProjectTechnologies(e.target.value as number[]);
 
 	const handleTechValueRendering = () => {
-		const selectedTechs: string[] = projectTechnologies.map((techId) => {
+		const selectedTechs: string[] = [];
+		projectTechnologies.forEach((techId) => {
 			const matchingTech: any = technologies.find(
 				(tech: any) => tech.tech_id === techId
 			);
-			return matchingTech ? matchingTech.tech_name : "";
+			if (matchingTech) {
+				selectedTechs.push(matchingTech.tech_name)
+			}
 		});
 
 		return (
@@ -572,11 +576,11 @@ export default function NewProj() {
 												(manager) => (
 													<Chip
 														avatar={
-															<Avatar>
-																{manager
-																	.charAt(0)
-																	.toLocaleUpperCase()}
-															</Avatar>
+															<Avatar
+																{...stringAvatar(
+																	manager
+																)}
+															/>
 														}
 														label={manager}
 													/>
@@ -774,7 +778,7 @@ export default function NewProj() {
 													maxWidth: 560,
 												}}
 											>
-												<MenuItem key={0} value={0}>
+												<MenuItem key={0} value={1}>
 													{"<None is selected>"}
 												</MenuItem>
 												{devTypes.map(
@@ -837,13 +841,11 @@ export default function NewProj() {
 													(member) => (
 														<Chip
 															avatar={
-																<Avatar>
-																	{member
-																		.charAt(
-																			0
-																		)
-																		.toLocaleUpperCase()}
-																</Avatar>
+																<Avatar
+																	{...stringAvatar(
+																		member
+																	)}
+																/>
 															}
 															label={member}
 														/>

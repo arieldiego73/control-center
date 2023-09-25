@@ -17,7 +17,7 @@ import { departmentSaga, departmentSagaAdd, departmentSagaDelete, departmentSaga
 import { projectStatusSaga, projectStatusSagaAdd, projectStatusSagaUpdate, projectStatusSagaDelete, projectStatusSagaDeleteBatch } from "./projectStatusSaga";
 import { employeeStatusSaga, employeeStatusSagaAdd, employeeStatusSagaUpdate, employeeStatusSagaDelete, employeeStatusSagaDeleteBatch } from "./employeeStatusSaga";
 import { technologySaga, technologySagaAdd, technologySagaDelete, technologySagaDeleteBatch, technologySagaUpdate } from "./technologySaga";
-import { projectSaga, projectSagaAdd, projectSagaFetchProjectInfo } from "./projectSaga";
+import { projectSaga, projectSagaAdd, projectSagaFetchProjectInfo, projectSagaFetchProjectMembers, projectSagaUpdate } from "./projectSaga";
 import { clientSaga, clientSagaAdd, clientSagaDelete, clientSagaDeleteBatch, clientSagaUpdate } from "./clientSaga";
 
 export default function* rootSaga() {
@@ -30,7 +30,9 @@ export default function* rootSaga() {
 
 		projectSaga(),
 		projectSagaAdd(),
+		projectSagaUpdate(),
 		projectSagaFetchProjectInfo(),
+		projectSagaFetchProjectMembers(),
 		
 		sessionSaga(),
 

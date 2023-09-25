@@ -61,9 +61,10 @@ import {
 	Data,
 	addProject,
 	getProjectInfo,
+	updateProject,
 } from "../../../redux/saga/projectSaga";
 import { getDevTypeFetch } from "../../../redux/state/devTypeState";
-import { clearProjectInfo } from "../../../redux/state/projectState";
+import { addProjectReset, clearProjectInfo } from "../../../redux/state/projectState";
 import stringAvatar from "../../custom_color/avatar_custom_color";
 
 export interface SnackbarMessage {
@@ -194,6 +195,7 @@ export default function EditProject() {
 	);
 	const [status, setStatus] = useState(0);
 	const [devType, setDevType] = useState(0);
+	const [projectCode, setProjectCode] = useState("");
 
 	React.useEffect(() => {
 		dispatch(getClientFetch());
@@ -257,6 +259,7 @@ export default function EditProject() {
 			setProjectDevPhase(projectInfo.dev_phase_id);
 			setProjectTechnologies(projectInfo.tech_id);
 			setDevType(projectInfo.dev_type_id[0]);
+			setProjectCode(projectInfo.proj_code);
 		}
 	}, [clientsData, projectInfo]);
 
@@ -336,11 +339,14 @@ export default function EditProject() {
 	) => setProjectTechnologies(e.target.value as number[]);
 
 	const handleTechValueRendering = () => {
-		const selectedTechs: string[] = projectTechnologies.map((techId) => {
+		const selectedTechs: string[] = [];
+		projectTechnologies.forEach((techId) => {
 			const matchingTech: any = technologies.find(
 				(tech: any) => tech.tech_id === techId
 			);
-			return matchingTech ? matchingTech.tech_name : "";
+			if (matchingTech) {
+				selectedTechs.push(matchingTech.tech_name)
+			}
 		});
 		return (
 			<Box
@@ -375,16 +381,9 @@ export default function EditProject() {
 			projectDevPhase &&
 			projectTechnologies
 		) {
-			let code = "";
-			const uppercaseName = projectName.toUpperCase().split(" ");
-			for (const word of uppercaseName) {
-				code += word[0];
-			}
-			code += Date.now().toString().slice(5);
-
 			const projectInfo: Data = {
 				proj_name: projectName,
-				proj_code: code,
+				proj_code: projectCode,
 				proj_description: projectDescription,
 				start_date: dayjs(selectedStartDate),
 				end_date: dayjs(selectedEndDate),
@@ -396,7 +395,7 @@ export default function EditProject() {
 				selectedDevPhase: projectDevPhase,
 				selectedTechnologies: projectTechnologies,
 			};
-			dispatch(addProject({ data: projectInfo }));
+			dispatch(updateProject({ data: projectInfo, projectId: PROJECT_ID }));
 		} else {
 			handleClickSnackpack(
 				"Only Development Type is optional. Please, fill out all the required fields.",
@@ -410,6 +409,17 @@ export default function EditProject() {
 		setClientName("");
 		navigate("/project");
 	};
+
+	// FOR REDIRECT AFTER SAVING
+	const isAddSuccess = useSelector((state: RootState) => state.projectReducer.isAddSuccess)
+	React.useEffect(() => {
+		if (isAddSuccess) {
+			dispatch(addProjectReset());
+			setTimeout(() => {
+				navigate("/project")
+			}, GLOBAL_TIMEOUT);
+		}
+	}, [dispatch, isAddSuccess, navigate])
 
 	return (
 		<>
@@ -480,7 +490,7 @@ export default function EditProject() {
 															.toLocaleUpperCase()}
 													</Avatar>
 												</ListItemAvatar>
-												<ListItemText secondary="Client name">
+												<ListItemText secondary={projectCode}>
 													<Typography
 														variant="h4"
 														style={{
@@ -827,7 +837,7 @@ export default function EditProject() {
 													maxWidth: 560,
 												}}
 											>
-												<MenuItem key={0} value={0}>
+												<MenuItem key={0} value={1}>
 													{"<None is selected>"}
 												</MenuItem>
 												{devTypes.map(
