@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
+import { red } from "@mui/material/colors";
 
 export interface TopNavProps {
   pageTitle?: string; // Make pageTitle optional with '?'
@@ -48,8 +49,8 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                 <Link
                   key={index}
                   to={breadcrumb.to}
-                  className={TopNavStyle["custom-link"]}
-                  style={{ color: "inherit" }}
+                  className={TopNavStyle.breadCrumbContainer}
+                  style={{ color: "gray", textDecoration:"none", fontSize:"15px"}}
                 >
                   <div>
                     {breadcrumb.icon} {/* Render the icon here */}
@@ -79,18 +80,17 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <div style={{}}>
+              <div >
                 <div className={TopNavStyle.userProfilePic}>
                   <img
                     src={SampleUserImage}
                     alt="User"
-                    style={{ height: "100%", width: "100%", borderRadius: "100%" }}
+                    style={{ height: "100%", width: "100%", borderRadius: "100%", }}
                     className={TopNavStyle.mainImage}
                   />
                 </div>
                 <div className={TopNavStyle.mainName}>Shernan Jenesis Mateo</div>
               </div>
-
             </Tooltip>
 
             <Menu
@@ -107,11 +107,13 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                   width: 350,
 
                   borderRadius: "20px",
+             
                   "& .MuiAvatar-root": {
                     width: 32,
                     height: 32,
                     ml: -0.5,
                     mr: 1,
+
                   },
                   "&:before": {
                     content: '""',
@@ -124,6 +126,8 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                     bgcolor: "background.paper",
                     transform: "translateY(-50%) rotate(45deg)",
                     zIndex: 0,
+                   
+                    
                   },
                 },
               }}
@@ -131,7 +135,21 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
               <div className={TopNavStyle.topNavName}>
-                <MenuItem disableRipple className={TopNavStyle.menuHolder}>
+                <MenuItem disableRipple 
+                  style={{
+                    width:"95%",
+                    height:"100%",
+                    backgroundColor:"white",
+                    display:"flex",
+                    flexDirection:"column",
+                    borderRadius:"20px",
+                    justifyContent:"space-around",
+                    alignItems:"center",
+                    gap: "4vh",
+                    padding:"1%",
+                    cursor:"default",
+                  }}
+                >
                   <div className={TopNavStyle.profileInfoHolder}>
                     <div className={TopNavStyle.imageHolder}>
                       <img

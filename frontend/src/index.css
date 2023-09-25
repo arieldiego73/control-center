@@ -73,7 +73,7 @@ code {
 		height: 87vh;
 	}
 }
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1199px) {
 	.mainContainer{
 		position: fixed;
 		top: 100px;
