@@ -59,7 +59,6 @@ import { getProjectStatusFetch } from "../../../redux/state/projectStatusState";
 import dayjs, { Dayjs } from "dayjs";
 import {
 	Data,
-	addProject,
 	getProjectInfo,
 	updateProject,
 } from "../../../redux/saga/projectSaga";
@@ -79,6 +78,7 @@ export interface State {
 }
 
 const GLOBAL_TIMEOUT = 3000;
+const DEFAULT_MANAGER_ID = 100;
 
 export default function EditProject() {
 	const dispatch = useDispatch();
@@ -375,8 +375,6 @@ export default function EditProject() {
 			selectedEndDate &&
 			selectedClientId &&
 			status &&
-			projectManager &&
-			projectManager &&
 			projectMembers &&
 			projectDevPhase &&
 			projectTechnologies
@@ -390,7 +388,7 @@ export default function EditProject() {
 				projectStatusId: status,
 				devTypeId: devType,
 				clientId: selectedClientId,
-				selectedManagers: projectManager as number[],
+				selectedManagers: projectManager ? projectManager as number[] : [DEFAULT_MANAGER_ID],
 				selectedMembers: projectMembers as number[],
 				selectedDevPhase: projectDevPhase,
 				selectedTechnologies: projectTechnologies,
