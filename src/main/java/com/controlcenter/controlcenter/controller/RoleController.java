@@ -5,7 +5,6 @@ import com.controlcenter.controlcenter.model.RoleOutput;
 import com.controlcenter.controlcenter.service.RoleService;
 import com.controlcenter.controlcenter.shared.ErrorHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
