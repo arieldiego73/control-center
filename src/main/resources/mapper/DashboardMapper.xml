@@ -41,5 +41,18 @@
                     AND proj_status.proj_status_name = 'Cancelled'
                 ) AS counts;
     </select>
+
+    <select id="countAllRegisteredUserPerYear">
+        SELECT
+            YEAR(reg_date) AS year_registered,
+            COUNT(*) AS user_count
+        FROM
+            tbl_user
+        WHERE del_flag = 0
+        GROUP BY
+            year_registered
+        ORDER BY
+            year_registered;
+    </select>
     
 </mapper>

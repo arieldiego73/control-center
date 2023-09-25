@@ -1,5 +1,8 @@
 package com.controlcenter.controlcenter.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +23,7 @@ public class DashboardController {
         try {
             return dashboardService.countAllOpenProject();
         } catch (Exception e) {
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -29,7 +32,7 @@ public class DashboardController {
         try {
             return dashboardService.countAllCloseProject();
         } catch (Exception e) {
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -38,7 +41,16 @@ public class DashboardController {
         try {
             return dashboardService.countAllCancelledProject();
         } catch (Exception e) {
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/user-count")
+    public ResponseEntity<List<Map<String, Object>>> countAllRegisteredUserPerYear() {
+        try {
+            return dashboardService.countAllRegisteredUserPerYear();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
     }
 }
