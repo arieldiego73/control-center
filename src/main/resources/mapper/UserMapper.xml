@@ -22,12 +22,13 @@
     INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
     INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
     INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
-         WHERE users.del_flag = 0
+         WHERE users.del_flag = 0 AND users.emp_id != 100
       ORDER BY users.emp_id DESC, users.reg_date DESC;
     </select>
     <select id="getUserById" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserInfoOutput">
         SELECT users.emp_id,
                users.username,
+               users.status_code,
                info_master.fname,
                info_master.mname,
                info_master.lname,
@@ -46,12 +47,14 @@
     INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
     INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
     INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
+    INNER JOIN tbl_status_mst AS user_status ON users.status_code = user_status.status_code
          WHERE users.del_flag = 0 AND users.emp_id = #{id};
     </select>
 
     <select id="getMultipleUserById" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserInfoOutput">
         SELECT users.emp_id,
                users.username,
+               users.status_code,
                info_master.fname,
                info_master.mname,
                info_master.lname,
@@ -70,6 +73,7 @@
     INNER JOIN tbl_position_mst AS position_master ON users.position_id = position_master.position_id
     INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
     INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
+    INNER JOIN tbl_status_mst AS user_status ON users.status_code = user_status.status_code
          WHERE users.del_flag = 0 AND users.emp_id = #{id};
     </select>
 
@@ -84,7 +88,7 @@
                status_code,
                img_src
           FROM tbl_user
-         WHERE del_flag = 0
+         WHERE del_flag = 0 AND emp_id != 100
          ORDER BY emp_id DESC, reg_date DESC;
     </select>
 
@@ -99,7 +103,7 @@
                status_code,
                img_src
           FROM tbl_user
-         WHERE username COLLATE utf8mb4_bin = #{username}
+         WHERE username COLLATE utf8mb4_bin = #{username} AND emp_id != 100
     </select>
     
     <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.UserInput">
@@ -155,7 +159,7 @@
                status_code,
                img_src
           FROM tbl_user
-         WHERE username COLLATE utf8mb4_bin = #{username}
+         WHERE username COLLATE utf8mb4_bin = #{username} AND emp_id != 100
     </select>
 
     <!-- Login -->
@@ -170,7 +174,7 @@
                status_code,
                img_src
           FROM tbl_user
-         WHERE username COLLATE utf8mb4_bin = #{username}
+         WHERE username COLLATE utf8mb4_bin = #{username} AND emp_id != 100
     </select>
 
     <!-- get all roles of a user -->
@@ -185,7 +189,7 @@
                 ON tuser.emp_id = tmr.emp_id
             LEFT JOIN tbl_role_mst AS troles
                 ON troles.role_id = tmr.role_id
-         WHERE tuser.emp_id = #{emp_id} AND tmr.del_flag = 0;
+         WHERE tuser.emp_id = #{emp_id} AND tmr.del_flag = 0 AND tuser.emp_id != 100;
     </select>
 
 <!-- logical deletion of user -->
