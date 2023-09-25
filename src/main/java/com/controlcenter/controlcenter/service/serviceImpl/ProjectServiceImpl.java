@@ -249,6 +249,8 @@ public class ProjectServiceImpl implements ProjectService {
         
         Map<String, Object> projectAttributes = new HashMap<>();
         projectAttributes.put("proj_name", project.getProj_name());
+        projectAttributes.put("proj_code", project.getProj_code());
+        projectAttributes.put("proj_desc", project.getProj_description());
         projectAttributes.put("manager_emp_id", allManagers);
         projectAttributes.put("client_id", projInfo.getClient_id());
         projectAttributes.put("start_date", project.getStart_date());
@@ -256,6 +258,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectAttributes.put("dev_type_id", allDevelopmentTypes);
         projectAttributes.put("dev_phase_id", allDevelopmentPhases);
         projectAttributes.put("tech_id", allTechnologies);
+        projectAttributes.put("status_code", projInfo.getProj_status_id());
         projectAttributes.put("member_emp_id", allMembers);
 
         
