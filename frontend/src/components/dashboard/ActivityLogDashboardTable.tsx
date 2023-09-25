@@ -61,6 +61,21 @@ const rows = [
     "Ricky Galpo",
     "09:00 AM"
   ),
+  createData(
+    " ",
+    "Project",
+    "Added new Development Phase and Short Name in Development Phase Page",
+    "Ricky Galpo",
+    "09:00 AM"
+  ),
+  createData(
+    " ",
+    "Project",
+    "Added new Development Phase and Short Name in Development Phase Page",
+    "Ricky Galpo",
+    "09:00 AM"
+  ),
+
 ];
 
 export default function ActivityLogDashboardTable() {

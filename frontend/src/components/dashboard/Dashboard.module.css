@@ -2,17 +2,16 @@
     position: fixed;
 	display: flex;
 	flex-direction: column; 
-	align-items: center;
-	height: 83%;
-	width: 82%;
-	top: 14vh;
+	height: 86vh;
+	width: 82vw;
+	top: 110px;
 	left: 16.5vw;
 	overflow: hidden;
-} 
+}  
 .contentContainer{
-    width: 97%;
+    width: 98%;
     height: 93%; 
-    position: relative;
+    position: relative; 
     top: 5%;
     align-self: center; 
 
@@ -22,12 +21,16 @@
     height: 100%;
     flex-direction: column;
     display: flex;
+    width: 100%;
 }
 .graphHolder{
     flex-direction: row;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
+    margin-bottom: 45px;
+    /* border: 1px solid red; */
 }
 .tableHolder{
     display: flex;
@@ -40,7 +43,7 @@
     justify-content: center;
     align-items: space-around;
     height: 100%;
-    width: 96%;
+    width: 100%;
     border-radius:20px;
 }
 .paper{
@@ -55,26 +58,63 @@
     overflow: hidden ;
 }
 
-
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 2559px) {
     .mainContainer {
-        position: fixed;
-        height: 83%;
-        width: 96%;
-        top: 8vh;
-        left: 2vw;
+        height: 88vh;
+        top: 130px;
+        /* border: 1px solid red; */
     } 
-}
-@media screen and (max-width: 950px) {
-    .mainContainer {
-        position: fixed;
-        height: 83%;
-        width: 96%;
-        top: 6vh;
-        left: 2vw;
-    } 
+    .contentContainer{
+        top: 10%;
+    }
+    .graphHolder{
+        height: 25%;
+    }
 }
 
+@media screen and (max-width: 2200px) {
+    .mainContainer {
+        top: 110px;
+        /* border: 1px solid red; */
+    } 
+}
 
+@media screen and (max-width: 1950px) {
+    .mainContainer {
+        top: 100px;
+    } 
+}
 
+@media screen and (max-width: 1200px) {
+    .mainContainer {   
+        flex-direction: column; 
+        height: 86vh;
+        width: 100vw;    
+        left: 0vw;
+        overflow: scroll   ;
+    } 
+}
+
+@media screen and (max-width: 1000px) {
+    .mainContainer {
+        height: 100vh;
+        width: 100vw;
+        left: 0vw;
+        overflow: scroll;
+    } 
+    .graphHolder{
+        flex-direction: column;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        gap:15%;
+    }
+    .contentContainer{
+        width: 98%;
+        height: 100%;
+    }
+    .contentHolder{
+        padding-bottom: 15%;
+    }
+}
 

@@ -23,7 +23,7 @@ import { Link } from "react-router-dom";
 
 // Define the type for your row data
 interface RowData {
-	emp_id: number;
+	emp_id: number;  
 	username: string;
 	fname: string;
 	lname: string;

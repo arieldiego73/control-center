@@ -33,7 +33,7 @@ export const Dashboard = () => {
             <ActivityLogDashboardTable />
           </div>
         </div>
-      </div>
+      </div> 
     </div>
   );
 };
