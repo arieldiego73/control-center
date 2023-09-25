@@ -130,9 +130,9 @@ public class ProjectServiceImpl implements ProjectService {
         .map(member -> {
             UserInfoOutput user = userDao.getUserById(member.getEmp_id());
             Map<String, Object> currentMembers = new HashMap<>();
-            currentMembers.put("First Name", user.getFname());
-            currentMembers.put("Last Name", user.getLname());
-            currentMembers.put("Position", user.getPosition_name());
+            currentMembers.put("first_name", user.getFname());
+            currentMembers.put("last_name", user.getLname());
+            currentMembers.put("position_name", user.getPosition_name());
             return currentMembers;
         }).collect(Collectors.toList());
 
