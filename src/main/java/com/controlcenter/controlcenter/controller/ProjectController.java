@@ -38,7 +38,7 @@ public class ProjectController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/project-table")
-    public ResponseEntity<List<ProjectTable>> projectTable(HttpSession httpSession) {
+    public ResponseEntity<List<ProjectTable>> projectTable() {
         // Check if the user is authenticated 
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -94,7 +94,7 @@ public class ProjectController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProjectOutput>> getAllProject(HttpSession httpSession) {
+    public ResponseEntity<List<ProjectOutput>> getAllProject() {
         // Check if the user is authenticated 
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -163,13 +163,13 @@ public class ProjectController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteProject(@PathVariable String id, HttpSession httpSession) {
+    public ResponseEntity<String> logicalDeleteProject(@PathVariable String id) {
          // Check uf the user is authenticated
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         //  if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(projectService.logicalDeleteProject(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
