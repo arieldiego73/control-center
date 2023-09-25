@@ -30,7 +30,6 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import EditIcon from "@mui/icons-material/Edit";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -47,7 +46,7 @@ import AddProjManagerTable from "../AddProjManagerTable";
 import ReactQuillEditor from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientFetch } from "../../../redux/state/clientState";
 import { RootState } from "../../../redux/store/store";
@@ -60,10 +59,12 @@ import { getProjectStatusFetch } from "../../../redux/state/projectStatusState";
 import dayjs, { Dayjs } from "dayjs";
 import {
 	Data,
-	addProject,
 	getProjectInfo,
+	updateProject,
 } from "../../../redux/saga/projectSaga";
 import { getDevTypeFetch } from "../../../redux/state/devTypeState";
+import { addProjectReset, clearProjectInfo } from "../../../redux/state/projectState";
+import stringAvatar from "../../custom_color/avatar_custom_color";
 
 export interface SnackbarMessage {
 	message: string;
@@ -77,6 +78,7 @@ export interface State {
 }
 
 const GLOBAL_TIMEOUT = 3000;
+const DEFAULT_MANAGER_ID = 100;
 
 export default function EditProject() {
 	const dispatch = useDispatch();
@@ -90,27 +92,12 @@ export default function EditProject() {
 		} else {
 			navigate("/project"); // if the location.state is cleared, navigate back to the table
 		}
-	}, []);
 
-	const projectInfo: any = useSelector(
-		(state: RootState) => state.projectReducer.projectInfo
-	);
-	React.useEffect(() => {
-		console.log("projectInfo", projectInfo);
-		if (projectInfo) {
-			setProjectName(projectInfo.proj_name);
-			// setProjectDescription(projectInfo.)
-			setSelectedStartDate(dayjs(projectInfo.start_date));
-			setSelectedEndDate(dayjs(projectInfo.end_date));
-			setSelectedClientId(projectInfo.client_id);
-			// setStatus(projectInfo.status)
-			setProjectManager(projectInfo.manager_emp_id);
-			setProjectMembers(projectInfo.member_emp_id);
-			setProjectDevPhase(projectInfo.dev_phase_id);
-			setProjectTechnologies(projectInfo.tech_id);
-			setDevType(projectInfo.dev_type_id);
-		}
-	}, [projectInfo]);
+		return () => {
+			dispatch(clearProjectInfo());
+			setClientName("");
+		};
+	}, []);
 
 	// FOR SNACKPACK ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const notice = useSelector(
@@ -208,6 +195,7 @@ export default function EditProject() {
 	);
 	const [status, setStatus] = useState(0);
 	const [devType, setDevType] = useState(0);
+	const [projectCode, setProjectCode] = useState("");
 
 	React.useEffect(() => {
 		dispatch(getClientFetch());
@@ -248,6 +236,32 @@ export default function EditProject() {
 	const [openMembers, setOpenMembers] = React.useState(false);
 	const [openProjManager, setOpenProjManager] = React.useState(false);
 	const [openClientName, setOpenClientName] = React.useState(false);
+
+	const projectInfo = useSelector(
+		(state: RootState) => state.projectReducer.projectInfo
+	);
+
+	React.useEffect(() => {
+		if (projectInfo) {
+			const client: any = clientsData.find(
+				(client: any) => client.client_id === projectInfo.client_id
+			);
+			if (client) setClientName(client?.client_name);
+
+			setProjectName(projectInfo.proj_name);
+			setProjectDescription(projectInfo.proj_desc);
+			setSelectedStartDate(dayjs(projectInfo.start_date));
+			setSelectedEndDate(dayjs(projectInfo.end_date));
+			setSelectedClientId([projectInfo.client_id]);
+			setStatus(projectInfo.status_code);
+			setProjectManager(projectInfo.manager_emp_id);
+			setProjectMembers(projectInfo.member_emp_id);
+			setProjectDevPhase(projectInfo.dev_phase_id);
+			setProjectTechnologies(projectInfo.tech_id);
+			setDevType(projectInfo.dev_type_id[0]);
+			setProjectCode(projectInfo.proj_code);
+		}
+	}, [clientsData, projectInfo]);
 
 	React.useEffect(() => {
 		setSelectedProjectManagers(() => {
@@ -325,11 +339,14 @@ export default function EditProject() {
 	) => setProjectTechnologies(e.target.value as number[]);
 
 	const handleTechValueRendering = () => {
-		const selectedTechs: string[] = projectTechnologies.map((techId) => {
+		const selectedTechs: string[] = [];
+		projectTechnologies.forEach((techId) => {
 			const matchingTech: any = technologies.find(
 				(tech: any) => tech.tech_id === techId
 			);
-			return matchingTech ? matchingTech.tech_name : "";
+			if (matchingTech) {
+				selectedTechs.push(matchingTech.tech_name)
+			}
 		});
 		return (
 			<Box
@@ -339,9 +356,13 @@ export default function EditProject() {
 					gap: 0.5,
 				}}
 			>
-				{selectedTechs.map((value) => (
-					<Chip key={value} label={value} />
-				))}
+				{projectTechnologies.length > 0 ? (
+					selectedTechs.map((value) => (
+						<Chip color="success" key={value} label={value} />
+					))
+				) : (
+					<Chip key={0} label="Select technologies..." />
+				)}
 			</Box>
 		);
 	};
@@ -354,34 +375,25 @@ export default function EditProject() {
 			selectedEndDate &&
 			selectedClientId &&
 			status &&
-			projectManager &&
-			projectManager &&
 			projectMembers &&
 			projectDevPhase &&
 			projectTechnologies
 		) {
-			let code = "";
-			const uppercaseName = projectName.toUpperCase().split(" ");
-			for (const word of uppercaseName) {
-				code += word[0];
-			}
-			code += Date.now().toString().slice(5);
-
 			const projectInfo: Data = {
 				proj_name: projectName,
-				proj_code: code,
+				proj_code: projectCode,
 				proj_description: projectDescription,
 				start_date: dayjs(selectedStartDate),
 				end_date: dayjs(selectedEndDate),
 				projectStatusId: status,
 				devTypeId: devType,
 				clientId: selectedClientId,
-				selectedManagers: projectManager as number[],
+				selectedManagers: projectManager ? projectManager as number[] : [DEFAULT_MANAGER_ID],
 				selectedMembers: projectMembers as number[],
 				selectedDevPhase: projectDevPhase,
 				selectedTechnologies: projectTechnologies,
 			};
-			dispatch(addProject({ data: projectInfo }));
+			dispatch(updateProject({ data: projectInfo, projectId: PROJECT_ID }));
 		} else {
 			handleClickSnackpack(
 				"Only Development Type is optional. Please, fill out all the required fields.",
@@ -389,6 +401,23 @@ export default function EditProject() {
 			)();
 		}
 	};
+
+	const handleCancel = () => {
+		dispatch(clearProjectInfo());
+		setClientName("");
+		navigate("/project");
+	};
+
+	// FOR REDIRECT AFTER SAVING
+	const isAddSuccess = useSelector((state: RootState) => state.projectReducer.isAddSuccess)
+	React.useEffect(() => {
+		if (isAddSuccess) {
+			dispatch(addProjectReset());
+			setTimeout(() => {
+				navigate("/project")
+			}, GLOBAL_TIMEOUT);
+		}
+	}, [dispatch, isAddSuccess, navigate])
 
 	return (
 		<>
@@ -459,7 +488,7 @@ export default function EditProject() {
 															.toLocaleUpperCase()}
 													</Avatar>
 												</ListItemAvatar>
-												<ListItemText secondary="Client name">
+												<ListItemText secondary={projectCode}>
 													<Typography
 														variant="h4"
 														style={{
@@ -601,12 +630,14 @@ export default function EditProject() {
 											{selectedProjectManagers.map(
 												(manager) => (
 													<Chip
+														key={manager}
+														// style={{ backgroundColor: "#F4B62B" }}
 														avatar={
-															<Avatar>
-																{manager
-																	.charAt(0)
-																	.toLocaleUpperCase()}
-															</Avatar>
+															<Avatar
+																{...stringAvatar(
+																	manager
+																)}
+															/>
 														}
 														label={manager}
 													/>
@@ -743,8 +774,9 @@ export default function EditProject() {
 											renderValue={
 												handleTechValueRendering
 											}
+											displayEmpty
 											sx={{
-												minWidth: 250,
+												width: 560,
 												maxWidth: 560,
 											}}
 										>
@@ -803,7 +835,7 @@ export default function EditProject() {
 													maxWidth: 560,
 												}}
 											>
-												<MenuItem key={0} value={0}>
+												<MenuItem key={0} value={1}>
 													{"<None is selected>"}
 												</MenuItem>
 												{devTypes.map(
@@ -865,13 +897,11 @@ export default function EditProject() {
 												{selectedProjectMembers.map(
 													(member) => (
 														<Chip
+															key={member}
 															avatar={
-																<Avatar>
-																	{member
-																		.charAt(
-																			0
-																		)
-																		.toLocaleUpperCase()}
+																<Avatar {...stringAvatar(
+																	member
+																)}>
 																</Avatar>
 															}
 															label={member}
@@ -1094,25 +1124,11 @@ export default function EditProject() {
 								}}
 								onClick={handleSaveProject}
 							>
-								SAVE
+								SAVE AND GO BACK
 							</Button>
-							<Link
-								to="/project"
-								style={{
-									textDecoration: "none",
-								}}
-							>
-								<Button
-									variant="contained"
-									startIcon={<CancelOutlinedIcon />}
-									style={{
-										textTransform: "none",
-										backgroundColor: "gray",
-									}}
-								>
-									CANCEL
-								</Button>
-							</Link>
+							<Button variant="text" onClick={handleCancel}>
+								CANCEL
+							</Button>
 						</div>
 					</div>
 				</div>

@@ -92,9 +92,7 @@ public class UserServiceImpl implements UserService{
   //getting multiple user by emp_id using request param
   @Override
   public ResponseEntity<List<UserInfoOutput>> getMultipleUserById(List<String> emp_ids) {
-    List<Map<String, Object>> listOfUsers = new ArrayList<>();
     List<UserInfoOutput> listOfInfo = new ArrayList<>();
-    Map<String, Object> allUsers = new HashMap<>();
     // for(String emp_id : emp_ids) {
     //   List<UserInfoOutput> multipleUsers = userDao.getMultipleUserById(emp_id);
     //   List<Map<String, Object>> allUsers = multipleUsers.stream()
@@ -140,7 +138,7 @@ public class UserServiceImpl implements UserService{
   // }
 
   @Override
-  public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids) {
+  public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids, String emp_id) {
 
     UserInfoOutput userById = userDao.getUserById(account.getEmp_id());
 
@@ -197,12 +195,23 @@ public class UserServiceImpl implements UserService{
       for(Long id : role_ids) {
         multiRoleDao.addMultiRole(account.getEmp_id(), id);
       }
+
+      // Activitylog
+      ActivityLogInput activityLogInput = new ActivityLogInput();
+
+      activityLogInput.setEmp_id(emp_id); // current logged user dapat
+      activityLogInput.setLog_desc("Added an account.");
+
+      Long currentTimeMillis = System.currentTimeMillis();
+      // add the activity log
+      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+      activityLogDao.addActivityLog(activityLogInput);
       return ResponseEntity.ok("Account Created Successfully");
     }
   }
 
   @Override
-  public ResponseEntity<String> editAccount(String id, AccountOutput accountBody, List<Long> role_ids) {
+  public ResponseEntity<String> editAccount(String id, AccountOutput accountBody, List<Long> role_ids, String emp_id) {
     HashMap<String, Object> userMap = new HashMap<>();
     HashMap<String, Object> personalInfoMap = new HashMap<>();
 
@@ -244,16 +253,39 @@ public class UserServiceImpl implements UserService{
     userDao.editUser(userMap);
     personalInfoDao.editPersonalInfo(personalInfoMap);
 
+    // Activitylog
+    ActivityLogInput activityLogInput = new ActivityLogInput();
+
+    activityLogInput.setEmp_id(emp_id); // current logged user dapat
+    activityLogInput.setLog_desc("Edited an account.");
+
+    Long currentTimeMillis = System.currentTimeMillis();
+    // add the activity log
+    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+    activityLogDao.addActivityLog(activityLogInput);
+
     return ResponseEntity.ok("Account edited successfully.");
   }
 
 
   //setting the del_flag of user to 1
   @Override
-  public ResponseEntity<String> logicalDeleteUser(String id) {
+  public ResponseEntity<String> logicalDeleteUser(String id, String emp_id) {
     userDao.logicalDeleteUser(id);
     personalInfoDao.logicalDeletePersonalInfo(id);
     multiRoleDao.logicalDeleteMultiRole(id);
+
+    // Activitylog
+    ActivityLogInput activityLogInput = new ActivityLogInput();
+
+    activityLogInput.setEmp_id(emp_id); // current logged user dapat
+    activityLogInput.setLog_desc("Deleted an account.");
+
+    Long currentTimeMillis = System.currentTimeMillis();
+    // add the activity log
+    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+    activityLogDao.addActivityLog(activityLogInput);
+
     return ResponseEntity.ok("User has been deleted.");
   }
 

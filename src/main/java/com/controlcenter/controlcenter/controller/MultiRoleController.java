@@ -1,6 +1,5 @@
 package com.controlcenter.controlcenter.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +35,7 @@ public class MultiRoleController {
     ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<MultiRoleOutput>> getAllMultiRole(HttpSession httpSession) {
+    public ResponseEntity<List<MultiRoleOutput>> getAllMultiRole() {
          // Check if the user is authenticated 
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -50,18 +49,19 @@ public class MultiRoleController {
     }
 
     @GetMapping("/multi-role-id/{id}")
-    public MultiRoleOutput getMultiRoleById(@PathVariable String id, HttpSession httpSession) {
+    public MultiRoleOutput getMultiRoleById(@PathVariable String id) {
         return multiRoleService.getMultiRoleById(id);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addMultiRole(String emp_id, Long role_id, HttpSession httpSession){
+    public ResponseEntity<String> addMultiRole(String emp_id, Long role_id){
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated) {
             try {
-                return ResponseEntity.status(200).body(multiRoleService.addMultiRole(emp_id, role_id));
+                String emp_ID = "101"; //httpSession.getAttribute("session").toString();
+                return ResponseEntity.status(200).body(multiRoleService.addMultiRole(emp_id, role_id, emp_ID));
             } catch (Exception e) {
                 return ResponseEntity.status(400).body(e.getMessage());
             }
@@ -72,7 +72,7 @@ public class MultiRoleController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editMultiRoleInfo(@PathVariable String id, @RequestBody MultiRoleInput multiRole, HttpSession httpSession) {
+    public ResponseEntity<String> editMultiRoleInfo(@PathVariable String id, @RequestBody MultiRoleInput multiRole) {
          // Check if the user is authenticated
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -86,7 +86,7 @@ public class MultiRoleController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(multiRoleService.editMultiRoleInfo(id, multiRole, emp_id));
                 }
         // } else {
@@ -96,13 +96,13 @@ public class MultiRoleController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteMultiRole(@PathVariable String id, HttpSession httpSession) {
+    public ResponseEntity<String> logicalDeleteMultiRole(@PathVariable String id) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(multiRoleService.logicalDeleteMultiRole(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");

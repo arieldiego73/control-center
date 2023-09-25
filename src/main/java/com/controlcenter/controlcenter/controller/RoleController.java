@@ -5,7 +5,6 @@ import com.controlcenter.controlcenter.model.RoleOutput;
 import com.controlcenter.controlcenter.service.RoleService;
 import com.controlcenter.controlcenter.shared.ErrorHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +36,7 @@ public class RoleController {
   private ErrorHandler errorHandler;
 
   @GetMapping("/all")
-  public ResponseEntity<List<RoleOutput>> getAllRole(HttpSession httpSession) {
+  public ResponseEntity<List<RoleOutput>> getAllRole() {
     // Check if the user is authenticated 
     // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -51,7 +50,7 @@ public class RoleController {
   }
 
   @PostMapping("/add")
-  public ResponseEntity<String> addRole(@RequestBody RoleInput roleInput, HttpSession httpSession) {
+  public ResponseEntity<String> addRole(@RequestBody RoleInput roleInput) {
      // Check if the user is authenticated
     //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -65,7 +64,7 @@ public class RoleController {
           if (errors.size() > 0) { //checks the errors from validator
               return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
           }else{
-              String emp_id = httpSession.getAttribute("session").toString();
+              String emp_id = "101"; //httpSession.getAttribute("session").toString();
               return ResponseEntity.status(200).body(roleService.addRole(roleInput, emp_id));
           }
     // } else {
@@ -75,7 +74,7 @@ public class RoleController {
 }
 
   @PutMapping("/edit/{id}")
-  public ResponseEntity<String> editRoleInfo(@PathVariable String id, @RequestBody RoleInput roleInput, HttpSession httpSession) {
+  public ResponseEntity<String> editRoleInfo(@PathVariable String id, @RequestBody RoleInput roleInput) {
     // Check if the user is authenticated
     // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -89,7 +88,7 @@ public class RoleController {
           if (errors.size() > 0) { //checks the errors from validator
               return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
           }else{
-            String emp_id = httpSession.getAttribute("session").toString();
+            String emp_id = "101"; //httpSession.getAttribute("session").toString();
               return ResponseEntity.status(200).body(roleService.editRoleInfo(id, roleInput, emp_id));
           }
     // } else {
@@ -99,13 +98,13 @@ public class RoleController {
   }
 
   @PutMapping("/delete/{id}")
-  public ResponseEntity<String> logicalDeleteRole(@PathVariable String id, HttpSession httpSession) {
+  public ResponseEntity<String> logicalDeleteRole(@PathVariable String id) {
     // Check if the user is authenticated
     // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
     // if (isAuthenticated != null && isAuthenticated) {
         try {
-          String emp_id = httpSession.getAttribute("session").toString();
+          String emp_id = "101"; //httpSession.getAttribute("session").toString();
           return ResponseEntity.ok().body(roleService.logicalDeleteRole(id, emp_id));
         } catch (Exception e) {
           return ResponseEntity.status(500).body("Server Side Error.");
@@ -134,13 +133,13 @@ public class RoleController {
   }
 
   @PutMapping("/delete-multiple")
-  public ResponseEntity<String> deleteMultipleRole(@RequestParam List<Long> ids, HttpSession httpSession) {
+  public ResponseEntity<String> deleteMultipleRole(@RequestParam List<Long> ids) {
     // Check if the user is authenticated
     // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
     // if (isAuthenticated != null && isAuthenticated) {
         try {
-          String emp_id = httpSession.getAttribute("session").toString();
+          String emp_id = "101"; //httpSession.getAttribute("session").toString();
           return ResponseEntity.ok().body(roleService.deleteMultipleRole(ids, emp_id));
         } catch (Exception e) {
           return ResponseEntity.status(500).body("Server Side Error.");

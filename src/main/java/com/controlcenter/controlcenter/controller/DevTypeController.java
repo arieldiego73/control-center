@@ -1,6 +1,5 @@
 package com.controlcenter.controlcenter.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +35,7 @@ public class DevTypeController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<DevTypeOutput>> getAllDevType(HttpSession httpSession) {
+    public ResponseEntity<List<DevTypeOutput>> getAllDevType() {
         // Check if the user is authenticated 
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -50,7 +49,7 @@ public class DevTypeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addDevType(@RequestBody DevTypeInput devType, HttpSession httpSession){
+    public ResponseEntity<String> addDevType(@RequestBody DevTypeInput devType){
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -64,7 +63,7 @@ public class DevTypeController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(devTypeService.addDevType(devType, emp_id));
                 }
         // } else {
@@ -74,7 +73,7 @@ public class DevTypeController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editDevTypeInfo(@PathVariable String id, @RequestBody DevTypeInput devType, HttpSession httpSession) {
+    public ResponseEntity<String> editDevTypeInfo(@PathVariable String id, @RequestBody DevTypeInput devType) {
          // Check if the user is authenticated
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -88,7 +87,7 @@ public class DevTypeController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(devTypeService.editDevTypeInfo(id, devType, emp_id));
                 }
         // } else {
@@ -98,13 +97,13 @@ public class DevTypeController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteDevType(@PathVariable String id, HttpSession httpSession) {
+    public ResponseEntity<String> logicalDeleteDevType(@PathVariable String id) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(devTypeService.logicalDeleteDevType(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");

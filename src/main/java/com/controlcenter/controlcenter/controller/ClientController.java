@@ -1,6 +1,5 @@
 package com.controlcenter.controlcenter.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -51,7 +50,7 @@ public class ClientController{
     }
 
     @GetMapping("/client-id/{id}")
-    public ClientOutput getClientById(@PathVariable String id, HttpSession httpSession) {
+    public ClientOutput getClientById(@PathVariable String id) {
         
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
@@ -66,7 +65,7 @@ public class ClientController{
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addClient(@RequestBody ClientInput client, HttpSession httpSession) {
+    public ResponseEntity<String> addClient(@RequestBody ClientInput client) { //, HttpSession httpSession
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -81,7 +80,7 @@ public class ClientController{
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.status(200).body(clientService.addClient(client, emp_id));
             } 
         // } else {
@@ -91,7 +90,7 @@ public class ClientController{
     }
 
     @PutMapping("/edit/{id}") 
-    public ResponseEntity<String> editClient(@PathVariable String id,@RequestBody ClientInput client, HttpSession httpSession) {
+    public ResponseEntity<String> editClient(@PathVariable String id,@RequestBody ClientInput client) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -105,7 +104,8 @@ public class ClientController{
                 if (errors.size() > 0) { //checks the errors from validator
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
-                    return ResponseEntity.status(200).body(clientService.editClient(id, client));
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                    return ResponseEntity.status(200).body(clientService.editClient(id, client, emp_id));
                 }
         // } else {
         //     return ResponseEntity.status(401).body("Unauthorized");
@@ -113,13 +113,14 @@ public class ClientController{
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteClient(@PathVariable String id, HttpSession httpSession) {
+    public ResponseEntity<String> logicalDeleteClient(@PathVariable String id) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated) {
             try {
-                return ResponseEntity.ok(clientService.logicalDeleteClient(id));
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok(clientService.logicalDeleteClient(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }

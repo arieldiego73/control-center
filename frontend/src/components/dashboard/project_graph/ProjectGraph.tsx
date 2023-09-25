@@ -29,14 +29,7 @@ const data = [
 export default function ProjectGraph() {
   return (
     <div className={ProjGraphStyle.ProjGraphContainer}>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className={ProjGraphStyle.projGraphHolder}>
         {/* Main Container */}
         <div className={ProjGraphStyle.card}>
           <div className={ProjGraphStyle.textHolder}>

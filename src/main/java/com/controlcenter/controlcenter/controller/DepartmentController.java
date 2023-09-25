@@ -1,6 +1,5 @@
 package com.controlcenter.controlcenter.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +36,7 @@ public class DepartmentController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<DepartmentOutput>> getAllDepartment(HttpSession httpSession) {
+    public ResponseEntity<List<DepartmentOutput>> getAllDepartment() {
         // Check if the user is authenticated 
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -51,7 +50,7 @@ public class DepartmentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addDepartment(@RequestBody DepartmentInput department, HttpSession httpSession) {
+    public ResponseEntity<String> addDepartment(@RequestBody DepartmentInput department) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -66,7 +65,7 @@ public class DepartmentController {
             if (errors.size() > 0) {
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.status(200).body(departmentService.addDepartment(department, emp_id));
             }
         // } else {
@@ -76,7 +75,7 @@ public class DepartmentController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editDepartmentInfo(@PathVariable String id, @RequestBody DepartmentInput department, HttpSession httpSession) {
+    public ResponseEntity<String> editDepartmentInfo(@PathVariable String id, @RequestBody DepartmentInput department) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -91,7 +90,7 @@ public class DepartmentController {
             if (errors.size() > 0) {
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.status(200).body(departmentService.editDepartmentInfo(id, department, emp_id));
             } 
         // } else {
@@ -101,13 +100,14 @@ public class DepartmentController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteDepartment(@PathVariable String id, HttpSession httpSession) {
+    public ResponseEntity<String> logicalDeleteDepartment(@PathVariable String id) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated) {
             try {
-                return ResponseEntity.ok().body(departmentService.logicalDeleteDepartment(id));
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(departmentService.logicalDeleteDepartment(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
@@ -118,13 +118,14 @@ public class DepartmentController {
     }
 
     @PutMapping("/delete-multiple")
-    public ResponseEntity<String> deleteMultipleDepartment(@RequestParam List<Long> ids, HttpSession httpSession) {
+    public ResponseEntity<String> deleteMultipleDepartment(@RequestParam List<Long> ids) {
         // Check uf the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated){
             try {
-                return ResponseEntity.ok().body(departmentService.deleteMultipleDepartment(ids));
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                return ResponseEntity.ok().body(departmentService.deleteMultipleDepartment(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
