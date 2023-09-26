@@ -135,7 +135,7 @@ export default function CreateUser() {
     if (isAddSuccess) {
       dispatch(addUserReset());
       setTimeout(() => {
-        navigate("/user");
+        navigate("/users");
       }, GLOBAL_TIMEOUT);
     }
   });
@@ -192,7 +192,7 @@ export default function CreateUser() {
   );
 
   const proceedWithCancel = () => {
-    navigate("/user");
+    navigate("/users");
   };
 
   const proceedWithSaving = () => {

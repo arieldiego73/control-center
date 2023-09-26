@@ -34,6 +34,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 
 	React.useEffect(() => {
 		setRows(props.data);
+		setPage(0)
 	}, [props.data]);
 
 	const handleChangePage = (event: unknown, newPage: number) => {

@@ -396,7 +396,7 @@ export default function NewProj() {
 	};
 
 	const handleCancel = () => {
-		navigate("/project");
+		navigate("/projects");
 	};
 
 	// FOR REDIRECT AFTER SAVING
@@ -406,7 +406,7 @@ export default function NewProj() {
 	React.useEffect(() => {
 		if (isAddSuccess) {
 			setTimeout(() => {
-				navigate("/project");
+				navigate("/projects");
 			}, GLOBAL_TIMEOUT);
 		}
 	}, [dispatch, isAddSuccess, navigate]);

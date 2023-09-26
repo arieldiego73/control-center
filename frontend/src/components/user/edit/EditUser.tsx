@@ -171,7 +171,7 @@ const VisuallyHiddenInput = styled("input")({
       if (isAddSuccess) {
         dispatch(addUserReset());
         setTimeout(() => {
-          navigate("/user");
+          navigate("/users");
         }, GLOBAL_TIMEOUT);
       }
     });
@@ -242,7 +242,7 @@ const VisuallyHiddenInput = styled("input")({
   
     const proceedWithCancel = () => {
       dispatch(clearUserInfo());
-      navigate("/user");
+      navigate("/users");
     };
   
     const proceedWithSaving = () => {
@@ -954,7 +954,7 @@ const VisuallyHiddenInput = styled("input")({
 // 		if (isAddSuccess) {
 // 			dispatch(addUserReset());
 // 			setTimeout(() => {
-// 				navigate("/user");
+// 				navigate("/users");
 // 			}, GLOBAL_TIMEOUT);
 // 		}
 // 	});
@@ -1016,7 +1016,7 @@ const VisuallyHiddenInput = styled("input")({
 
 // 	const proceedWithCancel = () => {
 // 		dispatch(clearUserInfo());
-// 		navigate("/user");
+// 		navigate("/users");
 // 	};
 
 // 	const proceedWithSaving = () => {

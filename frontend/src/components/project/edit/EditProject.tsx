@@ -437,7 +437,7 @@ export default function EditProject() {
 	const handleCancel = () => {
 		dispatch(clearProjectInfo());
 		setClientName("");
-		navigate("/project");
+		navigate("/projects");
 	};
 
 	// FOR REDIRECT AFTER SAVING
@@ -448,7 +448,7 @@ export default function EditProject() {
 		if (isAddSuccess) {
 			dispatch(addProjectReset());
 			setTimeout(() => {
-				navigate("/project");
+				navigate("/projects");
 			}, GLOBAL_TIMEOUT);
 		}
 	}, [dispatch, isAddSuccess, navigate]);
