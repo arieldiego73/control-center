@@ -358,7 +358,7 @@ public class UserServiceImpl implements UserService{
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id("101"); //current logged user dapat
-            activityLogInput.setLog_desc("Log in success.");
+            activityLogInput.setLog_desc("Has signed in.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             //add the activity log

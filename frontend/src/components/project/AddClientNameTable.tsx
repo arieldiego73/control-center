@@ -14,7 +14,7 @@ import { datagridBoxStyle } from "../datagrid_customs/DataGridStyle";
 import CustomPagination from "../custom_pagination/pagination";
 import { getClientFetch } from "../../redux/state/clientState";
 
-interface SelectClientTableProps {
+export interface SelectClientTableProps {
 	setClient: React.Dispatch<
 		React.SetStateAction<GridRowParams| undefined>
 	>;
