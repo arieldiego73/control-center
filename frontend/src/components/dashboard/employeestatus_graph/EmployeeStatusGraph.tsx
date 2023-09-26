@@ -25,14 +25,7 @@ const data = [
 export default function EmpStatusGraph() {
   return (
     <div className={EmpStatGraphStyle.EmpStatusGraphContainer}>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className={EmpStatGraphStyle.empGraphHolder}>
         {/* Main Container */}
         <div className={EmpStatGraphStyle.card}>
           <div className={EmpStatGraphStyle.textHolder}>

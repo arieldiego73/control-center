@@ -23,7 +23,7 @@ import { Link } from "react-router-dom";
 
 // Define the type for your row data
 interface RowData {
-	emp_id: number;
+	emp_id: number;  
 	username: string;
 	fname: string;
 	lname: string;
@@ -196,29 +196,31 @@ export default function Userpage() {
 							noValidate
 						>
 							{/* Start of Seach Bar */}
-							<div className={UserStyle.searchBarCol}>
-								<FormControl>
+							{/* <div className={UserStyle.searchBarCol}>
+							<FormControl>
+
 									<Grid
 										container
 										alignItems="center"
 										spacing={2}
+										border={"1px solid red"}
+										flex={1}
 									>
 										<Grid item>
 											<FormLabel
 												sx={{
-													width: "100%",
 													color: "black",
 													fontWeight: "400",
 												}}
 											>
-												Name :{" "}
+												Name :
 											</FormLabel>
 										</Grid>
 										<Grid item>
 											<TextField
 												variant="outlined"
 												size="small"
-												className={UserStyle.textField}
+				
 												value={searchQuery.name}
 												onChange={handleInputChange}
 												name="name"
@@ -231,27 +233,60 @@ export default function Userpage() {
 								</FormControl>
 
 								<FormControl>
+
 									<Grid
 										container
 										alignItems="center"
 										spacing={2}
+										border={"1px solid green"}
+										flex={2}
 									>
 										<Grid item>
 											<FormLabel
 												sx={{
-													width: "100%",
 													color: "black",
 													fontWeight: "400",
 												}}
 											>
-												Business Unit :{" "}
+												Position :
 											</FormLabel>
 										</Grid>
 										<Grid item>
 											<TextField
 												variant="outlined"
 												size="small"
-												className={UserStyle.textField}
+				
+												value={searchQuery.position}
+												onChange={handleInputChange}
+												name="position"
+											/>
+										</Grid>
+									</Grid>
+								</FormControl>
+
+								<FormControl>
+									<Grid
+										container
+										alignItems="center"
+										spacing={2}
+										border={"1px solid blue"}
+										flex={1}
+									>
+										<Grid item>
+											<FormLabel
+												sx={{
+													color: "black",
+													fontWeight: "400",
+												}}
+											>
+												Business Unit :
+											</FormLabel>
+										</Grid>
+										<Grid item>
+											<TextField
+												variant="outlined"
+												size="small"
+				
 												value={searchQuery.businessUnit}
 												onChange={handleInputChange}
 												name="businessUnit"
@@ -269,49 +304,18 @@ export default function Userpage() {
 										<Grid item>
 											<FormLabel
 												sx={{
-													width: "100%",
 													color: "black",
 													fontWeight: "400",
 												}}
 											>
-												Position :{" "}
+												Department :
 											</FormLabel>
 										</Grid>
 										<Grid item>
 											<TextField
 												variant="outlined"
 												size="small"
-												className={UserStyle.textField}
-												value={searchQuery.position}
-												onChange={handleInputChange}
-												name="position"
-											/>
-										</Grid>
-									</Grid>
-								</FormControl>
-
-								<FormControl>
-									<Grid
-										container
-										alignItems="center"
-										spacing={2}
-									>
-										<Grid item>
-											<FormLabel
-												sx={{
-													width: "100%",
-													color: "black",
-													fontWeight: "400",
-												}}
-											>
-												Department :{" "}
-											</FormLabel>
-										</Grid>
-										<Grid item>
-											<TextField
-												variant="outlined"
-												size="small"
-												className={UserStyle.textField}
+				
 												value={searchQuery.department}
 												onChange={handleInputChange}
 												name="department"
@@ -319,9 +323,109 @@ export default function Userpage() {
 										</Grid>
 									</Grid>
 								</FormControl>
-
-								{/* Start of Search Button */}
 								<div>
+									<Button
+										variant="contained"
+										color="primary"
+										startIcon={<SearchIcon />}
+										className={UserStyle.button}
+										onClick={performSearch}
+										style={{ height: "40px" }}
+									>
+										Search
+									</Button>
+								</div>
+							</div> */}
+							<div className={UserStyle.searchBarCol}>
+								<div className={UserStyle.searchBarColLeft}>
+									<FormControl sx={{ display: "flex", flexDirection: "row", alignItems: "flex-end", flex: 1, gap: "10px", justifyContent: "flex-end" }}>
+										<FormLabel
+											sx={{
+												color: "black",
+												fontWeight: "400",
+												whiteSpace: "nowrap",
+											}}
+										>
+											Name :
+										</FormLabel>
+										<TextField
+											variant="outlined"
+											size="small"
+											value={searchQuery.name}
+											onChange={handleInputChange}
+											name="name"
+											sx={{ flex: 1, display: "flex" }}
+											inputProps={{
+												autoComplete: "chrome-off",
+											}}
+										/>
+									</FormControl>
+									<FormControl sx={{ display: "flex", flexDirection: "row", alignItems: "flex-end", flex: 1, gap: "10px", justifyContent: "flex-end" }}>
+										<FormLabel
+											sx={{
+												color: "black",
+												fontWeight: "400",
+												whiteSpace: "nowrap",
+											}}
+										>
+											Position :
+										</FormLabel>
+										<TextField
+											variant="outlined"
+											size="small"
+											value={searchQuery.position}
+											onChange={handleInputChange}
+											name="position"
+											sx={{ flex: 1, display: "flex" }}
+
+										/>
+									</FormControl>
+								</div>
+								<div className={UserStyle.searchBarColRight}>
+									<FormControl sx={{ display: "flex", flexDirection: "row", alignItems: "flex-end", flex: 1, gap: "10px", justifyContent: "flex-end" }}>
+
+										<FormLabel
+											sx={{
+												color: "black",
+												fontWeight: "400",
+												whiteSpace: "nowrap",
+											}}
+										>
+											Business Unit :
+										</FormLabel>
+										<TextField
+											variant="outlined"
+											size="small"
+											value={searchQuery.businessUnit}
+											onChange={handleInputChange}
+											name="businessUnit"
+											sx={{ flex: 1, display: "flex" }}
+
+										/>
+									</FormControl>
+									<FormControl sx={{ display: "flex", flexDirection: "row", alignItems: "flex-end", flex: 1, gap: "10px", justifyContent: "flex-end" }}>
+
+										<FormLabel
+											sx={{
+												color: "black",
+												fontWeight: "400",
+												whiteSpace: "nowrap",
+											}}
+										>
+											Department :
+										</FormLabel>
+										<TextField
+											variant="outlined"
+											size="small"
+											value={searchQuery.department}
+											onChange={handleInputChange}
+											name="department"
+											sx={{ flex: 1, display: "flex" }}
+
+										/>
+									</FormControl>
+								</div>
+								<div className={UserStyle.searchBarColButton}>
 									<Button
 										variant="contained"
 										color="primary"
@@ -350,7 +454,7 @@ export default function Userpage() {
 				autoHideDuration={2000}
 				onClose={handleClose}
 				TransitionProps={{ onExited: handleExited }}
-				// anchorOrigin={{ vertical, horizontal }}
+			// anchorOrigin={{ vertical, horizontal }}
 			>
 				<Alert
 					onClose={handleClose}

@@ -9,7 +9,7 @@ const data = [
     total: 59,
   },
   {
-    year: "2021", 
+    year: "2021",
     total: 61,
   },
   {
@@ -20,34 +20,33 @@ const data = [
     year: "2023",
     total: 78,
   },
-
 ];
 
 export default function UserGraph() {
   return (
-    <div className={UserGraphStyle.userGraphContainer  }>
-      <div
-        style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", }}>
-
+    <div className={UserGraphStyle.userGraphContainer}>
+      <div className={UserGraphStyle.userGraphHolder}>
         {/* Main Container */}
         <div className={UserGraphStyle.card}>
           <div className={UserGraphStyle.textHolder}>
-
             {/* Text Title */}
-            <text  className={UserGraphStyle.textTitle}> USER STATUS </text>
-            <text className={UserGraphStyle.textSubtitle}> +2% than last year </text>
+            <text className={UserGraphStyle.textTitle}> USER STATUS </text>
+            <text className={UserGraphStyle.textSubtitle}>
+              {" "} 
+              +2% than last year{" "}
+            </text>
 
             <Divider style={{ padding: "1%" }} variant="middle" />
 
             {/* Information */}
             <div className={UserGraphStyle.infoContainer}>
               <text className={UserGraphStyle.textInfoUpdate}> +3%</text>
-              <text className={UserGraphStyle.textInfo}>  than last month </text>
+              <text className={UserGraphStyle.textInfo}> than last month </text>
             </div>
           </div>
         </div>
 
-       {/* Graph */}
+        {/* Graph */}
         <div className={UserGraphStyle.graphContainer}>
           <ResponsiveBar
             data={data}

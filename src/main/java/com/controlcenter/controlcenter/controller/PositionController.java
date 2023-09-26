@@ -37,7 +37,7 @@ public class PositionController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<PositionOutput>> getAllPosition(HttpSession httpSession) {
+    public ResponseEntity<List<PositionOutput>> getAllPosition() {
         // Check if the user is authenticated 
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -51,7 +51,7 @@ public class PositionController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addPosition(@RequestBody PositionInput position, HttpSession httpSession) {
+    public ResponseEntity<String> addPosition(@RequestBody PositionInput position) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -65,7 +65,7 @@ public class PositionController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(positionService.addPosition(position, emp_id));
                 }
         // } else {
@@ -75,7 +75,7 @@ public class PositionController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editPositionInfo(@PathVariable String id, @RequestBody PositionInput position, HttpSession httpSession) {
+    public ResponseEntity<String> editPositionInfo(@PathVariable String id, @RequestBody PositionInput position) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -89,7 +89,7 @@ public class PositionController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(positionService.editPositionInfo(id, position, emp_id));
                 }
         // } else {
@@ -99,13 +99,13 @@ public class PositionController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeletePosition(@PathVariable String id, HttpSession httpSession) {
+    public ResponseEntity<String> logicalDeletePosition(@PathVariable String id) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(positionService.logicalDeletePosition(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
@@ -117,13 +117,13 @@ public class PositionController {
     }
 
     @PutMapping("/delete-multiple")
-    public ResponseEntity<String> deleteMultiplePosition(@RequestParam List<Long> ids, HttpSession httpSession) {
+    public ResponseEntity<String> deleteMultiplePosition(@RequestParam List<Long> ids) {
          // Check uf the user is authenticated
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         //  if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(positionService.deleteMultiplePosition(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");

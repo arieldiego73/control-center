@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.controlcenter.controlcenter.dao.DashboardDao">
+
+<!-- Count all the project with open status -->
+    <select id="countAllOpenProject" resultType="java.lang.Integer">
+        SELECT SUM(open_count) AS total_open_count
+                FROM (
+                    SELECT COUNT(*) AS open_count
+                    FROM tbl_proj_info AS tpi
+                    INNER JOIN tbl_proj_status_mst AS proj_status 
+                        ON tpi.proj_status_id = proj_status.proj_status_id
+                    WHERE tpi.del_flag = 0
+                    AND proj_status.proj_status_name = 'Open'
+                ) AS counts;
+    </select>
+
+<!-- Count all the project with close status -->
+    <select id="countAllCloseProject" resultType="java.lang.Integer">
+        SELECT SUM(close_count) AS total_close_count
+                FROM (
+                    SELECT COUNT(*) AS close_count
+                    FROM tbl_proj_info AS tpi
+                    INNER JOIN tbl_proj_status_mst AS proj_status 
+                        ON tpi.proj_status_id = proj_status.proj_status_id
+                    WHERE tpi.del_flag = 0
+                    AND proj_status.proj_status_name = 'Close'
+                ) AS counts;
+    </select>
+
+<!-- Count all the project with cancelled status -->
+    <select id="countAllCancelledProject" resultType="java.lang.Integer">
+        SELECT SUM(cancelled_count) AS total_cancelled_count
+                FROM (
+                    SELECT COUNT(*) AS cancelled_count
+                    FROM tbl_proj_info AS tpi
+                    INNER JOIN tbl_proj_status_mst AS proj_status 
+                        ON tpi.proj_status_id = proj_status.proj_status_id
+                    WHERE tpi.del_flag = 0
+                    AND proj_status.proj_status_name = 'Cancelled'
+                ) AS counts;
+    </select>
+
+    <select id="countAllRegisteredUserPerYear">
+        SELECT
+            YEAR(reg_date) AS year_registered,
+            COUNT(*) AS user_count
+        FROM
+            tbl_user
+        WHERE del_flag = 0
+        GROUP BY
+            year_registered
+        ORDER BY
+            year_registered;
+    </select>
+    
+</mapper>

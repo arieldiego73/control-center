@@ -104,7 +104,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public String logicalDeleteDepartment(String id) {
+    public String logicalDeleteDepartment(String id, String emp_id) {
         DepartmentOutput data = departmentDao.getDepartmentById(id);
 
         if (data != null) {
@@ -116,7 +116,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); // current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted a Business Unit.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
@@ -133,7 +133,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public String deleteMultipleDepartment(List<Long> ids) {
+    public String deleteMultipleDepartment(List<Long> ids, String emp_id) {
         departmentList = departmentDao.getAllDepartment();
 
         for (Long id : ids) {
@@ -152,7 +152,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         // Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); // current logged user dapat
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
         activityLogInput.setLog_desc("Deleted multiple Business Units.");
 
         Long currentTimeMillis = System.currentTimeMillis();

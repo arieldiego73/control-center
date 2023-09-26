@@ -50,7 +50,7 @@ public class TechnologyController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addTechnology(@RequestBody TechnologyInput technology, HttpSession httpSession) {
+    public ResponseEntity<String> addTechnology(@RequestBody TechnologyInput technology) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
@@ -64,7 +64,7 @@ public class TechnologyController {
                 if (errors.size() > 0) { //checks the errors from validator
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(technologyService.addTechnology(technology, emp_id));
                 }
             // } else {
@@ -74,7 +74,7 @@ public class TechnologyController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editTechnology(@PathVariable String id, @RequestBody TechnologyInput technology, HttpSession httpSession) {
+    public ResponseEntity<String> editTechnology(@PathVariable String id, @RequestBody TechnologyInput technology) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
@@ -88,7 +88,7 @@ public class TechnologyController {
                 if (errors.size() > 0) { //checks the errors from validator
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
-                    String emp_id = httpSession.getAttribute("session").toString();
+                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(technologyService.editTechnology(id, technology, emp_id));
                 }
         // } else {
@@ -98,13 +98,13 @@ public class TechnologyController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteTechnology(@PathVariable String id, HttpSession httpSession) {
+    public ResponseEntity<String> logicalDeleteTechnology(@PathVariable String id) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(technologyService.logicalDeleteTechnology(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
@@ -116,13 +116,13 @@ public class TechnologyController {
     }
 
     @PutMapping("/delete-multiple")
-    public ResponseEntity<String> deleteMultipleTechnology(@RequestParam List<Long> ids, HttpSession httpSession) {
+    public ResponseEntity<String> deleteMultipleTechnology(@RequestParam List<Long> ids) {
         // Check uf the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = httpSession.getAttribute("session").toString();
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(technologyService.deleteMultipleTechnology(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
