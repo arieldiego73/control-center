@@ -154,6 +154,7 @@ export default function NewProj() {
 
 	const handleSaveDialog = () => {
 		if (
+			clientName &&
 			projectName &&
 			projectDescription &&
 			selectedStartDate &&
@@ -201,7 +202,7 @@ export default function NewProj() {
 
 	// PROJECT CLIENT VARIABLES :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const [projectClient, setProjectClient] = useState<GridRowParams>();
-	const [clientName, setClientName] = useState("Select a client");
+	const [clientName, setClientName] = useState("");
 	const [selectedClientId, setSelectedClientId] = useState<number[]>([]);
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -389,6 +390,9 @@ export default function NewProj() {
 			selectedTechnologies: projectTechnologies,
 		};
 		dispatch(addProject({ data: projectInfo }));
+		setAsk(false)
+		setDialogTitle("")
+		setDialogContentText("")
 	};
 
 	const handleCancel = () => {
@@ -471,9 +475,11 @@ export default function NewProj() {
 															overflow: "visible",
 														}}
 													>
-														{clientName
-															.charAt(0)
-															.toLocaleUpperCase()}
+														{clientName === ""
+															? "?"
+															: clientName
+																	.charAt(0)
+																	.toLocaleUpperCase()}
 													</Avatar>
 												</ListItemAvatar>
 												<ListItemText secondary="Client name">
@@ -483,7 +489,9 @@ export default function NewProj() {
 															fontWeight: 900,
 														}}
 													>
-														{clientName}
+														{clientName === ""
+															? "Select a client"
+															: clientName}
 													</Typography>
 												</ListItemText>
 											</ListItem>
@@ -497,7 +505,9 @@ export default function NewProj() {
 											color="success"
 											startIcon={<EditIcon />}
 										>
-											Change
+											{clientName === ""
+															? "Select"
+															: "Change"}
 										</Button>
 									</div>
 								</FormControl>

@@ -27,6 +27,7 @@ import Navigations from "./pages/NavigationHandler"
 import UserGraph from "./components/dashboard/user_graph/UserGraph";
 import DevelopmentTypeHandler from "./pages/DevelopmentTypeHandler";
 import TestHandler from "./pages/TestHandler";
+import ClientHandler from "./pages/ClientHandler";
 
 function App() {
 	return (
@@ -45,6 +46,7 @@ function App() {
 				<Route path="/NewProj" Component={NewProjHandler} />
 				{/* <Route path="/User/:name" Component={UserDetails} /> */}
 				<Route path="/developmentphase" Component={DevelopmentPhaseHandler} />
+				<Route path="/client" Component={ClientHandler} />
 				<Route path="/projectStatus" Component={ProjectStatusHandler} />
 				<Route path="/dashboardtable" Component={ActivityLogDashboardTable} />
 				<Route path="/employeestatus" Component={EmployeeStatusHandler} />

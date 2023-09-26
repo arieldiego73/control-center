@@ -431,6 +431,7 @@ export default function EditProject() {
 			selectedTechnologies: projectTechnologies,
 		};
 		dispatch(updateProject({ data: projectInfo, projectId: PROJECT_ID }));
+		setAsk(false)
 	};
 
 	const handleCancel = () => {
