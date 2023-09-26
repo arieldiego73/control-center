@@ -646,12 +646,12 @@ export default function NewProj() {
 													}
 													variant="contained"
 													color="primary"
-													startIcon={<Add />}
+													startIcon={selectedProjectManagers.length !== 0 ? <EditIcon /> : <Add />}
 													style={{
 														textTransform: "none",
 													}}
 												>
-													Add Project Manager
+													{selectedProjectManagers.length !== 0 ? "Edit" : "Add"} Project Manager
 												</Button>
 											</div>
 										</Stack>
@@ -911,13 +911,13 @@ export default function NewProj() {
 														}
 														variant="contained"
 														color="primary"
-														startIcon={<Add />}
+														startIcon={selectedProjectMembers.length !== 0 ? <EditIcon /> : <Add />}
 														style={{
 															textTransform:
 																"none",
 														}}
 													>
-														Add Project Member
+														{selectedProjectMembers.length !== 0 ? "Edit" : "Add"} Project Member
 													</Button>
 												</div>
 											</Stack>
