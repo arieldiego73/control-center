@@ -355,7 +355,6 @@ export default function CreateUser() {
                           value={empStatus}
                           size="small"
                           onChange={(e) => setEmpStatus(e.target.value)}
-                          className={CreateUserStyle.textField}
                           startAdornment={
                             <InputAdornment position="start">
                               <GroupsOutlinedIcon />

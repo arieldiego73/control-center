@@ -39,6 +39,8 @@ const othersDropDownData = [
   { icon: <Public />, label: "Departments", path: "/department" },
   { icon: <Public />, label: "Technologies", path: "/technology" },
   { icon: <Public />, label: "Development Type", path: "/devType" },
+  { icon: <Public />, label: "Clients", path: "/client" },
+
 ];
 
 function DevelopmentPhase() {
@@ -63,6 +65,9 @@ function Technologies() {
   return <div>Hosting Content</div>;
 }
 function DevelopmentTypeHandler() {
+  return <div>Hosting Content</div>;
+}
+function ClientHandler() {
   return <div>Hosting Content</div>;
 }
 
@@ -419,6 +424,8 @@ export default function SideNav() {
         <Route path="/department" element={<Departments />} />
         <Route path="/technology" element={<Technologies />} />
         <Route path="/devType" element={<DevelopmentTypeHandler />} />
+        <Route path="/client" element={<ClientHandler />} />
+
       </Routes>
     </div>
 
