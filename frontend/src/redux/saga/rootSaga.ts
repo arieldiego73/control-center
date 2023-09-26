@@ -20,6 +20,7 @@ import { technologySaga, technologySagaAdd, technologySagaDelete, technologySaga
 import { projectSaga, projectSagaAdd, projectSagaFetchProjectInfo, projectSagaFetchProjectMembers, projectSagaUpdate } from "./projectSaga";
 import { clientSaga, clientSagaAdd, clientSagaDelete, clientSagaDeleteBatch, clientSagaUpdate } from "./clientSaga";
 import { historySaga } from "./historySaga";
+import { graphsDataSaga } from "./graphSaga";
 
 export default function* rootSaga() {
 	yield all([
@@ -97,6 +98,8 @@ export default function* rootSaga() {
 		devTypeSagaDelete(),
 		devTypeSagaDeleteBatch(),
 
-		historySaga()
+		historySaga(),
+
+		graphsDataSaga()
 	]);
 }
