@@ -9,7 +9,7 @@ export default function ProjectStatusHandler() {
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
-		{ label: "Project Status", to: "/projectStatus" },
+		{ label: "Project Status", to: "/project-status" },
 	];
 
 	return (

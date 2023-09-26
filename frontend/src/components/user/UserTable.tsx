@@ -53,7 +53,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 	const navigate = useNavigate();
 
 	const handleRowClick = (row: RowData) => {
-		navigate(`/user/editUser/${row.username}`, { state: row.emp_id });
+		navigate(`/user/edit-user/${row.username}`, { state: row.emp_id });
 	};
 
 	// const FireNav = styled(List)<{ component?: React.ElementType }>({

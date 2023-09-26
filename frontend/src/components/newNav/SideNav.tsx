@@ -28,19 +28,18 @@ import {
   KeyboardArrowDown,
 }
   from "@mui/icons-material";
-
-// for dropdown in others link
+  
+// for dropdown in others 
 const othersDropDownData = [
-  { icon: <People />, label: "Development Phase", path: "/DevelopmentPhase" },
-  { icon: <Dns />, label: "Project Status", path: "/projectStatus" },
-  { icon: <PermMedia />, label: "Employee Status", path: "/employeestatus" },
-  { icon: <Public />, label: "Employee Position", path: "/employeeposition" },
-  { icon: <Public />, label: " Business Units", path: "/businessunit" },
-  { icon: <Public />, label: "Departments", path: "/department" },
-  { icon: <Public />, label: "Technologies", path: "/technology" },
-  { icon: <Public />, label: "Development Type", path: "/devType" },
-  { icon: <Public />, label: "Clients", path: "/client" },
-
+  { label: "Development Phase", path: "/development-phase" },
+  { label: "Project Status", path: "/project-status" },
+  { label: "Employee Status", path: "/employee-status" },
+  { label: "Employee Position", path: "/employee-position" },
+  { label: " Business Units", path: "/business-unit" },
+  { label: "Departments", path: "/department" },
+  { label: "Technologies", path: "/technology" },
+  { label: "Development Type", path: "/development-type" },
+  { label: "Clients", path: "/clients" },
 ];
 
 function DevelopmentPhase() {
@@ -216,7 +215,7 @@ export default function SideNav() {
                   </ListItem>
                 </Link>
 
-                <Link to="/user" style={{ textDecoration: "none" }}>
+                <Link to="/users" style={{ textDecoration: "none" }}>
                   <ListItem component="div" disablePadding>
                     <ListItemButton
                       sx={{
@@ -245,7 +244,7 @@ export default function SideNav() {
                   </ListItem>
                 </Link>
                 {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
-                <Link to="/project" style={{ textDecoration: "none" }}>
+                <Link to="/projects" style={{ textDecoration: "none" }}>
                   <ListItem component="div" disablePadding>
                     <ListItemButton
                       sx={{
@@ -274,7 +273,7 @@ export default function SideNav() {
                   </ListItem>
                 </Link>
                 {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
-                <Link to="/role" style={{ textDecoration: "none" }}>
+                <Link to="/roles" style={{ textDecoration: "none" }}>
                   <ListItem component="div" disablePadding>
                     <ListItemButton
                       sx={{

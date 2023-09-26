@@ -168,7 +168,7 @@ export default function Userpage() {
 		<div>
 			<div className={UserStyle.addButton}>
 				<Link
-					to="/user/create-user"
+					to="/user/add-new-user"
 					style={{ textDecoration: "none", color: "black" }}
 				>
 					<Button

@@ -7,7 +7,7 @@ export default function ClientHandler (){
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, 
-		{ label: "Client", to: "/client" },
+		{ label: "Client", to: "/clients" },
 	];
     
     return(

@@ -7,7 +7,7 @@ export default function DevelopmentTypeHandler (){
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, 
-		{ label: "Development Type", to: "/devType" },
+		{ label: "Development Type", to: "/development-type" },
 	];
     
     return(

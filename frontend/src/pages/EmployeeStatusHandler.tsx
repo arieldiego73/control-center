@@ -9,7 +9,7 @@ export default function EmployeeStatusHandler() {
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
-		{ label: "Employee Status", to: "/employeestatus" },
+		{ label: "Employee Status", to: "/employee-status" },
 	];
 
 	return (
