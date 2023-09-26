@@ -40,6 +40,7 @@ import {
   Snackbar,
   Typography,
 } from "@mui/material";
+import { getEmployeeStatusFetch } from "../../../redux/state/employeeStatusState";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -125,6 +126,7 @@ export default function CreateUser() {
     dispatch(getSectionFetch());
     dispatch(getRolesFetch());
     dispatch(getPositionFetch());
+    dispatch(getEmployeeStatusFetch());
   }, [dispatch]);
 
   const isAddSuccess = useSelector(
@@ -153,7 +155,7 @@ export default function CreateUser() {
 
   const [username, setUsername] = useState("");
   const [assocID, setAssocID] = useState("");
-  const [empStatus, setEmpStatus] = useState("");
+  const [empStatus, setEmpStatus] = useState("0");
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -185,6 +187,11 @@ export default function CreateUser() {
     (state: RootState) => state.positionReducer.position
   );
 
+  //FOR STATUS OPTIONS
+  const statuses = useSelector(
+    (state: RootState) => state.employeeStatusReducer.employeeStatus
+  );
+
   const proceedWithCancel = () => {
     navigate("/user");
   };
@@ -201,6 +208,7 @@ export default function CreateUser() {
       section_id: department,
       dept_id: businessUnit,
       selectedRoles: selectedRoles,
+      status_code: empStatus,
     };
     dispatch(addUserInfo({ data }));
     setAsk(false);
@@ -217,6 +225,7 @@ export default function CreateUser() {
       email &&
       department &&
       businessUnit &&
+      empStatus !== "0" &&
       selectedRoles.length > 0
     ) {
       setAsk(true);
@@ -277,6 +286,34 @@ export default function CreateUser() {
 
                 {/* Start of Form of Profile*/}
                 <div className={CreateUserStyle.formProfileContainer}>
+                  {/* Start of Assoc id form */}
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <FormControl
+                      style={{
+                        paddingTop: "20px",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    > 
+                      <FormLabel> Associate ID </FormLabel>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        placeholder="Associate ID"
+                        className={CreateUserStyle.textFieldProfile}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <AssignmentIndOutlinedIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                        value={assocID}
+                        onChange={(e) => setAssocID(e.target.value)}
+                      />
+                    </FormControl>
+                  </div>
+                  
                   {/* Start of username form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <FormControl
@@ -305,34 +342,6 @@ export default function CreateUser() {
                     </FormControl>
                   </div>
 
-                  {/* Start of Assoc id form */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <FormControl
-                      style={{
-                        paddingTop: "20px",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    > 
-                      <FormLabel> Associate ID </FormLabel>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Associate ID"
-                        className={CreateUserStyle.textFieldProfile}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <AssignmentIndOutlinedIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={assocID}
-                        onChange={(e) => setAssocID(e.target.value)}
-                      />
-                    </FormControl>
-                  </div>
-
                   {/* Start of Emp Status form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <FormControl
@@ -343,21 +352,26 @@ export default function CreateUser() {
                       }}
                     >
                       <FormLabel> Employee Status </FormLabel>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Employee Status"
-                        className={CreateUserStyle.textFieldProfile}
-                        InputProps={{
-                          startAdornment: (
+                      <Select
+                          value={empStatus}
+                          size="small"
+                          onChange={(e) => setEmpStatus(e.target.value)}
+                          className={CreateUserStyle.textField}
+                          startAdornment={
                             <InputAdornment position="start">
-                              <AssignmentIndOutlinedIcon />
+                              <GroupsOutlinedIcon />
                             </InputAdornment>
-                          ),
-                        }}
-                        value={empStatus}
-                        onChange={(e) => setEmpStatus(e.target.value)}
-                      />
+                          }
+                        >
+                          <MenuItem key={0} value={"0"}>
+                            {"<Select status>"}
+                          </MenuItem>
+                          {statuses.map((status: any) => (
+                            <MenuItem key={status?.status_code} value={status?.status_code}>
+                              {status?.status_name}
+                            </MenuItem>
+                          ))}
+                        </Select>
                     </FormControl>
                   </div>
                 </div>

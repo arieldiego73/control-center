@@ -19,6 +19,7 @@ import { employeeStatusSaga, employeeStatusSagaAdd, employeeStatusSagaUpdate, em
 import { technologySaga, technologySagaAdd, technologySagaDelete, technologySagaDeleteBatch, technologySagaUpdate } from "./technologySaga";
 import { projectSaga, projectSagaAdd, projectSagaFetchProjectInfo, projectSagaFetchProjectMembers, projectSagaUpdate } from "./projectSaga";
 import { clientSaga, clientSagaAdd, clientSagaDelete, clientSagaDeleteBatch, clientSagaUpdate } from "./clientSaga";
+import { historySaga } from "./historySaga";
 
 export default function* rootSaga() {
 	yield all([
@@ -95,6 +96,7 @@ export default function* rootSaga() {
 		devTypeSagaUpdate(),
 		devTypeSagaDelete(),
 		devTypeSagaDeleteBatch(),
-		// Add more sagas here
+
+		historySaga()
 	]);
 }
