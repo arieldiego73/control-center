@@ -74,7 +74,7 @@ export default function ActivityLogDashboardTable() {
 						date,
 						log.log_desc,
 						log.username,
-						dayjs(log.log_date).format("h:m A")
+						dayjs(log.log_date).format("h:mm A")
 					);
 				})
 			);
@@ -96,22 +96,34 @@ export default function ActivityLogDashboardTable() {
 										},
 									}}
 								>
-									{row.date === TODAY_STR ? (
+									{row.date === "" ? (
+										<></>
+									) : row.date === TODAY_STR ? (
 										<TableCell
-											style={{ fontWeight: "bold", verticalAlign: "baseline" }}
+											style={{
+												fontWeight: "bold",
+												verticalAlign: "baseline",
+											}}
 											rowSpan={todayCount}
 										>
 											{row.date}
 										</TableCell>
 									) : row.date === YESTERDAY_STR ? (
 										<TableCell
-											style={{ fontWeight: "bold", verticalAlign: "baseline" }}
+											style={{
+												fontWeight: "bold",
+												verticalAlign: "baseline",
+											}}
 											rowSpan={yesterdayCount}
 										>
 											{row.date}
 										</TableCell>
 									) : (
-										<></>
+										<TableCell
+											style={{ fontWeight: "bold" }}
+										>
+											{row.date}
+										</TableCell>
 									)}
 									<TableCell align="left" width={150}>
 										{row.time}
