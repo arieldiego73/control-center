@@ -13,4 +13,9 @@ public interface DashboardDao {
     Integer countAllCancelledProject();
 
     List<Map<String, Object>> countAllRegisteredUserPerYear();
+
+    Integer countAllUserWithStatusOfBusinessPartner();
+    Integer countAllUserWithStatusOfIntern();
+    Integer countAllUserWithStatusOfRegular();
+    Integer countAllUserWithStatusOfTrainee();
 }

@@ -53,4 +53,40 @@ public class DashboardController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @GetMapping("/business-partner")
+    public ResponseEntity<Integer> countAllUserWithStatusOfBusinessPartner() {
+        try {
+            return dashboardService.countAllUserWithStatusOfBusinessPartner();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/intern")
+    public ResponseEntity<Integer> countAllUserWithStatusOfIntern() {
+        try {
+            return dashboardService.countAllUserWithStatusOfIntern();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/regular")
+    public ResponseEntity<Integer> countAllUserWithStatusOfRegular() {
+        try {
+            return dashboardService.countAllUserWithStatusOfRegular();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/trainee")
+    public ResponseEntity<Integer> countAllUserWithStatusOfTrainee() {
+        try {
+            return dashboardService.countAllUserWithStatusOfTrainee();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

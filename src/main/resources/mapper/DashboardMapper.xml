@@ -54,5 +54,57 @@
         ORDER BY
             year_registered;
     </select>
+
+<!-- Count all user with business partner status -->
+    <select id="countAllUserWithStatusOfBusinessPartner" resultType="java.lang.Integer">
+        SELECT SUM(bp_count) AS total_bp_count
+                FROM (
+                    SELECT COUNT(*) AS bp_count
+                    FROM tbl_user AS tuser
+                    INNER JOIN tbl_status_mst AS user_status 
+                        ON tuser.status_code = user_status.status_code
+                    WHERE tuser.del_flag = 0
+                    AND user_status.status_code = 'BP'
+                ) AS counts;
+    </select>
+
+<!-- Count all user with intern status -->
+    <select id="countAllUserWithStatusOfIntern" resultType="java.lang.Integer">
+        SELECT SUM(int_count) AS total_int_count
+                FROM (
+                    SELECT COUNT(*) AS int_count
+                    FROM tbl_user AS tuser
+                    INNER JOIN tbl_status_mst AS user_status 
+                        ON tuser.status_code = user_status.status_code
+                    WHERE tuser.del_flag = 0
+                    AND user_status.status_code = 'INT'
+                ) AS counts;
+    </select>
+
+<!-- Count all user with regular status -->
+    <select id="countAllUserWithStatusOfRegular" resultType="java.lang.Integer">
+        SELECT SUM(reg_count) AS total_reg_count
+                FROM (
+                    SELECT COUNT(*) AS reg_count
+                    FROM tbl_user AS tuser
+                    INNER JOIN tbl_status_mst AS user_status 
+                        ON tuser.status_code = user_status.status_code
+                    WHERE tuser.del_flag = 0
+                    AND user_status.status_code = 'REG'
+                ) AS counts;
+    </select>
+
+<!-- Count all user with trainee status -->
+    <select id="countAllUserWithStatusOfTrainee" resultType="java.lang.Integer">
+        SELECT SUM(tra_count) AS total_tra_count
+                FROM (
+                    SELECT COUNT(*) AS tra_count
+                    FROM tbl_user AS tuser
+                    INNER JOIN tbl_status_mst AS user_status 
+                        ON tuser.status_code = user_status.status_code
+                    WHERE tuser.del_flag = 0
+                    AND user_status.status_code = 'TRA'
+                ) AS counts;
+    </select>
     
 </mapper>
