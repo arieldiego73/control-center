@@ -1,8 +1,12 @@
 package com.controlcenter.controlcenter.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +24,7 @@ public class DashboardController {
         try {
             return dashboardService.countAllOpenProject();
         } catch (Exception e) {
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -29,7 +33,7 @@ public class DashboardController {
         try {
             return dashboardService.countAllCloseProject();
         } catch (Exception e) {
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -38,7 +42,97 @@ public class DashboardController {
         try {
             return dashboardService.countAllCancelledProject();
         } catch (Exception e) {
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/user-count")
+    public ResponseEntity<List<Map<String, Object>>> countAllRegisteredUserPerYear() {
+        try {
+            return dashboardService.countAllRegisteredUserPerYear();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/business-partner")
+    public ResponseEntity<Integer> countAllUserWithStatusOfBusinessPartner() {
+        try {
+            return dashboardService.countAllUserWithStatusOfBusinessPartner();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/intern")
+    public ResponseEntity<Integer> countAllUserWithStatusOfIntern() {
+        try {
+            return dashboardService.countAllUserWithStatusOfIntern();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/regular")
+    public ResponseEntity<Integer> countAllUserWithStatusOfRegular() {
+        try {
+            return dashboardService.countAllUserWithStatusOfRegular();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/trainee")
+    public ResponseEntity<Integer> countAllUserWithStatusOfTrainee() {
+        try {
+            return dashboardService.countAllUserWithStatusOfTrainee();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/project-count/{proj_status_id}")
+    public ResponseEntity<Integer> countAllProjectByStatus(@PathVariable String proj_status_id) {
+        try {
+            return dashboardService.countAllProjectByStatus(proj_status_id);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/user-count/{user_status_code}")
+    public ResponseEntity<Integer> countAllUserByStatus(@PathVariable String user_status_code) {
+        try {
+            return dashboardService.countAllUserByStatus(user_status_code);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/all-project-count")
+    public ResponseEntity<List<Map<String, Object>>> getAllProjectCountByStatus() {
+        try {
+            return dashboardService.getAllProjectCountByStatus();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/all-user-count")
+    public ResponseEntity<List<Map<String, Object>>> getAllUserCountByStatus() {
+        try {
+            return dashboardService.getAllUserCountByStatus();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/graph-data")
+    public ResponseEntity<List<Map<String, Object>>> graphData() {
+        try {
+            return dashboardService.graphData();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

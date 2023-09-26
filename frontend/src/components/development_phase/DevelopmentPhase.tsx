@@ -1,5 +1,4 @@
 import * as React from "react";
-import DevStyle from "./DevelopmentPhase.module.css";
 import DevelopmentPhaseTable from "./DevelopmentPhaseTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { RootState } from "../../redux/store/store";

@@ -18,6 +18,7 @@ export const userSlice = createSlice({
 			position_id: 0,
 			dept_id: 0,
 			section_id: 0,
+			status_code: "",
 		},
 		userRoles: [],
 		isLoading: false,
@@ -67,6 +68,7 @@ export const userSlice = createSlice({
 				position_id: 0,
 				dept_id: 0,
 				section_id: 0,
+				status_code: "",
 			};
 			state.userRoles = [];
 		},

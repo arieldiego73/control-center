@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import {
 	Box,
-	Grid,
 	FormLabel,
 	TextField,
 	FormControl,
@@ -145,13 +144,13 @@ export default function Userpage() {
 
 			const businessUnitMatch = employee.section_name
 				.toLowerCase()
-				.includes(searchQuery.businessUnit.toLowerCase());
+				.includes(searchQuery.department.toLowerCase());
 			const positionMatch = employee.position_sh_name
 				.toLowerCase()
 				.includes(searchQuery.position.toLowerCase());
 			const departmentMatch = employee.dept_name
 				.toLowerCase()
-				.includes(searchQuery.department.toLowerCase());
+				.includes(searchQuery.businessUnit.toLowerCase());
 
 			return (
 				nameMatch &&

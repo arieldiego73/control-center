@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,8 @@ public class ClientServiceImpl implements ClientService{
 
     @Autowired
     public ActivityLogDao activityLogDao;
+
+    List<ClientOutput> clientList = new ArrayList<>();
 
     @Override
     public List<ClientOutput> getAllClient() {
@@ -118,6 +121,37 @@ public class ClientServiceImpl implements ClientService{
         } else {
             return "Client with the ID " + id + " cannot be found.";
         }
+    }
+
+    @Override
+    public String deleteMultipleClient(List<Long> ids, String emp_id) {
+        clientList = clientDao.getAllClient();
+
+        for(Long id : ids) {
+            String toString = String.valueOf(id);
+            ClientOutput client = clientDao.getClientById(toString);
+            if(client != null) {
+                if(client.getDel_flag() == 1) {
+                    return "Client with the ID " + id + " has already been deleted.";
+                }
+            } else {
+                return "Client with the ID " + id + " cannot be found.";
+            }
+        }
+        clientDao.deleteMultipleClient(ids);
+
+        //Acivitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id(emp_id); //current logged user dapat
+        activityLogInput.setLog_desc("Deleted multiple Clients.");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        //add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Records are successfully deleted.";
     }
 
     @Override
