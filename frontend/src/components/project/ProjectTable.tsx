@@ -75,7 +75,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 
 	const handleRowClick = (row: any) => {
 		console.log(row);
-		navigate(`/editProject/${row.proj_name}`, { state: row.proj_id });
+		navigate(`/project/edit-project/${row.proj_name}`, { state: row.proj_id });
 	};
 
 	const durationDateFormatter = new Intl.DateTimeFormat("en-US", {

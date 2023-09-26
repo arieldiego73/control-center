@@ -83,7 +83,7 @@ export default function Project() {
 		<div>
 			<div className={ProjectStyle.addButton}>
 				<Link
-					to="/NewProj"
+					to="/project/add-new-project"
 					style={{ textDecoration: "none", color: "black" }}
 				>
 					<Button

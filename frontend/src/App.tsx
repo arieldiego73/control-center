@@ -35,32 +35,32 @@ function App() {
 			<Routes>
 				<Route path="/" Component={LoginPage} />
 				<Route path="/dashboard" Component={DashboardHandler} />
-				<Route path="/user/*" Component={Userhandler} />
-				<Route path="/user/create-user" Component={CreateUserHandler} />
+				<Route path="/users/*" Component={Userhandler} />
+				<Route path="/user/add-new-user" Component={CreateUserHandler} />
 				{/* <Route path="/edituser" Component={EditUserHandler} /> */}
-				<Route path="/user/editUser/:name/*" element={<EditUserHandler />} />
-				<Route path="/editProject/:projectName" element={<EditProjectHandler />} />
-				<Route path="/project" Component={ProjectHandler} />
+				<Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
+				<Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
+				<Route path="/projects" Component={ProjectHandler} />
 				{/* <Route path="/modal" Component={Modal} /> */}
-				<Route path="/role" Component={RoleHandler} />
-				<Route path="/NewProj" Component={NewProjHandler} />
+				<Route path="/roles" Component={RoleHandler} />
+				<Route path="/project/add-new-project" Component={NewProjHandler} />
 				{/* <Route path="/User/:name" Component={UserDetails} /> */}
-				<Route path="/developmentphase" Component={DevelopmentPhaseHandler} />
-				<Route path="/client" Component={ClientHandler} />
-				<Route path="/projectStatus" Component={ProjectStatusHandler} />
-				<Route path="/dashboardtable" Component={ActivityLogDashboardTable} />
-				<Route path="/employeestatus" Component={EmployeeStatusHandler} />
-				<Route path="/employeeposition" Component={EmployeePositionHandler} />
-				<Route path="/businessunit" Component={BusinessUnitHandler} />
+				<Route path="/development-phase" Component={DevelopmentPhaseHandler} />
+				<Route path="/clients" Component={ClientHandler} />
+				<Route path="/project-status" Component={ProjectStatusHandler} />
+				<Route path="/dashboard-table" Component={ActivityLogDashboardTable} />
+				<Route path="/employee-status" Component={EmployeeStatusHandler} />
+				<Route path="/employee-position" Component={EmployeePositionHandler} />
+				<Route path="/business-unit" Component={BusinessUnitHandler} />
 				<Route path="/department" Component={DepartmentHandler} />
 				<Route path="/technology" Component={TechnologyHandler} />
 				<Route path="/test2" Component={test2} />
-				<Route path="/sideNav" Component={Sidenav} />
-				<Route path="/topNav" Component={Topnav} />
+				{/* <Route path="/sideNav" Component={Sidenav} /> */}
+				{/* <Route path="/topNav" Component={Topnav} /> */}
 				{/* <Route path="/NewNav" Component={NewNav} /> */}
 				<Route path="/navigations" Component={Navigations} />
-				<Route path="/UserGraph" Component={UserGraph} />
-				<Route path="/DevType" Component={DevelopmentTypeHandler} />
+				<Route path="/user-graph" Component={UserGraph} />
+				<Route path="/development-type" Component={DevelopmentTypeHandler} />
 				<Route path="/TestHandler" Component={TestHandler} />
 			</Routes>
 		</BrowserRouter>

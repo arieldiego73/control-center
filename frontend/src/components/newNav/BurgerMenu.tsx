@@ -17,14 +17,15 @@ import BurgerMenuStyle from "./BurgerMenuStyle.module.css";
 
 // for dropdown in others 
 const othersDropDownData = [
-    { label: "Development Phase", path: "/DevelopmentPhase" },
-    { label: "Project Status", path: "/projectStatus" },
-    { label: "Employee Status", path: "/employeestatus" },
-    { label: "Employee Position", path: "/employeeposition" },
-    { label: " Business Units", path: "/businessunit" },
+    { label: "Development Phase", path: "/development-phase" },
+    { label: "Project Status", path: "/project-status" },
+    { label: "Employee Status", path: "/employee-status" },
+    { label: "Employee Position", path: "/employee-position" },
+    { label: " Business Units", path: "/business-unit" },
     { label: "Departments", path: "/department" },
     { label: "Technologies", path: "/technology" },
-    { label: "Development Type", path: "/devType" },
+    { label: "Development Type", path: "/development-type" },
+    { label: "Clients", path: "/clients" },
 ];
 
 function DevelopmentPhase() {
@@ -51,7 +52,9 @@ function Technologies() {
 function DevelopmentTypeHandler() {
     return <div>Hosting Content</div>;
 }
-
+function ClientHandler() {
+    return <div>Hosting Content</div>;
+}
 
 const FireNav = styled(List)<{ component?: React.ElementType }>({
     "& .MuiListItemButton-root": {
@@ -135,7 +138,7 @@ export default function MenuPopupState() {
                                 </ListItem>
                             </Link>
 
-                            <Link to="/user" style={{ textDecoration: "none" }}>
+                            <Link to="/users" style={{ textDecoration: "none" }}>
                                 <ListItem component="div" disablePadding>
                                     <ListItemButton
                                         sx={{
@@ -164,7 +167,7 @@ export default function MenuPopupState() {
                                 </ListItem>
                             </Link>
                             {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
-                            <Link to="/project" style={{ textDecoration: "none" }}>
+                            <Link to="/projects" style={{ textDecoration: "none" }}>
                                 <ListItem component="div" disablePadding>
                                     <ListItemButton
                                         sx={{
@@ -193,7 +196,7 @@ export default function MenuPopupState() {
                                 </ListItem>
                             </Link>
                             {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
-                            <Link to="/role" style={{ textDecoration: "none" }}>
+                            <Link to="/roles" style={{ textDecoration: "none" }}>
                                 <ListItem component="div" disablePadding>
                                     <ListItemButton
                                         sx={{

@@ -188,7 +188,7 @@ export const Sidenav = () => {
         </div>
 
         <div className={SidenavStyle.buttonContainer}>
-          <Link to="/user" className={classes.iconButton}>
+          <Link to="/users" className={classes.iconButton}>
             <IconButton>
               <PersonOutlineIcon
                 style={{ height: "1.25vw", width: "1.25vw" }}
@@ -201,7 +201,7 @@ export const Sidenav = () => {
         </div>
         
         <div className={SidenavStyle.buttonContainer}>
-          <Link to="/project" className={classes.iconButton}>
+          <Link to="/projects" className={classes.iconButton}>
             <IconButton>
               <AccountTreeOutlinedIcon
                 style={{ height: "1.25vw", width: "1.25vw" }}
@@ -213,7 +213,7 @@ export const Sidenav = () => {
           </div>
         </div>
         <div className={SidenavStyle.buttonContainer}>
-          <Link to="/role" className={classes.iconButton}>
+          <Link to="/roles" className={classes.iconButton}>
             <IconButton>
               <PersonSearchOutlinedIcon
                 style={{ height: "1.25vw", width: "1.25vw" }}
