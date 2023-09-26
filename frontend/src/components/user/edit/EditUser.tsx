@@ -704,8 +704,7 @@ const VisuallyHiddenInput = styled("input")({
                   </Button>
 
                   <Button
-                    variant="contained"
-                    startIcon={<CancelOutlinedIcon />}
+                    variant="text"
                     className={EditUserStyle.cancelButton}
                     onClick={handleCancel}
                   >

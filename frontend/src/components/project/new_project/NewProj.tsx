@@ -25,12 +25,12 @@ import {
 	AlertColor,
 	Snackbar,
 	Alert,
+	DialogContentText,
 } from "@mui/material";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import EditIcon from "@mui/icons-material/Edit";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -46,8 +46,8 @@ import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import AddProjManagerTable from "../AddProjManagerTable";
 import ReactQuillEditor from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
-import { Link } from "react-router-dom";
+import HelpIcon from "@mui/icons-material/Help";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientFetch } from "../../../redux/state/clientState";
 import { RootState } from "../../../redux/store/store";
@@ -78,6 +78,7 @@ const DEFAULT_MANAGER_ID = 100;
 
 export default function NewProj() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	// FOR SNACKPACK ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const notice = useSelector(
@@ -136,6 +137,49 @@ export default function NewProj() {
 	};
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+	// FOR DIALOG ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	const [ask, setAsk] = React.useState(false);
+	const [dialogTitle, setDialogTitle] = React.useState("");
+	const [dialogContentText, setDialogContentText] = React.useState("");
+	const [isSaving, setIsSaving] = React.useState(false);
+
+	// const handleCancelDialog = () => {
+	// 	setAsk(true);
+	// 	setDialogTitle("Cancel the edit?");
+	// 	setDialogContentText(
+	// 		"Modifications made with the record will be \nlost forever."
+	// 	);
+	// 	setIsSaving(false);
+	// };
+
+	const handleSaveDialog = () => {
+		if (
+			clientName &&
+			projectName &&
+			projectDescription &&
+			selectedStartDate &&
+			selectedEndDate &&
+			selectedClientId &&
+			status &&
+			projectMembers &&
+			projectDevPhase &&
+			projectTechnologies
+		) {
+			setAsk(true);
+			setDialogTitle("Save the record?");
+			setDialogContentText(
+				"Upon proceeding, the modifications made on the record \nwill be saved."
+			);
+			setIsSaving(true);
+		} else {
+			handleClickSnackpack(
+				"Only Development Type and Managers are optional. Please, fill out all the required fields.",
+				"error"
+			)();
+		}
+	};
+	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 	// PROJECT MANAGER VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const [projectManager, setProjectManager] =
 		useState<GridRowSelectionModel>(); // Will hold the current project managers of the current project
@@ -158,7 +202,7 @@ export default function NewProj() {
 
 	// PROJECT CLIENT VARIABLES :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const [projectClient, setProjectClient] = useState<GridRowParams>();
-	const [clientName, setClientName] = useState("Select a client");
+	const [clientName, setClientName] = useState("");
 	const [selectedClientId, setSelectedClientId] = useState<number[]>([]);
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -298,7 +342,7 @@ export default function NewProj() {
 				(tech: any) => tech.tech_id === techId
 			);
 			if (matchingTech) {
-				selectedTechs.push(matchingTech.tech_name)
+				selectedTechs.push(matchingTech.tech_name);
 			}
 		});
 
@@ -321,47 +365,51 @@ export default function NewProj() {
 		);
 	};
 
-	const handleSaveProject = () => {
-		if (
-			projectName &&
-			projectDescription &&
-			selectedStartDate &&
-			selectedEndDate &&
-			selectedClientId &&
-			status &&
-			projectMembers &&
-			projectDevPhase &&
-			projectTechnologies
-		) {
-			let code = "";
-			const uppercaseName = projectName.toUpperCase().split(" ");
-			for (const word of uppercaseName) {
-				code += word[0];
-			}
-			code += Date.now().toString().slice(5);
-
-			const projectInfo: Data = {
-				proj_name: projectName,
-				proj_code: code,
-				proj_description: projectDescription,
-				start_date: dayjs(selectedStartDate),
-				end_date: dayjs(selectedEndDate),
-				projectStatusId: status,
-				devTypeId: devType,
-				clientId: selectedClientId,
-				selectedManagers: projectManager ? projectManager as number[] : [DEFAULT_MANAGER_ID],
-				selectedMembers: projectMembers as number[],
-				selectedDevPhase: projectDevPhase,
-				selectedTechnologies: projectTechnologies,
-			};
-			dispatch(addProject({ data: projectInfo }));
-		} else {
-			handleClickSnackpack(
-				"Only Development Type is optional. Please, fill out all the required fields.",
-				"error"
-			)();
+	const proceedToSaveProject = () => {
+		let code = "";
+		const uppercaseName = projectName.toUpperCase().split(" ");
+		for (const word of uppercaseName) {
+			code += word[0];
 		}
+		code += Date.now().toString().slice(5);
+
+		const projectInfo: Data = {
+			proj_name: projectName,
+			proj_code: code,
+			proj_description: projectDescription,
+			start_date: dayjs(selectedStartDate),
+			end_date: dayjs(selectedEndDate),
+			projectStatusId: status,
+			devTypeId: devType,
+			clientId: selectedClientId,
+			selectedManagers: projectManager
+				? (projectManager as number[])
+				: [DEFAULT_MANAGER_ID],
+			selectedMembers: projectMembers as number[],
+			selectedDevPhase: projectDevPhase,
+			selectedTechnologies: projectTechnologies,
+		};
+		dispatch(addProject({ data: projectInfo }));
+		setAsk(false)
+		setDialogTitle("")
+		setDialogContentText("")
 	};
+
+	const handleCancel = () => {
+		navigate("/project");
+	};
+
+	// FOR REDIRECT AFTER SAVING
+	const isAddSuccess = useSelector(
+		(state: RootState) => state.projectReducer.isAddSuccess
+	);
+	React.useEffect(() => {
+		if (isAddSuccess) {
+			setTimeout(() => {
+				navigate("/project");
+			}, GLOBAL_TIMEOUT);
+		}
+	}, [dispatch, isAddSuccess, navigate]);
 
 	return (
 		<>
@@ -427,9 +475,11 @@ export default function NewProj() {
 															overflow: "visible",
 														}}
 													>
-														{clientName
-															.charAt(0)
-															.toLocaleUpperCase()}
+														{clientName === ""
+															? "?"
+															: clientName
+																	.charAt(0)
+																	.toLocaleUpperCase()}
 													</Avatar>
 												</ListItemAvatar>
 												<ListItemText secondary="Client name">
@@ -439,7 +489,9 @@ export default function NewProj() {
 															fontWeight: 900,
 														}}
 													>
-														{clientName}
+														{clientName === ""
+															? "Select a client"
+															: clientName}
 													</Typography>
 												</ListItemText>
 											</ListItem>
@@ -453,7 +505,9 @@ export default function NewProj() {
 											color="success"
 											startIcon={<EditIcon />}
 										>
-											Change
+											{clientName === ""
+															? "Select"
+															: "Change"}
 										</Button>
 									</div>
 								</FormControl>
@@ -561,7 +615,7 @@ export default function NewProj() {
 											fontWeight: "400",
 										}}
 									>
-										Project Manager
+										Project Manager (optional)
 									</FormLabel>
 									<Paper elevation={2} sx={{ padding: 2 }}>
 										<Stack
@@ -1064,31 +1118,70 @@ export default function NewProj() {
 								style={{
 									textTransform: "none",
 								}}
-								onClick={handleSaveProject}
+								onClick={handleSaveDialog}
 							>
-								SAVE
+								SAVE AND GO BACK
 							</Button>
-							<Link
-								to="/project"
-								style={{
-									textDecoration: "none",
-								}}
-							>
-								<Button
-									variant="contained"
-									startIcon={<CancelOutlinedIcon />}
-									style={{
-										textTransform: "none",
-										backgroundColor: "gray",
-									}}
-								>
-									CANCEL
-								</Button>
-							</Link>
+							<Button variant="text" onClick={handleCancel}>
+								CANCEL
+							</Button>
 						</div>
 					</div>
 				</div>
 			</div>
+			<Dialog
+				open={ask}
+				onClose={() => {
+					setAsk(false);
+				}}
+				aria-labelledby="responsive-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				<DialogTitle id="responsive-dialog-title">
+					<Typography
+						fontWeight={700}
+						fontSize={20}
+						display={"flex"}
+						alignItems={"center"}
+						gap={1}
+					>
+						<HelpIcon
+							accentHeight={100}
+							color="error"
+							fontSize="large"
+							alignmentBaseline="middle"
+						/>
+						{dialogTitle}
+					</Typography>
+				</DialogTitle>
+
+				<DialogContent>
+					<DialogContentText
+						whiteSpace={"pre-line"}
+						id="alert-dialog-description"
+					>
+						{dialogContentText}
+					</DialogContentText>
+				</DialogContent>
+
+				<DialogActions>
+					<Button
+						variant="contained"
+						onClick={isSaving ? proceedToSaveProject : handleCancel}
+						autoFocus
+					>
+						{isSaving ? "Save" : "Cancel"}
+					</Button>
+
+					<Button
+						onClick={() => {
+							setAsk(false);
+						}}
+					>
+						Continue editing
+					</Button>
+				</DialogActions>
+			</Dialog>
 			<Snackbar
 				key={messageInfo ? messageInfo.key : undefined}
 				open={open}

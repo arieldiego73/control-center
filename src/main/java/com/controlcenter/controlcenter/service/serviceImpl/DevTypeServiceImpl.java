@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,8 @@ public class DevTypeServiceImpl implements DevTypeService {
 
     @Autowired
     public ActivityLogDao activityLogDao;
+
+    List<DevTypeOutput> devTypeList = new ArrayList<>();
 
     @Override
     public ResponseEntity<List<DevTypeOutput>> getAllDevType() {
@@ -117,6 +120,37 @@ public class DevTypeServiceImpl implements DevTypeService {
         } else {
             return "Development Type with the ID " + id + " cannot be found.";
         }
+    }
+
+    @Override
+    public String deleteMultipleDevType(List<Long> ids, String emp_id) {
+        devTypeList = devTypeDao.getAllDevType();
+
+        for(Long id : ids) {
+            String toString = String.valueOf(id);
+            DevTypeOutput devType = devTypeDao.getDevTypeById(toString);
+            if(devType != null) {
+                if(devType.getDel_flag() == 1) {
+                    return "Development Type with the ID " + id + " has already been deleted.";
+                }
+            } else {
+                return "Development Type with the ID " + id + " cannot be found.";
+            }
+        }
+        devTypeDao.deleteMultipleDevType(ids);
+
+        //Acivitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+        activityLogInput.setEmp_id(emp_id); //current logged user dapat
+        activityLogInput.setLog_desc("Deleted multiple Development Types.");
+
+        Long currentTimeMillis = System.currentTimeMillis();
+        //add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Records are successfully deleted.";
     }
 
     @Override

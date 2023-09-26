@@ -1,5 +1,5 @@
 import * as React from "react";
-import DevelopmentTypeTable from "./DevelopmentTypeTable";
+import ClientTable from "./ClientTable";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { RootState } from "../../redux/store/store";
 import { useSelector } from "react-redux";
@@ -15,9 +15,9 @@ export interface State {
 	messageInfo?: SnackbarMessage;
 }
 
-export default function DevelopmentPhase() {
+export default function Client() {
 	const notice = useSelector(
-		(state: RootState) => state.devTypeReducer.notice
+		(state: RootState) => state.clientReducer.notice
 	);
 	const isInitialAmount = React.useRef(true);
 	React.useEffect(() => {
@@ -76,7 +76,7 @@ export default function DevelopmentPhase() {
 			<div className="contentContainer">
 				<div className="contentHolder">
 					<div className="tableHolder">
-						<DevelopmentTypeTable
+						<ClientTable
 							createSnackpack={handleClickSnackpack}
 						/>
 					</div>

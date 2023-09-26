@@ -152,7 +152,7 @@ public class DevPhaseServiceImpl implements DevPhaseService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id(emp_id); //current logged user dapat
-        activityLogInput.setLog_desc("Deleted Multiple Development Phase.");
+        activityLogInput.setLog_desc("Deleted multiple Development Phase.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         //add the activity log

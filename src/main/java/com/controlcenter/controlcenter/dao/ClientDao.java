@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.controlcenter.controlcenter.model.ClientInput;
 import com.controlcenter.controlcenter.model.ClientOutput;
@@ -15,5 +16,6 @@ public interface ClientDao {
     void addClient(ClientInput client);
     void editClient(Map<String, Object> paramMap);
     void logicalDeleteClient(String id);
+    void deleteMultipleClient(@Param("ids") List<Long> ids);
     void restoreClient(String id);
 }

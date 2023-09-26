@@ -46,8 +46,18 @@
     <update id="logicalDeleteDevType">
         UPDATE tbl_dev_type_mst
            SET del_flag = 1
-        WHERE dev_type_id = #{id}
+         WHERE dev_type_id = #{id}
     </update>
+
+<!-- Logical Delete Multiple -->
+    <delete id="deleteMultipleDevType">
+        UPDATE tbl_dev_type_mst
+           SET del_flag = 1
+         WHERE dev_type_id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 <!-- Restore Data -->
     <update id="restoreDevType">

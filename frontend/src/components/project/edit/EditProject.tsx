@@ -25,6 +25,7 @@ import {
 	AlertColor,
 	Snackbar,
 	Alert,
+	DialogContentText,
 } from "@mui/material";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
@@ -45,7 +46,7 @@ import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import AddProjManagerTable from "../AddProjManagerTable";
 import ReactQuillEditor from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
+import HelpIcon from "@mui/icons-material/Help";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientFetch } from "../../../redux/state/clientState";
@@ -63,7 +64,10 @@ import {
 	updateProject,
 } from "../../../redux/saga/projectSaga";
 import { getDevTypeFetch } from "../../../redux/state/devTypeState";
-import { addProjectReset, clearProjectInfo } from "../../../redux/state/projectState";
+import {
+	addProjectReset,
+	clearProjectInfo,
+} from "../../../redux/state/projectState";
 import stringAvatar from "../../custom_color/avatar_custom_color";
 
 export interface SnackbarMessage {
@@ -153,6 +157,48 @@ export default function EditProject() {
 
 	const handleExited = () => {
 		setMessageInfo(undefined);
+	};
+	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+	// FOR DIALOG ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	const [ask, setAsk] = React.useState(false);
+	const [dialogTitle, setDialogTitle] = React.useState("");
+	const [dialogContentText, setDialogContentText] = React.useState("");
+	const [isSaving, setIsSaving] = React.useState(false);
+
+	const handleCancelDialog = () => {
+		setAsk(true);
+		setDialogTitle("Cancel the edit?");
+		setDialogContentText(
+			"Modifications made with the record will be \nlost forever."
+		);
+		setIsSaving(false);
+	};
+
+	const handleSaveDialog = () => {
+		if (
+			projectName &&
+			projectDescription &&
+			selectedStartDate &&
+			selectedEndDate &&
+			selectedClientId &&
+			status &&
+			projectMembers &&
+			projectDevPhase &&
+			projectTechnologies
+		) {
+			setAsk(true);
+			setDialogTitle("Save the record?");
+			setDialogContentText(
+				"Upon proceeding, the modifications made on the record \nwill be saved."
+			);
+			setIsSaving(true);
+		} else {
+			handleClickSnackpack(
+				"Only Development Type and managers are optional. Please, fill out all the required fields.",
+				"error"
+			)();
+		}
 	};
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -345,7 +391,7 @@ export default function EditProject() {
 				(tech: any) => tech.tech_id === techId
 			);
 			if (matchingTech) {
-				selectedTechs.push(matchingTech.tech_name)
+				selectedTechs.push(matchingTech.tech_name);
 			}
 		});
 		return (
@@ -367,39 +413,25 @@ export default function EditProject() {
 		);
 	};
 
-	const handleSaveProject = () => {
-		if (
-			projectName &&
-			projectDescription &&
-			selectedStartDate &&
-			selectedEndDate &&
-			selectedClientId &&
-			status &&
-			projectMembers &&
-			projectDevPhase &&
-			projectTechnologies
-		) {
-			const projectInfo: Data = {
-				proj_name: projectName,
-				proj_code: projectCode,
-				proj_description: projectDescription,
-				start_date: dayjs(selectedStartDate),
-				end_date: dayjs(selectedEndDate),
-				projectStatusId: status,
-				devTypeId: devType,
-				clientId: selectedClientId,
-				selectedManagers: projectManager ? projectManager as number[] : [DEFAULT_MANAGER_ID],
-				selectedMembers: projectMembers as number[],
-				selectedDevPhase: projectDevPhase,
-				selectedTechnologies: projectTechnologies,
-			};
-			dispatch(updateProject({ data: projectInfo, projectId: PROJECT_ID }));
-		} else {
-			handleClickSnackpack(
-				"Only Development Type is optional. Please, fill out all the required fields.",
-				"error"
-			)();
-		}
+	const proceedToSaveProject = () => {
+		const projectInfo: Data = {
+			proj_name: projectName,
+			proj_code: projectCode,
+			proj_description: projectDescription,
+			start_date: dayjs(selectedStartDate),
+			end_date: dayjs(selectedEndDate),
+			projectStatusId: status,
+			devTypeId: devType,
+			clientId: selectedClientId,
+			selectedManagers: projectManager
+				? (projectManager as number[])
+				: [DEFAULT_MANAGER_ID],
+			selectedMembers: projectMembers as number[],
+			selectedDevPhase: projectDevPhase,
+			selectedTechnologies: projectTechnologies,
+		};
+		dispatch(updateProject({ data: projectInfo, projectId: PROJECT_ID }));
+		setAsk(false)
 	};
 
 	const handleCancel = () => {
@@ -409,15 +441,17 @@ export default function EditProject() {
 	};
 
 	// FOR REDIRECT AFTER SAVING
-	const isAddSuccess = useSelector((state: RootState) => state.projectReducer.isAddSuccess)
+	const isAddSuccess = useSelector(
+		(state: RootState) => state.projectReducer.isAddSuccess
+	);
 	React.useEffect(() => {
 		if (isAddSuccess) {
 			dispatch(addProjectReset());
 			setTimeout(() => {
-				navigate("/project")
+				navigate("/project");
 			}, GLOBAL_TIMEOUT);
 		}
-	}, [dispatch, isAddSuccess, navigate])
+	}, [dispatch, isAddSuccess, navigate]);
 
 	return (
 		<>
@@ -488,7 +522,9 @@ export default function EditProject() {
 															.toLocaleUpperCase()}
 													</Avatar>
 												</ListItemAvatar>
-												<ListItemText secondary={projectCode}>
+												<ListItemText
+													secondary={"Project Code: " + projectCode}
+												>
 													<Typography
 														variant="h4"
 														style={{
@@ -899,10 +935,11 @@ export default function EditProject() {
 														<Chip
 															key={member}
 															avatar={
-																<Avatar {...stringAvatar(
-																	member
-																)}>
-																</Avatar>
+																<Avatar
+																	{...stringAvatar(
+																		member
+																	)}
+																></Avatar>
 															}
 															label={member}
 														/>
@@ -1122,17 +1159,72 @@ export default function EditProject() {
 								style={{
 									textTransform: "none",
 								}}
-								onClick={handleSaveProject}
+								onClick={handleSaveDialog}
 							>
 								SAVE AND GO BACK
 							</Button>
-							<Button variant="text" onClick={handleCancel}>
+							<Button variant="text" onClick={handleCancelDialog}>
 								CANCEL
 							</Button>
 						</div>
 					</div>
 				</div>
 			</div>
+			<Dialog
+				open={ask}
+				onClose={() => {
+					setAsk(false);
+				}}
+				aria-labelledby="responsive-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				<DialogTitle id="responsive-dialog-title">
+					<Typography
+						fontWeight={700}
+						fontSize={20}
+						display={"flex"}
+						alignItems={"center"}
+						gap={1}
+					>
+						<HelpIcon
+							accentHeight={100}
+							color="error"
+							fontSize="large"
+							alignmentBaseline="middle"
+						/>
+						{dialogTitle}
+					</Typography>
+				</DialogTitle>
+
+				<DialogContent>
+					<DialogContentText
+						whiteSpace={"pre-line"}
+						id="alert-dialog-description"
+					>
+						{dialogContentText}
+					</DialogContentText>
+				</DialogContent>
+
+				<DialogActions>
+					<Button
+						variant="contained"
+						onClick={
+							isSaving ? proceedToSaveProject : handleCancel
+						}
+						autoFocus
+					>
+						{isSaving ? "Save" : "Cancel"}
+					</Button>
+
+					<Button
+						onClick={() => {
+							setAsk(false);
+						}}
+					>
+						Continue editing
+					</Button>
+				</DialogActions>
+			</Dialog>
 			<Snackbar
 				key={messageInfo ? messageInfo.key : undefined}
 				open={open}

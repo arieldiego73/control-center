@@ -246,7 +246,7 @@ export default function CreateUser() {
     setAsk(true);
     setDialogTitle("Cancel the edit?");
     setDialogContentText(
-      "Modifications made with the record will be \nlost forever."
+      "The record will be discarded and will not be saved."
     );
     setIsSaving(false);
   };
@@ -652,8 +652,8 @@ export default function CreateUser() {
                   </Button>
 
                   <Button
-                    variant="contained"
-                    startIcon={<CancelOutlinedIcon />}
+                    variant="text"
+                    // startIcon={<CancelOutlinedIcon />}
                     className={CreateUserStyle.cancelButton}
                     onClick={handleCancel}
                   >
@@ -681,7 +681,7 @@ export default function CreateUser() {
                   >
                     <HelpIcon
                       accentHeight={100}
-                      color="disabled"
+                      color="error"
                       fontSize="large"
                       alignmentBaseline="middle"
                     />
