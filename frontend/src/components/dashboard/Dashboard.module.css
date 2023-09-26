@@ -4,17 +4,17 @@
 	flex-direction: column; 
 	height: 86vh;
 	width: 82vw;
-	top: 110px;
+    /* top:5vh; */
 	left: 16.5vw;
 	overflow: hidden;
+    /* border: 1px solid red; */
 }  
 .contentContainer{
     width: 98%;
     height: 93%; 
     position: relative; 
-    top: 5%;
+    top: 20%;
     align-self: center; 
-
 }
 .contentHolder{
     border-radius: 10px;
@@ -30,7 +30,9 @@
     align-items: center;
     width: 100%;
     margin-bottom: 45px;
+    height: 100%;
     /* border: 1px solid red; */
+   padding-top: 2%;
 }
 .tableHolder{
     display: flex;
@@ -61,12 +63,12 @@
 @media screen and (max-width: 2559px) {
     .mainContainer {
         height: 88vh;
-        top: 130px;
-        /* border: 1px solid red; */
     } 
-    .contentContainer{
-        top: 10%;
+    .contentContainer{  
+    
+        top: 20%;
     }
+    
     .graphHolder{
         height: 25%;
     }
@@ -75,46 +77,64 @@
 @media screen and (max-width: 2200px) {
     .mainContainer {
         top: 110px;
-        /* border: 1px solid red; */
     } 
+    .contentContainer{
+        top: 8%;
+    }
 }
-
-@media screen and (max-width: 1950px) {
+@media screen and (max-width: 1680px) {
     .mainContainer {
-        top: 100px;
-    } 
-}
-
-@media screen and (max-width: 1200px) {
-    .mainContainer {   
-        flex-direction: column; 
-        height: 86vh;
-        width: 100vw;    
-        left: 0vw;
-        overflow: scroll   ;
-    } 
-}
-
-@media screen and (max-width: 1000px) {
-    .mainContainer {
-        height: 100vh;
-        width: 100vw;
-        left: 0vw;
+        height: 86%;
+        width: 80vw;
+        left: 16.5vw;
         overflow: scroll;
+        /* padding-top: 2%; */
     } 
     .graphHolder{
         flex-direction: column;
         display: flex;
         width: 100%;
-        height: 100%;
-        gap:15%;
+        height: 100vh;
+        top:0;
+        gap: 10%;
     }
-    .contentContainer{
+    .contentContainer{  
         width: 98%;
         height: 100%;
+        top: 20;
     }
     .contentHolder{
-        padding-bottom: 15%;
+        padding-bottom: 2%;
+        height: 100%;
+    }
+    .activityLogContainer{
+        height: 100%;
+        width: 100%;
+    }
+    .tableHolder{
+     height: 30%;
+     width: 100%;
     }
 }
+@media screen and (max-width: 1200px) {
+    .mainContainer {
+        height: 86%;
+        width: 95vw;
+        left: 2vw;
+        overflow: scroll;
+    } 
+    .graphHolder{
+        gap: 12%;
+    }
+    .activityLogContainer{
+        height: 100%;
+        width: 100%;
+    }
+}
+@media screen and (max-width: 850px) {
+    .actLogTable {
+        overflow: auto;
+    }
 
+
+}
