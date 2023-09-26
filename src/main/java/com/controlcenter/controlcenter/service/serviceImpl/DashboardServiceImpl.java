@@ -54,8 +54,6 @@ public class DashboardServiceImpl implements DashboardService{
 
     @Override
     public ResponseEntity<List<Map<String, Object>>> countAllRegisteredUserPerYear() {
-        
-        
         List<Map<String, Object>> resultMap = dashboardDao.countAllRegisteredUserPerYear();
 
         resultMap.stream()
@@ -66,5 +64,71 @@ public class DashboardServiceImpl implements DashboardService{
         }).collect(Collectors.toList());
 
         return ResponseEntity.ok(resultMap);
+    }
+
+    @Override
+    public ResponseEntity<Integer> countAllUserWithStatusOfBusinessPartner() {
+        Integer totalUserWithStatusOfBusinessPartner = dashboardDao.countAllUserWithStatusOfBusinessPartner();
+
+        if(totalUserWithStatusOfBusinessPartner != null) {
+            return ResponseEntity.ok(totalUserWithStatusOfBusinessPartner);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Integer> countAllUserWithStatusOfIntern() {
+        Integer totalUserWithStatusOfIntern = dashboardDao.countAllUserWithStatusOfIntern();
+
+        if(totalUserWithStatusOfIntern != null) {
+            return ResponseEntity.ok(totalUserWithStatusOfIntern);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Integer> countAllUserWithStatusOfRegular() {
+        Integer totalUserWithStatusOfRegular = dashboardDao.countAllUserWithStatusOfRegular();
+
+        if(totalUserWithStatusOfRegular != null) {
+            return ResponseEntity.ok(totalUserWithStatusOfRegular);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Integer> countAllUserWithStatusOfTrainee() {
+        Integer totalUserWithStatusOfTrainee = dashboardDao.countAllUserWithStatusOfTrainee();
+
+        if(totalUserWithStatusOfTrainee != null) {
+            return ResponseEntity.ok(totalUserWithStatusOfTrainee);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Integer> countAllProjectByStatus(String proj_status_id) {
+        Integer totalCountOfProjectByStatus = dashboardDao.countAllProjectByStatus(proj_status_id);
+
+        if(totalCountOfProjectByStatus != null) {
+            return ResponseEntity.ok(totalCountOfProjectByStatus);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Integer> countAllUserByStatus(String user_status_code) {
+        Integer totalCountOfUserByStatus = dashboardDao.countAllUserByStatus(user_status_code);
+
+        if(totalCountOfUserByStatus != null) {
+            return ResponseEntity.ok(totalCountOfUserByStatus);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
