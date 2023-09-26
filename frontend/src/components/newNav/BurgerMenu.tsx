@@ -13,7 +13,7 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useState } from 'react';
-import BurgerMenuStyle from "./BurgerMenuStyle.module.css";
+import BurgerIcon from './BurgerIcon';
 
 // for dropdown in others 
 const othersDropDownData = [
@@ -85,7 +85,7 @@ export default function MenuPopupState() {
             {(popupState) => (
                 <React.Fragment>
                     <Button variant="contained" {...bindTrigger(popupState)} style={{ height: "100%", width: "100%" }}>
-                        &#9776;
+                        <BurgerIcon />
                     </Button>
                     <Menu {...bindMenu(popupState)}>
                         <FireNav component="nav" disablePadding>

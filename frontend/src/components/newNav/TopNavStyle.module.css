@@ -233,7 +233,9 @@
       padding-left: 3%;
       font-weight: 600;
     }
-    
+    .userProfilePic{
+      padding: 5px;
+    }
   }
   @media screen and (max-width: 550px) {
     .topnavContainer {

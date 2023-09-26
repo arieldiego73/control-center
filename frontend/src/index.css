@@ -21,7 +21,7 @@ code {
 	top: 140px;
 	left: 16.5vw;
 	width: 82vw;
-	height: 89vh;
+	height: 80vh;
 }
 .contentContainer {
 	position: relative;
@@ -58,19 +58,18 @@ code {
 @media screen and (max-width: 2559px) {
 	.mainContainer{
 		top: 130px;
-		height: 87vh;
+
 	}
 }
 @media screen and (max-width: 1900px) {
 	.mainContainer{
 		top: 120px;
-		height: 85vh;
 	}
 }
 @media screen and (max-width: 1400px) {
 	.mainContainer{
 		top: 110px;
-		height: 84vh;
+
 	}
 }
 @media screen and (max-width: 1199px) {
@@ -79,12 +78,10 @@ code {
 		top: 100px;
 		left: 2vw;
 		width: 96vw;
-		height: 87vh;
 	}
 }
 @media screen and (max-width: 750px) {
 	.mainContainer{
 		top: 90px;
-		height: 87vh;
 	}
 }
