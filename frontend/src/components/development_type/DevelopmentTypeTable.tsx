@@ -11,7 +11,7 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Divider,} from "@mui/material";
-import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
+import { getDevTypeFetch } from "../../redux/state/devTypeState";
 import {datagridBoxStyle, datagridStyle, } from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
@@ -22,11 +22,11 @@ import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataG
 import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 import {
-	addDevPhase,
-	deleteDevPhase,
-	deleteDevPhaseBatch,
-	updateDevPhase,
-} from "../../redux/saga/devPhaseSaga";
+	addDevType,
+	deleteDevType,
+	deleteDevTypeBatch,
+	updateDevType,
+} from "../../redux/saga/devTypeSaga";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -47,12 +47,12 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 
 	// GET ALL THE DEV PHASE AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
-		dispatch(getDevPhaseFetch());
+		dispatch(getDevTypeFetch());
 	}, [dispatch]);
 
 	// STORE THE DEV PHASE TO 'data'
 	const data = useSelector(
-		(state: RootState) => state.devPhaseReducer.devPhase
+		(state: RootState) => state.devTypeReducer.devType
 	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
@@ -82,9 +82,9 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 		setRows(data);
 	}, [data]);
 
-	const [devPhaseName, setDevPhaseName] = React.useState("");
+	const [devTypeName, setDevTypeName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
-	const devPhaseNameRef = React.useRef<HTMLInputElement | null>(null);
+	const devTypeNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	function DatagridToolbar() {
 		return (
@@ -99,13 +99,13 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 	}
 
 	const proceedWithDelete = () => {
-		dispatch(deleteDevPhase({ dev_phase_id: deleteId }));
+		dispatch(deleteDevType({ dev_type_id: deleteId }));
 		setRows(data);
 		setAsk(false);
 	};
 
 	const proceedWithDeleteBatch = () => {
-		dispatch(deleteDevPhaseBatch({ batchId: selectedId }));
+		dispatch(deleteDevTypeBatch({ batchId: selectedId }));
 		setRows(data); // update rows
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
@@ -141,7 +141,7 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 		setDialogContentText(
 			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
 		);
-		setDialogTitle("Delete this phase?");
+		setDialogTitle("Delete this type?");
 		setDeleteId(id as number);
 	};
 
@@ -153,13 +153,13 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 		setRows(data);
 	};
 
-	const processUpdateRow = (devPhaseData: GridRowModel) => {
-		dispatch(updateDevPhase({ devPhaseData }));
+	const processUpdateRow = (devTypeData: GridRowModel) => {
+		dispatch(updateDevType({ devTypeData }));
 		setRows(data); // update rows
 	};
 
-	const processAddRow = (devPhaseData: GridRowModel) => {
-		dispatch(addDevPhase({ devPhaseData }));
+	const processAddRow = (devTypeData: GridRowModel) => {
+		dispatch(addDevType({ devTypeData }));
 		setRows(data); // update rows
 	};
 
@@ -172,18 +172,18 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const addRecord = (isAddOnly: boolean) => {
-		if (devPhaseName && shortName) {
+		if (devTypeName && shortName) {
 			const posData: GridValidRowModel = {
-				dev_phase_name: devPhaseName,
-				dev_phase_sh_name: shortName,
+				dev_type_name: devTypeName,
+				dev_type_sh_name: shortName,
 			};
 			processAddRow(posData);
-			setDevPhaseName("");
+			setDevTypeName("");
 			setShortName("");
 			if (isAddOnly) {
 				setIsHidden(false);
 			} else {
-				devPhaseNameRef.current?.focus();
+				devTypeNameRef.current?.focus();
 			}
 		} else {
 			const error = props.createSnackpack(
@@ -195,10 +195,10 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
-		if (newRow.dev_phase_name && newRow.dev_phase_sh_name) {
+		if (newRow.dev_type_name && newRow.dev_type_sh_name) {
 			processUpdateRow(newRow);
 		} else {
-			const cancel = handleCancelClick(newRow.dev_phase_id);
+			const cancel = handleCancelClick(newRow.dev_type_id);
 			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
@@ -215,8 +215,8 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 
 	const columns: GridColDef[] = [
 		{
-			field: "dev_phase_name",
-			headerName: "Development Phase",
+			field: "dev_type_name",
+			headerName: "Development Type",
 			minWidth: 300,
 			flex: 1,
 			editable: true,
@@ -224,7 +224,7 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 			align: "center",
 		},
 		{
-			field: "dev_phase_sh_name",
+			field: "dev_type_sh_name",
 			headerName: "Short Name",
 			minWidth: 300,
 			flex: 1,
@@ -309,15 +309,15 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
-									inputLabel="Development Phase"
-									inputValue={devPhaseName}
+									inputLabel="Development Type"
+									inputValue={devTypeName}
 									inputValueSetter={(
 										e: React.ChangeEvent<
 											| HTMLInputElement
 											| HTMLTextAreaElement
 										>
-									) => setDevPhaseName(e.target.value)}
-									inputRef={devPhaseNameRef}
+									) => setDevTypeName(e.target.value)}
+									inputRef={devTypeNameRef}
 									textFieldIcon={<PersonIcon />}
 									autoFocus={true}
 								/>
@@ -339,7 +339,7 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 								handleAddContinue={handleAddContinue}
 								handleClosing={() => {
 									setIsHidden(false);
-									setDevPhaseName("");
+									setDevTypeName("");
 									setShortName("");
 								}}
 							 />
@@ -355,7 +355,7 @@ const DevelopmentTypeTable: React.FC<DataGridProps> = (props) => {
 				rows={rows}
 				columns={columns}
 				editMode="row"
-				getRowId={(row) => row.dev_phase_id}
+				getRowId={(row) => row.dev_type_id}
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}

@@ -15,9 +15,9 @@ export interface State {
 	messageInfo?: SnackbarMessage;
 }
 
-export default function DevelopmentType() {
+export default function DevelopmentPhase() {
 	const notice = useSelector(
-		(state: RootState) => state.devPhaseReducer.notice
+		(state: RootState) => state.devTypeReducer.notice
 	);
 	const isInitialAmount = React.useRef(true);
 	React.useEffect(() => {
@@ -33,12 +33,6 @@ export default function DevelopmentType() {
 		}
 	}, [notice]);
 
-	// const [origin, setOrigin] = React.useState<SnackbarState>({
-	// 	info: "",
-	// 	vertical: "top",
-	// 	horizontal: "right",
-	// }); 
-	// const { vertical, horizontal, info } = origin;
 	const [snackPack, setSnackPack] = React.useState<
 		readonly SnackbarMessage[]
 	>([]);
@@ -95,7 +89,7 @@ export default function DevelopmentType() {
 				autoHideDuration={2000}
 				onClose={handleClose}
 				TransitionProps={{ onExited: handleExited }}
-			// anchorOrigin={{ vertical, horizontal }}
+				// anchorOrigin={{ vertical, horizontal }}
 			>
 				<Alert
 					onClose={handleClose}

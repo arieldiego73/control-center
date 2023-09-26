@@ -522,7 +522,7 @@ export default function EditProject() {
 													</Avatar>
 												</ListItemAvatar>
 												<ListItemText
-													secondary={projectCode}
+													secondary={"Project Code: " + projectCode}
 												>
 													<Typography
 														variant="h4"
