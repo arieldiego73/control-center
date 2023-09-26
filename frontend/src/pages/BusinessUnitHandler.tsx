@@ -9,7 +9,7 @@ export default function BusinessUnitHandler() {
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
-		{ label: "Business Unit", to: "/businessunit" },
+		{ label: "Business Unit", to: "/business-unit" },
 	];
  
 	return (

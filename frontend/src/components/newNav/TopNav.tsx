@@ -168,7 +168,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
 
                   <div className={TopNavStyle.manageButtonContainer}>
                     <Link
-                      to="/createuser"
+                      to="/user/edit-user/"
                       className={TopNavStyle.manageAccButton}
                     >
                       <div className={TopNavStyle.holder}>

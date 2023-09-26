@@ -9,7 +9,7 @@ export default function ProjectHandler() {
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
-		{ label: "Projects", to: "/project" },
+		{ label: "Projects", to: "/projects" },
 	];
 	return (
 		<div style={{display: 'flex', flexDirection:'column'}}>

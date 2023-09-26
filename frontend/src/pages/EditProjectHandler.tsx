@@ -6,8 +6,8 @@ export default function EditUserHandler (){
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
-		{ label: "Projects", to: "/project" },
-		{ label: "Edit Project",  to: "project/editProject/:projectName" },
+		{ label: "Projects", to: "/projects" },
+		{ label: "Edit Project",  to: "/project/edit-project/:projectName" },
 	];
     return(
         <div style={{ flexDirection: "column", display: "flex" }}>

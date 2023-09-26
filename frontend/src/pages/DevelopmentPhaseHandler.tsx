@@ -9,7 +9,7 @@ export default function DevelopmentPhaseHandler() {
 
 	const breadcrumbs = [
 	  { icon: <HomeIcon style={{height:"20px", marginTop:"5px"}}/>,  to: "/dashboard"  }, // Example breadcrumb data
-	  { label: "Development phase", to: "/DevelopmentPhase" },
+	  { label: "Development phase", to: "/development-phase" },
 	];
   
 	return (
