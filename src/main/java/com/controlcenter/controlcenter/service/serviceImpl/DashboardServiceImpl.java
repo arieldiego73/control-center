@@ -131,4 +131,58 @@ public class DashboardServiceImpl implements DashboardService{
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Override
+    public ResponseEntity<List<Map<String, Object>>> getAllProjectCountByStatus() {
+        List<Map<String, Object>> resultMap = dashboardDao.getAllProjectCountByStatus();
+
+        resultMap.stream()
+        .map(result -> {
+            Map<String, Object> projectCount = new HashMap<>();
+            projectCount.put("result", resultMap);
+            return projectCount;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(resultMap);
+    }
+
+    @Override
+    public ResponseEntity<List<Map<String, Object>>> getAllUserCountByStatus() {
+        List<Map<String, Object>> resultMap = dashboardDao.getAllUserCountByStatus();
+
+        resultMap.stream()
+        .map(result -> {
+            Map<String, Object> userCount = new HashMap<>();
+            userCount.put("result", resultMap);
+            return userCount;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(resultMap);
+    }
+
+    @Override
+    public ResponseEntity<List<Map<String, Object>>> graphData() {
+
+        List<Map<String, Object>> graphList = new ArrayList<>();
+        Map<String, Object> graphData = new HashMap<>();
+        List<Map<String, Object>> userStatusGraph = dashboardDao.getAllUserCountByStatus();
+        List<Map<String, Object>> projectStatusGraph = dashboardDao.getAllProjectCountByStatus();
+        List<Map<String, Object>> userPerYear = dashboardDao.countAllRegisteredUserPerYear();
+
+        // graphData.stream()
+        // .map(data -> {
+        //     Map<String, Object> graphInfo = new HashMap<>();
+        //     graphInfo.put("project_status", projectStatusGraph);
+        //     graphInfo.put("user_status", userStatusGraph);
+        //     graphInfo.put("user_per_year", userPerYear);
+        //     return graphInfo;
+        // })
+
+        graphData.put("project_status", projectStatusGraph);
+        graphData.put("user_status", userStatusGraph);
+        graphData.put("user_per_year", userPerYear);
+
+        graphList.add(graphData);
+        return ResponseEntity.ok(graphList);
+    }
 }
