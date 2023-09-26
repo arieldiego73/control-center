@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.UserOutput;
-import com.controlcenter.controlcenter.service.serviceImpl.AuthServiceImpl;
+import com.controlcenter.controlcenter.service.AuthService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
-    private AuthServiceImpl authServiceImpl;
+    private AuthService authService;
 
     //Login session
     @PostMapping("/login")
@@ -30,7 +30,7 @@ public class AuthController {
         String username = userOutput.getUsername();
         String password = userOutput.getPassword();
 
-        UserOutput authUser = authServiceImpl.authUser(username, password);
+        UserOutput authUser = authService.authUser(username, password);
 
         if (authUser != null) {
             http.setAttribute("session", authUser.getEmp_id());
@@ -48,15 +48,9 @@ public class AuthController {
 
     // Logout remove httpsession
     @GetMapping("/logout")
-    public Map<String, String> logout(HttpSession session) {
-        Map<String, String> response = new HashMap<>();
-        
-        if (session != null) {
-            session.invalidate();
-        }
-        response.put("Status", "success");
-        
-        return response;
+    public Map<String, String> logout() { //HttpSession session
+        String emp_id = "101";
+        return authService.logout(emp_id);
     }
 
 
