@@ -23,7 +23,7 @@
     INNER JOIN tbl_section_mst AS section_master ON users.section_id = section_master.section_id
     INNER JOIN tbl_department_mst AS department_master ON users.dept_id = department_master.dept_id
          WHERE users.del_flag = 0 AND users.emp_id != 100
-      ORDER BY users.emp_id DESC, users.reg_date DESC;
+      ORDER BY users.reg_date DESC;
     </select>
     <select id="getUserById" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserInfoOutput">
         SELECT users.emp_id,

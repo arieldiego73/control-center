@@ -6,127 +6,138 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useDispatch, useSelector } from "react-redux";
+import { getHistoryFetch } from "../../redux/state/historyState";
+import { RootState } from "../../redux/store/store";
+import dayjs from "dayjs";
 
 function createData(
-  date: string,
-  page: string,
-  action: String,
-  user: string,
-  time: string
+	id: number,
+	date: string,
+	action: String,
+	user: string,
+	time: string
 ) {
-  return { date, page, action, user, time };
+	return { id, date, action, user, time };
 }
 
-const rows = [
-  createData(
-    "Today",
-    "User Page",
-    "Add new user to User page",
-    "Admin",
-    "9:59 PM"
-  ),
-  createData(
-    " ",
-    "Project",
-    "Added Project named TestingProj in Project Page",
-    "Charlene Valdez",
-    "9:59 AM"
-  ),
+const TODAY_STR = "Today";
+const YESTERDAY_STR = "Yesterday";
 
-  createData(
-    " ",
-    "Role",
-    "Edit Short Name of System Admin in Role Page",
-    "Ariel Diego",
-    "11:00 AM"
-  ),
-  createData(
-    "Yesteday",
-    "Project",
-    "Added Project named Control Center in Project Page",
-    "Shernan Mate0",
-    "11:11 AM"
-  ),
-  createData(
-    " ",
-    "Project",
-    "Added new Role name Testing short name Test in Role Page",
-    "Allona Fabre",
-    "11:11 PM"
-  ),
-  createData(
-    " 11/23/1999",
-    "Project",
-    "Added new Development Phase and Short Name in Development Phase Page",
-    "Ricky Galpo",
-    "09:00 AM"
-  ),
-  createData(
-    " ",
-    "Project",
-    "Added new Development Phase and Short Name in Development Phase Page",
-    "Ricky Galpo",
-    "09:00 AM"
-  ),
-  createData(
-    " ",
-    "Project",
-    "Added new Development Phase and Short Name in Development Phase Page",
-    "Ricky Galpo",
-    "09:00 AM"
-  ),
-
-];
+let todayCount = 0;
+let yesterdayCount = 0;
 
 export default function ActivityLogDashboardTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [open, setOpen] = React.useState(false);
+	const dispatch = useDispatch();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+	const [rows, setRows] = React.useState([createData(0, "", "", "", "")]);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+	React.useEffect(() => {
+		dispatch(getHistoryFetch());
+	}, [dispatch]);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+	const history = useSelector(
+		(state: RootState) => state.activityLog.history
+	);
+	React.useEffect(() => {
+		if (history) {
+			todayCount = 0;
+			yesterdayCount = 0;
+			setRows(
+				history.map((log) => {
+					let date = "";
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+					const TODAY = dayjs();
+					if (dayjs(log.log_date).get("date") === TODAY.get("date")) {
+						if (todayCount === 0) {
+							date = TODAY_STR;
+						} else {
+							date = "";
+						}
+						todayCount++;
+					} else if (
+						dayjs(log.log_date).get("date") ===
+						TODAY.subtract(1, "day").get("date")
+					) {
+						if (yesterdayCount === 0) {
+							date = YESTERDAY_STR;
+						} else {
+							date = "";
+						}
+						yesterdayCount++;
+					} else {
+						date = dayjs(log.log_date).format("DD/MM/YYYY");
+					}
 
-  return (
-    <div className={ActLogStyle.activityLogContainer}>
-      <Paper className={ActLogStyle.paper}>
-        <TableContainer className={ActLogStyle.actLogTable}>
-          <Table>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.page}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell style={{ fontWeight: "bold" }} align="left">
-                    {row.date}
-                  </TableCell>
-                  <TableCell align="left">{row.time}</TableCell>
+					return createData(
+						log.log_id,
+						date,
+						log.log_desc,
+						log.username,
+						dayjs(log.log_date).format("h:mm A")
+					);
+				})
+			);
+		}
+	}, [history]);
 
-                  <TableCell align="left">
-                    {row.user} - {row.action}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-    </div>
-  );
+	return (
+		<div className={ActLogStyle.activityLogContainer}>
+			<Paper className={ActLogStyle.paper}>
+				<TableContainer className={ActLogStyle.actLogTable}>
+					<Table>
+						<TableBody>
+							{rows.map((row) => (
+								<TableRow
+									key={row.id}
+									sx={{
+										"&:last-child td, &:last-child th": {
+											border: 0,
+										},
+									}}
+								>
+									{row.date === "" ? (
+										<></>
+									) : row.date === TODAY_STR ? (
+										<TableCell
+											style={{
+												fontWeight: "bold",
+												verticalAlign: "baseline",
+											}}
+											rowSpan={todayCount}
+										>
+											{row.date}
+										</TableCell>
+									) : row.date === YESTERDAY_STR ? (
+										<TableCell
+											style={{
+												fontWeight: "bold",
+												verticalAlign: "baseline",
+											}}
+											rowSpan={yesterdayCount}
+										>
+											{row.date}
+										</TableCell>
+									) : (
+										<TableCell
+											style={{ fontWeight: "bold" }}
+										>
+											{row.date}
+										</TableCell>
+									)}
+									<TableCell align="left" width={150}>
+										{row.time}
+									</TableCell>
+
+									<TableCell align="left">
+										{row.user} - {row.action}
+									</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</Paper>
+		</div>
+	);
 }

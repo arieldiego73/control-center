@@ -14,6 +14,7 @@ import technologyReducer from "../state/technologyState"
 import projectReducer from "../state/projectState"
 import clientReducer from "../state/clientState"
 import devTypeReducer from "../state/devTypeState"
+import activityLog from "../state/historyState"
 
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -31,6 +32,7 @@ const store = configureStore({
 		techReducer: technologyReducer,
 		clientReducer: clientReducer,
 		devTypeReducer: devTypeReducer,
+		activityLog: activityLog,
 		// add more reducers here
 	},
 	middleware: [saga],
