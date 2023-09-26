@@ -105,7 +105,7 @@
                status_code,
                img_src
           FROM tbl_user
-         WHERE username COLLATE utf8mb4_bin = #{username} AND emp_id != 100
+         WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
     
     <insert id="insertUser" parameterType="com.controlcenter.controlcenter.model.UserInput">
@@ -161,7 +161,7 @@
                status_code,
                img_src
           FROM tbl_user
-         WHERE username COLLATE utf8mb4_bin = #{username} AND emp_id != 100
+         WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
 
     <!-- Login -->
@@ -176,7 +176,7 @@
                status_code,
                img_src
           FROM tbl_user
-         WHERE username COLLATE utf8mb4_bin = #{username} AND emp_id != 100
+         WHERE username COLLATE utf8mb4_bin = #{username}
     </select>
 
     <!-- get all roles of a user -->
@@ -191,7 +191,7 @@
                 ON tuser.emp_id = tmr.emp_id
             LEFT JOIN tbl_role_mst AS troles
                 ON troles.role_id = tmr.role_id
-         WHERE tuser.emp_id = #{emp_id} AND tmr.del_flag = 0 AND tuser.emp_id != 100;
+         WHERE tuser.emp_id = #{emp_id} AND tmr.del_flag = 0;
     </select>
 
 <!-- logical deletion of user -->

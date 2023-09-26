@@ -43,9 +43,19 @@
 <!-- Delete Data -->
     <update id="logicalDeleteClient">
         UPDATE tbl_clients_mst
-           SET del_flag=1
+           SET del_flag = 1
          WHERE client_id = #{id}
     </update>
+
+<!-- Logical Delete Multiple -->
+    <delete id="deleteMultipleClient">
+        UPDATE tbl_clients_mst
+           SET del_flag = 1
+         WHERE client_id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 <!-- Restore Data -->
     <update id="restoreClient">

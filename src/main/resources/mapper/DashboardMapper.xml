@@ -45,7 +45,7 @@
     <select id="countAllRegisteredUserPerYear">
         SELECT
             YEAR(reg_date) AS year_registered,
-            COUNT(*) AS user_count
+            COUNT(*) AS total
         FROM
             tbl_user
         WHERE del_flag = 0
@@ -111,7 +111,7 @@
     <select id="countAllProjectByStatus" resultType="java.lang.Integer">
         SELECT SUM(project_count) AS total_project_count
                 FROM (
-                    SELECT COUNT(*) AS project_by_status_count
+                    SELECT COUNT(*) AS project_count
                     FROM tbl_proj_info AS tpi
                     INNER JOIN tbl_proj_status_mst AS proj_status 
                         ON tpi.proj_status_id = proj_status.proj_status_id
@@ -128,9 +128,43 @@
                     FROM tbl_user AS tuser
                     INNER JOIN tbl_status_mst AS user_status 
                         ON tuser.status_code = user_status.status_code
-                    WHERE tuser.del_flag = 0
+                    WHERE tuser.del_flag = 0 AND tuser.emp_id != 100
                     AND user_status.status_code = #{user_status_code}
                 ) AS counts;
+    </select>
+
+    <select id="getAllProjectCountByStatus">
+        SELECT
+                proj_status.proj_status_id AS status_id,
+                proj_status.proj_status_name AS status_name,
+                COUNT(tbl_proj_info.proj_status_id) AS total_project_status
+            FROM
+                tbl_proj_status_mst AS proj_status
+            LEFT JOIN
+                tbl_proj_info
+            ON
+                proj_status.proj_status_id = tbl_proj_info.proj_status_id
+            WHERE
+                tbl_proj_info.del_flag = 0
+            GROUP BY
+                proj_status.proj_status_id, proj_status.proj_status_name;
+    </select>
+
+    <select id="getAllUserCountByStatus">
+        SELECT
+                user_status.status_code AS status_code,
+                user_status.status_name AS status_name,
+                COUNT(tuser.status_code) AS total_user_status
+            FROM
+                tbl_status_mst AS user_status
+            LEFT JOIN
+                tbl_user AS tuser
+            ON
+                user_status.status_code = tuser.status_code
+            WHERE
+                tuser.del_flag = 0 AND tuser.emp_id != 100
+            GROUP BY
+                user_status.status_code, user_status.status_name;
     </select>
     
 </mapper>

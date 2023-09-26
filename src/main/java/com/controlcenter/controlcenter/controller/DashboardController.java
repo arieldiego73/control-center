@@ -108,4 +108,31 @@ public class DashboardController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @GetMapping("/all-project-count")
+    public ResponseEntity<List<Map<String, Object>>> getAllProjectCountByStatus() {
+        try {
+            return dashboardService.getAllProjectCountByStatus();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/all-user-count")
+    public ResponseEntity<List<Map<String, Object>>> getAllUserCountByStatus() {
+        try {
+            return dashboardService.getAllUserCountByStatus();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/graph-data")
+    public ResponseEntity<List<Map<String, Object>>> graphData() {
+        try {
+            return dashboardService.graphData();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }
