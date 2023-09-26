@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import NewProjectStyle from "./NewProject.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -26,6 +24,7 @@ import {
 	Snackbar,
 	Alert,
 	DialogContentText,
+	IconButton,
 } from "@mui/material";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
@@ -61,6 +60,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { Data, addProject } from "../../../redux/saga/projectSaga";
 import { getDevTypeFetch } from "../../../redux/state/devTypeState";
 import stringAvatar from "../../custom_color/avatar_custom_color";
+import ProjectTableDialog from "../dialogs/ProjectTableDialog";
 
 export interface SnackbarMessage {
 	message: string;
@@ -390,9 +390,9 @@ export default function NewProj() {
 			selectedTechnologies: projectTechnologies,
 		};
 		dispatch(addProject({ data: projectInfo }));
-		setAsk(false)
-		setDialogTitle("")
-		setDialogContentText("")
+		setAsk(false);
+		setDialogTitle("");
+		setDialogContentText("");
 	};
 
 	const handleCancel = () => {
@@ -433,30 +433,6 @@ export default function NewProj() {
 											display: "flex",
 										}}
 									>
-										{/* <FormLabel
-										sx={{
-											color: "black",
-											fontWeight: "400",
-										}}
-									>
-										Client Name
-									</FormLabel> */}
-
-										{/* <TextField
-										variant="outlined"
-										size="small"
-										placeholder="Client Name"
-										style={{
-											backgroundColor: "transparent",
-										}}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PermIdentityOutlinedIcon />
-                                                    </InputAdornment>
-                                                    ),
-                                                }}
-                                            /> */}
 										<List
 											sx={{
 												width: "100%",
@@ -506,8 +482,8 @@ export default function NewProj() {
 											startIcon={<EditIcon />}
 										>
 											{clientName === ""
-															? "Select"
-															: "Change"}
+												? "Select"
+												: "Change"}
 										</Button>
 									</div>
 								</FormControl>
@@ -639,21 +615,21 @@ export default function NewProj() {
 													/>
 												)
 											)}
-											<div>
-												<Button
-													onClick={() =>
-														setOpenProjManager(true)
-													}
-													variant="contained"
-													color="primary"
-													startIcon={selectedProjectManagers.length !== 0 ? <EditIcon /> : <Add />}
-													style={{
-														textTransform: "none",
-													}}
-												>
-													{selectedProjectManagers.length !== 0 ? "Edit" : "Add"} Project Manager
-												</Button>
-											</div>
+											<IconButton
+												color="primary"
+												size="small"
+												children={
+													selectedProjectManagers.length !==
+													0 ? (
+														<EditIcon />
+													) : (
+														<Add />
+													)
+												}
+												onClick={() =>
+													setOpenProjManager(true)
+												}
+											/>
 										</Stack>
 									</Paper>
 									{/* <div
@@ -904,22 +880,21 @@ export default function NewProj() {
 														/>
 													)
 												)}
-												<div>
-													<Button
-														onClick={() =>
-															setOpenMembers(true)
-														}
-														variant="contained"
-														color="primary"
-														startIcon={selectedProjectMembers.length !== 0 ? <EditIcon /> : <Add />}
-														style={{
-															textTransform:
-																"none",
-														}}
-													>
-														{selectedProjectMembers.length !== 0 ? "Edit" : "Add"} Project Member
-													</Button>
-												</div>
+												<IconButton
+													color="primary"
+													size="small"
+													children={
+														selectedProjectMembers.length !==
+														0 ? (
+															<EditIcon />
+														) : (
+															<Add />
+														)
+													}
+													onClick={() =>
+														setOpenMembers(true)
+													}
+												/>
 											</Stack>
 										</Paper>
 									</div>
@@ -986,122 +961,71 @@ export default function NewProj() {
 						{/* POPUPS */}
 
 						{/* Clients */}
-						<Dialog
+						<ProjectTableDialog
 							open={openClientName}
-							aria-describedby="alert-dialog-slide-description"
-						>
-							<DialogTitle>
-								<FontAwesomeIcon
-									icon={faUser}
-									size="1x"
-									color="black"
-								/>
-								{"Project Manager"}
-							</DialogTitle>
-							<DialogContent>
+							dialogTitle="Clients"
+							table={
 								<AddClientNameTable
 									setClient={setProjectClient}
 									data={clientsData}
 									selectedClientId={selectedClientId}
 								/>
-							</DialogContent>
-							<DialogActions>
-								<Button
-									onClick={() => setOpenClientName(false)}
-								>
-									Cancel
-								</Button>
-								<Button
-									variant="contained"
-									onClick={() => {
-										if (projectClient) {
-											setClientName(
-												projectClient.row?.client_name
-											);
-											setSelectedClientId(
-												projectClient.row?.client_id
-											);
-										}
-										setOpenClientName(false);
-									}}
-								>
-									Save
-								</Button>
-							</DialogActions>
-						</Dialog>
+							}
+							onClickCancel={() => {
+								setOpenClientName(false);
+							}}
+							onClickSave={() => {
+								if (projectClient) {
+									setClientName(
+										projectClient.row?.client_name
+									);
+									setSelectedClientId(
+										projectClient.row?.client_id
+									);
+								}
+								setOpenClientName(false);
+							}}
+						/>
 
 						{/* Project Manager */}
-						<Dialog
+						<ProjectTableDialog
 							open={openProjManager}
-							aria-describedby="alert-dialog-slide-description"
-						>
-							<DialogTitle>
-								<FontAwesomeIcon
-									icon={faUser}
-									size="1x"
-									color="black"
-								/>
-								{"Project Manager"}
-							</DialogTitle>
-							<DialogContent>
+							dialogTitle="Project Manager"
+							table={
 								<AddProjManagerTable
 									selected={projectManager}
 									data={usersData}
 									temporarySetter={setTemporaryManagers}
 								/>
-							</DialogContent>
-							<DialogActions>
-								<Button
-									onClick={() => setOpenProjManager(false)}
-								>
-									Cancel
-								</Button>
-								<Button
-									variant="contained"
-									onClick={() => {
-										setProjectManager(temporaryManagers);
-										setOpenProjManager(false);
-									}}
-								>
-									Save
-								</Button>
-							</DialogActions>
-						</Dialog>
+							}
+							onClickCancel={() => {
+								setOpenProjManager(false);
+							}}
+							onClickSave={() => {
+								setProjectManager(temporaryManagers);
+								setOpenProjManager(false);
+							}}
+						/>
 
 						{/* Members */}
-						<Dialog
+						<ProjectTableDialog
 							open={openMembers}
-							aria-describedby="alert-dialog-slide-description"
-						>
-							<DialogTitle>
-								<FontAwesomeIcon
-									icon={faUser}
-									size="1x"
-									color="black"
-								/>
-								{"Members"}
-							</DialogTitle>
-							<DialogContent>
+							dialogTitle="Project Members"
+							table={
 								<AddMemberTable
 									data={usersData}
 									selected={projectMembers}
 									temporarySetter={setTemporaryMembers}
 								/>
-							</DialogContent>
-							<DialogActions>
-								<Button onClick={() => setOpenMembers(false)}>
-									Cancel
-								</Button>
-								<Button
-									onClick={() => {
-										setProjectMembers(temporaryMembers);
-										setOpenMembers(false);
-									}}
-								>
-									Save
-								</Button>
-							</DialogActions>
-						</Dialog>
+							}
+							onClickCancel={() => {
+								setOpenMembers(false);
+							}}
+							onClickSave={() => {
+								setProjectMembers(temporaryMembers);
+								setOpenMembers(false);
+							}}
+						/>
 
 						{/* SAVING BUTTONS */}
 						<div
