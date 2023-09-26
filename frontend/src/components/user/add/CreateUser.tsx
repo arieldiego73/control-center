@@ -8,7 +8,6 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import HelpIcon from "@mui/icons-material/Help";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -219,7 +218,6 @@ export default function CreateUser() {
       assocID &&
       username &&
       firstName &&
-      middleName &&
       lastName &&
       position &&
       email &&

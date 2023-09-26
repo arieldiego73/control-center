@@ -38,6 +38,13 @@ const MembersTable: React.FC<MembersTableProp> = (props) => {
 
 	const columns: GridColDef[] = [
 		{
+			field: "emp_id",
+			headerName: "ID",
+			flex: 0.5,
+			headerAlign: "left",
+			align: "left",
+		},
+		{
 			field: "name",
 			headerName: "Name",
 			flex: 1,
@@ -59,7 +66,7 @@ const MembersTable: React.FC<MembersTableProp> = (props) => {
 	return (
 		<Box sx={datagridBoxStyle}>
 			<DataGrid
-				sx={{ width: 500 }}
+				sx={{ width: 600 }}
 				rows={rows}
 				columns={columns}
 				getRowId={(row) => row.emp_id}
