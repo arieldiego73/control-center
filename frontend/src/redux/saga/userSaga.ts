@@ -21,6 +21,7 @@ interface Data {
 	section_id: number;
 	dept_id: number;
 	selectedRoles: number[];
+	status_code: string;
 }
 
 function* workGetUsersFetch(): any {
@@ -110,7 +111,7 @@ const apiAdd = async (data: Data): Promise<any> => {
 			email: data.email,
 			section_id: data.section_id,
 			dept_id: data.dept_id,
-			status_code: "TRA",
+			status_code: data.status_code,
 			password: "tsukiden+",
 			img_src: "sample_img",
 		});
@@ -154,7 +155,7 @@ const apiUpdate = async (data: Data): Promise<any> => {
 			email: data.email,
 			section_id: data.section_id,
 			dept_id: data.dept_id,
-			status_code: "TRA",
+			status_code: data.status_code,
 			password: "tsukiden+",
 			img_src: "sample_img",
 		});

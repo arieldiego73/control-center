@@ -19,7 +19,6 @@ import { getDepartmentFetch } from "../../../redux/state/departmentState";
 import { getSectionFetch } from "../../../redux/state/sectionState";
 import { getRolesFetch } from "../../../redux/state/roleState";
 import { getPositionFetch } from "../../../redux/state/positionState";
-import { addUserInfo } from "../../../redux/saga/userSaga";
 import { addUserReset, clearUserInfo} from "../../../redux/state/userState";
 import { getUserInfo, getUserRoles, updateUserInfo, } from "../../../redux/saga/userSaga";
 import {
@@ -41,6 +40,7 @@ import {
   Snackbar,
   Typography,
 } from "@mui/material";
+import { getEmployeeStatusFetch } from "../../../redux/state/employeeStatusState";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -100,6 +100,7 @@ const VisuallyHiddenInput = styled("input")({
       dispatch(getSectionFetch());
       dispatch(getRolesFetch());
       dispatch(getPositionFetch());
+      dispatch(getEmployeeStatusFetch());
     }, [dispatch, userId]);
     
     const userRoles: any[] = useSelector(
@@ -187,6 +188,7 @@ const VisuallyHiddenInput = styled("input")({
         setEmail(userData.email);
         setBusinessUnit(userData.dept_id ? userData.dept_id : 0);
         setDepartment(userData.section_id ? userData.section_id : 0);
+        setEmpStatus(userData.status_code);
       }
     }, [userData]);
   
@@ -200,7 +202,7 @@ const VisuallyHiddenInput = styled("input")({
 
     const [username, setUsername] = useState("");
     const [assocID, setAssocID] = useState("");
-    const [empStatus, setEmpStatus] = useState("");
+    const [empStatus, setEmpStatus] = useState("0");
     const [firstName, setFirstName] = useState("");
     const [middleName, setMiddleName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -234,6 +236,11 @@ const VisuallyHiddenInput = styled("input")({
       (state: RootState) => state.positionReducer.position
     );
   
+    //FOR STATUS OPTIONS
+    const statuses = useSelector(
+      (state: RootState) => state.employeeStatusReducer.employeeStatus
+    );
+  
     const proceedWithCancel = () => {
       dispatch(clearUserInfo());
       navigate("/user");
@@ -251,6 +258,7 @@ const VisuallyHiddenInput = styled("input")({
         section_id: department,
         dept_id: businessUnit,
         selectedRoles: selectedRoles,
+        status_code: empStatus,
       };
       dispatch(updateUserInfo({ data }));
       setAsk(false);
@@ -267,6 +275,7 @@ const VisuallyHiddenInput = styled("input")({
         email &&
         department &&
         businessUnit &&
+        empStatus !== "0" &&
         selectedRoles.length > 0
       ) {
         setAsk(true);
@@ -327,6 +336,35 @@ const VisuallyHiddenInput = styled("input")({
 
                 {/* Start of Form of Profile*/}
                 <div className={EditUserStyle.formProfileContainer}>
+                  {/* Start of Assoc id form */}
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <FormControl
+                      style={{
+                        paddingTop: "20px",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    > 
+                      <FormLabel> Associate ID </FormLabel>
+                      <TextField
+                        disabled
+                        variant="outlined"
+                        size="small"
+                        placeholder="Associate ID"
+                        className={EditUserStyle.textFieldProfile}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <AssignmentIndOutlinedIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                        value={assocID}
+                        onChange={(e) => setAssocID(e.target.value)}
+                      />
+                    </FormControl>
+                  </div>
+                  
                   {/* Start of username form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <FormControl
@@ -355,33 +393,6 @@ const VisuallyHiddenInput = styled("input")({
                     </FormControl>
                   </div>
 
-                  {/* Start of Assoc id form */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <FormControl
-                      style={{
-                        paddingTop: "20px",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    > 
-                      <FormLabel> Associate ID </FormLabel>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Associate ID"
-                        className={EditUserStyle.textFieldProfile}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <AssignmentIndOutlinedIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={assocID}
-                        onChange={(e) => setAssocID(e.target.value)}
-                      />
-                    </FormControl>
-                  </div>
 
                   {/* Start of Emp Status form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
@@ -393,21 +404,26 @@ const VisuallyHiddenInput = styled("input")({
                       }}
                     >
                       <FormLabel> Employee Status </FormLabel>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Employee Status"
-                        className={EditUserStyle.textFieldProfile}
-                        InputProps={{
-                          startAdornment: (
+                      <Select
+                          value={empStatus}
+                          size="small"
+                          onChange={(e) => setEmpStatus(e.target.value)}
+                          className={EditUserStyle.textField}
+                          startAdornment={
                             <InputAdornment position="start">
-                              <AssignmentIndOutlinedIcon />
+                              <GroupsOutlinedIcon />
                             </InputAdornment>
-                          ),
-                        }}
-                        value={empStatus}
-                        onChange={(e) => setEmpStatus(e.target.value)}
-                      />
+                          }
+                        >
+                          <MenuItem key={0} value={"0"}>
+                            {"<Select status>"}
+                          </MenuItem>
+                          {statuses.map((status: any) => (
+                            <MenuItem key={status?.status_code} value={status?.status_code}>
+                              {status?.status_name}
+                            </MenuItem>
+                          ))}
+                        </Select>
                     </FormControl>
                   </div>
                 </div>
@@ -603,7 +619,7 @@ const VisuallyHiddenInput = styled("input")({
                       </FormControl>
 
                       <FormControl variant="outlined" size="small">
-                        <FormLabel>Busines Unit</FormLabel>
+                        <FormLabel>Business Unit</FormLabel>
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
@@ -688,8 +704,7 @@ const VisuallyHiddenInput = styled("input")({
                   </Button>
 
                   <Button
-                    variant="contained"
-                    startIcon={<CancelOutlinedIcon />}
+                    variant="text"
                     className={EditUserStyle.cancelButton}
                     onClick={handleCancel}
                   >

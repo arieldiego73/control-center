@@ -11,4 +11,11 @@ public interface DashboardService {
     public ResponseEntity<Integer> countAllCloseProject();
     public ResponseEntity<Integer> countAllCancelledProject();
     public ResponseEntity<List<Map<String, Object>>> countAllRegisteredUserPerYear();
+    public ResponseEntity<Integer> countAllUserWithStatusOfBusinessPartner();
+    public ResponseEntity<Integer> countAllUserWithStatusOfIntern();
+    public ResponseEntity<Integer> countAllUserWithStatusOfRegular();
+    public ResponseEntity<Integer> countAllUserWithStatusOfTrainee();
+
+    public ResponseEntity<Integer> countAllProjectByStatus(String proj_status_id);
+    public ResponseEntity<Integer> countAllUserByStatus(String user_status_code);
 }
