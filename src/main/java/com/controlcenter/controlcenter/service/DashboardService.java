@@ -15,4 +15,7 @@ public interface DashboardService {
     public ResponseEntity<Integer> countAllUserWithStatusOfIntern();
     public ResponseEntity<Integer> countAllUserWithStatusOfRegular();
     public ResponseEntity<Integer> countAllUserWithStatusOfTrainee();
+
+    public ResponseEntity<Integer> countAllProjectByStatus(String proj_status_id);
+    public ResponseEntity<Integer> countAllUserByStatus(String user_status_code);
 }

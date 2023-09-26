@@ -109,4 +109,26 @@ public class DashboardServiceImpl implements DashboardService{
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Override
+    public ResponseEntity<Integer> countAllProjectByStatus(String proj_status_id) {
+        Integer totalCountOfProjectByStatus = dashboardDao.countAllProjectByStatus(proj_status_id);
+
+        if(totalCountOfProjectByStatus != null) {
+            return ResponseEntity.ok(totalCountOfProjectByStatus);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Integer> countAllUserByStatus(String user_status_code) {
+        Integer totalCountOfUserByStatus = dashboardDao.countAllUserByStatus(user_status_code);
+
+        if(totalCountOfUserByStatus != null) {
+            return ResponseEntity.ok(totalCountOfUserByStatus);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

@@ -106,5 +106,31 @@
                     AND user_status.status_code = 'TRA'
                 ) AS counts;
     </select>
+
+    <!-- Count all the project by status -->
+    <select id="countAllProjectByStatus" resultType="java.lang.Integer">
+        SELECT SUM(project_count) AS total_project_count
+                FROM (
+                    SELECT COUNT(*) AS project_by_status_count
+                    FROM tbl_proj_info AS tpi
+                    INNER JOIN tbl_proj_status_mst AS proj_status 
+                        ON tpi.proj_status_id = proj_status.proj_status_id
+                    WHERE tpi.del_flag = 0
+                    AND proj_status.proj_status_id = #{proj_status_id}
+                ) AS counts;
+    </select>
+
+<!-- Count all user by status -->
+    <select id="countAllUserByStatus" resultType="java.lang.Integer">
+        SELECT SUM(user_count) AS total_user_count
+                FROM (
+                    SELECT COUNT(*) AS user_count
+                    FROM tbl_user AS tuser
+                    INNER JOIN tbl_status_mst AS user_status 
+                        ON tuser.status_code = user_status.status_code
+                    WHERE tuser.del_flag = 0
+                    AND user_status.status_code = #{user_status_code}
+                ) AS counts;
+    </select>
     
 </mapper>
