@@ -418,553 +418,524 @@ export default function NewProj() {
 			<div className={NewProjectStyle.mainContainer}>
 				<div className={NewProjectStyle.mainHolder}>
 					<div className={NewProjectStyle.contentHolder}>
-            <div style={{he}}> 
+            <div style={{height:"100%", width:"70%", backgroundColor:"white", borderRadius:"20px", overflow:"auto", }}> 
+              <div style={{padding:"1%",}}> 
+                <div style={{flexDirection:"column", display:"flex", padding:"1%", gap:"20px", paddingLeft:"20px",}}>
+                
 
+                  <div className={NewProjectStyle.formRow6}>
+                    <FormControl
+                      style={{
+                        flexDirection: "row",
+                        display: "flex",
+                        gap: "20px",
+                        alignItems: "flex-end",
+                      }}
+                    >
+                      <div
+                        style={{
+                          flexDirection: "column",
+                          display: "flex",
+                        }}
+                      >
+                        <List
+                          sx={{
+                            width: "100%",
+                            maxWidth: 400,
+                          }}
+                        >
+                          <ListItem>
+                      
+                            <ListItemText secondary="Client name">
+                              <Typography
+                                variant="h4"
+                                style={{
+                                  fontWeight: 900,
+                                }}
+                              >
+                                {clientName === ""
+                                  ? "Select a client"
+                                  : clientName}
+                              </Typography>
+                            </ListItemText>
+                          </ListItem>
+                        </List>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          onClick={() =>
+                            setOpenClientName(true)
+                          }
+                          color="success"
+                          startIcon={<EditIcon />}
+                        >
+                          {clientName === ""
+                            ? "Select"
+                            : "Change"}
+                        </Button>
+                      </div>
+                    </FormControl>
+                  </div>
+
+                  <div>
+                  <FormControl>
+                    <FormLabel
+                      sx={{
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Project Name
+                    </FormLabel>
+
+                    <TextField
+                      style={{
+                        backgroundColor: "transparent",
+                        width: "570px",
+                        minWidth: "200px",
+                      }}
+                      variant="outlined"
+                      size="small"
+                      placeholder="Project Name"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <FolderOutlinedIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                      value={projectName}
+                      onChange={(e) =>
+                        setProjectName(e.target.value)
+                      }
+                    />
+                  </FormControl>
+                  </div>
+
+                  <div className={NewProjectStyle.formRow8}>
+                    <div className="projStatus">
+                      <div className="projStatusContent">
+                        <FormControl
+                          variant="outlined"
+                          size="small"
+                        >
+                          <FormLabel
+                            sx={{
+                              color: "black",
+                              fontWeight: "400",
+                            }}
+                          >
+                            Status
+                          </FormLabel>
+                          <Select
+                            value={status}
+                            onChange={(e) =>
+                              setStatus(
+                                e.target.value as number
+                              )
+                            }
+                            startAdornment={
+                              <InputAdornment position="start">
+                                <GroupsOutlinedIcon />
+                              </InputAdornment>
+                            }
+                            sx={{
+                              minWidth: 250,
+                              maxWidth: 560,
+                            }}
+                          >
+                            <MenuItem key={0} value={0}>
+                              {"<Select a status>"}
+                            </MenuItem>
+                            {statuses.map((status: any) => (
+                              <MenuItem
+                                key={
+                                  status?.proj_status_id
+                                }
+                                value={
+                                  status?.proj_status_id
+                                }
+                              >
+                                {
+                                  status?.proj_status_name
+                                }
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={NewProjectStyle.formRow3}>
+                    <FormControl>
+                      <FormLabel
+                        sx={{
+                          color: "black",
+                          fontWeight: "400",
+                        }}
+                      >
+                        Start Date
+                      </FormLabel>
+                      <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                      >
+                        <DatePicker
+                          value={selectedStartDate}
+                          reduceAnimations
+                          onChange={(e) =>
+                            handleProjectDurationChange(
+                              e,
+                              "start"
+                            )
+                          }
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+
+                    <FormControl>
+                      <FormLabel
+                        sx={{
+                          color: "black",
+                          fontWeight: "400",
+                        }}
+                      >
+                        End Date
+                      </FormLabel>
+                      <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                      >
+                        <DatePicker
+                          value={selectedEndDate}
+                          reduceAnimations
+                          onChange={(e) =>
+                            handleProjectDurationChange(
+                              e,
+                              "end"
+                            )
+                          }
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </div>
+
+                  <div className={NewProjectStyle.col2}>
+                    <div className={NewProjectStyle.gridContainer}>
+                      Project Description
+                      <ReactQuillEditor
+                        className={NewProjectStyle.qlContainer}
+                        theme="snow"
+                        value={projectDescription}
+                        onChange={(e) =>
+                          setProjectDescription(e)
+                        }
+                        modules={modules}
+                        placeholder="Project description..."
+                      />
+                    </div>
+                  </div>
+
+                  <div className={NewProjectStyle.formRow8}>
+                    <div className="projDevType">
+                      <div className="projDevTypeContent">
+                        <FormControl
+                          variant="outlined"
+                          size="small"
+                        >
+                          <FormLabel
+                            sx={{
+                              color: "black",
+                              fontWeight: "400",
+                            }}
+                          >
+                            {"Development Type (optional)"}
+                          </FormLabel>
+                          <Select
+                            value={devType}
+                            onChange={(e) =>
+                              setDevType(
+                                e.target.value as number
+                              )
+                            }
+                            startAdornment={
+                              <InputAdornment position="start">
+                                <GroupsOutlinedIcon />
+                              </InputAdornment>
+                            }
+                            sx={{
+                              minWidth: 250,
+                              maxWidth: 560,
+                            }}
+                          >
+                            <MenuItem key={0} value={1}>
+                              {"<None is selected>"}
+                            </MenuItem>
+                            {devTypes.map(
+                              (devType: any) => (
+                                <MenuItem
+                                  key={
+                                    devType?.dev_type_id
+                                  }
+                                  value={
+                                    devType?.dev_type_id
+                                  }
+                                >
+                                  {
+                                    devType?.dev_type_name
+                                  }
+                                </MenuItem>
+                              )
+                            )}
+                          </Select>
+                        </FormControl>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={NewProjectStyle.formRow6}>
+                    <FormLabel
+                      style={{
+                        paddingTop: ".5%",
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Development Phase
+                    </FormLabel>
+                    <FormGroup
+                      style={{
+                        flexDirection: "row",
+                        display: "flex",
+                      }}
+                    >
+                      {devPhaseData.map((phase: any) => (
+                        <FormControlLabel
+                          key={phase.dev_phase_id}
+                          control={
+                            <Checkbox
+                              name={String(
+                                phase.dev_phase_id
+                              )}
+                              checked={projectDevPhase.includes(
+                                phase.dev_phase_id
+                              )}
+                              onChange={
+                                handleSelectDevPhaseChange
+                              }
+                            />
+                          }
+                          label={phase.dev_phase_sh_name}
+                        />
+                      ))}
+                    </FormGroup>
+                  </div>
+
+
+
+                </div>
+              </div>
             </div>
-						<div className={NewProjectStyle.mainForm}>
-							{/* CLIENT NAME */}
-							<div className={NewProjectStyle.formRow6}>
-								<FormControl
-									style={{
-										flexDirection: "row",
-										display: "flex",
-										gap: "20px",
-										alignItems: "flex-end",
-									}}
-								>
-									<div
-										style={{
-											flexDirection: "column",
-											display: "flex",
-										}}
-									>
-										<List
-											sx={{
-												width: "100%",
-												maxWidth: 400,
-											}}
-										>
-											<ListItem>
-												<ListItemAvatar>
-													<Avatar
-														sx={{
-															backgroundColor:
-																"background.secondary",
-															width: 84,
-															height: 84,
-															marginRight: "12px",
-															overflow: "visible",
-														}}
-													>
-														{clientName === ""
-															? "?"
-															: clientName
-																	.charAt(0)
-																	.toLocaleUpperCase()}
-													</Avatar>
-												</ListItemAvatar>
-												<ListItemText secondary="Client name">
-													<Typography
-														variant="h4"
-														style={{
-															fontWeight: 900,
-														}}
-													>
-														{clientName === ""
-															? "Select a client"
-															: clientName}
-													</Typography>
-												</ListItemText>
-											</ListItem>
-										</List>
-										<Button
-											variant="contained"
-											size="small"
-											onClick={() =>
-												setOpenClientName(true)
-											}
-											color="success"
-											startIcon={<EditIcon />}
-										>
-											{clientName === ""
-												? "Select"
-												: "Change"}
-										</Button>
-									</div>
-								</FormControl>
-							</div>
 
-							{/* PROJECT NAME */}
-							<FormControl>
-								<FormLabel
-									sx={{
-										color: "black",
-										fontWeight: "400",
-									}}
-								>
-									Project Name
-								</FormLabel>
+            <div style={{height:"100%", width:"30%",  backgroundColor:"white", borderRadius:"20px"}}> 
+              <div style={{padding:"1%"}}>
+                <div style={{flexDirection:"column", display:"flex", padding:"1%", gap:"20px", paddingLeft:"20px",}}>
+                  <div className={NewProjectStyle.formRow5}>
+                      <FormControl
+                        style={{
+                          flexDirection: "column",
+                          display: "flex",
+                  
+                        }}
+                      >
+                        <FormLabel
+                          sx={{
+                            color: "black",
+                            fontWeight: "400",
+                          }}
+                        >
+                          Project Manager (optional)
+                        </FormLabel>
+                        <Paper elevation={2} sx={{ padding: 2 }}>
+                          <Stack
+                            direction="row"
+                            spacing={1}
+                            width={530}
+                            useFlexGap
+                            flexWrap="wrap"
+                          >
+                            {selectedProjectManagers.map(
+                              (manager) => (
+                                <Chip
+                                  avatar={
+                                    <Avatar
+                                      {...stringAvatar(
+                                        manager
+                                      )}
+                                    />
+                                  }
+                                  label={manager}
+                                />
+                              )
+                            )}
+                            <IconButton
+                              color="primary"
+                              size="small"
+                              children={
+                                selectedProjectManagers.length !==
+                                0 ? (
+                                  <EditIcon />
+                                ) : (
+                                  <Add />
+                                )
+                              }
+                              onClick={() =>
+                                setOpenProjManager(true)
+                              }
+                            />
+                          </Stack>
+                        </Paper>
+                      
+                      </FormControl>
+                  </div>
+                  
+                  <div className={NewProjectStyle.formRow5}>
+                      <FormControl
+                        style={{
+                          flexDirection: "row",
+                          display: "flex",
+                          gap: "20px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            flexDirection: "column",
+                            display: "flex",
+                          }}
+                        >
+                          <FormLabel
+                            sx={{
+                              color: "black",
+                              fontWeight: "400",
+                            }}
+                          >
+                            Members
+                          </FormLabel>
+                          <Paper
+                            elevation={2}
+                            sx={{ padding: 2 }}
+                          >
+                            <Stack
+                              direction="row"
+                              spacing={1}
+                              width={530}
+                              useFlexGap
+                              flexWrap="wrap"
+                            >
+                              {selectedProjectMembers.map(
+                                (member) => (
+                                  <Chip
+                                    avatar={
+                                      <Avatar
+                                        {...stringAvatar(
+                                          member
+                                        )}
+                                      />
+                                    }
+                                    label={member}
+                                  />
+                                )
+                              )}
+                              <IconButton
+                                color="primary"
+                                size="small"
+                                children={
+                                  selectedProjectMembers.length !==
+                                  0 ? (
+                                    <EditIcon />
+                                  ) : (
+                                    <Add />
+                                  )
+                                }
+                                onClick={() =>
+                                  setOpenMembers(true)
+                                }
+                              />
+                            </Stack>
+                          </Paper>
+                        </div>
+                      </FormControl>
+                  </div>
 
-								<TextField
-									style={{
-										backgroundColor: "transparent",
-										width: "570px",
-										minWidth: "200px",
-									}}
-									variant="outlined"
-									size="small"
-									placeholder="Project Name"
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position="start">
-												<FolderOutlinedIcon />
-											</InputAdornment>
-										),
-									}}
-									value={projectName}
-									onChange={(e) =>
-										setProjectName(e.target.value)
-									}
-								/>
-							</FormControl>
+                  <div className={NewProjectStyle.formRow5}>
+                    <FormControl
+                      style={{
+                        flexDirection: "row",
+                        display: "flex",
+                        gap: "20px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          flexDirection: "column",
+                          display: "flex",
+                        }}
+                      >
+                        <FormLabel
+                          sx={{
+                            color: "black",
+                            fontWeight: "400",
+                          }}
+                        >
+                          Technology
+                        </FormLabel>
+                        <Select
+                          size="small"
+                          multiple
+                          value={projectTechnologies}
+                          onChange={handleSelectTechnologies}
+                          input={<OutlinedInput />}
+                          renderValue={
+                            handleTechValueRendering
+                          }
+                          displayEmpty
+                          sx={{
+                            width: 560,
+                            maxWidth: 560,
+                          }}
+                        >
+                          {technologies.map((tech: any) => (
+                            <MenuItem
+                              key={tech.tech_id}
+                              value={tech.tech_id}
+                            >
+                              <Checkbox
+                                checked={
+                                  projectTechnologies.indexOf(
+                                    tech.tech_id as never
+                                  ) > -1
+                                }
+                              />
+                              <ListItemText
+                                primary={tech.tech_name}
+                              />
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </div>
+                    </FormControl>
+                  </div>
+                </div>
 
-							{/* DATES */}
-							<div className={NewProjectStyle.formRow3}>
-								<FormControl>
-									<FormLabel
-										sx={{
-											color: "black",
-											fontWeight: "400",
-										}}
-									>
-										Start Date
-									</FormLabel>
-									<LocalizationProvider
-										dateAdapter={AdapterDayjs}
-									>
-										<DatePicker
-											value={selectedStartDate}
-											reduceAnimations
-											onChange={(e) =>
-												handleProjectDurationChange(
-													e,
-													"start"
-												)
-											}
-										/>
-									</LocalizationProvider>
-								</FormControl>
 
-								<FormControl>
-									<FormLabel
-										sx={{
-											color: "black",
-											fontWeight: "400",
-										}}
-									>
-										End Date
-									</FormLabel>
-									<LocalizationProvider
-										dateAdapter={AdapterDayjs}
-									>
-										<DatePicker
-											value={selectedEndDate}
-											reduceAnimations
-											onChange={(e) =>
-												handleProjectDurationChange(
-													e,
-													"end"
-												)
-											}
-										/>
-									</LocalizationProvider>
-								</FormControl>
-							</div>
+              </div>
+            </div>
 
-							{/* PROJECT MANAGERS */}
-							<div className={NewProjectStyle.formRow5}>
-								<FormControl
-									style={{
-										flexDirection: "column",
-										display: "flex",
-										// gap: "20px",
-									}}
-								>
-									<FormLabel
-										sx={{
-											color: "black",
-											fontWeight: "400",
-										}}
-									>
-										Project Manager (optional)
-									</FormLabel>
-									<Paper elevation={2} sx={{ padding: 2 }}>
-										<Stack
-											direction="row"
-											spacing={1}
-											width={530}
-											useFlexGap
-											flexWrap="wrap"
-										>
-											{selectedProjectManagers.map(
-												(manager) => (
-													<Chip
-														avatar={
-															<Avatar
-																{...stringAvatar(
-																	manager
-																)}
-															/>
-														}
-														label={manager}
-													/>
-												)
-											)}
-											<IconButton
-												color="primary"
-												size="small"
-												children={
-													selectedProjectManagers.length !==
-													0 ? (
-														<EditIcon />
-													) : (
-														<Add />
-													)
-												}
-												onClick={() =>
-													setOpenProjManager(true)
-												}
-											/>
-										</Stack>
-									</Paper>
-									{/* <div
-									style={{
-										flexDirection: "column",
-										display: "flex",
-									}}
-								>
 
-									<TextField
-										variant="outlined"
-										size="small"
-										placeholder="Project Manager"
-										style={{
-											backgroundColor: "transparent",
-										}}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<PermIdentityOutlinedIcon />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</div> */}
-								</FormControl>
-							</div>
+            
+						{/* <div className={NewProjectStyle.mainForm}>
 
-							{/* PROJECT DESCRIPTION */}
-							<div className={NewProjectStyle.col2}>
-								<div className={NewProjectStyle.gridContainer}>
-									Project Description
-									<ReactQuillEditor
-										className={NewProjectStyle.qlContainer}
-										theme="snow"
-										value={projectDescription}
-										onChange={(e) =>
-											setProjectDescription(e)
-										}
-										modules={modules}
-										placeholder="Project description..."
-									/>
-								</div>
-							</div>
+						</div> */}
 
-							{/* DEVELOPMENT PHASE */}
-							<div className={NewProjectStyle.formRow6}>
-								<FormLabel
-									style={{
-										paddingTop: ".5%",
-										color: "black",
-										fontWeight: "400",
-									}}
-								>
-									Development Phase
-								</FormLabel>
-								<FormGroup
-									style={{
-										flexDirection: "row",
-										display: "flex",
-									}}
-								>
-									{devPhaseData.map((phase: any) => (
-										<FormControlLabel
-											key={phase.dev_phase_id}
-											control={
-												<Checkbox
-													name={String(
-														phase.dev_phase_id
-													)}
-													checked={projectDevPhase.includes(
-														phase.dev_phase_id
-													)}
-													onChange={
-														handleSelectDevPhaseChange
-													}
-												/>
-											}
-											label={phase.dev_phase_sh_name}
-										/>
-									))}
-								</FormGroup>
-							</div>
-
-							{/* TECHNOLOGY */}
-							<div className={NewProjectStyle.formRow5}>
-								<FormControl
-									style={{
-										flexDirection: "row",
-										display: "flex",
-										gap: "20px",
-									}}
-								>
-									<div
-										style={{
-											flexDirection: "column",
-											display: "flex",
-										}}
-									>
-										<FormLabel
-											sx={{
-												color: "black",
-												fontWeight: "400",
-											}}
-										>
-											Technology
-										</FormLabel>
-										<Select
-											size="small"
-											multiple
-											value={projectTechnologies}
-											onChange={handleSelectTechnologies}
-											input={<OutlinedInput />}
-											renderValue={
-												handleTechValueRendering
-											}
-											displayEmpty
-											sx={{
-												width: 560,
-												maxWidth: 560,
-											}}
-										>
-											{technologies.map((tech: any) => (
-												<MenuItem
-													key={tech.tech_id}
-													value={tech.tech_id}
-												>
-													<Checkbox
-														checked={
-															projectTechnologies.indexOf(
-																tech.tech_id as never
-															) > -1
-														}
-													/>
-													<ListItemText
-														primary={tech.tech_name}
-													/>
-												</MenuItem>
-											))}
-										</Select>
-									</div>
-								</FormControl>
-							</div>
-
-							{/* DEV TYPE */}
-							<div className={NewProjectStyle.formRow8}>
-								<div className="projDevType">
-									<div className="projDevTypeContent">
-										<FormControl
-											variant="outlined"
-											size="small"
-										>
-											<FormLabel
-												sx={{
-													color: "black",
-													fontWeight: "400",
-												}}
-											>
-												{"Development Type (optional)"}
-											</FormLabel>
-											<Select
-												value={devType}
-												onChange={(e) =>
-													setDevType(
-														e.target.value as number
-													)
-												}
-												startAdornment={
-													<InputAdornment position="start">
-														<GroupsOutlinedIcon />
-													</InputAdornment>
-												}
-												sx={{
-													minWidth: 250,
-													maxWidth: 560,
-												}}
-											>
-												<MenuItem key={0} value={1}>
-													{"<None is selected>"}
-												</MenuItem>
-												{devTypes.map(
-													(devType: any) => (
-														<MenuItem
-															key={
-																devType?.dev_type_id
-															}
-															value={
-																devType?.dev_type_id
-															}
-														>
-															{
-																devType?.dev_type_name
-															}
-														</MenuItem>
-													)
-												)}
-											</Select>
-										</FormControl>
-									</div>
-								</div>
-							</div>
-
-							{/* MEMBERS */}
-							<div className={NewProjectStyle.formRow5}>
-								<FormControl
-									style={{
-										flexDirection: "row",
-										display: "flex",
-										gap: "20px",
-									}}
-								>
-									<div
-										style={{
-											flexDirection: "column",
-											display: "flex",
-										}}
-									>
-										<FormLabel
-											sx={{
-												color: "black",
-												fontWeight: "400",
-											}}
-										>
-											Members
-										</FormLabel>
-										<Paper
-											elevation={2}
-											sx={{ padding: 2 }}
-										>
-											<Stack
-												direction="row"
-												spacing={1}
-												width={530}
-												useFlexGap
-												flexWrap="wrap"
-											>
-												{selectedProjectMembers.map(
-													(member) => (
-														<Chip
-															avatar={
-																<Avatar
-																	{...stringAvatar(
-																		member
-																	)}
-																/>
-															}
-															label={member}
-														/>
-													)
-												)}
-												<IconButton
-													color="primary"
-													size="small"
-													children={
-														selectedProjectMembers.length !==
-														0 ? (
-															<EditIcon />
-														) : (
-															<Add />
-														)
-													}
-													onClick={() =>
-														setOpenMembers(true)
-													}
-												/>
-											</Stack>
-										</Paper>
-									</div>
-								</FormControl>
-							</div>
-
-							{/* STATUS */}
-							<div className={NewProjectStyle.formRow8}>
-								<div className="projStatus">
-									<div className="projStatusContent">
-										<FormControl
-											variant="outlined"
-											size="small"
-										>
-											<FormLabel
-												sx={{
-													color: "black",
-													fontWeight: "400",
-												}}
-											>
-												Status
-											</FormLabel>
-											<Select
-												value={status}
-												onChange={(e) =>
-													setStatus(
-														e.target.value as number
-													)
-												}
-												startAdornment={
-													<InputAdornment position="start">
-														<GroupsOutlinedIcon />
-													</InputAdornment>
-												}
-												sx={{
-													minWidth: 250,
-													maxWidth: 560,
-												}}
-											>
-												<MenuItem key={0} value={0}>
-													{"<Select a status>"}
-												</MenuItem>
-												{statuses.map((status: any) => (
-													<MenuItem
-														key={
-															status?.proj_status_id
-														}
-														value={
-															status?.proj_status_id
-														}
-													>
-														{
-															status?.proj_status_name
-														}
-													</MenuItem>
-												))}
-											</Select>
-										</FormControl>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						{/* POPUPS */}
-						{/* Clients */}
 						<ProjectTableDialog
 							open={openClientName}
 							dialogTitle="Clients"
@@ -991,7 +962,6 @@ export default function NewProj() {
 							}}
 						/>
 
-						{/* Project Manager */}
 						<ProjectTableDialog
 							open={openProjManager}
 							dialogTitle="Project Manager"
@@ -1011,7 +981,7 @@ export default function NewProj() {
 							}}
 						/>
 
-						{/* Members */}
+						
 						<ProjectTableDialog
 							open={openMembers}
 							dialogTitle="Project Members"
@@ -1031,8 +1001,8 @@ export default function NewProj() {
 							}}
 						/>
 
-						{/* SAVING BUTTONS */}
-						<div
+					
+						{/* <div
 							style={{
 								display: "flex",
 								gap: "8px",
@@ -1053,7 +1023,7 @@ export default function NewProj() {
 							<Button variant="text" onClick={handleCancel}>
 								CANCEL
 							</Button>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>
