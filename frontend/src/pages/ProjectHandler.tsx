@@ -9,10 +9,10 @@ export default function ProjectHandler() {
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
-		{ label: "Projects", to: "/project" },
+		{ label: "Projects", to: "/projects" },
 	];
 	return (
-		<div style={{display: 'flex', flexDirection:'column'}}>
+		<div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
 			<NavigationHandler pageTitle={pageTitle} breadcrumbs={breadcrumbs} /> {/* Pass the pageTitle and breadcrumbs prop here */}
 		<Project/>
 	</div>

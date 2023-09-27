@@ -11,7 +11,7 @@ import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import { datagridBoxStyle } from "../datagrid_customs/DataGridStyle";
 import CustomPagination from "../custom_pagination/pagination";
 
-interface SelectProjectMembersTableProps {
+export interface SelectProjectMembersTableProps {
   data: any[];
   selected: GridRowSelectionModel | undefined;
   temporarySetter: React.Dispatch<React.SetStateAction<GridRowSelectionModel | undefined>>;

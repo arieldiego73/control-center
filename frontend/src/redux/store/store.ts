@@ -15,6 +15,7 @@ import projectReducer from "../state/projectState"
 import clientReducer from "../state/clientState"
 import devTypeReducer from "../state/devTypeState"
 import activityLog from "../state/historyState"
+import graphsData from "../state/graphState"
 
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -33,6 +34,7 @@ const store = configureStore({
 		clientReducer: clientReducer,
 		devTypeReducer: devTypeReducer,
 		activityLog: activityLog,
+		graphsData: graphsData,
 		// add more reducers here
 	},
 	middleware: [saga],

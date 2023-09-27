@@ -8,11 +8,11 @@ export default function CreateUserHandler (){
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
 		{ label: "User", to: "/user" },
-        { label: "Create User", to: "/user/create-user" },
+        { label: "Create User", to: "/user/add-new-user" },
 
 	];
     return(
-        <div style={{display: 'flex', flexDirection:'column'}}>
+		<div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
 			<NavigationHandler pageTitle={pageTitle} breadcrumbs={breadcrumbs} /> {/* Pass the pageTitle and breadcrumbs prop here */}
          <CreateUser />
     </div>

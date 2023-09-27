@@ -7,11 +7,11 @@ export default function NewProjHandler() {
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
-		{ label: "Projects", to: "/project" },
-		{ label: "New Project",  to: "project/newproj" },
+		{ label: "Projects", to: "/projects" },
+		{ label: "New Project",  to: "/project/add-new-project" },
 	];
 	return (
-		<div style={{ flexDirection: "column", display: "flex" }}>
+		<div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
 			
         <NavigationHandler  pageTitle={pageTitle} breadcrumbs={breadcrumbs}/> 
          <NewProj/>

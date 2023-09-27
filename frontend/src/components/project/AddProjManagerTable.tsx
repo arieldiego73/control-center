@@ -16,7 +16,7 @@ import CustomPagination from "../custom_pagination/pagination";
 import { getClientFetch } from "../../redux/state/clientState";
 import { getUsersFetch } from "../../redux/state/userState";
 
-interface SelectProjectManagerTableProps {
+export interface SelectProjectManagerTableProps {
   data: any[];
   selected: GridRowSelectionModel | undefined;
   temporarySetter: React.Dispatch<React.SetStateAction<GridRowSelectionModel | undefined>>;

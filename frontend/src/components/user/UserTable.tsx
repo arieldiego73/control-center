@@ -34,6 +34,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 
 	React.useEffect(() => {
 		setRows(props.data);
+		setPage(0)
 	}, [props.data]);
 
 	const handleChangePage = (event: unknown, newPage: number) => {
@@ -53,7 +54,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 	const navigate = useNavigate();
 
 	const handleRowClick = (row: RowData) => {
-		navigate(`/user/editUser/${row.username}`, { state: row.emp_id });
+		navigate(`/user/edit-user/${row.username}`, { state: row.emp_id });
 	};
 
 	// const FireNav = styled(List)<{ component?: React.ElementType }>({

@@ -13,7 +13,7 @@ export default function DepartmentHandler() {
 	];
 
 	return (
-		<div style={{ flexDirection: "column", display: "flex" }}>
+		<div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
 			<NavigationHandler pageTitle={pageTitle} breadcrumbs={breadcrumbs} /> {/* Pass the pageTitle and breadcrumbs prop here */}
 				<Department />
 		</div>

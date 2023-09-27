@@ -8,7 +8,6 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import HelpIcon from "@mui/icons-material/Help";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -172,7 +171,7 @@ const VisuallyHiddenInput = styled("input")({
       if (isAddSuccess) {
         dispatch(addUserReset());
         setTimeout(() => {
-          navigate("/user");
+          navigate("/users");
         }, GLOBAL_TIMEOUT);
       }
     });
@@ -243,7 +242,7 @@ const VisuallyHiddenInput = styled("input")({
   
     const proceedWithCancel = () => {
       dispatch(clearUserInfo());
-      navigate("/user");
+      navigate("/users");
     };
   
     const proceedWithSaving = () => {
@@ -269,7 +268,6 @@ const VisuallyHiddenInput = styled("input")({
         assocID &&
         username &&
         firstName &&
-        middleName &&
         lastName &&
         position &&
         email &&
@@ -956,7 +954,7 @@ const VisuallyHiddenInput = styled("input")({
 // 		if (isAddSuccess) {
 // 			dispatch(addUserReset());
 // 			setTimeout(() => {
-// 				navigate("/user");
+// 				navigate("/users");
 // 			}, GLOBAL_TIMEOUT);
 // 		}
 // 	});
@@ -1018,7 +1016,7 @@ const VisuallyHiddenInput = styled("input")({
 
 // 	const proceedWithCancel = () => {
 // 		dispatch(clearUserInfo());
-// 		navigate("/user");
+// 		navigate("/users");
 // 	};
 
 // 	const proceedWithSaving = () => {

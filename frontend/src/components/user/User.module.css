@@ -94,9 +94,9 @@
 
 /* Attributes of UserTable */
 .userTableContainer{ 
-
   height: 100%;
 }
+
 .tableMainContainer{
   flex-direction: column;
   justify-content: center;
@@ -190,8 +190,9 @@
     top: 90px;
   }
   .mainContainer{
-    height: 84%;
+    height: 80%;
     top: 135px;
+
   }
 .searchBarColLeft, .searchBarColRight{
   flex-direction: column;
@@ -199,9 +200,15 @@
 .searchBarColButton{
   align-self: center;
 }
+.userTableContainer{ 
+  height: 90%;
+}
 }
 @media screen and (max-width: 600px) {
   .searchBarCol{
     flex-direction: column;
+  }
+  .userTableContainer{ 
+    height: 60%;
   }
 }

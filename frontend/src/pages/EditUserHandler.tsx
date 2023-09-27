@@ -8,12 +8,12 @@ export default function EditUserHandler (){
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
-		{ label: "User", to: "/user" },
-        { label: "Edit User", to: "/user/editUser/row.username" },
+		{ label: "User", to: "/users" },
+        { label: "Edit User", to: "/user/edit-user/row.username" },
 
 	];
     return(
-        <div style={{display: 'flex', flexDirection:'column'}}>
+		<div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
 			<NavigationHandler pageTitle={pageTitle} breadcrumbs={breadcrumbs} /> {/* Pass the pageTitle and breadcrumbs prop here */}
          <EditUser/>
     </div>

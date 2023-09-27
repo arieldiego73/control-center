@@ -10,7 +10,7 @@ export default function Userhandler() {
 
   const breadcrumbs = [
     { icon: <HomeIcon style={{height:"20px", marginTop:"5px"}}/>,  to: "/dashboard"  }, // Example breadcrumb data
-    { label: "Users", to: "/user" },
+    { label: "Users", to: "/users" },
   ];
 
   return (
@@ -23,7 +23,7 @@ export default function Userhandler() {
  
 
   
-		// <div style={{ flexDirection: "column", display: "flex" }}>
+		// <div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
 		// 	<div
 		// 		style={{
 		// 			position: "absolute",

@@ -1,90 +1,61 @@
-
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  margin: 10px 15px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: url(../src/Assets/bg6.png);
-
-
+  overflow: hidden;
+  height: 96vh;
 }
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-
-.mainContainer{
-	position: fixed;
-	top: 140px;
-	left: 16.5vw;
-	width: 82vw;
-	height: 89vh;
+.mainContainer {
+  position: fixed;
+  width: 83.65%;
+  height: 86.3%;
+  top: 11%;
+  left: 15.5%;
 }
 .contentContainer {
-	position: relative;
-	/* top: 12vh;
+  position: relative;
+  /* top: 12vh;
 	left: 16.5vw; */
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	gap: 1vh;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
 }
 .contentHolder {
-	background: rgba(255, 255, 255, 0.05);
-	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(3px);
-	border-radius: 10px;
-	height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 10px;
+  height: 100%;
 }
-.tableHolder{
-	background-color: transparent;
-	height: 100%;
+.tableHolder {
+  background-color: transparent;
+  height: 100%;
 }
 
 /* Attributes of button @ Tables under OTHERS component */
 .hideButton {
-	border-radius: 10px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-@media screen and (max-width: 2559px) {
-	.mainContainer{
-		top: 130px;
-		height: 87vh;
-	}
-}
-@media screen and (max-width: 1900px) {
-	.mainContainer{
-		top: 120px;
-		height: 87vh;
-	}
-}
-@media screen and (max-width: 1400px) {
-	.mainContainer{
-		top: 110px;
-		height: 87vh;
-	}
-}
-@media screen and (max-width: 1199px) {
-	.mainContainer{
-		position: fixed;
-		top: 100px;
-		left: 2vw;
-		width: 96vw;
-		height: 87vh;
-	}
-}
-@media screen and (max-width: 750px) {
-	.mainContainer{
-		top: 90px;
-		height: 87vh;
-	}
+@media screen and (max-width: 1200px) {
+  .mainContainer {
+    width: 97.4%;
+    left: 1.3%;
+  }
 }

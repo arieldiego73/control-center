@@ -22,4 +22,7 @@ public interface DashboardDao {
     Integer countAllProjectByStatus(String proj_status_id);
 
     Integer countAllUserByStatus(String user_status_code);
+    List<Map<String, Object>> getAllProjectCountByStatus();
+
+    List<Map<String, Object>> getAllUserCountByStatus();
 }

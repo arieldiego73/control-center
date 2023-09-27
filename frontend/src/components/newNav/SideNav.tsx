@@ -28,17 +28,18 @@ import {
   KeyboardArrowDown,
 }
   from "@mui/icons-material";
-
-// for dropdown in others link
+  
+// for dropdown in others 
 const othersDropDownData = [
-  { icon: <People />, label: "Development Phase", path: "/DevelopmentPhase" },
-  { icon: <Dns />, label: "Project Status", path: "/projectStatus" },
-  { icon: <PermMedia />, label: "Employee Status", path: "/employeestatus" },
-  { icon: <Public />, label: "Employee Position", path: "/employeeposition" },
-  { icon: <Public />, label: " Business Units", path: "/businessunit" },
-  { icon: <Public />, label: "Departments", path: "/department" },
-  { icon: <Public />, label: "Technologies", path: "/technology" },
-  { icon: <Public />, label: "Development Type", path: "/devType" },
+  { label: "Development Phase", path: "/development-phase" },
+  { label: "Project Status", path: "/project-status" },
+  { label: "Employee Status", path: "/employee-status" },
+  { label: "Employee Position", path: "/employee-position" },
+  { label: " Business Units", path: "/business-unit" },
+  { label: "Departments", path: "/department" },
+  { label: "Technologies", path: "/technology" },
+  { label: "Development Type", path: "/development-type" },
+  { label: "Clients", path: "/clients" },
 ];
 
 function DevelopmentPhase() {
@@ -63,6 +64,9 @@ function Technologies() {
   return <div>Hosting Content</div>;
 }
 function DevelopmentTypeHandler() {
+  return <div>Hosting Content</div>;
+}
+function ClientHandler() {
   return <div>Hosting Content</div>;
 }
 
@@ -106,8 +110,8 @@ export default function SideNav() {
 
 
   const sidenavContainerStyle: React.CSSProperties = {
-    height: isScreenSmall ? "50px" : "94%",
-    width: isScreenSmall ? "50px" : "13%",
+    height: isScreenSmall ? "50px" : "100%",
+    width: isScreenSmall ? "50px" : "100%",
     display: "flex", // Display as flex
     flexDirection: "column", // Stack items vertically
     alignItems: isScreenSmall ? "center" : "stretch", // Center items if small screen, otherwise stretch
@@ -118,7 +122,7 @@ export default function SideNav() {
     background: "rgba( 237, 249, 255, 0.35 )",
     boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
     backdropFilter: "blur( 25px )",
-    position: "fixed",
+    position: isScreenSmall ? "fixed" : "relative",
 
     // top: isScreenSmall ? "4vh" : "4vh",
   };
@@ -211,7 +215,7 @@ export default function SideNav() {
                   </ListItem>
                 </Link>
 
-                <Link to="/user" style={{ textDecoration: "none" }}>
+                <Link to="/users" style={{ textDecoration: "none" }}>
                   <ListItem component="div" disablePadding>
                     <ListItemButton
                       sx={{
@@ -240,7 +244,7 @@ export default function SideNav() {
                   </ListItem>
                 </Link>
                 {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
-                <Link to="/project" style={{ textDecoration: "none" }}>
+                <Link to="/projects" style={{ textDecoration: "none" }}>
                   <ListItem component="div" disablePadding>
                     <ListItemButton
                       sx={{
@@ -269,7 +273,7 @@ export default function SideNav() {
                   </ListItem>
                 </Link>
                 {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
-                <Link to="/role" style={{ textDecoration: "none" }}>
+                <Link to="/roles" style={{ textDecoration: "none" }}>
                   <ListItem component="div" disablePadding>
                     <ListItemButton
                       sx={{
@@ -419,6 +423,8 @@ export default function SideNav() {
         <Route path="/department" element={<Departments />} />
         <Route path="/technology" element={<Technologies />} />
         <Route path="/devType" element={<DevelopmentTypeHandler />} />
+        <Route path="/client" element={<ClientHandler />} />
+
       </Routes>
     </div>
 
