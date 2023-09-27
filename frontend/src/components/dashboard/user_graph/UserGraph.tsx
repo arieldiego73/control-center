@@ -1,7 +1,20 @@
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import UserGraphStyle from "./UserGraph.module.css";
-import { Divider } from "@mui/material";
 import { ResponsiveLine, Serie } from "@nivo/line";
+
+// [
+//   {
+//       "user_status": [],
+//       "project_status": [],
+//       "user_per_year": [
+//           {
+//               "year_registered": 2023,
+//               "data": [
+//                   {"month": 1, "users": 100}
+//               ]
+//           }
+//       ]
+//   }
+// ]
 
 const data: Serie[] = [
   {
@@ -64,97 +77,6 @@ const data: Serie[] = [
       },
     ]
   },
-  {
-    "id": "2022",
-    "color": "hsl(122, 70%, 50%)",
-    "data": [
-      {
-        "x": "January",
-        "y": 17
-      },
-      {
-        "x": "March",
-        "y": 42
-      },
-      {
-        "x": "May",
-        "y": 71
-      },
-      {
-        "x": "July",
-        "y": 300
-      },
-      {
-        "x": "September",
-        "y": 50
-      },
-      {
-        "x": "November",
-        "y": 15
-      },
-    ]
-  },
-  {
-    "id": "2023",
-    "color": "hsl(4, 70%, 50%)",
-    "data": [
-      {
-        "x": "January",
-        "y": 82
-      },
-      {
-        "x": "March",
-        "y": 30
-      },
-      {
-        "x": "May",
-        "y": 11
-      },
-      {
-        "x": "July",
-        "y": 50
-      },
-      {
-        "x": "September",
-        "y": 90
-      },
-      {
-        "x": "November",
-        "y": 2
-      },
-    ]
-  },
-  {
-    "id": "2024",
-    "color": "hsl(133, 70%, 50%)",
-    "data": [
-      {
-        "x": "January",
-        "y": 119
-      },
-      {
-        "x": "March",
-        "y": 73
-      },
-      {
-        "x": "May",
-        "y": 11
-      },
-      {
-        "x": "July",
-        "y": 291
-      },
-      {
-        "x": "September",
-        "y": 270
-      },
-      {
-        "x": "November",
-        "y": 270
-      },
-  
-    ]
-  }
 ];
 
 const customTheme = {
@@ -204,18 +126,10 @@ export default function UserGraph() {
           <div className={UserGraphStyle.textHolder}>
             {/* Text Title */}
             {/* <Divider style={{ padding: "1%" }} variant="middle" /> */}
-            <text className={UserGraphStyle.textTitle}> USER STATUS </text>
-            <text className={UserGraphStyle.textSubtitle}>
-              {" "} 
+            <p className={UserGraphStyle.textTitle}> USER STATUS </p>
+            <p className={UserGraphStyle.textSubtitle}>
               +2% than last year{" "}
-            </text>
-
-            {/*
-
-            <div className={UserGraphStyle.infoContainer}>
-              <text className={UserGraphStyle.textInfoUpdate}> +3%</text>
-              <text className={UserGraphStyle.textInfo}> than last month </text>
-            </div> */}
+            </p>
           </div>
         </div>
 
@@ -233,7 +147,7 @@ export default function UserGraph() {
             reverse: false
         }}
         yFormat=" >-.2f"
-        curve="basis"
+        curve="natural"
         axisTop={null}
         axisRight={null}
         axisBottom={{

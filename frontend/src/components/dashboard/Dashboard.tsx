@@ -3,6 +3,10 @@ import ActivityLogDashboardTable from "./ActivityLogDashboardTable";
 import ProjectGraph from "./project_graph/ProjectGraph";
 import UserGraph from "./user_graph/UserGraph";
 import EmpStatusGraph from "./employeestatus_graph/EmployeeStatusGraph";
+import { useDispatch, useSelector } from "react-redux";
+import { getGraphsDataFetch } from "../../redux/state/graphState";
+import React from "react";
+import { RootState } from "../../redux/store/store";
 
 export const Dashboard = () => {
   // const navigate = useNavigate();
@@ -18,6 +22,18 @@ export const Dashboard = () => {
   // 		navigate("/");
   // 	}
   // });
+
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    dispatch(getGraphsDataFetch())
+  }, [dispatch])
+
+  const graphsData = useSelector((state: RootState) => state.graphsData.graphsData)
+
+  React.useEffect(() => {
+    console.log(graphsData)
+  }, [graphsData])
 
   return (
     <div className={DashboardStyle.mainContainer}>

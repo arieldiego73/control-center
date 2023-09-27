@@ -415,56 +415,25 @@ export default function EmpStatusGraph() {
 //                       </LocalizationProvider>
 //                     </div>
 
-<<<<<<< HEAD
-//                     <div style={{ flexDirection: "column", display: "flex" }}>
-//                       <FormLabel>End Date</FormLabel>
-//                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-//                         <DatePicker />
-//                       </LocalizationProvider>
-//                     </div>
-//                   </FormControl>
-//                 </div>
+                // <div className={StyleNewProject.formHolder}>
+                //   <FormControl
+                //     style={{ flexDirection: "row", display: "flex", gap: "2%" }}
+                //   >
+                //     <div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
+                //       <FormLabel>Start Date</FormLabel>
+                //       <LocalizationProvider dateAdapter={AdapterDayjs}>
+                //         <DatePicker />
+                //       </LocalizationProvider>
+                //     </div>
 
-//                 <div className={StyleNewProject.formHolder}>
-//                   <div className={StyleNewProject.gridContainer}>
-//                     <FormLabel> Project Description</FormLabel>
-//                     <ReactQuillEditor
-//                       className={StyleNewProject.qlContainer}
-//                       theme="snow"
-//                       value={value}
-//                       // maxLines={`8`}
-//                       // scrollOnMaxLines={true}
-//                       onChange={setValue}
-//                       modules={modules}
-//                       placeholder="Project description..."
-//                       style={{
-//                         backgroundColor: "transparent",
-//                         borderRadius: "10px",
-//                       }}
-//                     />
-//                   </div>
-//                 </div>
-=======
-                <div className={StyleNewProject.formHolder}>
-                  <FormControl
-                    style={{ flexDirection: "row", display: "flex", gap: "2%" }}
-                  >
-                    <div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
-                      <FormLabel>Start Date</FormLabel>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker />
-                      </LocalizationProvider>
-                    </div>
-
-                    <div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
-                      <FormLabel>End Date</FormLabel>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker />
-                      </LocalizationProvider>
-                    </div>
-                  </FormControl>
-                </div>
->>>>>>> d0611b8404ba33366e1c45be3578546d4e50cca3
+                //     <div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
+                //       <FormLabel>End Date</FormLabel>
+                //       <LocalizationProvider dateAdapter={AdapterDayjs}>
+                //         <DatePicker />
+                //       </LocalizationProvider>
+                //     </div>
+                //   </FormControl>
+                // </div>
 
 //                 <div className={StyleNewProject.formHolderMembers}>
 //                   <FormControl>
