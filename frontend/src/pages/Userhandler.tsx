@@ -23,7 +23,7 @@ export default function Userhandler() {
  
 
   
-		// <div style={{ flexDirection: "column", display: "flex" }}>
+		// <div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
 		// 	<div
 		// 		style={{
 		// 			position: "absolute",

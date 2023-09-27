@@ -1,6 +1,6 @@
 .topnavContainer {
-  height: 65px;
-  width: 82%;
+  height: 100%;
+  width: 100%;
   border-radius: 10px;
   overflow: hidden;
   display: flex;
@@ -13,6 +13,7 @@
   -webkit-backdrop-filter: blur( 5px );
   border-radius: 10px;
   position: fixed; 
+  position: relative;
 }
 .leftSide{
   height: 90%;
@@ -87,10 +88,7 @@
   height: 90%;
  
 }
-.toolTip:hover{
-  font-weight: 500;
-  border: 1px solid rgb(117, 117, 117);
-}
+
 .topNavName{
   justify-content: center;
   display: flex;
@@ -125,8 +123,8 @@
   flex-direction: column;
  }
  .imgSize{
-  width: 6vw;
-  height: 6vw;
+  width: 6%;
+  height: 6%;
   border-radius: 100%;
 }
 .manageButtonContainer{
@@ -198,62 +196,20 @@
   .breadCrumbContainer:hover{
     font-weight: 600;
   }
-  
-  @media screen and (max-width: 1199px) {
-    .topnavContainer {
-      width: 90%;
-      left: 8vw;
-    }
-  }
-  @media screen and (max-width: 850px) {
-    .topnavContainer {
-      width: 88%;
-      left: 10vw;
-    }
-  }
-  @media screen and (max-width: 650px) {
-    .mainName, .breadCrumbsContainer {
+
+  @media screen and (max-width: 750px) {
+    .mainName, .breadCrumbsContainer{
       display: none;
     }
-    .topnavContainer {
-      width: 86%;
-      left: 12vw;
-    }
     .toolTip{
-      background: none;
       border: none;
-      padding: 0;
-    }
-    .imgSize{
-      width: 6vw;
-      height: 6vw;
-    }
-    .titleContainer span{
-      font-size: 1rem;
-      padding-left: 3%;
-      font-weight: 600;
-    }
-    .userProfilePic{
-      padding: 5px;
+      background-color:none;
+      border-radius: none;
     }
   }
-  @media screen and (max-width: 550px) {
-    .topnavContainer {
-            left: 13vw;
-    }
-  }
-  @media screen and (max-width: 500px) {
-    .topnavContainer {
-            left: 15vw;
-    }
-  }
-  @media screen and (max-width: 440px) {
-    .topnavContainer {
-            left: 16vw;
-    }
-  }
-  @media screen and (max-width: 380px) {
-    .topnavContainer {
-            left: 18vw;
+  @media screen and (min-width: 750px) {
+    .toolTip:hover{
+      font-weight: 500;
+      border: 1px solid rgb(117, 117, 117);
     }
   }

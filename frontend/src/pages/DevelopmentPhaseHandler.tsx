@@ -13,7 +13,7 @@ export default function DevelopmentPhaseHandler() {
 	];
   
 	return (
-		<div style={{display: 'flex', flexDirection:'column'}}>
+		<div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
       		<NavigationHandler pageTitle={pageTitle} breadcrumbs={breadcrumbs} /> {/* Pass the pageTitle and breadcrumbs prop here */}
 			<DevelopmentPhase />
 		</div>
