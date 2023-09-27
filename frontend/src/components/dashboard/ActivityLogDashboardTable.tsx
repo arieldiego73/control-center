@@ -26,6 +26,8 @@ const YESTERDAY_STR = "Yesterday";
 
 let todayCount = 0;
 let yesterdayCount = 0;
+let otherDates: string[] = [];
+let otherDatesDistinct: string[] = [];
 
 export default function ActivityLogDashboardTable() {
 	const dispatch = useDispatch();
@@ -46,9 +48,10 @@ export default function ActivityLogDashboardTable() {
 			setRows(
 				history.map((log) => {
 					let date = "";
+					const currDate = dayjs(log.log_date).get("date");
 
 					const TODAY = dayjs();
-					if (dayjs(log.log_date).get("date") === TODAY.get("date")) {
+					if (currDate === TODAY.get("date")) {
 						if (todayCount === 0) {
 							date = TODAY_STR;
 						} else {
@@ -56,7 +59,7 @@ export default function ActivityLogDashboardTable() {
 						}
 						todayCount++;
 					} else if (
-						dayjs(log.log_date).get("date") ===
+						currDate ===
 						TODAY.subtract(1, "day").get("date")
 					) {
 						if (yesterdayCount === 0) {
@@ -66,7 +69,14 @@ export default function ActivityLogDashboardTable() {
 						}
 						yesterdayCount++;
 					} else {
-						date = dayjs(log.log_date).format("DD/MM/YYYY");
+						const tempDate = dayjs(log.log_date).format("DD/MM/YYYY")
+						otherDates.push(tempDate)
+						if (otherDatesDistinct.includes(tempDate)) {
+							date = ""
+						} else {
+							otherDatesDistinct.push(tempDate)
+							date = tempDate
+						}
 					}
 
 					return createData(
@@ -117,6 +127,13 @@ export default function ActivityLogDashboardTable() {
 											rowSpan={yesterdayCount}
 										>
 											{row.date}
+										</TableCell>
+									) : otherDatesDistinct.includes(row.date) ? (// TANUNGIN MO KUNG MAY LAMAN, PAG MERON, ALISIN MO TAPOS ITO ANG I-RENDER MO
+										<TableCell
+											style={{ fontWeight: "bold", verticalAlign: "baseline" }}
+											rowSpan={otherDates.map((date) => date === row.date).length}
+										>
+											{otherDatesDistinct.shift()}
 										</TableCell>
 									) : (
 										<TableCell
