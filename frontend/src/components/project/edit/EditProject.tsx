@@ -94,14 +94,14 @@ export default function EditProject() {
 		if (PROJECT_ID) {
 			dispatch(getProjectInfo({ projectId: PROJECT_ID }));
 		} else {
-			navigate("/project"); // if the location.state is cleared, navigate back to the table
+			navigate("/project");
 		}
 
 		return () => {
 			dispatch(clearProjectInfo());
 			setClientName("");
 		};
-	}, []);
+	}, []); // this is left as an empty array purposely, to let it run just once upon rendering
 
 	// FOR SNACKPACK ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	const notice = useSelector(
@@ -340,7 +340,7 @@ export default function EditProject() {
 						"error"
 					)();
 					setSelectedStartDate(dayjs());
-					setSelectedEndDate(dayjs().add(1, "day"));
+					setSelectedEndDate(dayjs().add(1, "month"));
 				}
 			} else {
 				setSelectedStartDate(dayjs(e));
@@ -355,7 +355,7 @@ export default function EditProject() {
 						"error"
 					)();
 					setSelectedStartDate(dayjs());
-					setSelectedEndDate(dayjs().add(1, "day"));
+					setSelectedEndDate(dayjs().add(1, "month"));
 				}
 			} else {
 				setSelectedEndDate(dayjs(e));
