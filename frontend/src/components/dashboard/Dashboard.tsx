@@ -12,7 +12,7 @@ export const Dashboard = () => {
   // 	return state.sessionReducer.user;
   // });
 
-  /* VALIDATE IF A USER IS LOGGED IN */
+  /* VALIDATE IF A USER IS LOGGED IN */ 
   // useEffect(() => {
   // 	if (loggedUser === null) {
   // 		navigate("/");
@@ -24,13 +24,23 @@ export const Dashboard = () => {
       <div className={DashboardStyle.contentContainer}>
         <div className={DashboardStyle.contentHolder}>
           <div className={DashboardStyle.graphHolder}>
-            <ProjectGraph />
-            <UserGraph />
-            <EmpStatusGraph />
+            <div style={{height:"100%", width:"50%", display:"flex", justifyContent:"center", }}>
+              <ProjectGraph />
+            </div>
+            
+            <div style={{display:'flex', height:"100%", width:"50%", justifyContent:"center", }}>
+              <EmpStatusGraph />
+            </div>
           </div>
 
           <div className={DashboardStyle.tableHolder}>
-            <ActivityLogDashboardTable />
+            <div style={{height:"100%", width:"49%", display:"flex", justifyContent:"center",alignItems:"flex-end", paddingLeft:'.5%' }}>
+              <ActivityLogDashboardTable />
+            </div>
+            
+            <div style={{display:'flex', height:"100%", width:"50%", justifyContent:"center",  }}>
+              <UserGraph />
+            </div>
           </div>
         </div>
       </div> 

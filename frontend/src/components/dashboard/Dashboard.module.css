@@ -2,26 +2,26 @@
     position: fixed;
 	display: flex;
 	flex-direction: column; 
-	height: 86vh;
+	height: 84vh;
 	width: 82vw;
-    /* top:5vh; */
+    top:13vh;
 	left: 16.5vw;
 	overflow: hidden;
-    /* border: 1px solid red; */
+
 }  
 .contentContainer{
-    width: 98%;
-    height: 93%; 
-    position: relative; 
-    top: 20%;
-    align-self: center; 
+    width: 99.6%; 
+    height: 100%; 
 }
 .contentHolder{
     border-radius: 10px;
     height: 100%;
     flex-direction: column;
     display: flex;
-    width: 100%;
+    width:100%;
+    align-self: center; 
+    top: 0%;
+    gap:10px; 
 }
 .graphHolder{
     flex-direction: row;
@@ -29,15 +29,17 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 45px;
-    height: 100%;
-    /* border: 1px solid red; */
-   padding-top: 2%;
+    height: 60%;
+   overflow: hidden;
 }
 .tableHolder{
     display: flex;
     justify-content: center;
-    align-items: center;
+    flex-direction: row;
+    height: 40%;
+    width: 100%; 
+    align-items: flex-end;
+    gap: 10px;
 }
 
 /* Attributes of Activity Log  */
@@ -47,6 +49,8 @@
     height: 100%;
     width: 100%;
     border-radius:20px;
+    display: flex;
+    justify-content: center;
 }
 .paper{
     width: 100%;
@@ -56,85 +60,8 @@
 }
 .actLogTable {
     width: 100%; 
-    height: 100%; 
+    height: 99%; 
     overflow: hidden ;
-}
-
-@media screen and (max-width: 2559px) {
-    .mainContainer {
-        height: 88vh;
-    } 
-    .contentContainer{  
-    
-        top: 20%;
-    }
-    
-    .graphHolder{
-        height: 25%;
-    }
-}
-
-@media screen and (max-width: 2200px) {
-    .mainContainer {
-        top: 110px;
-    } 
-    .contentContainer{
-        top: 8%;
-    }
-}
-@media screen and (max-width: 1680px) {
-    .mainContainer {
-        height: 86%;
-        width: 80vw;
-        left: 16.5vw;
-        overflow: scroll;
-        /* padding-top: 2%; */
-    } 
-    .graphHolder{
-        flex-direction: column;
-        display: flex;
-        width: 100%;
-        height: 100vh;
-        top:0;
-        gap: 10%;
-    }
-    .contentContainer{  
-        width: 98%;
-        height: 100%;
-        top: 20;
-    }
-    .contentHolder{
-        padding-bottom: 2%;
-        height: 100%;
-    }
-    .activityLogContainer{
-        height: 100%;
-        width: 100%;
-    }
-    .tableHolder{
-     height: 30%;
-     width: 100%;
-    }
-}
-@media screen and (max-width: 1200px) {
-    .mainContainer {
-        height: 86%;
-        width: 95vw;
-        left: 2vw;
-        overflow: scroll;
-    } 
-    .graphHolder{
-        gap: 12%;
-    }
-    .activityLogContainer{
-        height: 100%;
-        width: 100%;
-    }
-}
-@media screen and (max-width: 850px) {
-    .actLogTable {
-        overflow: auto;
-    }
-
-
+    border-radius: 10px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }

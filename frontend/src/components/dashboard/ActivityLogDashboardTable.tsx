@@ -26,7 +26,7 @@ const YESTERDAY_STR = "Yesterday";
 
 let todayCount = 0;
 let yesterdayCount = 0;
-
+ 
 export default function ActivityLogDashboardTable() {
 	const dispatch = useDispatch();
 

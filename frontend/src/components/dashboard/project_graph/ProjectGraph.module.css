@@ -1,15 +1,13 @@
 .ProjGraphContainer {
-  height: 80%; 
-  width: 33%;
-  /* padding: 2%; */
-  /* border: 1px solid green; */
+  height: 100%; 
+  width: 98%;
 }
 .projGraphHolder{
   width: 100%;
-  height: 100%;
+  height: 99%; 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 }
   
 /* Attributes of Main Container */
@@ -19,9 +17,9 @@
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 10px;
   border: 1px solid rgba(209, 213, 219, 0.3);
-  align-items: flex-end;
   display: flex;
-  height: 300px;
+  height: 90%;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   width: 100%;
 }
 .textHolder{
@@ -63,142 +61,11 @@
 /* Attributes of Graph */
 .graphContainer{
   background: linear-gradient(#2a7ebb, #579ed1);
-  height: 30%;
-  width: 30%; 
+  height: 43%;
+  width: 45%; 
   border-radius: 15px;
   position: absolute;
-  margin-bottom: 12%;
+  margin-bottom: 7.5%;
   z-index: 1;
   margin-top:1%;
-  /* border: 1px solid red; */
 }
-
-
-@media screen and (max-width: 2559px) {
-  .ProjGraphContainer {
-    height: 120%;
-  }
-  .card { 
-    height: 100%;
-    width: 100%;
-  }
-  .graphContainer{
-    height: 26%;
-    margin-bottom: 11%;
-  }
-}
-@media screen and (max-width: 1680px) {
-  .ProjGraphContainer {
-    height: 33%; 
-    width: 80%;
-  }
-  .card { 
-    height: 100%;
-    width: 100%;  
-  }
-  .graphContainer{
-    height: 15%;
-    width: 75%;
-    margin-bottom: 15%;
-  }
-  .infoContainer{
-    padding: 1%;
-    padding-left: 2%;
-  }
-} 
-
-@media screen and (max-width: 1450px) {
-  .graphContainer{
-    margin-bottom: 16%;
-  }
-} 
-@media screen and (max-width: 1340px) {
-  .graphContainer{
-    margin-bottom: 17%;
-  }
-}
-@media screen and (max-width: 1200px) {
-  .ProjGraphContainer {
-    height: 60%; 
-    width: 90%;
-  }
-  .card { 
-    height: 100%;
-    width: 100%;  
-  } 
-  .graphContainer{
-    height: 15%;
-    width: 85%;
-    margin-bottom: 18%;
-  }
-} 
-@media screen and (max-width: 1040px) {
-  .graphContainer{
-    margin-bottom: 19%;
-  }
-} 
-@media screen and (max-width: 930px) {
-  .graphContainer{
-    margin-bottom: 20%;
-  }
-}   
-@media screen and (max-width: 880px) {
-  .graphContainer{
-    margin-bottom: 21%;
-  }
-}  
-@media screen and (max-width: 800px) {
-  .graphContainer{
-    margin-bottom: 22%;
-  }
-}  
-@media screen and (max-width: 750px) {
-  .graphContainer{
-    margin-bottom: 23%;
-  }
-}  
-@media screen and (max-width: 680px) {
-  .graphContainer{
-    margin-bottom: 24%;
-  }
-}  
-@media screen and (max-width: 640px) {
-  .graphContainer{
-    margin-bottom: 25%;
-  }
-}  
-@media screen and (max-width: 600px) {
-  .graphContainer{
-    margin-bottom: 26%;
-  }
-}  
-@media screen and (max-width: 560px) {
-  .graphContainer{
-    margin-bottom: 27%;
-  }
-}  
-@media screen and (max-width: 520px) {
-  .graphContainer{
-    margin-bottom: 28%;
-  }
-}  
-@media screen and (max-width: 500px) {
-  .graphContainer{
-    margin-bottom: 29%;
-  }
-}  
-@media screen and (max-width: 475px) {
-  .graphContainer{
-    margin-bottom: 30%;   
-  }
-}  
-
-
-
-
-
-
-
-
-
-

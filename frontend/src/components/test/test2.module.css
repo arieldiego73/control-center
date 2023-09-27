@@ -1,4 +1,198 @@
-/* Attributes of Create User Page */
+.EmpStatusGraphContainer {
+  height: 80%; 
+  width: 33%;
+  /* padding: 2%; */
+  /* border: 1px solid green; */
+}
+.empGraphHolder{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Attributes of Main Container */
+.card {  
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 10px;
+  border: 1px solid rgba(209, 213, 219, 0.3);
+  align-items: flex-end;
+  display: flex;
+  height: 300px;
+  width: 100%;
+}
+.textHolder{
+  flex-direction: column;
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+/* Attributes of Text Title */
+.textTitle{
+  padding-left: 2%;
+  font-weight: bold;
+  font-size: 20px;
+}
+.textSubtitle {
+  padding-left: 2%;
+  font-size: 15px; 
+}
+
+/* Attributes of Information Container */
+.infoContainer{
+  padding: 2%;
+  flex-direction: row;
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+}
+.textInfoUpdate{
+  font-size: 12px; 
+  color: green;
+  padding-right: 2px;
+}
+.textInfo{
+  font-size: 12px; 
+  color: grey;
+}
+
+/* Attributes of Graph */
+.graphContainer{
+  background: linear-gradient(#1d1d1d, #2f2f33, #3f3f46);
+  height: 30%;
+  width: 30%; 
+  border-radius: 15px;
+  position: absolute;
+  margin-bottom: 12%;
+  z-index: 1;
+  margin-top:1%;
+  /* border: 1px solid red; */
+}
+
+@media screen and (max-width: 2559px) {
+  .EmpStatusGraphContainer {
+    height: 120%;
+  }
+  .card { 
+    height: 100%;
+    width: 100%;
+  }
+  .graphContainer{
+    height: 26%;
+    margin-bottom: 11%;
+  }
+}
+@media screen and (max-width: 1680px) {
+  .EmpStatusGraphContainer {
+    height: 33%; 
+    width: 80%;
+  }
+  .card { 
+    height: 100%;
+    width: 100%;  
+  }
+  .graphContainer{
+    height: 15%;
+    width: 75%;
+    margin-bottom: 15%;
+  }
+  .infoContainer{
+    padding: 1%;
+    padding-left: 2%;
+  }
+} 
+@media screen and (max-width: 1450px) {
+  .graphContainer{
+    margin-bottom: 16%;
+  }
+} 
+@media screen and (max-width: 1340px) {
+  .graphContainer{
+    margin-bottom: 17%;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .EmpStatusGraphContainer {
+    height: 60%; 
+    width: 90%;
+  }
+  .card { 
+    height: 100%;
+    width: 100%;  
+
+  } 
+  .graphContainer{
+    height: 15%;
+    width: 85%;
+    margin-bottom: 18%;
+  }
+} 
+@media screen and (max-width: 1040px) {
+  .graphContainer{
+    margin-bottom: 19%;
+  }
+}   
+@media screen and (max-width: 930px) {
+  .graphContainer{
+    margin-bottom: 20%;
+  }
+}   
+@media screen and (max-width: 880px) {
+  .graphContainer{
+    margin-bottom: 21%;
+  }
+}  
+@media screen and (max-width: 800px) {
+  .graphContainer{
+    margin-bottom: 22%;
+  }
+}  
+@media screen and (max-width: 750px) {
+  .graphContainer{
+    margin-bottom: 23%;
+  }
+}  
+@media screen and (max-width: 680px) {
+  .graphContainer{
+    margin-bottom: 24%;
+  }
+}  
+@media screen and (max-width: 640px) {
+  .graphContainer{
+    margin-bottom: 25%;
+  }
+}  
+@media screen and (max-width: 600px) {
+  .graphContainer{
+    margin-bottom: 26%;
+  }
+}  
+@media screen and (max-width: 560px) {
+  .graphContainer{
+    margin-bottom: 27%;
+  } 
+}  
+@media screen and (max-width: 520px) {
+  .graphContainer{
+    margin-bottom: 28%;
+  }
+}  
+@media screen and (max-width: 500px) {
+  .graphContainer{
+    margin-bottom: 29%;
+  }
+}  
+@media screen and (max-width: 475px) {
+  .graphContainer{
+    margin-bottom: 30%;
+  }
+}  
+
+
+/* 
 .mainContainer {
   position: fixed;
 	display: flex;
@@ -15,7 +209,7 @@
   backdrop-filter: blur( 5px );
   -webkit-backdrop-filter: blur( 5px );
   border-radius: 10px;
-  /* border: 1px solid blue; */
+
 }
 .mainHolder {
   position: fixed;
@@ -29,10 +223,9 @@
 	left: 0;
 	overflow: hidden;
   border-radius: 15px;
-  /* border: 1px solid blue;  */
+
 }
 
-/* Attributes of Form holder */
 .contentHolder {
   border-radius: 5px;
   height: 90%;
@@ -41,7 +234,7 @@
   flex-direction: column;
   justify-content: center; 
   padding: 2vh 0; 
-  /* border: 1px solid blue;  */
+
 }
 .mainForm {
   display: flex;
@@ -53,10 +246,9 @@
   background-color: transparent;
   justify-content: center;
   align-items: center;
-  /* border: 1px solid blue;  */
+
 }
 
-/* Attributes of Left Form  */
 .leftFormPlaceHolder {
   flex-direction: column;
   display: flex;
@@ -64,7 +256,6 @@
   height: 95%;
   justify-content: center;
   align-items: center;
-  /* border: 1px solid blue;  */
   background-color: white;
   border-radius: 10px;
 }
@@ -74,7 +265,7 @@
   align-items: center;
   flex-direction: column;
   gap: 5%;
-  /* border: 1px solid blue;  */
+
   width: 100%;
 }
 .imgContainer {
@@ -103,21 +294,19 @@
   font-weight: bolder;
 }
 
-/* Attributes of Form Profile */
+
 .formProfileContainer {
   height: 100%; 
   width: 100%;
 }
 .textFieldProfile{
   width: 100%;
-  /* border: 1px solid red ; */
   background-color: transparent;
   display: flex;
   justify-content: center;
 }
 .textFieldProfile1{
   width: 100%;
-  /* border: 1px solid red ; */
   background-color: transparent;
 }
 
@@ -125,11 +314,9 @@
   width: 100%;
 }
 
-/* Attributes of Other Form  */
 .otherFormContainer{
   width: 80%;
   height: 95%;
-  /* border: 1px solid blue; */
  
 }
 .otherFormPlaceholder{
@@ -137,11 +324,8 @@
   display: flex;
   width: 100%;
   height: 90%;
-  /* border: 1px solid red; */
   overflow-y: scroll;
   overflow-x: hidden;
-  /* background-color: white;
-  border-radius: 10px; */
 }
 
 .qlContainer {
@@ -156,8 +340,6 @@ gap: 7vh;
   display: flex;
   flex-direction: column;
   gap: .5%;
-  /* padding-bottom: 5%; */
-  /* border: 1px solid blue; */
 }
 .gridContainer{
   width: 80%;
@@ -199,17 +381,14 @@ gap: 7vh;
   padding-top: 24px;
 }
 
-/* Attributes of Button */
 .formRow7{
   display: flex;
   justify-content: flex-end;
   width: 50%;
   gap: 0.5vw;
-  /* margin-right: 1%; */
   left: 49%;
   top: 1%;
   position: relative;
-  /* border: 1px solid red; */
   background-color: white;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -220,50 +399,4 @@ gap: 7vh;
 .cancelButton{
   text-transform: none;
   background-color: gray;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}*/
