@@ -415,6 +415,7 @@ export default function EmpStatusGraph() {
 //                       </LocalizationProvider>
 //                     </div>
 
+<<<<<<< HEAD
 //                     <div style={{ flexDirection: "column", display: "flex" }}>
 //                       <FormLabel>End Date</FormLabel>
 //                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -443,6 +444,27 @@ export default function EmpStatusGraph() {
 //                     />
 //                   </div>
 //                 </div>
+=======
+                <div className={StyleNewProject.formHolder}>
+                  <FormControl
+                    style={{ flexDirection: "row", display: "flex", gap: "2%" }}
+                  >
+                    <div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
+                      <FormLabel>Start Date</FormLabel>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker />
+                      </LocalizationProvider>
+                    </div>
+
+                    <div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
+                      <FormLabel>End Date</FormLabel>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker />
+                      </LocalizationProvider>
+                    </div>
+                  </FormControl>
+                </div>
+>>>>>>> d0611b8404ba33366e1c45be3578546d4e50cca3
 
 //                 <div className={StyleNewProject.formHolderMembers}>
 //                   <FormControl>
