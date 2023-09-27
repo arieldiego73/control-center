@@ -1,402 +1,190 @@
-.EmpStatusGraphContainer {
-  height: 80%; 
-  width: 33%;
-  /* padding: 2%; */
-  /* border: 1px solid green; */
-}
-.empGraphHolder{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-/* Attributes of Main Container */
-.card {  
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  background-color: rgba(255, 255, 255, 0.75);
-  border-radius: 10px;
-  border: 1px solid rgba(209, 213, 219, 0.3);
-  align-items: flex-end;
-  display: flex;
-  height: 300px;
-  width: 100%;
-}
-.textHolder{
-  flex-direction: column;
-  display: flex;
-  justify-content: end;
-  width: 100%;
-}
-
-/* Attributes of Text Title */
-.textTitle{
-  padding-left: 2%;
-  font-weight: bold;
-  font-size: 20px;
-}
-.textSubtitle {
-  padding-left: 2%;
-  font-size: 15px; 
-}
-
-/* Attributes of Information Container */
-.infoContainer{
-  padding: 2%;
-  flex-direction: row;
-  display: flex;
-  justify-content: flex-start;
-  align-content: center;
-}
-.textInfoUpdate{
-  font-size: 12px; 
-  color: green;
-  padding-right: 2px;
-}
-.textInfo{
-  font-size: 12px; 
-  color: grey;
-}
-
-/* Attributes of Graph */
-.graphContainer{
-  background: linear-gradient(#1d1d1d, #2f2f33, #3f3f46);
-  height: 30%;
-  width: 30%; 
-  border-radius: 15px;
-  position: absolute;
-  margin-bottom: 12%;
-  z-index: 1;
-  margin-top:1%;
-  /* border: 1px solid red; */
-}
-
-@media screen and (max-width: 2559px) {
-  .EmpStatusGraphContainer {
-    height: 120%;
-  }
-  .card { 
-    height: 100%;
-    width: 100%;
-  }
-  .graphContainer{
-    height: 26%;
-    margin-bottom: 11%;
-  }
-}
-@media screen and (max-width: 1680px) {
-  .EmpStatusGraphContainer {
-    height: 33%; 
-    width: 80%;
-  }
-  .card { 
-    height: 100%;
-    width: 100%;  
-  }
-  .graphContainer{
-    height: 15%;
-    width: 75%;
-    margin-bottom: 15%;
-  }
-  .infoContainer{
-    padding: 1%;
-    padding-left: 2%;
-  }
-} 
-@media screen and (max-width: 1450px) {
-  .graphContainer{
-    margin-bottom: 16%;
-  }
-} 
-@media screen and (max-width: 1340px) {
-  .graphContainer{
-    margin-bottom: 17%;
-  }
-}
-@media screen and (max-width: 1200px) {
-  .EmpStatusGraphContainer {
-    height: 60%; 
-    width: 90%;
-  }
-  .card { 
-    height: 100%;
-    width: 100%;  
-
-  } 
-  .graphContainer{
-    height: 15%;
-    width: 85%;
-    margin-bottom: 18%;
-  }
-} 
-@media screen and (max-width: 1040px) {
-  .graphContainer{
-    margin-bottom: 19%;
-  }
-}   
-@media screen and (max-width: 930px) {
-  .graphContainer{
-    margin-bottom: 20%;
-  }
-}   
-@media screen and (max-width: 880px) {
-  .graphContainer{
-    margin-bottom: 21%;
-  }
-}  
-@media screen and (max-width: 800px) {
-  .graphContainer{
-    margin-bottom: 22%;
-  }
-}  
-@media screen and (max-width: 750px) {
-  .graphContainer{
-    margin-bottom: 23%;
-  }
-}  
-@media screen and (max-width: 680px) {
-  .graphContainer{
-    margin-bottom: 24%;
-  }
-}  
-@media screen and (max-width: 640px) {
-  .graphContainer{
-    margin-bottom: 25%;
-  }
-}  
-@media screen and (max-width: 600px) {
-  .graphContainer{
-    margin-bottom: 26%;
-  }
-}  
-@media screen and (max-width: 560px) {
-  .graphContainer{
-    margin-bottom: 27%;
-  } 
-}  
-@media screen and (max-width: 520px) {
-  .graphContainer{
-    margin-bottom: 28%;
-  }
-}  
-@media screen and (max-width: 500px) {
-  .graphContainer{
-    margin-bottom: 29%;
-  }
-}  
-@media screen and (max-width: 475px) {
-  .graphContainer{
-    margin-bottom: 30%;
-  }
-}  
-
-
-/* 
 .mainContainer {
   position: fixed;
-	display: flex;
-	flex-direction: column;  
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-	height: 78%;
-	width: 82%;
-	top: 20vh;
-	left: 16.5vw;
-	overflow: hidden;
-  background: rgba( 237, 249, 255, 0.35 );
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 5px );
-  -webkit-backdrop-filter: blur( 5px );
+  width: 82vw;
+  height: 84.5vh;
+  top: 130px;
+  left: 16.5vw;
+  overflow: hidden;
+  background: rgba(237, 249, 255, 0.35);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   border-radius: 10px;
-
+  /* border: 1px solid blue; */
 }
 .mainHolder {
   position: fixed;
-	display: flex;
-	flex-direction: column; 
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-	height: 99%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	overflow: hidden;
+  height: 99%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
   border-radius: 15px;
-
+  /* border: 1px solid blue;  */
 }
-
 .contentHolder {
   border-radius: 5px;
   height: 90%;
   width: 99%;
   align-items: center;
-  flex-direction: column;
-  justify-content: center; 
-  padding: 2vh 0; 
-
+  flex-direction: row;
+  justify-content: center;
+  padding: 2vh 0;
 }
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 1vw;
+  height: 8%;
+  width: 98%;
+  margin: 1% 2%;
+}
+.breadCrumbs {
+  width: 95%;
+}
+.pageTitle{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: .5%;
+  height: 100%;
+}
+
 .mainForm {
   display: flex;
-  flex-direction: row;
-  gap: 3vh;
-  width: 95%;
-  height: 100%;
-  padding: 2%;
-  background-color: transparent;
-  justify-content: center;
-  align-items: center;
-
-}
-
-.leftFormPlaceHolder {
-  flex-direction: column;
-  display: flex;
-  width: 19.68%;
-  height: 95%;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 10px;
-}
-.profileHolder{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 5%;
-
-  width: 100%;
-}
-.imgContainer {
-  width: 10vw;
-  height: 10vw;
-}
-.imgSize{
-  width: 100%;
-  height: 100%;
-  border-radius: 150px;
-  border: 3px solid black;
-}
-.toolTip{
-  width: 78%;
-  height: 10%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-.buttonProfile{
-  width: 100%;
-}
-.buttonProfile:hover{
-  font-weight: bolder;
-}
-
-
-.formProfileContainer {
-  height: 100%; 
-  width: 100%;
-}
-.textFieldProfile{
-  width: 100%;
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-}
-.textFieldProfile1{
-  width: 100%;
-  background-color: transparent;
-}
-
-.css-1nrlq1o-MuiFormControl-root {
-  width: 100%;
-}
-
-.otherFormContainer{
-  width: 80%;
-  height: 95%;
- 
-}
-.otherFormPlaceholder{
-  justify-content: center;
-  display: flex;
-  width: 100%;
-  height: 90%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-.qlContainer {
-  height: 300px; 
-gap: 7vh;
-}
-
-.form{
-  padding: 1%;
-  height: 100%;
-  width: 95%;
-  display: flex;
-  flex-direction: column;
-  gap: .5%;
-}
-.gridContainer{
-  width: 80%;
-  padding-bottom: 4%;
-}
-.nameForm{
-  display: flex;
-  justify-content: flex-start;
-  gap: 5vw;
-}
-.mainForm .textField{
-  width: 300px;
-  background-color: transparent;
-  padding-top: 1%;
-
-}
-.projNametextField{
-  width: 500px;
-  background-color: transparent;
+    flex-direction: column;
+    gap: 3vh;
+    width: 95%;
+    padding: 2%;
+    /* border: 1px solid red; */
+    height: 90%;
   
 }
-.formHolder{
+.mainFormCol1,
+.mainFormCol2 {
   display: flex;
-  justify-content: flex-start;
-  gap: 5vw;
-  padding-top: 1%;
+  flex-direction: column;
+  gap: 2vh;
 }
-.formHolderTechnology{
-  display: flex;
-  justify-content: flex-start;
-  gap: 5vw;
-  padding-top: 1%;
-  padding-bottom: 5%;
+.mainFormCol1 {
+  width: 90%;
 }
-.formHolderMembers{
+.mainFormCol2 {
+  width: 10%;
+  align-items: end;
+  justify-content: end;
+}
+.headCol{
+    display: flex;
+    gap: 9vw;
+}
+.col1{
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+.col2{
+    margin-top: 1.5vh;
+}
+.mainForm .textField {
+  width: 100%;
+  background-color: #f5f5f5;
+}
+.formRow1 {
   display: flex;
-  justify-content: flex-start;
-  gap: 5vw;
-  padding-top: 24px;
+  gap: 10vw;
+  width: 100%;
+}
+.formRow1Col2 {
+  margin-top: 2vh;
+  width: 60%;
+
+  align-self: start;
+}
+.formRow2,
+.formRow3,
+.formRow5,
+.formRow6 {
+  display: flex;
+  gap: 4vw;
+}
+.formRow7 {
+  display: flex;
+  gap: 0.5vw;
+}
+.formRow5 Button,
+.formRow7 Button {
+  height: 2rem;
+  /* margin-top: 3.5vh; */
 }
 
-.formRow7{
+.formRow7 {
+  align-self: flex-end;
+}
+.formRow8 {
   display: flex;
-  justify-content: flex-end;
+}
+.formUsername .textField {
+  width: 500px;
+}
+
+.assocId .textField {
+  width: 1000px;
+}
+
+.email .textField {
+  width: 500px;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkboxContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.projStatus {
+  /* border: 1px solid red; */
+  width: 100%;
+}
+.projStatusContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.midContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom:.5%;
+}
+
+.custom-link {
+  text-decoration: underline;
+}
+
+.custom-link:hover {
+  text-decoration: none; /* Remove underline on hover */
+}
+.gridContainer{
   width: 50%;
-  gap: 0.5vw;
-  left: 49%;
-  top: 1%;
-  position: relative;
-  background-color: white;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  padding-bottom: 2%;
 }
-.saveButton{
-  text-transform: none;
+.qlContainer {
+  height:300px; 
 }
-.cancelButton{
-  text-transform: none;
-  background-color: gray;
-}*/
