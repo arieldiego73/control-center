@@ -2,29 +2,78 @@ import { ResponsiveBar } from "@nivo/bar";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ProjGraphStyle from "./ProjectGraph.module.css";
 import { Divider } from "@mui/material";
+import { ResponsivePie } from '@nivo/pie';
 
 const data = [
   {
-    project: "Upcoming",
-    status: 59,
+    "id": "Ongoing",
+    "label": "Ongoing",
+    "value": 250,
+    "color": "hsl(29, 70%, 50%)"
   },
   {
-    project: "Active",
-    status: 61,
+    "id": "Close",
+    "label": "Close",
+    "value": 345,
+    "color": "hsl(61, 70%, 50%)"
   },
   {
-    project: "Overdue",
-    status: 2,
+    "id": "Cancelled",
+    "label": "Cancelled",
+    "value": 486,
+    "color": "hsl(56, 70%, 50%)"
   },
   {
-    project: "Cancelled",
-    status: 78,
+    "id": "Pending",
+    "label": "Cancelled",
+    "value": 400,
+    "color": "hsl(56, 70%, 50%)"
   },
   {
-    project: "Completed",
-    status: 71,
+    "id": "Finished",
+    "label": "Cancelled",
+    "value": 185,
+    "color": "hsl(56, 70%, 50%)"
   },
 ];
+
+const customTheme = {
+  axis: {
+    legend: {
+      text: {
+        fill: "white", // Legend text color
+      },
+    },
+    ticks: {
+      text: {
+        fill: "white", // Tick text color
+      },
+    },
+  },
+  grid: {
+    line: {
+      stroke: "white", // Grid line color
+    },
+  },
+  tooltip: {
+    container: {
+      background: "black", // Tooltip background color
+      color: "white", // Tooltip text color
+    },
+  },
+  labels: {
+    text: {
+      fill: "white", // Label text color
+    },
+  },
+  legends: {
+    text: {
+      fill: "white", // Text anchor color
+    },
+
+  },
+};
+
 
 export default function ProjectGraph() {
   return (
@@ -61,33 +110,55 @@ export default function ProjectGraph() {
 
         {/* Graph */}
         <div className={ProjGraphStyle.graphContainer}>
-          <ResponsiveBar
-            data={data}
-            keys={["status"]}
-            indexBy="project"
-            margin={{ top: 50, right: 40, bottom: 50, left: 60 }}
-            padding={0.4}
-            valueScale={{ type: "linear" }}
-            colors="white"
-            animate={true}
-            enableLabel={false}
-            axisTop={null}
-            axisRight={null}
-            axisLeft={{
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-            }}
-            theme={{
-              axis: {
-                ticks: {
-                  text: {
-                    fill: "white",
-                  },
-                },
-              },
-            }}
-          />
+ 
+        <ResponsivePie
+        data={data}
+        margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+        padAngle={1}
+        activeOuterRadiusOffset={3}
+        colors={{ scheme: 'paired' }} 
+        borderWidth={4}
+        borderColor={{ theme: 'background' }}
+        arcLinkLabelsSkipAngle={1}
+        arcLinkLabelsTextOffset={8}
+        arcLinkLabelsTextColor="#ffffff"
+        arcLinkLabelsOffset={-16}
+        arcLinkLabelsDiagonalLength={18}
+        arcLinkLabelsStraightLength={9}
+        arcLinkLabelsThickness={2}
+        arcLinkLabelsColor={{ from: 'color', modifiers: [] }}
+        arcLabelsRadiusOffset={0.75}
+        arcLabelsSkipAngle={5}
+        arcLabelsTextColor="#ffffff"
+        legends={[
+            {
+                anchor: 'bottom',
+                direction: 'row',
+                justify: false,
+                translateX: 0,
+                translateY: 56,
+                itemsSpacing: -20,
+                itemWidth: 100,
+                itemHeight: 18,
+                itemTextColor: 'white',
+                itemDirection: 'left-to-right',
+                itemOpacity: 1,
+                symbolSize: 18,
+                symbolShape: 'circle',
+                effects: [
+                  {
+                      on: 'hover',
+                      style: {
+                          itemBackground: 'rgba(0, 0, 0, .03)',
+                          itemOpacity: 1,
+                          itemTextColor: 'white',
+                      }
+                  }
+              ]
+            }
+        ]}
+        theme={customTheme} // Apply the custom theme
+    />
         </div>
       </div>
     </div>
