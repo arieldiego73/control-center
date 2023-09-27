@@ -317,14 +317,14 @@ export default function NewProj() {
                   <FormControl
                     style={{ flexDirection: "row", display: "flex", gap: "2%" }}
                   >
-                    <div style={{ flexDirection: "column", display: "flex" }}>
+                    <div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
                       <FormLabel>Start Date</FormLabel>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker />
                       </LocalizationProvider>
                     </div>
 
-                    <div style={{ flexDirection: "column", display: "flex" }}>
+                    <div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
                       <FormLabel>End Date</FormLabel>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker />
