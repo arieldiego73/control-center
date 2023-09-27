@@ -27,7 +27,7 @@ const BurgerIconHtml = `
         right: 0;
         height: 4px;
         border-radius: calc(4px / 2);
-        background: #7b52b9;
+        background: blue;
         color: white;
         opacity: 1;
         transition: none 0.35s cubic-bezier(0.5, -0.35, 0.35, 1.5) 0s;
@@ -79,9 +79,23 @@ const BurgerIconHtml = `
       <div class="bar bar--middle"></div>
       <div class="bar bar--bottom"></div>
     </label>
+
+    <script>
+      const checkbox = document.getElementById('checkbox');
+      const toggle = document.querySelector('.toggle');
+
+      document.addEventListener('click', (event) => {
+        if (
+          event.target !== checkbox &&
+          event.target !== toggle &&
+          !toggle.contains(event.target)
+        ) {
+          checkbox.checked = false;
+        }
+      });
+    </script>
   </body>
 </html>
-
 `;
 
 export default function BurgerIcon() {
