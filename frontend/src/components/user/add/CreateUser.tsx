@@ -199,9 +199,9 @@ export default function CreateUser() {
     const data = {
       emp_id: assocID,
       username: username,
-      fname: firstName,
-      mname: middleName,
-      lname: lastName,
+      fname: firstName.trim(),
+      mname: middleName.trim(),
+      lname: lastName.trim(),
       position_id: position,
       email: email,
       section_id: department,
