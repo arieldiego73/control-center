@@ -5,19 +5,19 @@ import { Divider } from "@mui/material";
 // import { Serie } from "@nivo/line";
 // const data = [
 //   {
-//     year: "2020",
+//     year: "trainee",
 //     total: 59,
 //   },
 //   {
-//     year: "2021",
+//     year: "Regular",
 //     total: 61,
 //   },
 //   {
-//     year: "2022",
+//     year: "Business Partner",
 //     total: 2,
 //   },
 //   {
-//     year: "2023", 
+//     year: "iNTERN", 
 //     total: 78,
 //   },
 // ];
@@ -30,64 +30,28 @@ type Datum = {
 
 const data: Datum[] = [
   {
-    empStatus: "2020",
-    // "hot dog": 1,
-    // "hot dogColor": "hsl(159, 70%, 50%)",
+    empStatus: "trainee",
+  
     Trainee: 58,
-    // TraineeColor: "hsl(18, 70%, 50%)",
-    Regular: 61,
-    // RegularColor: "hsl(66, 70%, 50%)",
-    Intern: 82,
-    // InternColor: "hsl(11, 70%, 50%)",
-    Partners: 175,
-    // PartnersColor: "hsl(349, 70%, 50%)",
-    // donut: 154,
-    // donutColor: "hsl(137, 70%, 50%)"
+  
   },
   {
-    empStatus: "2021",
-    // "hot dog": 188,
-    // "hot dogColor": "hsl(279, 70%, 50%)",
-    Trainee: 125,
-    // TraineeColor: "hsl(83, 70%, 50%)",
+    empStatus: "Regular",
+  
     Regular: 103,
-    // RegularColor: "hsl(187, 70%, 50%)",
-    Intern: 114,
-    // InternColor: "hsl(103, 70%, 50%)",
-    Partners: 83,
-    // PartnersColor: "hsl(51, 70%, 50%)",
-    // donut: 49,
-    // donutColor: "hsl(219, 70%, 50%)"
+  
   },
   {
-    empStatus: "2022",
-    // "hot dog": 106,
-    // "hot dogColor": "hsl(279, 70%, 50%)",
-    Trainee: 87,
-    // TraineeColor: "hsl(83, 70%, 50%)",
-    Regular: 91,
-    // RegularColor: "hsl(187, 70%, 50%)",
-    Intern: 12,
-    // InternColor: "hsl(103, 70%, 50%)",
+    empStatus: "Business Partner",
+
     Partners: 5,
-    // PartnersColor: "hsl(51, 70%, 50%)",
-    // donut: 22,
-    // donutColor: "hsl(219, 70%, 50%)"
+    
   },
   {
-    empStatus: "2023",
-    // "hot dog": 135,
-    // "hot dogColor": "hsl(279, 70%, 50%)",
-    Trainee: 73,
-    // TraineeColor: "hsl(83, 70%, 50%)",
-    Regular: 137,
-    // RegularColor: "hsl(187, 70%, 50%)",
+    empStatus: "iNTERN",
+   
     Intern: 154,
-    // InternColor: "hsl(103, 70%, 50%)",
-    Partners: 73,
-    // PartnersColor: "hsl(51, 70%, 50%)",
-    // donut: 165,
-    // donutColor: "hsl(219, 70%, 50%)"
+   
   },
 
  
@@ -215,7 +179,7 @@ export default function EmpStatusGraph() {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            // legend: "country",
+            legend: "country",
             legendPosition: "middle",
             legendOffset: 32,
           }}
@@ -230,32 +194,32 @@ export default function EmpStatusGraph() {
           labelSkipWidth={12}
           labelSkipHeight={12}
           labelTextColor={{ theme: "background" }}
-          legends={[
-            {
-              dataFrom: "keys",
-              anchor: "bottom-right",
-              direction: "column",
-              justify: false,
-              translateX: 106,
-              translateY: 0,
-              itemWidth: 100,
-              itemHeight: 20,
-              itemsSpacing: 2,
-              symbolSize: 20,
-              itemDirection: "left-to-right",
-              effects: [
-                {
-                    on: 'hover',
-                    style: {
-                        itemBackground: 'rgba(0, 0, 0, .03)',
-                        itemOpacity: 1,
-                        itemTextColor: 'white',
-                    }
-                }
-            ]
-            },
+          // legends={[
+          //   {
+          //     dataFrom: "keys",
+          //     anchor: "bottom-right",
+          //     direction: "column",
+          //     justify: false,
+          //     translateX: 106,
+          //     translateY: 0,
+          //     itemWidth: 100,
+          //     itemHeight: 20,
+          //     itemsSpacing: 2,
+          //     symbolSize: 20,
+          //     itemDirection: "left-to-right",
+          //     effects: [
+          //       {
+          //           on: 'hover',
+          //           style: {
+          //               itemBackground: 'rgba(0, 0, 0, .03)',
+          //               itemOpacity: 1,
+          //               itemTextColor: 'white',
+          //           }
+          //       }
+          //   ]
+          //   },
             
-          ]}
+          // ]}
           
           role="application"
           ariaLabel="Nivo bar chart demo"
