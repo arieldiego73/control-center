@@ -2,23 +2,27 @@
   height: 100%;
   width: 100%;
   display: flex;
-  gap: 2%;
+  gap: 1%;
 }
 .sideNavMainContainer{
-  height: 93%;
-  width: 13%;
-  margin-top: 2%;
-  margin-left: 1.5%;
+  height: 100%;
+  width: 14%;
 }
 .topNavMainContainer{
-  margin-top: 2%;
   height: 8%;
-  width: 82%;
+  width: 85%;
 }
-@media screen and (max-width: 1199px) {
+
+
+@media screen and (max-width: 1200px) {
+  .topNavMainContainer {
+    width: 95%;
+  }
   .sideNavMainContainer{
+    height: 9%;
     width: 6%;
-    margin-top: 3%;
-    margin-left: 1.5%;
+  }
+  .navigationsContainer{
+    gap: 20px;
   }
 }

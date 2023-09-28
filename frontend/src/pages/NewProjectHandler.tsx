@@ -11,7 +11,7 @@ export default function NewProjHandler() {
 		{ label: "New Project",  to: "/project/add-new-project" },
 	];
 	return (
-		<div style={{ flexDirection: "column", display: "flex" }}>
+		<div style={{ flexDirection: "column", display: "flex", height:"100%", width:"100%" }}>
 			
         <NavigationHandler  pageTitle={pageTitle} breadcrumbs={breadcrumbs}/> 
          <NewProj/>

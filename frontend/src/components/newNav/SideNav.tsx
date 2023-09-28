@@ -110,8 +110,8 @@ export default function SideNav() {
 
 
   const sidenavContainerStyle: React.CSSProperties = {
-    height: isScreenSmall ? "50px" : "94%",
-    width: isScreenSmall ? "50px" : "13%",
+    height: isScreenSmall ? "50px" : "100%",
+    width: isScreenSmall ? "50px" : "100%",
     display: "flex", // Display as flex
     flexDirection: "column", // Stack items vertically
     alignItems: isScreenSmall ? "center" : "stretch", // Center items if small screen, otherwise stretch
@@ -122,7 +122,7 @@ export default function SideNav() {
     background: "rgba( 237, 249, 255, 0.35 )",
     boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
     backdropFilter: "blur( 25px )",
-    position: "fixed",
+    position: isScreenSmall ? "fixed" : "relative",
 
     // top: isScreenSmall ? "4vh" : "4vh",
   };

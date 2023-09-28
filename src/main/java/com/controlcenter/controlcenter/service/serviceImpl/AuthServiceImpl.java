@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
         // if (session != null) {
         // session.invalidate();
         // }
-        // response.put("Status", "success");
+        response.put("Status", "success");
 
         // Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
