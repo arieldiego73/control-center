@@ -28,7 +28,7 @@ import { Divider } from "@mui/material";
 // ]
 
 type Datum = {
-	year: string;
+	// year: string;
 	[key: string]: number | string;
 };
 

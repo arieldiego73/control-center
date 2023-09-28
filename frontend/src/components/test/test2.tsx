@@ -855,7 +855,29 @@ export default function NewProj() {
                     </FormControl>
                   </div>
                 </div>
-         
+         						{/* SAVING BUTTONS */}
+						<div
+							style={{
+								display: "flex",
+								gap: "8px",
+								justifyContent: "flex-end",
+							}}
+						>
+							<Button
+								variant="contained"
+								color="primary"
+								startIcon={<SaveOutlinedIcon />}
+								style={{
+									textTransform: "none",
+								}}
+								onClick={handleSaveDialog}
+							>
+								SAVE AND GO BACK
+							</Button>
+							<Button variant="text" onClick={handleCancel}>
+								CANCEL
+							</Button>
+						</div>
             </div>
 
             <ProjectTableDialog
