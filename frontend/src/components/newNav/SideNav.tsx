@@ -106,7 +106,7 @@ export default function SideNav() {
   }, []);
 
 
-  const isScreenSmall = screenWidth < 1200;
+  const isScreenSmall = screenWidth <= 1200;
 
 
   const sidenavContainerStyle: React.CSSProperties = {

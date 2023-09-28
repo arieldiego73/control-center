@@ -275,7 +275,7 @@ export default function CreateUser() {
                       className={CreateUserStyle.buttonProfile}
                       component="label"
                       startIcon={<CloudUploadIcon />}
-                      sx={{whiteSpace: "nowrap",}}
+                      sx={{ whiteSpace: "nowrap", }}
                     >
                       Edit Profile
                       <VisuallyHiddenInput type="file" />
@@ -291,9 +291,9 @@ export default function CreateUser() {
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        width:"95%"
+                        width: "95%"
                       }}
-                    > 
+                    >
                       <FormLabel> Associate ID </FormLabel>
                       <TextField
                         variant="outlined"
@@ -312,16 +312,16 @@ export default function CreateUser() {
                       />
                     </FormControl>
                   </div>
-                  
+
                   {/* Start of username form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <FormControl
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        width:"95%"
+                        width: "95%"
                       }}
-                    > 
+                    >
                       <FormLabel> Username </FormLabel>
                       <TextField
                         variant="outlined"
@@ -347,29 +347,29 @@ export default function CreateUser() {
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        width:"95%"
+                        width: "95%"
                       }}
                     >
                       <FormLabel> Employee Status </FormLabel>
                       <Select
-                          value={empStatus}
-                          size="small"
-                          onChange={(e) => setEmpStatus(e.target.value)}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <GroupsOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        >
-                          <MenuItem key={0} value={"0"}>
-                            {"<Select status>"}
+                        value={empStatus}
+                        size="small"
+                        onChange={(e) => setEmpStatus(e.target.value)}
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <GroupsOutlinedIcon />
+                          </InputAdornment>
+                        }
+                      >
+                        <MenuItem key={0} value={"0"}>
+                          {"<Select status>"}
+                        </MenuItem>
+                        {statuses.map((status: any) => (
+                          <MenuItem key={status?.status_code} value={status?.status_code}>
+                            {status?.status_name}
                           </MenuItem>
-                          {statuses.map((status: any) => (
-                            <MenuItem key={status?.status_code} value={status?.status_code}>
-                              {status?.status_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
+                        ))}
+                      </Select>
                     </FormControl>
                   </div>
                 </div>
@@ -382,17 +382,15 @@ export default function CreateUser() {
 
                     {/* Start of Name Form  */}
                     <div className={CreateUserStyle.nameForm}>
-                      <FormControl>
-                        <FormLabel
-                          sx={{
-                            whiteSpace: "nowrap",
-                          }}>
-                          First Name</FormLabel>
+                      <FormControl sx={{ width: "100%" }}>
+                        <FormLabel sx={{ whiteSpace: "nowrap", }}>
+                          First Name
+                        </FormLabel>
                         <TextField
                           variant="outlined"
                           size="small"
                           // placeholder="First Name"
-                          sx={{ flex: 1, display: "flex" }}
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -405,12 +403,15 @@ export default function CreateUser() {
                         />
                       </FormControl>
 
-                      <FormControl>
-                        <FormLabel>Middle Name</FormLabel>
+                      <FormControl sx={{ width: "100%" }}>
+                        <FormLabel sx={{ whiteSpace: "nowrap", }}>
+                          Middle Name
+                        </FormLabel>
                         <TextField
                           variant="outlined"
                           size="small"
                           // placeholder="Middle Name"
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -423,12 +424,15 @@ export default function CreateUser() {
                         />
                       </FormControl>
 
-                      <FormControl>
-                        <FormLabel>Last Name</FormLabel>
+                      <FormControl sx={{ width: "100%" }}>
+                        <FormLabel sx={{ whiteSpace: "nowrap", }}>
+                          Last Name
+                        </FormLabel>
                         <TextField
                           variant="outlined"
                           size="small"
                           // placeholder="Last Name"
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -444,11 +448,20 @@ export default function CreateUser() {
 
                     {/* Start of Position and Role Form */}
                     <div className={CreateUserStyle.formHolder}>
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Position</FormLabel>
+                      <FormControl variant="outlined" size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}>
+                        <FormLabel sx={{ whiteSpace: "nowrap", }}>
+                          Position
+                        </FormLabel>
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
+                          sx={{ width: "100%" }}
                           value={position}
                           onChange={(e) =>
                             setPosition(e.target.value as number)
@@ -459,9 +472,9 @@ export default function CreateUser() {
                             </InputAdornment>
                           }
                         >
-                          <MenuItem key={0} value={0}>
-                            {"<Select a position>"}
-                          </MenuItem>
+                          {/* <MenuItem key={0} value={0}>
+                            {"<Select position>"}
+                          </MenuItem> */}
                           {positions.map((pos: any) => (
                             <MenuItem
                               key={pos?.position_id}
@@ -473,12 +486,21 @@ export default function CreateUser() {
                         </Select>
                       </FormControl>
 
-                      <FormControl>
-                        <FormLabel>Role</FormLabel>
+                      <FormControl variant="outlined" size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}>
+                        <FormLabel sx={{ whiteSpace: "nowrap", }}>
+                          Role
+                        </FormLabel>
                         <Select
                           labelId="multiple-checkbox-label"
                           id="multiple-checkbox"
                           multiple
+                          sx={{ width: "100%" }}
                           value={selectedRoles}
                           onChange={handleChange}
                           renderValue={(selected) => {
@@ -494,7 +516,6 @@ export default function CreateUser() {
                           }}
                           MenuProps={MenuProps}
                           size="small"
-                           sx={{minWidth: "200px" }}
                         >
                           {roles.map((role: any) => (
                             <MenuItem key={role.role_id} value={role.role_id}>
@@ -513,11 +534,20 @@ export default function CreateUser() {
 
                     {/* Start of Email Form */}
                     <div className={CreateUserStyle.formHolder}>
-                      <FormControl>
-                        <FormLabel>Email</FormLabel>
+                      <FormControl
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}>
+                        <FormLabel sx={{ whiteSpace: "nowrap", }}>
+                          Email
+                        </FormLabel>
                         <TextField
                           variant="outlined"
                           size="small"
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
                           // placeholder="Email"
                           InputProps={{
                             startAdornment: (
@@ -534,11 +564,20 @@ export default function CreateUser() {
 
                     {/* Start of Department and Business Unit Form */}
                     <div className={CreateUserStyle.formHolder}>
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Department</FormLabel>
+                      <FormControl variant="outlined" size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}>
+                        <FormLabel sx={{ whiteSpace: "nowrap", }}>
+                          Department
+                        </FormLabel>
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
+                          sx={{ width: "100%" }}
                           value={department}
                           onChange={(e) =>
                             setDepartment(e.target.value as number)
@@ -549,9 +588,9 @@ export default function CreateUser() {
                             </InputAdornment>
                           }
                         >
-                          <MenuItem key={0} value={0}>
+                          {/* <MenuItem key={0} value={0}>
                             {"<Select a department>"}
-                          </MenuItem>
+                          </MenuItem> */}
                           {sections.map((sect: any) => (
                             <MenuItem
                               key={sect?.section_id}
@@ -563,11 +602,20 @@ export default function CreateUser() {
                         </Select>
                       </FormControl>
 
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Busines Unit</FormLabel>
+                      <FormControl variant="outlined" size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}>
+                        <FormLabel sx={{ whiteSpace: "nowrap", }}>
+                          Busines Unit
+                        </FormLabel>
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
+                          sx={{ width: "100%" }}
                           value={businessUnit}
                           onChange={(e) =>
                             setBusinessUnit(e.target.value as number)
@@ -578,9 +626,9 @@ export default function CreateUser() {
                             </InputAdornment>
                           }
                         >
-                          <MenuItem key={0} value={0}>
+                          {/* <MenuItem key={0} value={0}>
                             {"<Select a business unit>"}
-                          </MenuItem>
+                          </MenuItem> */}
                           {depts.map((dept: any) => (
                             <MenuItem key={dept?.dept_id} value={dept?.dept_id}>
                               {dept?.dept_name}
@@ -590,8 +638,8 @@ export default function CreateUser() {
                       </FormControl>
                     </div>
                   </div>
-                </div>
 
+                </div>
                 {/* Start of Button*/}
                 <div className={CreateUserStyle.formRow7}>
                   <Button
@@ -614,7 +662,6 @@ export default function CreateUser() {
                   </Button>
                 </div>
               </div>
-
               {/*Dialog of Edit Confirmation */}
               <Dialog
                 open={ask}
