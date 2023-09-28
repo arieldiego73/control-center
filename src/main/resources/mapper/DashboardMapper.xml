@@ -42,18 +42,33 @@
                 ) AS counts;
     </select>
 
-    <select id="countAllRegisteredUserPerYear">
+    <select id="countAllRegisteredUserPerMonthAndYear">
         SELECT
-            YEAR(reg_date) AS year_registered,
-            COUNT(*) AS total
+            YEAR(reg_date) AS year,
+            MONTH(reg_date) AS month,
+            COUNT(*) AS user_count
         FROM
             tbl_user
-        WHERE del_flag = 0
         GROUP BY
-            year_registered
+            year,
+            month
         ORDER BY
-            year_registered;
+            year, month;
     </select>
+
+    <!-- <select id="countAllRegisteredUserPerMonthAndYear">
+        SELECT
+            YEAR(reg_date) AS year,
+            MONTH(reg_date) AS month,
+            COUNT(*) AS user_count
+        FROM
+            tbl_user
+        GROUP BY
+            year,
+            month
+        ORDER BY
+            year, month;
+    </select> -->
 
 <!-- Count all user with business partner status -->
     <select id="countAllUserWithStatusOfBusinessPartner" resultType="java.lang.Integer">
@@ -165,6 +180,17 @@
                 tuser.del_flag = 0 AND tuser.emp_id != 100
             GROUP BY
                 user_status.status_code, user_status.status_name;
+    </select>
+
+    <select id="yearFromUserTable">
+        SELECT
+                YEAR(reg_date) AS year
+            FROM
+                tbl_user
+            GROUP BY
+                year
+            ORDER BY
+                year;
     </select>
     
 </mapper>
