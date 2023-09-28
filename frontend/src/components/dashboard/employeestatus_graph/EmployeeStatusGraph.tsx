@@ -182,7 +182,7 @@ export default function EmpStatusGraph() {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: "country",
+            // legend: "country",
             legendPosition: "middle",
             legendOffset: 32,
           }}
@@ -197,32 +197,32 @@ export default function EmpStatusGraph() {
           labelSkipWidth={12}
           labelSkipHeight={12}
           labelTextColor={{ theme: "background" }}
-          // legends={[
-          //   {
-          //     dataFrom: "keys",
-          //     anchor: "bottom-right",
-          //     direction: "column",
-          //     justify: false,
-          //     translateX: 106,
-          //     translateY: 0,
-          //     itemWidth: 100,
-          //     itemHeight: 20,
-          //     itemsSpacing: 2,
-          //     symbolSize: 20,
-          //     itemDirection: "left-to-right",
-          //     effects: [
-          //       {
-          //           on: 'hover',
-          //           style: {
-          //               itemBackground: 'rgba(0, 0, 0, .03)',
-          //               itemOpacity: 1,
-          //               itemTextColor: 'white',
-          //           }
-          //       }
-          //   ]
-          //   },
+          legends={[
+            {
+              dataFrom: "keys",
+              anchor: "bottom-right",
+              direction: "column",
+              justify: false,
+              translateX: 106,
+              translateY: 0,
+              itemWidth: 100,
+              itemHeight: 20,
+              itemsSpacing: 2,
+              symbolSize: 20,
+              itemDirection: "left-to-right",
+              effects: [
+                {
+                    on: 'hover',
+                    style: {
+                        itemBackground: 'rgba(0, 0, 0, .03)',
+                        itemOpacity: 1,
+                        itemTextColor: 'white',
+                    }
+                }
+            ]
+            },
             
-          // ]}
+          ]}
           
           role="application"
           ariaLabel="Nivo bar chart demo"
