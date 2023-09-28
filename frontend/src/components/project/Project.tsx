@@ -80,7 +80,7 @@ export default function Project() {
 	};
 
 	return (
-		<div>
+		<div className={ProjectStyle.outermost}>
 			<div className={ProjectStyle.addButton}>
 				<Link
 					to="/project/add-new-project"
@@ -91,7 +91,7 @@ export default function Project() {
 						color="primary"
 						startIcon={<Add />}
 						className={ProjectStyle.button}
-						// onClick={performSearch}
+					// onClick={performSearch}
 					>
 						Add Project
 					</Button>
@@ -112,144 +112,101 @@ export default function Project() {
 							{/* Start of first search bar */}
 							<div className={ProjectStyle.searchBarCol}>
 								{/* Start of Project Name Search */}
-								<FormControl>
-									<Grid
-										container
-										alignItems="center"
-										spacing={2}
+								<FormControl sx={{ display: "flex", flexDirection: "row", alignItems: "flex-end", flex: 1, gap: "10px", justifyContent: "flex-end" }}>
+									<FormLabel
+										sx={{
+											color: "black",
+											fontWeight: "400",
+											whiteSpace: "nowrap",
+										}}
 									>
-										<Grid item>
-											<FormLabel
-												sx={{
-													width: "100%",
-													color: "black",
-													fontWeight: "400",
-												}}
-											>
-												Project name :
-											</FormLabel>
-										</Grid>
-										<Grid item>
-											<TextField
-												variant="outlined"
-												size="small"
-												name="proj_name"
-												value={searchQuery.proj_name}
-												onChange={handleInputChange}
-												className={
-													ProjectStyle.textField
-												}
-											/>
-										</Grid>
-									</Grid>
+										Project name :
+									</FormLabel>
+
+									<TextField
+										variant="outlined"
+										size="small"
+										name="proj_name"
+										value={searchQuery.proj_name}
+										onChange={handleInputChange}
+										sx={{ flex: 1, display: "flex" }}
+										inputProps={{
+											autoComplete: "chrome-off",
+										}}
+									/>
 								</FormControl>
 
 								{/* Start of Client Search */}
-								<FormControl>
-									<Grid
-										container
-										alignItems="center"
-										spacing={2}
+								<FormControl sx={{ display: "flex", flexDirection: "row", alignItems: "flex-end", flex: 1, gap: "10px", justifyContent: "flex-end" }}>
+									<FormLabel
+										sx={{
+											color: "black",
+											fontWeight: "400",
+											whiteSpace: "nowrap",
+										}}
 									>
-										<Grid item>
-											<FormLabel
-												sx={{
-													width: "100%",
-													color: "black",
-													fontWeight: "400",
-												}}
-											>
-												Client :{" "}
-											</FormLabel>
-										</Grid>
-										<Grid item>
-											<TextField
-												variant="outlined"
-												size="small"
-												name="client_name"
-												value={searchQuery.client_name}
-												onChange={handleInputChange}
-												className={
-													ProjectStyle.textField
-												}
-											/>
-										</Grid>
-									</Grid>
+										Client :
+									</FormLabel>
+
+									<TextField
+										variant="outlined"
+										size="small"
+										name="client_name"
+										value={searchQuery.client_name}
+										onChange={handleInputChange}
+										sx={{ flex: 1, display: "flex" }}
+										inputProps={{
+											autoComplete: "chrome-off",
+										}}
+									/>
 								</FormControl>
 
 								{/* Start of Status Dropdown */}
-								<FormControl>
-									<Grid
-										style={{
-											justifyContent: "center",
-											display: "flex",
+								<FormControl sx={{ display: "flex", flexDirection: "row", alignItems: "flex-end", flex: 1, gap: "10px", justifyContent: "flex-end" }}>
+									<FormLabel
+										sx={{
+											color: "black",
+											fontWeight: "400",
+											whiteSpace: "nowrap",
 										}}
 									>
-										<Grid container alignItems="center">
-											<Grid item>
-												<FormLabel
-													sx={{
-														width: "100%",
-														color: "black",
-														fontWeight: "400",
-														// marginRight: "2%",
-													}}
-												>
-													Status :
-												</FormLabel>
-											</Grid>
-
-											<Grid>
-												<FormControl
-													variant="outlined"
-													size="small"
-													sx={{
-														width: 200,
-														minWidth: 150,
-													}}
-												>
-													<Select
-														labelId="demo-simple-select-label"
-														id="demo-simple-select"
-														name="proj_status_name"
-														value={
-															searchQuery.proj_status_name
-														}
-														onChange={
-															handleSelectInputChange
-														}
-														className={
-															ProjectStyle.projStatus
-														}
-														// sx={{ width: "100%" }}
-														inputProps={{
-															classes: {
-																root: ProjectStyle.projSelectRoot,
-																outlined:
-																	ProjectStyle.projSelectOutlined,
-															},
-														}}
-													>
-																<MenuItem key={0} value="">
-																	{"<Select status>"}
-																</MenuItem>
-														{statuses.map(
-															(status: any) => (
-																<MenuItem key={status.proj_status_id} value={status.proj_status_name}>
-																	{status.proj_status_name}
-																</MenuItem>
-															)
-														)}
-													</Select>
-												</FormControl>
-											</Grid>
-										</Grid>
-									</Grid>
+										Status :
+									</FormLabel>
+									<Select
+										labelId="demo-simple-select-label"
+										id="demo-simple-select"
+										name="proj_status_name"
+										value={
+											searchQuery.proj_status_name
+										}
+										onChange={
+											handleSelectInputChange
+										}
+										className={
+											ProjectStyle.projStatus
+										}
+										size="small"
+										inputProps={{
+											classes: {
+												root: ProjectStyle.projSelectRoot,
+												outlined:
+													ProjectStyle.projSelectOutlined,
+											},
+										}}
+									>
+										{statuses.map(
+											(status: any) => (
+												<MenuItem key={status.proj_status_id} value={status.proj_status_name}>
+													{status.proj_status_name}
+												</MenuItem>
+											)
+										)}
+									</Select>
 								</FormControl>
 
 								<Button
 									variant="contained"
-									color="primary"
+									color="inherit"
 									startIcon={<SearchIcon />}
 									onClick={performSearch}
 									style={{ height: "40px" }}

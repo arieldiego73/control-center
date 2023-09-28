@@ -163,8 +163,8 @@ export default function Userpage() {
 		// Use the filteredData as needed, such as displaying it in a table
 		setData(filteredData);
 	};
-
-	return (
+ 
+	return ( 
 		<div className={UserStyle.outermost}> 
 			<div className={UserStyle.addButton}>
 				<Link
