@@ -1,4 +1,4 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 // import { createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
@@ -8,6 +8,7 @@ import {
 	getProjectsFetch,
 	getProjectsSuccess,
 	setMessage,
+	setIsLoading
 } from "../state/projectState";
 import { Dayjs } from "dayjs";
 import { createAction } from "@reduxjs/toolkit";
@@ -80,11 +81,12 @@ export const addProject = createAction<{
 }>("project/addProject");
 
 export function* projectSagaAdd() {
-	yield takeLatest(addProject.type, addSaga);
+	yield takeEvery(addProject.type, addSaga);
 }
 
 function* addSaga(action: ReturnType<typeof addProject>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiAdd, action.payload.data);
 		yield call(validate, response, "add");
 	} catch (error) {
@@ -104,6 +106,7 @@ const apiFetchProjectInfo = async (projectId: any): Promise<any> => {
 
 function* fetchProjectInfoSaga(action: ReturnType<typeof getProjectInfo>): any {
 	try {
+		yield put(setIsLoading(true))
 		const responseProjectInfo = yield call(
 			apiFetchProjectInfo,
 			action.payload.projectId
@@ -115,7 +118,7 @@ function* fetchProjectInfoSaga(action: ReturnType<typeof getProjectInfo>): any {
 }
 
 export function* projectSagaFetchProjectInfo() {
-	yield takeLatest(getProjectInfo.type, fetchProjectInfoSaga);
+	yield takeEvery(getProjectInfo.type, fetchProjectInfoSaga);
 }
 
 export const getProjectInfo = createAction<{
@@ -145,7 +148,7 @@ function* fetchProjectMembersSaga(action: ReturnType<typeof getProjectMembers>):
 }
 
 export function* projectSagaFetchProjectMembers() {
-	yield takeLatest(getProjectMembers.type, fetchProjectMembersSaga);
+	yield takeEvery(getProjectMembers.type, fetchProjectMembersSaga);
 }
 
 export const getProjectMembers = createAction<{
@@ -192,11 +195,12 @@ export const updateProject = createAction<{
 }>("project/updateProject");
 
 export function* projectSagaUpdate() {
-	yield takeLatest(updateProject.type, updateSaga);
+	yield takeEvery(updateProject.type, updateSaga);
 }
 
 function* updateSaga(action: ReturnType<typeof updateProject>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiUpdate, action.payload.data, action.payload.projectId);
 		// console.log("response", response)
 		yield call(validate, response, "update");

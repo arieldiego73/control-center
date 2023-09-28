@@ -20,9 +20,12 @@ export const employeeStatusSlice = createSlice({
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
+		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
 		}
 	},
 });
 
-export const { getEmployeeStatusFetch, getEmployeeStatusSuccess, setMessage } = employeeStatusSlice.actions;
+export const { getEmployeeStatusFetch, getEmployeeStatusSuccess, setMessage, setIsLoading } = employeeStatusSlice.actions;
 export default employeeStatusSlice.reducer;

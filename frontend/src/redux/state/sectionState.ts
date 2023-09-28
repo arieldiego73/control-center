@@ -20,9 +20,12 @@ export const sectionSlice = createSlice({
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
+		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
 		}
 	},
 });
 
-export const { getSectionFetch, getSectionSuccess, setMessage } = sectionSlice.actions;
+export const { getSectionFetch, getSectionSuccess, setMessage, setIsLoading } = sectionSlice.actions;
 export default sectionSlice.reducer;

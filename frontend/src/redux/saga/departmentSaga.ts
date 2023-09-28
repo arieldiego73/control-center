@@ -1,8 +1,8 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
 import axios from "axios";
-import { getDepartmentFetch, getDepartmentSuccess, setMessage } from "../state/departmentState";
+import { getDepartmentFetch, getDepartmentSuccess, setIsLoading, setMessage } from "../state/departmentState";
 
 // GET ALL
 function* fetchDepartment(): any {
@@ -44,11 +44,12 @@ export const updateDepartment = createAction<{
 }>("department/updateDepartment");
 
 export function* departmentSagaUpdate() {
-	yield takeLatest(updateDepartment.type, updateSaga);
+	yield takeEvery(updateDepartment.type, updateSaga);
 }
 
 function* updateSaga(action: ReturnType<typeof updateDepartment>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiUpdate,
 			action.payload.departmentData.dept_id,
@@ -89,11 +90,12 @@ export const addDepartment = createAction<{
 }>("department/addDepartment");
 
 export function* departmentSagaAdd() {
-	yield takeLatest(addDepartment.type, addSaga);
+	yield takeEvery(addDepartment.type, addSaga);
 }
 
 function* addSaga(action: ReturnType<typeof addDepartment>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiAdd,
 			action.payload.departmentData.dept_name,
@@ -125,11 +127,12 @@ export const deleteDepartment = createAction<{
 }>("department/deleteDepartment");
 
 export function* departmentSagaDelete() {
-	yield takeLatest(deleteDepartment.type, deleteSaga);
+	yield takeEvery(deleteDepartment.type, deleteSaga);
 }
 
 function* deleteSaga(action: ReturnType<typeof deleteDepartment>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiDelete, action.payload.dept_id);
 		yield call(validate, response);
 	} catch (error) {
@@ -157,6 +160,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 
 function* deleteBatchSaga(action: ReturnType<typeof deleteDepartmentBatch>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiBatchDelete, action.payload.batchId);
 		yield call(validate, response);
 	} catch (error) {
@@ -169,7 +173,7 @@ export const deleteDepartmentBatch = createAction<{
 }>("department/deleteDepartmentBatch");
 
 export function* departmentSagaDeleteBatch() {
-	yield takeLatest(deleteDepartmentBatch.type, deleteBatchSaga);
+	yield takeEvery(deleteDepartmentBatch.type, deleteBatchSaga);
 }
 
 
