@@ -15,7 +15,7 @@ import {
 	Snackbar,
 	Alert,
 } from "@mui/material";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AddIcon from "@mui/icons-material/Add";
 
 //for breadcrumbs
 import { Link } from "react-router-dom";
@@ -174,7 +174,7 @@ export default function Userpage() {
 					<Button
 						variant="contained"
 						color="primary"
-						startIcon={<AddCircleOutlineIcon />}
+						startIcon={<AddIcon />}
 						className={UserStyle.button}
 					>
 						Add User
@@ -287,7 +287,7 @@ export default function Userpage() {
 								<div className={UserStyle.searchBarColButton}>
 									<Button
 										variant="contained"
-										color="primary"
+										color="inherit"
 										startIcon={<SearchIcon />}
 										className={UserStyle.button}
 										onClick={performSearch}
