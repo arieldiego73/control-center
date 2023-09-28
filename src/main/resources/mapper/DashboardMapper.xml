@@ -56,7 +56,7 @@
             year, month;
     </select>
 
-    <select id="countAllRegisteredUserPerMonthAndYear">
+    <!-- <select id="countAllRegisteredUserPerMonthAndYear">
         SELECT
             YEAR(reg_date) AS year,
             MONTH(reg_date) AS month,
@@ -68,7 +68,7 @@
             month
         ORDER BY
             year, month;
-    </select>
+    </select> -->
 
 <!-- Count all user with business partner status -->
     <select id="countAllUserWithStatusOfBusinessPartner" resultType="java.lang.Integer">
