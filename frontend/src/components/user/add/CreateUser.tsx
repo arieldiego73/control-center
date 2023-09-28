@@ -635,7 +635,7 @@ export default function CreateUser() {
                             </MenuItem>
                           ))}
                         </Select>
-                      </FormControl>
+                      </FormControl> 
                     </div>
                   </div>
 
