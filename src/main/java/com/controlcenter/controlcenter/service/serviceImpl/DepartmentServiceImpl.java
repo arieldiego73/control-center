@@ -55,14 +55,14 @@ public class DepartmentServiceImpl implements DepartmentService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id(emp_id); // current logged user dapat
-            activityLogInput.setLog_desc("Added a Business Unit.");
+            activityLogInput.setLog_desc("Added the Business Unit '" + department.getDept_name() + "'.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Business Unit added successfully.";
+            return "Business Unit '" + department.getDept_name() + "' added successfully.";
 
         } catch (Exception e) {
             return e.getMessage();
@@ -88,7 +88,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a Business Unit.");
+                activityLogInput.setLog_desc("Edited the Business Unit '" + data.getDept_name() + "'.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
@@ -117,7 +117,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a Business Unit.");
+                activityLogInput.setLog_desc("Deleted the Business Unit '" + data.getDept_name() + "'.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
@@ -151,14 +151,17 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         // Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
-
-        activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple Business Units.");
-
         Long currentTimeMillis = System.currentTimeMillis();
-        // add the activity log
-        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-        activityLogDao.addActivityLog(activityLogInput);
+        
+        for(Long id : ids) {
+            String toString = String.valueOf(id);
+            DepartmentOutput department = departmentDao.getDepartmentById(toString);
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+            activityLogInput.setLog_desc("Deleted the Business Unit '" + department.getDept_name() + "'."); 
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));   
+            // add the activity log
+            activityLogDao.addActivityLog(activityLogInput);
+        }
 
         return "Records are successfully deleted.";
     }

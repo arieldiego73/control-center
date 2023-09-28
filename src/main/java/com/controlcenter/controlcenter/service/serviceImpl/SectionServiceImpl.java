@@ -50,7 +50,7 @@ public class SectionServiceImpl implements SectionService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id(emp_id); // current logged user dapat
-            activityLogInput.setLog_desc("Added a Section");
+            activityLogInput.setLog_desc("Added the Section '" + section.getSection_name() + "'.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
