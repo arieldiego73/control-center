@@ -1,4 +1,28 @@
-.userGraphContainer {
+
+
+.userGraphHolder{
+  height: 100%; 
+  width: 98%;
+  display: flex;
+  justify-content: center;
+  /* padding: 1%; */
+}
+
+
+.graphContainer{
+  /* background: linear-gradient(#46a34a, #56af5a, #63b967); */
+  height: 99%;
+  width: 100%; 
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+
+/* //////////////////////////
+///////////////////////// */
+/* .userGraphContainer {
   height: 99%; 
   width: 98%;
 }
@@ -10,15 +34,14 @@
   justify-content: center;
   align-items: flex-end;
 }
-/* Attributes of Main Container */
+
 .card { 
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 10px;
   border: 1px solid rgba(209, 213, 219, 0.3);
-  /* align-items: flex-end; */
-  display: flex;
+  display: flex; 
   height: 100%;
   width: 100%;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
@@ -31,7 +54,6 @@
   padding: 2%;
 }
 
-/* Attributes of Text Title */
 .textTitle{
   padding-left: 2%;
   font-weight: bold;
@@ -42,7 +64,6 @@
   font-size: 15px; 
 }
 
-/* Attributes of Information Container */
 .infoContainer{
   padding: 2%;
   flex-direction: row;
@@ -60,7 +81,6 @@
   color: grey;
 }
 
-/* Attributes of Graph */
 .graphContainer{
   background: linear-gradient(#46a34a, #56af5a, #63b967);
   height: 30%;
@@ -70,4 +90,4 @@
   margin-bottom: 4%;
   z-index: 1;
   margin-top:1%;
-}
+} */

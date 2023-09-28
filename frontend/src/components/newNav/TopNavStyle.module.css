@@ -41,6 +41,8 @@
   font-size: 1.5rem;
   padding-left: 3%;
   font-weight: 600;
+  white-space: nowrap;
+
 }
 .rightSide{
   height: 90%;
@@ -206,10 +208,68 @@
       background-color:none;
       border-radius: none;
     }
+    .topnavContainer{
+      height: 50px;
+    }
   }
   @media screen and (min-width: 750px) {
     .toolTip:hover{
       font-weight: 500;
       border: 1px solid rgb(117, 117, 117);
     }
+  }  
+  @media screen and (max-width: 650px) {
+    .topnavContainer{
+      left: 1%;
+    }
+  } 
+  @media screen and (max-width: 630px) {
+    .titleContainer span {
+      font-size: 1rem;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    .topnavContainer{
+      left: 2%;
+    }
+  } 
+  @media screen and (max-width: 480px) {
+    .topnavContainer{
+      left: 3%;
+    }
+  } 
+  @media screen and (max-width: 425px) {
+    .topnavContainer{
+      left: 5%;
+    }
+  } 
+  @media screen and (max-width: 370px) {
+    .topnavContainer {
+      height: 100%;
+      width: 100%;
+      border-radius: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2%;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-radius: 10px;
+      position: fixed; 
+      position: relative;
+    }
+    .titleContainer{
+      display: none;
+    }
+  } 
+
+
+
+  @media screen and (max-height: 650px) {
+    .topnavContainer{
+      height: 50px;
+    }  
   }

@@ -165,7 +165,7 @@ export default function Userpage() {
 	};
 
 	return (
-		<div>
+		<div className={UserStyle.outermost}> 
 			<div className={UserStyle.addButton}>
 				<Link
 					to="/user/add-new-user"
