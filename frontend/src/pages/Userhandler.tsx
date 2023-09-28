@@ -14,7 +14,7 @@ export default function Userhandler() {
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: "flex", flexDirection: "column", height:"100%", width:"100%" }}>
       <NavigationHandler pageTitle={pageTitle} breadcrumbs={breadcrumbs} /> {/* Pass the pageTitle and breadcrumbs prop here */}
       <Userpage />
     </div>
