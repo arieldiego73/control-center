@@ -11,7 +11,7 @@
 
 .graphContainer{
   /* background: linear-gradient(#46a34a, #56af5a, #63b967); */
-  height: 100%;
+  height: 99%;
   width: 100%; 
   border-radius: 15px;
   display: flex;
