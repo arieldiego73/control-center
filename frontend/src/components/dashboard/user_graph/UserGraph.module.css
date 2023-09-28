@@ -11,12 +11,12 @@
 
 .graphContainer{
   /* background: linear-gradient(#46a34a, #56af5a, #63b967); */
-  height: 99%;
+  height: 100%;
   width: 100%; 
   border-radius: 15px;
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 5px;
 }
 
 
