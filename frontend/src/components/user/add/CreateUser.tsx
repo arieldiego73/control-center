@@ -275,7 +275,7 @@ export default function CreateUser() {
                       className={CreateUserStyle.buttonProfile}
                       component="label"
                       startIcon={<CloudUploadIcon />}
-                      sx={{whiteSpace: "nowrap",}}
+                      sx={{ whiteSpace: "nowrap", }}
                     >
                       Edit Profile
                       <VisuallyHiddenInput type="file" />
@@ -291,9 +291,9 @@ export default function CreateUser() {
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        width:"95%"
+                        width: "95%"
                       }}
-                    > 
+                    >
                       <FormLabel> Associate ID </FormLabel>
                       <TextField
                         variant="outlined"
@@ -312,16 +312,16 @@ export default function CreateUser() {
                       />
                     </FormControl>
                   </div>
-                  
+
                   {/* Start of username form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <FormControl
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        width:"95%"
+                        width: "95%"
                       }}
-                    > 
+                    >
                       <FormLabel> Username </FormLabel>
                       <TextField
                         variant="outlined"
@@ -347,29 +347,29 @@ export default function CreateUser() {
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        width:"95%"
+                        width: "95%"
                       }}
                     >
                       <FormLabel> Employee Status </FormLabel>
                       <Select
-                          value={empStatus}
-                          size="small"
-                          onChange={(e) => setEmpStatus(e.target.value)}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <GroupsOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        >
-                          <MenuItem key={0} value={"0"}>
-                            {"<Select status>"}
+                        value={empStatus}
+                        size="small"
+                        onChange={(e) => setEmpStatus(e.target.value)}
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <GroupsOutlinedIcon />
+                          </InputAdornment>
+                        }
+                      >
+                        <MenuItem key={0} value={"0"}>
+                          {"<Select status>"}
+                        </MenuItem>
+                        {statuses.map((status: any) => (
+                          <MenuItem key={status?.status_code} value={status?.status_code}>
+                            {status?.status_name}
                           </MenuItem>
-                          {statuses.map((status: any) => (
-                            <MenuItem key={status?.status_code} value={status?.status_code}>
-                              {status?.status_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
+                        ))}
+                      </Select>
                     </FormControl>
                   </div>
                 </div>
@@ -392,7 +392,7 @@ export default function CreateUser() {
                           variant="outlined"
                           size="small"
                           // placeholder="First Name"
-                          sx={{ flex: 1, display: "flex" }}
+                          sx={{ flex: 1, display: "flex", width: "250px" }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -411,6 +411,7 @@ export default function CreateUser() {
                           variant="outlined"
                           size="small"
                           // placeholder="Middle Name"
+                          sx={{ flex: 1, display: "flex", width: "250px" }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -429,6 +430,7 @@ export default function CreateUser() {
                           variant="outlined"
                           size="small"
                           // placeholder="Last Name"
+                          sx={{ flex: 1, display: "flex", width: "250px" }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -449,6 +451,7 @@ export default function CreateUser() {
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
+                          sx={{ width: "250px" }}
                           value={position}
                           onChange={(e) =>
                             setPosition(e.target.value as number)
@@ -494,7 +497,7 @@ export default function CreateUser() {
                           }}
                           MenuProps={MenuProps}
                           size="small"
-                           sx={{minWidth: "200px" }}
+                          sx={{ width: "250px" }}
                         >
                           {roles.map((role: any) => (
                             <MenuItem key={role.role_id} value={role.role_id}>
@@ -518,6 +521,7 @@ export default function CreateUser() {
                         <TextField
                           variant="outlined"
                           size="small"
+                          sx={{ flex: 1, display: "flex", width: "250px" }}
                           // placeholder="Email"
                           InputProps={{
                             startAdornment: (
@@ -539,6 +543,7 @@ export default function CreateUser() {
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
+                          sx={{ width: "250px" }}
                           value={department}
                           onChange={(e) =>
                             setDepartment(e.target.value as number)
@@ -568,6 +573,7 @@ export default function CreateUser() {
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
+                          sx={{ width: "250px" }}
                           value={businessUnit}
                           onChange={(e) =>
                             setBusinessUnit(e.target.value as number)
@@ -590,31 +596,29 @@ export default function CreateUser() {
                       </FormControl>
                     </div>
                   </div>
-                </div>
+                  {/* Start of Button*/}
+                  <div className={CreateUserStyle.formRow7}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<SaveOutlinedIcon />}
+                      className={CreateUserStyle.saveButton}
+                      onClick={handleSave}
+                    >
+                      SAVE
+                    </Button>
 
-                {/* Start of Button*/}
-                <div className={CreateUserStyle.formRow7}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<SaveOutlinedIcon />}
-                    className={CreateUserStyle.saveButton}
-                    onClick={handleSave}
-                  >
-                    SAVE
-                  </Button>
-
-                  <Button
-                    variant="text"
-                    // startIcon={<CancelOutlinedIcon />}
-                    className={CreateUserStyle.cancelButton}
-                    onClick={handleCancel}
-                  >
-                    CANCEL
-                  </Button>
+                    <Button
+                      variant="text"
+                      // startIcon={<CancelOutlinedIcon />}
+                      className={CreateUserStyle.cancelButton}
+                      onClick={handleCancel}
+                    >
+                      CANCEL
+                    </Button>
+                  </div>
                 </div>
               </div>
-
               {/*Dialog of Edit Confirmation */}
               <Dialog
                 open={ask}
@@ -669,6 +673,7 @@ export default function CreateUser() {
                   </Button>
                 </DialogActions>
               </Dialog>
+
             </div>
           </div>
         </div>

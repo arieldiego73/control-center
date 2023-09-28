@@ -1,6 +1,122 @@
 import UserGraphStyle from "./UserGraph.module.css";
 import { ResponsiveLine, Serie } from "@nivo/line";
 
+// [
+//   {
+//       "user_status": [],
+//       "project_status": [],
+//       "user_per_year": [
+//           {
+//               "year_registered": 2023,
+//               "data": [
+//                   {"month": 1, "users": 100}
+//               ]
+//           }
+//       ]
+//   }
+// ]
+
+const data: Serie[] = [
+  {
+    "id": "2020",
+    "color": "hsl(133, 70%, 50%)",
+    "data": [
+      {
+        "x": "January",
+        "y": 12
+      },
+      {
+        "x": "March",
+        "y": 56
+      },
+      {
+        "x": "May",
+        "y": 12
+      },
+      {
+        "x": "July",
+        "y": 15
+      },
+      {
+        "x": "September",
+        "y": 60
+      },
+      {
+        "x": "November",
+        "y": 101
+      },
+    ]
+  },
+  {
+    "id": "2021",
+    "color": "hsl(231, 70%, 50%)",
+    "data": [
+      {
+        "x": "January",
+        "y": 119
+      },
+      {
+        "x": "March",
+        "y": 73
+      },
+      {
+        "x": "May",
+        "y": 11
+      },
+      {
+        "x": "July",
+        "y": 291
+      },
+      {
+        "x": "September",
+        "y": 270
+      },
+      {
+        "x": "November",
+        "y": 270
+      },
+    ]
+  },
+];
+
+const customTheme = {
+  axis: {
+    legend: {
+      text: {
+        fill: "white", // Legend text color
+      },
+    },
+    ticks: {
+      text: {
+        fill: "white", // Tick text color
+      },
+    },
+  },
+  grid: {
+    line: {
+      stroke: "white", // Grid line color
+    },
+  },
+  tooltip: {
+    container: {
+      background: "black", // Tooltip background color
+      color: "white", // Tooltip text color
+    },
+  },
+  labels: {
+    text: {
+      fill: "white", // Label text color
+    },
+  },
+  legends: {
+    text: {
+      fill: "white", // Text anchor color
+    },
+  },
+};
+
+
+
 export default function UserGraph() {
   return (
 

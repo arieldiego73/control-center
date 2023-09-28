@@ -2,31 +2,35 @@ import { ResponsiveBar } from "@nivo/bar";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EmpStatGraphStyle from "./EmployeeStatusGraph.module.css";
 import { Divider } from "@mui/material";
-// import { Serie } from "@nivo/line";
-// const data = [
+
+// [
 //   {
-//     year: "trainee",
-//     total: 59,
-//   },
-//   {
-//     year: "Regular",
-//     total: 61,
-//   },
-//   {
-//     year: "Business Partner",
-//     total: 2,
-//   },
-//   {
-//     year: "iNTERN", 
-//     total: 78,
-//   },
-// ];
+//       "user_status": [
+//           {
+//               "year": 2023,
+//               "data": [
+//                   {
+//                       "status_name": "Trainee",
+//                       "status_code": "TRA",
+//                       "total_user_status": 6
+//                   },
+//                   {
+//                       "status_name": "Regular",
+//                       "status_code": "TRA",
+//                       "total_user_status": 6
+//                   }
+//               ]
+//           }
+//       ],
+//       "project_status": [],
+//       "user_per_year": []
+//   }
+// ]
 
 type Datum = {
-  empStatus: string;
-  [key: string]: number | string;
+	year: string;
+	[key: string]: number | string;
 };
-
 
 const data: Datum[] = [
   {
@@ -58,77 +62,76 @@ const data: Datum[] = [
  
   ];
 
-  const customTheme = {
-    axis: {
-      legend: {
-        text: {
-          fill: "white", // Legend text color
-        },
-      },
-      ticks: {
-        text: {
-          fill: "white", // Tick text color
-        },
-      },
-    },
-    grid: {
-      line: {
-        stroke: "white", // Grid line color
-      },
-    },
-    tooltip: {
-      container: {
-        background: "black", // Tooltip background color
-        color: "white", // Tooltip text color
-      },
-    },
-    labels: {
-      text: {
-        fill: "white", // Label text color
-      },
-    },
-    legends: {
-      text: {
-        fill: "white", // Text anchor color
-      },
-    },
-  };
-  
+const customTheme = {
+	axis: {
+		legend: {
+			text: {
+				fill: "white", // Legend text color
+			},
+		},
+		ticks: {
+			text: {
+				fill: "white", // Tick text color
+			},
+		},
+	},
+	grid: {
+		line: {
+			stroke: "white", // Grid line color
+		},
+	},
+	tooltip: {
+		container: {
+      fontSize: "12px",
+			background: "black", // Tooltip background color
+			color: "white", // Tooltip text color
+		},
+	},
+	labels: {
+		text: {
+			fill: "white", // Label text color
+		},
+	},
+	legends: {
+		text: {
+			fill: "white", // Text anchor color
+		},
+	},
+};
+
 export default function EmpStatusGraph() {
-  return (
-    <div className={EmpStatGraphStyle.EmpStatusGraphContainer}>
-      <div className={EmpStatGraphStyle.empGraphHolder}>
-        {/* Main Container */}
-        <div className={EmpStatGraphStyle.card}>
-          <div className={EmpStatGraphStyle.textHolder}>
-            {/* Text Title */}
-            <text className={EmpStatGraphStyle.textTitle}>
-              {" "}
-              EMPLOYEE STATUS{" "}
-            </text>
-            <text className={EmpStatGraphStyle.textSubtitle}>
-              {" "}
-              +15% increase than last month{" "}
-            </text>
+	return (
+		<div className={EmpStatGraphStyle.EmpStatusGraphContainer}>
+			<div className={EmpStatGraphStyle.empGraphHolder}>
+				{/* Main Container */}
+				<div className={EmpStatGraphStyle.card}>
+					<div className={EmpStatGraphStyle.textHolder}>
+						{/* Text Title */}
+						<text className={EmpStatGraphStyle.textTitle}>
+							{"EMPLOYEE STATUS"}
+						</text>
+						<text className={EmpStatGraphStyle.textSubtitle}>
+							{"+15% increase than last month"}
+						</text>
 
-            <Divider style={{ padding: "1%" }} variant="middle" />
+						<Divider style={{ padding: "1%" }} variant="middle" />
 
-            {/* Information */}
-            <div className={EmpStatGraphStyle.infoContainer}>
-              <AccessTimeIcon
-                style={{
-                  color: " grey",
-                  fontSize: "15px",
-                  paddingRight: ".5%",
-                }}
-              />
-              <text className={EmpStatGraphStyle.textInfo}>
-                {" "}
-                Updated 4 mins ago{" "}
-              </text>
-            </div>
-          </div>
-        </div>
+						{/* Information */}
+						<div className={EmpStatGraphStyle.infoContainer}>
+							<AccessTimeIcon
+								style={{
+									color: " grey",
+									fontSize: "15px",
+									paddingRight: ".5%",
+								}}
+							/>
+							<text className={EmpStatGraphStyle.textInfo}>
+								{" "}
+								Updated 4 mins ago{" "}
+							</text>
+						</div>
+					</div>
+				</div>
 
         {/* Graph */}
         <div className={`${EmpStatGraphStyle.graphContainer} "legend-container"`}>
