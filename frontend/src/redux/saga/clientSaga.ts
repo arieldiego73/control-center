@@ -1,9 +1,10 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
 import {
 	getClientFetch,
 	getClientSuccess,
+	setIsLoading,
 	setMessage,
 } from "../state/clientState";
 import axios from "axios";
@@ -42,11 +43,12 @@ export const updateClient = createAction<{
 }>("client/updateClient");
 
 export function* clientSagaUpdate() {
-	yield takeLatest(updateClient.type, updateSaga);
+	yield takeEvery(updateClient.type, updateSaga);
 }
 
 function* updateSaga(action: ReturnType<typeof updateClient>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiUpdate,
 			action.payload.clientData.client_id,
@@ -80,11 +82,12 @@ export const addClient = createAction<{
 }>("client/addClient");
 
 export function* clientSagaAdd() {
-	yield takeLatest(addClient.type, addSaga);
+	yield takeEvery(addClient.type, addSaga);
 }
 
 function* addSaga(action: ReturnType<typeof addClient>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiAdd,
 			action.payload.clientData.client_name,
@@ -111,11 +114,12 @@ export const deleteClient = createAction<{
 }>("client/deleteClient");
 
 export function* clientSagaDelete() {
-	yield takeLatest(deleteClient.type, deleteSaga);
+	yield takeEvery(deleteClient.type, deleteSaga);
 }
 
 function* deleteSaga(action: ReturnType<typeof deleteClient>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiDelete, action.payload.client_id);
 		yield call(validate, response);
 	} catch (error) {
@@ -139,6 +143,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 
 function* deleteBatchSaga(action: ReturnType<typeof deleteClientBatch>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiBatchDelete, action.payload.batchId);
 		yield call(validate, response);
 	} catch (error) {
@@ -151,7 +156,7 @@ export const deleteClientBatch = createAction<{
 }>("client/deleteRolesBatch");
 
 export function* clientSagaDeleteBatch() {
-	yield takeLatest(deleteClientBatch.type, deleteBatchSaga);
+	yield takeEvery(deleteClientBatch.type, deleteBatchSaga);
 }
 
 // VALIDATE THE RESPONSE

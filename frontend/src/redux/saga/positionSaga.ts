@@ -1,7 +1,7 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
-import { getPositionFetch, getPositionSuccess, setMessage } from "../state/positionState";
+import { getPositionFetch, getPositionSuccess, setMessage, setIsLoading } from "../state/positionState";
 import axios from "axios";
 
 // GET ALL
@@ -44,11 +44,12 @@ export const updatePosition = createAction<{
 }>("position/updatePosition");
 
 export function* positionSagaUpdate() {
-	yield takeLatest(updatePosition.type, updateSaga);
+	yield takeEvery(updatePosition.type, updateSaga);
 }
 
 function* updateSaga(action: ReturnType<typeof updatePosition>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiUpdate,
 			action.payload.positionData.position_id,
@@ -89,11 +90,12 @@ export const addPosition = createAction<{
 }>("position/addPosition");
 
 export function* positionSagaAdd() {
-	yield takeLatest(addPosition.type, addSaga);
+	yield takeEvery(addPosition.type, addSaga);
 }
 
 function* addSaga(action: ReturnType<typeof addPosition>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiAdd,
 			action.payload.positionData.position_name,
@@ -125,11 +127,12 @@ export const deletePosition = createAction<{
 }>("position/deletePosition");
 
 export function* positionSagaDelete() {
-	yield takeLatest(deletePosition.type, deleteSaga);
+	yield takeEvery(deletePosition.type, deleteSaga);
 }
 
 function* deleteSaga(action: ReturnType<typeof deletePosition>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiDelete, action.payload.position_id);
 		yield call(validate, response);
 	} catch (error) {
@@ -157,6 +160,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 
 function* deleteBatchSaga(action: ReturnType<typeof deletePositionBatch>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiBatchDelete, action.payload.batchId);
 		yield call(validate, response);
 	} catch (error) {
@@ -169,7 +173,7 @@ export const deletePositionBatch = createAction<{
 }>("position/deletePositionBatch");
 
 export function* positionSagaDeleteBatch() {
-	yield takeLatest(deletePositionBatch.type, deleteBatchSaga);
+	yield takeEvery(deletePositionBatch.type, deleteBatchSaga);
 }
 
 

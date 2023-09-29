@@ -39,8 +39,11 @@ export const graphsDataSlice = createSlice({
 			state.graphsData = action.payload;
 			state.isLoading = false;
 		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
+		}
 	},
 });
 
-export const { getGraphsDataFetch, getGraphsDataSuccess } = graphsDataSlice.actions;
+export const { getGraphsDataFetch, getGraphsDataSuccess, setIsLoading } = graphsDataSlice.actions;
 export default graphsDataSlice.reducer;

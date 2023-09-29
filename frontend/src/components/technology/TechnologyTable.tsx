@@ -10,15 +10,21 @@ import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import {Divider,} from "@mui/material";
+import { Divider, LinearProgress } from "@mui/material";
 import { getTechnologyFetch } from "../../redux/state/technologyState";
-import { datagridBoxStyle,datagridStyle,} from "../datagrid_customs/DataGridStyle";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
 import CustomPagination from "../custom_pagination/pagination";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
-import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
+import {
+	addFormContainerStyles,
+	addFormStyles,
+} from "../datagrid_customs/DataGridAddFormStyles";
 import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 import {
@@ -32,7 +38,7 @@ import {
 	GridRowModesModel,
 	GridRowModes,
 	DataGrid,
-	GridColDef, 
+	GridColDef,
 	GridActionsCellItem,
 	GridEventListener,
 	GridRowId,
@@ -44,6 +50,14 @@ import {
 
 const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
+
+	const loadingState = useSelector(
+		(state: RootState) => state.techReducer.isLoading
+	);
+	const [isLoading, setIsLoading] = React.useState(loadingState);
+	React.useEffect(() => {
+		setIsLoading(() => loadingState);
+	}, [loadingState]);
 
 	// GET ALL THE DEV PHASE AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
@@ -76,6 +90,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
 		pagination: CustomPagination,
+		loadingOverlay: LinearProgress,
 	};
 
 	React.useEffect(() => {
@@ -216,7 +231,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 	const columns: GridColDef[] = [
 		{
 			field: "tech_name",
-			headerName: "Technology",
+			headerName: "Name",
 			minWidth: 300,
 			flex: 1,
 			editable: true,
@@ -293,7 +308,6 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 					display: "flex",
 					justifyContent: "flex-end",
 					padding: "12px",
-					
 				}}
 			>
 				{!isHidden ? (
@@ -310,7 +324,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
-									inputLabel="Technology"
+									inputLabel="Name"
 									inputValue={technologyName}
 									inputValueSetter={(
 										e: React.ChangeEvent<
@@ -343,7 +357,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 									setTechnologyName("");
 									setShortName("");
 								}}
-							 />
+							/>
 						</div>
 					</div>
 				)}
@@ -378,6 +392,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 					toolbar: { setRows, setRowModesModel },
 				}}
 				pageSizeOptions={[10, 25, 50, 100]}
+				loading={isLoading}
 			/>
 
 			<DataGridDialog
