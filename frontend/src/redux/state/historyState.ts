@@ -23,8 +23,11 @@ export const historySlice = createSlice({
 			state.history = action.payload;
 			state.isLoading = false;
 		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
+		}
 	},
 });
 
-export const { getHistoryFetch, getHistorySuccess } = historySlice.actions;
+export const { getHistoryFetch, getHistorySuccess, setIsLoading } = historySlice.actions;
 export default historySlice.reducer;

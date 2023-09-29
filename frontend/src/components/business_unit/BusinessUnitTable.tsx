@@ -9,25 +9,31 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
-import BadgeIcon from "@mui/icons-material/Badge"; 
+import BadgeIcon from "@mui/icons-material/Badge";
 import { Description } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import {Divider,} from "@mui/material";
+import { Divider, LinearProgress } from "@mui/material";
 import { getDepartmentFetch } from "../../redux/state/departmentState";
 import CustomPagination from "../custom_pagination/pagination";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
-import { datagridBoxStyle, datagridStyle, } from "../datagrid_customs/DataGridStyle";
-import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
-import { 
-	addDepartment, 
-	deleteDepartment, 
-	deleteDepartmentBatch, 
-	updateDepartment, } 
-from "../../redux/saga/departmentSaga";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
+import {
+	addFormContainerStyles,
+	addFormStyles,
+} from "../datagrid_customs/DataGridAddFormStyles";
+import {
+	addDepartment,
+	deleteDepartment,
+	deleteDepartmentBatch,
+	updateDepartment,
+} from "../../redux/saga/departmentSaga";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -45,6 +51,14 @@ import {
 
 const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
+
+	const loadingState = useSelector(
+		(state: RootState) => state.deptReducer.isLoading
+	);
+	const [isLoading, setIsLoading] = React.useState(loadingState);
+	React.useEffect(() => {
+		setIsLoading(() => loadingState);
+	}, [loadingState]);
 
 	// GET ALL THE DEPARTMENT AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
@@ -77,6 +91,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
 		pagination: CustomPagination,
+		loadingOverlay: LinearProgress,
 	};
 
 	React.useEffect(() => {
@@ -174,7 +189,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 			const posData: GridValidRowModel = {
 				dept_name: businessUnitName,
 				dept_sh_name: shortName,
-				dept_desc: description
+				dept_desc: description,
 			};
 			processAddRow(posData);
 			setBusinessUnitName("");
@@ -216,7 +231,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	const columns: GridColDef[] = [
 		{
 			field: "dept_name",
-			headerName: "Business Unit",
+			headerName: "Name",
 			minWidth: 300,
 			flex: 1,
 			editable: true,
@@ -320,7 +335,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
-									inputLabel="Business Unit"
+									inputLabel="Name"
 									inputValue={businessUnitName}
 									inputValueSetter={(
 										e: React.ChangeEvent<
@@ -365,7 +380,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 									setShortName("");
 									setDescription("");
 								}}
-							 />
+							/>
 						</div>
 					</div>
 				)}
@@ -400,6 +415,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 					toolbar: { setRows, setRowModesModel },
 				}}
 				pageSizeOptions={[10, 25, 50, 100]}
+				loading={isLoading}
 			/>
 
 			<DataGridDialog

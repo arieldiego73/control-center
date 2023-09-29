@@ -20,9 +20,12 @@ export const departmentSlice = createSlice({
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
+		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
 		}
 	},
 });
 
-export const { getDepartmentFetch, getDepartmentSuccess, setMessage } = departmentSlice.actions;
+export const { getDepartmentFetch, getDepartmentSuccess, setMessage, setIsLoading } = departmentSlice.actions;
 export default departmentSlice.reducer;

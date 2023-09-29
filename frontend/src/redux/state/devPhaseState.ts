@@ -20,9 +20,12 @@ export const devPhaseSlice = createSlice({
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
-		}
+		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
+		}	
 	},
 });
 
-export const { getDevPhaseFetch, getDevPhaseSuccess, setMessage } = devPhaseSlice.actions;
+export const { getDevPhaseFetch, getDevPhaseSuccess, setMessage, setIsLoading } = devPhaseSlice.actions;
 export default devPhaseSlice.reducer;

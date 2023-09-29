@@ -8,9 +8,10 @@
   justify-content: center;
   gap: 2%;
   background: rgba( 237, 249, 255, 0.35 );
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 5px );
-  -webkit-backdrop-filter: blur( 5px );
+  -webkit-backdrop-filter: blur( 5px ); */
   border-radius: 10px;
   position: fixed; 
   position: relative;
@@ -41,6 +42,8 @@
   font-size: 1.5rem;
   padding-left: 3%;
   font-weight: 600;
+  white-space: nowrap;
+
 }
 .rightSide{
   height: 90%;
@@ -123,8 +126,8 @@
   flex-direction: column;
  }
  .imgSize{
-  width: 6%;
-  height: 6%;
+  width: 6vh;
+  height: 6vh;
   border-radius: 100%;
 }
 .manageButtonContainer{
@@ -206,10 +209,68 @@
       background-color:none;
       border-radius: none;
     }
+    .topnavContainer{
+      height: 50px;
+    }
   }
   @media screen and (min-width: 750px) {
     .toolTip:hover{
       font-weight: 500;
       border: 1px solid rgb(117, 117, 117);
     }
+  }  
+  @media screen and (max-width: 650px) {
+    .topnavContainer{
+      left: 1%;
+    }
+  } 
+  @media screen and (max-width: 630px) {
+    .titleContainer span {
+      font-size: 1rem;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    .topnavContainer{
+      left: 2%;
+    }
+  } 
+  @media screen and (max-width: 480px) {
+    .topnavContainer{
+      left: 3%;
+    }
+  } 
+  @media screen and (max-width: 425px) {
+    .topnavContainer{
+      left: 5%;
+    }
+  } 
+  @media screen and (max-width: 370px) {
+    .topnavContainer {
+      height: 100%;
+      width: 100%;
+      border-radius: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2%;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-radius: 10px;
+      position: fixed; 
+      position: relative;
+    }
+    .titleContainer{
+      display: none;
+    }
+  } 
+
+
+
+  @media screen and (max-height: 650px) {
+    .topnavContainer{
+      height: 50px;
+    }  
   }

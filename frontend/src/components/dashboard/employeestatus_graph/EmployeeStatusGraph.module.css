@@ -21,6 +21,7 @@
   height: 90%;
   width: 100%;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  padding-bottom: 10px;
 }
 .textHolder{
   flex-direction: column;
@@ -60,12 +61,12 @@
 
 /* Attributes of Graph */
 .graphContainer{
-  background: linear-gradient(#1d1d1d, #2f2f33, #3f3f46);
-  height: 43%;
+  background: linear-gradient(#46a34a, #56af5a, #63b967);
+  height: 50%;
   width: 45%; 
   border-radius: 15px;
   position: absolute;
-  margin-bottom: 7.5%;
+  margin-bottom: 4%;
   z-index: 1;
-  margin-top:1%;
+  /* margin-top:1%; */
 }

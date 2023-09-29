@@ -5,50 +5,50 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 82vw;
-  height: 84.5vh;
-  top: 130px;
-  left: 16.5vw;
+  width: 83.65%;
+  height: 86.3%;
+  top: 10%;
+  left: 15.5%;
   overflow: hidden;
   background: rgba(237, 249, 255, 0.35);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border-radius: 10px;
-  /* border: 1px solid blue; */
 }
 .mainHolder {
-  position: fixed;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 99%;
+  justify-content: flex-start;
+  height: 100%;
   width: 100%;
-  top: 0;
-  left: 0;
   overflow: hidden;
   border-radius: 15px;
-  /* border: 1px solid blue;  */
 }
 
 /* Attributes of Form holder */
 .contentHolder {
   border-radius: 5px;
-  height: 90%;
+  height:100%;
   width: 99%;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  padding: 2vh 0;
+  overflow-x: auto;
+  margin-top: 15px;
+
 }
 .mainForm {
   display: flex;
   flex-direction: row;
   gap: 3vh;
   width: 95%;
-  padding: 2%;
-  height: 100%;
+  padding-left: 10px;
+  height: 90%;
+
 }
 
 /* Attributes of Left Form  */
@@ -75,7 +75,6 @@
   width: 100%;
   height: 100%;
   border-radius: 150px;
-  border: 3px solid black;
 }
 .toolTip {
   width: 78%;
@@ -98,7 +97,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 10px;
+  gap: 20px;
 }
 .textFieldProfile {
   background-color: transparent;
@@ -107,17 +106,19 @@
 /* Attributes of Other Form  */
 .otherFormContainer {
   width: 80%;
-  height: 600px;
+  height: 100%;
+
 }
 .otherFormPlaceholder {
   justify-content: center;
   display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 90%;
+  height: 100%;
 }
 .form {
   padding: 1%;
-  height: 80%;
+  height: 100%;
   width: 95%;
   display: flex;
   flex-direction: column;
@@ -141,25 +142,115 @@
 
 /* Attributes of Button */
 .formRow7 {
+  height: 10%;
   display: flex;
+  align-items: center;
   justify-content: flex-end;
-  width: 50%;
-  gap: 0.5vw;
-  margin-right: 1%;
-  left: 50%;
-  top: 5%;
-  position: relative;
-  /* border: 1px solid red; */
+  align-self: flex-end;
+  /* position: relative */
 }
 .saveButton {
   text-transform: none;
+  height: 40px;
 }
 .cancelButton {
   text-transform: none;
   background-color: gray;
+  height: 40px;
 }
 
-@media screen and (max-width: 2559px) {
+@media screen and (max-width: 1200px) {
+  .mainContainer {
+    width: 97.4%;
+    left: 1.3%;
+  }
+}
+
+
+@media screen and (max-width: 750px) {
+  .mainContainer {
+    top: 70px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .form,
+  .nameForm,
+  .formHolder {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+  }
+  .leftFormPlaceHolder {
+    width: 40%;
+  }
+  .form {
+    height: 100%;
+  }
+  .otherFormContainer{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: flex-start;
+  }
+  .mainForm{
+    height: 95%;
+  }
+}
+
+@media screen and (max-height: 850px) {
+  .mainContainer{
+    top: 85px;
+  }
+}
+@media screen and (max-height: 760px) {
+  .mainContainer{
+    top: 75px;
+  }
+}
+
+/* 
+@media screen and (max-width: 650px) {
+  .contentHolder{
+    position: relative;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+  }
+  .mainForm {
+    flex-direction: column;
+    gap: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 130%;
+  }
+  .otherFormContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+  }
+  .leftFormPlaceHolder {
+    width: 100%;
+  }
+  .form, .nameForm, .formHolder{
+    gap: 10px;
+  }
+} 
+
+@media screen and (max-height: 650px) {
+  .mainContainer {
+    top: 70px;
+  }
+} */
+
+
+
+/* @media screen and (max-width: 2559px) {
   .mainContainer {
     top: 130px;
     height: 84.5vh;
@@ -185,70 +276,4 @@
     width: 96vw;
     height: 87vh;
   }
-}
-@media screen and (max-width: 850px) {
-  .form,
-  .nameForm,
-  .formHolder {
-    flex-direction: column;
-    gap: 10px;
-    padding: 0;
-    margin: 0;
-    /* height: 100%; */
-  }
-  .leftFormPlaceHolder {
-    width: 40%;
-  }
-  .form {
-    height: 100%;
-  }
-  .formRow7 {
-    top: 9%;
-  }
-  .mainForm {
-    /* overflow: auto; */
-  }
-}
-@media screen and (max-width: 750px) {
-  .mainContainer {
-    top: 90px;
-    height: 87vh;
-  }
-}
-
-@media screen and (max-width: 650px) {
-  .contentHolder{
-    position: relative;
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    overflow-x: auto;
-  }
-  .mainForm {
-    flex-direction: column;
-    gap: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 130%;
-  }
-  .otherFormContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-  }
-  .leftFormPlaceHolder {
-    width: 100%;
-  }
-
-  .formRow7 {
-    left: 0;
-    margin-top: 3%;
-  }
-  .form, .nameForm, .formHolder{
-    gap: 10px;
-  }
-}
+} */
