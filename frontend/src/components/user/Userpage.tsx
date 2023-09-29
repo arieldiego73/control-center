@@ -198,7 +198,7 @@ export default function Userpage() {
 							<div className={UserStyle.searchBarCol}>
 								<div className={UserStyle.searchBarColLeft}>
 									<FormControl sx={{ display: "flex", flexDirection: "row", alignItems: "flex-end", flex: 1, gap: "10px", justifyContent: "flex-end" }}>
-										<FormLabel
+										{/* <FormLabel
 											sx={{
 												color: "black",
 												fontWeight: "400",
@@ -206,8 +206,9 @@ export default function Userpage() {
 											}}
 										>
 											Name :
-										</FormLabel>
+										</FormLabel> */}
 										<TextField
+										label="Name"
 											variant="outlined"
 											size="small"
 											value={searchQuery.name}
