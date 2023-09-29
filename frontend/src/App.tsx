@@ -28,6 +28,7 @@ import UserGraph from "./components/dashboard/user_graph/UserGraph";
 import DevelopmentTypeHandler from "./pages/DevelopmentTypeHandler";
 import TestHandler from "./pages/TestHandler";
 import ClientHandler from "./pages/ClientHandler";
+import ImagePreview from "./components/test/viewImg";
 
 function App() {
 	return (
@@ -62,6 +63,7 @@ function App() {
 				<Route path="/user-graph" Component={UserGraph} />
 				<Route path="/development-type" Component={DevelopmentTypeHandler} />
 				<Route path="/TestHandler" Component={TestHandler} />
+				<Route path="/viewImg" Component={ImagePreview} />
 			</Routes>
 		</BrowserRouter>
 	);
