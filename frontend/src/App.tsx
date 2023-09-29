@@ -54,7 +54,7 @@ function App() {
 				<Route path="/business-unit" Component={BusinessUnitHandler} />
 				<Route path="/department" Component={DepartmentHandler} />
 				<Route path="/technology" Component={TechnologyHandler} />
-				<Route path="/test2" Component={test2} />
+				{/* <Route path="/test2" Component={TestHandler} /> */}
 				{/* <Route path="/sideNav" Component={Sidenav} /> */}
 				{/* <Route path="/topNav" Component={Topnav} /> */}
 				{/* <Route path="/NewNav" Component={NewNav} /> */}

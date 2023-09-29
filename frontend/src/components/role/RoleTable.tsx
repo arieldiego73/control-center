@@ -14,7 +14,7 @@ import { RootState } from "../../redux/store/store";
 import { getRolesFetch } from "../../redux/state/roleState";
 import { Divider, LinearProgress } from "@mui/material";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
-import DataGridProps from "../datagrid_customs/DataGridProps";
+import DataGridProps from "../datagrid_customs/DataGridProps"; 
 import {
 	datagridBoxStyle,
 	datagridStyle,
