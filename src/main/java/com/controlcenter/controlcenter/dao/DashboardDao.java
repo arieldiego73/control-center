@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.controlcenter.controlcenter.model.UserStatusGraph;
+
 @Mapper
 public interface DashboardDao {
     
@@ -25,4 +27,10 @@ public interface DashboardDao {
     List<Map<String, Object>> getAllProjectCountByStatus();
 
     List<Map<String, Object>> getAllUserCountByStatus();
+
+    List<Integer> yearAndMonthFromUserTable();
+
+    List<Map<String, Object>> getAllUserStatusCountByMonth(String month);
+
+    List<UserStatusGraph> getAllUserStatusCountPerYearAndMonth();
 }

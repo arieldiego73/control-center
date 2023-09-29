@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DashboardDao;
+import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
 
 @Service
@@ -165,9 +166,10 @@ public class DashboardServiceImpl implements DashboardService{
 
         List<Map<String, Object>> graphList = new ArrayList<>();
         Map<String, Object> graphData = new HashMap<>();
-        List<Map<String, Object>> userStatusGraph = dashboardDao.getAllUserCountByStatus();
+        // List<Map<String, Object>> userStatusGraph = dashboardDao.getAllUserCountByStatus();
         List<Map<String, Object>> projectStatusGraph = dashboardDao.getAllProjectCountByStatus();
-        List<Map<String, Object>> userPerYear = dashboardDao.countAllRegisteredUserPerYear();
+        List<UserStatusGraph> userStatusGraph = dashboardDao.getAllUserStatusCountPerYearAndMonth();
+        // List<Map<String, Object>> userPerYear = dashboardDao.countAllRegisteredUserPerYear();
 
         // graphData.stream()
         // .map(data -> {
@@ -177,12 +179,27 @@ public class DashboardServiceImpl implements DashboardService{
         //     graphInfo.put("user_per_year", userPerYear);
         //     return graphInfo;
         // })
-
+        
         graphData.put("project_status", projectStatusGraph);
         graphData.put("user_status", userStatusGraph);
-        graphData.put("user_per_year", userPerYear);
+        // graphData.put("user_per_year", userPerYear);
 
         graphList.add(graphData);
         return ResponseEntity.ok(graphList);
+    }
+
+    @Override
+    public ResponseEntity<List<Integer>> yearAndMonthFromUserTable() {
+        return ResponseEntity.ok(dashboardDao.yearAndMonthFromUserTable());
+    }
+
+    @Override
+    public ResponseEntity<List<Map<String, Object>>> getAllUserStatusCountByMonth(String month) {
+        return ResponseEntity.ok(dashboardDao.getAllUserStatusCountByMonth(month));
+    }
+
+    @Override
+    public ResponseEntity<List<UserStatusGraph>> getAllUserStatusCountPerYearAndMonth() {
+        return ResponseEntity.ok(dashboardDao.getAllUserStatusCountPerYearAndMonth());
     }
 }
