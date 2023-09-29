@@ -62,6 +62,9 @@ function App() {
 				<Route path="/user-graph" Component={UserGraph} />
 				<Route path="/development-type" Component={DevelopmentTypeHandler} />
 				<Route path="/TestHandler" Component={TestHandler} />
+
+
+				
 			</Routes>
 		</BrowserRouter>
 	);

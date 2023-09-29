@@ -125,8 +125,8 @@
   flex-direction: column;
  }
  .imgSize{
-  width: 6%;
-  height: 6%;
+  width: 6vh;
+  height: 6vh;
   border-radius: 100%;
 }
 .manageButtonContainer{
