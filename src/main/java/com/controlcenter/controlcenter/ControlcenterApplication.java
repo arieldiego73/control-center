@@ -40,5 +40,5 @@ public class ControlcenterApplication {
     );
     bean.setOrder(0); // Set the filter order
     return bean;
-  }
+  	}
 }
