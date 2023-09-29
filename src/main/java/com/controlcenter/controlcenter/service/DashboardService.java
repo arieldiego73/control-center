@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+import com.controlcenter.controlcenter.model.UserStatusGraph;
+
 public interface DashboardService {
     
     public ResponseEntity<Integer> countAllOpenProject();
@@ -22,4 +24,10 @@ public interface DashboardService {
     public ResponseEntity<List<Map<String, Object>>> getAllUserCountByStatus();
 
     public ResponseEntity<List<Map<String, Object>>> graphData();
+
+    public ResponseEntity<List<Integer>> yearAndMonthFromUserTable();
+
+    public ResponseEntity<List<Map<String, Object>>> getAllUserStatusCountByMonth(String month);
+
+    public ResponseEntity<List<UserStatusGraph>> getAllUserStatusCountPerYearAndMonth();
 }

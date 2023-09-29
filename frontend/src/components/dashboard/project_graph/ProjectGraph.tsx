@@ -85,26 +85,11 @@ export default function ProjectGraph() {
 							PROJECT STATUS{" "}
 						</text>
 						<text className={ProjGraphStyle.textSubtitle}>
-							{" "}
-							PROJECT STATUS{" "}
+						January 1
 						</text>
 
-						<Divider style={{ padding: "1%" }} variant="middle" />
 
-						{/* Information */}
-						<div className={ProjGraphStyle.infoContainer}>
-							<AccessTimeIcon
-								style={{
-									color: " grey",
-									fontSize: "15px",
-									paddingRight: ".5%",
-								}}
-							/>
-							<text className={ProjGraphStyle.textInfo}>
-								{" "}
-								Updated 4 mins ago{" "}
-							</text>
-						</div>
+					
 					</div>
 				</div>
 
