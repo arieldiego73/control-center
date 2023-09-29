@@ -224,7 +224,7 @@
         ON
             user_status.status_code = tuser.status_code
         WHERE
-            tuser.del_flag = 0
+            tuser.del_flag = 0 AND tuser.emp_id != 100
         GROUP BY
             user_status.status_code, user_status.status_name, year, month
         ORDER BY
