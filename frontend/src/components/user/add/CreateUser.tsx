@@ -566,7 +566,6 @@ export default function CreateUser() {
                       </FormControl>
 
                       <FormControl
-                    
                         variant="outlined"
                         size="small"
                         sx={{
@@ -581,7 +580,7 @@ export default function CreateUser() {
                           Role
                         </InputLabel>
                         <Select
-                           label="Role"
+                          label="Role"
                           labelId="multiple-checkbox-label"
                           id="multiple-checkbox"
                           multiple
@@ -630,15 +629,12 @@ export default function CreateUser() {
                           },
                         }}
                       >
-                      
                         <TextField
-                        label="Email"
-                        error={formSubmitted && email === ""}
-                        helperText={
-                       formSubmitted && email === ""
-                       ? "Missing field"
-                       : ""
-                       } 
+                          label="Email"
+                          error={formSubmitted && email === ""}
+                          helperText={
+                            formSubmitted && email === "" ? "Missing field" : ""
+                          }
                           variant="outlined"
                           size="small"
                           sx={{ flex: 1, display: "flex", width: "100%" }}
@@ -667,16 +663,14 @@ export default function CreateUser() {
                             width: "100%",
                           },
                         }}
-
                         error={formSubmitted && department === 0}
                       >
-
                         <InputLabel id="demo-controlled-open-select-label">
-	Department
-</InputLabel>
+                          Department
+                        </InputLabel>
 
                         <Select
-                        label="Department"
+                          label="Department"
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           sx={{ width: "100%" }}
@@ -703,8 +697,8 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && department === 0 && (
-  <FormHelperText>Select a status</FormHelperText>
-  )}
+                          <FormHelperText>Select a status</FormHelperText>
+                        )}
                       </FormControl>
 
                       <FormControl
@@ -719,10 +713,10 @@ export default function CreateUser() {
                         error={formSubmitted && businessUnit === 0}
                       >
                         <InputLabel id="demo-controlled-open-select-label">
-	Business Unit
-</InputLabel>
+                          Business Unit
+                        </InputLabel>
                         <Select
-                        label="Business Unit"
+                          label="Business Unit"
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           sx={{ width: "100%" }}
@@ -745,14 +739,10 @@ export default function CreateUser() {
                             </MenuItem>
                           ))}
                         </Select>
-<<<<<<< HEAD
                         {formSubmitted && businessUnit === 0 && (
-  <FormHelperText>Select a status</FormHelperText>
-  )}
+                          <FormHelperText>Select a status</FormHelperText>
+                        )}
                       </FormControl>
-=======
-                      </FormControl> 
->>>>>>> fa074b3a5112a064181770bc8e84826b0c184b2b
                     </div>
                   </div>
                 </div>
