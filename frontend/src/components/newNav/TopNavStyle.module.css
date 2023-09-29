@@ -8,9 +8,10 @@
   justify-content: center;
   gap: 2%;
   background: rgba( 237, 249, 255, 0.35 );
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 5px );
-  -webkit-backdrop-filter: blur( 5px );
+  -webkit-backdrop-filter: blur( 5px ); */
   border-radius: 10px;
   position: fixed; 
   position: relative;
@@ -125,8 +126,8 @@
   flex-direction: column;
  }
  .imgSize{
-  width: 6%;
-  height: 6%;
+  width: 6vh;
+  height: 6vh;
   border-radius: 100%;
 }
 .manageButtonContainer{

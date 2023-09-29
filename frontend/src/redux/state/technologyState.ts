@@ -20,9 +20,12 @@ export const technologySlice = createSlice({
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
+		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
 		}
 	},
 });
 
-export const { getTechnologyFetch, getTechnologySuccess, setMessage } = technologySlice.actions;
+export const { getTechnologyFetch, getTechnologySuccess, setMessage, setIsLoading } = technologySlice.actions;
 export default technologySlice.reducer;

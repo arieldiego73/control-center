@@ -1,5 +1,5 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { getRolesFetch, getRolesSuccess, setMessage } from "../state/roleState";
+import { call, put, takeEvery } from "redux-saga/effects";
+import { getRolesFetch, getRolesSuccess, setMessage, setIsLoading } from "../state/roleState";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
 import axios from "axios";
@@ -38,11 +38,12 @@ export const updateRoles = createAction<{
 }>("roles/updateRoles");
 
 export function* roleSagaUpdate() {
-	yield takeLatest(updateRoles.type, updateSaga);
+	yield takeEvery(updateRoles.type, updateSaga);
 }
 
 function* updateSaga(action: ReturnType<typeof updateRoles>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiUpdate,
 			action.payload.roleInfo.role_id,
@@ -77,11 +78,12 @@ export const addRoles = createAction<{
 }>("roles/addRoles");
 
 export function* roleSagaAdd() {
-	yield takeLatest(addRoles.type, addSaga);
+	yield takeEvery(addRoles.type, addSaga);
 }
 
 function* addSaga(action: ReturnType<typeof addRoles>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiAdd,
 			action.payload.roleInfo.title,
@@ -109,11 +111,12 @@ export const deleteRoles = createAction<{
 }>("roles/deleteRoles");
 
 export function* roleSagaDelete() {
-	yield takeLatest(deleteRoles.type, deleteSaga);
+	yield takeEvery(deleteRoles.type, deleteSaga);
 }
 
 function* deleteSaga(action: ReturnType<typeof deleteRoles>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiDelete, action.payload.role_id);
 		yield call(validate, response);
 	} catch (error) {
@@ -137,6 +140,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 
 function* deleteBatchSaga(action: ReturnType<typeof deleteRolesBatch>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiBatchDelete, action.payload.batchId);
 		yield call(validate, response);
 	} catch (error) {
@@ -149,7 +153,7 @@ export const deleteRolesBatch = createAction<{
 }>("roles/deleteRolesBatch");
 
 export function* roleSagaDeleteBatch() {
-	yield takeLatest(deleteRolesBatch.type, deleteBatchSaga);
+	yield takeEvery(deleteRolesBatch.type, deleteBatchSaga);
 }
 
 

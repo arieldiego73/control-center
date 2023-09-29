@@ -86,6 +86,9 @@ export const projectSlice = createSlice({
 		clearProjectInfo: (state) => {
 			state.projectInfo = projInfoInitState;
 		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
+		}
 	},
 });
 
@@ -98,5 +101,6 @@ export const {
 	addProjectSuccess,
 	addProjectReset,
 	clearProjectInfo,
+	setIsLoading,
 } = projectSlice.actions;
 export default projectSlice.reducer;

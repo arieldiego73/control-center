@@ -10,15 +10,21 @@ import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { Divider,} from "@mui/material";
-import { datagridBoxStyle, datagridStyle,} from "../datagrid_customs/DataGridStyle";
+import { Divider, LinearProgress } from "@mui/material";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
 import CustomPagination from "../custom_pagination/pagination";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 import { getEmployeeStatusFetch } from "../../redux/state/employeeStatusState";
-import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
+import {
+	addFormContainerStyles,
+	addFormStyles,
+} from "../datagrid_customs/DataGridAddFormStyles";
 import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 import {
@@ -38,12 +44,20 @@ import {
 	GridRowId,
 	GridRowModel,
 	GridRowEditStopReasons,
-	GridRowSelectionModel, 
+	GridRowSelectionModel,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
 
 const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
+
+	const loadingState = useSelector(
+		(state: RootState) => state.employeeStatusReducer.isLoading
+	);
+	const [isLoading, setIsLoading] = React.useState(loadingState);
+	React.useEffect(() => {
+		setIsLoading(() => loadingState);
+	}, [loadingState]);
 
 	// GET ALL THE PROJECT STATUS AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
@@ -76,6 +90,7 @@ const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
 		pagination: CustomPagination,
+		loadingOverlay: LinearProgress,
 	};
 
 	React.useEffect(() => {
@@ -219,7 +234,7 @@ const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 	const columns: GridColDef[] = [
 		{
 			field: "status_name",
-			headerName: "Employee Status",
+			headerName: "Name",
 			minWidth: 300,
 			flex: 1,
 			editable: true,
@@ -314,7 +329,7 @@ const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
-									inputLabel="Employee Status Code"
+									inputLabel="Name"
 									inputValue={employeeStatusCode}
 									inputValueSetter={(
 										e: React.ChangeEvent<
@@ -327,7 +342,7 @@ const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 									autoFocus={true}
 								/>
 								<DataGridAddTextField
-									inputLabel="Employee Status"
+									inputLabel="Name"
 									inputValue={employeeStatusName}
 									inputValueSetter={(
 										e: React.ChangeEvent<
@@ -359,7 +374,7 @@ const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 									setEmployeeStatusName("");
 									setDescription("");
 								}}
-							 />
+							/>
 						</div>
 					</div>
 				)}
@@ -394,6 +409,7 @@ const EmployeeStatusTable: React.FC<DataGridProps> = (props) => {
 					toolbar: { setRows, setRowModesModel },
 				}}
 				pageSizeOptions={[10, 25, 50, 100]}
+				loading={isLoading}
 			/>
 
 			<DataGridDialog

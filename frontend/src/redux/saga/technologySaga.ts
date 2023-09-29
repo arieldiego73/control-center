@@ -1,10 +1,11 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
 import {
 	getTechnologyFetch,
 	getTechnologySuccess,
 	setMessage,
+	setIsLoading
 } from "../state/technologyState";
 import axios from "axios";
 
@@ -42,11 +43,12 @@ export const updateTechnology = createAction<{
 }>("technology/updateTechnology");
 
 export function* technologySagaUpdate() {
-	yield takeLatest(updateTechnology.type, updateSaga);
+	yield takeEvery(updateTechnology.type, updateSaga);
 }
 
 function* updateSaga(action: ReturnType<typeof updateTechnology>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiUpdate,
 			action.payload.technologyData.tech_id,
@@ -80,11 +82,12 @@ export const addTechnology = createAction<{
 }>("technology/addTechnology");
 
 export function* technologySagaAdd() {
-	yield takeLatest(addTechnology.type, addSaga);
+	yield takeEvery(addTechnology.type, addSaga);
 }
 
 function* addSaga(action: ReturnType<typeof addTechnology>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiAdd,
 			action.payload.technologyData.tech_name,
@@ -111,11 +114,12 @@ export const deleteTechnology = createAction<{
 }>("technology/deleteTechnology");
 
 export function* technologySagaDelete() {
-	yield takeLatest(deleteTechnology.type, deleteSaga);
+	yield takeEvery(deleteTechnology.type, deleteSaga);
 }
 
 function* deleteSaga(action: ReturnType<typeof deleteTechnology>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiDelete, action.payload.tech_id);
 		yield call(validate, response);
 	} catch (error) {
@@ -139,6 +143,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 
 function* deleteBatchSaga(action: ReturnType<typeof deleteTechnologyBatch>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiBatchDelete, action.payload.batchId);
 		yield call(validate, response);
 	} catch (error) {
@@ -151,7 +156,7 @@ export const deleteTechnologyBatch = createAction<{
 }>("technology/deleteRolesBatch");
 
 export function* technologySagaDeleteBatch() {
-	yield takeLatest(deleteTechnologyBatch.type, deleteBatchSaga);
+	yield takeEvery(deleteTechnologyBatch.type, deleteBatchSaga);
 }
 
 // VALIDATE THE RESPONSE

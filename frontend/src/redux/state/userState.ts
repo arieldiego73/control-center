@@ -72,6 +72,9 @@ export const userSlice = createSlice({
 			};
 			state.userRoles = [];
 		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
+		}
 	},
 });
 
@@ -84,5 +87,6 @@ export const {
 	addUserSuccess,
 	addUserReset,
 	clearUserInfo,
+	setIsLoading
 } = userSlice.actions;
 export default userSlice.reducer;

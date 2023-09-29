@@ -20,9 +20,12 @@ export const devTypeSlice = createSlice({
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
+		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
 		}
 	},
 });
 
-export const { getDevTypeFetch, getDevTypeSuccess, setMessage } = devTypeSlice.actions;
+export const { getDevTypeFetch, getDevTypeSuccess, setMessage, setIsLoading } = devTypeSlice.actions;
 export default devTypeSlice.reducer;

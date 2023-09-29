@@ -7,7 +7,7 @@ export default function CreateUserHandler (){
 
 	const breadcrumbs = [
 		{ icon: <HomeIcon style={{ height: "20px", marginTop: "5px" }} />, to: "/dashboard" }, // Example breadcrumb data
-		{ label: "User", to: "/user" },
+		{ label: "User", to: "/users" },
         { label: "Create User", to: "/user/add-new-user" },
 
 	];

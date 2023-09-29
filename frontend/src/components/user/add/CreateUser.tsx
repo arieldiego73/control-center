@@ -38,6 +38,8 @@ import {
   SelectChangeEvent,
   Snackbar,
   Typography,
+  FormHelperText,
+  InputLabel,
 } from "@mui/material";
 import { getEmployeeStatusFetch } from "../../../redux/state/employeeStatusState";
 
@@ -199,9 +201,9 @@ export default function CreateUser() {
     const data = {
       emp_id: assocID,
       username: username,
-      fname: firstName,
-      mname: middleName,
-      lname: lastName,
+      fname: firstName.trim(),
+      mname: middleName.trim(),
+      lname: lastName.trim(),
       position_id: position,
       email: email,
       section_id: department,
@@ -212,9 +214,26 @@ export default function CreateUser() {
     dispatch(addUserInfo({ data }));
     setAsk(false);
   };
-
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const handleSave = () => {
+    setFormSubmitted(true);
     if (
+      !assocID ||
+      !username ||
+      !firstName ||
+      !lastName ||
+      !position ||
+      !email ||
+      !department ||
+      !businessUnit ||
+      !empStatus ||
+      selectedRoles.length === 0
+    ) {
+      handleClickSnackpack(
+        "Associate ID is required. Please, try again.",
+        "error"
+      )();
+    } else if (
       assocID &&
       username &&
       firstName &&
@@ -240,12 +259,45 @@ export default function CreateUser() {
     }
   };
 
+  // const handleSave = () => {
+  //   if (
+  //     assocID &&
+  //     username &&
+  //     firstName &&
+  //     lastName &&
+  //     position &&
+  //     email &&
+  //     department &&
+  //     businessUnit &&
+  //     empStatus !== "0" &&
+  //     selectedRoles.length > 0
+  //   ) {
+  //     setAsk(true);
+  //     setDialogTitle("Save the record?");
+  //     setDialogContentText(
+  //       "Upon proceeding, the modifications on the record \nmade will be saved."
+  //     );
+  //     setIsSaving(true);
+  //   } else {
+  //     if (assocID === null) {
+  //       // Trigger error for assocID being null
+  //       // You can display an error message or handle it as needed.
+  //       handleClickSnackpack(
+  //         "Associate ID is required. Please, try again.",
+  //         "error"
+  //       )();
+  //     }
+  //     handleClickSnackpack(
+  //       "All fields are required. Please, try again.",
+  //       "error"
+  //     )();
+  //   }
+  // };
+
   const handleCancel = () => {
     setAsk(true);
     setDialogTitle("Cancel the edit?");
-    setDialogContentText(
-      "The record will be discarded and will not be saved."
-    );
+    setDialogContentText("The record will be discarded and will not be saved.");
     setIsSaving(false);
   };
 
@@ -253,14 +305,9 @@ export default function CreateUser() {
     <>
       <div className={CreateUserStyle.mainContainer}>
         <div className={CreateUserStyle.mainHolder}>
-          {/* Start of Form */}
           <div className={CreateUserStyle.contentHolder}>
             <div className={CreateUserStyle.mainForm}>
-
-              {/* Start of Left Form */}
               <div className={CreateUserStyle.leftFormPlaceHolder}>
-
-                {/* Start of Profile */}
                 <div className={CreateUserStyle.profileHolder}>
                   <div className={CreateUserStyle.imgContainer}>
                     <img
@@ -275,7 +322,7 @@ export default function CreateUser() {
                       className={CreateUserStyle.buttonProfile}
                       component="label"
                       startIcon={<CloudUploadIcon />}
-                      sx={{ whiteSpace: "nowrap", }}
+                      sx={{ whiteSpace: "nowrap" }}
                     >
                       Edit Profile
                       <VisuallyHiddenInput type="file" />
@@ -283,7 +330,6 @@ export default function CreateUser() {
                   </div>
                 </div>
 
-                {/* Start of Form of Profile*/}
                 <div className={CreateUserStyle.formProfileContainer}>
                   {/* Start of Assoc id form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
@@ -291,14 +337,18 @@ export default function CreateUser() {
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        width: "95%"
+                        width: "95%",
                       }}
                     >
-                      <FormLabel> Associate ID </FormLabel>
                       <TextField
+                        label="Associate ID"
+                        error={formSubmitted && assocID === ""}
+                        helperText={
+                          formSubmitted && assocID === "" ? "Missing field" : ""
+                        }
                         variant="outlined"
                         size="small"
-                        placeholder="Associate ID"
+                        // placeholder="Associate ID"
                         className={CreateUserStyle.textFieldProfile}
                         InputProps={{
                           startAdornment: (
@@ -319,14 +369,20 @@ export default function CreateUser() {
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        width: "95%"
+                        width: "95%",
                       }}
                     >
-                      <FormLabel> Username </FormLabel>
                       <TextField
+                        label="Username"
+                        error={formSubmitted && username === ""}
+                        helperText={
+                          formSubmitted && username === ""
+                            ? "Missing field"
+                            : ""
+                        }
                         variant="outlined"
                         size="small"
-                        placeholder="Username"
+                        // placeholder="Username"
                         className={CreateUserStyle.textFieldProfile}
                         InputProps={{
                           startAdornment: (
@@ -347,11 +403,15 @@ export default function CreateUser() {
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        width: "95%"
+                        width: "95%",
                       }}
+                      error={formSubmitted && empStatus === "0"}
                     >
-                      <FormLabel> Employee Status </FormLabel>
+                      <InputLabel id="demo-controlled-open-select-label">
+                        Employee Status
+                      </InputLabel>
                       <Select
+                        label="Employee Status"
                         value={empStatus}
                         size="small"
                         onChange={(e) => setEmpStatus(e.target.value)}
@@ -361,15 +421,21 @@ export default function CreateUser() {
                           </InputAdornment>
                         }
                       >
-                        <MenuItem key={0} value={"0"}>
+                        {/* <MenuItem key={0} value={"0"}>
                           {"<Select status>"}
-                        </MenuItem>
+                        </MenuItem> */}
                         {statuses.map((status: any) => (
-                          <MenuItem key={status?.status_code} value={status?.status_code}>
+                          <MenuItem
+                            key={status?.status_code}
+                            value={status?.status_code}
+                          >
                             {status?.status_name}
                           </MenuItem>
                         ))}
                       </Select>
+                      {formSubmitted && empStatus === "0" && (
+                        <FormHelperText>Select a status</FormHelperText>
+                      )}
                     </FormControl>
                   </div>
                 </div>
@@ -379,20 +445,21 @@ export default function CreateUser() {
               <div className={CreateUserStyle.otherFormContainer}>
                 <div className={CreateUserStyle.otherFormPlaceholder}>
                   <div className={CreateUserStyle.form}>
-
                     {/* Start of Name Form  */}
                     <div className={CreateUserStyle.nameForm}>
-                      <FormControl>
-                        <FormLabel
-                          sx={{
-                            whiteSpace: "nowrap",
-                          }}>
-                          First Name</FormLabel>
+                      <FormControl sx={{ width: "100%" }}>
                         <TextField
+                          label="First Name"
+                          error={formSubmitted && firstName === ""}
+                          helperText={
+                            formSubmitted && firstName === ""
+                              ? "Missing field"
+                              : ""
+                          }
                           variant="outlined"
                           size="small"
                           // placeholder="First Name"
-                          sx={{ flex: 1, display: "flex", width: "250px" }}
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -405,13 +472,13 @@ export default function CreateUser() {
                         />
                       </FormControl>
 
-                      <FormControl>
-                        <FormLabel>Middle Name</FormLabel>
+                      <FormControl sx={{ width: "100%" }}>
                         <TextField
+                          label="Middle Name"
                           variant="outlined"
                           size="small"
                           // placeholder="Middle Name"
-                          sx={{ flex: 1, display: "flex", width: "250px" }}
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -424,13 +491,19 @@ export default function CreateUser() {
                         />
                       </FormControl>
 
-                      <FormControl>
-                        <FormLabel>Last Name</FormLabel>
+                      <FormControl sx={{ width: "100%" }}>
                         <TextField
+                          label="Last Name"
+                          error={formSubmitted && lastName === ""}
+                          helperText={
+                            formSubmitted && lastName === ""
+                              ? "Missing field"
+                              : ""
+                          }
                           variant="outlined"
                           size="small"
                           // placeholder="Last Name"
-                          sx={{ flex: 1, display: "flex", width: "250px" }}
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -446,12 +519,25 @@ export default function CreateUser() {
 
                     {/* Start of Position and Role Form */}
                     <div className={CreateUserStyle.formHolder}>
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Position</FormLabel>
+                      <FormControl
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                        error={formSubmitted && position === 0}
+                      >
+                        <InputLabel id="demo-controlled-open-select-label">
+                          Position
+                        </InputLabel>
                         <Select
+                          label="Position"
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          sx={{ width: "250px" }}
+                          sx={{ width: "100%" }}
                           value={position}
                           onChange={(e) =>
                             setPosition(e.target.value as number)
@@ -463,7 +549,7 @@ export default function CreateUser() {
                           }
                         >
                           <MenuItem key={0} value={0}>
-                            {"<Select a position>"}
+                            {"<Select position>"}
                           </MenuItem>
                           {positions.map((pos: any) => (
                             <MenuItem
@@ -474,14 +560,31 @@ export default function CreateUser() {
                             </MenuItem>
                           ))}
                         </Select>
+                        {formSubmitted && position === 0 && (
+                          <FormHelperText>Select a status</FormHelperText>
+                        )}
                       </FormControl>
 
-                      <FormControl>
-                        <FormLabel>Role</FormLabel>
+                      <FormControl
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                        error={formSubmitted && selectedRoles.length === 0}
+                      >
+                        <InputLabel id="demo-controlled-open-select-label">
+                          Role
+                        </InputLabel>
                         <Select
+                          label="Role"
                           labelId="multiple-checkbox-label"
                           id="multiple-checkbox"
                           multiple
+                          sx={{ width: "100%" }}
                           value={selectedRoles}
                           onChange={handleChange}
                           renderValue={(selected) => {
@@ -497,7 +600,6 @@ export default function CreateUser() {
                           }}
                           MenuProps={MenuProps}
                           size="small"
-                          sx={{ width: "250px" }}
                         >
                           {roles.map((role: any) => (
                             <MenuItem key={role.role_id} value={role.role_id}>
@@ -511,17 +613,31 @@ export default function CreateUser() {
                             </MenuItem>
                           ))}
                         </Select>
+                        {formSubmitted && selectedRoles.length === 0 && (
+                          <FormHelperText>Select a status</FormHelperText>
+                        )}
                       </FormControl>
                     </div>
 
                     {/* Start of Email Form */}
                     <div className={CreateUserStyle.formHolder}>
-                      <FormControl>
-                        <FormLabel>Email</FormLabel>
+                      <FormControl
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
                         <TextField
+                          label="Email"
+                          error={formSubmitted && email === ""}
+                          helperText={
+                            formSubmitted && email === "" ? "Missing field" : ""
+                          }
                           variant="outlined"
                           size="small"
-                          sx={{ flex: 1, display: "flex", width: "250px" }}
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
                           // placeholder="Email"
                           InputProps={{
                             startAdornment: (
@@ -538,12 +654,26 @@ export default function CreateUser() {
 
                     {/* Start of Department and Business Unit Form */}
                     <div className={CreateUserStyle.formHolder}>
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Department</FormLabel>
+                      <FormControl
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                        error={formSubmitted && department === 0}
+                      >
+                        <InputLabel id="demo-controlled-open-select-label">
+                          Department
+                        </InputLabel>
+
                         <Select
+                          label="Department"
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          sx={{ width: "250px" }}
+                          sx={{ width: "100%" }}
                           value={department}
                           onChange={(e) =>
                             setDepartment(e.target.value as number)
@@ -566,14 +696,30 @@ export default function CreateUser() {
                             </MenuItem>
                           ))}
                         </Select>
+                        {formSubmitted && department === 0 && (
+                          <FormHelperText>Select a status</FormHelperText>
+                        )}
                       </FormControl>
 
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Busines Unit</FormLabel>
+                      <FormControl
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                        error={formSubmitted && businessUnit === 0}
+                      >
+                        <InputLabel id="demo-controlled-open-select-label">
+                          Business Unit
+                        </InputLabel>
                         <Select
+                          label="Business Unit"
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          sx={{ width: "250px" }}
+                          sx={{ width: "100%" }}
                           value={businessUnit}
                           onChange={(e) =>
                             setBusinessUnit(e.target.value as number)
@@ -593,30 +739,33 @@ export default function CreateUser() {
                             </MenuItem>
                           ))}
                         </Select>
+                        {formSubmitted && businessUnit === 0 && (
+                          <FormHelperText>Select a status</FormHelperText>
+                        )}
                       </FormControl>
                     </div>
                   </div>
-                  {/* Start of Button*/}
-                  <div className={CreateUserStyle.formRow7}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<SaveOutlinedIcon />}
-                      className={CreateUserStyle.saveButton}
-                      onClick={handleSave}
-                    >
-                      SAVE
-                    </Button>
+                </div>
+                {/* Start of Button*/}
+                <div className={CreateUserStyle.formRow7}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<SaveOutlinedIcon />}
+                    className={CreateUserStyle.saveButton}
+                    onClick={handleSave}
+                  >
+                    SAVE
+                  </Button>
 
-                    <Button
-                      variant="text"
-                      // startIcon={<CancelOutlinedIcon />}
-                      className={CreateUserStyle.cancelButton}
-                      onClick={handleCancel}
-                    >
-                      CANCEL
-                    </Button>
-                  </div>
+                  <Button
+                    variant="text"
+                    // startIcon={<CancelOutlinedIcon />}
+                    className={CreateUserStyle.cancelButton}
+                    onClick={handleCancel}
+                  >
+                    CANCEL
+                  </Button>
                 </div>
               </div>
               {/*Dialog of Edit Confirmation */}
@@ -673,7 +822,6 @@ export default function CreateUser() {
                   </Button>
                 </DialogActions>
               </Dialog>
-
             </div>
           </div>
         </div>

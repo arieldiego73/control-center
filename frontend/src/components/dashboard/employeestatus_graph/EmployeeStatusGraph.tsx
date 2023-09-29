@@ -28,7 +28,7 @@ import { Divider } from "@mui/material";
 // ]
 
 type Datum = {
-	year: string;
+	// year: string;
 	[key: string]: number | string;
 };
 
@@ -114,22 +114,7 @@ export default function EmpStatusGraph() {
 							{"+15% increase than last month"}
 						</text>
 
-						<Divider style={{ padding: "1%" }} variant="middle" />
-
-						{/* Information */}
-						<div className={EmpStatGraphStyle.infoContainer}>
-							<AccessTimeIcon
-								style={{
-									color: " grey",
-									fontSize: "15px",
-									paddingRight: ".5%",
-								}}
-							/>
-							<text className={EmpStatGraphStyle.textInfo}>
-								{" "}
-								Updated 4 mins ago{" "}
-							</text>
-						</div>
+						
 					</div>
 				</div>
 
@@ -148,7 +133,7 @@ export default function EmpStatusGraph() {
             // "donut",
           ]} 
           indexBy="empStatus"
-          margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+          margin={{ top: 30, right: 50, bottom: 80, left: 80 }}
           padding={0.3}
           innerPadding={2}
           valueScale={{ type: "linear" }}
@@ -184,45 +169,21 @@ export default function EmpStatusGraph() {
             tickRotation: 0,
             legend: "country",
             legendPosition: "middle",
-            legendOffset: 32,
+            legendOffset: 50,
           }}
           axisLeft={{
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: "count",
+            legend: "Monthly Data",
             legendPosition: "middle",
-            legendOffset: -40,
+            legendOffset: -45,
+    
           }}
           labelSkipWidth={12}
           labelSkipHeight={12}
           labelTextColor={{ theme: "background" }}
-          // legends={[
-          //   {
-          //     dataFrom: "keys",
-          //     anchor: "bottom-right",
-          //     direction: "column",
-          //     justify: false,
-          //     translateX: 106,
-          //     translateY: 0,
-          //     itemWidth: 100,
-          //     itemHeight: 20,
-          //     itemsSpacing: 2,
-          //     symbolSize: 20,
-          //     itemDirection: "left-to-right",
-          //     effects: [
-          //       {
-          //           on: 'hover',
-          //           style: {
-          //               itemBackground: 'rgba(0, 0, 0, .03)',
-          //               itemOpacity: 1,
-          //               itemTextColor: 'white',
-          //           }
-          //       }
-          //   ]
-          //   },
-            
-          // ]}
+
           
           role="application"
           ariaLabel="Nivo bar chart demo"

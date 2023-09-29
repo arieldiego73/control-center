@@ -1,4 +1,4 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import {
 	addUserSuccess,
 	getUserInfoSuccess,
@@ -6,6 +6,7 @@ import {
 	getUsersFetch,
 	getUsersSuccess,
 	setMessage,
+	setIsLoading
 } from "../state/userState";
 import { createAction } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -38,6 +39,7 @@ function* userSaga() {
 // FETCH A SINGLE USER
 function* fetchUserInfoSaga(action: ReturnType<typeof getUserInfo>): any {
 	try {
+		yield put(setIsLoading(true))
 		const responseUserInfo = yield call(
 			apiFetchUserInfo,
 			action.payload.userId
@@ -49,7 +51,7 @@ function* fetchUserInfoSaga(action: ReturnType<typeof getUserInfo>): any {
 }
 
 export function* userSagaFetchUserInfo() {
-	yield takeLatest(getUserInfo.type, fetchUserInfoSaga);
+	yield takeEvery(getUserInfo.type, fetchUserInfoSaga);
 }
 
 const apiFetchUserInfo = async (userId: any): Promise<any> => {
@@ -67,6 +69,7 @@ export const getUserInfo = createAction<{
 // FETCH A SINGLE USER'S ROLES
 function* fetchUserRolesSaga(action: ReturnType<typeof getUserRoles>): any {
 	try {
+		yield put(setIsLoading(true))
 		const responseUserRoles = yield call(
 			apiFetchUserRoles,
 			action.payload.userId
@@ -78,7 +81,7 @@ function* fetchUserRolesSaga(action: ReturnType<typeof getUserRoles>): any {
 }
 
 export function* userSagaFetchUserRoles() {
-	yield takeLatest(getUserRoles.type, fetchUserRolesSaga);
+	yield takeEvery(getUserRoles.type, fetchUserRolesSaga);
 }
 
 const apiFetchUserRoles = async (userId: any): Promise<any> => {
@@ -125,11 +128,12 @@ export const addUserInfo = createAction<{
 }>("users/addUserInfo");
 
 export function* userSagaAdd() {
-	yield takeLatest(addUserInfo.type, addSaga);
+	yield takeEvery(addUserInfo.type, addSaga);
 }
 
 function* addSaga(action: ReturnType<typeof addUserInfo>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiAdd, action.payload.data);
 		yield call(validate, response, "add");
 	} catch (error) {
@@ -169,11 +173,12 @@ export const updateUserInfo = createAction<{
 }>("users/updateUserInfo");
 
 export function* userSagaUpdate() {
-	yield takeLatest(updateUserInfo.type, updateSaga);
+	yield takeEvery(updateUserInfo.type, updateSaga);
 }
 
 function* updateSaga(action: ReturnType<typeof updateUserInfo>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiUpdate, action.payload.data);
 		yield call(validate, response, "update");
 	} catch (error) {

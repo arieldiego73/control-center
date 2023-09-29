@@ -20,9 +20,12 @@ export const positionSlice = createSlice({
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
+		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
 		}
 	},
 });
 
-export const { getPositionFetch, getPositionSuccess, setMessage } = positionSlice.actions;
+export const { getPositionFetch, getPositionSuccess, setMessage, setIsLoading } = positionSlice.actions;
 export default positionSlice.reducer;
