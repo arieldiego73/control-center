@@ -20,9 +20,12 @@ export const projectStatusSlice = createSlice({
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
+		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
 		}
 	},
 });
 
-export const { getProjectStatusFetch, getProjectStatusSuccess, setMessage } = projectStatusSlice.actions;
+export const { getProjectStatusFetch, getProjectStatusSuccess, setMessage, setIsLoading } = projectStatusSlice.actions;
 export default projectStatusSlice.reducer;

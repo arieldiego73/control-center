@@ -1,9 +1,10 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
 import {
 	getDevPhaseFetch,
 	getDevPhaseSuccess,
+	setIsLoading,
 	setMessage,
 } from "../state/devPhaseState";
 import axios from "axios";
@@ -42,11 +43,12 @@ export const updateDevPhase = createAction<{
 }>("devPhase/updateDevPhase");
 
 export function* devPhaseSagaUpdate() {
-	yield takeLatest(updateDevPhase.type, updateSaga);
+	yield takeEvery(updateDevPhase.type, updateSaga);
 }
 
 function* updateSaga(action: ReturnType<typeof updateDevPhase>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiUpdate,
 			action.payload.devPhaseData.dev_phase_id,
@@ -80,11 +82,12 @@ export const addDevPhase = createAction<{
 }>("devPhase/addDevPhase");
 
 export function* devPhaseSagaAdd() {
-	yield takeLatest(addDevPhase.type, addSaga);
+	yield takeEvery(addDevPhase.type, addSaga);
 }
 
 function* addSaga(action: ReturnType<typeof addDevPhase>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiAdd,
 			action.payload.devPhaseData.dev_phase_name,
@@ -111,11 +114,12 @@ export const deleteDevPhase = createAction<{
 }>("devPhase/deleteDevPhase");
 
 export function* devPhaseSagaDelete() {
-	yield takeLatest(deleteDevPhase.type, deleteSaga);
+	yield takeEvery(deleteDevPhase.type, deleteSaga);
 }
 
 function* deleteSaga(action: ReturnType<typeof deleteDevPhase>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiDelete, action.payload.dev_phase_id);
 		yield call(validate, response);
 	} catch (error) {
@@ -139,6 +143,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 
 function* deleteBatchSaga(action: ReturnType<typeof deleteDevPhaseBatch>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiBatchDelete, action.payload.batchId);
 		yield call(validate, response);
 	} catch (error) {
@@ -151,7 +156,7 @@ export const deleteDevPhaseBatch = createAction<{
 }>("devPhase/deleteRolesBatch");
 
 export function* devPhaseSagaDeleteBatch() {
-	yield takeLatest(deleteDevPhaseBatch.type, deleteBatchSaga);
+	yield takeEvery(deleteDevPhaseBatch.type, deleteBatchSaga);
 }
 
 // VALIDATE THE RESPONSE

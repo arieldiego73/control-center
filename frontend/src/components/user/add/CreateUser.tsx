@@ -201,9 +201,9 @@ export default function CreateUser() {
     const data = {
       emp_id: assocID,
       username: username,
-      fname: firstName,
-      mname: middleName,
-      lname: lastName,
+      fname: firstName.trim(),
+      mname: middleName.trim(),
+      lname: lastName.trim(),
       position_id: position,
       email: email,
       section_id: department,
@@ -745,10 +745,14 @@ export default function CreateUser() {
                             </MenuItem>
                           ))}
                         </Select>
+<<<<<<< HEAD
                         {formSubmitted && businessUnit === 0 && (
   <FormHelperText>Select a status</FormHelperText>
   )}
                       </FormControl>
+=======
+                      </FormControl> 
+>>>>>>> fa074b3a5112a064181770bc8e84826b0c184b2b
                     </div>
                   </div>
                 </div>

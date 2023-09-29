@@ -10,7 +10,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { Divider,} from "@mui/material";
+import { Divider, LinearProgress,} from "@mui/material";
 import { getDevPhaseFetch } from "../../redux/state/devPhaseState";
 import { datagridBoxStyle, datagridStyle, } from "../datagrid_customs/DataGridStyle";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
@@ -45,6 +45,12 @@ import {
 const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
+	const loadingState = useSelector((state: RootState) => state.devPhaseReducer.isLoading)
+	const [isLoading, setIsLoading] = React.useState(loadingState)
+	React.useEffect(() => {
+		setIsLoading(() => loadingState)
+	}, [loadingState])
+
 	// GET ALL THE DEV PHASE AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
 		dispatch(getDevPhaseFetch());
@@ -76,6 +82,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
 		pagination: CustomPagination,
+		loadingOverlay: LinearProgress,
 	};
 
 	React.useEffect(() => {
@@ -216,7 +223,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 	const columns: GridColDef[] = [
 		{
 			field: "dev_phase_name",
-			headerName: "Development Phase",
+			headerName: "Name",
 			minWidth: 300,
 			flex: 1,
 			editable: true,
@@ -309,7 +316,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
-									inputLabel="Development Phase"
+									inputLabel="Name"
 									inputValue={devPhaseName}
 									inputValueSetter={(
 										e: React.ChangeEvent<
@@ -377,6 +384,7 @@ const DevelopmentPhaseTable: React.FC<DataGridProps> = (props) => {
 					toolbar: { setRows, setRowModesModel },
 				}}
 				pageSizeOptions={[10, 25, 50, 100]}
+				loading={isLoading}
 			/>
 
 			<DataGridDialog

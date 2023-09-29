@@ -20,9 +20,12 @@ export const clientSlice = createSlice({
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
+		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
 		}
 	},
 });
 
-export const { getClientFetch, getClientSuccess, setMessage } = clientSlice.actions;
+export const { getClientFetch, getClientSuccess, setMessage, setIsLoading } = clientSlice.actions;
 export default clientSlice.reducer;

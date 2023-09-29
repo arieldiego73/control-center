@@ -1,10 +1,11 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
 import {
 	getEmployeeStatusFetch,
 	getEmployeeStatusSuccess,
 	setMessage,
+	setIsLoading
 } from "../state/employeeStatusState";
 import axios from "axios";
 
@@ -42,11 +43,12 @@ export const updateEmployeeStatus = createAction<{
 }>("employeeStatus/updateEmployeeStatus");
 
 export function* employeeStatusSagaUpdate() {
-	yield takeLatest(updateEmployeeStatus.type, updateSaga);
+	yield takeEvery(updateEmployeeStatus.type, updateSaga);
 }
 
 function* updateSaga(action: ReturnType<typeof updateEmployeeStatus>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiUpdate,
 			action.payload.employeeStatusData.status_code,
@@ -82,11 +84,12 @@ export const addEmployeeStatus = createAction<{
 }>("employeeStatus/addEmployeeStatus");
 
 export function* employeeStatusSagaAdd() {
-	yield takeLatest(addEmployeeStatus.type, addSaga);
+	yield takeEvery(addEmployeeStatus.type, addSaga);
 }
 
 function* addSaga(action: ReturnType<typeof addEmployeeStatus>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiAdd,
 			action.payload.employeeStatusData.status_code,
@@ -114,11 +117,12 @@ export const deleteEmployeeStatus = createAction<{
 }>("employeeStatus/deleteEmployeeStatus");
 
 export function* employeeStatusSagaDelete() {
-	yield takeLatest(deleteEmployeeStatus.type, deleteSaga);
+	yield takeEvery(deleteEmployeeStatus.type, deleteSaga);
 }
 
 function* deleteSaga(action: ReturnType<typeof deleteEmployeeStatus>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiDelete, action.payload.status_code);
 		yield call(validate, response);
 	} catch (error) {
@@ -144,6 +148,7 @@ function* deleteBatchSaga(
 	action: ReturnType<typeof deleteEmployeeStatusBatch>
 ): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiBatchDelete, action.payload.batchId);
 		yield call(validate, response);
 	} catch (error) {
@@ -156,7 +161,7 @@ export const deleteEmployeeStatusBatch = createAction<{
 }>("employeeStatus/deleteEmployeeStatusBatch");
 
 export function* employeeStatusSagaDeleteBatch() {
-	yield takeLatest(deleteEmployeeStatusBatch.type, deleteBatchSaga);
+	yield takeEvery(deleteEmployeeStatusBatch.type, deleteBatchSaga);
 }
 
 

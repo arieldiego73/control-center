@@ -120,8 +120,9 @@ export default function SideNav() {
     overflow: "hidden",
     gap: "2%",
     background: "rgba( 237, 249, 255, 0.35 )",
-    boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
-    backdropFilter: "blur( 25px )",
+    // boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+    // backdropFilter: "blur( 25px )",
+    boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
     position: isScreenSmall ? "fixed" : "relative",
 
     // top: isScreenSmall ? "4vh" : "4vh",

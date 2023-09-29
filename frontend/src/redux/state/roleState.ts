@@ -20,9 +20,12 @@ export const roleSlice = createSlice({
 		},
 		setMessage: (state, action) => {
 			state.notice = action.payload;
+		},
+		setIsLoading: (state, action) => {
+			state.isLoading = action.payload
 		}
 	},
 });
 
-export const { getRolesFetch, getRolesSuccess, setMessage } = roleSlice.actions;
+export const { getRolesFetch, getRolesSuccess, setMessage, setIsLoading } = roleSlice.actions;
 export default roleSlice.reducer;

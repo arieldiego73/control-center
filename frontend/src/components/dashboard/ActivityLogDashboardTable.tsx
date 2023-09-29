@@ -28,6 +28,7 @@ let todayCount = 0;
 let yesterdayCount = 0;
 let otherDates: string[] = [];
 let otherDatesDistinct: string[] = [];
+let headerHolder: string[] = [];
 
 export default function ActivityLogDashboardTable() {
 	const dispatch = useDispatch();
@@ -42,106 +43,117 @@ export default function ActivityLogDashboardTable() {
 		(state: RootState) => state.activityLog.history
 	);
 	React.useEffect(() => {
-		if (history) {
-			todayCount = 0;
-			yesterdayCount = 0;
-			setRows(
-				history.map((log) => {
-					let date = "";
-					const currDate = dayjs(log.log_date).get("date");
+		todayCount = 0;
+		yesterdayCount = 0;
+		otherDates = [];
+		setRows(
+			history.map((log) => {
+				let date = "";
+				const currDate = dayjs(log.log_date).get("date");
 
-					const TODAY = dayjs();
-					if (currDate === TODAY.get("date")) {
-						if (todayCount === 0) {
-							date = TODAY_STR;
-						} else {
-							date = "";
-						}
-						todayCount++;
-					} else if (
-						currDate ===
-						TODAY.subtract(1, "day").get("date")
-					) {
-						if (yesterdayCount === 0) {
-							date = YESTERDAY_STR;
-						} else {
-							date = "";
-						}
-						yesterdayCount++;
+				const TODAY = dayjs();
+				if (currDate === TODAY.get("date")) {
+					if (todayCount === 0) {
+						date = TODAY_STR;
 					} else {
-						const tempDate = dayjs(log.log_date).format("DD/MM/YYYY")
-						otherDates.push(tempDate)
-						if (otherDatesDistinct.includes(tempDate)) {
-							date = ""
-						} else {
-							otherDatesDistinct.push(tempDate)
-							date = tempDate
-						}
+						date = "";
 					}
+					todayCount++;
+				} else if (currDate === TODAY.subtract(1, "day").get("date")) {
+					if (yesterdayCount === 0) {
+						date = YESTERDAY_STR;
+					} else {
+						date = "";
+					}
+					yesterdayCount++;
+				} else {
+					const tempDate = dayjs(log.log_date).format("DD/MM/YYYY");
+					otherDates.push(tempDate);
+					if (otherDatesDistinct.includes(tempDate)) {
+						date = "";
+					} else {
+						otherDatesDistinct.push(tempDate);
+						date = tempDate;
+					}
+				}
 
-					return createData(
-						log.log_id,
-						date,
-						log.log_desc,
-						log.username,
-						dayjs(log.log_date).format("h:mm A")
-					);
-				})
-			);
-		}
-	}, [history]);
+				return createData(
+					log.log_id,
+					date,
+					log.log_desc,
+					log.username,
+					dayjs(log.log_date).format("h:mm A")
+				);
+			})
+		);
+	}, [dispatch, history]);
+
+	function determineHeader(row: {
+		id: number;
+		date: string;
+		action: String;
+		user: string;
+		time: string;
+	}) {
+		return (
+			row.date === "" ? (
+				<></>
+			) : row.date === TODAY_STR ? (
+				<TableCell
+					style={{
+						fontWeight: "bold",
+						verticalAlign: "baseline",
+					}}
+					rowSpan={todayCount}
+				>
+					{row.date}
+				</TableCell>
+			) : row.date === YESTERDAY_STR ? (
+				<TableCell
+					style={{
+						fontWeight: "bold",
+						verticalAlign: "baseline",
+					}}
+					rowSpan={yesterdayCount}
+				>
+					{row.date}
+				</TableCell>
+			) : otherDatesDistinct.includes(row.date) && !headerHolder.includes(row.date) ? (
+				<TableCell
+					style={{
+						fontWeight: "bold",
+						verticalAlign: "baseline",
+					}}
+					rowSpan={otherDates.map((date) => date === row.date).length}
+				>
+					{processOtherDates(row.date)}
+				</TableCell>
+			) : (
+				<TableCell
+					style={{ fontWeight: "bold" }}
+				>
+					{row.date}
+				</TableCell>
+			)
+		)
+	}
+
+	function processOtherDates(date: string) {
+		headerHolder.push(date)
+		return date
+	}
 
 	return (
 		<div className={ActLogStyle.activityLogContainer}>
 			<Paper className={ActLogStyle.paper}>
 				<TableContainer className={ActLogStyle.actLogTable}>
-					<Table>
+					<Table size="small">
 						<TableBody>
 							{rows.map((row) => (
 								<TableRow
 									key={row.id}
-									sx={{
-										"&:last-child td, &:last-child th": {
-											border: 0,
-										},
-									}}
 								>
-									{row.date === "" ? (
-										<></>
-									) : row.date === TODAY_STR ? (
-										<TableCell
-											style={{
-												fontWeight: "bold",
-												verticalAlign: "baseline",
-											}}
-											rowSpan={todayCount}
-										>
-											{row.date}
-										</TableCell>
-									) : row.date === YESTERDAY_STR ? (
-										<TableCell
-											style={{
-												fontWeight: "bold",
-												verticalAlign: "baseline",
-											}}
-											rowSpan={yesterdayCount}
-										>
-											{row.date}
-										</TableCell>
-									) : otherDatesDistinct.includes(row.date) ? (// TANUNGIN MO KUNG MAY LAMAN, PAG MERON, ALISIN MO TAPOS ITO ANG I-RENDER MO
-										<TableCell
-											style={{ fontWeight: "bold", verticalAlign: "baseline" }}
-											rowSpan={otherDates.map((date) => date === row.date).length}
-										>
-											{otherDatesDistinct.shift()}
-										</TableCell>
-									) : (
-										<TableCell
-											style={{ fontWeight: "bold" }}
-										>
-											{row.date}
-										</TableCell>
-									)}
+									{determineHeader(row)}
 									<TableCell align="left" width={150}>
 										{row.time}
 									</TableCell>

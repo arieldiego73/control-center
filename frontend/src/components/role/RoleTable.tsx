@@ -12,15 +12,21 @@ import PersonFourIcon from "@mui/icons-material/Person4";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { getRolesFetch } from "../../redux/state/roleState";
-import { Divider } from "@mui/material";
+import { Divider, LinearProgress } from "@mui/material";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
-import {datagridBoxStyle,datagridStyle,} from "../datagrid_customs/DataGridStyle";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
 import CustomPagination from "../custom_pagination/pagination";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
-import {addFormContainerStyles,addFormStyles,} from "../datagrid_customs/DataGridAddFormStyles";
+import {
+	addFormContainerStyles,
+	addFormStyles,
+} from "../datagrid_customs/DataGridAddFormStyles";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 import {
 	addRoles,
@@ -45,6 +51,14 @@ import {
 
 const RoleTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
+
+	const loadingState = useSelector(
+		(state: RootState) => state.roleReducer.isLoading
+	);
+	const [isLoading, setIsLoading] = React.useState(loadingState);
+	React.useEffect(() => {
+		setIsLoading(() => loadingState);
+	}, [loadingState]);
 
 	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
@@ -75,6 +89,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
 		pagination: CustomPagination,
+		loadingOverlay: LinearProgress,
 	};
 
 	const proceedWithDelete = () => {
@@ -225,7 +240,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 	const columns: GridColDef[] = [
 		{
 			field: "title",
-			headerName: "Role",
+			headerName: "Name",
 			minWidth: 300,
 			flex: 1,
 			editable: true,
@@ -321,14 +336,14 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 						onClick={() => setIsHidden(true)}
 						startIcon={<AddIcon />}
 					>
-	 					Add Role
+						Add Role
 					</Button>
 				) : (
 					<div className="hideButton">
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
-									inputLabel="Role"
+									inputLabel="Name"
 									inputValue={roleTitle}
 									inputValueSetter={(
 										e: React.ChangeEvent<
@@ -412,6 +427,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 					toolbar: { setRows, setRowModesModel },
 				}}
 				pageSizeOptions={[10, 25, 50, 100]}
+				loading={isLoading}
 			/>
 
 			<DataGridDialog

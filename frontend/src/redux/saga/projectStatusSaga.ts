@@ -1,10 +1,11 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId, GridValidRowModel } from "@mui/x-data-grid";
 import {
 	getProjectStatusFetch,
 	getProjectStatusSuccess,
 	setMessage,
+	setIsLoading
 } from "../state/projectStatusState";
 import axios from "axios";
 
@@ -42,11 +43,12 @@ export const updateProjectStatus = createAction<{
 }>("projectStatus/updateProjectStatus");
 
 export function* projectStatusSagaUpdate() {
-	yield takeLatest(updateProjectStatus.type, updateSaga);
+	yield takeEvery(updateProjectStatus.type, updateSaga);
 }
 
 function* updateSaga(action: ReturnType<typeof updateProjectStatus>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiUpdate,
 			action.payload.projectStatusData.proj_status_id,
@@ -80,11 +82,12 @@ export const addProjectStatus = createAction<{
 }>("projectStatus/addProjectStatus");
 
 export function* projectStatusSagaAdd() {
-	yield takeLatest(addProjectStatus.type, addSaga);
+	yield takeEvery(addProjectStatus.type, addSaga);
 }
 
 function* addSaga(action: ReturnType<typeof addProjectStatus>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(
 			apiAdd,
 			action.payload.projectStatusData.proj_status_name,
@@ -111,11 +114,12 @@ export const deleteProjectStatus = createAction<{
 }>("projectStatus/deleteProjectStatus");
 
 export function* projectStatusSagaDelete() {
-	yield takeLatest(deleteProjectStatus.type, deleteSaga);
+	yield takeEvery(deleteProjectStatus.type, deleteSaga);
 }
 
 function* deleteSaga(action: ReturnType<typeof deleteProjectStatus>): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiDelete, action.payload.proj_status_id);
 		yield call(validate, response);
 	} catch (error) {
@@ -141,6 +145,7 @@ function* deleteBatchSaga(
 	action: ReturnType<typeof deleteProjectStatusBatch>
 ): any {
 	try {
+		yield put(setIsLoading(true))
 		const response = yield call(apiBatchDelete, action.payload.batchId);
 		yield call(validate, response);
 	} catch (error) {
@@ -153,7 +158,7 @@ export const deleteProjectStatusBatch = createAction<{
 }>("projectStatus/deleteProjectStatusBatch");
 
 export function* projectStatusSagaDeleteBatch() {
-	yield takeLatest(deleteProjectStatusBatch.type, deleteBatchSaga);
+	yield takeEvery(deleteProjectStatusBatch.type, deleteBatchSaga);
 }
 
 
