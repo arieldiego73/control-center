@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
 
 @RestController
@@ -131,6 +132,33 @@ public class DashboardController {
     public ResponseEntity<List<Map<String, Object>>> graphData() {
         try {
             return dashboardService.graphData();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/month-and-year") 
+    public ResponseEntity<List<Integer>> yearAndMonthFromUserTable() {
+        try {
+            return dashboardService.yearAndMonthFromUserTable();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/user-status-count-per-month/{month}")
+    public ResponseEntity<List<Map<String, Object>>> getAllUserStatusCountByMonth(@PathVariable String month) {
+        try {
+            return dashboardService.getAllUserStatusCountByMonth(month);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/user-status-graph")
+    public ResponseEntity<List<UserStatusGraph>> getAllUserStatusCountPerYearAndMonth() {
+        try {
+            return dashboardService.getAllUserStatusCountPerYearAndMonth();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

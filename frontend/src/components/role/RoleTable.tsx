@@ -48,6 +48,7 @@ import {
 	GridRowSelectionModel,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
+import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
 
 const RoleTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -115,6 +116,19 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 	const [userLevel, setUserLevel] = React.useState("");
 	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
 
+	const [confirmAction, setConfirmAction] = React.useState(false)
+	const [actions, setActions] = React.useState<{
+		editing: boolean,
+		selecting: boolean,
+		adding: boolean,
+	editingId: GridRowId}>({
+			editing: false,
+			selecting: false,
+			adding: false,
+			editingId: 0
+		})
+	const [proceedAction, setProceedAction] = React.useState<() => void>(() => {})
+
 	function DatagridToolbar() {
 		return (
 			<DataGridEditToolbar
@@ -131,21 +145,34 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 		params,
 		event
 	) => {
-		if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+		if (params.reason === GridRowEditStopReasons.rowFocusOut || params.reason === GridRowEditStopReasons.escapeKeyDown) {
 			event.defaultMuiPrevented = true;
 		}
 	};
 
 	const handleEditClick = (id: GridRowId) => () => {
-		setRowModesModel({
-			...rowModesModel,
-			[id]: { mode: GridRowModes.Edit },
+		setRowModesModel(() => {
+			for (const obj in rowModesModel) {
+				if (rowModesModel.hasOwnProperty(obj)) {
+					return {
+						[obj]: {mode: GridRowModes.View, ignoreModifications: true}, // change mode from EDIT to VIEW
+						[id]: { mode: GridRowModes.Edit }, // add the row that is to be edited
+					}
+				} else {
+					return {
+						[id]: { mode: GridRowModes.Edit },
+					}
+				}
+			}
+
+			return { [id]: { mode: GridRowModes.Edit } } // return this if the rowModesModel is empty
 		});
+		setConfirmAction(false)
 	};
 
 	const handleSaveClick = (id: GridRowId) => () => {
 		setRowModesModel({
-			...rowModesModel,
+			// ...rowModesModel,
 			[id]: { mode: GridRowModes.View },
 		});
 	};
@@ -162,10 +189,11 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 
 	const handleCancelClick = (id: GridRowId) => () => {
 		setRowModesModel({
-			...rowModesModel,
+			// ...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
 		setRows(data);
+		setActions({ ...actions, editing: false })
 	};
 
 	const processUpdateRow = (roleInfo: GridRowModel) => {
@@ -230,12 +258,24 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 			cancel();
 			error();
 		}
+		setActions({ ...actions, editing: false })
 		return newRow;
 	};
 
 	const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
 		setRowModesModel(newRowModesModel);
 	};
+
+	React.useEffect(() => {
+		console.log("==================")
+		for (const obj in rowModesModel) {
+			// if (rowModesModel.hasOwnProperty(obj)) {
+			// 	const val = rowModesModel[obj]
+			// 	console.log(`${obj}: ${val}`)
+			// }
+			console.log(obj)
+		}
+	}, [rowModesModel])
 
 	const columns: GridColDef[] = [
 		{
@@ -301,7 +341,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 						icon={<EditIcon />}
 						label="Edit"
 						className="textPrimary"
-						onClick={handleEditClick(id)}
+						onClick={handleEditButtonClick(id)}
 						color="inherit"
 					/>,
 					<GridActionsCellItem
@@ -314,6 +354,82 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 			},
 		},
 	];
+
+	React.useEffect(() => {
+		console.log(actions)
+	}, [actions])
+	
+	const handleEditButtonClick = (id: GridRowId) => () => {
+		verifyAction("edit", id);
+	}
+
+	const verifyAction = (action: string, id?: GridRowId, newSelectionModel?: GridRowSelectionModel) => {
+		if (actions.editing || actions.selecting || actions.adding) {
+			switch (action) {
+				case "edit":
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?")
+						setDialogContentText("Are you sure you want to cancel?")
+						setConfirmAction(true)
+						setProceedAction(() => handleEditClick(id as GridRowId))
+						setActions({ ...actions, editingId: id as GridRowId })	
+					} else if (actions.selecting) {
+						//
+					} else {
+						if (roleTitle || shortName || userLevel) {
+							setDialogTitle("Close the form?")
+							setDialogContentText("Are you sure you want to discard your inputs?")
+							setConfirmAction(true)
+							setProceedAction(() => () => {
+								setIsHidden(false)
+								handleEditClick(id as GridRowId)()
+								setRoleTitle("");
+								setShortName("");
+								setUserLevel("");
+								setActions({ ...actions, adding: false, editing: true, editingId: id as GridRowId })
+							})
+						} else {
+							setIsHidden(false) // if the fields in the add form are empty, just close it
+							handleEditClick(id as GridRowId)(); // then proceed to edit
+							setActions({ ...actions, adding: false })
+						}
+					}
+					break;
+				case "add":
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?")
+						setDialogContentText("Are you sure you want to cancel?")
+						setConfirmAction(true)
+						setProceedAction(() => () => {
+							setIsHidden(true)
+							setConfirmAction(false)
+							setActions({ ...actions, editing: false, adding: true })
+							setRowModesModel({ [actions.editingId]: { mode: GridRowModes.View, ignoreModifications: true } })
+						})
+					} else if (actions.selecting) {
+						//
+					} else {
+
+					}
+					break;
+				default:
+					break;
+			}
+		} else {
+			switch (action) {
+				case "edit":
+					setActions({ ...actions, editing: true, editingId: id as GridRowId })
+					handleEditClick(id as GridRowId)()
+					break;
+				case "add":
+					setActions({ ...actions, adding: true })
+					setIsHidden(true)
+					break;
+				default:
+					break;
+			}
+		}
+	}
 
 	return (
 		<Box sx={datagridBoxStyle}>
@@ -333,7 +449,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 					<Button
 						variant="contained"
 						color="primary"
-						onClick={() => setIsHidden(true)}
+						onClick={() => verifyAction("add")}
 						startIcon={<AddIcon />}
 					>
 						Add Role
@@ -384,10 +500,25 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 								handleAdd={handleAdd}
 								handleAddContinue={handleAddContinue}
 								handleClosing={() => {
-									setIsHidden(false);
-									setRoleTitle("");
-									setShortName("");
-									setUserLevel("");
+									if (roleTitle || shortName || userLevel) {
+										setDialogTitle("Close the form?")
+										setDialogContentText("Are you sure you want to discard your inputs?")
+										setConfirmAction(true)
+										setProceedAction(() => () => {
+											setIsHidden(false)
+											setRoleTitle("");
+											setShortName("");
+											setUserLevel("");
+											setActions({ ...actions, adding: false })
+											setConfirmAction(false)
+										})
+									} else {
+										setIsHidden(false);
+										setRoleTitle("");
+										setShortName("");
+										setUserLevel("");
+										setActions({ ...actions, adding: false })
+									}
 								}}
 							/>
 						</div>
@@ -406,6 +537,8 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
+				onCellDoubleClick={(params, event) => event.defaultMuiPrevented = true}
+				onRowDoubleClick={(params, event) => event.defaultMuiPrevented = true}
 				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
@@ -438,6 +571,13 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 				isBatch={isBatch}
 				proceedWithDelete={proceedWithDelete}
 				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
+			<DataGridActionDialog
+				open={confirmAction}
+				handleClose={setConfirmAction}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				confirmAction={proceedAction}
 			/>
 		</Box>
 	);

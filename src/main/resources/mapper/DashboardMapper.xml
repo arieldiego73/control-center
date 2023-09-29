@@ -182,15 +182,52 @@
                 user_status.status_code, user_status.status_name;
     </select>
 
-    <select id="yearFromUserTable">
+    <select id="yearAndMonthFromUserTable">
         SELECT
-                YEAR(reg_date) AS year
-            FROM
-                tbl_user
-            GROUP BY
-                year
-            ORDER BY
-                year;
+            MONTH(reg_date) AS month
+        FROM
+            tbl_user
+        GROUP BY
+            month
+        ORDER BY
+            month;
     </select>
     
+    <select id="getAllUserStatusCountByMonth">
+        SELECT
+            user_status.status_code AS status_code,
+            user_status.status_name AS status_name,
+            COUNT(tuser.status_code) AS total
+        FROM
+            tbl_status_mst AS user_status
+        LEFT JOIN
+            tbl_user AS tuser
+        ON
+            user_status.status_code = tuser.status_code
+        WHERE
+            tuser.del_flag = 0 AND MONTH(tuser.reg_date) = #{month}
+        GROUP BY
+            user_status.status_code, user_status.status_name;
+    </select>
+ 
+    <select id="getAllUserStatusCountPerYearAndMonth" resultType="com.controlcenter.controlcenter.model.UserStatusGraph">
+        SELECT
+            user_status.status_code AS status_code,
+            user_status.status_name AS status_name,
+            EXTRACT(YEAR FROM tuser.reg_date) AS year,
+            EXTRACT(MONTH FROM tuser.reg_date) AS month,
+            COUNT(tuser.status_code) AS total
+        FROM
+            tbl_status_mst AS user_status
+        LEFT JOIN
+            tbl_user AS tuser
+        ON
+            user_status.status_code = tuser.status_code
+        WHERE
+            tuser.del_flag = 0 AND tuser.emp_id != 100
+        GROUP BY
+            user_status.status_code, user_status.status_name, year, month
+        ORDER BY
+            user_status.status_code, year, month;
+    </select>
 </mapper>
