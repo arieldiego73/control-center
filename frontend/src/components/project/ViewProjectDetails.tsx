@@ -1,9 +1,8 @@
 import React from 'react';
-import { RowData } from './ProjectTable';
 
 interface ViewProjectDetailsProps {
   projectName: string | null;
-  rows: RowData[];
+  rows: any[];
 }
 
 const ViewProjectDetails: React.FC<ViewProjectDetailsProps> = ({ projectName, rows }) => {
