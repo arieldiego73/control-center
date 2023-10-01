@@ -56,7 +56,7 @@ public class ClientServiceImpl implements ClientService{
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
-            return "Client added successfully.";
+            return "Client '" + client.getClient_name() + "' added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -88,7 +88,7 @@ public class ClientServiceImpl implements ClientService{
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Client edited successfully.";
+                return "Client '" + client.getClient_name() + "'edited successfully.";
             }
         } else {
             return "Client with the ID " + id + " cannot be found.";
@@ -116,7 +116,7 @@ public class ClientServiceImpl implements ClientService{
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Client deleted successfully.";
+                return "Client '" + client.getClient_name() + "' deleted successfully.";
             }
         } else {
             return "Client with the ID " + id + " cannot be found.";
@@ -142,11 +142,28 @@ public class ClientServiceImpl implements ClientService{
 
         //Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
+        Long currentTimeMillis = System.currentTimeMillis();
+
+        List<String> clients = new ArrayList<>();
+        StringBuilder formattedList = new StringBuilder();
+
+        for(Long id : ids) {
+            String toString = String.valueOf(id);
+            ClientOutput client = clientDao.getClientById(toString);
+            clients.add(client.getClient_name());
+        }
+
+        for(String element : clients) {
+            formattedList.append("'").append(element).append("', ");
+        }
+
+        if (formattedList.length() > 0) {
+            formattedList.delete(formattedList.length() - 2, formattedList.length());
+        }
 
         activityLogInput.setEmp_id(emp_id); //current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple clients.");
+        activityLogInput.setLog_desc("Deleted multiple clients: " + formattedList.toString() + ".");
 
-        Long currentTimeMillis = System.currentTimeMillis();
         //add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
