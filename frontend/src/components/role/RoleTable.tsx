@@ -542,6 +542,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
+				disableRowSelectionOnClick
 				onRowSelectionModelChange={(newRowSelectionModel) => {
 					setRowSelectionModel(newRowSelectionModel);
 					setSelectedId(new Set(newRowSelectionModel));

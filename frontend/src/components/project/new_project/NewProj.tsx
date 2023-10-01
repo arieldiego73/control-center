@@ -74,7 +74,7 @@ export interface State {
   messageInfo?: SnackbarMessage;
 }
 
-const GLOBAL_TIMEOUT = 3000;
+const GLOBAL_TIMEOUT = 5000;
 const DEFAULT_MANAGER_ID = 100;
 
 export default function NewProj() {
@@ -278,7 +278,7 @@ export default function NewProj() {
             "error"
           )();
           setSelectedStartDate(dayjs());
-          setSelectedEndDate(dayjs().add(1, "day"));
+          setSelectedEndDate(dayjs().add(1, "month"));
         }
       } else {
         setSelectedStartDate(dayjs(e));
@@ -293,7 +293,7 @@ export default function NewProj() {
             "error"
           )();
           setSelectedStartDate(dayjs());
-          setSelectedEndDate(dayjs().add(1, "day"));
+          setSelectedEndDate(dayjs().add(1, "month"));
         }
       } else {
         setSelectedEndDate(dayjs(e));
