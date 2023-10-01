@@ -50,7 +50,7 @@ public class ClientServiceImpl implements ClientService{
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id(emp_id); //current logged user dapat
-            activityLogInput.setLog_desc("Added a Client.");
+            activityLogInput.setLog_desc("Added '" + client.getClient_name() + "' client.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
@@ -81,7 +81,7 @@ public class ClientServiceImpl implements ClientService{
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); //current logged user dapat
-                activityLogInput.setLog_desc("Edited a Client.");
+                activityLogInput.setLog_desc("Edited '" + client.getClient_name() + "' client.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 //add the activity log
@@ -109,7 +109,7 @@ public class ClientServiceImpl implements ClientService{
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); //current logged user dapat
-                activityLogInput.setLog_desc("Deleted a Client.");
+                activityLogInput.setLog_desc("Deleted '" + client.getClient_name() + "' client.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 //add the activity log
@@ -144,7 +144,7 @@ public class ClientServiceImpl implements ClientService{
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id(emp_id); //current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple Clients.");
+        activityLogInput.setLog_desc("Deleted multiple clients.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         //add the activity log
@@ -167,7 +167,7 @@ public class ClientServiceImpl implements ClientService{
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); //current logged user dapat
-                activityLogInput.setLog_desc("Restored a Client.");
+                activityLogInput.setLog_desc("Restored '" + client.getClient_name() + "' client.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 //add the activity log
