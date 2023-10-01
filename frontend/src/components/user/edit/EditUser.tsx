@@ -277,7 +277,7 @@ const VisuallyHiddenInput = styled("input")({
         selectedRoles.length > 0
       ) {
         setAsk(true);
-        setDialogTitle("Save the record?");
+        setDialogTitle("Update the record?");
         setDialogContentText(
           "Upon proceeding, the modifications on the record \nmade will be saved."
         );
@@ -698,7 +698,7 @@ const VisuallyHiddenInput = styled("input")({
                     className={EditUserStyle.saveButton}
                     onClick={handleSave}
                   >
-                    SAVE
+                    Update
                   </Button>
 
                   <Button
@@ -752,7 +752,7 @@ const VisuallyHiddenInput = styled("input")({
                     variant="contained"
                     onClick={isSaving ? proceedWithSaving : proceedWithCancel}
                     autoFocus
-                  >
+                  > 
                     {isSaving ? "Save" : "Cancel"}
                   </Button>
 
