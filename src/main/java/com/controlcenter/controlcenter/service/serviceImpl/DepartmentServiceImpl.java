@@ -152,17 +152,28 @@ public class DepartmentServiceImpl implements DepartmentService {
         // Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
         Long currentTimeMillis = System.currentTimeMillis();
-        
+        List<String> businessUnits = new ArrayList<>();
+        StringBuilder formattedList = new StringBuilder();
+
         for(Long id : ids) {
             String toString = String.valueOf(id);
             DepartmentOutput department = departmentDao.getDepartmentById(toString);
-            activityLogInput.setEmp_id(emp_id); // current logged user dapat
-            activityLogInput.setLog_desc("Deleted the Business Unit '" + department.getDept_name() + "'."); 
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));   
-            // add the activity log
-            activityLogDao.addActivityLog(activityLogInput);
+            businessUnits.add(department.getDept_name());
         }
 
+        for(String element : businessUnits) {
+            formattedList.append("'").append(element).append("', ");
+        }
+
+        if(formattedList.length() > 0) {
+            formattedList.delete(formattedList.length() - 2, formattedList.length());
+        }
+
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+        activityLogInput.setLog_desc("Deleted multiple Business Units: " + formattedList.toString() + "."); 
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));   
+        // add the activity log
+        activityLogDao.addActivityLog(activityLogInput);
         return "Records are successfully deleted.";
     }
 
@@ -187,7 +198,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Business Unit restored successfully.";
+                return "Business Unit '" + data.getDept_name() + "' restored successfully.";
             }
 
         } else {

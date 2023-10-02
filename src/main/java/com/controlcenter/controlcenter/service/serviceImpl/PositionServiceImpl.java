@@ -51,14 +51,14 @@ public class PositionServiceImpl implements PositionService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id(emp_id); // current logged user dapat
-            activityLogInput.setLog_desc("Added a Postion.");
+            activityLogInput.setLog_desc("Added '" + position.getPosition_name() + "' postion.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Position added successfully.";
+            return "Position '" + position.getPosition_name() + "' added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -82,14 +82,14 @@ public class PositionServiceImpl implements PositionService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a Postion.");
+                activityLogInput.setLog_desc("Edited '" + position.getPosition_name() + "' postion.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Position edited successfully.";
+                return "Position '" + position.getPosition_name() + "' edited successfully.";
             }
         } else {
             return "Position with the ID " + id + " cannot be found.";
@@ -98,10 +98,10 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public String logicalDeletePosition(String id, String emp_id) {
-        PositionOutput data = positionDao.getPositionById(id);
+        PositionOutput position = positionDao.getPositionById(id);
 
-        if (data != null) {
-            if (data.getDel_flag() == 1) {
+        if (position != null) {
+            if (position.getDel_flag() == 1) {
                 return "Position with the ID " + id + " has already been deleted.";
             } else {
                 positionDao.logicalDeletePosition(id);
@@ -110,14 +110,14 @@ public class PositionServiceImpl implements PositionService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a Postion.");
+                activityLogInput.setLog_desc("Deleted '" + position.getPosition_name() + "' postion.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Position deleted successfully.";
+                return "Position '" + position.getPosition_name() + "' deleted successfully.";
             }
         } else {
             return "Position with the ID " + id + " cannot be found.";
@@ -143,11 +143,28 @@ public class PositionServiceImpl implements PositionService {
 
         // Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
+        Long currentTimeMillis = System.currentTimeMillis();
+
+        List<String>  positions= new ArrayList<>();
+        StringBuilder formattedList = new StringBuilder();
+
+        for(Long id : ids) {
+            String toString = String.valueOf(id);
+            PositionOutput  position= positionDao.getPositionById(toString);
+            positions.add(position.getPosition_name());
+        }
+
+        for(String element : positions) {
+            formattedList.append("'").append(element).append("', ");
+        }
+
+        if (formattedList.length() > 0) {
+            formattedList.delete(formattedList.length() - 2, formattedList.length());
+        } 
 
         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple Postions.");
+        activityLogInput.setLog_desc("Deleted multiple Postions: " + formattedList.toString() + ".");
 
-        Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
@@ -156,10 +173,10 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public String restorePosition(String id) {
-        PositionOutput data = positionDao.getPositionById(id);
+        PositionOutput position = positionDao.getPositionById(id);
 
-        if (data != null) {
-            if (data.getDel_flag() == 0) {
+        if (position != null) {
+            if (position.getDel_flag() == 0) {
                 return "Position with the ID " + id + " is not yet deleted.";
             } else {
                 positionDao.restorePosition(id);
@@ -168,14 +185,14 @@ public class PositionServiceImpl implements PositionService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a Postion.");
+                activityLogInput.setLog_desc("Restored '" + position.getPosition_name() + "' postion.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Position restored successfully.";
+                return "Position '" + position.getPosition_name() + "' restored successfully.";
             }
         } else {
             return "Position with the ID " + id + " cannot be found.";
