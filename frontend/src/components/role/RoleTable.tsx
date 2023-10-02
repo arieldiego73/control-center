@@ -493,7 +493,6 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 						);
 						setConfirmAction(true);
 						setProceedAction(() => () => {
-							setIsHidden(true);
 							setConfirmAction(false);
 							setRowSelectionModel([]);
 							setSelectedId(new Set([]));

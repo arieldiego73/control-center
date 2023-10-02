@@ -56,6 +56,7 @@ import {
 	GridRowSelectionModel,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
+import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
 
 const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -116,6 +117,22 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 	const [description, setDescription] = React.useState("");
 	const departmentNameRef = React.useRef<HTMLInputElement | null>(null);
 
+	const [confirmAction, setConfirmAction] = React.useState(false);
+	const [actions, setActions] = React.useState<{
+		editing: boolean;
+		selecting: boolean;
+		adding: boolean;
+		editingId: GridRowId;
+	}>({
+		editing: false,
+		selecting: false,
+		adding: false,
+		editingId: 0,
+	});
+	const [proceedAction, setProceedAction] = React.useState<() => void>(
+		() => {}
+	);
+
 	function DatagridToolbar() {
 		return (
 			<DataGridEditToolbar
@@ -138,47 +155,62 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
+		setActions({ ...actions, selecting: false });
 	};
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
 		event
 	) => {
-		if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+		if (
+			params.reason === GridRowEditStopReasons.rowFocusOut ||
+			params.reason === GridRowEditStopReasons.escapeKeyDown
+		) {
 			event.defaultMuiPrevented = true;
 		}
 	};
 
 	const handleEditClick = (id: GridRowId) => () => {
-		setRowModesModel({
-			...rowModesModel,
-			[id]: { mode: GridRowModes.Edit },
+		setRowModesModel(() => {
+			for (const obj in rowModesModel) {
+				if (rowModesModel.hasOwnProperty(obj)) {
+					return {
+						[obj]: {
+							mode: GridRowModes.View,
+							ignoreModifications: true,
+						}, // change mode from EDIT to VIEW
+						[id]: { mode: GridRowModes.Edit }, // add the row that is to be edited
+					};
+				} else {
+					return {
+						[id]: { mode: GridRowModes.Edit },
+					};
+				}
+			}
+
+			return { [id]: { mode: GridRowModes.Edit } }; // return this if the rowModesModel is empty
 		});
+		setConfirmAction(false);
 	};
 
 	const handleSaveClick = (id: GridRowId) => () => {
 		setRowModesModel({
-			...rowModesModel,
+			// ...rowModesModel,
 			[id]: { mode: GridRowModes.View },
 		});
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		setAsk(true);
-		setIsBatch(false);
-		setDialogContentText(
-			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-		);
-		setDialogTitle("Delete this department?");
-		setDeleteId(id as number);
+		verifyAction("delete", id);
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
 		setRowModesModel({
-			...rowModesModel,
+			// ...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
 		setRows(sectionData);
+		setActions({ ...actions, editing: false });
 	};
 
 	const processUpdateRow = (data: GridRowModel) => {
@@ -212,6 +244,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 			setDescription("");
 			if (isAddOnly) {
 				setIsHidden(false);
+				setActions({ ...actions, adding: false });
 			} else {
 				departmentNameRef.current?.focus();
 			}
@@ -241,6 +274,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 			cancel();
 			error();
 		}
+		setActions({ ...actions, editing: false });
 		return newRow;
 	};
 
@@ -261,9 +295,8 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 		{
 			field: "section_sh_name",
 			headerName: "Short Name",
-			width: 300,
 			minWidth: 300,
-			flex: 1,
+			flex: 0.5,
 			editable: true,
 			headerAlign: "center",
 			align: "center",
@@ -271,9 +304,8 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 		{
 			field: "dept_id",
 			headerName: "Business Unit",
-			width: 300,
 			minWidth: 300,
-			flex: 1,
+			flex: 0.5,
 			editable: true,
 			headerAlign: "center",
 			align: "center",
@@ -285,7 +317,6 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 		{
 			field: "section_desc",
 			headerName: "Description",
-			width: 300,
 			minWidth: 300,
 			flex: 1,
 			editable: true,
@@ -327,7 +358,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 						icon={<EditIcon />}
 						label="Edit"
 						className="textPrimary"
-						onClick={handleEditClick(id)}
+						onClick={handleEditButtonClick(id)}
 						color="inherit"
 					/>,
 					<GridActionsCellItem
@@ -340,6 +371,293 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 			},
 		},
 	];
+
+	const handleEditButtonClick = (id: GridRowId) => () => {
+		verifyAction("edit", id);
+	};
+
+	const verifyAction = (
+		action: string,
+		id?: GridRowId,
+		newSelectionModel?: GridRowSelectionModel
+	) => {
+		if (actions.editing || actions.selecting || actions.adding) {
+			switch (action) {
+				case "edit":
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?");
+						setDialogContentText(
+							"Are you sure you want to cancel?"
+						);
+						setConfirmAction(true);
+						setProceedAction(() =>
+							handleEditClick(id as GridRowId)
+						); // to trigger edit in the table
+						setActions({ ...actions, editingId: id as GridRowId }); // store the new id in the object
+					} else if (actions.selecting) {
+						setDialogTitle("Discard the selection?");
+						setDialogContentText(
+							"Upon proceeding, the selection will be discarded \nand you will go on editing record/s."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setConfirmAction(false);
+							setRowSelectionModel([]); // clear selection in the datagrid
+							setSelectedId(new Set([])); // clear set of selectedID to disable the Delete Batch button
+							handleEditClick(id as GridRowId)();
+							setActions({
+								...actions,
+								selecting: false,
+								editing: true,
+								editingId: id as GridRowId,
+							});
+						});
+					} else {
+						if (departmentName || shortName || businessUnit || description) {
+							setDialogTitle("Close the form?");
+							setDialogContentText(
+								"Are you sure you want to discard your inputs?"
+							);
+							setConfirmAction(true);
+							setProceedAction(() => () => {
+								setIsHidden(false);
+								handleEditClick(id as GridRowId)();
+								setDepartmentName("");
+								setShortName("");
+								setBusinessUnit(0);
+								setActions({
+									...actions,
+									adding: false,
+									editing: true,
+									editingId: id as GridRowId,
+								});
+							});
+						} else {
+							setIsHidden(false); // if the fields in the add form are empty, just close it
+							handleEditClick(id as GridRowId)(); // then proceed to edit
+							setActions({ ...actions, adding: false });
+						}
+					}
+					break;
+				case "add":
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?");
+						setDialogContentText(
+							"Are you sure you want to cancel?"
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(true);
+							setConfirmAction(false);
+							setActions({
+								...actions,
+								editing: false,
+								adding: true,
+							});
+							setRowModesModel({
+								[actions.editingId]: {
+									mode: GridRowModes.View,
+									ignoreModifications: true,
+								},
+							});
+						});
+					} else if (actions.selecting) {
+						setDialogTitle("Discard the selection?");
+						setDialogContentText(
+							"Upon proceeding, the selection will be discarded \nand you will go on adding record/s."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(true);
+							setConfirmAction(false);
+							setRowSelectionModel([]);
+							setSelectedId(new Set([]));
+							setActions({
+								...actions,
+								selecting: false,
+								adding: true,
+							});
+						});
+					} // no else because the add button is hidden so there is no way you could press Add button twice
+					break;
+				case "delete":
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?");
+						setDialogContentText(
+							"Are you sure you want to cancel edit and proceed \nwith deleting a record?"
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(true);
+							setConfirmAction(false);
+							setActions({
+								...actions,
+								editing: false,
+							});
+							setRowModesModel({
+								[actions.editingId]: {
+									mode: GridRowModes.View,
+									ignoreModifications: true,
+								},
+							});
+
+							setAsk(true);
+							setIsBatch(false);
+							setDialogContentText(
+								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+							);
+							setDialogTitle("Delete this record?");
+							setDeleteId(id as number);
+						});
+					} else if (actions.selecting) {
+						setDialogTitle("Discard the selection?");
+						setDialogContentText(
+							"Upon proceeding, the selection will be discarded \nand you will go on deleting a record."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setConfirmAction(false);
+							setRowSelectionModel([]);
+							setSelectedId(new Set([]));
+							setActions({
+								...actions,
+								selecting: false,
+							});
+
+							setAsk(true);
+							setIsBatch(false);
+							setDialogContentText(
+								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+							);
+							setDialogTitle("Delete this record?");
+							setDeleteId(id as number);
+						});
+					} else {
+						setDialogTitle("Cancel adding a record?");
+						setDialogContentText(
+							"The add form will be closed and no record will be saved."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(false);
+							setConfirmAction(false);
+							setActions({
+								...actions,
+								adding: false,
+							});
+
+							setAsk(true);
+							setIsBatch(false);
+							setDialogContentText(
+								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+							);
+							setDialogTitle("Delete this record?");
+							setDeleteId(id as number);
+						});
+					}
+					break;
+				default: // case "select"
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?");
+						setDialogContentText(
+							"Are you sure you want to cancel editing \nand proceed with selection?"
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setConfirmAction(false);
+							setRowSelectionModel(
+								newSelectionModel as GridRowSelectionModel
+							);
+							setSelectedId(
+								new Set(
+									newSelectionModel as GridRowSelectionModel
+								)
+							);
+							setRowModesModel({
+								[actions.editingId]: {
+									mode: GridRowModes.View,
+									ignoreModifications: true,
+								},
+							});
+							setActions({
+								...actions,
+								selecting: true,
+								editing: false,
+							});
+						});
+					} else if (actions.adding) {
+						setDialogTitle("Cancel adding a record?");
+						setDialogContentText(
+							"The add form will be closed and no record will be saved."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(false);
+							setConfirmAction(false);
+							setRowSelectionModel(
+								newSelectionModel as GridRowSelectionModel
+							);
+							setSelectedId(
+								new Set(
+									newSelectionModel as GridRowSelectionModel
+								)
+							);
+							setActions({
+								...actions,
+								selecting: true,
+								adding: false,
+							});
+						});
+					} else {
+						setRowSelectionModel(
+							newSelectionModel as GridRowSelectionModel
+						);
+						setSelectedId(
+							new Set(newSelectionModel as GridRowSelectionModel)
+						);
+						newSelectionModel?.length === 0
+							? setActions({ ...actions, selecting: false })
+							: setActions({ ...actions, selecting: true });
+					}
+					break;
+			}
+		} else {
+			switch (action) {
+				case "edit":
+					setActions({
+						...actions,
+						editing: true,
+						editingId: id as GridRowId,
+					});
+					handleEditClick(id as GridRowId)();
+					break;
+				case "add":
+					setActions({ ...actions, adding: true });
+					setIsHidden(true);
+					break;
+				case "delete":
+					setAsk(true);
+					setIsBatch(false);
+					setDialogContentText(
+						"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+					);
+					setDialogTitle("Delete this record?");
+					setDeleteId(id as number);
+					break;
+				default:
+					setRowSelectionModel(
+						newSelectionModel as GridRowSelectionModel
+					);
+					setSelectedId(
+						new Set(newSelectionModel as GridRowSelectionModel)
+					);
+					newSelectionModel?.length === 0
+						? setActions({ ...actions, selecting: false })
+						: setActions({ ...actions, selecting: true });
+					break;
+			}
+		}
+	};
 
 	return (
 		<Box sx={datagridBoxStyle}>
@@ -359,7 +677,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 					<Button
 						variant="contained"
 						color="primary"
-						onClick={() => setIsHidden(true)}
+						onClick={() => verifyAction("add")}
 						startIcon={<AddIcon />}
 					>
 						Add Department
@@ -465,8 +783,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 				checkboxSelection
 				keepNonExistentRowsSelected
 				onRowSelectionModelChange={(newRowSelectionModel) => {
-					setRowSelectionModel(newRowSelectionModel);
-					setSelectedId(new Set(newRowSelectionModel));
+					verifyAction("select", 0, newRowSelectionModel);
 				}}
 				rowSelectionModel={rowSelectionModel}
 				initialState={{
@@ -490,6 +807,13 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 				isBatch={isBatch}
 				proceedWithDelete={proceedWithDelete}
 				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
+			<DataGridActionDialog
+				open={confirmAction}
+				handleClose={setConfirmAction}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				confirmAction={proceedAction}
 			/>
 		</Box>
 	);

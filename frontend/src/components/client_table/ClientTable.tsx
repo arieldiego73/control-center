@@ -104,6 +104,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
+		setActions({ ...actions, selecting: false });
 	};
 
 	React.useEffect(() => {
@@ -468,7 +469,6 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 						);
 						setConfirmAction(true);
 						setProceedAction(() => () => {
-							setIsHidden(true);
 							setConfirmAction(false);
 							setRowSelectionModel([]);
 							setSelectedId(new Set([]));
@@ -729,9 +729,6 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 				initialState={{
 					pagination: {
 						paginationModel: { page: 0, pageSize: 10 },
-					},
-					sorting: {
-						sortModel: [{ field: "reg_id", sort: "desc" }],
 					},
 				}}
 				slots={dataGridSlots}
