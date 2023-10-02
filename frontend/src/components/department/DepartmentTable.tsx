@@ -435,7 +435,7 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 						} else {
 							setIsHidden(false); // if the fields in the add form are empty, just close it
 							handleEditClick(id as GridRowId)(); // then proceed to edit
-							setActions({ ...actions, adding: false });
+							setActions({ ...actions, adding: false, editing: true, editingId: id as GridRowId });
 						}
 					}
 					break;
@@ -779,9 +779,16 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
+				onCellDoubleClick={(params, event) =>
+					(event.defaultMuiPrevented = true)
+				}
+				onRowDoubleClick={(params, event) =>
+					(event.defaultMuiPrevented = true)
+				}
 				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
+				disableRowSelectionOnClick
 				onRowSelectionModelChange={(newRowSelectionModel) => {
 					verifyAction("select", 0, newRowSelectionModel);
 				}}

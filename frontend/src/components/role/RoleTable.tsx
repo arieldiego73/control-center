@@ -412,7 +412,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 						} else {
 							setIsHidden(false); // if the fields in the add form are empty, just close it
 							handleEditClick(id as GridRowId)(); // then proceed to edit
-							setActions({ ...actions, adding: false });
+							setActions({ ...actions, adding: false, editing: true, editingId: id as GridRowId });
 						}
 					}
 					break;
