@@ -50,14 +50,14 @@ public class TechnologyServiceImpl implements TechnologyService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id(emp_id); // current logged user dapat
-            activityLogInput.setLog_desc("Added a Technology.");
+            activityLogInput.setLog_desc("Added '" + technology.getTech_name() + "' technology.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // Add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Technology added successfully.";
+            return "Technology '" + technology.getTech_name() + "' added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -80,14 +80,14 @@ public class TechnologyServiceImpl implements TechnologyService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a Technology.");
+                activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Technology edited successfully.";
+                return "Technology '" + technology.getTech_name() + "' edited successfully.";
             }
         } else {
             return "Technology with the ID " + id + " cannot be found.";
@@ -96,10 +96,10 @@ public class TechnologyServiceImpl implements TechnologyService {
 
     @Override
     public String logicalDeleteTechnology(String id, String emp_id) {
-        TechnologyOutput data = technologyDao.getTechnologyById(id);
+        TechnologyOutput technology = technologyDao.getTechnologyById(id);
 
-        if (data != null) {
-            if (data.getDel_flag() == 1) {
+        if (technology != null) {
+            if (technology.getDel_flag() == 1) {
                 return "Technology with the ID " + id + " has already been deleted.";
             } else {
                 technologyDao.logicalDeleteTechnology(id);
@@ -108,14 +108,14 @@ public class TechnologyServiceImpl implements TechnologyService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a Technology.");
+                activityLogInput.setLog_desc("Deleted '" + technology.getTech_name() + "' technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Technology deleted successfully.";
+                return "Technology '" + technology.getTech_name() + "' deleted successfully.";
             }
         } else {
             return "Technology with the ID " + id + " cannot be found.";
@@ -141,11 +141,28 @@ public class TechnologyServiceImpl implements TechnologyService {
 
         // Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
+        Long currentTimeMillis = System.currentTimeMillis();
+
+        List<String> technologies = new ArrayList<>();
+        StringBuilder formattedList = new StringBuilder();
+
+        for(Long id : ids) {
+            String toString = String.valueOf(id);
+            TechnologyOutput technology = technologyDao.getTechnologyById(toString);
+            technologies.add(technology.getTech_name());
+        }
+
+        for(String element : technologies) {
+            formattedList.append("'").append(element).append("', ");
+        }
+
+        if (formattedList.length() > 0) {
+            formattedList.delete(formattedList.length() - 2, formattedList.length());
+        } 
 
         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple Technologies.");
+        activityLogInput.setLog_desc("Deleted multiple Technologies: " + formattedList.toString() + ".");
 
-        Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
@@ -155,10 +172,10 @@ public class TechnologyServiceImpl implements TechnologyService {
 
     @Override
     public String restoreTechnology(String id) {
-        TechnologyOutput data = technologyDao.getTechnologyById(id);
+        TechnologyOutput technology = technologyDao.getTechnologyById(id);
 
-        if (data != null) {
-            if (data.getDel_flag() == 0) {
+        if (technology != null) {
+            if (technology.getDel_flag() == 0) {
                 return "Technology with the ID " + id + " is not yet deleted.";
             } else {
                 technologyDao.restoreTechnology(id);
@@ -167,14 +184,14 @@ public class TechnologyServiceImpl implements TechnologyService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a Technology.");
+                activityLogInput.setLog_desc("Restored '" + technology.getTech_name() + "' technology.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Technology restored successfully.";
+                return "Technology '" + technology.getTech_name() + "' restored successfully.";
             }
         } else {
             return "Technology with the ID " + id + " cannot be found.";
