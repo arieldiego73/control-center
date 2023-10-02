@@ -21,6 +21,7 @@ import { projectSaga, projectSagaAdd, projectSagaFetchProjectInfo, projectSagaFe
 import { clientSaga, clientSagaAdd, clientSagaDelete, clientSagaDeleteBatch, clientSagaUpdate } from "./clientSaga";
 import { historySaga } from "./historySaga";
 import { graphsDataSaga } from "./graphSaga";
+import { watchNavigationEvents } from "./formSaga";
 
 export default function* rootSaga() {
 	yield all([
@@ -100,6 +101,8 @@ export default function* rootSaga() {
 
 		historySaga(),
 
-		graphsDataSaga()
+		graphsDataSaga(),
+
+		watchNavigationEvents()
 	]);
 }
