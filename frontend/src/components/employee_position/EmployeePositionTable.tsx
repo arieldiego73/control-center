@@ -54,7 +54,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
 	const loadingState = useSelector(
-		(state: RootState) => state.deptReducer.isLoading
+		(state: RootState) => state.positionReducer.isLoading
 	);
 	const [isLoading, setIsLoading] = React.useState(loadingState);
 	React.useEffect(() => {
