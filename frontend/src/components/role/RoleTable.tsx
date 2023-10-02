@@ -362,9 +362,9 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 			switch (action) {
 				case "edit":
 					if (actions.editing) {
-						setDialogTitle("Cancel edit?");
+						setDialogTitle("Cancel edit and move?");
 						setDialogContentText(
-							"Are you sure you want to cancel?"
+							"Are you sure you want to cancel editing this row \nand move to another row?"
 						);
 						setConfirmAction(true);
 						setProceedAction(() =>

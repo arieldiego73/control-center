@@ -111,7 +111,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 		setRows(data);
 	}, [data]);
 
-	const [devPhase, setDevPhase] = React.useState("");
+	const [devPhaseName, setDevPhaseName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
 	const devPhaseRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -215,13 +215,13 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const addRecord = (isAddOnly: boolean) => {
-		if (devPhase && shortName) {
+		if (devPhaseName && shortName) {
 			const devPhaseData: GridValidRowModel = {
-				dev_phase_name: devPhase,
+				dev_phase_name: devPhaseName,
 				dev_phase_sh_name: shortName,
 			};
 			processAddRow(devPhaseData);
-			setDevPhase("");
+			setDevPhaseName("");
 			setShortName("");
 			if (isAddOnly) {
 				setIsHidden(false);
@@ -339,9 +339,9 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 			switch (action) {
 				case "edit":
 					if (actions.editing) {
-						setDialogTitle("Cancel edit?");
+						setDialogTitle("Cancel edit and move?");
 						setDialogContentText(
-							"Are you sure you want to cancel?"
+							"Are you sure you want to cancel editing this row \nand move to another row?"
 						);
 						setConfirmAction(true);
 						setProceedAction(() =>
@@ -367,7 +367,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 							});
 						});
 					} else {
-						if (devPhase || shortName) {
+						if (devPhaseName || shortName) {
 							setDialogTitle("Close the form?");
 							setDialogContentText(
 								"Are you sure you want to discard your inputs?"
@@ -376,7 +376,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 							setProceedAction(() => () => {
 								setIsHidden(false);
 								handleEditClick(id as GridRowId)();
-								setDevPhase("");
+								setDevPhaseName("");
 								setShortName("");
 								setActions({
 									...actions,
@@ -641,13 +641,13 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 							<div style={addFormStyles}>
 								<DataGridAddTextField
 									inputLabel="Name"
-									inputValue={devPhase}
+									inputValue={devPhaseName}
 									inputValueSetter={(
 										e: React.ChangeEvent<
 											| HTMLInputElement
 											| HTMLTextAreaElement
 										>
-									) => setDevPhase(e.target.value)}
+									) => setDevPhaseName(e.target.value)}
 									inputRef={devPhaseRef}
 									textFieldIcon={<PersonIcon />}
 									autoFocus={true}
@@ -669,7 +669,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 								handleAdd={handleAdd}
 								handleAddContinue={handleAddContinue}
 								handleClosing={() => {
-									if (devPhase || shortName) {
+									if (devPhaseName || shortName) {
 										setDialogTitle("Close the form?");
 										setDialogContentText(
 											"Are you sure you want to discard your inputs?"
@@ -677,7 +677,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 										setConfirmAction(true);
 										setProceedAction(() => () => {
 											setIsHidden(false);
-											setDevPhase("");
+											setDevPhaseName("");
 											setShortName("");
 											setActions({
 												...actions,
@@ -687,7 +687,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 										});
 									} else {
 										setIsHidden(false);
-										setDevPhase("");
+										setDevPhaseName("");
 										setShortName("");
 										setActions({
 											...actions,
