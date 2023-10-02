@@ -25,6 +25,8 @@ import {
   Alert,
   DialogContentText,
   IconButton,
+  FormHelperText,
+  InputLabel,
 } from "@mui/material";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
@@ -46,7 +48,7 @@ import AddProjectManagerTable from "../AddProjManagerTable";
 import ReactQuillEditor from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import HelpIcon from "@mui/icons-material/Help";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientFetch } from "../../../redux/state/clientState";
 import { RootState } from "../../../redux/store/store";
@@ -81,7 +83,6 @@ export default function NewProj() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // FOR SNACKPACK ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
   const notice = useSelector((state: RootState) => state.projectReducer.notice);
   const isInitialAmount = React.useRef(true);
   React.useEffect(() => {
@@ -105,12 +106,10 @@ export default function NewProj() {
 
   React.useEffect(() => {
     if (snackPack.length && !messageInfo) {
-      // Set a new snack when we don't have an active one
       setMessageInfo({ ...snackPack[0] });
       setSnackPack((prev) => prev.slice(1));
       setOpen(true);
     } else if (snackPack.length && messageInfo && open) {
-      // Close an active snack when a new one is added
       setOpen(false);
     }
   }, [snackPack, messageInfo, open]);
@@ -128,25 +127,31 @@ export default function NewProj() {
   const handleExited = () => {
     setMessageInfo(undefined);
   };
-  // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-  // FOR DIALOG ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
   const [isSaving, setIsSaving] = React.useState(false);
 
-  // const handleCancelDialog = () => {
-  // 	setAsk(true);
-  // 	setDialogTitle("Cancel the edit?");
-  // 	setDialogContentText(
-  // 		"Modifications made with the record will be \nlost forever."
-  // 	);
-  // 	setIsSaving(false);
-  // };
-
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const handleSaveDialog = () => {
+    setFormSubmitted(true);
     if (
+      !clientName ||
+      !projectName ||
+      !projectDescription ||
+      !selectedStartDate ||
+      !selectedEndDate ||
+      !selectedClientId ||
+      !status ||
+      !projectMembers ||
+      !projectDevPhase ||
+      projectTechnologies.length === 0
+    ) {
+      handleClickSnackpack(
+        "Associate ID is required. Please, try again.",
+        "error"
+      )();
+    } else if (
       clientName &&
       projectName &&
       projectDescription &&
@@ -171,32 +176,22 @@ export default function NewProj() {
       )();
     }
   };
-  // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-  // PROJECT MANAGER VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-  const [projectManager, setProjectManager] = useState<GridRowSelectionModel>(); // Will hold the current project managers of the current project
+  const [projectManager, setProjectManager] = useState<GridRowSelectionModel>();
   const [selectedProjectManagers, setSelectedProjectManagers] = useState<
     string[]
-  >([]); // Variable that holds the selected project managers
+  >([]);
   const [temporaryManagers, setTemporaryManagers] =
     useState<GridRowSelectionModel>(); // for temporary selected managers
-  // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-  // PROJECT MEMBERS VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::
   const [projectMembers, setProjectMembers] = useState<GridRowSelectionModel>();
   const [selectedProjectMembers, setSelectedProjectMembers] = useState<
     string[]
-  >([]); // Variable that holds the selected project members
+  >([]);
   const [temporaryMembers, setTemporaryMembers] =
-    useState<GridRowSelectionModel>(); // for temporary selected members
-  // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-  // PROJECT CLIENT VARIABLES :::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    useState<GridRowSelectionModel>();
   const [projectClient, setProjectClient] = useState<GridRowParams>();
   const [clientName, setClientName] = useState("");
   const [selectedClientId, setSelectedClientId] = useState<number[]>([]);
-  // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
   const [projectDescription, setProjectDescription] = useState("");
   const [projectDevPhase, setProjectDevPhase] = useState<number[]>([]);
   const [projectTechnologies, setProjectTechnologies] = useState<number[]>([]);
@@ -212,7 +207,7 @@ export default function NewProj() {
   React.useEffect(() => {
     dispatch(getClientFetch());
     dispatch(getDevPhaseFetch());
-    dispatch(getUsersFetch()); // to fetch all users for project manager selections
+    dispatch(getUsersFetch());
     dispatch(getTechnologyFetch());
     dispatch(getProjectStatusFetch());
     dispatch(getDevTypeFetch());
@@ -255,7 +250,6 @@ export default function NewProj() {
         .sort();
     });
   }, [projectManager, usersData]);
-  // this will trigger re-render of the chips of project members when the dependencies has changed
 
   React.useEffect(() => {
     setSelectedProjectMembers(() => {
@@ -265,7 +259,6 @@ export default function NewProj() {
         .sort();
     });
   }, [projectMembers, usersData]);
-  // this will trigger re-render of the chips of project members when dependencies has changed
 
   const handleProjectDurationChange = (e: Dayjs | null, type: string) => {
     if (type === "start") {
@@ -333,8 +326,6 @@ export default function NewProj() {
       }
     });
 
-
-
     return (
       <Box
         sx={{
@@ -355,7 +346,7 @@ export default function NewProj() {
   };
 
   const buttonStyle: React.CSSProperties = {
-    transition: "all 0.3s"
+    transition: "all 0.3s",
   };
   const proceedToSaveProject = () => {
     let code = "";
@@ -391,7 +382,6 @@ export default function NewProj() {
     navigate("/projects");
   };
 
-  // FOR REDIRECT AFTER SAVING
   const isAddSuccess = useSelector(
     (state: RootState) => state.projectReducer.isAddSuccess
   );
@@ -409,43 +399,14 @@ export default function NewProj() {
         <div className={NewProjectStyle.mainHolder}>
           <div className={NewProjectStyle.contentHolder}>
             <div className={NewProjectStyle.contentHolderLeft}>
-
-              {/* <div className={NewProjectStyle.clientCard}>
-                <FormControl style={{ flexDirection: "row", display: "flex", alignItems: "flex-end", }}>
-                  <div style={{ display: "flex", width: "100%" }}>
-                    <List sx={{}}>
-                      <ListItem>
-                        <ListItemText secondary="Client name">
-                          <Typography
-                            variant="h4"
-                            style={{
-                              fontWeight: 900,
-                            }}
-                          >
-                            {clientName === ""
-                              ? "Select a client"
-                              : clientName}
-                          </Typography>
-                        </ListItemText>
-                      </ListItem>
-                    </List>
-                    <List sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Button
-                        className={NewProjectStyle.editClientButton}
-                        sx={{ height: "45px", width: "40px", backgroundColor: "transparent", borderRadius: "100%" }}
-                        onClick={() => setOpenClientName(true)}
-                      >
-                        <svg className={NewProjectStyle.editClientButtonSvg} viewBox="0 0 512 512">
-                          <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
-                        </svg>
-  
-                      </Button>
-                    </List>
-                  </div>
-                </FormControl>
-              </div> */}
               <div className={NewProjectStyle.clientCard}>
-                <FormControl style={{ flexDirection: "row", display: "flex", alignItems: "flex-end" }}>
+                <FormControl
+                  style={{
+                    flexDirection: "row",
+                    display: "flex",
+                    alignItems: "flex-end",
+                  }}
+                >
                   <div style={{ display: "flex", width: "100%" }}>
                     <List sx={{}}>
                       <ListItem>
@@ -462,25 +423,40 @@ export default function NewProj() {
                         </ListItemText>
                       </ListItem>
                     </List>
-                    <List sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", width: "50%", }}>
+                    <List
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "flex-start",
+                        width: "50%",
+                      }}
+                    >
                       <Button
-                        className={`${NewProjectStyle.editClientButton} ${clientName === "" ? NewProjectStyle.chooseClient : NewProjectStyle.changeClient}`}
-                        style={buttonStyle} 
+                        className={`${NewProjectStyle.editClientButton} ${
+                          clientName === ""
+                            ? NewProjectStyle.chooseClient
+                            : NewProjectStyle.changeClient
+                        }`}
+                        style={buttonStyle}
                         sx={{
                           width: "64px",
                           height: "64px",
                           borderRadius: "100%",
-                          display: 'flex',
-                          justifyContent: 'center',
-                          padding: 0, margin: 0,
-                          backgroundColor:"rgb(240, 240, 240)",
-                          whiteSpace:"nowrap",
+                          display: "flex",
+                          justifyContent: "center",
+                          padding: 0,
+                          margin: 0,
+                          backgroundColor: "rgb(240, 240, 240)",
+                          whiteSpace: "nowrap",
                         }}
                         onClick={() => setOpenClientName(true)}
                       >
-                        <svg className={NewProjectStyle.editClientButtonSvg} style={{ padding: 0, margin: 0 }} viewBox="0 0 512 512">
-                          <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c-1.4-4.9-3.8-9.4-6.9-13.3l-22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c-6.2-6.2-16.4-6.2-22.6 0s-6.2-16.4 0-22.6z">
-                          </path>
+                        <svg
+                          className={NewProjectStyle.editClientButtonSvg}
+                          style={{ padding: 0, margin: 0 }}
+                          viewBox="0 0 512 512"
+                        >
+                          <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c-1.4-4.9-3.8-9.4-6.9-13.3l-22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c-6.2-6.2-16.4-6.2-22.6 0s-6.2-16.4 0-22.6z"></path>
                         </svg>
                       </Button>
                     </List>
@@ -488,24 +464,19 @@ export default function NewProj() {
                 </FormControl>
               </div>
 
-
               <div>
                 <FormControl>
-                  <FormLabel
-                    sx={{
-                      color: "black",
-                      fontWeight: "400",
-                    }}
-                  >
-                    Project Name
-                  </FormLabel>
-
                   <TextField
                     style={{
                       backgroundColor: "transparent",
                       width: "570px",
                       minWidth: "200px",
                     }}
+                    label="Project Name"
+                    error={formSubmitted && projectName === ""}
+                    helperText={
+                      formSubmitted && projectName === "" ? "Missing field" : ""
+                    }
                     variant="outlined"
                     size="small"
                     placeholder="Project Name"
@@ -525,7 +496,11 @@ export default function NewProj() {
               <div className={NewProjectStyle.formRow8}>
                 <div className="projStatus">
                   <div className="projStatusContent">
-                    <FormControl variant="outlined" size="small">
+                    <FormControl
+                      variant="outlined"
+                      size="small"
+                      error={formSubmitted && status === 0}
+                    >
                       <FormLabel
                         sx={{
                           color: "black",
@@ -536,9 +511,7 @@ export default function NewProj() {
                       </FormLabel>
                       <Select
                         value={status}
-                        onChange={(e) =>
-                          setStatus(e.target.value as number)
-                        }
+                        onChange={(e) => setStatus(e.target.value as number)}
                         startAdornment={
                           <InputAdornment position="start">
                             <GroupsOutlinedIcon />
@@ -558,70 +531,73 @@ export default function NewProj() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {formSubmitted && status === 0 && (
+                        <FormHelperText>Select a status</FormHelperText>
+                      )}
                     </FormControl>
                   </div>
                 </div>
               </div>
 
               <div className={NewProjectStyle.formRow3}>
-                <FormControl>
-                  <FormLabel
-                    sx={{
-                      color: "black",
-                      fontWeight: "400",
-                    }}
-                  >
-                    Start Date
-                  </FormLabel>
+                <FormControl
+                  error={
+                    formSubmitted &&
+                    !selectedStartDate?.isBefore(selectedEndDate)
+                  }
+                >
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
+                      label="Start Date"
                       value={selectedStartDate}
                       reduceAnimations
-                      onChange={(e) =>
-                        handleProjectDurationChange(e, "start")
-                      }
+                      onChange={(e) => handleProjectDurationChange(e, "start")}
                     />
                   </LocalizationProvider>
+                  {formSubmitted && selectedStartDate === null && (
+                    <FormHelperText>
+                      The start date cannot be later than the end
+                    </FormHelperText>
+                  )}
                 </FormControl>
 
-                <FormControl>
-                  <FormLabel
-                    sx={{
-                      color: "black",
-                      fontWeight: "400",
-                    }}
-                  >
-                    End Date
-                  </FormLabel>
+                <FormControl
+                  error={
+                    formSubmitted &&
+                    !selectedEndDate?.isAfter(selectedStartDate)
+                  }
+                >
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
+                      label="End Date"
                       value={selectedEndDate}
                       reduceAnimations
-                      onChange={(e) =>
-                        handleProjectDurationChange(e, "end")
-                      }
+                      onChange={(e) => handleProjectDurationChange(e, "end")}
                     />
                   </LocalizationProvider>
+                  {formSubmitted && selectedEndDate === null && (
+                    <FormHelperText>
+                      The end date cannot be earlier than the start
+                    </FormHelperText>
+                  )}
                 </FormControl>
               </div>
 
               <div className={NewProjectStyle.formRow8}>
                 <div className="projDevType">
                   <div className="projDevTypeContent">
-                    <FormControl variant="outlined" size="small">
-                      <FormLabel
-                        sx={{
-                          color: "black",
-                          fontWeight: "400",
-                        }}
-                      >
+                    <FormControl
+                      variant="outlined"
+                      size="small"
+                      error={formSubmitted && devType === 1}
+                    >
+                      <InputLabel id="demo-controlled-open-select-label">
                         {"Development Type (optional)"}
-                      </FormLabel>
+                      </InputLabel>
                       <Select
+                        label="Development Type (optional)"
                         value={devType}
-                        onChange={(e) =>
-                          setDevType(e.target.value as number)
-                        }
+                        onChange={(e) => setDevType(e.target.value as number)}
                         startAdornment={
                           <InputAdornment position="start">
                             <GroupsOutlinedIcon />
@@ -632,7 +608,6 @@ export default function NewProj() {
                           maxWidth: 560,
                         }}
                       >
-
                         {devTypes.map((devType: any) => (
                           <MenuItem
                             key={devType?.dev_type_id}
@@ -642,56 +617,65 @@ export default function NewProj() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {formSubmitted && devType === 1 && (
+                        <FormHelperText>Select a status</FormHelperText>
+                      )}
                     </FormControl>
                   </div>
                 </div>
               </div>
 
-              <div className={NewProjectStyle.formRow6}>
-                <FormLabel
-                  style={{
-                    paddingTop: ".5%",
-                    color: "black",
-                    fontWeight: "400",
-                  }}
-                >
+              <div>
+                <InputLabel id="demo-controlled-open-select-label">
                   Development Phase
-                </FormLabel>
-                <FormGroup
+                </InputLabel>
+                <FormControl
                   style={{
-                    flexDirection: "row",
+                    flexDirection: "column",
                     display: "flex",
                   }}
+                  error={formSubmitted && projectDevPhase.length === 0}
                 >
-                  {devPhaseData.map((phase: any) => (
-                    <FormControlLabel
-                      key={phase.dev_phase_id}
-                      control={
-                        <Checkbox
-                          name={String(phase.dev_phase_id)}
-                          checked={projectDevPhase.includes(
-                            phase.dev_phase_id
-                          )}
-                          onChange={handleSelectDevPhaseChange}
-                        />
-                      }
-                      label={phase.dev_phase_sh_name}
-                    />
-                  ))}
-                </FormGroup>
+                  <FormGroup
+                    style={{
+                      flexDirection: "row",
+                      display: "flex",
+                    }}
+                  >
+                    {devPhaseData.map((phase: any) => (
+                      <FormControlLabel
+                        key={phase.dev_phase_id}
+                        control={
+                          <Checkbox
+                            name={String(phase.dev_phase_id)}
+                            checked={projectDevPhase.includes(
+                              phase.dev_phase_id
+                            )}
+                            onChange={handleSelectDevPhaseChange}
+                          />
+                        }
+                        label={phase.dev_phase_sh_name}
+                      />
+                    ))}
+                  </FormGroup>
+                  {formSubmitted && projectDevPhase.length === 0 && (
+                    <FormHelperText>Select a status</FormHelperText>
+                  )}
+                </FormControl>
               </div>
-
             </div>
 
             <div className={NewProjectStyle.contentHolderRight}>
               <div className={NewProjectStyle.contentHolderRightTop}>
-
                 <div className={NewProjectStyle.formRow5}>
                   <FormControl
                     style={{
                       flexDirection: "column",
                       display: "flex",
                     }}
+                    error={
+                      formSubmitted && selectedProjectManagers.length === 0
+                    }
                   >
                     <FormLabel
                       sx={{
@@ -699,7 +683,7 @@ export default function NewProj() {
                         fontWeight: "400",
                       }}
                     >
-                      Project Manager (optional)
+                      Project Manager
                     </FormLabel>
                     <Paper elevation={2} sx={{ padding: 2 }}>
                       <Stack
@@ -729,6 +713,9 @@ export default function NewProj() {
                         />
                       </Stack>
                     </Paper>
+                    {formSubmitted && selectedProjectManagers.length === 0 && (
+                      <FormHelperText>Select Project Manager</FormHelperText>
+                    )}
                   </FormControl>
                 </div>
 
@@ -752,7 +739,7 @@ export default function NewProj() {
                           fontWeight: "400",
                         }}
                       >
-                        Members
+                        Members (Optional)
                       </FormLabel>
                       <Paper elevation={2} sx={{ padding: 2 }}>
                         <Stack
@@ -793,6 +780,7 @@ export default function NewProj() {
                       display: "flex",
                       gap: "20px",
                     }}
+                    error={formSubmitted && projectTechnologies.length === 0}
                   >
                     <div
                       style={{
@@ -834,23 +822,40 @@ export default function NewProj() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {formSubmitted && projectTechnologies.length === 0 && (
+                      <FormHelperText>Select a status</FormHelperText>
+                    )}
                     </div>
+                  
                   </FormControl>
                 </div>
 
                 <div className={NewProjectStyle.col2}>
-                  <span>Project Description</span>
-                  <ReactQuillEditor
+                  <FormControl
                     className={NewProjectStyle.qlContainer}
-                    theme="snow"
-                    value={projectDescription}
-                    onChange={(e) => setProjectDescription(e)}
-                    modules={modules}
-                    placeholder="Project description..."
-                  />
+                    error={formSubmitted && projectDescription === ""}
+                  >
+                    <FormLabel
+                      sx={{
+                        color: "black",
+                        fontWeight: "400",
+                      }}
+                    >
+                      Project Description
+                    </FormLabel>
+                    <ReactQuillEditor
+                      theme="snow"
+                      value={projectDescription}
+                      onChange={(e) => setProjectDescription(e)}
+                      modules={modules}
+                      placeholder="Project description..."
+                    />
+                    {formSubmitted && projectDescription === "" && (
+                      <FormHelperText>Select a status</FormHelperText>
+                    )}
+                  </FormControl>
                 </div>
               </div>
-
             </div>
 
             <ProjectTableDialog
@@ -912,7 +917,6 @@ export default function NewProj() {
                 setOpenMembers(false);
               }}
             />
-
           </div>
           {/* SAVING BUTTONS */}
           <div
@@ -943,7 +947,6 @@ export default function NewProj() {
           
         </div>
       </div>
-
 
       <Dialog
         open={ask}
@@ -1018,65 +1021,6 @@ export default function NewProj() {
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { useState } from "react";
 // import NewProjectStyle from "./NewProject.module.css";
