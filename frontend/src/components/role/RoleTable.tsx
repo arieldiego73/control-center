@@ -216,6 +216,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 			setRoleTitle("");
 			setShortName("");
 			setUserLevel("");
+			setActions({ ...actions, adding: false })
 		} else {
 			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
@@ -371,10 +372,19 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 						setDialogTitle("Cancel edit?")
 						setDialogContentText("Are you sure you want to cancel?")
 						setConfirmAction(true)
-						setProceedAction(() => handleEditClick(id as GridRowId))
-						setActions({ ...actions, editingId: id as GridRowId })	
+						setProceedAction(() => handleEditClick(id as GridRowId)) // to trigger edit in the table
+						setActions({ ...actions, editingId: id as GridRowId }) // store the new id in the object
 					} else if (actions.selecting) {
-						//
+						setDialogTitle("Discard the selection?")
+						setDialogContentText("Upon proceeding, the selection will be discarded \nand you will go on editing record/s.")
+						setConfirmAction(true)
+						setProceedAction(() => () => {
+							setConfirmAction(false)
+							setRowSelectionModel([]) // clear selection in the datagrid
+							setSelectedId(new Set([])) // clear set of selectedID to disable the Delete Batch button
+							handleEditClick(id as GridRowId)()
+							setActions({ ...actions, selecting: false, editing: true, editingId: id as GridRowId })
+						})
 					} else {
 						if (roleTitle || shortName || userLevel) {
 							setDialogTitle("Close the form?")
@@ -407,12 +417,48 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 							setRowModesModel({ [actions.editingId]: { mode: GridRowModes.View, ignoreModifications: true } })
 						})
 					} else if (actions.selecting) {
-						//
-					} else {
-
-					}
+						setDialogTitle("Discard the selection?")
+						setDialogContentText("Upon proceeding, the selection will be discarded \nand you will go on adding record/s.")
+						setConfirmAction(true)
+						setProceedAction(() => () => {
+							setIsHidden(true)
+							setConfirmAction(false)
+							setRowSelectionModel([])
+							setSelectedId(new Set([]))
+							setActions({ ...actions, selecting: false, adding: true })
+						})
+					} // no else because the add button is hidden so there is no way you could press Add button twice
 					break;
 				default:
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?")
+						setDialogContentText("Are you sure you want to cancel editing \nand proceed with selection?")
+						setConfirmAction(true)
+						setProceedAction(() => () => {
+							setConfirmAction(false)
+							setRowSelectionModel(newSelectionModel as GridRowSelectionModel);
+							setSelectedId(new Set(newSelectionModel as GridRowSelectionModel));
+							setRowModesModel({ [actions.editingId]: { mode: GridRowModes.View, ignoreModifications: true } })
+							setActions({ ...actions, selecting: true, editing: false })
+						})
+					} else if (actions.adding) {
+						setDialogTitle("Discard the selection?")
+						setDialogContentText("Upon proceeding, the selection will be discarded \nand you will go on adding record/s.")
+						setConfirmAction(true)
+						setProceedAction(() => () => {
+							setIsHidden(false)
+							setConfirmAction(false)
+							setRowSelectionModel(newSelectionModel as GridRowSelectionModel);
+							setSelectedId(new Set(newSelectionModel as GridRowSelectionModel));
+							setActions({ ...actions, selecting: true, adding: false })
+						})
+					} else {
+						setRowSelectionModel(newSelectionModel as GridRowSelectionModel);
+						setSelectedId(new Set(newSelectionModel as GridRowSelectionModel));
+						newSelectionModel?.length === 0 ?
+							setActions({ ...actions, selecting: false }) :
+							setActions({ ...actions, selecting: true })
+					}
 					break;
 			}
 		} else {
@@ -426,6 +472,11 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 					setIsHidden(true)
 					break;
 				default:
+					setRowSelectionModel(newSelectionModel as GridRowSelectionModel);
+					setSelectedId(new Set(newSelectionModel as GridRowSelectionModel));
+					newSelectionModel?.length === 0 ?
+						setActions({ ...actions, selecting: false }) :
+						setActions({ ...actions, selecting: true })
 					break;
 			}
 		}
@@ -544,8 +595,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 				keepNonExistentRowsSelected
 				disableRowSelectionOnClick
 				onRowSelectionModelChange={(newRowSelectionModel) => {
-					setRowSelectionModel(newRowSelectionModel);
-					setSelectedId(new Set(newRowSelectionModel));
+					verifyAction("select", 0, newRowSelectionModel)
 				}}
 				rowSelectionModel={rowSelectionModel}
 				initialState={{

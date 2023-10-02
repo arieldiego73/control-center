@@ -1,4 +1,3 @@
-
 .outermost{
   position: fixed;
   width: 83.65%;
@@ -11,9 +10,6 @@
   align-items: center;
   padding-bottom: 10px;
 }
- 
-
-/* Userpage Attributes */
 .mainContainer {
 	display: flex;
 	flex-direction: column; 
@@ -52,66 +48,28 @@
   align-items: center;
   flex-direction: column;
   justify-content: center; 
-
  }
 
-
-/* Attributes of Search Bar */
-.searchBarContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 10px 0;
-}
-.searchBarCol {
-  display: flex;
-  gap: 15px;
-  align-items: flex-end;
-  justify-content: center;
-  width: 100%;
-}
-.searchBarColLeft, .searchBarColRight{
-  display: flex;
-  width: 100%;
-  gap: 15px;
-}
-
-/* Attributes of Search Bar */
-.button{
-  text-transform: none;
-}
-
-/* Attributes of Table Container */
-.tableContainer {
-  background-color: transparent;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  height: 100%;
-  width: 100%;
-
-}
-
-
-/* Attributes of UserTable */
-.userTableContainer{ 
-  height: 100%;
-}
-
+/* Attributes of Project Table */
 .tableMainContainer{
   flex-direction: column;
   justify-content: center;
   align-items: space-around;
   height: 100%;
-  width:100%;
+  width:'100%';
 }
 .paperTable{
   width: 100%;
-  height: 81%;
-
+  height: 87%;
+  background-color: transparent;
+  /* border: 1px solid blue; */
 }
-
+.tableContainer{
+  width: 100%;
+  height: 100%;
+}
 .tableHead {
+  background-color: transparent;
   z-index: 1; 
   border-radius:10px;
 }
@@ -121,51 +79,112 @@
   color: blue;
 }
 
-/* Attributes of Add Role Table */
-.addroleTableContainer{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.pageTitle{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: .5%;
+  height: 100%;
+}
+
+.midContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-}
-.addroleTableHolder {
-  width: 100%;
+
 }
 
-@media screen and (max-width: 1200px) {
-  .outermost {
-    width: 97.4%;
-    left: 1.3%;
-  }
-}
-
-@media screen and (max-width: 750px) {
-  .outermost {
-    top: 70px;
-  }
-}
-@media screen and (max-height: 650px) {
-  .outermost {
-    top: 70px;
-  }
-}
-
-
-@media screen and (max-width: 999px) {
-
-.searchBarColLeft, .searchBarColRight{
+.contentContainer {
+  width: 97%;
+  height: 80%;
+  display: flex;
   flex-direction: column;
-}
-.searchBarColButton{
-  align-self: center;
-}
-.userTableContainer{ 
-  height: 90%;
-}
+  gap: 1vh;
 }
 
-@media screen and (max-width: 600px) {
-  .searchBarCol{
-    flex-direction: column;
-  }
-  .userTableContainer{ 
-    height: 60%;
-  }
+.searchBarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 10px 0;
+}
+
+
+.searchBarCol {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5vw;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  /* height: 100%;
+  width: 100%; */
+     /* border: 1px solid green;  */
+} 
+
+.tableContainer {
+  background-color: transparent;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  height: 100%;
+  width: 100%;
+}
+
+.searchBarHolder1 span, .searchBarHolder2 span{
+    font-weight: bold;
+}
+
+.projStatus{
+  /* border: 1px solid red; */
+  width: 100%;
+}
+
+
+.projFormControl {
+  width: 100% !important; /* Override any conflicting styles */
+  /* border: 1 px solid black; */
+
+}
+
+/* Style for the Select component root */
+.projSelectRoot {
+  width: 100% !important; /* Override any conflicting styles */
+}
+
+/* Style for the Select component's outlined style */
+.projSelectOutlined {
+  width: 100% !important; /* Override any conflicting styles */
+}
+
+/* for breadcrumbs */
+.custom-link {
+  text-decoration: underline;
+}
+
+.custom-link:hover {
+  text-decoration: none; /* Remove underline on hover */
+}
+
+/* Attributes of Search Bar */
+.button{
+  text-transform: none;
 }
