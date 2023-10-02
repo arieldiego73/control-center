@@ -465,7 +465,7 @@ export default function NewProj() {
                     <List sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", width: "50%", }}>
                       <Button
                         className={`${NewProjectStyle.editClientButton} ${clientName === "" ? NewProjectStyle.chooseClient : NewProjectStyle.changeClient}`}
-                        style={buttonStyle} variant="contained"
+                        style={buttonStyle} 
                         sx={{
                           // height: "40px", 
                           // backgroundColor: "transparent", 
