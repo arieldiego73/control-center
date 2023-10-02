@@ -8,10 +8,9 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
-import PersonFourIcon from "@mui/icons-material/Person4";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { getRolesFetch } from "../../redux/state/roleState";
+import { getClientFetch } from "../../redux/state/clientState";
 import { Divider, LinearProgress } from "@mui/material";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
@@ -29,11 +28,11 @@ import {
 } from "../datagrid_customs/DataGridAddFormStyles";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 import {
-	addRoles,
-	deleteRoles,
-	deleteRolesBatch,
-	updateRoles,
-} from "../../redux/saga/roleSaga";
+	addClient,
+	deleteClient,
+	deleteClientBatch,
+	updateClient,
+} from "../../redux/saga/clientSaga";
 import {
 	GridRowsProp,
 	GridRowModesModel,
@@ -50,11 +49,11 @@ import {
 } from "@mui/x-data-grid";
 import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
 
-const RoleTable: React.FC<DataGridProps> = (props) => {
+const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
 	const loadingState = useSelector(
-		(state: RootState) => state.roleReducer.isLoading
+		(state: RootState) => state.clientReducer.isLoading
 	);
 	const [isLoading, setIsLoading] = React.useState(loadingState);
 	React.useEffect(() => {
@@ -63,11 +62,11 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 
 	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
-		dispatch(getRolesFetch());
+		dispatch(getClientFetch());
 	}, [dispatch]);
 
 	// STORE THE ROLES TO 'data'
-	const data = useSelector((state: RootState) => state.roleReducer.roles);
+	const data = useSelector((state: RootState) => state.clientReducer.clients);
 
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -94,28 +93,26 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const proceedWithDelete = () => {
-		dispatch(deleteRoles({ role_id: deleteId }));
+		dispatch(deleteClient({ client_id: deleteId }));
 		setRows(data);
 		setAsk(false);
 	};
 
 	const proceedWithDeleteBatch = async () => {
-		dispatch(deleteRolesBatch({ batchId: selectedId }));
+		dispatch(deleteClientBatch({ batchId: selectedId }));
 		setRows(data); // update rows
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
-		setActions({ ...actions, selecting: false });
 	};
 
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
 
-	const [roleTitle, setRoleTitle] = React.useState("");
+	const [clientName, setClientName] = React.useState("");
 	const [shortName, setShortName] = React.useState("");
-	const [userLevel, setUserLevel] = React.useState("");
-	const roleTitleRef = React.useRef<HTMLInputElement | null>(null);
+	const clientNameRef = React.useRef<HTMLInputElement | null>(null);
 
 	const [confirmAction, setConfirmAction] = React.useState(false);
 	const [actions, setActions] = React.useState<{
@@ -188,7 +185,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		verifyAction("delete", id);
+		verifyAction("delete", id)
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -200,48 +197,37 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 		setActions({ ...actions, editing: false });
 	};
 
-	const processUpdateRow = (roleInfo: GridRowModel) => {
-		dispatch(updateRoles({ roleInfo }));
+	const processUpdateRow = (clientData: GridRowModel) => {
+		dispatch(updateClient({ clientData }));
 	};
 
-	const processAddRow = (roleInfo: GridRowModel) => {
-		dispatch(addRoles({ roleInfo }));
+	const processAddRow = (clientData: GridRowModel) => {
+		dispatch(addClient({ clientData }));
 	};
 
 	const handleAdd = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
-			};
-			processAddRow(roleInfo);
-			setIsHidden(false);
-			setRoleTitle("");
-			setShortName("");
-			setUserLevel("");
-			setActions({ ...actions, adding: false });
-		} else {
-			const error = props.createSnackpack(
-				"All fields are required! Please, try again.",
-				"error"
-			);
-			error();
-		}
+		addRecord(true);
 	};
 
 	const handleAddContinue = () => {
-		if (roleTitle && shortName && userLevel) {
-			const roleInfo: GridValidRowModel = {
-				title: roleTitle,
-				role_sh_name: shortName,
-				role_user_level: userLevel,
+		addRecord(false);
+	};
+
+	const addRecord = (isAddOnly: boolean) => {
+		if (clientName && shortName) {
+			const clientData: GridValidRowModel = {
+				client_name: clientName,
+				client_sh_name: shortName,
 			};
-			processAddRow(roleInfo);
-			setRoleTitle("");
+			processAddRow(clientData);
+			setClientName("");
 			setShortName("");
-			setUserLevel("");
-			roleTitleRef.current?.focus();
+			if (isAddOnly) {
+				setIsHidden(false)
+			} else {
+				clientNameRef.current?.focus();
+				setActions({ ...actions, adding: false });
+			}
 		} else {
 			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
@@ -252,10 +238,10 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleUpdate = (newRow: GridRowModel) => {
-		if (newRow.title && newRow.role_sh_name && newRow.role_user_level) {
+		if (newRow.client_name && newRow.client_sh_name) {
 			processUpdateRow(newRow);
 		} else {
-			const cancel = handleCancelClick(newRow.role_id);
+			const cancel = handleCancelClick(newRow.client_id);
 			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
@@ -273,7 +259,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 
 	const columns: GridColDef[] = [
 		{
-			field: "title",
+			field: "client_name",
 			headerName: "Name",
 			minWidth: 300,
 			flex: 1,
@@ -282,7 +268,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 			align: "center",
 		},
 		{
-			field: "role_sh_name",
+			field: "client_sh_name",
 			headerName: "Short Name",
 			minWidth: 300,
 			flex: 1,
@@ -291,10 +277,9 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 			align: "center",
 		},
 		{
-			field: "role_user_level",
-			headerName: "User Level",
-			type: "number",
-			minWidth: 250,
+			field: "dept_desc",
+			headerName: "Description",
+			minWidth: 300,
 			flex: 1,
 			editable: true,
 			headerAlign: "center",
@@ -390,7 +375,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 							});
 						});
 					} else {
-						if (roleTitle || shortName || userLevel) {
+						if (clientName || shortName) {
 							setDialogTitle("Close the form?");
 							setDialogContentText(
 								"Are you sure you want to discard your inputs?"
@@ -399,9 +384,8 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 							setProceedAction(() => () => {
 								setIsHidden(false);
 								handleEditClick(id as GridRowId)();
-								setRoleTitle("");
+								setClientName("");
 								setShortName("");
-								setUserLevel("");
 								setActions({
 									...actions,
 									adding: false,
@@ -457,84 +441,85 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 						});
 					} // no else because the add button is hidden so there is no way you could press Add button twice
 					break;
-				case "delete":
-					if (actions.editing) {
-						setDialogTitle("Cancel edit?");
-						setDialogContentText(
-							"Are you sure you want to cancel edit and proceed \nwith deleting a record?"
-						);
-						setConfirmAction(true);
-						setProceedAction(() => () => {
-							setIsHidden(true);
-							setConfirmAction(false);
-							setActions({
-								...actions,
-								editing: false,
-							});
-							setRowModesModel({
-								[actions.editingId]: {
-									mode: GridRowModes.View,
-									ignoreModifications: true,
-								},
-							});
-
-							setAsk(true);
-							setIsBatch(false);
+					case "delete":
+						if (actions.editing) {
+							setDialogTitle("Cancel edit?");
 							setDialogContentText(
-								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+								"Are you sure you want to cancel edit and proceed \nwith deleting a record?"
 							);
-							setDialogTitle("Delete this record?");
-							setDeleteId(id as number);
-						});
-					} else if (actions.selecting) {
-						setDialogTitle("Discard the selection?");
-						setDialogContentText(
-							"Upon proceeding, the selection will be discarded \nand you will go on deleting a record."
-						);
-						setConfirmAction(true);
-						setProceedAction(() => () => {
-							setIsHidden(true);
-							setConfirmAction(false);
-							setRowSelectionModel([]);
-							setSelectedId(new Set([]));
-							setActions({
-								...actions,
-								selecting: false,
+							setConfirmAction(true);
+							setProceedAction(() => () => {
+								setIsHidden(true);
+								setConfirmAction(false);
+								setActions({
+									...actions,
+									editing: false,
+								});
+								setRowModesModel({
+									[actions.editingId]: {
+										mode: GridRowModes.View,
+										ignoreModifications: true,
+									},
+								});
+	
+								setAsk(true);
+								setIsBatch(false);
+								setDialogContentText(
+									"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+								);
+								setDialogTitle("Delete this record?");
+								setDeleteId(id as number);
 							});
-
-							setAsk(true);
-							setIsBatch(false);
+						} else if (actions.selecting) {
+							setDialogTitle("Discard the selection?");
 							setDialogContentText(
-								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+								"Upon proceeding, the selection will be discarded \nand you will go on deleting a record."
 							);
-							setDialogTitle("Delete this record?");
-							setDeleteId(id as number);
-						});
-					} else {
-						setDialogTitle("Cancel adding a record?");
-						setDialogContentText(
-							"The add form will be closed and no record will be saved."
-						);
-						setConfirmAction(true);
-						setProceedAction(() => () => {
-							setIsHidden(false);
-							setConfirmAction(false);
-							setActions({
-								...actions,
-								adding: false,
+							setConfirmAction(true);
+							setProceedAction(() => () => {
+								setIsHidden(true);
+								setConfirmAction(false);
+								setRowSelectionModel([]);
+								setSelectedId(new Set([]));
+								setActions({
+									...actions,
+									selecting: false,
+								});
+	
+								setAsk(true);
+								setIsBatch(false);
+								setDialogContentText(
+									"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+								);
+								setDialogTitle("Delete this record?");
+								setDeleteId(id as number);
 							});
-
-							setAsk(true);
-							setIsBatch(false);
+						} else {
+							setDialogTitle("Cancel adding a record?");
 							setDialogContentText(
-								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+								"The add form will be closed and no record will be saved."
 							);
-							setDialogTitle("Delete this record?");
-							setDeleteId(id as number);
-						});
-					}
-					break;
-				default: // case "select"
+							setConfirmAction(true);
+							setProceedAction(() => () => {
+								setIsHidden(false);
+								setConfirmAction(false);
+								setActions({
+									...actions,
+									adding: false,
+								});
+	
+								setAsk(true);
+								setIsBatch(false);
+								setDialogContentText(
+									"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+								);
+								setDialogTitle("Delete this record?");
+								setDeleteId(id as number);
+							});
+	
+						}
+						break;
+					default: // case "select"
 					if (actions.editing) {
 						setDialogTitle("Cancel edit?");
 						setDialogContentText(
@@ -564,9 +549,9 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 							});
 						});
 					} else if (actions.adding) {
-						setDialogTitle("Cancel adding a record?");
+						setDialogTitle("Discard the selection?");
 						setDialogContentText(
-							"The add form will be closed and no record will be saved."
+							"Upon proceeding, the selection will be discarded \nand you will go on adding record/s."
 						);
 						setConfirmAction(true);
 						setProceedAction(() => () => {
@@ -613,15 +598,15 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 					setActions({ ...actions, adding: true });
 					setIsHidden(true);
 					break;
-				case "delete":
-					setAsk(true);
-					setIsBatch(false);
-					setDialogContentText(
-						"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-					);
-					setDialogTitle("Delete this record?");
-					setDeleteId(id as number);
-					break;
+					case "delete":
+						setAsk(true);
+						setIsBatch(false);
+						setDialogContentText(
+							"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+						);
+						setDialogTitle("Delete this record?");
+						setDeleteId(id as number);
+						break;
 				default:
 					setRowSelectionModel(
 						newSelectionModel as GridRowSelectionModel
@@ -666,14 +651,14 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 							<div style={addFormStyles}>
 								<DataGridAddTextField
 									inputLabel="Name"
-									inputValue={roleTitle}
+									inputValue={clientName}
 									inputValueSetter={(
 										e: React.ChangeEvent<
 											| HTMLInputElement
 											| HTMLTextAreaElement
 										>
-									) => setRoleTitle(e.target.value)}
-									inputRef={roleTitleRef}
+									) => setClientName(e.target.value)}
+									inputRef={clientNameRef}
 									textFieldIcon={<PersonIcon />}
 									autoFocus={true}
 								/>
@@ -688,25 +673,13 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 									) => setShortName(e.target.value)}
 									textFieldIcon={<BadgeIcon />}
 								/>
-								<DataGridAddTextField
-									inputLabel="User Level"
-									inputValue={userLevel}
-									inputValueSetter={(
-										e: React.ChangeEvent<
-											| HTMLInputElement
-											| HTMLTextAreaElement
-										>
-									) => setUserLevel(e.target.value)}
-									textFieldIcon={<PersonFourIcon />}
-									type="number"
-								/>
 							</div>
 
 							<DataGridAddButtons
 								handleAdd={handleAdd}
 								handleAddContinue={handleAddContinue}
 								handleClosing={() => {
-									if (roleTitle || shortName || userLevel) {
+									if (clientName || shortName) {
 										setDialogTitle("Close the form?");
 										setDialogContentText(
 											"Are you sure you want to discard your inputs?"
@@ -714,9 +687,8 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 										setConfirmAction(true);
 										setProceedAction(() => () => {
 											setIsHidden(false);
-											setRoleTitle("");
+											setClientName("");
 											setShortName("");
-											setUserLevel("");
 											setActions({
 												...actions,
 												adding: false,
@@ -725,9 +697,8 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 										});
 									} else {
 										setIsHidden(false);
-										setRoleTitle("");
+										setClientName("");
 										setShortName("");
-										setUserLevel("");
 										setActions({
 											...actions,
 											adding: false,
@@ -747,7 +718,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 				rows={rows}
 				columns={columns}
 				editMode="row"
-				getRowId={(row) => row.role_id}
+				getRowId={(row) => row.client_id}
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
@@ -801,4 +772,4 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 	);
 };
 
-export default RoleTable;
+export default BusinessUnitTable;
