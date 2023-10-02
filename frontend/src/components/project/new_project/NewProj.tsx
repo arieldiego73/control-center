@@ -467,14 +467,11 @@ export default function NewProj() {
                         className={`${NewProjectStyle.editClientButton} ${clientName === "" ? NewProjectStyle.chooseClient : NewProjectStyle.changeClient}`}
                         style={buttonStyle} 
                         sx={{
-                          // height: "40px", 
-                          // backgroundColor: "transparent", 
                           width: "64px",
                           height: "64px",
                           borderRadius: "100%",
                           display: 'flex',
                           justifyContent: 'center',
-                          // alignItems:"center",
                           padding: 0, margin: 0,
                           backgroundColor:"rgb(240, 240, 240)",
                           whiteSpace:"nowrap",
@@ -788,7 +785,7 @@ export default function NewProj() {
                     </div>
                   </FormControl>
                 </div>
-
+ 
                 <div className={NewProjectStyle.formRow5}>
                   <FormControl
                     style={{
@@ -942,6 +939,8 @@ export default function NewProj() {
               CANCEL
             </Button>
           </div>
+
+          
         </div>
       </div>
 

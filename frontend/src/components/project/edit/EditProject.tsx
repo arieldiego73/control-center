@@ -453,61 +453,33 @@ export default function EditProject() {
 		}
 	}, [dispatch, isAddSuccess, navigate]);
 
+	const buttonStyle: React.CSSProperties = {
+		transition: "all 0.3s"
+	};
+
 	return (
 		<>
 			<div className={EditProjectStyle.mainContainer}>
 				<div className={EditProjectStyle.mainHolder}>
 					<div className={EditProjectStyle.contentHolder}>
-						<div className={EditProjectStyle.mainForm}>
-							{/* CLIENT NAME */}
-							<div className={EditProjectStyle.formRow6}>
-								<FormControl
-									style={{
-										flexDirection: "row",
-										display: "flex",
-										gap: "20px",
-										alignItems: "flex-end",
-									}}
-								>
-									<div
-										style={{
-											flexDirection: "column",
-											display: "flex",
-										}}
-									>
-										<List
-											sx={{
-												width: "100%",
-												maxWidth: 400,
-											}}
-										>
+						<div className={EditProjectStyle.contentHolderLeft}>
+
+							<div className={EditProjectStyle.clientCard}>
+								<FormControl style={{ flexDirection: "row", display: "flex", alignItems: "flex-end" }}>
+									<div style={{ display: "flex", width: "100%" }}>
+
+										<List>
 											<ListItem>
-												<ListItemAvatar>
-													<Avatar
-														sx={{
-															backgroundColor:
-																"background.secondary",
-															width: 84,
-															height: 84,
-															marginRight: "12px",
-															overflow: "visible",
-														}}
-													>
-														{clientName
-															.charAt(0)
-															.toLocaleUpperCase()}
-													</Avatar>
-												</ListItemAvatar>
-												<ListItemText
-													secondary={
-														"Project Code: " +
-														projectCode
-													}
+												<ListItemText secondary={
+													"Project Code: " +
+													projectCode
+												}
 												>
 													<Typography
 														variant="h4"
 														style={{
 															fontWeight: 900,
+															whiteSpace: "nowrap",
 														}}
 													>
 														{clientName}
@@ -515,54 +487,108 @@ export default function EditProject() {
 												</ListItemText>
 											</ListItem>
 										</List>
-										<Button
-											variant="contained"
-											size="small"
-											onClick={() =>
-												setOpenClientName(true)
-											}
-											color="success"
-											startIcon={<EditIcon />}
-										>
-											Change
-										</Button>
+										<List sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", width: "50%", }}>
+											<Button
+												className={`${EditProjectStyle.editClientButton} ${clientName === "" ? EditProjectStyle.chooseClient : EditProjectStyle.changeClient}`}
+												style={buttonStyle}
+												sx={{
+													width: "64px",
+													height: "64px",
+													borderRadius: "100%",
+													display: 'flex',
+													justifyContent: 'center',
+													padding: 0, margin: 0,
+													backgroundColor: "rgb(240, 240, 240)",
+													whiteSpace: "nowrap",
+												}}
+												onClick={() => setOpenClientName(true)}
+											>
+												<svg className={EditProjectStyle.editClientButtonSvg} style={{ padding: 0, margin: 0 }} viewBox="0 0 512 512">
+													<path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c-1.4-4.9-3.8-9.4-6.9-13.3l-22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c-6.2-6.2-16.4-6.2-22.6 0s-6.2-16.4 0-22.6z">
+													</path>
+												</svg>
+											</Button>
+										</List>
 									</div>
 								</FormControl>
 							</div>
 
 							{/* PROJECT NAME */}
-							<FormControl>
-								<FormLabel
-									sx={{
-										color: "black",
-										fontWeight: "400",
-									}}
-								>
-									Project Name
-								</FormLabel>
+							<div>
+								<FormControl>
+									<FormLabel
+										sx={{
+											color: "black",
+											fontWeight: "400",
+										}}
+									>
+										Project Name
+									</FormLabel>
 
-								<TextField
-									style={{
-										backgroundColor: "transparent",
-										width: "570px",
-										minWidth: "200px",
-									}}
-									variant="outlined"
-									size="small"
-									placeholder="Project Name"
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position="start">
-												<FolderOutlinedIcon />
-											</InputAdornment>
-										),
-									}}
-									value={projectName}
-									onChange={(e) =>
-										setProjectName(e.target.value)
-									}
-								/>
-							</FormControl>
+									<TextField
+										style={{
+											backgroundColor: "transparent",
+											width: "570px",
+											minWidth: "200px",
+										}}
+										variant="outlined"
+										size="small"
+										placeholder="Project Name"
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<FolderOutlinedIcon />
+												</InputAdornment>
+											),
+										}}
+										value={projectName}
+										onChange={(e) =>
+											setProjectName(e.target.value)
+										}
+									/>
+								</FormControl>
+							</div>
+
+							<div className={EditProjectStyle.formRow8}>
+								<div className="projStatus">
+									<div className="projStatusContent">
+										<FormControl variant="outlined" size="small">
+											<FormLabel
+												sx={{
+													color: "black",
+													fontWeight: "400",
+												}}
+											>
+												Status
+											</FormLabel>
+											<Select
+												value={status}
+												onChange={(e) =>
+													setStatus(e.target.value as number)
+												}
+												startAdornment={
+													<InputAdornment position="start">
+														<GroupsOutlinedIcon />
+													</InputAdornment>
+												}
+												sx={{
+													minWidth: 250,
+													maxWidth: 560,
+												}}
+											>
+												{statuses.map((status: any) => (
+													<MenuItem
+														key={status?.proj_status_id}
+														value={status?.proj_status_id}
+													>
+														{status?.proj_status_name}
+													</MenuItem>
+												))}
+											</Select>
+										</FormControl>
+									</div>
+								</div>
+							</div>
 
 							{/* DATES */}
 							<div className={EditProjectStyle.formRow3}>
@@ -617,81 +643,58 @@ export default function EditProject() {
 								</FormControl>
 							</div>
 
-							{/* PROJECT MANAGERS */}
-							<div className={EditProjectStyle.formRow5}>
-								<FormControl
-									style={{
-										flexDirection: "column",
-										display: "flex",
-										// gap: "20px",
-									}}
-								>
-									<FormLabel
-										sx={{
-											color: "black",
-											fontWeight: "400",
-										}}
-									>
-										Project Manager
-									</FormLabel>
-									<Paper elevation={2} sx={{ padding: 2 }}>
-										<Stack
-											direction="row"
-											spacing={1}
-											width={530}
-											useFlexGap
-											flexWrap="wrap"
+							{/* DEV TYPE */}
+							<div className={EditProjectStyle.formRow8}>
+								<div className="projDevType">
+									<div className="projDevTypeContent">
+										<FormControl
+											variant="outlined"
+											size="small"
 										>
-											{selectedProjectManagers.map(
-												(manager) => (
-													<Chip
-														key={manager}
-														// style={{ backgroundColor: "#F4B62B" }}
-														avatar={
-															<Avatar
-																{...stringAvatar(
-																	manager
-																)}
-															/>
-														}
-														label={manager}
-													/>
-												)
-											)}
-											<IconButton
-												color="primary"
-												size="small"
-												children={
-													selectedProjectManagers.length !==
-													0 ? (
-														<EditIcon />
-													) : (
-														<Add />
+											<FormLabel
+												sx={{
+													color: "black",
+													fontWeight: "400",
+												}}
+											>
+												{"Development Type (optional)"}
+											</FormLabel>
+											<Select
+												value={devType}
+												onChange={(e) =>
+													setDevType(
+														e.target.value as number
 													)
 												}
-												onClick={() =>
-													setOpenProjManager(true)
+												startAdornment={
+													<InputAdornment position="start">
+														<GroupsOutlinedIcon />
+													</InputAdornment>
 												}
-											/>
-										</Stack>
-									</Paper>
-								</FormControl>
-							</div>
-
-							{/* PROJECT DESCRIPTION */}
-							<div className={EditProjectStyle.col2}>
-								<div className={EditProjectStyle.gridContainer}>
-									Project Description
-									<ReactQuillEditor
-										className={EditProjectStyle.qlContainer}
-										theme="snow"
-										value={projectDescription}
-										onChange={(e) =>
-											setProjectDescription(e)
-										}
-										modules={modules}
-										placeholder="Project description..."
-									/>
+												sx={{
+													minWidth: 250,
+													maxWidth: 560,
+												}}
+											>
+												{devTypes.map(
+													(devType: any) => (
+														<MenuItem
+															key={
+																devType?.dev_type_id
+															}
+															value={
+																devType?.dev_type_id
+															}
+														>
+															{
+																devType?.dev_type_name
+															}
+														</MenuItem>
+													)
+												)}
+											</Select>
+										</FormControl>
+									</div>
 								</div>
 							</div>
 
@@ -733,17 +736,13 @@ export default function EditProject() {
 									))}
 								</FormGroup>
 							</div>
+						</div>
 
-							{/* TECHNOLOGY */}
-							<div className={EditProjectStyle.formRow5}>
-								<FormControl
-									style={{
-										flexDirection: "row",
-										display: "flex",
-										gap: "20px",
-									}}
-								>
-									<div
+						<div className={EditProjectStyle.contentHolderRight}>
+							<div className={EditProjectStyle.contentHolderRightTop}>
+								{/* PROJECT MANAGERS */}
+								<div className={EditProjectStyle.formRow5}>
+									<FormControl
 										style={{
 											flexDirection: "column",
 											display: "flex",
@@ -755,130 +754,9 @@ export default function EditProject() {
 												fontWeight: "400",
 											}}
 										>
-											Technology
+											Project Manager (optional)
 										</FormLabel>
-										<Select
-											size="small"
-											multiple
-											value={projectTechnologies}
-											onChange={handleSelectTechnologies}
-											input={<OutlinedInput />}
-											renderValue={
-												handleTechValueRendering
-											}
-											displayEmpty
-											sx={{
-												width: 560,
-												maxWidth: 560,
-											}}
-										>
-											{technologies.map((tech: any) => (
-												<MenuItem
-													key={tech.tech_id}
-													value={tech.tech_id}
-												>
-													<Checkbox
-														checked={
-															projectTechnologies.indexOf(
-																tech.tech_id as never
-															) > -1
-														}
-													/>
-													<ListItemText
-														primary={tech.tech_name}
-													/>
-												</MenuItem>
-											))}
-										</Select>
-									</div>
-								</FormControl>
-							</div>
-
-							{/* DEV TYPE */}
-							<div className={EditProjectStyle.formRow8}>
-								<div className="projDevType">
-									<div className="projDevTypeContent">
-										<FormControl
-											variant="outlined"
-											size="small"
-										>
-											<FormLabel
-												sx={{
-													color: "black",
-													fontWeight: "400",
-												}}
-											>
-												{"Development Type (optional)"}
-											</FormLabel>
-											<Select
-												value={devType}
-												onChange={(e) =>
-													setDevType(
-														e.target.value as number
-													)
-												}
-												startAdornment={
-													<InputAdornment position="start">
-														<GroupsOutlinedIcon />
-													</InputAdornment>
-												}
-												sx={{
-													minWidth: 250,
-													maxWidth: 560,
-												}}
-											>
-												<MenuItem key={0} value={1}>
-													{"<None is selected>"}
-												</MenuItem>
-												{devTypes.map(
-													(devType: any) => (
-														<MenuItem
-															key={
-																devType?.dev_type_id
-															}
-															value={
-																devType?.dev_type_id
-															}
-														>
-															{
-																devType?.dev_type_name
-															}
-														</MenuItem>
-													)
-												)}
-											</Select>
-										</FormControl>
-									</div>
-								</div>
-							</div>
-
-							{/* MEMBERS */}
-							<div className={EditProjectStyle.formRow5}>
-								<FormControl
-									style={{
-										flexDirection: "row",
-										display: "flex",
-										gap: "20px",
-									}}
-								>
-									<div
-										style={{
-											flexDirection: "column",
-											display: "flex",
-										}}
-									>
-										<FormLabel
-											sx={{
-												color: "black",
-												fontWeight: "400",
-											}}
-										>
-											Members
-										</FormLabel>
-										<Paper
-											elevation={2}
-											sx={{ padding: 2 }}
-										>
+										<Paper elevation={2} sx={{ padding: 2 }}>
 											<Stack
 												direction="row"
 												spacing={1}
@@ -886,18 +764,19 @@ export default function EditProject() {
 												useFlexGap
 												flexWrap="wrap"
 											>
-												{selectedProjectMembers.map(
-													(member) => (
+												{selectedProjectManagers.map(
+													(manager) => (
 														<Chip
-															key={member}
+															key={manager}
+															// style={{ backgroundColor: "#F4B62B" }}
 															avatar={
 																<Avatar
 																	{...stringAvatar(
-																		member
+																		manager
 																	)}
-																></Avatar>
+																/>
 															}
-															label={member}
+															label={manager}
 														/>
 													)
 												)}
@@ -905,30 +784,37 @@ export default function EditProject() {
 													color="primary"
 													size="small"
 													children={
-														selectedProjectMembers.length !==
-														0 ? (
+														selectedProjectManagers.length !==
+															0 ? (
 															<EditIcon />
 														) : (
 															<Add />
 														)
 													}
 													onClick={() =>
-														setOpenMembers(true)
+														setOpenProjManager(true)
 													}
 												/>
 											</Stack>
 										</Paper>
-									</div>
-								</FormControl>
-							</div>
+									</FormControl>
+								</div>
 
-							{/* STATUS */}
-							<div className={EditProjectStyle.formRow8}>
-								<div className="projStatus">
-									<div className="projStatusContent">
-										<FormControl
-											variant="outlined"
-											size="small"
+
+								{/* MEMBERS */}
+								<div className={EditProjectStyle.formRow5}>
+									<FormControl
+										style={{
+											flexDirection: "row",
+											display: "flex",
+											gap: "20px",
+										}}
+									>
+										<div
+											style={{
+												flexDirection: "column",
+												display: "flex",
+											}}
 										>
 											<FormLabel
 												sx={{
@@ -936,47 +822,132 @@ export default function EditProject() {
 													fontWeight: "400",
 												}}
 											>
-												Status
+												Members
+											</FormLabel>
+											<Paper
+												elevation={2}
+												sx={{ padding: 2 }}
+											>
+												<Stack
+													direction="row"
+													spacing={1}
+													width={530}
+													useFlexGap
+													flexWrap="wrap"
+												>
+													{selectedProjectMembers.map(
+														(member) => (
+															<Chip
+																key={member}
+																avatar={
+																	<Avatar
+																		{...stringAvatar(
+																			member
+																		)}
+																	></Avatar>
+																}
+																label={member}
+															/>
+														)
+													)}
+													<IconButton
+														color="primary"
+														size="small"
+														children={
+															selectedProjectMembers.length !==
+																0 ? (
+																<EditIcon />
+															) : (
+																<Add />
+															)
+														}
+														onClick={() =>
+															setOpenMembers(true)
+														}
+													/>
+												</Stack>
+											</Paper>
+										</div>
+									</FormControl>
+								</div>
+
+
+								{/* TECHNOLOGY */}
+								<div className={EditProjectStyle.formRow5}>
+									<FormControl
+										style={{
+											flexDirection: "row",
+											display: "flex",
+											gap: "20px",
+										}}
+									>
+										<div
+											style={{
+												flexDirection: "column",
+												display: "flex",
+											}}
+										>
+											<FormLabel
+												sx={{
+													color: "black",
+													fontWeight: "400",
+												}}
+											>
+												Technology
 											</FormLabel>
 											<Select
-												value={status}
-												onChange={(e) =>
-													setStatus(
-														e.target.value as number
-													)
+												size="small"
+												multiple
+												value={projectTechnologies}
+												onChange={handleSelectTechnologies}
+												input={<OutlinedInput />}
+												renderValue={
+													handleTechValueRendering
 												}
-												startAdornment={
-													<InputAdornment position="start">
-														<GroupsOutlinedIcon />
-													</InputAdornment>
-												}
+												displayEmpty
 												sx={{
-													minWidth: 250,
+													width: 560,
 													maxWidth: 560,
 												}}
 											>
-												<MenuItem key={0} value={0}>
-													{"<Select a status>"}
-												</MenuItem>
-												{statuses.map((status: any) => (
+												{technologies.map((tech: any) => (
 													<MenuItem
-														key={
-															status?.proj_status_id
-														}
-														value={
-															status?.proj_status_id
-														}
+														key={tech.tech_id}
+														value={tech.tech_id}
 													>
-														{
-															status?.proj_status_name
-														}
+														<Checkbox
+															checked={
+																projectTechnologies.indexOf(
+																	tech.tech_id as never
+																) > -1
+															}
+														/>
+														<ListItemText
+															primary={tech.tech_name}
+														/>
 													</MenuItem>
 												))}
 											</Select>
-										</FormControl>
-									</div>
+										</div>
+									</FormControl>
+								</div>
+
+								{/* PROJECT DESCRIPTION */}
+								<div className={EditProjectStyle.col2}>
+									<span>Project Description</span>
+									<ReactQuillEditor
+										className={EditProjectStyle.qlContainer}
+										theme="snow"
+										value={projectDescription}
+										onChange={(e) =>
+											setProjectDescription(e)
+										}
+										modules={modules}
+										placeholder="Project description..."
+									/>
 								</div>
 							</div>
+
 						</div>
 
 						{/* POPUPS */}
@@ -1047,31 +1018,33 @@ export default function EditProject() {
 								setOpenMembers(false);
 							}}
 						/>
-
-						{/* SAVING BUTTONS */}
-						<div
-							style={{
-								display: "flex",
-								gap: "8px",
-								justifyContent: "flex-end",
-							}}
-						>
-							<Button
-								variant="contained"
-								color="primary"
-								startIcon={<SaveOutlinedIcon />}
-								style={{
-									textTransform: "none",
-								}}
-								onClick={handleSaveDialog}
-							>
-								SAVE AND GO BACK
-							</Button>
-							<Button variant="text" onClick={handleCancelDialog}>
-								CANCEL
-							</Button>
-						</div>
 					</div>
+					{/* SAVING BUTTONS */}
+					<div
+						style={{
+							display: "flex",
+							gap: "8px",
+							justifyContent: "flex-end",
+							width: "97%",
+							marginRight: "10px",
+						}}
+					>
+						<Button
+							variant="contained"
+							color="primary"
+							startIcon={<SaveOutlinedIcon />}
+							style={{
+								textTransform: "none",
+							}}
+							onClick={handleSaveDialog}
+						>
+							SAVE AND GO BACK
+						</Button>
+						<Button variant="text" onClick={handleCancelDialog}>
+							CANCEL
+						</Button>
+					</div>
+
 				</div>
 			</div>
 			<Dialog

@@ -1,59 +1,69 @@
-
-.mainContainer {
-  position: fixed;
-	display: flex;
-	flex-direction: column; 
-	align-items: center;
-     justify-content: center; 
-	height: 78%;
-	width: 82%;
-	top: 20vh;
-	left: 16.5vw;
-	overflow: hidden;
-    background: rgba( 237, 249, 255, 0.35 );
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
-    backdrop-filter: blur( 5px );
-    -webkit-backdrop-filter: blur( 5px );
-    border-radius: 10px;
-}
-.mainHolder {
+.mainContainer { 
   position: fixed;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
-  height: 99%;
-  width: 100%;
-  top: 0;
-  left: 0;
+  justify-content: center;
+  width: 83.65%;
+  height: 86.3%;
+  top: 10%;
+  left: 15.5%;
   overflow: hidden;
-  border-radius: 15px;
-  
-}
-.contentHolder {
-  border-radius: 5px;
-  height: 95%;
-  width: 99%;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center; 
-  /* padding: 2vh 0;  */
-}
-.contentContainer{
-  width: 95%;
-  height: 75%;
-  display: flex;
-  flex-direction: column;
-  padding: 1%;
-  display: flex;
-  justify-content: start;
-  background: rgba( 255, 255, 255, 0.05 );
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 3px );
-  -webkit-backdrop-filter: blur( 3px );
+  background: rgba(237, 249, 255, 0.35);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   border-radius: 10px;
 }
+.mainHolder {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+}
+
+/* Attributes of Form holder */
+.contentHolder {
+  height: 90%;
+  width: 97%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow-x: auto;
+
+}
+
+.contentHolderLeft{
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 3%;
+}
+
+.contentHolderRight{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+justify-content: flex-start;
+gap: 3%;
+}
+.contentHolderRightTop{
+  display: flex;
+  flex-direction: column;
+  gap: 4%;
+  height: 100%;
+}
+
+
+
+
+
 .heading {
   display: flex;
   align-items: center;
@@ -73,7 +83,7 @@
   gap: .5%;
   height: 100%;
 }
-
+ 
 .mainForm {
   display: flex;
     flex-direction: column;
@@ -202,4 +212,62 @@
 }
 .qlContainer {
   height:300px; 
+}
+
+
+.editClientButtonSvg {
+  width: 17px;
+  transition-duration: 1s;
+}
+
+.editClientButtonSvg path {
+  fill: #1976d2;
+}
+
+.chooseClient::before {
+  content: "Choose client";
+  color: black;
+  transition-duration: 1s;
+  font-size: 2px;
+}
+
+.changeClient::before {
+  content: "Change client";
+  color: black;
+  transition-duration: 1s;
+  font-size: 2px;
+}
+
+.editClientButton:hover {
+  width: 200px;
+  border-radius: 50px;
+  transition-duration: 1s;
+  background-color: rgb(255, 69, 69);
+  align-items: center;
+}
+
+.editClientButton:hover .editClientButtonSvg {
+  width: 20px;
+  transition-duration: 1s;
+  transform: translateY(60%);
+  -webkit-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -o-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
+.editClientButton::before {
+  display: none;
+  transition-duration: 1s;
+  font-size: 2px;
+}
+
+.editClientButton:hover::before {
+  display: block;
+  padding-right: 10px;
+  font-size: 13px;
+  opacity: 1;
+  transform: translateY(0px);
+  transition-duration: 1s;
 }
