@@ -1,25 +1,27 @@
 import NavigationHandler from "./NavigationHandler"
-import Test, { RowData } from '../components/test/test2'
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsersFetch } from "../redux/state/userState";
 import { RootState } from "../redux/store/store";
+import { RowData } from "../components/user/UserTable";
+import Test from "../components/test/test2";
+import { getProjectsFetch } from "../redux/state/projectState";
+
 
 export default function TestHandler(){
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    dispatch(getUsersFetch());
+    dispatch(getProjectsFetch());
   }, [dispatch]);
 
-  const userData: RowData[] = useSelector(
-    (state: RootState) => state.userReducer.users
+  const projectData: RowData[] = useSelector(
+    (state: RootState) => state.projectReducer.projects
   );
   
     return (
       <div style={{ flexDirection: "column", display: "flex", }}>
       <NavigationHandler/> 
-      <Test data={userData} />
+      <Test projectData={projectData} />
     </div>
     )
 }
