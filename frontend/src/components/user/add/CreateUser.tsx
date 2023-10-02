@@ -20,6 +20,7 @@ import { getRolesFetch } from "../../../redux/state/roleState";
 import { getPositionFetch } from "../../../redux/state/positionState";
 import { addUserInfo } from "../../../redux/saga/userSaga";
 import { addUserReset } from "../../../redux/state/userState";
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import {
   Alert,
   AlertColor,
@@ -315,21 +316,30 @@ export default function CreateUser() {
                       src={imgTest}
                       className={CreateUserStyle.imgSize}
                     />
-                  </div>
-
-                  <div className={CreateUserStyle.toolTip}>
-                    <Button
-                      className={CreateUserStyle.buttonProfile}
-                      component="label"
-                      startIcon={<CloudUploadIcon />}
-                      sx={{ whiteSpace: "nowrap" }}
-                    >
-                      Edit Profile
-                      <VisuallyHiddenInput type="file" />
-                    </Button>
+                    <div style={{height: "80px", width: "80px", position: "absolute", right: "0", top: "70%", display: "grid", placeItems: "center", overflow: "hidden", }}>
+                      <Button 
+                        component="label"
+                        sx={{
+                          overflow: "hidden",
+                          borderRadius:"50%",
+                          height: "60px",
+                          width: "54px",
+                          background: "rgba(200, 200, 200, 0.75)", 
+                          margin:0, padding:0,
+                          boxShadow: "rgba(60, 64, 67, 0.7) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+                          "&:hover": {
+                            background: "rgba( 237, 249, 255, 0.75 )",
+                            transform: "scale(1.1)"
+                          }
+                        }}
+                        className={CreateUserStyle.updateImageButton}
+                      >
+                        <CameraAltOutlinedIcon sx={{height:"30px", width:"30px", margin:0, padding:0}}/>
+                        <VisuallyHiddenInput type="file" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
-
                 <div className={CreateUserStyle.formProfileContainer}>
                   {/* Start of Assoc id form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
@@ -421,9 +431,9 @@ export default function CreateUser() {
                           </InputAdornment>
                         }
                       >
-                        {/* <MenuItem key={0} value={"0"}>
+                        <MenuItem key={0} value={"0"}>
                           {"<Select status>"}
-                        </MenuItem> */}
+                        </MenuItem>
                         {statuses.map((status: any) => (
                           <MenuItem
                             key={status?.status_code}
@@ -600,7 +610,15 @@ export default function CreateUser() {
                           }}
                           MenuProps={MenuProps}
                           size="small"
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <GroupsOutlinedIcon />
+                            </InputAdornment>
+                          }
                         >
+                          {/* <MenuItem key={0} value={0}>
+                            {"<Select a role>"}
+                          </MenuItem> */}
                           {roles.map((role: any) => (
                             <MenuItem key={role.role_id} value={role.role_id}>
                               <Checkbox
@@ -614,7 +632,7 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && selectedRoles.length === 0 && (
-                          <FormHelperText>Select a status</FormHelperText>
+                          <FormHelperText>Select a role</FormHelperText>
                         )}
                       </FormControl>
                     </div>
@@ -685,7 +703,7 @@ export default function CreateUser() {
                           }
                         >
                           <MenuItem key={0} value={0}>
-                            {"<Select a department>"}
+                            {"<Select department>"}
                           </MenuItem>
                           {sections.map((sect: any) => (
                             <MenuItem
