@@ -11,7 +11,7 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import PersonFourIcon from "@mui/icons-material/Person4";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { getRolesFetch } from "../../redux/state/roleState";
+import { getRolesFetch } from "../../redux/state/roleState"; 
 import { Divider, LinearProgress } from "@mui/material";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
@@ -105,6 +105,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
+		setActions({ ...actions, selecting: false });
 	};
 
 	React.useEffect(() => {
@@ -187,7 +188,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		verifyAction("delete", id)
+		verifyAction("delete", id);
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -361,9 +362,9 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 			switch (action) {
 				case "edit":
 					if (actions.editing) {
-						setDialogTitle("Cancel edit?");
+						setDialogTitle("Cancel edit and move?");
 						setDialogContentText(
-							"Are you sure you want to cancel?"
+							"Are you sure you want to cancel editing this row \nand move to another row?"
 						);
 						setConfirmAction(true);
 						setProceedAction(() =>
@@ -411,7 +412,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 						} else {
 							setIsHidden(false); // if the fields in the add form are empty, just close it
 							handleEditClick(id as GridRowId)(); // then proceed to edit
-							setActions({ ...actions, adding: false });
+							setActions({ ...actions, adding: false, editing: true, editingId: id as GridRowId });
 						}
 					}
 					break;
@@ -492,7 +493,6 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 						);
 						setConfirmAction(true);
 						setProceedAction(() => () => {
-							setIsHidden(true);
 							setConfirmAction(false);
 							setRowSelectionModel([]);
 							setSelectedId(new Set([]));
@@ -531,7 +531,6 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 							setDialogTitle("Delete this record?");
 							setDeleteId(id as number);
 						});
-
 					}
 					break;
 				default: // case "select"
@@ -564,9 +563,9 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 							});
 						});
 					} else if (actions.adding) {
-						setDialogTitle("Discard the selection?");
+						setDialogTitle("Cancel adding a record?");
 						setDialogContentText(
-							"Upon proceeding, the selection will be discarded \nand you will go on adding record/s."
+							"The add form will be closed and no record will be saved."
 						);
 						setConfirmAction(true);
 						setProceedAction(() => () => {

@@ -10,16 +10,22 @@ import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import {Divider, LinearProgress, } from "@mui/material";
 import { getProjectStatusFetch } from "../../redux/state/projectStatusState";
-import {datagridBoxStyle,datagridStyle,} from "../datagrid_customs/DataGridStyle";
+import { Divider, LinearProgress } from "@mui/material";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
+import {
+	datagridBoxStyle,
+	datagridStyle,
+} from "../datagrid_customs/DataGridStyle";
 import CustomPagination from "../custom_pagination/pagination";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
-import { addFormContainerStyles, addFormStyles } from "../datagrid_customs/DataGridAddFormStyles";
 import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
+import {
+	addFormContainerStyles,
+	addFormStyles,
+} from "../datagrid_customs/DataGridAddFormStyles";
 import DataGridAddButtons from "../datagrid_customs/DataGridAddButtons";
 import {
 	addProjectStatus,
@@ -28,7 +34,7 @@ import {
 	updateProjectStatus,
 } from "../../redux/saga/projectStatusSaga";
 import {
-	GridRowsProp, 
+	GridRowsProp,
 	GridRowModesModel,
 	GridRowModes,
 	DataGrid,
@@ -41,25 +47,26 @@ import {
 	GridRowSelectionModel,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
+import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
 
-const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
+const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
-	const loadingState = useSelector((state: RootState) => state.projectStatusReducer.isLoading)
-	const [isLoading, setIsLoading] = React.useState(loadingState)
+	const loadingState = useSelector(
+		(state: RootState) => state.projectStatusReducer.isLoading
+	);
+	const [isLoading, setIsLoading] = React.useState(loadingState);
 	React.useEffect(() => {
-		setIsLoading(() => loadingState)
-	}, [loadingState])
+		setIsLoading(() => loadingState);
+	}, [loadingState]);
 
-	// GET ALL THE PROJECT STATUS AND STORE THEM TO THE STATE IN REDUX
+	// GET ALL THE ROLES AND STORE THEM TO THE STATE IN REDUX
 	React.useEffect(() => {
 		dispatch(getProjectStatusFetch());
 	}, [dispatch]);
 
-	// GET THE STATES
-	const data = useSelector(
-		(state: RootState) => state.projectStatusReducer.projectStatus
-	);
+	// STORE THE ROLES TO 'data'
+	const data = useSelector((state: RootState) => state.projectStatusReducer.projectStatus);
 
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -82,16 +89,47 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 		toolbar: DatagridToolbar,
 		columnUnsortedIcon: UnsortedIcon,
 		pagination: CustomPagination,
-		loadingOverlay: LinearProgress
+		loadingOverlay: LinearProgress,
+	};
+
+	const proceedWithDelete = () => {
+		dispatch(deleteProjectStatus({ proj_status_id: deleteId }));
+		setRows(data);
+		setAsk(false);
+	};
+
+	const proceedWithDeleteBatch = async () => {
+		dispatch(deleteProjectStatusBatch({ batchId: selectedId }));
+		setRows(data); // update rows
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
+		setActions({ ...actions, selecting: false });
 	};
 
 	React.useEffect(() => {
 		setRows(data);
 	}, [data]);
 
-	const [projectStatusName, setProjectStatusName] = React.useState("");
+	const [projectStatus, setProjectStatus] = React.useState("");
 	const [description, setDescription] = React.useState("");
-	const projectStatusNameRef = React.useRef<HTMLInputElement | null>(null);
+	const projectStatusRef = React.useRef<HTMLInputElement | null>(null);
+
+	const [confirmAction, setConfirmAction] = React.useState(false);
+	const [actions, setActions] = React.useState<{
+		editing: boolean;
+		selecting: boolean;
+		adding: boolean;
+		editingId: GridRowId;
+	}>({
+		editing: false,
+		selecting: false,
+		adding: false,
+		editingId: 0,
+	});
+	const [proceedAction, setProceedAction] = React.useState<() => void>(
+		() => {}
+	);
 
 	function DatagridToolbar() {
 		return (
@@ -105,69 +143,67 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 		);
 	}
 
-	const proceedWithDelete = () => {
-		dispatch(deleteProjectStatus({ proj_status_id: deleteId }));
-		setRows(data);
-		setAsk(false);
-	};
-
-	const proceedWithDeleteBatch = () => {
-		dispatch(deleteProjectStatusBatch({ batchId: selectedId }));
-		setRows(data); // update rows
-		setRowSelectionModel([]); // clear selected rows
-		setSelectedId(new Set()); // clear selected IDs
-		setAsk(false); // close dialog
-	};
-
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
 		event
 	) => {
-		if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+		if (
+			params.reason === GridRowEditStopReasons.rowFocusOut ||
+			params.reason === GridRowEditStopReasons.escapeKeyDown
+		) {
 			event.defaultMuiPrevented = true;
 		}
 	};
 
 	const handleEditClick = (id: GridRowId) => () => {
-		setRowModesModel({
-			...rowModesModel,
-			[id]: { mode: GridRowModes.Edit },
+		setRowModesModel(() => {
+			for (const obj in rowModesModel) {
+				if (rowModesModel.hasOwnProperty(obj)) {
+					return {
+						[obj]: {
+							mode: GridRowModes.View,
+							ignoreModifications: true,
+						}, // change mode from EDIT to VIEW
+						[id]: { mode: GridRowModes.Edit }, // add the row that is to be edited
+					};
+				} else {
+					return {
+						[id]: { mode: GridRowModes.Edit },
+					};
+				}
+			}
+
+			return { [id]: { mode: GridRowModes.Edit } }; // return this if the rowModesModel is empty
 		});
+		setConfirmAction(false);
 	};
 
 	const handleSaveClick = (id: GridRowId) => () => {
 		setRowModesModel({
-			...rowModesModel,
+			// ...rowModesModel,
 			[id]: { mode: GridRowModes.View },
 		});
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		setAsk(true);
-		setIsBatch(false);
-		setDialogContentText(
-			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-		);
-		setDialogTitle("Delete this status?");
-		setDeleteId(id as number);
+		verifyAction("delete", id);
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
 		setRowModesModel({
-			...rowModesModel,
+			// ...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
 		setRows(data);
+		setActions({ ...actions, editing: false });
 	};
 
 	const processUpdateRow = (projectStatusData: GridRowModel) => {
 		dispatch(updateProjectStatus({ projectStatusData }));
-		setRows(data); // update rows
 	};
 
 	const processAddRow = (projectStatusData: GridRowModel) => {
 		dispatch(addProjectStatus({ projectStatusData }));
-		setRows(data); // update rows
 	};
 
 	const handleAdd = () => {
@@ -179,18 +215,19 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const addRecord = (isAddOnly: boolean) => {
-		if (projectStatusName && description) {
+		if (projectStatus && description) {
 			const projectStatusData: GridValidRowModel = {
-				proj_status_name: projectStatusName,
+				proj_status_name: projectStatus,
 				proj_status_description: description,
 			};
 			processAddRow(projectStatusData);
-			setProjectStatusName("");
+			setProjectStatus("");
 			setDescription("");
 			if (isAddOnly) {
 				setIsHidden(false);
+				setActions({ ...actions, adding: false });
 			} else {
-				projectStatusNameRef.current?.focus();
+				projectStatusRef.current?.focus();
 			}
 		} else {
 			const error = props.createSnackpack(
@@ -205,7 +242,7 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 		if (newRow.proj_status_name && newRow.proj_status_description) {
 			processUpdateRow(newRow);
 		} else {
-			const cancel = handleCancelClick(newRow.position_id);
+			const cancel = handleCancelClick(newRow.proj_status_id);
 			const error = props.createSnackpack(
 				"All fields are required! Please, try again.",
 				"error"
@@ -213,6 +250,7 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 			cancel();
 			error();
 		}
+		setActions({ ...actions, editing: false });
 		return newRow;
 	};
 
@@ -227,7 +265,6 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 			minWidth: 300,
 			flex: 1,
 			editable: true,
-			type: "string",
 			headerAlign: "center",
 			align: "center",
 		},
@@ -237,7 +274,6 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 			minWidth: 300,
 			flex: 1,
 			editable: true,
-			type: "string",
 			headerAlign: "center",
 			align: "center",
 		},
@@ -276,7 +312,7 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 						icon={<EditIcon />}
 						label="Edit"
 						className="textPrimary"
-						onClick={handleEditClick(id)}
+						onClick={handleEditButtonClick(id)}
 						color="inherit"
 					/>,
 					<GridActionsCellItem
@@ -289,6 +325,292 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 			},
 		},
 	];
+
+	const handleEditButtonClick = (id: GridRowId) => () => {
+		verifyAction("edit", id);
+	};
+
+	const verifyAction = (
+		action: string,
+		id?: GridRowId,
+		newSelectionModel?: GridRowSelectionModel
+	) => {
+		if (actions.editing || actions.selecting || actions.adding) {
+			switch (action) {
+				case "edit":
+					if (actions.editing) {
+						setDialogTitle("Cancel edit and move?");
+						setDialogContentText(
+							"Are you sure you want to cancel editing this row \nand move to another row?"
+						);
+						setConfirmAction(true);
+						setProceedAction(() =>
+							handleEditClick(id as GridRowId)
+						); // to trigger edit in the table
+						setActions({ ...actions, editingId: id as GridRowId }); // store the new id in the object
+					} else if (actions.selecting) {
+						setDialogTitle("Discard the selection?");
+						setDialogContentText(
+							"Upon proceeding, the selection will be discarded \nand you will go on editing record/s."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setConfirmAction(false);
+							setRowSelectionModel([]); // clear selection in the datagrid
+							setSelectedId(new Set([])); // clear set of selectedID to disable the Delete Batch button
+							handleEditClick(id as GridRowId)();
+							setActions({
+								...actions,
+								selecting: false,
+								editing: true,
+								editingId: id as GridRowId,
+							});
+						});
+					} else {
+						if (projectStatus || description) {
+							setDialogTitle("Close the form?");
+							setDialogContentText(
+								"Are you sure you want to discard your inputs?"
+							);
+							setConfirmAction(true);
+							setProceedAction(() => () => {
+								setIsHidden(false);
+								handleEditClick(id as GridRowId)();
+								setProjectStatus("");
+								setDescription("");
+								setActions({
+									...actions,
+									adding: false,
+									editing: true,
+									editingId: id as GridRowId,
+								});
+							});
+						} else {
+							setIsHidden(false); // if the fields in the add form are empty, just close it
+							handleEditClick(id as GridRowId)(); // then proceed to edit
+							setActions({ ...actions, adding: false, editing: true, editingId: id as GridRowId });
+						}
+					}
+					break;
+				case "add":
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?");
+						setDialogContentText(
+							"Are you sure you want to cancel?"
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(true);
+							setConfirmAction(false);
+							setActions({
+								...actions,
+								editing: false,
+								adding: true,
+							});
+							setRowModesModel({
+								[actions.editingId]: {
+									mode: GridRowModes.View,
+									ignoreModifications: true,
+								},
+							});
+						});
+					} else if (actions.selecting) {
+						setDialogTitle("Discard the selection?");
+						setDialogContentText(
+							"Upon proceeding, the selection will be discarded \nand you will go on adding record/s."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(true);
+							setConfirmAction(false);
+							setRowSelectionModel([]);
+							setSelectedId(new Set([]));
+							setActions({
+								...actions,
+								selecting: false,
+								adding: true,
+							});
+						});
+					} // no else because the add button is hidden so there is no way you could press Add button twice
+					break;
+				case "delete":
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?");
+						setDialogContentText(
+							"Are you sure you want to cancel edit and proceed \nwith deleting a record?"
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(true);
+							setConfirmAction(false);
+							setActions({
+								...actions,
+								editing: false,
+							});
+							setRowModesModel({
+								[actions.editingId]: {
+									mode: GridRowModes.View,
+									ignoreModifications: true,
+								},
+							});
+
+							setAsk(true);
+							setIsBatch(false);
+							setDialogContentText(
+								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+							);
+							setDialogTitle("Delete this record?");
+							setDeleteId(id as number);
+						});
+					} else if (actions.selecting) {
+						setDialogTitle("Discard the selection?");
+						setDialogContentText(
+							"Upon proceeding, the selection will be discarded \nand you will go on deleting a record."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setConfirmAction(false);
+							setRowSelectionModel([]);
+							setSelectedId(new Set([]));
+							setActions({
+								...actions,
+								selecting: false,
+							});
+
+							setAsk(true);
+							setIsBatch(false);
+							setDialogContentText(
+								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+							);
+							setDialogTitle("Delete this record?");
+							setDeleteId(id as number);
+						});
+					} else {
+						setDialogTitle("Cancel adding a record?");
+						setDialogContentText(
+							"The add form will be closed and no record will be saved."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(false);
+							setConfirmAction(false);
+							setActions({
+								...actions,
+								adding: false,
+							});
+
+							setAsk(true);
+							setIsBatch(false);
+							setDialogContentText(
+								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+							);
+							setDialogTitle("Delete this record?");
+							setDeleteId(id as number);
+						});
+					}
+					break;
+				default: // case "select"
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?");
+						setDialogContentText(
+							"Are you sure you want to cancel editing \nand proceed with selection?"
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setConfirmAction(false);
+							setRowSelectionModel(
+								newSelectionModel as GridRowSelectionModel
+							);
+							setSelectedId(
+								new Set(
+									newSelectionModel as GridRowSelectionModel
+								)
+							);
+							setRowModesModel({
+								[actions.editingId]: {
+									mode: GridRowModes.View,
+									ignoreModifications: true,
+								},
+							});
+							setActions({
+								...actions,
+								selecting: true,
+								editing: false,
+							});
+						});
+					} else if (actions.adding) {
+						setDialogTitle("Cancel adding a record?");
+						setDialogContentText(
+							"The add form will be closed and no record will be saved."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(false);
+							setConfirmAction(false);
+							setRowSelectionModel(
+								newSelectionModel as GridRowSelectionModel
+							);
+							setSelectedId(
+								new Set(
+									newSelectionModel as GridRowSelectionModel
+								)
+							);
+							setActions({
+								...actions,
+								selecting: true,
+								adding: false,
+							});
+						});
+					} else {
+						setRowSelectionModel(
+							newSelectionModel as GridRowSelectionModel
+						);
+						setSelectedId(
+							new Set(newSelectionModel as GridRowSelectionModel)
+						);
+						newSelectionModel?.length === 0
+							? setActions({ ...actions, selecting: false })
+							: setActions({ ...actions, selecting: true });
+					}
+					break;
+			}
+		} else {
+			switch (action) {
+				case "edit":
+					setActions({
+						...actions,
+						editing: true,
+						editingId: id as GridRowId,
+					});
+					handleEditClick(id as GridRowId)();
+					break;
+				case "add":
+					setActions({ ...actions, adding: true });
+					setIsHidden(true);
+					break;
+				case "delete":
+					setAsk(true);
+					setIsBatch(false);
+					setDialogContentText(
+						"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+					);
+					setDialogTitle("Delete this record?");
+					setDeleteId(id as number);
+					break;
+				default:
+					setRowSelectionModel(
+						newSelectionModel as GridRowSelectionModel
+					);
+					setSelectedId(
+						new Set(newSelectionModel as GridRowSelectionModel)
+					);
+					newSelectionModel?.length === 0
+						? setActions({ ...actions, selecting: false })
+						: setActions({ ...actions, selecting: true });
+					break;
+			}
+		}
+	};
 
 	return (
 		<Box sx={datagridBoxStyle}>
@@ -308,10 +630,10 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 					<Button
 						variant="contained"
 						color="primary"
-						onClick={() => setIsHidden(true)}
+						onClick={() => verifyAction("add")}
 						startIcon={<AddIcon />}
 					>
-						Add Status
+						Add Project Status
 					</Button>
 				) : (
 					<div className="hideButton">
@@ -319,14 +641,14 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 							<div style={addFormStyles}>
 								<DataGridAddTextField
 									inputLabel="Name"
-									inputValue={projectStatusName}
+									inputValue={projectStatus}
 									inputValueSetter={(
 										e: React.ChangeEvent<
 											| HTMLInputElement
 											| HTMLTextAreaElement
 										>
-									) => setProjectStatusName(e.target.value)}
-									inputRef={projectStatusNameRef}
+									) => setProjectStatus(e.target.value)}
+									inputRef={projectStatusRef}
 									textFieldIcon={<PersonIcon />}
 									autoFocus={true}
 								/>
@@ -347,11 +669,33 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 								handleAdd={handleAdd}
 								handleAddContinue={handleAddContinue}
 								handleClosing={() => {
-									setIsHidden(false);
-									setProjectStatusName("");
-									setDescription("");
+									if (projectStatus || description) {
+										setDialogTitle("Close the form?");
+										setDialogContentText(
+											"Are you sure you want to discard your inputs?"
+										);
+										setConfirmAction(true);
+										setProceedAction(() => () => {
+											setIsHidden(false);
+											setProjectStatus("");
+											setDescription("");
+											setActions({
+												...actions,
+												adding: false,
+											});
+											setConfirmAction(false);
+										});
+									} else {
+										setIsHidden(false);
+										setProjectStatus("");
+										setDescription("");
+										setActions({
+											...actions,
+											adding: false,
+										});
+									}
 								}}
-							 />
+							/>
 						</div>
 					</div>
 				)}
@@ -368,12 +712,18 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 				rowModesModel={rowModesModel}
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
+				onCellDoubleClick={(params, event) =>
+					(event.defaultMuiPrevented = true)
+				}
+				onRowDoubleClick={(params, event) =>
+					(event.defaultMuiPrevented = true)
+				}
 				processRowUpdate={handleUpdate}
 				checkboxSelection
 				keepNonExistentRowsSelected
+				disableRowSelectionOnClick
 				onRowSelectionModelChange={(newRowSelectionModel) => {
-					setRowSelectionModel(newRowSelectionModel);
-					setSelectedId(new Set(newRowSelectionModel));
+					verifyAction("select", 0, newRowSelectionModel);
 				}}
 				rowSelectionModel={rowSelectionModel}
 				initialState={{
@@ -398,8 +748,15 @@ const ProjectStatusTable: React.FC<DataGridProps> = (props) => {
 				proceedWithDelete={proceedWithDelete}
 				proceedWithDeleteBatch={proceedWithDeleteBatch}
 			/>
+			<DataGridActionDialog
+				open={confirmAction}
+				handleClose={setConfirmAction}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				confirmAction={proceedAction}
+			/>
 		</Box>
 	);
 };
 
-export default ProjectStatusTable;
+export default BusinessUnitTable;

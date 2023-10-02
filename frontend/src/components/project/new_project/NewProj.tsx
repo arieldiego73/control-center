@@ -772,7 +772,7 @@ export default function NewProj() {
                     </div>
                   </FormControl>
                 </div>
-
+ 
                 <div className={NewProjectStyle.formRow5}>
                   <FormControl
                     style={{
@@ -943,6 +943,8 @@ export default function NewProj() {
               CANCEL
             </Button>
           </div>
+
+          
         </div>
       </div>
 

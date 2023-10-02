@@ -67,7 +67,9 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	}, [dispatch]);
 
 	// STORE THE ROLES TO 'data'
-	const data = useSelector((state: RootState) => state.deptReducer.department);
+	const data = useSelector(
+		(state: RootState) => state.deptReducer.department
+	);
 
 	const [isHidden, setIsHidden] = React.useState(false);
 	const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -105,6 +107,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 		setRowSelectionModel([]); // clear selected rows
 		setSelectedId(new Set()); // clear selected IDs
 		setAsk(false); // close dialog
+		setActions({ ...actions, selecting: false });
 	};
 
 	React.useEffect(() => {
@@ -187,7 +190,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		verifyAction("delete", id)
+		verifyAction("delete", id);
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -360,9 +363,9 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 			switch (action) {
 				case "edit":
 					if (actions.editing) {
-						setDialogTitle("Cancel edit?");
+						setDialogTitle("Cancel edit and move?");
 						setDialogContentText(
-							"Are you sure you want to cancel?"
+							"Are you sure you want to cancel editing this row \nand move to another row?"
 						);
 						setConfirmAction(true);
 						setProceedAction(() =>
@@ -410,7 +413,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 						} else {
 							setIsHidden(false); // if the fields in the add form are empty, just close it
 							handleEditClick(id as GridRowId)(); // then proceed to edit
-							setActions({ ...actions, adding: false });
+							setActions({ ...actions, adding: false, editing: true, editingId: id as GridRowId });
 						}
 					}
 					break;
@@ -455,85 +458,83 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 						});
 					} // no else because the add button is hidden so there is no way you could press Add button twice
 					break;
-					case "delete":
-						if (actions.editing) {
-							setDialogTitle("Cancel edit?");
-							setDialogContentText(
-								"Are you sure you want to cancel edit and proceed \nwith deleting a record?"
-							);
-							setConfirmAction(true);
-							setProceedAction(() => () => {
-								setIsHidden(true);
-								setConfirmAction(false);
-								setActions({
-									...actions,
-									editing: false,
-								});
-								setRowModesModel({
-									[actions.editingId]: {
-										mode: GridRowModes.View,
-										ignoreModifications: true,
-									},
-								});
-	
-								setAsk(true);
-								setIsBatch(false);
-								setDialogContentText(
-									"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-								);
-								setDialogTitle("Delete this record?");
-								setDeleteId(id as number);
+				case "delete":
+					if (actions.editing) {
+						setDialogTitle("Cancel edit?");
+						setDialogContentText(
+							"Are you sure you want to cancel edit and proceed \nwith deleting a record?"
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(true);
+							setConfirmAction(false);
+							setActions({
+								...actions,
+								editing: false,
 							});
-						} else if (actions.selecting) {
-							setDialogTitle("Discard the selection?");
-							setDialogContentText(
-								"Upon proceeding, the selection will be discarded \nand you will go on deleting a record."
-							);
-							setConfirmAction(true);
-							setProceedAction(() => () => {
-								setIsHidden(true);
-								setConfirmAction(false);
-								setRowSelectionModel([]);
-								setSelectedId(new Set([]));
-								setActions({
-									...actions,
-									selecting: false,
-								});
-	
-								setAsk(true);
-								setIsBatch(false);
-								setDialogContentText(
-									"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-								);
-								setDialogTitle("Delete this record?");
-								setDeleteId(id as number);
+							setRowModesModel({
+								[actions.editingId]: {
+									mode: GridRowModes.View,
+									ignoreModifications: true,
+								},
 							});
-						} else {
-							setDialogTitle("Cancel adding a record?");
+
+							setAsk(true);
+							setIsBatch(false);
 							setDialogContentText(
-								"The add form will be closed and no record will be saved."
+								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
 							);
-							setConfirmAction(true);
-							setProceedAction(() => () => {
-								setIsHidden(false);
-								setConfirmAction(false);
-								setActions({
-									...actions,
-									adding: false,
-								});
-	
-								setAsk(true);
-								setIsBatch(false);
-								setDialogContentText(
-									"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-								);
-								setDialogTitle("Delete this record?");
-								setDeleteId(id as number);
+							setDialogTitle("Delete this record?");
+							setDeleteId(id as number);
+						});
+					} else if (actions.selecting) {
+						setDialogTitle("Discard the selection?");
+						setDialogContentText(
+							"Upon proceeding, the selection will be discarded \nand you will go on deleting a record."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setConfirmAction(false);
+							setRowSelectionModel([]);
+							setSelectedId(new Set([]));
+							setActions({
+								...actions,
+								selecting: false,
 							});
-	
-						}
-						break;
-					default: // case "select"
+
+							setAsk(true);
+							setIsBatch(false);
+							setDialogContentText(
+								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+							);
+							setDialogTitle("Delete this record?");
+							setDeleteId(id as number);
+						});
+					} else {
+						setDialogTitle("Cancel adding a record?");
+						setDialogContentText(
+							"The add form will be closed and no record will be saved."
+						);
+						setConfirmAction(true);
+						setProceedAction(() => () => {
+							setIsHidden(false);
+							setConfirmAction(false);
+							setActions({
+								...actions,
+								adding: false,
+							});
+
+							setAsk(true);
+							setIsBatch(false);
+							setDialogContentText(
+								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+							);
+							setDialogTitle("Delete this record?");
+							setDeleteId(id as number);
+						});
+					}
+					break;
+				default: // case "select"
 					if (actions.editing) {
 						setDialogTitle("Cancel edit?");
 						setDialogContentText(
@@ -563,9 +564,9 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 							});
 						});
 					} else if (actions.adding) {
-						setDialogTitle("Discard the selection?");
+						setDialogTitle("Cancel adding a record?");
 						setDialogContentText(
-							"Upon proceeding, the selection will be discarded \nand you will go on adding record/s."
+							"The add form will be closed and no record will be saved."
 						);
 						setConfirmAction(true);
 						setProceedAction(() => () => {
@@ -612,15 +613,15 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 					setActions({ ...actions, adding: true });
 					setIsHidden(true);
 					break;
-					case "delete":
-						setAsk(true);
-						setIsBatch(false);
-						setDialogContentText(
-							"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-						);
-						setDialogTitle("Delete this record?");
-						setDeleteId(id as number);
-						break;
+				case "delete":
+					setAsk(true);
+					setIsBatch(false);
+					setDialogContentText(
+						"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+					);
+					setDialogTitle("Delete this record?");
+					setDeleteId(id as number);
+					break;
 				default:
 					setRowSelectionModel(
 						newSelectionModel as GridRowSelectionModel
@@ -657,7 +658,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 						onClick={() => verifyAction("add")}
 						startIcon={<AddIcon />}
 					>
-						Add Role
+						Add Business Unit
 					</Button>
 				) : (
 					<div className="hideButton">
@@ -704,7 +705,11 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 								handleAdd={handleAdd}
 								handleAddContinue={handleAddContinue}
 								handleClosing={() => {
-									if (businessUnitName || shortName || description) {
+									if (
+										businessUnitName ||
+										shortName ||
+										description
+									) {
 										setDialogTitle("Close the form?");
 										setDialogContentText(
 											"Are you sure you want to discard your inputs?"

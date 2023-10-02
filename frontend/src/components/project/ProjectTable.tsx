@@ -13,17 +13,25 @@ import {
   DialogTitle,
   Paper,
 } from "@mui/material";
+import {datagridStyle} from "../datagrid_customs/DataGridStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import ProjectTableStyle from "./Project.module.css";
 import MembersTable from "./MembersTable";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
+import { Divider, LinearProgress } from "@mui/material";
+import CustomPagination from "../custom_pagination/pagination";
 
 interface ProjectTableProps {
 	projectData: any[];
 }
 
 const ProjectTable: React.FC<ProjectTableProps> = (props) => {
+
+ 
   const { projectData } = props;
 
   const [rows, setRows] = React.useState(projectData);
@@ -73,6 +81,26 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
     month: "short",
     day: "2-digit",
   });
+
+  const dataGridSlots = {
+		// toolbar: DatagridToolbar,
+		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
+		loadingOverlay: LinearProgress,
+	};
+  
+	// function DatagridToolbar() {
+	// 	return (
+	// 		<DataGridEditToolbar
+	// 			setAsk={setAsk}
+	// 			setIsBatch={setIsBatch}
+	// 			setDialogContentText={setDialogContentText}
+	// 			setDialogTitle={setDialogTitle}
+	// 			selectedId={selectedId}
+	// 		/>
+	// 	);
+	// }
+
 
   const columns: GridColDef[] = [
     { field: "proj_id", headerName: "ID", headerAlign: "center",
@@ -133,20 +161,23 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
     
     { field: "proj_status_name", headerName: "Status", headerAlign: "center",
     align: "center", flex:1,},
+
+
   ];
   return (
     <div className={ProjectTableStyle.tableMainContainer}>
       <Paper className={ProjectTableStyle.paperTable}>
         <div style={{ height: "100%", width: "100%" }}>
           <DataGrid
+          sx={datagridStyle}
             rows={rows} 
             getRowId={(row) => row.proj_id} 
             columns={columns}
             pagination
             pageSizeOptions={[5, 25, 50, 100]}
+            slots={dataGridSlots}
           />
         </div>
-
 
         <Dialog
 					open={openMembers}
