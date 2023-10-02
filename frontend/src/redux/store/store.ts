@@ -16,6 +16,8 @@ import clientReducer from "../state/clientState"
 import devTypeReducer from "../state/devTypeState"
 import activityLog from "../state/historyState"
 import graphsData from "../state/graphState"
+import formSlice from "../state/formSlice";
+import dialogSlice from "../state/dialogSlice";
 
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -35,6 +37,8 @@ const store = configureStore({
 		devTypeReducer: devTypeReducer,
 		activityLog: activityLog,
 		graphsData: graphsData,
+		pageAbandonmentPrevention: formSlice,
+		dialogListener: dialogSlice
 		// add more reducers here
 	},
 	middleware: [saga],
