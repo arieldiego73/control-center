@@ -318,14 +318,14 @@ public class ProjectServiceImpl implements ProjectService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id(emp_id); // current logged user dapat
-            activityLogInput.setLog_desc("Added a Project.");
+            activityLogInput.setLog_desc("Added '" + project.getProj_name() + "' project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return ResponseEntity.status(200).body("Project added successfully.");
+            return ResponseEntity.status(200).body("Project '" + project.getProj_name() + "' added successfully.");
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
@@ -436,14 +436,14 @@ public class ProjectServiceImpl implements ProjectService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a Project.");
+                activityLogInput.setLog_desc("Edited '" + project.getProj_name() + "' project.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return ResponseEntity.status(200).body("Project edited successfully.");
+                return ResponseEntity.status(200).body("Project '" + project.getProj_name() + "' edited successfully.");
             }
         } else {
             return ResponseEntity.status(404).body("Project with the ID " + id + " cannot be found.");
@@ -452,10 +452,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public String logicalDeleteProject(String id, String emp_id) {
-        ProjectOutput data = projectDao.getProjectById(id);
+        ProjectOutput project = projectDao.getProjectById(id);
 
-        if (data != null) {
-            if (data.getDel_flag() == 1) {
+        if (project != null) {
+            if (project.getDel_flag() == 1) {
                 return "Project with the ID " + id + " has already been deleted.";
             } else {
                 //setting the del_flag of tbl_project_mst to 1 based on the selected project
@@ -475,14 +475,14 @@ public class ProjectServiceImpl implements ProjectService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a Project.");
+                activityLogInput.setLog_desc("Deleted '" + project.getProj_name() + "' project.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project deleted successfully.";
+                return "Project '" + project.getProj_name() + "' deleted successfully.";
             }
         } else {
             return "Project with the ID " + id + " cannot be found.";
@@ -491,10 +491,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public String restoreProject(String id) {
-        ProjectOutput data = projectDao.getProjectById(id);
+        ProjectOutput project = projectDao.getProjectById(id);
 
-        if (data != null) {
-            if (data.getDel_flag() == 0) {
+        if (project != null) {
+            if (project.getDel_flag() == 0) {
                 return "Project with the ID " + id + " is not yet deleted.";
             } else {
                 //setting the del_flag of tbl_project_mst to 0 based on the selected project
@@ -514,14 +514,14 @@ public class ProjectServiceImpl implements ProjectService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a Project.");
+                activityLogInput.setLog_desc("Restored '" + project.getProj_name() + "' project.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Project restored successfully.";
+                return "Project '" + project.getProj_name() + "' restored successfully.";
             }
         } else {
             return "Project with the ID " + id + " cannot be found.";
