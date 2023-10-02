@@ -179,15 +179,15 @@ public class UserServiceImpl implements UserService{
         userDao.insertUser(user);
         personalInfoDao.addPersonalInfo(personalInfo);
 
-        ActivityLogInput activityLogInput = new ActivityLogInput();
+        // ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id("101"); //current logged user dapat
-        activityLogInput.setLog_desc("Added a User.");
+        // activityLogInput.setEmp_id("101"); //current logged user dapat
+        // activityLogInput.setLog_desc("Added a User.");
 
-        Long currentTimeMillis = System.currentTimeMillis();
-        //add the activity log
-        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-        activityLogDao.addActivityLog(activityLogInput);
+        // Long currentTimeMillis = System.currentTimeMillis();
+        // //add the activity log
+        // activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        // activityLogDao.addActivityLog(activityLogInput);
         } catch (Exception e) {
         return ResponseEntity.status(404).body(e.getMessage());
       }
@@ -200,13 +200,13 @@ public class UserServiceImpl implements UserService{
       ActivityLogInput activityLogInput = new ActivityLogInput();
 
       activityLogInput.setEmp_id(emp_id); // current logged user dapat
-      activityLogInput.setLog_desc("Added an account.");
+      activityLogInput.setLog_desc("Added '" + user.getUsername() + "' account.");
 
       Long currentTimeMillis = System.currentTimeMillis();
       // add the activity log
       activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
       activityLogDao.addActivityLog(activityLogInput);
-      return ResponseEntity.ok("Account Created Successfully");
+      return ResponseEntity.ok("Account '" + user.getUsername() + "' Created Successfully");
     }
   }
 
@@ -246,10 +246,6 @@ public class UserServiceImpl implements UserService{
       multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role.getRole_id());
     }
 
-    for(Long role_id : role_ids) {
-      multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
-    }  
-
     userDao.editUser(userMap);
     personalInfoDao.editPersonalInfo(personalInfoMap);
 
@@ -257,20 +253,56 @@ public class UserServiceImpl implements UserService{
     ActivityLogInput activityLogInput = new ActivityLogInput();
 
     activityLogInput.setEmp_id(emp_id); // current logged user dapat
-    activityLogInput.setLog_desc("Edited an account.");
+    activityLogInput.setLog_desc("Edited '" + user.getUsername() + "' account.");
 
     Long currentTimeMillis = System.currentTimeMillis();
     // add the activity log
     activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
     activityLogDao.addActivityLog(activityLogInput);
 
-    return ResponseEntity.ok("Account edited successfully.");
+    List<String> roleNames = new ArrayList<>();
+    StringBuilder formattedList = new StringBuilder();
+    for(Long role_id : role_ids) {
+      multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
+      RoleOutput role = roleDao.getRoleById(String.valueOf(role_id));
+      roleNames.add(role.getTitle());
+    }  
+
+    for(String element : roleNames) {
+      formattedList.append("'").append(element).append("', ");
+    }
+
+    if(formattedList.length() > 0) {
+      formattedList.delete(formattedList.length() - 2, formattedList.length());
+    }
+
+    if(roleNames.size() > 1) {
+      ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+
+      activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+      activityLogInputForRoles.setLog_desc("Added multiple roles " + formattedList.toString() + " on the account of '" + user.getUsername() + "'.");
+      // add the activity log
+      activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+      activityLogDao.addActivityLog(activityLogInputForRoles);
+    } else {
+      ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+
+      activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+      activityLogInputForRoles.setLog_desc("Added the role " + formattedList.toString() + " on the account of '" + user.getUsername() + "'.");
+      // add the activity log
+      activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+      activityLogDao.addActivityLog(activityLogInputForRoles);
+    }
+    
+
+    return ResponseEntity.ok("Account '" + user.getUsername() + "' edited successfully.");
   }
 
 
   //setting the del_flag of user to 1
   @Override
   public ResponseEntity<String> logicalDeleteUser(String id, String emp_id) {
+    UserInfoOutput user = userDao.getUserById(id);
     userDao.logicalDeleteUser(id);
     personalInfoDao.logicalDeletePersonalInfo(id);
     multiRoleDao.logicalDeleteMultiRole(id);
@@ -279,23 +311,24 @@ public class UserServiceImpl implements UserService{
     ActivityLogInput activityLogInput = new ActivityLogInput();
 
     activityLogInput.setEmp_id(emp_id); // current logged user dapat
-    activityLogInput.setLog_desc("Deleted an account.");
+    activityLogInput.setLog_desc("Deleted '" + user.getUsername() + "' account.");
 
     Long currentTimeMillis = System.currentTimeMillis();
     // add the activity log
     activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
     activityLogDao.addActivityLog(activityLogInput);
 
-    return ResponseEntity.ok("User has been deleted.");
+    return ResponseEntity.ok("User '" + user.getUsername() + "' has been deleted.");
   }
 
   //setting the del_flag of user to 0
   @Override
   public ResponseEntity<String> restoreUser(String id) {
+    UserInfoOutput user = userDao.getUserById(id);
     userDao.restoreUser(id);
     personalInfoDao.restorePersonalInfo(id);
     multiRoleDao.restoreMultiRole(id);
-    return ResponseEntity.ok("User has been restored.");
+    return ResponseEntity.ok("User '" + user.getUsername() + "' has been restored.");
   }
   //   @Override
   //   public String insertUserBatch(List<User> users) {
