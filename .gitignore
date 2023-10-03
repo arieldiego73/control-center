@@ -45,3 +45,5 @@ src/main/resources/application.properties
 frontend/package-lock.json
 frontend/yarn.lock
 frontend/yarn.lock
+src/main/resources/application.properties
+frontend/yarn.lock

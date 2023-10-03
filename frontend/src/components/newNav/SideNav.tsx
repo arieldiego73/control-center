@@ -28,6 +28,7 @@ import {
   KeyboardArrowDown,
 }
   from "@mui/icons-material";
+  import { useDispatch } from "react-redux"
   
 // for dropdown in others 
 const othersDropDownData = [
@@ -128,6 +129,8 @@ export default function SideNav() {
     // top: isScreenSmall ? "4vh" : "4vh",
   };
 
+  const dispatch = useDispatch();
+
   return (
 
     <div style={sidenavContainerStyle}>
@@ -167,7 +170,7 @@ export default function SideNav() {
             >
               {/* Updated styles */}
               <FireNav component="nav" disablePadding>
-                <Link to="/dashboard" style={{ textDecoration: "none" }}>
+                <Link onClick={() => dispatch({ type: 'NAVIGATE' })} to="/dashboard" style={{ textDecoration: "none" }}>
                   <ListItemButton style={{ height: "65px" }}>
                     <img
                       src={smallLogo}

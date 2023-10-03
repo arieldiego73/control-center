@@ -50,14 +50,14 @@ public class StatusServiceImpl implements StatusService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id(emp_id); // current logged user dapat
-            activityLogInput.setLog_desc("Added a Status.");
+            activityLogInput.setLog_desc("Added '" + status.getStatus_name() + "' status.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return "Status added successfully.";
+            return "Status '" + status.getStatus_name() + "' added successfully.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -85,14 +85,14 @@ public class StatusServiceImpl implements StatusService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited a Status.");
+                activityLogInput.setLog_desc("Edited '" + status.getStatus_name() + "' status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Status edited successfully.";
+                return "Status '" + status.getStatus_name() + "' edited successfully.";
             }
         } else {
             return "Status with the code " + code + " cannot be found.";
@@ -101,10 +101,10 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public String logicalDeleteStatus(String code, String emp_id) {
-        StatusOutput statusById = statusDao.getStatusById(code);
+        StatusOutput status = statusDao.getStatusById(code);
 
-        if (statusById != null) {
-            if (statusById.getDel_flag() == 1) {
+        if (status != null) {
+            if (status.getDel_flag() == 1) {
                 return "Status with the code " + code + " has already been deleted.";
             } else {
                 statusDao.logicalDeleteStatus(code);
@@ -113,14 +113,14 @@ public class StatusServiceImpl implements StatusService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Deleted a Status.");
+                activityLogInput.setLog_desc("Deleted '" + status.getStatus_name() + "' status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Status deleted successfully.";
+                return "Status '" + status.getStatus_name() + "' deleted successfully.";
             }
         } else {
             return "Status with the code " + code + " cannot be found.";
@@ -146,11 +146,28 @@ public class StatusServiceImpl implements StatusService {
 
         // Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
+        Long currentTimeMillis = System.currentTimeMillis();
+
+        List<String> statuses = new ArrayList<>();
+        StringBuilder formattedList = new StringBuilder();
+
+        for(String id : ids) {
+            String toString = String.valueOf(id);
+            StatusOutput status = statusDao.getStatusById(toString);
+            statuses.add(status.getStatus_name());
+        }
+
+        for(String element : statuses) {
+            formattedList.append("'").append(element).append("', ");
+        }
+
+        if (formattedList.length() > 0) {
+            formattedList.delete(formattedList.length() - 2, formattedList.length());
+        } 
 
         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple Status.");
+        activityLogInput.setLog_desc("Deleted multiple Status: " + formattedList.toString() + ".");
 
-        Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
@@ -160,10 +177,10 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public String restoreStatus(String code) {
-        StatusOutput statusById = statusDao.getStatusById(code);
+        StatusOutput status = statusDao.getStatusById(code);
 
-        if (statusById != null) {
-            if (statusById.getDel_flag() == 0) {
+        if (status != null) {
+            if (status.getDel_flag() == 0) {
                 return "Status with the code " + code + " is not yet deleted.";
             } else {
                 statusDao.restoreStatus(code);
@@ -172,14 +189,14 @@ public class StatusServiceImpl implements StatusService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored a Status.");
+                activityLogInput.setLog_desc("Restored '" + status.getStatus_name() + "' status.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Status restored successfully.";
+                return "Status '" + status.getStatus_name() + "' restored successfully.";
             }
         } else {
             return "Status with the code " + code + " cannot be found.";

@@ -30,7 +30,47 @@ import TestHandler from "./pages/TestHandler";
 import ClientHandler from "./pages/ClientHandler";
 import ImagePreview from "./components/test/viewImg";
 
+import  { useDispatch, useSelector } from "react-redux"
+import { RootState } from "./redux/store/store";
+import React from "react";
+import { showDialog } from "./redux/state/dialogSlice";
+
 function App() {
+	// const dispatch = useDispatch();
+	// const open = useSelector((state: RootState) => state.dialogListener.isDialogVisible)
+
+	// // logic to determine if there are unsaved changes
+	// const hasUnsavedChanges = useSelector((state: RootState) => state.pageAbandonmentPrevention.isDirty)
+
+	// // Add event listeners when the component mounts
+	// React.useEffect(() => {
+	// 	const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+	// 		// Check if there are unsaved changes and show a confirmation dialog if needed
+	// 		if (hasUnsavedChanges) {
+	// 			e.preventDefault();
+	// 			e.returnValue = 'Dirty it is'; // This message will be displayed in the confirmation dialog
+	// 		}
+	// 	};
+
+	// 	// const handleLinkClick = (e: MouseEvent) => {
+	// 	// 	// Check if there are unsaved changes and show a confirmation dialog if needed
+	// 	// 	if (hasUnsavedChanges) {
+	// 	// 		e.preventDefault();
+	// 	// 		dispatch(showDialog()); // Dispatch your Redux action to show the dialog
+	// 	// 	}
+	// 	// };
+
+	// 	// Add event listeners
+	// 	window.addEventListener('beforeunload', handleBeforeUnload, { capture: true });
+	// 	// document.addEventListener('click', handleLinkClick);
+
+	// 	// Remove event listeners when the component unmounts
+	// 	return () => {
+	// 		window.removeEventListener('beforeunload', handleBeforeUnload, { capture: true });
+	// 		// document.removeEventListener('click', handleLinkClick);
+	// 	};
+	// }, [dispatch, hasUnsavedChanges]);
+
 	return (
 		<BrowserRouter>
 			<Routes>

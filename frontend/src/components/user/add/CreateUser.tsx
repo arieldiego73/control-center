@@ -20,10 +20,11 @@ import { getRolesFetch } from "../../../redux/state/roleState";
 import { getPositionFetch } from "../../../redux/state/positionState";
 import { addUserInfo } from "../../../redux/saga/userSaga";
 import { addUserReset } from "../../../redux/state/userState";
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import {
   Alert,
   AlertColor,
-  Checkbox,
+  Checkbox, 
   Dialog,
   DialogActions,
   DialogContent,
@@ -230,7 +231,7 @@ export default function CreateUser() {
       selectedRoles.length === 0
     ) {
       handleClickSnackpack(
-        "Associate ID is required. Please, try again.",
+        "Please fill in the required fields.",
         "error"
       )();
     } else if (
@@ -259,41 +260,6 @@ export default function CreateUser() {
     }
   };
 
-  // const handleSave = () => {
-  //   if (
-  //     assocID &&
-  //     username &&
-  //     firstName &&
-  //     lastName &&
-  //     position &&
-  //     email &&
-  //     department &&
-  //     businessUnit &&
-  //     empStatus !== "0" &&
-  //     selectedRoles.length > 0
-  //   ) {
-  //     setAsk(true);
-  //     setDialogTitle("Save the record?");
-  //     setDialogContentText(
-  //       "Upon proceeding, the modifications on the record \nmade will be saved."
-  //     );
-  //     setIsSaving(true);
-  //   } else {
-  //     if (assocID === null) {
-  //       // Trigger error for assocID being null
-  //       // You can display an error message or handle it as needed.
-  //       handleClickSnackpack(
-  //         "Associate ID is required. Please, try again.",
-  //         "error"
-  //       )();
-  //     }
-  //     handleClickSnackpack(
-  //       "All fields are required. Please, try again.",
-  //       "error"
-  //     )();
-  //   }
-  // };
-
   const handleCancel = () => {
     setAsk(true);
     setDialogTitle("Cancel the edit?");
@@ -315,21 +281,30 @@ export default function CreateUser() {
                       src={imgTest}
                       className={CreateUserStyle.imgSize}
                     />
-                  </div>
-
-                  <div className={CreateUserStyle.toolTip}>
-                    <Button
-                      className={CreateUserStyle.buttonProfile}
-                      component="label"
-                      startIcon={<CloudUploadIcon />}
-                      sx={{ whiteSpace: "nowrap" }}
-                    >
-                      Edit Profile
-                      <VisuallyHiddenInput type="file" />
-                    </Button>
+                    <div style={{height: "80px", width: "80px", position: "absolute", right: "0", top: "70%", display: "grid", placeItems: "center", overflow: "hidden", }}>
+                      <Button 
+                        component="label"
+                        sx={{
+                          overflow: "hidden",
+                          borderRadius:"50%",
+                          height: "60px",
+                          width: "54px",
+                          background: "rgba(200, 200, 200, 0.75)", 
+                          margin:0, padding:0,
+                          boxShadow: "rgba(60, 64, 67, 0.7) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+                          "&:hover": {
+                            background: "rgba( 237, 249, 255, 0.75 )",
+                            transform: "scale(1.1)"
+                          }
+                        }}
+                        className={CreateUserStyle.updateImageButton}
+                      >
+                        <CameraAltOutlinedIcon sx={{height:"30px", width:"30px", margin:0, padding:0}}/>
+                        <VisuallyHiddenInput type="file" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
-
                 <div className={CreateUserStyle.formProfileContainer}>
                   {/* Start of Assoc id form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
@@ -344,7 +319,7 @@ export default function CreateUser() {
                         label="Associate ID"
                         error={formSubmitted && assocID === ""}
                         helperText={
-                          formSubmitted && assocID === "" ? "Missing field" : ""
+                          formSubmitted && assocID === "" ? "Associate ID required" : ""
                         }
                         variant="outlined"
                         size="small"
@@ -377,7 +352,7 @@ export default function CreateUser() {
                         error={formSubmitted && username === ""}
                         helperText={
                           formSubmitted && username === ""
-                            ? "Missing field"
+                            ? "Username required"
                             : ""
                         }
                         variant="outlined"
@@ -421,9 +396,9 @@ export default function CreateUser() {
                           </InputAdornment>
                         }
                       >
-                        {/* <MenuItem key={0} value={"0"}>
+                        <MenuItem key={0} value={"0"}>
                           {"<Select status>"}
-                        </MenuItem> */}
+                        </MenuItem>
                         {statuses.map((status: any) => (
                           <MenuItem
                             key={status?.status_code}
@@ -434,7 +409,7 @@ export default function CreateUser() {
                         ))}
                       </Select>
                       {formSubmitted && empStatus === "0" && (
-                        <FormHelperText>Select a status</FormHelperText>
+                        <FormHelperText>Employee Status required</FormHelperText>
                       )}
                     </FormControl>
                   </div>
@@ -453,19 +428,20 @@ export default function CreateUser() {
                           error={formSubmitted && firstName === ""}
                           helperText={
                             formSubmitted && firstName === ""
-                              ? "Missing field"
+                              ? "First Name required"
                               : ""
                           }
                           variant="outlined"
                           size="small"
                           // placeholder="First Name"
-                          sx={{ flex: 1, display: "flex", width: "100%" }}
+                          sx={{flex: 1, display: "flex", width: "100%"}}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
                                 <PermIdentityOutlinedIcon />
                               </InputAdornment>
                             ),
+                            
                           }}
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
@@ -497,7 +473,7 @@ export default function CreateUser() {
                           error={formSubmitted && lastName === ""}
                           helperText={
                             formSubmitted && lastName === ""
-                              ? "Missing field"
+                              ? "Last Name required"
                               : ""
                           }
                           variant="outlined"
@@ -561,7 +537,7 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && position === 0 && (
-                          <FormHelperText>Select a status</FormHelperText>
+                          <FormHelperText>Position required</FormHelperText>
                         )}
                       </FormControl>
 
@@ -600,7 +576,15 @@ export default function CreateUser() {
                           }}
                           MenuProps={MenuProps}
                           size="small"
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <GroupsOutlinedIcon />
+                            </InputAdornment>
+                          }
                         >
+                          {/* <MenuItem key={0} value={0}>
+                            {"<Select a role>"}
+                          </MenuItem> */}
                           {roles.map((role: any) => (
                             <MenuItem key={role.role_id} value={role.role_id}>
                               <Checkbox
@@ -614,7 +598,7 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && selectedRoles.length === 0 && (
-                          <FormHelperText>Select a status</FormHelperText>
+                          <FormHelperText>Role required</FormHelperText>
                         )}
                       </FormControl>
                     </div>
@@ -633,7 +617,7 @@ export default function CreateUser() {
                           label="Email"
                           error={formSubmitted && email === ""}
                           helperText={
-                            formSubmitted && email === "" ? "Missing field" : ""
+                            formSubmitted && email === "" ? "Email required" : ""
                           }
                           variant="outlined"
                           size="small"
@@ -668,7 +652,6 @@ export default function CreateUser() {
                         <InputLabel id="demo-controlled-open-select-label">
                           Department
                         </InputLabel>
-
                         <Select
                           label="Department"
                           labelId="demo-simple-select-label"
@@ -685,7 +668,7 @@ export default function CreateUser() {
                           }
                         >
                           <MenuItem key={0} value={0}>
-                            {"<Select a department>"}
+                            {"<Select department>"}
                           </MenuItem>
                           {sections.map((sect: any) => (
                             <MenuItem
@@ -697,7 +680,7 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && department === 0 && (
-                          <FormHelperText>Select a status</FormHelperText>
+                          <FormHelperText>Department required</FormHelperText>
                         )}
                       </FormControl>
 
@@ -740,7 +723,7 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && businessUnit === 0 && (
-                          <FormHelperText>Select a status</FormHelperText>
+                          <FormHelperText>Business Unit required</FormHelperText>
                         )}
                       </FormControl>
                     </div>
@@ -760,7 +743,6 @@ export default function CreateUser() {
 
                   <Button
                     variant="text"
-                    // startIcon={<CancelOutlinedIcon />}
                     className={CreateUserStyle.cancelButton}
                     onClick={handleCancel}
                   >

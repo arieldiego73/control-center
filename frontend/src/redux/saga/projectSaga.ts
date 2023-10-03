@@ -11,6 +11,8 @@ import {
 	setIsLoading
 } from "../state/projectState";
 import { Dayjs } from "dayjs";
+import { GridRowId } from "@mui/x-data-grid"
+
 import { createAction } from "@reduxjs/toolkit";
 
 export interface Data {
@@ -211,7 +213,65 @@ function* updateSaga(action: ReturnType<typeof updateProject>): any {
 }
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+// DELETE
+const apiDelete = async (proj_id: number): Promise<any> => {
+	try {
+		const url = "http://localhost:8080/role/delete/" + proj_id;
+		return axios.put(url);
+	} catch (error) {
+		return error;
+	}
+};
 
+export const deleteProject = createAction<{
+	proj_id: number;
+}>("projects/deleteProject");
+
+export function* projectSagaDelete() {
+	yield takeEvery(deleteProject.type, deleteSaga);
+}
+
+function* deleteSaga(action: ReturnType<typeof deleteProject>): any {
+	try {
+		yield put(setIsLoading(true))
+		const response = yield call(apiDelete, action.payload.proj_id);
+		yield call(validate, response);
+	} catch (error) {
+		yield call(catchErr, error);
+	}
+}
+
+// BATCH DELETE
+const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
+	try {
+		const params = new URLSearchParams();
+		batchId.forEach((id) => {
+			params.append("id", id.toString());
+		});
+		const url = `http://localhost:8080/role/delete-multiple?${params}`
+		return axios.put(url);
+	} catch (error) {
+		return error;
+	}
+};
+
+function* deleteBatchSaga(action: ReturnType<typeof deleteProjectBatch>): any {
+	try {
+		yield put(setIsLoading(true))
+		const response = yield call(apiBatchDelete, action.payload.batchId);
+		yield call(validate, response);
+	} catch (error) {
+		yield call(catchErr, error);
+	}
+}
+
+export const deleteProjectBatch = createAction<{
+	batchId: Set<GridRowId>;
+}>("projects/deleteProjectBatch");
+
+export function* projectSagaDeleteBatch() {
+	yield takeEvery(deleteProjectBatch.type, deleteBatchSaga);
+}
 
 
 
