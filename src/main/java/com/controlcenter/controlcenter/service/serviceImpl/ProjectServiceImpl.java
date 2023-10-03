@@ -318,14 +318,14 @@ public class ProjectServiceImpl implements ProjectService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id(emp_id); // current logged user dapat
-            activityLogInput.setLog_desc("Added a Project.");
+            activityLogInput.setLog_desc("Added the '" + project.getProj_name() + "' project.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
-            return ResponseEntity.status(200).body("Project added successfully.");
+            return ResponseEntity.status(200).body("Project '" + project.getProj_name() + "' added successfully.");
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
@@ -443,7 +443,7 @@ public class ProjectServiceImpl implements ProjectService {
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return ResponseEntity.status(200).body("Project edited successfully.");
+                return ResponseEntity.status(200).body("Project '" + project.getProj_name() + "' edited successfully.");
             }
         } else {
             return ResponseEntity.status(404).body("Project with the ID " + id + " cannot be found.");
