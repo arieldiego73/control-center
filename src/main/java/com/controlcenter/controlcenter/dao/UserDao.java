@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserInput;
@@ -40,5 +41,8 @@ public interface UserDao {
 
   //Login session
   UserOutput getByUsername(String username);
+
+  //batch delete
+   void deleteMultipleUser(@Param("ids") List<String> ids);
   
 }

@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,8 @@ public class MultiRoleServiceImpl implements MultiRoleService{
 
     @Autowired
     public UserDao userDao;
+
+    List<MultiRoleOutput> multiRoleList = new ArrayList<>();
 
     @Override
     public ResponseEntity<List<MultiRoleOutput>> getAllMultiRole(){
@@ -119,6 +122,25 @@ public class MultiRoleServiceImpl implements MultiRoleService{
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    @Override
+    public String deleteMultipleMultiRole(List<String> ids, String emp_id) {
+        multiRoleList = multiRoleDao.getAllMultiRole();
+
+        for(String id : ids) {
+            MultiRoleOutput multiRole = multiRoleDao.getMultiRoleById(id);
+            if(multiRole != null) {
+                if(multiRole.getDel_flag() == 1) {
+                    return "Personal Information with the ID " + id + " has already been deleted.";
+                }
+            } else {
+                return "Personal Information with the ID " + id + " cannot be found.";
+            }
+        }
+        multiRoleDao.deleteMultipleMultiRole(ids);
+
+        return "Records are successfully deleted.";
     }
 
     @Override

@@ -56,6 +56,16 @@
         WHERE emp_id = #{id}
     </update>
 
+<!-- Logical Delete Multiple -->
+    <delete id="deleteMultipleMultiRole">
+        UPDATE tbl_multi_role
+           SET del_flag = 1
+         WHERE emp_id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 <!-- Restore Data --> 
     <update id="restoreMultiRole">
         UPDATE tbl_multi_role

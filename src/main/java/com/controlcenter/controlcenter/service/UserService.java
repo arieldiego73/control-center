@@ -43,4 +43,7 @@ public interface UserService {
 
   //get all user roles
   public ResponseEntity<List<Map<Long, Object>>> getAllRolesOfUser(String emp_id);
+
+  //batch delete
+  public String deleteMultipleUser(List<String> ids, String emp_id);
 }

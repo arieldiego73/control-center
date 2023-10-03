@@ -20,4 +20,6 @@ public interface PersonalInfoService {
     public String logicalDeletePersonalInfo(String id, String emp_id);
 
     public String restorePersonalInfo(String id);
+
+    public String deleteMultiplePersonalInfo(List<String> ids, String emp_id);
 }
