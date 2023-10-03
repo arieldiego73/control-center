@@ -260,16 +260,25 @@ export default function NewProj() {
     });
   }, [projectMembers, usersData]);
 
+  const [startDateError, setStartDateError] = React.useState(false)
+  const [endDateError, setEndDateError] = React.useState(false)
   const handleProjectDurationChange = (e: Dayjs | null, type: string) => {
+    if (selectedStartDate?.isBefore(selectedEndDate)) {
+      setStartDateError(false)
+      setEndDateError(false)
+    }
+    
     if (type === "start") {
       if (selectedEndDate && e) {
         if (e.isBefore(selectedEndDate)) {
+          setStartDateError(false)
           setSelectedStartDate(dayjs(e));
         } else {
-          handleClickSnackpack(
-            "The start date cannot be later than the end. Please, try again.",
-            "error"
-          )();
+          // handleClickSnackpack(
+          //   "The start date cannot be later than the end. Please, try again.",
+          //   "error"
+          // )();
+          setStartDateError(true)
           // setSelectedStartDate(dayjs());
           // setSelectedEndDate(dayjs().add(1, "month"));
         }
@@ -280,11 +289,13 @@ export default function NewProj() {
       if (selectedStartDate && e) {
         if (e.isAfter(selectedStartDate)) {
           setSelectedEndDate(dayjs(e));
+          setEndDateError(false)
         } else {
-          handleClickSnackpack(
-            "The end date cannot be earlier than the start. Please, try again.",
-            "error"
-          )();
+          // handleClickSnackpack(
+          //   "The end date cannot be earlier than the start. Please, try again.",
+          //   "error"
+          // )();
+          setEndDateError(true)
           // setSelectedStartDate(dayjs());
           // setSelectedEndDate(dayjs().add(1, "month"));
         }
@@ -537,7 +548,7 @@ export default function NewProj() {
 
               <div className={NewProjectStyle.formRow3}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <FormControl>
+                <FormControl error={startDateError}>
                 
                     <DatePicker
                       label="Start Date"
@@ -545,16 +556,13 @@ export default function NewProj() {
                       reduceAnimations
                       slotProps={{
                         textField: {
-                          error:
-                            formSubmitted &&
-                            !selectedStartDate?.isAfter(selectedEndDate),
+                          error: startDateError
                         },
                       }}
                       onChange={(e) => handleProjectDurationChange(e, "start")}
                     />
                 
-                  {formSubmitted &&
-                    !selectedStartDate?.isAfter(selectedEndDate) && (
+                  {startDateError && (
                       <FormHelperText>
                         The start date cannot be later than the end
                       </FormHelperText>
@@ -563,7 +571,7 @@ export default function NewProj() {
                 </LocalizationProvider>
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <FormControl>
+                <FormControl error={endDateError}>
                  
                     <DatePicker
                       label="End Date"
@@ -571,16 +579,13 @@ export default function NewProj() {
                       reduceAnimations
                       slotProps={{
                         textField: {
-                          error:
-                            formSubmitted &&
-                            !selectedEndDate?.isBefore(selectedStartDate),
+                          error: endDateError
                         },
                       }}
                       onChange={(e) => handleProjectDurationChange(e, "end")}
                     />
                   
-                  {formSubmitted &&
-                    !selectedEndDate?.isBefore(selectedStartDate) && (
+                  {endDateError && (
                       <FormHelperText>
                         The end date cannot be earlier than the start
                       </FormHelperText>
