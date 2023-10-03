@@ -201,7 +201,7 @@ gap: 3%;
 
 .custom-link {
   text-decoration: underline;
-}
+} 
 
 .custom-link:hover {
   text-decoration: none; /* Remove underline on hover */
@@ -213,6 +213,7 @@ gap: 3%;
 .qlContainer {
   height: 300px;
   width: 100%;
+  
 }
 
 
