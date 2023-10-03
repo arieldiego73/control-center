@@ -205,7 +205,7 @@ export default function EditProject() {
       projectTechnologies.length === 0
     ) {
       handleClickSnackpack(
-        "Associate ID is required. Please, try again.",
+        "Please fill in all the required fields",
         "error"
       )();
     } else if (

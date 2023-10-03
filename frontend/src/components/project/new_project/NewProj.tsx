@@ -148,7 +148,7 @@ export default function NewProj() {
       projectTechnologies.length === 0
     ) {
       handleClickSnackpack(
-        "Associate ID is required. Please, try again.",
+        "Please fill in all the required fields.",
         "error"
       )();
     } else if (
@@ -486,11 +486,10 @@ export default function NewProj() {
                     label="Project Name"
                     error={formSubmitted && projectName === ""}
                     helperText={
-                      formSubmitted && projectName === "" ? "Missing field" : ""
+                      formSubmitted && projectName === "" ? "Project Name required" : ""
                     }
                     variant="outlined"
                     size="small"
-                    placeholder="Project Name"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -513,10 +512,10 @@ export default function NewProj() {
                       error={formSubmitted && status === 0}
                     >
                       <InputLabel>
-                        Status
+                          Project Status
                       </InputLabel>
                       <Select
-                        label="Status"
+                        label="Project Status"
                         value={status}
                         onChange={(e) => setStatus(e.target.value as number)}
                         startAdornment={
@@ -539,7 +538,7 @@ export default function NewProj() {
                         ))}
                       </Select>
                       {formSubmitted && status === 0 && (
-                        <FormHelperText>Select a status</FormHelperText>
+                        <FormHelperText>Project Status required</FormHelperText>
                       )}
                     </FormControl>
                   </div>
@@ -600,7 +599,7 @@ export default function NewProj() {
                     <FormControl
                       variant="outlined"
                       size="small"
-                      error={formSubmitted && devType === 1}
+                      // error={formSubmitted && devType === 1}
                     >
                       <InputLabel id="demo-controlled-open-select-label">
                         {"Development Type (optional)"}
@@ -628,9 +627,9 @@ export default function NewProj() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {formSubmitted && devType === 1 && (
+                      {/* {formSubmitted && devType === 1 && (
                         <FormHelperText>Select a status</FormHelperText>
-                      )}
+                      )} */}
                     </FormControl>
                   </div>
                 </div>
@@ -670,7 +669,7 @@ export default function NewProj() {
                     ))}
                   </FormGroup>
                   {formSubmitted && projectDevPhase.length === 0 && (
-                    <FormHelperText>Select a status</FormHelperText>
+                    <FormHelperText>Development Phase required</FormHelperText>
                   )}
                 </FormControl>
               </div>
@@ -834,7 +833,7 @@ export default function NewProj() {
                         ))}
                       </Select>
                       {formSubmitted && projectTechnologies.length === 0 && (
-                        <FormHelperText>Select a status</FormHelperText>
+                        <FormHelperText>Technology required</FormHelperText>
                       )}
                     </div>
                   </FormControl>
@@ -848,7 +847,7 @@ export default function NewProj() {
                     <FormLabel
                       sx={{
                         color: "black",
-                        fontWeight: "400",
+                        fontWeight: "400", 
                       }}
                     >
                       Project Description
@@ -862,7 +861,7 @@ export default function NewProj() {
                       placeholder="Project description..."
                     />
                     {formSubmitted && projectDescription === "" && (
-                      <FormHelperText>Select a status</FormHelperText>
+                      <FormHelperText>Project description required</FormHelperText>
                     )}
                   </FormControl>
                 </div>
