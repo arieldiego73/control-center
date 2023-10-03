@@ -270,8 +270,8 @@ export default function NewProj() {
             "The start date cannot be later than the end. Please, try again.",
             "error"
           )();
-          setSelectedStartDate(dayjs());
-          setSelectedEndDate(dayjs().add(1, "month"));
+          // setSelectedStartDate(dayjs());
+          // setSelectedEndDate(dayjs().add(1, "month"));
         }
       } else {
         setSelectedStartDate(dayjs(e));
@@ -285,8 +285,8 @@ export default function NewProj() {
             "The end date cannot be earlier than the start. Please, try again.",
             "error"
           )();
-          setSelectedStartDate(dayjs());
-          setSelectedEndDate(dayjs().add(1, "month"));
+          // setSelectedStartDate(dayjs());
+          // setSelectedEndDate(dayjs().add(1, "month"));
         }
       } else {
         setSelectedEndDate(dayjs(e));
@@ -501,15 +501,11 @@ export default function NewProj() {
                       size="small"
                       error={formSubmitted && status === 0}
                     >
-                      <FormLabel
-                        sx={{
-                          color: "black",
-                          fontWeight: "400",
-                        }}
-                      >
+                      <InputLabel>
                         Status
-                      </FormLabel>
+                      </InputLabel>
                       <Select
+                        label="Status"
                         value={status}
                         onChange={(e) => setStatus(e.target.value as number)}
                         startAdornment={
@@ -540,47 +536,57 @@ export default function NewProj() {
               </div>
 
               <div className={NewProjectStyle.formRow3}>
-                <FormControl
-                  error={
-                    formSubmitted &&
-                    !selectedStartDate?.isBefore(selectedEndDate)
-                  }
-                >
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <FormControl>
+                
                     <DatePicker
                       label="Start Date"
                       value={selectedStartDate}
                       reduceAnimations
+                      slotProps={{
+                        textField: {
+                          error:
+                            formSubmitted &&
+                            !selectedStartDate?.isAfter(selectedEndDate),
+                        },
+                      }}
                       onChange={(e) => handleProjectDurationChange(e, "start")}
                     />
-                  </LocalizationProvider>
-                  {formSubmitted && selectedStartDate === null && (
-                    <FormHelperText>
-                      The start date cannot be later than the end
-                    </FormHelperText>
-                  )}
+                
+                  {formSubmitted &&
+                    !selectedStartDate?.isAfter(selectedEndDate) && (
+                      <FormHelperText>
+                        The start date cannot be later than the end
+                      </FormHelperText>
+                    )}
                 </FormControl>
+                </LocalizationProvider>
 
-                <FormControl
-                  error={
-                    formSubmitted &&
-                    !selectedEndDate?.isAfter(selectedStartDate)
-                  }
-                >
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <FormControl>
+                 
                     <DatePicker
                       label="End Date"
                       value={selectedEndDate}
                       reduceAnimations
+                      slotProps={{
+                        textField: {
+                          error:
+                            formSubmitted &&
+                            !selectedEndDate?.isBefore(selectedStartDate),
+                        },
+                      }}
                       onChange={(e) => handleProjectDurationChange(e, "end")}
                     />
-                  </LocalizationProvider>
-                  {formSubmitted && selectedEndDate === null && (
-                    <FormHelperText>
-                      The end date cannot be earlier than the start
-                    </FormHelperText>
-                  )}
+                  
+                  {formSubmitted &&
+                    !selectedEndDate?.isBefore(selectedStartDate) && (
+                      <FormHelperText>
+                        The end date cannot be earlier than the start
+                      </FormHelperText>
+                    )}
                 </FormControl>
+                </LocalizationProvider>
               </div>
 
               <div className={NewProjectStyle.formRow8}>
@@ -772,7 +778,7 @@ export default function NewProj() {
                     </div>
                   </FormControl>
                 </div>
- 
+
                 <div className={NewProjectStyle.formRow5}>
                   <FormControl
                     style={{
@@ -823,10 +829,9 @@ export default function NewProj() {
                         ))}
                       </Select>
                       {formSubmitted && projectTechnologies.length === 0 && (
-                      <FormHelperText>Select a status</FormHelperText>
-                    )}
+                        <FormHelperText>Select a status</FormHelperText>
+                      )}
                     </div>
-                  
                   </FormControl>
                 </div>
 
@@ -943,8 +948,6 @@ export default function NewProj() {
               CANCEL
             </Button>
           </div>
-
-          
         </div>
       </div>
 

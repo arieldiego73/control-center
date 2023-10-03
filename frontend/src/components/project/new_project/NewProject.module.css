@@ -133,10 +133,15 @@ gap: 3%;
   align-self: start;
 }
 .formRow2,
-.formRow3,
 .formRow5,
 .formRow6 {
   display: flex;
+  gap: 4vw;
+}
+
+.formRow3{
+  display: flex;
+  flex-direction: row;
   gap: 4vw;
 }
 .formRow7 {
