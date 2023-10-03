@@ -5,7 +5,7 @@ import {
   GridValueGetterParams,
   GridCellParams,
 } from "@mui/x-data-grid";
-import {
+import { 
   Button,
   Dialog,
   DialogActions,
@@ -19,11 +19,11 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import ProjectTableStyle from "./Project.module.css";
 import MembersTable from "./MembersTable";
-import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
-import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
-import DataGridAddTextField from "../datagrid_customs/DataGridAddInputField";
-import { Divider, LinearProgress } from "@mui/material";
 import CustomPagination from "../custom_pagination/pagination";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import { Divider, LinearProgress } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
 
 interface ProjectTableProps {
 	projectData: any[];
@@ -31,7 +31,20 @@ interface ProjectTableProps {
 
 const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 
- 
+  const loadingState = useSelector(
+		(state: RootState) => state.projectReducer.isLoading
+	);
+	const [isLoading, setIsLoading] = React.useState(loadingState);
+	React.useEffect(() => {
+		setIsLoading(() => loadingState);
+	}, [loadingState]);
+
+  const dataGridSlots = {
+		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
+		loadingOverlay: LinearProgress,
+	};
+
   const { projectData } = props;
 
   const [rows, setRows] = React.useState(projectData);
@@ -82,12 +95,6 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
     day: "2-digit",
   });
 
-  const dataGridSlots = {
-		// toolbar: DatagridToolbar,
-		columnUnsortedIcon: UnsortedIcon,
-		pagination: CustomPagination,
-		loadingOverlay: LinearProgress,
-	};
   
 	// function DatagridToolbar() {
 	// 	return (
@@ -103,7 +110,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 
 
   const columns: GridColDef[] = [
-    { field: "proj_id", headerName: "ID", headerAlign: "center",
+    { field: "proj_id", headerName: "No.", headerAlign: "center",
     align: "center", flex:1, },
     {
       field: "proj_name",
@@ -176,6 +183,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
             pagination
             pageSizeOptions={[5, 25, 50, 100]}
             slots={dataGridSlots}
+            loading={isLoading}
           />
         </div>
 
