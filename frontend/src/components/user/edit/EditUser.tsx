@@ -26,7 +26,7 @@ import {
   updateUserInfo,
 } from "../../../redux/saga/userSaga";
 import {
-  Alert,
+  Alert, 
   AlertColor,
   Checkbox,
   Dialog,
@@ -44,6 +44,7 @@ import {
   Snackbar,
   Typography,
   InputLabel,
+  FormHelperText,
 } from "@mui/material";
 import { getEmployeeStatusFetch } from "../../../redux/state/employeeStatusState";
 
@@ -264,8 +265,26 @@ export default function EditUser() {
     setAsk(false);
   };
 
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const handleSave = () => {
+    setFormSubmitted(true);
     if (
+      !assocID ||
+      !username ||
+      !firstName ||
+      !lastName ||
+      !position ||
+      !email ||
+      !department ||
+      !businessUnit ||
+      !empStatus ||
+      selectedRoles.length === 0
+    ) {
+      handleClickSnackpack(
+        "Please fill in the required fields.",
+        "error"
+      )();
+    } else if (
       assocID &&
       username &&
       firstName &&
@@ -278,7 +297,7 @@ export default function EditUser() {
       selectedRoles.length > 0
     ) {
       setAsk(true);
-      setDialogTitle("Update the record?");
+      setDialogTitle("Save the record?");
       setDialogContentText(
         "Upon proceeding, the modifications on the record \nmade will be saved."
       );
@@ -290,6 +309,7 @@ export default function EditUser() {
       )();
     }
   };
+
 
   const handleCancel = () => {
     setAsk(true);
@@ -370,6 +390,10 @@ export default function EditUser() {
                     >
                       <TextField
                         label="Associate ID"
+                        error={formSubmitted && assocID === ""}
+                        helperText={
+                          formSubmitted && assocID === "" ? "Associate ID required" : ""
+                        }
                         disabled
                         variant="outlined"
                         size="small"
@@ -399,6 +423,12 @@ export default function EditUser() {
                     >
                       <TextField
                         label="Username"
+                        error={formSubmitted && username === ""}
+                        helperText={
+                          formSubmitted && username === ""
+                            ? "Username required"
+                            : ""
+                        }
                         variant="outlined"
                         size="small"
                         placeholder="Username"
@@ -424,6 +454,7 @@ export default function EditUser() {
                         justifyContent: "center",
                         width: "95%",
                       }}
+                      error={formSubmitted && empStatus === "0"}
                     >
                       <InputLabel id="demo-controlled-open-select-label">
                         Employee Status
@@ -451,6 +482,9 @@ export default function EditUser() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {formSubmitted && empStatus === "0" && (
+                        <FormHelperText>Employee Status required</FormHelperText>
+                      )}
                     </FormControl>
                   </div>
                 </div>
@@ -465,6 +499,12 @@ export default function EditUser() {
                       <FormControl sx={{ width: "100%" }}>
                         <TextField
                           label="First Name"
+                          error={formSubmitted && firstName === ""}
+                          helperText={
+                            formSubmitted && firstName === ""
+                              ? "First Name required"
+                              : ""
+                          }
                           variant="outlined"
                           size="small"
                           placeholder="First Name"
@@ -502,6 +542,12 @@ export default function EditUser() {
                       <FormControl sx={{ width: "100%" }}>
                         <TextField
                           label="Last Name"
+                          error={formSubmitted && lastName === ""}
+                          helperText={
+                            formSubmitted && lastName === ""
+                              ? "Last Name required"
+                              : ""
+                          }
                           variant="outlined"
                           size="small"
                           placeholder="Last Name"
@@ -530,6 +576,7 @@ export default function EditUser() {
                             width: "100%",
                           },
                         }}
+                        error={formSubmitted && position === 0}
                       >
                         <InputLabel id="demo-controlled-open-select-label">
                           Position
@@ -560,9 +607,24 @@ export default function EditUser() {
                             </MenuItem>
                           ))}
                         </Select>
+                        {formSubmitted && position === 0 && (
+                          <FormHelperText>Position required</FormHelperText>
+                        )}
                       </FormControl>
 
-                      <FormControl>
+                      <FormControl
+                      variant="outlined"
+                      size="small"
+                      sx={{
+                        width: "27.5%",
+                        "@media (max-width: 850px)": {
+                          width: "100%",
+                        },
+                      }}
+                      error={formSubmitted && selectedRoles.length === 0}
+                    >
+                   
+                  
                         <InputLabel id="demo-controlled-open-select-label">
                           Role
                         </InputLabel>
@@ -600,6 +662,9 @@ export default function EditUser() {
                             </MenuItem>
                           ))}
                         </Select>
+                        {formSubmitted && selectedRoles.length === 0 && (
+                          <FormHelperText>Role required</FormHelperText>
+                        )}
                       </FormControl>
                     </div>
 
@@ -615,6 +680,10 @@ export default function EditUser() {
                       >
                         <TextField
                           label="Email"
+                          error={formSubmitted && email === ""}
+                          helperText={
+                            formSubmitted && email === "" ? "Email required" : ""
+                          }
                           variant="outlined"
                           size="small"
                           placeholder="Email"
@@ -642,6 +711,7 @@ export default function EditUser() {
                             width: "100%",
                           },
                         }}
+                        error={formSubmitted && department === 0}
                       >
                         <InputLabel id="demo-controlled-open-select-label">
                           Department
@@ -672,6 +742,9 @@ export default function EditUser() {
                             </MenuItem>
                           ))}
                         </Select>
+                        {formSubmitted && department === 0 && (
+                          <FormHelperText>Department required</FormHelperText>
+                        )}
                       </FormControl>
 
                       <FormControl
@@ -683,6 +756,7 @@ export default function EditUser() {
                             width: "100%",
                           },
                         }}
+                        error={formSubmitted && businessUnit === 0}
                       >
                         <InputLabel id="demo-controlled-open-select-label">
                           Business Unit
@@ -710,6 +784,9 @@ export default function EditUser() {
                             </MenuItem>
                           ))}
                         </Select>
+                        {formSubmitted && businessUnit === 0 && (
+                          <FormHelperText>Business Unit required</FormHelperText>
+                        )}
                       </FormControl>
                     </div>
 
