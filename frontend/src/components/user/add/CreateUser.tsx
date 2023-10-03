@@ -24,7 +24,7 @@ import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import {
   Alert,
   AlertColor,
-  Checkbox,
+  Checkbox, 
   Dialog,
   DialogActions,
   DialogContent,
@@ -259,41 +259,6 @@ export default function CreateUser() {
       )();
     }
   };
-
-  // const handleSave = () => {
-  //   if (
-  //     assocID &&
-  //     username &&
-  //     firstName &&
-  //     lastName &&
-  //     position &&
-  //     email &&
-  //     department &&
-  //     businessUnit &&
-  //     empStatus !== "0" &&
-  //     selectedRoles.length > 0
-  //   ) {
-  //     setAsk(true);
-  //     setDialogTitle("Save the record?");
-  //     setDialogContentText(
-  //       "Upon proceeding, the modifications on the record \nmade will be saved."
-  //     );
-  //     setIsSaving(true);
-  //   } else {
-  //     if (assocID === null) {
-  //       // Trigger error for assocID being null
-  //       // You can display an error message or handle it as needed.
-  //       handleClickSnackpack(
-  //         "Associate ID is required. Please, try again.",
-  //         "error"
-  //       )();
-  //     }
-  //     handleClickSnackpack(
-  //       "All fields are required. Please, try again.",
-  //       "error"
-  //     )();
-  //   }
-  // };
 
   const handleCancel = () => {
     setAsk(true);
@@ -687,7 +652,6 @@ export default function CreateUser() {
                         <InputLabel id="demo-controlled-open-select-label">
                           Department
                         </InputLabel>
-
                         <Select
                           label="Department"
                           labelId="demo-simple-select-label"
