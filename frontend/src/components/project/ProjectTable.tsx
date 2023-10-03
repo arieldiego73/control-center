@@ -103,7 +103,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
 
 
   const columns: GridColDef[] = [
-    { field: "proj_id", headerName: "ID", headerAlign: "center",
+    { field: "proj_id", headerName: "No.", headerAlign: "center",
     align: "center", flex:1, },
     {
       field: "proj_name",
