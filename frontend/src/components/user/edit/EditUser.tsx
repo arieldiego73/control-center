@@ -851,6 +851,7 @@ export default function EditUser() {
                     variant="text"
                     className={EditUserStyle.cancelButton}
                     onClick={handleCancel}
+                    sx={{ backgroundColor: "#e0e0e0", "&:hover": { backgroundColor: "#c0c0c0" }}}
                   >
                     CANCEL
                   </Button>

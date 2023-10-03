@@ -156,17 +156,15 @@
   align-items: center;
   justify-content: flex-end;
   align-self: flex-end;
+  border: 1px solid green;
+  gap: 10px;
   /* position: relative */
 }
-.saveButton {
+/* .saveButton , .cancelButton {
   text-transform: none;
   height: 40px;
-}
-.cancelButton {
-  text-transform: none;
-  background-color: gray;
-  height: 40px;
-}
+  border: 1px solid black;
+} */
 
 
 
@@ -187,6 +185,7 @@
 
 
 
+/* 
 @media screen and (max-width: 1200px) {
   .mainContainer {
     width: 97.4%;
@@ -236,7 +235,7 @@
   .mainContainer{
     top: 75px;
   }
-}
+} */
 
 /* 
 @media screen and (max-width: 650px) {
