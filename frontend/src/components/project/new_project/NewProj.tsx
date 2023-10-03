@@ -15,7 +15,7 @@ import {
   Paper,
   Typography,
   List,
-  ListItem,
+  ListItem,  
   ListItemAvatar,
   ListItemText,
   OutlinedInput,
@@ -260,18 +260,27 @@ export default function NewProj() {
     });
   }, [projectMembers, usersData]);
 
+  const [startDateError, setStartDateError] = React.useState(false)
+  const [endDateError, setEndDateError] = React.useState(false)
   const handleProjectDurationChange = (e: Dayjs | null, type: string) => {
+    if (selectedStartDate?.isBefore(selectedEndDate)) {
+      setStartDateError(false)
+      setEndDateError(false)
+    }
+    
     if (type === "start") {
       if (selectedEndDate && e) {
         if (e.isBefore(selectedEndDate)) {
+          setStartDateError(false)
           setSelectedStartDate(dayjs(e));
         } else {
-          handleClickSnackpack(
-            "The start date cannot be later than the end. Please, try again.",
-            "error"
-          )();
-          setSelectedStartDate(dayjs());
-          setSelectedEndDate(dayjs().add(1, "month"));
+          // handleClickSnackpack(
+          //   "The start date cannot be later than the end. Please, try again.",
+          //   "error"
+          // )();
+          setStartDateError(true)
+          // setSelectedStartDate(dayjs());
+          // setSelectedEndDate(dayjs().add(1, "month"));
         }
       } else {
         setSelectedStartDate(dayjs(e));
@@ -280,13 +289,15 @@ export default function NewProj() {
       if (selectedStartDate && e) {
         if (e.isAfter(selectedStartDate)) {
           setSelectedEndDate(dayjs(e));
+          setEndDateError(false)
         } else {
-          handleClickSnackpack(
-            "The end date cannot be earlier than the start. Please, try again.",
-            "error"
-          )();
-          setSelectedStartDate(dayjs());
-          setSelectedEndDate(dayjs().add(1, "month"));
+          // handleClickSnackpack(
+          //   "The end date cannot be earlier than the start. Please, try again.",
+          //   "error"
+          // )();
+          setEndDateError(true)
+          // setSelectedStartDate(dayjs());
+          // setSelectedEndDate(dayjs().add(1, "month"));
         }
       } else {
         setSelectedEndDate(dayjs(e));
@@ -501,15 +512,11 @@ export default function NewProj() {
                       size="small"
                       error={formSubmitted && status === 0}
                     >
-                      <FormLabel
-                        sx={{
-                          color: "black",
-                          fontWeight: "400",
-                        }}
-                      >
+                      <InputLabel>
                         Status
-                      </FormLabel>
+                      </InputLabel>
                       <Select
+                        label="Status"
                         value={status}
                         onChange={(e) => setStatus(e.target.value as number)}
                         startAdornment={
@@ -540,47 +547,51 @@ export default function NewProj() {
               </div>
 
               <div className={NewProjectStyle.formRow3}>
-                <FormControl
-                  error={
-                    formSubmitted &&
-                    !selectedStartDate?.isBefore(selectedEndDate)
-                  }
-                >
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <FormControl error={startDateError}>
+                
                     <DatePicker
                       label="Start Date"
                       value={selectedStartDate}
                       reduceAnimations
+                      slotProps={{
+                        textField: {
+                          error: startDateError
+                        },
+                      }}
                       onChange={(e) => handleProjectDurationChange(e, "start")}
                     />
-                  </LocalizationProvider>
-                  {formSubmitted && selectedStartDate === null && (
-                    <FormHelperText>
-                      The start date cannot be later than the end
-                    </FormHelperText>
-                  )}
+                
+                  {startDateError && (
+                      <FormHelperText>
+                        The start date cannot be later than the end
+                      </FormHelperText>
+                    )}
                 </FormControl>
+                </LocalizationProvider>
 
-                <FormControl
-                  error={
-                    formSubmitted &&
-                    !selectedEndDate?.isAfter(selectedStartDate)
-                  }
-                >
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <FormControl error={endDateError}>
+                 
                     <DatePicker
                       label="End Date"
                       value={selectedEndDate}
                       reduceAnimations
+                      slotProps={{
+                        textField: {
+                          error: endDateError
+                        },
+                      }}
                       onChange={(e) => handleProjectDurationChange(e, "end")}
                     />
-                  </LocalizationProvider>
-                  {formSubmitted && selectedEndDate === null && (
-                    <FormHelperText>
-                      The end date cannot be earlier than the start
-                    </FormHelperText>
-                  )}
+                  
+                  {endDateError && (
+                      <FormHelperText>
+                        The end date cannot be earlier than the start
+                      </FormHelperText>
+                    )}
                 </FormControl>
+                </LocalizationProvider>
               </div>
 
               <div className={NewProjectStyle.formRow8}>
@@ -772,7 +783,7 @@ export default function NewProj() {
                     </div>
                   </FormControl>
                 </div>
- 
+
                 <div className={NewProjectStyle.formRow5}>
                   <FormControl
                     style={{
@@ -823,10 +834,9 @@ export default function NewProj() {
                         ))}
                       </Select>
                       {formSubmitted && projectTechnologies.length === 0 && (
-                      <FormHelperText>Select a status</FormHelperText>
-                    )}
+                        <FormHelperText>Select a status</FormHelperText>
+                      )}
                     </div>
-                  
                   </FormControl>
                 </div>
 
@@ -844,6 +854,7 @@ export default function NewProj() {
                       Project Description
                     </FormLabel>
                     <ReactQuillEditor
+                     className={NewProjectStyle.qlContainer}
                       theme="snow"
                       value={projectDescription}
                       onChange={(e) => setProjectDescription(e)}
@@ -943,8 +954,6 @@ export default function NewProj() {
               CANCEL
             </Button>
           </div>
-
-          
         </div>
       </div>
 
