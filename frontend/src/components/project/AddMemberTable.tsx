@@ -24,11 +24,11 @@ export interface SelectProjectMembersTableProps {
 }
 
 const AddMemberTable: React.FC<SelectProjectMembersTableProps> = (props) => {
-  const { data, selected, temporarySetter } = props;
+  const { data, selected, temporarySetter } = props; 
 
   const [rows, setRows] = React.useState<GridRowsProp>(data);
   const [rowSelectionModel, setRowSelectionModel] =
-    React.useState<GridRowSelectionModel>(selected as GridRowId[]);
+    React.useState<GridRowSelectionModel>(selected as GridRowId[]); 
 
   const dataGridSlots = {
     columnUnsortedIcon: UnsortedIcon,
