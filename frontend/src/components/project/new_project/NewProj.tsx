@@ -15,7 +15,7 @@ import {
   Paper,
   Typography,
   List,
-  ListItem,
+  ListItem,  
   ListItemAvatar,
   ListItemText,
   OutlinedInput,
@@ -854,6 +854,7 @@ export default function NewProj() {
                       Project Description
                     </FormLabel>
                     <ReactQuillEditor
+                     className={NewProjectStyle.qlContainer}
                       theme="snow"
                       value={projectDescription}
                       onChange={(e) => setProjectDescription(e)}

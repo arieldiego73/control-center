@@ -210,8 +210,10 @@ gap: 3%;
   padding-bottom: 2%;
 }
 .qlContainer {
-  height: 70%;
+  height: 300px;
+  width: 100%;
 }
+
 
 
 .editClientButtonSvg {
