@@ -31,54 +31,45 @@ import ClientHandler from "./pages/ClientHandler";
 import ImagePreview from "./components/test/viewImg";
 
 import  { useDispatch, useSelector } from "react-redux"
-import {
-	Dialog,
-	DialogTitle,
-	Typography,
-	DialogContent,
-	DialogContentText,
-	DialogActions,
-	Button,
-} from "@mui/material";
 import { RootState } from "./redux/store/store";
 import React from "react";
 import { showDialog } from "./redux/state/dialogSlice";
 
 function App() {
-	const dispatch = useDispatch();
-	const open = useSelector((state: RootState) => state.dialogListener.isDialogVisible)
+	// const dispatch = useDispatch();
+	// const open = useSelector((state: RootState) => state.dialogListener.isDialogVisible)
 
-	// logic to determine if there are unsaved changes
-	const hasUnsavedChanges = useSelector((state: RootState) => state.pageAbandonmentPrevention.isDirty)
+	// // logic to determine if there are unsaved changes
+	// const hasUnsavedChanges = useSelector((state: RootState) => state.pageAbandonmentPrevention.isDirty)
 
-	// Add event listeners when the component mounts
-	React.useEffect(() => {
-		const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-			// Check if there are unsaved changes and show a confirmation dialog if needed
-			if (hasUnsavedChanges) {
-				e.preventDefault();
-				e.returnValue = 'Dirty it is'; // This message will be displayed in the confirmation dialog
-			}
-		};
+	// // Add event listeners when the component mounts
+	// React.useEffect(() => {
+	// 	const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+	// 		// Check if there are unsaved changes and show a confirmation dialog if needed
+	// 		if (hasUnsavedChanges) {
+	// 			e.preventDefault();
+	// 			e.returnValue = 'Dirty it is'; // This message will be displayed in the confirmation dialog
+	// 		}
+	// 	};
 
-		const handleLinkClick = (e: MouseEvent) => {
-			// Check if there are unsaved changes and show a confirmation dialog if needed
-			if (hasUnsavedChanges) {
-				e.preventDefault();
-				dispatch(showDialog()); // Dispatch your Redux action to show the dialog
-			}
-		};
+	// 	// const handleLinkClick = (e: MouseEvent) => {
+	// 	// 	// Check if there are unsaved changes and show a confirmation dialog if needed
+	// 	// 	if (hasUnsavedChanges) {
+	// 	// 		e.preventDefault();
+	// 	// 		dispatch(showDialog()); // Dispatch your Redux action to show the dialog
+	// 	// 	}
+	// 	// };
 
-		// Add event listeners
-		window.addEventListener('beforeunload', handleBeforeUnload);
-		document.addEventListener('click', handleLinkClick);
+	// 	// Add event listeners
+	// 	window.addEventListener('beforeunload', handleBeforeUnload, { capture: true });
+	// 	// document.addEventListener('click', handleLinkClick);
 
-		// Remove event listeners when the component unmounts
-		return () => {
-			window.removeEventListener('beforeunload', handleBeforeUnload);
-			document.removeEventListener('click', handleLinkClick);
-		};
-	}, [dispatch, hasUnsavedChanges]);
+	// 	// Remove event listeners when the component unmounts
+	// 	return () => {
+	// 		window.removeEventListener('beforeunload', handleBeforeUnload, { capture: true });
+	// 		// document.removeEventListener('click', handleLinkClick);
+	// 	};
+	// }, [dispatch, hasUnsavedChanges]);
 
 	return (
 		<BrowserRouter>
@@ -114,31 +105,6 @@ function App() {
 				<Route path="/TestHandler" Component={TestHandler} />
 				<Route path="/viewImg" Component={ImagePreview} />
 			</Routes>
-
-			{/* <Dialog open={open} aria-labelledby="responsive-dialog-title">
-				<DialogTitle id="responsive-dialog-title">
-					<Typography
-						fontWeight={700}
-						fontSize={20}
-						display={"flex"}
-						alignItems={"center"}
-						gap={1}
-					>
-						Go away?
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText whiteSpace={"pre-line"}>
-						Something...
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button variant="contained" autoFocus>
-						Proceed
-					</Button>
-					<Button>Cancel</Button>
-				</DialogActions>
-			</Dialog> */}
 		</BrowserRouter>
 	);
 }
