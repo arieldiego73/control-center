@@ -11,15 +11,20 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useNavigate, useLocation} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store/store";
 import { getDepartmentFetch } from "../../../redux/state/departmentState";
 import { getSectionFetch } from "../../../redux/state/sectionState";
 import { getRolesFetch } from "../../../redux/state/roleState";
 import { getPositionFetch } from "../../../redux/state/positionState";
-import { addUserReset, clearUserInfo} from "../../../redux/state/userState";
-import { getUserInfo, getUserRoles, updateUserInfo, } from "../../../redux/saga/userSaga";
+import { addUserReset, clearUserInfo } from "../../../redux/state/userState";
+import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
+import {
+  getUserInfo,
+  getUserRoles,
+  updateUserInfo,
+} from "../../../redux/saga/userSaga";
 import {
   Alert,
   AlertColor,
@@ -38,6 +43,7 @@ import {
   SelectChangeEvent,
   Snackbar,
   Typography,
+  InputLabel,
 } from "@mui/material";
 import { getEmployeeStatusFetch } from "../../../redux/state/employeeStatusState";
 
@@ -53,264 +59,254 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
     },
-  };
-  const GLOBAL_TIMEOUT = 2000;
-  
-  export interface SnackbarMessage {
-    message: string;
-    key: number;
-  }
-  
-  export interface State {
-    open: boolean;
-    snackPack: readonly SnackbarMessage[];
-    messageInfo?: SnackbarMessage;
-  }
-  
-  export default function EditUser() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const location = useLocation();
-    
-    const userId = location.state;
-    
-    // get the stored state of the user
-    const userInfoData = useSelector((state: RootState) => state.userReducer.userInfo);
-    const [userData, setUserData] = React.useState<typeof userInfoData | null>(null);
-  
-    React.useEffect(() => {
-      setUserData(userInfoData)
-    }, [userInfoData])
-  
-    React.useEffect(() => {
-      dispatch(getUserInfo({ userId }));
-      dispatch(getUserRoles({ userId }));
-      dispatch(getDepartmentFetch());
-      dispatch(getSectionFetch());
-      dispatch(getRolesFetch());
-      dispatch(getPositionFetch());
-      dispatch(getEmployeeStatusFetch());
-    }, [dispatch, userId]);
-    
-    const userRoles: any[] = useSelector(
-      (state: RootState) => state.userReducer.userRoles
-    );
-  
-    const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
-    const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
-      setSelectedRoles(event.target.value as number[]);
-    };
-  
-    const notice = useSelector((state: RootState) => state.userReducer.notice);
-    const isInitialAmount = React.useRef(true);
-    React.useEffect(() => {
-      if (!isInitialAmount.current) {
-        if (notice.message && notice.severity) {
-          handleClickSnackpack(
-            notice.message,
-            notice.severity as AlertColor
-          )();
-        }
-      } else {
-        isInitialAmount.current = false;
-      }
-    }, [notice]);
-  
-    const [snackPack, setSnackPack] = React.useState<
-      readonly SnackbarMessage[]
-    >([]);
-    const [severity, setSeverity] = React.useState<AlertColor>("error");
-    const [open, setOpen] = React.useState(false);
-    const [messageInfo, setMessageInfo] = React.useState<
-      SnackbarMessage | undefined
-    >(undefined);
-  
-    React.useEffect(() => {
-      if (snackPack.length && !messageInfo) {
-        // Set a new snack when we don't have an active one
-        setMessageInfo({ ...snackPack[0] });
-        setSnackPack((prev) => prev.slice(1));
-        setOpen(true);
-      } else if (snackPack.length && messageInfo && open) {
-        // Close an active snack when a new one is added
-        setOpen(false);
-      }
-    }, [snackPack, messageInfo, open]);
-  
-    const handleClickSnackpack =
-      (message: string, severity: AlertColor) => () => {
-        setSnackPack((prev) => [
-          ...prev,
-          { message, key: new Date().getTime() },
-        ]);
-        setSeverity(severity);
-      };
-  
-    const handleClose = (event: React.SyntheticEvent | Event) => {
-      setOpen(false);
-    };
-  
-    const handleExited = () => {
-      setMessageInfo(undefined);
-    };
-  
-    const isAddSuccess = useSelector(
-      (state: RootState) => state.userReducer.isAddSuccess
-    );
-    React.useEffect(() => {
-      if (isAddSuccess) {
-        dispatch(addUserReset());
-        setTimeout(() => {
-          navigate("/users");
-        }, GLOBAL_TIMEOUT);
-      }
-    });
-  
-    React.useEffect(() => {
-      if (userData) {
-        setAssocID(userData.emp_id);
-        setUsername(userData.username);
-        setFirstName(userData.fname);
-        setMiddleName(userData.mname);
-        setLastName(userData.lname);
-        setPosition(userData.position_id ? userData.position_id : 0);
-        setEmail(userData.email);
-        setBusinessUnit(userData.dept_id ? userData.dept_id : 0);
-        setDepartment(userData.section_id ? userData.section_id : 0);
-        setEmpStatus(userData.status_code);
-      }
-    }, [userData]);
-  
-    React.useEffect(() => {
-      const roles = userRoles.map((e) => {
-        const values = Object.keys(e);
-        return parseInt(values[0]);
-      });
-      setSelectedRoles(roles);
-    }, [userRoles]);
+  },
+};
+const GLOBAL_TIMEOUT = 2000;
 
-    const [username, setUsername] = useState("");
-    const [assocID, setAssocID] = useState("");
-    const [empStatus, setEmpStatus] = useState("0");
-    const [firstName, setFirstName] = useState("");
-    const [middleName, setMiddleName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [position, setPosition] = useState(0);
-    // for role
-    const [email, setEmail] = useState("");
-    const [businessUnit, setBusinessUnit] = useState(0);
-    const [department, setDepartment] = useState(0);
-    // const [password, setPassword] = useState(0);
-    // const [confirmPassword, setConfirmPassword] = useState(0);
-    const [ask, setAsk] = React.useState(false);
-    const [dialogTitle, setDialogTitle] = React.useState("");
-    const [dialogContentText, setDialogContentText] = React.useState("");
-    const [isSaving, setIsSaving] = React.useState(false);
-  
-    //FOR DROPDOWN CONFIG (BUSINESS UNIT)
-    const depts = useSelector(
-      (state: RootState) => state.deptReducer.department
-    );
-  
-    //FOR DROPDOWN CONFIG (DEPARTMENT)
-    const sections = useSelector(
-      (state: RootState) => state.sectionReducer.section
-    );
-  
-    //FOR ROLES OPTIONS
-    const roles = useSelector((state: RootState) => state.roleReducer.roles);
-  
-    //FOR POSITION OPTIONS
-    const positions = useSelector(
-      (state: RootState) => state.positionReducer.position
-    );
-  
-    //FOR STATUS OPTIONS
-    const statuses = useSelector(
-      (state: RootState) => state.employeeStatusReducer.employeeStatus
-    );
-  
-    const proceedWithCancel = () => {
-      dispatch(clearUserInfo());
-      navigate("/users");
-    };
-  
-    const proceedWithSaving = () => {
-      const data = {
-        emp_id: assocID,
-        username: username,
-        fname: firstName.trim(),
-        mname: middleName.trim(),
-        lname: lastName.trim(),
-        position_id: position,
-        email: email,
-        section_id: department,
-        dept_id: businessUnit,
-        selectedRoles: selectedRoles,
-        status_code: empStatus,
-      };
-      dispatch(updateUserInfo({ data }));
-      setAsk(false);
-    };
-  
-    const handleSave = () => {
-      if (
-        assocID &&
-        username &&
-        firstName &&
-        lastName &&
-        position &&
-        email &&
-        department &&
-        businessUnit &&
-        empStatus !== "0" &&
-        selectedRoles.length > 0
-      ) {
-        setAsk(true);
-        setDialogTitle("Update the record?");
-        setDialogContentText(
-          "Upon proceeding, the modifications on the record \nmade will be saved."
-        );
-        setIsSaving(true);
-      } else {
-        handleClickSnackpack(
-          "All fields are required. Please, try again.",
-          "error"
-        )();
+export interface SnackbarMessage {
+  message: string;
+  key: number;
+}
+
+export interface State {
+  open: boolean;
+  snackPack: readonly SnackbarMessage[];
+  messageInfo?: SnackbarMessage;
+}
+
+export default function EditUser() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const userId = location.state;
+
+  // get the stored state of the user
+  const userInfoData = useSelector(
+    (state: RootState) => state.userReducer.userInfo
+  );
+  const [userData, setUserData] = React.useState<typeof userInfoData | null>(
+    null
+  );
+
+  React.useEffect(() => {
+    setUserData(userInfoData);
+  }, [userInfoData]);
+
+  React.useEffect(() => {
+    dispatch(getUserInfo({ userId }));
+    dispatch(getUserRoles({ userId }));
+    dispatch(getDepartmentFetch());
+    dispatch(getSectionFetch());
+    dispatch(getRolesFetch());
+    dispatch(getPositionFetch());
+    dispatch(getEmployeeStatusFetch());
+  }, [dispatch, userId]);
+
+  const userRoles: any[] = useSelector(
+    (state: RootState) => state.userReducer.userRoles
+  );
+
+  const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
+  const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
+    setSelectedRoles(event.target.value as number[]);
+  };
+
+  const notice = useSelector((state: RootState) => state.userReducer.notice);
+  const isInitialAmount = React.useRef(true);
+  React.useEffect(() => {
+    if (!isInitialAmount.current) {
+      if (notice.message && notice.severity) {
+        handleClickSnackpack(notice.message, notice.severity as AlertColor)();
       }
+    } else {
+      isInitialAmount.current = false;
+    }
+  }, [notice]);
+
+  const [snackPack, setSnackPack] = React.useState<readonly SnackbarMessage[]>(
+    []
+  );
+  const [severity, setSeverity] = React.useState<AlertColor>("error");
+  const [open, setOpen] = React.useState(false);
+  const [messageInfo, setMessageInfo] = React.useState<
+    SnackbarMessage | undefined
+  >(undefined);
+
+  React.useEffect(() => {
+    if (snackPack.length && !messageInfo) {
+      // Set a new snack when we don't have an active one
+      setMessageInfo({ ...snackPack[0] });
+      setSnackPack((prev) => prev.slice(1));
+      setOpen(true);
+    } else if (snackPack.length && messageInfo && open) {
+      // Close an active snack when a new one is added
+      setOpen(false);
+    }
+  }, [snackPack, messageInfo, open]);
+
+  const handleClickSnackpack =
+    (message: string, severity: AlertColor) => () => {
+      setSnackPack((prev) => [...prev, { message, key: new Date().getTime() }]);
+      setSeverity(severity);
     };
-  
-    const handleCancel = () => {
+
+  const handleClose = (event: React.SyntheticEvent | Event) => {
+    setOpen(false);
+  };
+
+  const handleExited = () => {
+    setMessageInfo(undefined);
+  };
+
+  const isAddSuccess = useSelector(
+    (state: RootState) => state.userReducer.isAddSuccess
+  );
+  React.useEffect(() => {
+    if (isAddSuccess) {
+      dispatch(addUserReset());
+      setTimeout(() => {
+        navigate("/users");
+      }, GLOBAL_TIMEOUT);
+    }
+  });
+
+  React.useEffect(() => {
+    if (userData) {
+      setAssocID(userData.emp_id);
+      setUsername(userData.username);
+      setFirstName(userData.fname);
+      setMiddleName(userData.mname);
+      setLastName(userData.lname);
+      setPosition(userData.position_id ? userData.position_id : 0);
+      setEmail(userData.email);
+      setBusinessUnit(userData.dept_id ? userData.dept_id : 0);
+      setDepartment(userData.section_id ? userData.section_id : 0);
+      setEmpStatus(userData.status_code);
+    }
+  }, [userData]);
+
+  React.useEffect(() => {
+    const roles = userRoles.map((e) => {
+      const values = Object.keys(e);
+      return parseInt(values[0]);
+    });
+    setSelectedRoles(roles);
+  }, [userRoles]);
+
+  const [username, setUsername] = useState("");
+  const [assocID, setAssocID] = useState("");
+  const [empStatus, setEmpStatus] = useState("0");
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [position, setPosition] = useState(0);
+  // for role
+  const [email, setEmail] = useState("");
+  const [businessUnit, setBusinessUnit] = useState(0);
+  const [department, setDepartment] = useState(0);
+  // const [password, setPassword] = useState(0);
+  // const [confirmPassword, setConfirmPassword] = useState(0);
+  const [ask, setAsk] = React.useState(false);
+  const [dialogTitle, setDialogTitle] = React.useState("");
+  const [dialogContentText, setDialogContentText] = React.useState("");
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  //FOR DROPDOWN CONFIG (BUSINESS UNIT)
+  const depts = useSelector((state: RootState) => state.deptReducer.department);
+
+  //FOR DROPDOWN CONFIG (DEPARTMENT)
+  const sections = useSelector(
+    (state: RootState) => state.sectionReducer.section
+  );
+
+  //FOR ROLES OPTIONS
+  const roles = useSelector((state: RootState) => state.roleReducer.roles);
+
+  //FOR POSITION OPTIONS
+  const positions = useSelector(
+    (state: RootState) => state.positionReducer.position
+  );
+
+  //FOR STATUS OPTIONS
+  const statuses = useSelector(
+    (state: RootState) => state.employeeStatusReducer.employeeStatus
+  );
+
+  const proceedWithCancel = () => {
+    dispatch(clearUserInfo());
+    navigate("/users");
+  };
+
+  const proceedWithSaving = () => {
+    const data = {
+      emp_id: assocID,
+      username: username,
+      fname: firstName.trim(),
+      mname: middleName.trim(),
+      lname: lastName.trim(),
+      position_id: position,
+      email: email,
+      section_id: department,
+      dept_id: businessUnit,
+      selectedRoles: selectedRoles,
+      status_code: empStatus,
+    };
+    dispatch(updateUserInfo({ data }));
+    setAsk(false);
+  };
+
+  const handleSave = () => {
+    if (
+      assocID &&
+      username &&
+      firstName &&
+      lastName &&
+      position &&
+      email &&
+      department &&
+      businessUnit &&
+      empStatus !== "0" &&
+      selectedRoles.length > 0
+    ) {
       setAsk(true);
-      setDialogTitle("Cancel the edit?");
+      setDialogTitle("Update the record?");
       setDialogContentText(
-        "Modifications made with the record will be \nlost forever."
+        "Upon proceeding, the modifications on the record \nmade will be saved."
       );
-      setIsSaving(false);
-    };
+      setIsSaving(true);
+    } else {
+      handleClickSnackpack(
+        "All fields are required. Please, try again.",
+        "error"
+      )();
+    }
+  };
+
+  const handleCancel = () => {
+    setAsk(true);
+    setDialogTitle("Cancel the edit?");
+    setDialogContentText(
+      "Modifications made with the record will be \nlost forever."
+    );
+    setIsSaving(false);
+  };
 
   return (
     <>
       <div className={EditUserStyle.mainContainer}>
         <div className={EditUserStyle.mainHolder}>
-          {/* Start of Form */}
           <div className={EditUserStyle.contentHolder}>
             <div className={EditUserStyle.mainForm}>
-
-              {/* Start of Left Form */}
               <div className={EditUserStyle.leftFormPlaceHolder}>
-                
-                {/* Start of Profile */}
                 <div className={EditUserStyle.profileHolder}>
                   <div className={EditUserStyle.imgContainer}>
                     <img
@@ -318,33 +314,62 @@ const VisuallyHiddenInput = styled("input")({
                       src={imgTest}
                       className={EditUserStyle.imgSize}
                     />
-                  </div>
-
-                  <div className={EditUserStyle.toolTip}>
-                    <Button
-                      className={EditUserStyle.buttonProfile}
-                      component="label"
-                      startIcon={<CloudUploadIcon />}
+                    <div
+                      style={{
+                        height: "80px",
+                        width: "80px",
+                        position: "absolute",
+                        right: "0",
+                        top: "70%",
+                        display: "grid",
+                        placeItems: "center",
+                        overflow: "hidden",
+                      }}
                     >
-                      Edit Profile
-                      <VisuallyHiddenInput type="file" />
-                    </Button>
+                      <Button
+                        component="label"
+                        sx={{
+                          overflow: "hidden",
+                          borderRadius: "50%",
+                          height: "60px",
+                          width: "54px",
+                          background: "rgba(200, 200, 200, 0.75)",
+                          margin: 0,
+                          padding: 0,
+                          boxShadow:
+                            "rgba(60, 64, 67, 0.7) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+                          "&:hover": {
+                            background: "rgba( 237, 249, 255, 0.75 )",
+                            transform: "scale(1.1)",
+                          },
+                        }}
+                        className={EditUserStyle.updateImageButton}
+                      >
+                        <CameraAltOutlinedIcon
+                          sx={{
+                            height: "30px",
+                            width: "30px",
+                            margin: 0,
+                            padding: 0,
+                          }}
+                        />
+                        <VisuallyHiddenInput type="file" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
-
-                {/* Start of Form of Profile*/}
                 <div className={EditUserStyle.formProfileContainer}>
                   {/* Start of Assoc id form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <FormControl
                       style={{
-                        paddingTop: "20px",
                         display: "flex",
                         justifyContent: "center",
+                        width: "95%",
                       }}
-                    > 
-                      <FormLabel> Associate ID </FormLabel>
+                    >
                       <TextField
+                        label="Associate ID"
                         disabled
                         variant="outlined"
                         size="small"
@@ -353,7 +378,7 @@ const VisuallyHiddenInput = styled("input")({
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
-                              <AssignmentIndOutlinedIcon />
+                              <AssignmentIndOutlinedIcon sx={{color: "rgba(0, 0, 0, 0.38)"}}/>
                             </InputAdornment>
                           ),
                         }}
@@ -362,18 +387,18 @@ const VisuallyHiddenInput = styled("input")({
                       />
                     </FormControl>
                   </div>
-                  
+
                   {/* Start of username form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <FormControl
                       style={{
-                        paddingTop: "20px",
                         display: "flex",
                         justifyContent: "center",
+                        width: "95%",
                       }}
-                    > 
-                      <FormLabel> Username </FormLabel>
+                    >
                       <TextField
+                        label="Username"
                         variant="outlined"
                         size="small"
                         placeholder="Username"
@@ -391,37 +416,41 @@ const VisuallyHiddenInput = styled("input")({
                     </FormControl>
                   </div>
 
-
                   {/* Start of Emp Status form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <FormControl
                       style={{
-                        paddingTop: "20px",
                         display: "flex",
                         justifyContent: "center",
+                        width: "95%",
                       }}
                     >
-                      <FormLabel> Employee Status </FormLabel>
+                      <InputLabel id="demo-controlled-open-select-label">
+                        Employee Status
+                      </InputLabel>
                       <Select
-                          value={empStatus}
-                          size="small"
-                          onChange={(e) => setEmpStatus(e.target.value)}
-                          className={EditUserStyle.textField}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <GroupsOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        >
-                          <MenuItem key={0} value={"0"}>
-                            {"<Select status>"}
+                        label="Employee Status"
+                        value={empStatus}
+                        size="small"
+                        onChange={(e) => setEmpStatus(e.target.value)}
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <GroupsOutlinedIcon />
+                          </InputAdornment>
+                        }
+                      >
+                        <MenuItem key={0} value={"0"}>
+                          {"<Select status>"}
+                        </MenuItem>
+                        {statuses.map((status: any) => (
+                          <MenuItem
+                            key={status?.status_code}
+                            value={status?.status_code}
+                          >
+                            {status?.status_name}
                           </MenuItem>
-                          {statuses.map((status: any) => (
-                            <MenuItem key={status?.status_code} value={status?.status_code}>
-                              {status?.status_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
+                        ))}
+                      </Select>
                     </FormControl>
                   </div>
                 </div>
@@ -429,18 +458,16 @@ const VisuallyHiddenInput = styled("input")({
 
               {/* Start of other Form */}
               <div className={EditUserStyle.otherFormContainer}>
-                <div  className={EditUserStyle.otherFormPlaceholder}>
+                <div className={EditUserStyle.otherFormPlaceholder}>
                   <div className={EditUserStyle.form}>
-
                     {/* Start of Name Form */}
                     <div className={EditUserStyle.nameForm}>
-                      <FormControl>
-                        <FormLabel>First Name</FormLabel>
+                      <FormControl sx={{ width: "100%" }}>
                         <TextField
+                          label="First Name"
                           variant="outlined"
                           size="small"
                           placeholder="First Name"
-                          className={EditUserStyle.textField}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -453,9 +480,9 @@ const VisuallyHiddenInput = styled("input")({
                         />
                       </FormControl>
 
-                      <FormControl>
-                        <FormLabel>Middle Name</FormLabel>
+                      <FormControl sx={{ width: "100%" }}>
                         <TextField
+                          label="Middle Name"
                           variant="outlined"
                           size="small"
                           placeholder="Middle Name"
@@ -472,9 +499,9 @@ const VisuallyHiddenInput = styled("input")({
                         />
                       </FormControl>
 
-                      <FormControl>
-                        <FormLabel>Last Name</FormLabel>
+                      <FormControl sx={{ width: "100%" }}>
                         <TextField
+                          label="Last Name"
                           variant="outlined"
                           size="small"
                           placeholder="Last Name"
@@ -494,16 +521,27 @@ const VisuallyHiddenInput = styled("input")({
 
                     {/* Start of Position and Role Form */}
                     <div className={EditUserStyle.formHolder}>
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Position</FormLabel>
+                      <FormControl
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
+                        <InputLabel id="demo-controlled-open-select-label">
+                          Position
+                        </InputLabel>
                         <Select
+                          label="Position"
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           value={position}
                           onChange={(e) =>
                             setPosition(e.target.value as number)
                           }
-                          className={EditUserStyle.textField}
                           startAdornment={
                             <InputAdornment position="start">
                               <GroupsOutlinedIcon />
@@ -525,8 +563,11 @@ const VisuallyHiddenInput = styled("input")({
                       </FormControl>
 
                       <FormControl>
-                        <FormLabel>Role</FormLabel>
+                        <InputLabel id="demo-controlled-open-select-label">
+                          Role
+                        </InputLabel>
                         <Select
+                          label="Role"
                           labelId="multiple-checkbox-label"
                           id="multiple-checkbox"
                           multiple
@@ -564,13 +605,19 @@ const VisuallyHiddenInput = styled("input")({
 
                     {/* Start of Email Form */}
                     <div className={EditUserStyle.formHolder}>
-                      <FormControl>
-                        <FormLabel>Email</FormLabel>
+                      <FormControl
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
                         <TextField
+                          label="Email"
                           variant="outlined"
                           size="small"
                           placeholder="Email"
-                          className={EditUserStyle.textField}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -586,16 +633,27 @@ const VisuallyHiddenInput = styled("input")({
 
                     {/* Start of Department and Business Unit Form */}
                     <div className={EditUserStyle.formHolder}>
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Department</FormLabel>
+                      <FormControl
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
+                        <InputLabel id="demo-controlled-open-select-label">
+                          Department
+                        </InputLabel>
                         <Select
+                          label="Department"
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           value={department}
                           onChange={(e) =>
                             setDepartment(e.target.value as number)
                           }
-                          className={EditUserStyle.textField}
                           startAdornment={
                             <InputAdornment position="start">
                               <GroupsOutlinedIcon />
@@ -616,16 +674,27 @@ const VisuallyHiddenInput = styled("input")({
                         </Select>
                       </FormControl>
 
-                      <FormControl variant="outlined" size="small">
-                        <FormLabel>Business Unit</FormLabel>
+                      <FormControl
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
+                        <InputLabel id="demo-controlled-open-select-label">
+                          Business Unit
+                        </InputLabel>
                         <Select
+                          label="Business Unit"
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           value={businessUnit}
                           onChange={(e) =>
                             setBusinessUnit(e.target.value as number)
                           }
-                          className={EditUserStyle.textField}
                           startAdornment={
                             <InputAdornment position="start">
                               <GroupsOutlinedIcon />
@@ -752,7 +821,7 @@ const VisuallyHiddenInput = styled("input")({
                     variant="contained"
                     onClick={isSaving ? proceedWithSaving : proceedWithCancel}
                     autoFocus
-                  > 
+                  >
                     {isSaving ? "Save" : "Cancel"}
                   </Button>
 
@@ -770,26 +839,25 @@ const VisuallyHiddenInput = styled("input")({
         </div>
       </div>
       <Snackbar
-				key={messageInfo ? messageInfo.key : undefined}
-				open={open}
-				autoHideDuration={GLOBAL_TIMEOUT}
-				onClose={handleClose}
-				TransitionProps={{ onExited: handleExited }}
-				anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-			>
-				<Alert
-					onClose={handleClose}
-					severity={severity}
-					sx={{ width: "100%" }}
-					variant="filled"
-				>
-					{messageInfo ? messageInfo.message : undefined}
-				</Alert>
-			</Snackbar>
+        key={messageInfo ? messageInfo.key : undefined}
+        open={open}
+        autoHideDuration={GLOBAL_TIMEOUT}
+        onClose={handleClose}
+        TransitionProps={{ onExited: handleExited }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={severity}
+          sx={{ width: "100%" }}
+          variant="filled"
+        >
+          {messageInfo ? messageInfo.message : undefined}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
-
 
 //Unang gawa
 // import UserDetailStyle from "./EditUser.module.css";
@@ -806,7 +874,7 @@ const VisuallyHiddenInput = styled("input")({
 // 	DialogContentText,
 // 	DialogTitle,
 // 	FormControl,
-// 	FormLabel, 
+// 	FormLabel,
 // 	InputAdornment,
 // 	ListItemText,
 // 	MenuItem,
@@ -865,9 +933,9 @@ const VisuallyHiddenInput = styled("input")({
 // 	const navigate = useNavigate();
 // 	const dispatch = useDispatch();
 // 	const location = useLocation();
-	
+
 // 	const userId = location.state;
-	
+
 // 	// get the stored state of the user
 // 	const userInfoData = useSelector((state: RootState) => state.userReducer.userInfo);
 // 	const [userData, setUserData] = React.useState<typeof userInfoData | null>(null);
@@ -884,7 +952,7 @@ const VisuallyHiddenInput = styled("input")({
 // 		dispatch(getRolesFetch());
 // 		dispatch(getPositionFetch());
 // 	}, [dispatch, userId]);
-	
+
 // 	const userRoles: any[] = useSelector(
 // 		(state: RootState) => state.userReducer.userRoles
 // 	);

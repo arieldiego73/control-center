@@ -779,7 +779,6 @@ export default function CreateUser() {
 
                   <Button
                     variant="text"
-                    // startIcon={<CancelOutlinedIcon />}
                     className={CreateUserStyle.cancelButton}
                     onClick={handleCancel}
                   >
