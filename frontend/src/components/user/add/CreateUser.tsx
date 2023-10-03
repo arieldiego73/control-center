@@ -231,7 +231,7 @@ export default function CreateUser() {
       selectedRoles.length === 0
     ) {
       handleClickSnackpack(
-        "Associate ID is required. Please, try again.",
+        "Please fill in the required fields.",
         "error"
       )();
     } else if (
@@ -354,7 +354,7 @@ export default function CreateUser() {
                         label="Associate ID"
                         error={formSubmitted && assocID === ""}
                         helperText={
-                          formSubmitted && assocID === "" ? "Missing field" : ""
+                          formSubmitted && assocID === "" ? "Associate ID required" : ""
                         }
                         variant="outlined"
                         size="small"
@@ -387,7 +387,7 @@ export default function CreateUser() {
                         error={formSubmitted && username === ""}
                         helperText={
                           formSubmitted && username === ""
-                            ? "Missing field"
+                            ? "Username required"
                             : ""
                         }
                         variant="outlined"
@@ -444,7 +444,7 @@ export default function CreateUser() {
                         ))}
                       </Select>
                       {formSubmitted && empStatus === "0" && (
-                        <FormHelperText>Select a status</FormHelperText>
+                        <FormHelperText>Employee Status required</FormHelperText>
                       )}
                     </FormControl>
                   </div>
@@ -463,19 +463,20 @@ export default function CreateUser() {
                           error={formSubmitted && firstName === ""}
                           helperText={
                             formSubmitted && firstName === ""
-                              ? "Missing field"
+                              ? "First Name required"
                               : ""
                           }
                           variant="outlined"
                           size="small"
                           // placeholder="First Name"
-                          sx={{ flex: 1, display: "flex", width: "100%" }}
+                          sx={{flex: 1, display: "flex", width: "100%"}}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
                                 <PermIdentityOutlinedIcon />
                               </InputAdornment>
                             ),
+                            
                           }}
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
@@ -507,7 +508,7 @@ export default function CreateUser() {
                           error={formSubmitted && lastName === ""}
                           helperText={
                             formSubmitted && lastName === ""
-                              ? "Missing field"
+                              ? "Last Name required"
                               : ""
                           }
                           variant="outlined"
@@ -571,7 +572,7 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && position === 0 && (
-                          <FormHelperText>Select a status</FormHelperText>
+                          <FormHelperText>Position required</FormHelperText>
                         )}
                       </FormControl>
 
@@ -632,7 +633,7 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && selectedRoles.length === 0 && (
-                          <FormHelperText>Select a role</FormHelperText>
+                          <FormHelperText>Role required</FormHelperText>
                         )}
                       </FormControl>
                     </div>
@@ -651,7 +652,7 @@ export default function CreateUser() {
                           label="Email"
                           error={formSubmitted && email === ""}
                           helperText={
-                            formSubmitted && email === "" ? "Missing field" : ""
+                            formSubmitted && email === "" ? "Email required" : ""
                           }
                           variant="outlined"
                           size="small"
@@ -715,7 +716,7 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && department === 0 && (
-                          <FormHelperText>Select a status</FormHelperText>
+                          <FormHelperText>Department required</FormHelperText>
                         )}
                       </FormControl>
 
@@ -758,7 +759,7 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && businessUnit === 0 && (
-                          <FormHelperText>Select a status</FormHelperText>
+                          <FormHelperText>Business Unit required</FormHelperText>
                         )}
                       </FormControl>
                     </div>
