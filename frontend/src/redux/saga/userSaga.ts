@@ -9,6 +9,7 @@ import {
 	setIsLoading
 } from "../state/userState";
 import { createAction } from "@reduxjs/toolkit";
+import { GridRowId } from "@mui/x-data-grid"
 import axios from "axios";
 
 interface Data {
@@ -185,6 +186,39 @@ function* updateSaga(action: ReturnType<typeof updateUserInfo>): any {
 		yield call(catchErr, error);
 	}
 }
+
+// BATCH DELETE
+const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
+	try {
+		const params = new URLSearchParams();
+		batchId.forEach((id) => {
+			params.append("id", id.toString());
+		});
+		const url = `http://localhost:8080/role/delete-multiple?${params}`
+		return axios.put(url);
+	} catch (error) {
+		return error;
+	}
+};
+
+function* deleteBatchSaga(action: ReturnType<typeof deleteUserBatch>): any {
+	try {
+		yield put(setIsLoading(true))
+		const response = yield call(apiBatchDelete, action.payload.batchId);
+		yield call(validate, response);
+	} catch (error) {
+		yield call(catchErr, error);
+	}
+}
+
+export const deleteUserBatch = createAction<{
+	batchId: Set<GridRowId>;
+}>("users/deleteUserBatch");
+
+export function* userSagaDeleteBatch() {
+	yield takeEvery(deleteUserBatch.type, deleteBatchSaga);
+}
+
 
 // VALIDATE THE RESPONSE
 function* validate(res: any, action?: string) {
