@@ -1,6 +1,6 @@
 // rootSaga.js
 import { all } from "redux-saga/effects";
-import userSaga, { userSagaAdd, userSagaDeleteBatch, userSagaFetchUserInfo, userSagaFetchUserRoles, userSagaUpdate } from "./userSaga";
+import userSaga, { userSagaAdd, userSagaDelete, userSagaDeleteBatch, userSagaFetchUserInfo, userSagaFetchUserRoles, userSagaUpdate } from "./userSaga";
 import {
 	roleSagaUpdate,
 	roleSaga,
@@ -17,7 +17,7 @@ import { departmentSaga, departmentSagaAdd, departmentSagaDelete, departmentSaga
 import { projectStatusSaga, projectStatusSagaAdd, projectStatusSagaUpdate, projectStatusSagaDelete, projectStatusSagaDeleteBatch } from "./projectStatusSaga";
 import { employeeStatusSaga, employeeStatusSagaAdd, employeeStatusSagaUpdate, employeeStatusSagaDelete, employeeStatusSagaDeleteBatch } from "./employeeStatusSaga";
 import { technologySaga, technologySagaAdd, technologySagaDelete, technologySagaDeleteBatch, technologySagaUpdate } from "./technologySaga";
-import { projectSaga, projectSagaAdd, projectSagaDeleteBatch, projectSagaFetchProjectInfo, projectSagaFetchProjectMembers, projectSagaUpdate } from "./projectSaga";
+import { projectSaga, projectSagaAdd, projectSagaDelete, projectSagaDeleteBatch, projectSagaFetchProjectInfo, projectSagaFetchProjectMembers, projectSagaUpdate } from "./projectSaga";
 import { clientSaga, clientSagaAdd, clientSagaDelete, clientSagaDeleteBatch, clientSagaUpdate } from "./clientSaga";
 import { historySaga } from "./historySaga";
 import { graphsDataSaga } from "./graphSaga";
@@ -31,6 +31,7 @@ export default function* rootSaga() {
 		userSagaAdd(),
 		userSagaUpdate(),
 		userSagaDeleteBatch(),
+		userSagaDelete(), 
 
 		projectSaga(),
 		projectSagaAdd(),
@@ -38,7 +39,8 @@ export default function* rootSaga() {
 		projectSagaFetchProjectInfo(),
 		projectSagaFetchProjectMembers(),
 		projectSagaDeleteBatch(),
-		
+		projectSagaDelete(), 
+
 		sessionSaga(),
 
 		roleSaga(),

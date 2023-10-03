@@ -187,6 +187,34 @@ function* updateSaga(action: ReturnType<typeof updateUserInfo>): any {
 	}
 }
 
+// DELETE
+const apiDelete = async (user_id: number): Promise<any> => {
+	try {
+		const url = "http://localhost:8080/role/delete/" + user_id;
+		return axios.put(url);
+	} catch (error) {
+		return error;
+	}
+};
+
+export const deleteProject = createAction<{
+	user_id: number;
+}>("projects/deleteProject");
+
+export function* userSagaDelete() {
+	yield takeEvery(deleteProject.type, deleteSaga);
+}
+
+function* deleteSaga(action: ReturnType<typeof deleteProject>): any {
+	try {
+		yield put(setIsLoading(true))
+		const response = yield call(apiDelete, action.payload.user_id);
+		yield call(validate, response);
+	} catch (error) {
+		yield call(catchErr, error);
+	}
+}
+
 // BATCH DELETE
 const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 	try {
