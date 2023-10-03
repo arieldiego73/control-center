@@ -3,6 +3,12 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import UserTableStyle from "./User.module.css";
 import { useNavigate } from "react-router-dom";
+import CustomPagination from "../custom_pagination/pagination";
+import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
+import { Divider, LinearProgress } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+
 
 export interface RowData {
   emp_id: number;
@@ -22,6 +28,20 @@ interface UserTableProps {
 
 const UserTable: React.FC<UserTableProps> = (props) => {
   const navigate = useNavigate();
+
+  const loadingState = useSelector(
+		(state: RootState) => state.userReducer.isLoading
+	);
+	const [isLoading, setIsLoading] = React.useState(loadingState);
+	React.useEffect(() => {
+		setIsLoading(() => loadingState);
+	}, [loadingState]);
+
+  const dataGridSlots = {
+		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
+		loadingOverlay: LinearProgress,
+	};
 
   const columns: GridColDef[] = [
     {
@@ -131,6 +151,8 @@ const UserTable: React.FC<UserTableProps> = (props) => {
             columns={columns}
             pagination
             pageSizeOptions={[5, 25, 50, 100]}
+            slots={dataGridSlots}
+            loading={isLoading}
           />
         </div>
       </Paper>
