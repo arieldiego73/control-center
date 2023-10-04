@@ -49,6 +49,16 @@
         WHERE proj_id = #{id}
     </update>
 
+<!-- Logical Delete Multiple -->
+    <delete id="deleteMultipleUserProject">
+        UPDATE tbl_user_project
+           SET del_flag = 1
+         WHERE proj_id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 <!-- Restore Data -->
     <update id="restoreUserProject">
         UPDATE tbl_user_project

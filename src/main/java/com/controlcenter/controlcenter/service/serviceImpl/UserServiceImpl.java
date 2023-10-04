@@ -61,6 +61,8 @@ public class UserServiceImpl implements UserService{
   @Autowired 
   public PasswordEncoder passEnc;
 
+  List<UserOutput> userList = new ArrayList<>();
+
   @Override
   public ResponseEntity<List<UserTable>> userTable() {
     try {
@@ -220,7 +222,6 @@ public class UserServiceImpl implements UserService{
     PersonalInfoOutput personalInfo = new PersonalInfoOutput();
 
     UserInfoOutput userBodyChecker = userDao.getUserById(id);
-    List<UserRoles> rolesOfUser = userDao.getAllRolesOfUser(accountBody.getEmp_id());
 
     List<Long> userRoleIds = userDao.getAllRolesOfUser(accountBody.getEmp_id())
     .stream()
@@ -350,6 +351,7 @@ public class UserServiceImpl implements UserService{
 
             activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
             activityLogInputForRoles.setLog_desc("Removed multiple roles: " + formattedList.toString() + " on the account of '" + user.getUsername() + "'.");
+
             // add the activity log
             activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInputForRoles);
@@ -500,6 +502,55 @@ public class UserServiceImpl implements UserService{
 
     return ResponseEntity.ok("User '" + user.getUsername() + "' has been deleted.");
   }
+
+  @Override
+    public String deleteMultipleUser(List<String> ids, String emp_id) {
+        userList = userDao.getAllUser();
+
+        for(String id : ids) {
+            UserInfoOutput user = userDao.getUserById(id);
+            if(user != null) {
+                if(user.getDel_flag() == 1) {
+                    return "User with the ID " + id + " has already been deleted.";
+                }
+            } else {
+                return "User with the ID " + id + " cannot be found.";
+            }
+        }
+
+        //Acivitylog
+        ActivityLogInput activityLogInput = new ActivityLogInput();
+        Long currentTimeMillis = System.currentTimeMillis();
+
+        List<String> users = new ArrayList<>();
+        StringBuilder formattedList = new StringBuilder();
+
+        for(String id : ids) {
+            UserInfoOutput user = userDao.getUserById(id);
+            users.add(user.getUsername());
+        }
+
+        for(String element : users) {
+            formattedList.append("'").append(element).append("', ");
+        }
+
+        if (formattedList.length() > 0) {
+            formattedList.delete(formattedList.length() - 2, formattedList.length());
+        }
+
+        userDao.deleteMultipleUser(ids);
+        personalInfoDao.deleteMultiplePersonalInfo(ids);
+        multiRoleDao.deleteMultipleMultiRole(ids);
+
+        activityLogInput.setEmp_id(emp_id); //current logged user dapat
+        activityLogInput.setLog_desc("Deleted multiple users: " + formattedList.toString() + ".");
+
+        //add the activity log
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+        activityLogDao.addActivityLog(activityLogInput);
+
+        return "Records are successfully deleted.";
+    }
 
   //setting the del_flag of user to 0
   @Override
