@@ -376,7 +376,7 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
             {" PROJECTS "}
           </Typography>
         </div>
-
+ 
         <div
           style={{
             border: "1px solid yellow",

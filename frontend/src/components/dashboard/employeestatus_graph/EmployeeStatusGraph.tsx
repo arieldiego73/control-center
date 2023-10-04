@@ -249,7 +249,7 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchData = async () => {
       try {
         // Simulate an asynchronous task that takes 3 seconds
