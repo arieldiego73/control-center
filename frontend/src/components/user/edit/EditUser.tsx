@@ -184,6 +184,7 @@ export default function EditUser() {
     if (userData) {
       setAssocID(userData.emp_id);
       setUsername(userData.username);
+      setPassword(userData.password);
       setFirstName(userData.fname);
       setMiddleName(userData.mname);
       setLastName(userData.lname);
@@ -214,7 +215,7 @@ export default function EditUser() {
   const [email, setEmail] = useState("");
   const [businessUnit, setBusinessUnit] = useState(0);
   const [department, setDepartment] = useState(0);
-  // const [password, setPassword] = useState(0);
+  const [password, setPassword] = useState("");
   // const [confirmPassword, setConfirmPassword] = useState(0);
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
@@ -251,6 +252,7 @@ export default function EditUser() {
     const data = {
       emp_id: assocID,
       username: username,
+      password: password,
       fname: firstName.trim(),
       mname: middleName.trim(),
       lname: lastName.trim(),
@@ -271,6 +273,7 @@ export default function EditUser() {
     if (
       !assocID ||
       !username ||
+      !password ||
       !firstName ||
       !lastName ||
       !position ||
@@ -287,6 +290,7 @@ export default function EditUser() {
     } else if (
       assocID &&
       username &&
+      password &&
       firstName &&
       lastName &&
       position &&
