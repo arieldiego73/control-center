@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.controlcenter.controlcenter.model.ClientOutput;
 import com.controlcenter.controlcenter.model.DevPhaseOutput;
@@ -33,6 +34,8 @@ public interface ProjectDao {
     //get the status of a project
     List<ProjectStatusOutput> getStatusOfProject(String proj_id);
 
+    List<ProjectOutput> getAllProjects(String proj_id);
+
     List<ProjectOutput> getAllProject();
 
     ProjectOutput getProjectById(String id);
@@ -42,6 +45,8 @@ public interface ProjectDao {
     void editProjectInfo(Map<String, Object> paramMap);
 
     void logicalDeleteProject(String id);
+
+    void deleteMultipleProject(@Param("ids") List<Long> ids);
 
     void restoreProject(String id);
 }
