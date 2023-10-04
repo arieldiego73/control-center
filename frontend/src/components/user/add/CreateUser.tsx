@@ -173,11 +173,15 @@ export default function CreateUser() {
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [position, setPosition] = useState(0);
-  // for role
   const [email, setEmail] = useState("");
   const [businessUnit, setBusinessUnit] = useState(0);
   const [department, setDepartment] = useState(0);
+
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+
+
   // const [confirmPassword, setConfirmPassword] = useState(0);
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
@@ -227,6 +231,7 @@ export default function CreateUser() {
     dispatch(addUserInfo({ data }));
     setAsk(false);
   };
+
   const [formSubmitted, setFormSubmitted] = useState(false);
   const handleSave = () => {
     setFormSubmitted(true);
@@ -243,7 +248,7 @@ export default function CreateUser() {
       !empStatus ||
       selectedRoles.length === 0
     ) {
-      console.log("username: " + username + "password: " + password + "1st clg")
+      console.log("username: " + username + "password: " + password + "confirmPassword: " + confirmPassword +"1st clg")
       handleClickSnackpack(
         "Please fill in the required fields.",
         "error"
@@ -261,20 +266,29 @@ export default function CreateUser() {
       empStatus !== "0" &&
       selectedRoles.length > 0
     ) {
-      console.log("username: " + username + "password: " + password + "2nd clg")
+      if( password === confirmPassword){
+      console.log("username: " + username + "password: " + password + "confirmPassword: " + confirmPassword + "2nd clg")
       setAsk(true);
       setDialogTitle("Save the record?");
       setDialogContentText(
         "Upon proceeding, the modifications on the record \nmade will be saved."
       );
       setIsSaving(true);
+      } else {
+        handleClickSnackpack(
+          "Password fields do not match!",
+          "error"
+        )();
+      }
     } else {
-      console.log("username: " + username + "password: " + password + "3rd clg")
+      console.log("username: " + username + "password: " + password + "confirmPassword: " + confirmPassword + "3rd clg")
       handleClickSnackpack(
         "All fields are required. Please, try again.",
         "error"
       )();
     }
+
+
   };
 
   const handleCancel = () => {
@@ -285,13 +299,16 @@ export default function CreateUser() {
   };
 
   const [showPassword, setShowPassword] = React.useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+  const handleMouseDownConfirmPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   return (
     <>
@@ -768,9 +785,9 @@ export default function CreateUser() {
                         <TextField
                           label="Password"
                           type={showPassword ? 'text' : 'password'}
-                          error={formSubmitted && email === ""}
+                          error={formSubmitted && password === ""}
                           helperText={
-                            formSubmitted && email === "" ? "Password required" : ""
+                            formSubmitted && password === "" ? "Password required" : ""
                           }
                           variant="outlined"
                           size="small"
@@ -798,7 +815,7 @@ export default function CreateUser() {
                           onChange={(e) => setPassword(e.target.value)}
                         />
                       </FormControl>
-{/* 
+
                       <FormControl
                         sx={{
                           width: "27.5%",
@@ -809,10 +826,10 @@ export default function CreateUser() {
                       >
                         <TextField
                           label="Confirm password"
-                          type={showPassword ? 'text' : 'password'}
-                          error={formSubmitted && email === ""}
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          error={formSubmitted && confirmPassword === ""}
                           helperText={
-                            formSubmitted && email === "" ? "Password required" : ""
+                            formSubmitted && confirmPassword === "" ? "Password confirmation required" : ""
                           }
                           variant="outlined"
                           size="small"
@@ -827,8 +844,8 @@ export default function CreateUser() {
                               <InputAdornment position="end">
                                 <IconButton
                                   aria-label="toggle password visibility"
-                                  onClick={handleClickShowPassword}
-                                  onMouseDown={handleMouseDownPassword}
+                                  onClick={handleClickShowConfirmPassword}
+                                  onMouseDown={handleMouseDownConfirmPassword}
                                   edge="end"
                                 >
                                   {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -836,8 +853,10 @@ export default function CreateUser() {
                               </InputAdornment>
                             ),
                           }}
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
                         />
-                      </FormControl> */}
+                      </FormControl> 
 
                       {/* <FormControl
                         variant="outlined"
