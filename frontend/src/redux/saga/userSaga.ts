@@ -15,6 +15,7 @@ import axios from "axios";
 interface Data {
 	emp_id: string;
 	username: string;
+	password: string;
 	fname: string;
 	mname: string;
 	lname: string;
@@ -108,6 +109,7 @@ const apiAdd = async (data: Data): Promise<any> => {
 		return axios.post(url, {
 			emp_id: data.emp_id,
 			username: data.username,
+			password: data.password,
 			fname: data.fname,
 			mname: data.mname,
 			lname: data.lname,
@@ -116,7 +118,6 @@ const apiAdd = async (data: Data): Promise<any> => {
 			section_id: data.section_id,
 			dept_id: data.dept_id,
 			status_code: data.status_code,
-			password: "tsukiden+",
 			img_src: "sample_img",
 		});
 	} catch (error) {
@@ -153,6 +154,7 @@ const apiUpdate = async (data: Data): Promise<any> => {
 		return axios.put(url, {
 			emp_id: data.emp_id,
 			username: data.username,
+			password: data.password,
 			fname: data.fname,
 			mname: data.mname,
 			lname: data.lname,
@@ -161,7 +163,6 @@ const apiUpdate = async (data: Data): Promise<any> => {
 			section_id: data.section_id,
 			dept_id: data.dept_id,
 			status_code: data.status_code,
-			password: "tsukiden+",
 			img_src: "sample_img",
 		});
 	} catch (error) {

@@ -7,6 +7,7 @@ export const userSlice = createSlice({
 		userInfo: {
 			emp_id: "",
 			username: "",
+			password: "",
 			fname: "",
 			mname: "",
 			lname: "",
@@ -57,6 +58,7 @@ export const userSlice = createSlice({
 			state.userInfo = {
 				emp_id: "",
 				username: "",
+				password: "",
 				fname: "",
 				mname: "",
 				lname: "",

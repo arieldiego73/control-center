@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DashboardDao;
+import com.controlcenter.controlcenter.model.RecentProjects;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
 
@@ -169,6 +170,7 @@ public class DashboardServiceImpl implements DashboardService{
         // List<Map<String, Object>> userStatusGraph = dashboardDao.getAllUserCountByStatus();
         List<Map<String, Object>> projectStatusGraph = dashboardDao.getAllProjectCountByStatus();
         List<UserStatusGraph> userStatusGraph = dashboardDao.getAllUserStatusCountPerYearAndMonth();
+        List<RecentProjects> recentProjectGraph = dashboardDao.getRecentProjects();
         // List<Map<String, Object>> userPerYear = dashboardDao.countAllRegisteredUserPerYear();
 
         // graphData.stream()
@@ -182,6 +184,7 @@ public class DashboardServiceImpl implements DashboardService{
         
         graphData.put("project_status", projectStatusGraph);
         graphData.put("user_status", userStatusGraph);
+        graphData.put("recent_projects", recentProjectGraph);
         // graphData.put("user_per_year", userPerYear);
 
         graphList.add(graphData);
@@ -201,5 +204,10 @@ public class DashboardServiceImpl implements DashboardService{
     @Override
     public ResponseEntity<List<UserStatusGraph>> getAllUserStatusCountPerYearAndMonth() {
         return ResponseEntity.ok(dashboardDao.getAllUserStatusCountPerYearAndMonth());
+    }
+
+    @Override 
+    public ResponseEntity<List<RecentProjects>> getRecentProjects() {
+        return ResponseEntity.ok(dashboardDao.getRecentProjects());
     }
 }

@@ -147,6 +147,7 @@
   justify-content: flex-start;
   gap: 5vw;
   padding-top: 1%;
+
 }
 
 /* Attributes of Button */
@@ -156,7 +157,6 @@
   align-items: center;
   justify-content: flex-end;
   align-self: flex-end;
-  border: 1px solid green;
   gap: 10px;
   /* position: relative */
 }

@@ -21,10 +21,21 @@ import { getPositionFetch } from "../../../redux/state/positionState";
 import { addUserInfo } from "../../../redux/saga/userSaga";
 import { addUserReset } from "../../../redux/state/userState";
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+
+
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import FilledInput from '@mui/material/FilledInput';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+
 import {
   Alert,
   AlertColor,
-  Checkbox, 
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
@@ -166,7 +177,7 @@ export default function CreateUser() {
   const [email, setEmail] = useState("");
   const [businessUnit, setBusinessUnit] = useState(0);
   const [department, setDepartment] = useState(0);
-  // const [password, setPassword] = useState(0);
+  const [password, setPassword] = useState("");
   // const [confirmPassword, setConfirmPassword] = useState(0);
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
@@ -202,6 +213,7 @@ export default function CreateUser() {
     const data = {
       emp_id: assocID,
       username: username,
+      password: password,
       fname: firstName.trim(),
       mname: middleName.trim(),
       lname: lastName.trim(),
@@ -221,6 +233,7 @@ export default function CreateUser() {
     if (
       !assocID ||
       !username ||
+      !password ||
       !firstName ||
       !lastName ||
       !position ||
@@ -230,6 +243,7 @@ export default function CreateUser() {
       !empStatus ||
       selectedRoles.length === 0
     ) {
+      console.log("username: " + username + "password: " + password + "1st clg")
       handleClickSnackpack(
         "Please fill in the required fields.",
         "error"
@@ -237,6 +251,7 @@ export default function CreateUser() {
     } else if (
       assocID &&
       username &&
+      password &&
       firstName &&
       lastName &&
       position &&
@@ -246,6 +261,7 @@ export default function CreateUser() {
       empStatus !== "0" &&
       selectedRoles.length > 0
     ) {
+      console.log("username: " + username + "password: " + password + "2nd clg")
       setAsk(true);
       setDialogTitle("Save the record?");
       setDialogContentText(
@@ -253,6 +269,7 @@ export default function CreateUser() {
       );
       setIsSaving(true);
     } else {
+      console.log("username: " + username + "password: " + password + "3rd clg")
       handleClickSnackpack(
         "All fields are required. Please, try again.",
         "error"
@@ -266,6 +283,15 @@ export default function CreateUser() {
     setDialogContentText("The record will be discarded and will not be saved.");
     setIsSaving(false);
   };
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
 
   return (
     <>
@@ -281,16 +307,16 @@ export default function CreateUser() {
                       src={imgTest}
                       className={CreateUserStyle.imgSize}
                     />
-                    <div style={{height: "80px", width: "80px", position: "absolute", right: "0", top: "70%", display: "grid", placeItems: "center", overflow: "hidden", }}>
-                      <Button 
+                    <div style={{ height: "80px", width: "80px", position: "absolute", right: "0", top: "70%", display: "grid", placeItems: "center", overflow: "hidden", }}>
+                      <Button
                         component="label"
                         sx={{
                           overflow: "hidden",
-                          borderRadius:"50%",
+                          borderRadius: "50%",
                           height: "60px",
                           width: "54px",
-                          background: "rgba(200, 200, 200, 0.75)", 
-                          margin:0, padding:0,
+                          background: "rgba(200, 200, 200, 0.75)",
+                          margin: 0, padding: 0,
                           boxShadow: "rgba(60, 64, 67, 0.7) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
                           "&:hover": {
                             background: "rgba( 237, 249, 255, 0.75 )",
@@ -299,7 +325,7 @@ export default function CreateUser() {
                         }}
                         className={CreateUserStyle.updateImageButton}
                       >
-                        <CameraAltOutlinedIcon sx={{height:"30px", width:"30px", margin:0, padding:0}}/>
+                        <CameraAltOutlinedIcon sx={{ height: "30px", width: "30px", margin: 0, padding: 0 }} />
                         <VisuallyHiddenInput type="file" />
                       </Button>
                     </div>
@@ -420,6 +446,7 @@ export default function CreateUser() {
               <div className={CreateUserStyle.otherFormContainer}>
                 <div className={CreateUserStyle.otherFormPlaceholder}>
                   <div className={CreateUserStyle.form}>
+
                     {/* Start of Name Form  */}
                     <div className={CreateUserStyle.nameForm}>
                       <FormControl sx={{ width: "100%" }}>
@@ -434,14 +461,14 @@ export default function CreateUser() {
                           variant="outlined"
                           size="small"
                           // placeholder="First Name"
-                          sx={{flex: 1, display: "flex", width: "100%"}}
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
                                 <PermIdentityOutlinedIcon />
                               </InputAdornment>
                             ),
-                            
+
                           }}
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
@@ -727,6 +754,132 @@ export default function CreateUser() {
                         )}
                       </FormControl>
                     </div>
+
+                    {/* Start of Password Form */}
+                    <div className={CreateUserStyle.formHolder}>
+                    <FormControl
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
+                        <TextField
+                          label="Password"
+                          type={showPassword ? 'text' : 'password'}
+                          error={formSubmitted && email === ""}
+                          helperText={
+                            formSubmitted && email === "" ? "Password required" : ""
+                          }
+                          variant="outlined"
+                          size="small"
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                
+                              </InputAdornment>
+                            ),
+                            // endAdornment: (
+                            //   <InputAdornment position="end">
+                            //     <IconButton
+                            //       aria-label="toggle password visibility"
+                            //       onClick={handleClickShowPassword}
+                            //       onMouseDown={handleMouseDownPassword}
+                            //       edge="end"
+                            //     >
+                            //       {showPassword ? <VisibilityOff /> : <Visibility />}
+                            //     </IconButton>
+                            //   </InputAdornment>
+                            // ),
+                          }}
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                      </FormControl>
+{/* 
+                      <FormControl
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
+                        <TextField
+                          label="Confirm password"
+                          type={showPassword ? 'text' : 'password'}
+                          error={formSubmitted && email === ""}
+                          helperText={
+                            formSubmitted && email === "" ? "Password required" : ""
+                          }
+                          variant="outlined"
+                          size="small"
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                
+                              </InputAdornment>
+                            ),
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </FormControl> */}
+
+                      {/* <FormControl
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                        error={formSubmitted && department === 0}
+                      >
+                        <TextField
+                          label="Confirm Password"
+                          type={showPassword ? 'text' : 'password'}
+                          error={formSubmitted && assocID === ""}
+                          helperText={
+                            formSubmitted && assocID === "" ? "Password is required" : ""
+                          }
+                          variant="outlined"
+                          size="small"
+                          className={CreateUserStyle.textFieldProfile}
+                          InputProps={{
+                            sx: { height: 40 },
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </FormControl> */}
+
+                    </div>
+
                   </div>
                 </div>
                 {/* Start of Button*/}
@@ -745,7 +898,7 @@ export default function CreateUser() {
                     variant="text"
                     className={CreateUserStyle.cancelButton}
                     onClick={handleCancel}
-                    sx={{ backgroundColor: "#e0e0e0", "&:hover": { backgroundColor: "#c0c0c0" }}}
+                    sx={{ backgroundColor: "#e0e0e0", "&:hover": { backgroundColor: "#c0c0c0" } }}
                   >
                     CANCEL
                   </Button>
