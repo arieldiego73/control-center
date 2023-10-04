@@ -100,7 +100,7 @@ function App() {
 				{/* <Route path="/topNav" Component={Topnav} /> */}
 				{/* <Route path="/NewNav" Component={NewNav} /> */}
 				<Route path="/navigations" Component={Navigations} />
-				<Route path="/user-graph" Component={UserGraph} />
+				{/* <Route path="/user-graph" Component={UserGraph} /> */}
 				<Route path="/development-type" Component={DevelopmentTypeHandler} />
 				<Route path="/TestHandler" Component={TestHandler} />
 				<Route path="/viewImg" Component={ImagePreview} />

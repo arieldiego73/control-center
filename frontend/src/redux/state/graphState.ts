@@ -5,7 +5,13 @@ export type UserStatus = {
 	status_name: string;
 	year: number,
 	month: number,
-	total: number,
+	total: number, 
+}
+
+export type RecentProjects = {
+	proj_name: string;
+	client_name: string;
+	proj_status_name: string;
 }
 
 export type ProjectStatus = {
@@ -16,7 +22,8 @@ export type ProjectStatus = {
 
 export type GraphsData = {
 	user_status: UserStatus[];
-	project_status: ProjectStatus[];
+	project_status: ProjectStatus[]; 
+	recent_projects: RecentProjects[];
 }
 
 const initState: GraphsData[] = []

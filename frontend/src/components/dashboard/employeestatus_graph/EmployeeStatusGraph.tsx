@@ -257,7 +257,7 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
 
         // Update progressValue when the task is complete
         setProgressValue(100);
-        setIsLoading(false);
+        setIsLoading(false); 
       } catch (error) {
         // Handle errors
         setIsLoading(false);
@@ -283,12 +283,7 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
         setKeys(data.user_status.map((userStat) => userStat.status_name));
       });
     }
-    console.log("graph data", graphData);
   }, [graphData]);
-
-  useEffect(() => {
-    console.log("data", data);
-  }, [data]);
 
   return (
     <div className={EmpStatGraphStyle.EmpStatusGraphContainer}>
