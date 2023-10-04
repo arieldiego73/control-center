@@ -180,6 +180,24 @@ public class ProjectController {
         // }
     }
 
+    @PutMapping("/delete-multiple")
+    public ResponseEntity<String> deleteMultipleProject(@RequestParam List<Long> ids) {
+        // Check uf the user is authenticated
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+        // if (isAuthenticated != null && isAuthenticated){
+            try {
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+            return ResponseEntity.ok().body(projectService.deleteMultipleProject(ids, emp_id));
+            } catch (Exception e) {
+                return ResponseEntity.status(500).body("Server Side Error");
+            }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body("Unauthorized");
+        // }
+    }
+
     @PutMapping("/restore/{id}")
     public ResponseEntity<String> restoreProject(@PathVariable String id, HttpSession httpSession) {
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
