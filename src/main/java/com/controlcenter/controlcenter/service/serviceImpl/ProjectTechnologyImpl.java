@@ -121,6 +121,25 @@ public class ProjectTechnologyImpl implements ProjectTechnologyService {
     }
 
     @Override
+    public String deleteMultipleProjectTechnology(List<Long> ids, String emp_id) {
+
+        for (Long id : ids) {
+            String toString = String.valueOf(id);
+            ProjectTechnologyOutput projectTechnology = projectTechnologyDao.getProjectTechnologyById(toString);
+            if (projectTechnology != null) {
+                if (projectTechnology.getDel_flag() == 1) {
+                    return "Project Technology with the ID " + id + " has already been deleted.";
+                }
+            } else {
+                return "Project Technology with the ID " + id + " cannot be found.";
+            }
+        }
+        projectTechnologyDao.deleteMultipleProjectTechnology(ids);
+        
+        return "Records are successfully deleted.";
+    }
+
+    @Override
     public String restoreProjectTechnology(String id, String emp_id) {
         ProjectTechnologyOutput data = projectTechnologyDao.getProjectTechnologyById(id);
 

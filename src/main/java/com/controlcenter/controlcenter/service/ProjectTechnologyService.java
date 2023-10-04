@@ -19,4 +19,6 @@ public interface ProjectTechnologyService {
     public String logicalDeleteProjectTechnology(String id, String emp_id);
 
     public String restoreProjectTechnology(String id, String emp_id);
+
+    public String deleteMultipleProjectTechnology(List<Long> ids, String emp_id);
 }
