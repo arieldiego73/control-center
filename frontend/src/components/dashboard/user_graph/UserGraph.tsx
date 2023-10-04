@@ -371,63 +371,47 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
   return (
     <div className={UserGraphStyle.userGraphHolder}>
       <div className={UserGraphStyle.graphContainer}>
-        <div style={{ border: "1px solid red" }}>
+        <div style={{ height:"20%", display:"flex", alignItems:"center", paddingLeft:"10px" }}>
           <Typography variant="h5" fontWeight={600}>
             {" PROJECTS "}
           </Typography>
         </div>
- 
-        <div
-          style={{
-            border: "1px solid yellow",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <div
-            style={{
-              border: "1px solid pink",
-              width: "100%",
-              display: "flex",
-              flexDirection: "row",
-            }}
-          >
-            {data.map((data) => (
+
+        <Grid container spacing={1}>
+          {data.map((item, index) => (
+            <Grid item xs={12} sm={6} key={index}>
               <Paper
                 sx={{
                   p: 2,
                   margin: "auto",
-                  width: 300,
-                  maxHeight: 24,
+                  width: "87%",
                   flexGrow: 1,
-
                   backgroundColor: (theme) =>
                     theme.palette.mode === "dark" ? "#1A2027" : "#fff",
                 }}
               >
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm container>
-                    <Grid item xs container spacing={2}>
+                <Grid container spacing={2} sx={{}} >
+                  <Grid item xs={12} sm container sx={{}}>
+                    <Grid item xs container spacing={2} sx={{}}>
                       <ListItemText
-                        secondary={data.client_name}
+                        secondary={item.client_name}
                         secondaryTypographyProps={{ lineHeight: 1 }}
                         sx={{ paddingLeft: 2 }}
                       >
                         <Typography variant="h6" fontWeight={800}>
-                          {data.proj_name}
+                          {item.proj_name}
                         </Typography>
                       </ListItemText>
                     </Grid>
-                    <Grid item>
+                    <Grid item sx={{}}>
                       <Badge
-                        badgeContent={data.proj_status_name}
+                        badgeContent={item.proj_status_name}
                         color={
-                          data.proj_status_name === "Pending"
+                          item.proj_status_name === "Pending"
                             ? "success"
-                            : data.proj_status_name === "Ongoing"
+                            : item.proj_status_name === "Ongoing"
                             ? "info"
-                            : data.proj_status_name === "Finished"
+                            : item.proj_status_name === "Finished"
                             ? "primary"
                             : "warning"
                         }
@@ -436,131 +420,9 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
                   </Grid>
                 </Grid>
               </Paper>
-            ))}
-          </div>
-        </div>
-
-        {/* <div
-          style={{
-            width: "50%",
-            backgroundColor: "white",
-            borderRadius: "10px",
-            flexDirection: "column",
-            display: "flex",
-            alignItems: "flex-start",
-            padding: "24px",
-          }}
-        >
-          <div style={{ width: "100%", textDecoration: "none" }}>
-            <Link
-              to="/projects"
-              style={{
-                textDecoration: "none",
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Button variant="outlined"> View more</Button>
-            </Link>
-          </div>
-
-          <Paper
-            sx={{
-              p: 2,
-              margin: "auto",
-              width: 300,
-              maxHeight: 24,
-              flexGrow: 1,
-
-              backgroundColor: (theme) =>
-                theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-            }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm container>
-                <Grid item xs container spacing={2}>
-                  <ListItemText
-                    secondary="NRI"
-                    secondaryTypographyProps={{ lineHeight: 1 }}
-                    sx={{ paddingLeft: 2 }}
-                  >
-                    <Typography variant="h6" fontWeight={800}>
-                      Control Center
-                    </Typography>
-                  </ListItemText>
-                </Grid>
-                <Grid item>
-                  <Badge badgeContent="Finished" color="secondary"></Badge>
-                </Grid>
-              </Grid>
             </Grid>
-          </Paper>
-
-          <Paper
-            sx={{
-              p: 2,
-              margin: "auto",
-              width: 300,
-              maxHeight: 24,
-              flexGrow: 1,
-
-              backgroundColor: (theme) =>
-                theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-            }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm container>
-                <Grid item xs container spacing={2}>
-                  <ListItemText
-                    secondary="Tsukiden"
-                    secondaryTypographyProps={{ lineHeight: 1 }}
-                    sx={{ paddingLeft: 2 }}
-                  >
-                    <Typography variant="h6" fontWeight={800}>
-                      Seat Plan Management
-                    </Typography>
-                  </ListItemText>
-                </Grid>
-                <Grid item>
-                  <Badge badgeContent="Ongoing" color="success"></Badge>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Paper>
-
-          <Paper
-            sx={{
-              p: 2,
-              margin: "auto",
-              width: 300,
-              maxHeight: 24,
-              flexGrow: 1,
-
-              backgroundColor: (theme) =>
-                theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-            }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm container>
-                <Grid item xs container spacing={2}>
-                  <ListItemText
-                    secondary="Code Mechanics"
-                    secondaryTypographyProps={{ lineHeight: 1 }}
-                    sx={{ paddingLeft: 2 }}
-                  >
-                    <Typography variant="h6" fontWeight={800}>
-                      Konka Charity
-                    </Typography>
-                  </ListItemText>
-                </Grid>
-                <Grid item>
-                  <Badge badgeContent="Close" color="error"></Badge>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Paper>
-        </div> */}
+          ))}
+        </Grid>
       </div>
     </div>
   );
