@@ -55,7 +55,7 @@ export const Dashboard = () => {
             </div>
             
             <div style={{display:'flex', height:"100%", width:"50%", justifyContent:"center",  }}>
-              <UserGraph />
+              <UserGraph  graphData={graphsData} />
             </div>
           </div>
         </div>
