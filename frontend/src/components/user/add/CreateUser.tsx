@@ -735,7 +735,7 @@ export default function CreateUser() {
                     variant="contained"
                     color="primary"
                     startIcon={<SaveOutlinedIcon />}
-                    className={CreateUserStyle.saveButton}
+                    // className={CreateUserStyle.saveButton}
                     onClick={handleSave}
                   >
                     SAVE
@@ -745,6 +745,7 @@ export default function CreateUser() {
                     variant="text"
                     className={CreateUserStyle.cancelButton}
                     onClick={handleCancel}
+                    sx={{ backgroundColor: "#e0e0e0", "&:hover": { backgroundColor: "#c0c0c0" }}}
                   >
                     CANCEL
                   </Button>

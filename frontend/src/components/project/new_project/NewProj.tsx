@@ -932,7 +932,7 @@ export default function NewProj() {
           <div
             style={{
               display: "flex",
-              gap: "8px",
+              gap: "10px",
               justifyContent: "flex-end",
               width: "97%",
               marginRight: "10px",
@@ -949,7 +949,11 @@ export default function NewProj() {
             >
               SAVE AND GO BACK
             </Button>
-            <Button variant="text" onClick={handleCancel}>
+            <Button 
+            variant="text" 
+            onClick={handleCancel}
+            sx={{ backgroundColor: "#e0e0e0", "&:hover": { backgroundColor: "#c0c0c0" }}}
+            >
               CANCEL
             </Button>
           </div>

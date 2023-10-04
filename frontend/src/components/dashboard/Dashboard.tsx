@@ -32,7 +32,7 @@ export const Dashboard = () => {
   const graphsData = useSelector((state: RootState) => state.graphsData.graphsData)
 
   React.useEffect(() => {
-    console.log(graphsData)
+    console.log("dashboard graph data", graphsData)
   }, [graphsData])
 
   return (
@@ -45,7 +45,7 @@ export const Dashboard = () => {
             </div>
             
             <div style={{display:'flex', height:"100%", width:"50%", justifyContent:"center", }}>
-              <EmpStatusGraph />
+              <EmpStatusGraph graphData={graphsData} />
             </div>
           </div>
 

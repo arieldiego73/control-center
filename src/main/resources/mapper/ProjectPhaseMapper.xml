@@ -49,6 +49,16 @@
         WHERE proj_id = #{id}
     </update>
 
+<!-- Logical Delete Multiple -->
+    <delete id="deleteMultipleProjectPhase">
+        UPDATE tbl_proj_phase
+           SET del_flag = 1
+         WHERE proj_id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 <!-- Restore Data -->
     <update id="restoreProjectPhase" parameterType="java.lang.String">
         UPDATE tbl_proj_phase

@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
 
     @Autowired
     public ActivityLogDao activityLogDao;
+
+    List<PersonalInfoOutput> personalInfoList = new ArrayList<>();
 
     @Override
     public ResponseEntity<List<PersonalInfoOutput>> getAllPersonalInfo() {
@@ -119,6 +122,25 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
         } else {
             return "Personal Information with the ID " + id + " cannot be found.";
         }
+    }
+
+    @Override
+    public String deleteMultiplePersonalInfo(List<String> ids, String emp_id) {
+        personalInfoList = personalInfoDao.getAllPersonalInfo();
+
+        for(String id : ids) {
+            PersonalInfoOutput personalInfo = personalInfoDao.getPersonalInfoById(id);
+            if(personalInfo != null) {
+                if(personalInfo.getDel_flag() == 1) {
+                    return "Personal Information with the ID " + id + " has already been deleted.";
+                }
+            } else {
+                return "Personal Information with the ID " + id + " cannot be found.";
+            }
+        }
+        personalInfoDao.deleteMultiplePersonalInfo(ids);
+
+        return "Records are successfully deleted.";
     }
 
     @Override

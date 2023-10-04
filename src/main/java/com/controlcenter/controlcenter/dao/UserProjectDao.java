@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.controlcenter.controlcenter.model.UserProjectInput;
 import com.controlcenter.controlcenter.model.UserProjectOutput;
@@ -23,4 +24,6 @@ public interface UserProjectDao {
     void restoreUserProject(String id);
 
     void permaDeleteProjectMember(UserProjectInput projectMember);
+
+    void deleteMultipleUserProject(@Param("ids") List<Long> ids);
 }
