@@ -128,10 +128,10 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
             ProjectPhaseOutput projPhase = projectPhaseDao.getProjectPhaseById(toString);
             if (projPhase != null) {
                 if (projPhase.getDel_flag() == 1) {
-                    return "Project Information with the ID " + id + " has already been deleted.";
+                    return "Project Phase with the ID " + id + " has already been deleted.";
                 }
             } else {
-                return "Project Information with the ID " + id + " cannot be found.";
+                return "Project Phase with the ID " + id + " cannot be found.";
             }
         }
         projectPhaseDao.deleteMultipleProjectPhase(ids);
