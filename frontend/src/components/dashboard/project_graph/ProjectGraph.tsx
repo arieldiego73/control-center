@@ -3,7 +3,6 @@ import ProjGraphStyle from "./ProjectGraph.module.css";
 import { Divider } from "@mui/material";
 import { ResponsivePie } from "@nivo/pie";
 
-
 const data = [
 	{
 		id: "Ongoing",
