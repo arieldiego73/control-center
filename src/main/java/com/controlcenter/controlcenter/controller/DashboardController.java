@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.controlcenter.controlcenter.model.RecentProjects;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
 
@@ -159,6 +160,15 @@ public class DashboardController {
     public ResponseEntity<List<UserStatusGraph>> getAllUserStatusCountPerYearAndMonth() {
         try {
             return dashboardService.getAllUserStatusCountPerYearAndMonth();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/recent-projects")
+    public ResponseEntity<List<RecentProjects>> getRecentProjects() {
+        try {
+            return dashboardService.getRecentProjects();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

@@ -350,6 +350,7 @@ public class UserServiceImpl implements UserService{
 
             activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
             activityLogInputForRoles.setLog_desc("Removed multiple roles: " + formattedList.toString() + " on the account of '" + user.getUsername() + "'.");
+
             // add the activity log
             activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInputForRoles);

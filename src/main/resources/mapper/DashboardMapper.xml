@@ -150,9 +150,8 @@
 
     <select id="getAllProjectCountByStatus">
         SELECT
-                proj_status.proj_status_id AS status_id,
                 proj_status.proj_status_name AS status_name,
-                COUNT(tbl_proj_info.proj_status_id) AS total_project_status
+                COUNT(tbl_proj_info.proj_status_id) AS total
             FROM
                 tbl_proj_status_mst AS proj_status
             LEFT JOIN
@@ -212,22 +211,37 @@
  
     <select id="getAllUserStatusCountPerYearAndMonth" resultType="com.controlcenter.controlcenter.model.UserStatusGraph">
         SELECT
-            user_status.status_code AS status_code,
-            user_status.status_name AS status_name,
-            EXTRACT(YEAR FROM tuser.reg_date) AS year,
-            EXTRACT(MONTH FROM tuser.reg_date) AS month,
-            COUNT(tuser.status_code) AS total
-        FROM
-            tbl_status_mst AS user_status
-        LEFT JOIN
-            tbl_user AS tuser
-        ON
-            user_status.status_code = tuser.status_code
-        WHERE
-            tuser.del_flag = 0 AND tuser.emp_id != 100
-        GROUP BY
-            user_status.status_code, user_status.status_name, year, month
-        ORDER BY
-            user_status.status_code, year, month;
+                user_status.status_name AS status_name,
+                COUNT(tuser.status_code) AS total
+            FROM
+                tbl_status_mst AS user_status
+            LEFT JOIN
+                tbl_user AS tuser
+            ON
+                user_status.status_code = tuser.status_code
+            WHERE
+                tuser.del_flag = 0
+                AND tuser.emp_id != 100
+                AND EXTRACT(YEAR FROM tuser.reg_date) = EXTRACT(YEAR FROM CURRENT_DATE)
+                AND EXTRACT(MONTH FROM tuser.reg_date) = EXTRACT(MONTH FROM CURRENT_DATE)
+            GROUP BY
+                user_status.status_code, user_status.status_name;
+    </select>
+
+    <select id="getRecentProjects" resultType="com.controlcenter.controlcenter.model.RecentProjects">
+       SELECT project.proj_name,
+              client.client_name,
+              tps.proj_status_name
+         FROM tbl_proj_info AS tpi
+            INNER JOIN tbl_project_mst AS project
+                ON tpi.proj_id = project.proj_id
+            LEFT JOIN tbl_clients_mst AS client
+                ON tpi.client_id = client.client_id
+            LEFT JOIN tbl_proj_status_mst AS tps
+                ON tpi.proj_status_id = tps.proj_status_id	
+        WHERE project.del_flag = 0
+        ORDER BY project.proj_id DESC, 
+                 project.reg_date DESC
+        LIMIT 6;
     </select>
 </mapper>

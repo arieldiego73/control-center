@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+import com.controlcenter.controlcenter.model.RecentProjects;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 
 public interface DashboardService {
@@ -30,4 +31,6 @@ public interface DashboardService {
     public ResponseEntity<List<Map<String, Object>>> getAllUserStatusCountByMonth(String month);
 
     public ResponseEntity<List<UserStatusGraph>> getAllUserStatusCountPerYearAndMonth();
+
+    public ResponseEntity<List<RecentProjects>> getRecentProjects();
 }
