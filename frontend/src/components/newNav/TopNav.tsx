@@ -7,6 +7,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
 import { red } from "@mui/material/colors";
+import defaultProfile from "../../Assets/userImage/MaleDefaultProfile.jpg"
 
 export interface TopNavProps {
   pageTitle?: string; // Make pageTitle optional with '?'
@@ -83,7 +84,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
               <div >
                 <div className={TopNavStyle.userProfilePic}>
                   <img
-                    src={SampleUserImage}
+                    src={defaultProfile}
                     alt="User"
                     style={{ height: "100%", width: "100%", borderRadius: "100%", }}
                     className={TopNavStyle.mainImage}

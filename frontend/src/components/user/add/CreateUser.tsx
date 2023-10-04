@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import CreateUserStyle from "./CreateUser.module.css";
-import imgTest from "../../../Assets/imgtest2.png";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -21,6 +20,7 @@ import { getPositionFetch } from "../../../redux/state/positionState";
 import { addUserInfo } from "../../../redux/saga/userSaga";
 import { addUserReset } from "../../../redux/state/userState";
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+import defaultProfile from "../../../Assets/userImage/MaleDefaultProfile.jpg";
 
 
 import Box from '@mui/material/Box';
@@ -248,7 +248,7 @@ export default function CreateUser() {
       !empStatus ||
       selectedRoles.length === 0
     ) {
-      console.log("username: " + username + "password: " + password + "confirmPassword: " + confirmPassword +"1st clg")
+      console.log("username: " + username + "password: " + password + "confirmPassword: " + confirmPassword + "1st clg")
       handleClickSnackpack(
         "Please fill in the required fields.",
         "error"
@@ -266,14 +266,14 @@ export default function CreateUser() {
       empStatus !== "0" &&
       selectedRoles.length > 0
     ) {
-      if( password === confirmPassword){
-      console.log("username: " + username + "password: " + password + "confirmPassword: " + confirmPassword + "2nd clg")
-      setAsk(true);
-      setDialogTitle("Save the record?");
-      setDialogContentText(
-        "Upon proceeding, the modifications on the record \nmade will be saved."
-      );
-      setIsSaving(true);
+      if (password === confirmPassword) {
+        console.log("username: " + username + "password: " + password + "confirmPassword: " + confirmPassword + "2nd clg")
+        setAsk(true);
+        setDialogTitle("Save the record?");
+        setDialogContentText(
+          "Upon proceeding, the modifications on the record \nmade will be saved."
+        );
+        setIsSaving(true);
       } else {
         handleClickSnackpack(
           "Password fields do not match!",
@@ -310,6 +310,14 @@ export default function CreateUser() {
     event.preventDefault();
   };
 
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+    }
+  }
   return (
     <>
       <div className={CreateUserStyle.mainContainer}>
@@ -319,11 +327,21 @@ export default function CreateUser() {
               <div className={CreateUserStyle.leftFormPlaceHolder}>
                 <div className={CreateUserStyle.profileHolder}>
                   <div className={CreateUserStyle.imgContainer}>
-                    <img
-                      alt=""
-                      src={imgTest}
-                      className={CreateUserStyle.imgSize}
-                    />
+                    {/* Display the selected image */}
+                    {selectedImage ? (
+                      <img
+                        src={URL.createObjectURL(selectedImage)}
+                        alt="Selected"
+                        className={CreateUserStyle.imgSize}
+                      />
+                    ) : (
+                      <img
+                        src={defaultProfile}
+                        alt="Placeholder"
+                        className={CreateUserStyle.imgSize}
+                      />
+                      
+                    )}
                     <div style={{ height: "80px", width: "80px", position: "absolute", right: "0", top: "70%", display: "grid", placeItems: "center", overflow: "hidden", }}>
                       <Button
                         component="label"
@@ -338,11 +356,18 @@ export default function CreateUser() {
                           "&:hover": {
                             background: "rgba( 237, 249, 255, 0.75 )",
                             transform: "scale(1.1)"
+
                           }
                         }}
                         className={CreateUserStyle.updateImageButton}
                       >
                         <CameraAltOutlinedIcon sx={{ height: "30px", width: "30px", margin: 0, padding: 0 }} />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          style={{ display: 'none' }}
+                          onChange={handleImageChange}
+                        />
                         <VisuallyHiddenInput type="file" />
                       </Button>
                     </div>
@@ -774,7 +799,7 @@ export default function CreateUser() {
 
                     {/* Start of Password Form */}
                     <div className={CreateUserStyle.formHolder}>
-                    <FormControl
+                      <FormControl
                         sx={{
                           width: "27.5%",
                           "@media (max-width: 850px)": {
@@ -795,7 +820,7 @@ export default function CreateUser() {
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
-                                
+
                               </InputAdornment>
                             ),
                             // endAdornment: (
@@ -837,7 +862,7 @@ export default function CreateUser() {
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
-                                
+
                               </InputAdornment>
                             ),
                             endAdornment: (
@@ -856,7 +881,7 @@ export default function CreateUser() {
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                         />
-                      </FormControl> 
+                      </FormControl>
 
                       {/* <FormControl
                         variant="outlined"

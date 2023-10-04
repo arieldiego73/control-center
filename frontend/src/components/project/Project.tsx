@@ -17,11 +17,17 @@ import {
 	SelectChangeEvent,
 	Box,
 } from "@mui/material";
-import { getProjectsFetch } from "../../redux/state/projectState";
+import { addProjectReset, getProjectsFetch } from "../../redux/state/projectState";
 import { getProjectStatusFetch } from "../../redux/state/projectStatusState";
 
 export default function Project() {
 	const dispatch = useDispatch();
+
+	
+	const isAddSuccess = useSelector((state: RootState) => state.projectReducer.isAddSuccess)
+	React.useEffect(() => {
+		if (isAddSuccess) dispatch(addProjectReset());
+	}, [isAddSuccess])
 
 	React.useEffect(() => {
 		dispatch(getProjectsFetch());

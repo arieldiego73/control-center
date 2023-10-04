@@ -72,6 +72,7 @@
   height: 15vw;
   position: relative;
   border-radius: 50%;
+  border: 1px solid black;
 }
 .imgSize {
   width: 100%;

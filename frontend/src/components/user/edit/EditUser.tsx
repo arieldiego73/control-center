@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import EditUserStyle from "./EditUser.module.css";
-import imgTest from "../../../Assets/imgtest2.png";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -20,6 +19,7 @@ import { getRolesFetch } from "../../../redux/state/roleState";
 import { getPositionFetch } from "../../../redux/state/positionState";
 import { addUserReset, clearUserInfo } from "../../../redux/state/userState";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
+import defaultProfile from "../../../Assets/userImage/MaleDefaultProfile.jpg";
 import {
   getUserInfo,
   getUserRoles,
@@ -314,6 +314,7 @@ export default function EditUser() {
     }
   };
 
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const handleCancel = () => {
     setAsk(true);
@@ -333,11 +334,21 @@ export default function EditUser() {
               <div className={EditUserStyle.leftFormPlaceHolder}>
                 <div className={EditUserStyle.profileHolder}>
                   <div className={EditUserStyle.imgContainer}>
-                    <img
-                      alt=""
-                      src={imgTest}
-                      className={EditUserStyle.imgSize}
-                    />
+                    {/* Display the selected image */}
+                    {selectedImage ? (
+                      <img
+                        src={URL.createObjectURL(selectedImage)}
+                        alt="Selected"
+                        className={EditUserStyle.imgSize}
+                      />
+                    ) : (
+                      <img
+                        src={defaultProfile}
+                        alt="Placeholder"
+                        className={EditUserStyle.imgSize}
+                      />
+                      
+                    )}
                     <div
                       style={{
                         height: "80px",
