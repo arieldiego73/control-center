@@ -126,6 +126,25 @@ public class UserProjectServiceImpl implements UserProjectService {
     }
 
     @Override
+    public String deleteMultipleUserProject(List<Long> ids, String emp_id) {
+
+        for (Long id : ids) {
+            String toString = String.valueOf(id);
+            UserProjectOutput userProject = userProjectDao.getUserProjectById(toString);
+            if (userProject != null) {
+                if (userProject.getDel_flag() == 1) {
+                    return "User Project with the ID " + id + " has already been deleted.";
+                }
+            } else {
+                return "User Project with the ID " + id + " cannot be found.";
+            }
+        }
+        userProjectDao.deleteMultipleUserProject(ids);
+        
+        return "Records are successfully deleted.";
+    }
+
+    @Override
     public String restoreUserProject(String id) {
         UserProjectOutput data = userProjectDao.getUserProjectById(id);
 
