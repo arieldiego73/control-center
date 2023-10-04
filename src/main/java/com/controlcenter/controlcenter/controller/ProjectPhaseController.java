@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.ProjectPhaseInput;
@@ -111,6 +112,24 @@ public class ProjectPhaseController {
         // } else {
         //      // User is not authenticated
         //      return ResponseEntity.status(401).body("Unauthorized");
+        // }
+    }
+
+    @PutMapping("/delete-multiple")
+    public ResponseEntity<String> deleteMultipleProjectPhase(@RequestParam List<Long> ids) {
+        // Check uf the user is authenticated
+        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+
+        // if (isAuthenticated != null && isAuthenticated){
+            try {
+                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+            return ResponseEntity.ok().body(projectPhaseService.deleteMultipleProjectPhase(ids, emp_id));
+            } catch (Exception e) {
+                return ResponseEntity.status(500).body("Server Side Error");
+            }
+        // } else {
+        //     // User is not authenticated
+        //     return ResponseEntity.status(401).body("Unauthorized");
         // }
     }
 

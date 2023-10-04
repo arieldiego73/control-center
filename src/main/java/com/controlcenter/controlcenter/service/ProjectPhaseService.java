@@ -19,4 +19,6 @@ public interface ProjectPhaseService {
     public String logicalDeleteProjectPhase(String id, String emp_id);
 
     public String restoreProjectPhase(String id);
+
+    public String deleteMultipleProjectPhase(List<Long> ids, String emp_id);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.controlcenter.controlcenter.model.ProjectPhaseInput;
 import com.controlcenter.controlcenter.model.ProjectPhaseOutput;
@@ -23,4 +24,6 @@ public interface ProjectPhaseDao {
     void restoreProjectPhase(String id);
 
     void permaDeleteProjectPhase(ProjectPhaseInput projectPhase);
+
+    void deleteMultipleProjectPhase(@Param("ids") List<Long> ids);
 }

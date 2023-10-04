@@ -121,6 +121,25 @@ public class ProjectPhaseServiceImpl implements ProjectPhaseService {
     }
 
     @Override
+    public String deleteMultipleProjectPhase(List<Long> ids, String emp_id) {
+
+        for (Long id : ids) {
+            String toString = String.valueOf(id);
+            ProjectPhaseOutput projPhase = projectPhaseDao.getProjectPhaseById(toString);
+            if (projPhase != null) {
+                if (projPhase.getDel_flag() == 1) {
+                    return "Project Phase with the ID " + id + " has already been deleted.";
+                }
+            } else {
+                return "Project Phase with the ID " + id + " cannot be found.";
+            }
+        }
+        projectPhaseDao.deleteMultipleProjectPhase(ids);
+        
+        return "Records are successfully deleted.";
+    }
+
+    @Override
     public String restoreProjectPhase(String id) {
         ProjectPhaseOutput data = projectPhaseDao.getProjectPhaseById(id);
 

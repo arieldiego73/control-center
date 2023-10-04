@@ -19,4 +19,6 @@ public interface UserProjectService {
     public String logicalDeleteUserProject(String id, String emp_id);
 
     public String restoreUserProject(String id);
+
+    public String deleteMultipleUserProject(List<Long> ids, String emp_id);
 }
