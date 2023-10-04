@@ -6,8 +6,6 @@
 // import { Link } from "react-router-dom";
 // import Badge from "@mui/material/Badge";
 
-
-
 // export default function UserGraph() {
 //   return (
 //     <div className={UserGraphStyle.userGraphHolder}>
@@ -35,7 +33,7 @@
 //               p: 2,
 //               margin: "auto",
 //               width: 300,
-//               maxHeight: 24, 
+//               maxHeight: 24,
 //               flexGrow: 1,
 
 //               backgroundColor: (theme) =>
@@ -284,7 +282,11 @@ import { RootState } from "../../../redux/store/store";
 //   //san kukuwanin ung empStatus
 // }
 
-function createData(proj_name: string, client_name: string, proj_status_name: string) {
+function createData(
+  proj_name: string,
+  client_name: string,
+  proj_status_name: string
+) {
   return {
     proj_name,
     client_name,
@@ -292,11 +294,9 @@ function createData(proj_name: string, client_name: string, proj_status_name: st
   };
 }
 
- 
 interface UserGraphProps {
   graphData: GraphsData[];
 }
-
 
 const UserGraph: React.FC<UserGraphProps> = (props) => {
   // const { graphData } = props;
@@ -318,7 +318,7 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
 
         // Update progressValue when the task is complete
         setProgressValue(100);
-        setIsLoading(false); 
+        setIsLoading(false);
       } catch (error) {
         // Handle errors
         setIsLoading(false);
@@ -338,15 +338,17 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
       graphData.map((data) =>
         setData(
           data.recent_projects.map((projStat) =>
-            createData(projStat.proj_name, projStat.client_name, projStat.proj_status_name)
+            createData(
+              projStat.proj_name,
+              projStat.client_name,
+              projStat.proj_status_name
+            )
           )
         )
       );
     }
     console.log("etooooooo", graphData);
-
   }, [graphData]);
-  
 
   // useEffect(() => {
   //   if (graphData) {
@@ -369,66 +371,75 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
   return (
     <div className={UserGraphStyle.userGraphHolder}>
       <div className={UserGraphStyle.graphContainer}>
+        <div style={{ border: "1px solid red" }}>
+          <Typography variant="h5" fontWeight={600}>
+            {" PROJECTS "}
+          </Typography>
+        </div>
+
         <div
           style={{
-            width: "50%",
-            backgroundColor: "white",
-            borderRadius: "10px",
-            flexDirection: "column",
+            border: "1px solid yellow",
+            height: "100%",
             display: "flex",
-            alignItems: "flex-start",
-            padding: "24px",
+            flexDirection: "column",
           }}
         >
-          <div>
-            <Typography variant="h5" fontWeight={600}>
-              {" PROJECTS "}
-            </Typography>
-          </div>
-          {data.map((data) => (
-            <Paper
-              sx={{
-                p: 2,
-                margin: "auto",
-                width: 300,
-                maxHeight: 24, 
-                flexGrow: 1,
+          <div
+            style={{
+              border: "1px solid pink",
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            {data.map((data) => (
+              <Paper
+                sx={{
+                  p: 2,
+                  margin: "auto",
+                  width: 300,
+                  maxHeight: 24,
+                  flexGrow: 1,
 
-                backgroundColor: (theme) =>
-                  theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-              }}
-            >
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm container>
-                  <Grid item xs container spacing={2}>
-                    <ListItemText
-                      secondary={data.client_name}
-                      secondaryTypographyProps={{ lineHeight: 1 }}
-                      sx={{ paddingLeft: 2 }}
-                    >
-                      <Typography
-                        variant="h6"
-                        fontWeight={800}
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                }}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm container>
+                    <Grid item xs container spacing={2}>
+                      <ListItemText
+                        secondary={data.client_name}
+                        secondaryTypographyProps={{ lineHeight: 1 }}
+                        sx={{ paddingLeft: 2 }}
                       >
-                        {data.proj_name}
-                      </Typography>
-                    </ListItemText>
-                  </Grid>
-                  <Grid item>
-                    <Badge
-                    badgeContent={data.proj_status_name}
-                    color={data.proj_status_name === "Pending" ? "success"
-                          : data.proj_status_name === "Ongoing" ? "info"
-                          : data.proj_status_name === "Finished" ? "primary"
-                          : "warning"}
-                    />
+                        <Typography variant="h6" fontWeight={800}>
+                          {data.proj_name}
+                        </Typography>
+                      </ListItemText>
+                    </Grid>
+                    <Grid item>
+                      <Badge
+                        badgeContent={data.proj_status_name}
+                        color={
+                          data.proj_status_name === "Pending"
+                            ? "success"
+                            : data.proj_status_name === "Ongoing"
+                            ? "info"
+                            : data.proj_status_name === "Finished"
+                            ? "primary"
+                            : "warning"
+                        }
+                      />
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            </Paper>
-          ))}
-
+              </Paper>
+            ))}
+          </div>
         </div>
+
         {/* <div
           style={{
             width: "50%",
@@ -553,6 +564,6 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
       </div>
     </div>
   );
-}
+};
 
 export default UserGraph;
