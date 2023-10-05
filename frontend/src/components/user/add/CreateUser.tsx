@@ -214,6 +214,7 @@ export default function CreateUser() {
       emp_id: assocID,
       username: username,
       password: password,
+      confirm_password: confirmPassword,
       fname: firstName.trim(),
       mname: middleName.trim(),
       lname: lastName.trim(),
