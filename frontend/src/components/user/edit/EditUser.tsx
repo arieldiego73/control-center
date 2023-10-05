@@ -217,7 +217,10 @@ export default function EditUser() {
   const [businessUnit, setBusinessUnit] = useState(0);
   const [department, setDepartment] = useState(0);
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
@@ -253,7 +256,7 @@ export default function EditUser() {
     const data = {
       emp_id: assocID,
       username: username,
-      password: password.trim(),
+      password: password,
       fname: firstName.trim(),
       mname: middleName.trim(),
       lname: lastName.trim(),
@@ -275,6 +278,7 @@ export default function EditUser() {
       !assocID ||
       !username ||
       !password ||
+      // !currentPassword ||
       !firstName ||
       !lastName ||
       !position ||
@@ -292,6 +296,7 @@ export default function EditUser() {
       assocID &&
       username &&
       password &&
+      // currentPassword &&
       firstName &&
       lastName &&
       position &&
@@ -301,19 +306,12 @@ export default function EditUser() {
       empStatus !== "0" &&
       selectedRoles.length > 0
     ) {
-      if (password === confirmPassword) {
-        setAsk(true);
-        setDialogTitle("Save the record?");
-        setDialogContentText(
-          "Upon proceeding, the modifications on the record \nmade will be saved."
-        );
-        setIsSaving(true);
-      } else {
-        handleClickSnackpack(
-          "Password fields do not match!",
-          "error"
-        )();
-      }
+      setAsk(true);
+      setDialogTitle("Save the record?");
+      setDialogContentText(
+        "Upon proceeding, the modifications on the record \nmade will be saved."
+      );
+      setIsSaving(true);
     } else {
       handleClickSnackpack(
         "All fields are required. Please, try again.",
@@ -328,16 +326,25 @@ export default function EditUser() {
     event.preventDefault();
   };
 
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
-  const handleMouseDownConfirmPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
+  const handleClickShowCurrentPassword = () => setShowCurrentPassword((show) => !show);
+  const handleMouseDownCurrentPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const [showNewPassword, setShowNewPassword] = React.useState(false);
+  const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
+  const handleMouseDownNewPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const [showConfirmNewPassword, setShowConfirmNewPassword] = React.useState(false);
+  const handleClickShowConfirmNewPassword = () => setShowConfirmNewPassword((show) => !show);
+  const handleMouseDownConfirmNewPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
 
-
-
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -429,6 +436,41 @@ export default function EditUser() {
                   </div>
                 </div>
                 <div className={EditUserStyle.formProfileContainer}>
+
+                  {/* Hidden password field */}
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <FormControl
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "95%",
+                      }}
+                    >
+                      <TextField
+                        label="Password"
+                        error={formSubmitted && password === ""}
+                        helperText={
+                          formSubmitted && password === ""
+                            ? "Password required"
+                            : ""
+                        }
+                        variant="outlined"
+                        size="small"
+                        placeholder="Password"
+                        className={EditUserStyle.textFieldProfile}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PermIdentityOutlinedIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </FormControl>
+                  </div>
+
                   {/* Start of Assoc id form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <FormControl
@@ -840,7 +882,7 @@ export default function EditUser() {
                       </FormControl>
                     </div>
 
-                    {/* Start of Password and Confirm Password Form */}
+                    {/* Start of Password Form */}
                     <div className={EditUserStyle.formHolder}>
                       <FormControl
                         sx={{
@@ -851,14 +893,12 @@ export default function EditUser() {
                         }}
                       >
                         <TextField
-                          label="Password"
-                          type={showPassword ? 'text' : 'password'}
-                          error={formSubmitted && password === ""}
-                          helperText={
-                            (formSubmitted && password === "" ? "Password required" : "")
-                            // ||
-                            // (formSubmitted && password.toString().length < 5 ? "password too short" : "")
-                          }
+                          label="Current Password"
+                          type={showCurrentPassword ? 'text' : 'password'}
+                          // error={formSubmitted && password === ""}
+                          // helperText={
+                          //   (formSubmitted && password === "" ? "Password required" : "")
+                          // }
                           variant="outlined"
                           size="small"
                           sx={{ flex: 1, display: "flex", width: "100%" }}
@@ -881,8 +921,8 @@ export default function EditUser() {
                             //   </InputAdornment>
                             // ),
                           }}
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
+                          value={currentPassword}
+                          onChange={(e) => setCurrentPassword(e.target.value)}
                         />
                       </FormControl>
 
@@ -895,12 +935,12 @@ export default function EditUser() {
                         }}
                       >
                         <TextField
-                          label="Confirm password"
-                          type={showConfirmPassword ? 'text' : 'password'}
-                          error={formSubmitted && confirmPassword === ""}
-                          helperText={
-                            formSubmitted && confirmPassword === "" ? "Password confirmation required" : ""
-                          }
+                          label="New password"
+                          type={showNewPassword ? 'text' : 'password'}
+                          // error={formSubmitted && confirmNewPassword === ""}
+                          // helperText={
+                          //   formSubmitted && confirmNewPassword === "" ? "Password confirmation required" : ""
+                          // }
                           variant="outlined"
                           size="small"
                           sx={{ flex: 1, display: "flex", width: "100%" }}
@@ -914,19 +954,62 @@ export default function EditUser() {
                               <InputAdornment position="end">
                                 <IconButton
                                   aria-label="toggle password visibility"
-                                  onClick={handleClickShowConfirmPassword}
-                                  onMouseDown={handleMouseDownConfirmPassword}
+                                  onClick={handleClickShowNewPassword}
+                                  onMouseDown={handleMouseDownNewPassword}
                                   edge="end"
                                 >
-                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                  {showNewPassword ? <VisibilityOff /> : <Visibility />}
                                 </IconButton>
                               </InputAdornment>
                             ),
                           }}
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
                         />
                       </FormControl>
+
+                      <FormControl
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
+                        <TextField
+                          label="Confirm New password"
+                          type={showConfirmNewPassword ? 'text' : 'password'}
+                          // error={formSubmitted && confirmNewPassword === ""}
+                          // helperText={
+                          //   formSubmitted && confirmNewPassword === "" ? "Password confirmation required" : ""
+                          // }
+                          variant="outlined"
+                          size="small"
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+
+                              </InputAdornment>
+                            ),
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowConfirmNewPassword}
+                                  onMouseDown={handleMouseDownConfirmNewPassword}
+                                  edge="end"
+                                >
+                                  {showConfirmNewPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={confirmNewPassword}
+                          onChange={(e) => setConfirmNewPassword(e.target.value)}
+                        />
+                      </FormControl>
+
 
                       {/* <FormControl
                         variant="outlined"
