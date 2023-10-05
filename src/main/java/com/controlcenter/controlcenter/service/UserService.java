@@ -46,4 +46,6 @@ public interface UserService {
 
   //batch delete
   public String deleteMultipleUser(List<String> ids, String emp_id);
+
+  public ResponseEntity<List<UserInfoOutput>> getAllPossibleManager();
 }

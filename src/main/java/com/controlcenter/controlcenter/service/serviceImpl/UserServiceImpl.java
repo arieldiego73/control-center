@@ -82,6 +82,10 @@ public class UserServiceImpl implements UserService {
     }
   }
 
+  public ResponseEntity<List<UserInfoOutput>> getAllPossibleManager() {
+    return ResponseEntity.ok(userDao.getAllPossibleManager());
+  }
+
   @Override
   public ResponseEntity<UserInfoOutput> getUserById(String id) {
     try {
