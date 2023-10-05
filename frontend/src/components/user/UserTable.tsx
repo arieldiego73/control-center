@@ -1,13 +1,19 @@
 import * as React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowSelectionModel, GridRowsProp } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import UserTableStyle from "./User.module.css";
 import { useNavigate } from "react-router-dom";
 import CustomPagination from "../custom_pagination/pagination";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import { Divider, LinearProgress } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
+import { getUsersFetch } from "../../redux/state/userState";
+import { deleteUser, deleteUserBatch } from "../../redux/saga/userSaga";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
 
 export interface RowData {
   emp_id: number;
@@ -26,7 +32,22 @@ interface UserTableProps {
 }
 
 const UserTable: React.FC<UserTableProps> = (props) => {
+  const data = useSelector((state: RootState) => state.userReducer.users);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [rows, setRows] = React.useState<GridRowsProp>(data);
+  const [ask, setAsk] = React.useState(false);
+	const [deleteId, setDeleteId] = React.useState(0);
+	const [isBatch, setIsBatch] = React.useState<boolean>();
+  const [rowSelectionModel, setRowSelectionModel] =
+    React.useState<GridRowSelectionModel>([]);
+  const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(
+    new Set()
+  );
+
+const [dialogTitle, setDialogTitle] = React.useState("");
+	const [dialogContentText, setDialogContentText] = React.useState("");
 
   const loadingState = useSelector(
     (state: RootState) => state.userReducer.isLoading
@@ -36,11 +57,71 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     setIsLoading(() => loadingState);
   }, [loadingState]);
 
+  React.useEffect(() => {
+		dispatch(getUsersFetch());
+	}, [dispatch]);
+
+  const proceedWithDelete = () => {
+		dispatch(deleteUser({ user_id: deleteId }));
+		setRows(data);
+		setAsk(false);
+	};
+
+	const proceedWithDeleteBatch = async () => {
+		dispatch(deleteUserBatch({ batchId: selectedId }));
+		setRows(data); // update rows
+		setRowSelectionModel([]); // clear selected rows
+		setSelectedId(new Set()); // clear selected IDs
+		setAsk(false); // close dialog
+		setActions({ ...actions, selecting: false });
+	};
+
+  const [confirmAction, setConfirmAction] = React.useState(false);
+  const [actions, setActions] = React.useState<{
+		editing: boolean;
+		selecting: boolean;
+		adding: boolean;
+		editingId: GridRowId;
+	}>({
+		editing: false,
+		selecting: false,
+		adding: false,
+		editingId: 0,
+	});
+	const [proceedAction, setProceedAction] = React.useState<() => void>(
+		() => {}
+	);
+
   const dataGridSlots = {
-    columnUnsortedIcon: UnsortedIcon,
-    pagination: CustomPagination,
-    loadingOverlay: LinearProgress,
-  };
+		toolbar: DatagridToolbar,
+		columnUnsortedIcon: UnsortedIcon,
+		pagination: CustomPagination,
+		loadingOverlay: LinearProgress,
+	};
+
+
+  function DatagridToolbar() {
+		return (
+			<DataGridEditToolbar
+				setAsk={setAsk}
+				setIsBatch={setIsBatch}
+				setDialogContentText={setDialogContentText}
+				setDialogTitle={setDialogTitle}
+				selectedId={selectedId}
+			/>
+		);
+	} 
+
+  const handleDeleteClick = (id: GridRowId) => () => { 
+    setSelectedId(new Set([])); // clear set of selectedID to disable the Delete Batch button
+		setAsk(true);
+					setIsBatch(false);
+					setDialogContentText(
+						"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+					);
+					setDialogTitle("Delete this record?");
+					setDeleteId(id as number);
+	};
 
   const columns: GridColDef[] = [
     {
@@ -130,46 +211,25 @@ const UserTable: React.FC<UserTableProps> = (props) => {
         }).format(new Date(params.value));
       },
     },
-    // {
-		// 	field: "actions",
-		// 	type: "actions",
-		// 	headerName: "Actions",
-		// 	minWidth: 200,
-		// 	cellClassName: "actions",
-		// 	getActions: ({ id }) => {
-		// 		const isInEditMode =
-		// 			rowModesModel[id]?.mode === GridRowModes.Edit;
+    {
+			field: "actions",
+			type: "actions",
+			headerName: "Actions",
+			minWidth: 200,
+			cellClassName: "actions",
+			getActions: ({ id }) => {
+			
 
-		// 		if (isInEditMode) {
-		// 			return [
-		// 				<GridActionsCellItem
-		// 					icon={<SaveIcon />}
-		// 					label="Save"
-		// 					sx={{
-		// 						color: "primary.main",
-		// 					}}
-		// 					onClick={handleSaveClick(id)}
-		// 				/>,
-		// 				<GridActionsCellItem
-		// 					icon={<CancelIcon />}
-		// 					label="Cancel"
-		// 					className="textPrimary"
-		// 					onClick={handleCancelClick(id)}
-		// 					color="inherit"
-		// 				/>,
-		// 			];
-		// 		}
-
-		// 		return [
-		// 			<GridActionsCellItem
-		// 				icon={<DeleteIcon />}
-		// 				label="Delete"
-		// 				onClick={handleDeleteClick(id)}
-		// 				color="inherit"
-		// 			/>,
-		// 		];
-		// 	},
-		// },
+				return [
+					<GridActionsCellItem
+						icon={<DeleteIcon />}
+						label="Delete"
+						onClick={handleDeleteClick(id)}
+						color="inherit"
+					/>,
+				];
+			},
+		},
   ];
 
   return (
@@ -193,7 +253,28 @@ const UserTable: React.FC<UserTableProps> = (props) => {
             slots={dataGridSlots}
             loading={isLoading}
             checkboxSelection
+            onRowSelectionModelChange={(newModel) => {
+              setRowSelectionModel(newModel)
+              setSelectedId(new Set(newModel))
+            }}
           />
+
+<DataGridDialog
+				ask={ask}
+				setAsk={setAsk}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				isBatch={isBatch}
+				proceedWithDelete={proceedWithDelete}
+				proceedWithDeleteBatch={proceedWithDeleteBatch}
+			/>
+			<DataGridActionDialog
+				open={confirmAction}
+				handleClose={setConfirmAction}
+				dialogTitle={dialogTitle}
+				dialogContentText={dialogContentText}
+				confirmAction={proceedAction}
+			/>
         </div>
       </Paper>
     </div>
