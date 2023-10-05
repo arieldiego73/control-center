@@ -277,9 +277,10 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
       <Paper className={ProjectTableStyle.paperTable}>
         <div style={{ height: "100%", width: "100%" }}>
           <DataGrid
-            sx={datagridStyle}
-            rows={rows}
-            getRowId={(row) => row.proj_id}
+          sx={datagridStyle}
+          style={{height:"100%"}}
+            rows={rows} 
+            getRowId={(row) => row.proj_id} 
             columns={columns}
             pagination
             pageSizeOptions={[5, 25, 50, 100]}
