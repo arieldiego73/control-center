@@ -105,8 +105,8 @@ export default function ProjectGraph() {
 						arcLinkLabelsTextOffset={10}
 						arcLinkLabelsTextColor="#ffffff"
 						arcLinkLabelsOffset={-10}
-						arcLinkLabelsDiagonalLength={30}
-						arcLinkLabelsStraightLength={30}
+						arcLinkLabelsDiagonalLength={20}
+						arcLinkLabelsStraightLength={14}
 						arcLinkLabelsThickness={2}
 						arcLinkLabelsColor={{ from: "color", modifiers: [] }}
 						arcLabelsRadiusOffset={0.75}
