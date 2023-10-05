@@ -8,6 +8,7 @@ import lombok.Setter;
 public class UserInfoOutput {
   private String emp_id;
   private String username;
+  private String password;
   private String fname;
   private String mname;
   private String lname;

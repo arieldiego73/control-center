@@ -212,7 +212,7 @@ export default function CreateUser() {
     const data = {
       emp_id: assocID,
       username: username,
-      password: password.trim(),
+      password: password,
       fname: firstName.trim(),
       mname: middleName.trim(),
       lname: lastName.trim(),
@@ -236,6 +236,7 @@ export default function CreateUser() {
       !username ||
       !password ||
       !firstName ||
+      !confirmPassword ||
       !lastName ||
       !position ||
       !email ||
@@ -333,7 +334,7 @@ export default function CreateUser() {
                         alt="Placeholder"
                         className={CreateUserStyle.imgSize}
                       />
-                      
+
                     )}
                     <div style={{ height: "80px", width: "80px", position: "absolute", right: "0", top: "70%", display: "grid", placeItems: "center", overflow: "hidden", }}>
                       <Button
@@ -803,11 +804,14 @@ export default function CreateUser() {
                         <TextField
                           label="Password"
                           type={showPassword ? 'text' : 'password'}
-                          error={formSubmitted && password === ""}
+                          error={
+                            (formSubmitted && password === "") || 
+                            (formSubmitted && password.toString().length < 5) || 
+                            (formSubmitted && password !== confirmPassword)}
                           helperText={
-                            (formSubmitted && password === "" ? "Password required" : "") 
-                            // ||
-                            // (formSubmitted && password.toString().length < 5 ? "password too short" : "")
+                            (formSubmitted && password === "" ? "Password required" : "") || 
+                            (formSubmitted && password.toString().length < 5 ? "password too short" : "") ||
+                            (formSubmitted && password !== confirmPassword ? "Password fields do not match" : "")
                           }
                           variant="outlined"
                           size="small"
@@ -847,9 +851,13 @@ export default function CreateUser() {
                         <TextField
                           label="Confirm password"
                           type={showConfirmPassword ? 'text' : 'password'}
-                          error={formSubmitted && confirmPassword === ""}
+                          error={
+                            (formSubmitted && confirmPassword === "") ||
+                            (formSubmitted && password !== confirmPassword)
+                          }
                           helperText={
-                            formSubmitted && confirmPassword === "" ? "Password confirmation required" : ""
+                            (formSubmitted && confirmPassword === "" ? "Password confirmation required" : "") ||
+                            (formSubmitted && password !== confirmPassword ? "Password fields do not match" : "")
                           }
                           variant="outlined"
                           size="small"
