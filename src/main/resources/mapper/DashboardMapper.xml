@@ -150,18 +150,25 @@
 
     <select id="getAllProjectCountByStatus">
         SELECT
-                proj_status.proj_status_name AS status_name,
-                COUNT(tbl_proj_info.proj_status_id) AS total
-            FROM
-                tbl_proj_status_mst AS proj_status
-            LEFT JOIN
-                tbl_proj_info
-            ON
-                proj_status.proj_status_id = tbl_proj_info.proj_status_id
-            WHERE
-                tbl_proj_info.del_flag = 0
-            GROUP BY
-                proj_status.proj_status_id, proj_status.proj_status_name;
+            proj_status.proj_status_name AS status_name,
+            COUNT(tpi.proj_status_id) AS total
+        FROM
+            tbl_proj_status_mst AS proj_status
+        LEFT JOIN
+            tbl_proj_info as tpi
+        ON
+            proj_status.proj_status_id = tpi.proj_status_id
+        LEFT JOIN tbl_project_mst as project
+        ON tpi.proj_id = project.proj_id
+        WHERE
+            project.del_flag = 0
+            AND EXTRACT(YEAR FROM project.reg_date) = EXTRACT(YEAR FROM CURRENT_DATE)
+            AND EXTRACT(MONTH FROM project.reg_date) = EXTRACT(MONTH FROM CURRENT_DATE)
+            AND (proj_status.proj_status_name = "Closed"
+            OR proj_status.proj_status_name = "Finished")
+            OR (proj_status.proj_status_name = 'Ongoing' OR proj_status.proj_status_name = 'Pending')
+        GROUP BY
+            proj_status.proj_status_id, proj_status.proj_status_name;
     </select>
 
     <select id="getAllUserCountByStatus">

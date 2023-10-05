@@ -176,13 +176,8 @@ export default function CreateUser() {
   const [email, setEmail] = useState("");
   const [businessUnit, setBusinessUnit] = useState(0);
   const [department, setDepartment] = useState(0);
-
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-
-
-  // const [confirmPassword, setConfirmPassword] = useState(0);
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
@@ -217,7 +212,7 @@ export default function CreateUser() {
     const data = {
       emp_id: assocID,
       username: username,
-      password: password,
+      password: password.trim(),
       fname: firstName.trim(),
       mname: middleName.trim(),
       lname: lastName.trim(),
@@ -233,6 +228,7 @@ export default function CreateUser() {
   };
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+
   const handleSave = () => {
     setFormSubmitted(true);
     if (
@@ -248,7 +244,6 @@ export default function CreateUser() {
       !empStatus ||
       selectedRoles.length === 0
     ) {
-      console.log("username: " + username + "password: " + password + "confirmPassword: " + confirmPassword + "1st clg")
       handleClickSnackpack(
         "Please fill in the required fields.",
         "error"
@@ -267,7 +262,6 @@ export default function CreateUser() {
       selectedRoles.length > 0
     ) {
       if (password === confirmPassword) {
-        console.log("username: " + username + "password: " + password + "confirmPassword: " + confirmPassword + "2nd clg")
         setAsk(true);
         setDialogTitle("Save the record?");
         setDialogContentText(
@@ -281,7 +275,6 @@ export default function CreateUser() {
         )();
       }
     } else {
-      console.log("username: " + username + "password: " + password + "confirmPassword: " + confirmPassword + "3rd clg")
       handleClickSnackpack(
         "All fields are required. Please, try again.",
         "error"
@@ -812,7 +805,9 @@ export default function CreateUser() {
                           type={showPassword ? 'text' : 'password'}
                           error={formSubmitted && password === ""}
                           helperText={
-                            formSubmitted && password === "" ? "Password required" : ""
+                            (formSubmitted && password === "" ? "Password required" : "") 
+                            // ||
+                            // (formSubmitted && password.toString().length < 5 ? "password too short" : "")
                           }
                           variant="outlined"
                           size="small"
