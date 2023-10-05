@@ -1,5 +1,12 @@
 import * as React from "react";
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowSelectionModel, GridRowsProp } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridRowId,
+  GridRowSelectionModel,
+  GridRowsProp,
+} from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import UserTableStyle from "./User.module.css";
 import { useNavigate } from "react-router-dom";
@@ -38,16 +45,14 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   const dispatch = useDispatch();
   const [rows, setRows] = React.useState<GridRowsProp>(data);
   const [ask, setAsk] = React.useState(false);
-	const [deleteId, setDeleteId] = React.useState(0);
-	const [isBatch, setIsBatch] = React.useState<boolean>();
+  const [deleteId, setDeleteId] = React.useState(0);
+  const [isBatch, setIsBatch] = React.useState<boolean>();
   const [rowSelectionModel, setRowSelectionModel] =
     React.useState<GridRowSelectionModel>([]);
-  const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(
-    new Set()
-  );
+  const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(new Set());
 
-const [dialogTitle, setDialogTitle] = React.useState("");
-	const [dialogContentText, setDialogContentText] = React.useState("");
+  const [dialogTitle, setDialogTitle] = React.useState("");
+  const [dialogContentText, setDialogContentText] = React.useState("");
 
   const loadingState = useSelector(
     (state: RootState) => state.userReducer.isLoading
@@ -58,70 +63,69 @@ const [dialogTitle, setDialogTitle] = React.useState("");
   }, [loadingState]);
 
   React.useEffect(() => {
-		dispatch(getUsersFetch());
-	}, [dispatch]);
+    dispatch(getUsersFetch());
+  }, [dispatch]);
 
   const proceedWithDelete = () => {
-		dispatch(deleteUser({ user_id: deleteId }));
-		setRows(data);
-		setAsk(false);
-	};
+    dispatch(deleteUser({ user_id: deleteId }));
+    setRows(data);
+    setAsk(false);
+  };
 
-	const proceedWithDeleteBatch = async () => {
-		dispatch(deleteUserBatch({ batchId: selectedId }));
-		setRows(data); // update rows
-		setRowSelectionModel([]); // clear selected rows
-		setSelectedId(new Set()); // clear selected IDs
-		setAsk(false); // close dialog
-		setActions({ ...actions, selecting: false });
-	};
+  const proceedWithDeleteBatch = async () => {
+    dispatch(deleteUserBatch({ batchId: selectedId }));
+    setRows(data); // update rows
+    setRowSelectionModel([]); // clear selected rows
+    setSelectedId(new Set()); // clear selected IDs
+    setAsk(false); // close dialog
+    setActions({ ...actions, selecting: false });
+  };
 
   const [confirmAction, setConfirmAction] = React.useState(false);
   const [actions, setActions] = React.useState<{
-		editing: boolean;
-		selecting: boolean;
-		adding: boolean;
-		editingId: GridRowId;
-	}>({
-		editing: false,
-		selecting: false,
-		adding: false,
-		editingId: 0,
-	});
-	const [proceedAction, setProceedAction] = React.useState<() => void>(
-		() => {}
-	);
+    editing: boolean;
+    selecting: boolean;
+    adding: boolean;
+    editingId: GridRowId;
+  }>({
+    editing: false,
+    selecting: false,
+    adding: false,
+    editingId: 0,
+  });
+  const [proceedAction, setProceedAction] = React.useState<() => void>(
+    () => {}
+  );
 
   const dataGridSlots = {
-		toolbar: DatagridToolbar,
-		columnUnsortedIcon: UnsortedIcon,
-		pagination: CustomPagination,
-		loadingOverlay: LinearProgress,
-	};
-
+    toolbar: DatagridToolbar,
+    columnUnsortedIcon: UnsortedIcon,
+    pagination: CustomPagination,
+    loadingOverlay: LinearProgress,
+  };
 
   function DatagridToolbar() {
-		return (
-			<DataGridEditToolbar
-				setAsk={setAsk}
-				setIsBatch={setIsBatch}
-				setDialogContentText={setDialogContentText}
-				setDialogTitle={setDialogTitle}
-				selectedId={selectedId}
-			/>
-		);
-	} 
+    return (
+      <DataGridEditToolbar
+        setAsk={setAsk}
+        setIsBatch={setIsBatch}
+        setDialogContentText={setDialogContentText}
+        setDialogTitle={setDialogTitle}
+        selectedId={selectedId}
+      />
+    );
+  }
 
-  const handleDeleteClick = (id: GridRowId) => () => { 
+  const handleDeleteClick = (id: GridRowId) => () => {
     setSelectedId(new Set([])); // clear set of selectedID to disable the Delete Batch button
-		setAsk(true);
-					setIsBatch(false);
-					setDialogContentText(
-						"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-					);
-					setDialogTitle("Delete this record?");
-					setDeleteId(id as number);
-	};
+    setAsk(true);
+    setIsBatch(false);
+    setDialogContentText(
+      "Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+    );
+    setDialogTitle("Delete this record?");
+    setDeleteId(id as number);
+  };
 
   const columns: GridColDef[] = [
     {
@@ -212,31 +216,29 @@ const [dialogTitle, setDialogTitle] = React.useState("");
       },
     },
     {
-			field: "actions",
-			type: "actions",
-			headerName: "Actions",
-			minWidth: 200,
-			cellClassName: "actions",
-			getActions: ({ id }) => {
-			
-
-				return [
-					<GridActionsCellItem
-						icon={<DeleteIcon />}
-						label="Delete"
-						onClick={handleDeleteClick(id)}
-						color="inherit"
-					/>,
-				];
-			},
-		},
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      minWidth: 200,
+      cellClassName: "actions",
+      getActions: ({ id }) => {
+        return [
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
   ];
 
   return (
     <div className={UserTableStyle.tableMainContainer}>
       <Paper className={UserTableStyle.paperTable}>
         <div style={{ height: 400, width: "100%" }}>
-          <DataGrid 
+          <DataGrid
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 5 },
@@ -254,27 +256,27 @@ const [dialogTitle, setDialogTitle] = React.useState("");
             loading={isLoading}
             checkboxSelection
             onRowSelectionModelChange={(newModel) => {
-              setRowSelectionModel(newModel)
-              setSelectedId(new Set(newModel))
+              setRowSelectionModel(newModel);
+              setSelectedId(new Set(newModel));
             }}
           />
 
-<DataGridDialog
-				ask={ask}
-				setAsk={setAsk}
-				dialogTitle={dialogTitle}
-				dialogContentText={dialogContentText}
-				isBatch={isBatch}
-				proceedWithDelete={proceedWithDelete}
-				proceedWithDeleteBatch={proceedWithDeleteBatch}
-			/>
-			<DataGridActionDialog
-				open={confirmAction}
-				handleClose={setConfirmAction}
-				dialogTitle={dialogTitle}
-				dialogContentText={dialogContentText}
-				confirmAction={proceedAction}
-			/>
+          <DataGridDialog
+            ask={ask}
+            setAsk={setAsk}
+            dialogTitle={dialogTitle}
+            dialogContentText={dialogContentText}
+            isBatch={isBatch}
+            proceedWithDelete={proceedWithDelete}
+            proceedWithDeleteBatch={proceedWithDeleteBatch}
+          />
+          <DataGridActionDialog
+            open={confirmAction}
+            handleClose={setConfirmAction}
+            dialogTitle={dialogTitle}
+            dialogContentText={dialogContentText}
+            confirmAction={proceedAction}
+          />
         </div>
       </Paper>
     </div>
@@ -282,7 +284,6 @@ const [dialogTitle, setDialogTitle] = React.useState("");
 };
 
 export default UserTable;
-
 
 // import * as React from "react";
 // import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -294,7 +295,6 @@ export default UserTable;
 // import { Divider, LinearProgress } from "@mui/material";
 // import { useSelector } from "react-redux";
 // import { RootState } from "../../redux/store/store";
-
 
 // export interface RowData {
 //   emp_id: number;
@@ -403,7 +403,7 @@ export default UserTable;
 //     {
 //       field: "reg_date",
 //       headerName: "Created",
-//       flex: 1, 
+//       flex: 1,
 //       headerAlign: "center",
 //       align: "center",
 //       valueFormatter(params) {
