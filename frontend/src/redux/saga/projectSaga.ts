@@ -246,7 +246,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 	try {
 		const params = new URLSearchParams();
 		batchId.forEach((id) => {
-			params.append("id", id.toString());
+			params.append("ids", id.toString());
 		});
 		const url = `http://localhost:8080/project/delete-multiple?${params}`
 		return axios.put(url);

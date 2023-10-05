@@ -4,8 +4,11 @@ import {
   GridColDef,
   GridValueGetterParams,
   GridCellParams,
+  GridActionsCellItem,
+  GridRowId,
+  GridRowSelectionModel,
 } from "@mui/x-data-grid";
-import { 
+import {
   Button,
   Dialog,
   DialogActions,
@@ -13,7 +16,7 @@ import {
   DialogTitle,
   Paper,
 } from "@mui/material";
-import {datagridStyle} from "../datagrid_customs/DataGridStyle";
+import { datagridStyle } from "../datagrid_customs/DataGridStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
@@ -22,49 +25,63 @@ import MembersTable from "./MembersTable";
 import CustomPagination from "../custom_pagination/pagination";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import { Divider, LinearProgress } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
+import { Checkbox } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import { getProjectsFetch } from "../../redux/state/projectState";
+import {
+  deleteProject,
+  deleteProjectBatch,
+} from "../../redux/saga/projectSaga";
+import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
+import DataGridDialog from "../datagrid_customs/DataGridDialog";
+import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
 
 interface ProjectTableProps {
-	projectData: any[];
+  projectData: any[];
 }
 
 const ProjectTable: React.FC<ProjectTableProps> = (props) => {
-
   const loadingState = useSelector(
-		(state: RootState) => state.projectReducer.isLoading
-	);
-	const [isLoading, setIsLoading] = React.useState(loadingState);
-	React.useEffect(() => {
-		setIsLoading(() => loadingState);
-	}, [loadingState]);
-
-  const dataGridSlots = {
-		columnUnsortedIcon: UnsortedIcon,
-		pagination: CustomPagination,
-		loadingOverlay: LinearProgress,
-	};
+    (state: RootState) => state.projectReducer.isLoading
+  );
+  const [isLoading, setIsLoading] = React.useState(loadingState);
+  React.useEffect(() => {
+    setIsLoading(() => loadingState);
+  }, [loadingState]);
 
   const { projectData } = props;
+  const data = useSelector((state: RootState) => state.projectReducer.projects);
 
+  const [ask, setAsk] = React.useState(false);
   const [rows, setRows] = React.useState(projectData);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const dispatch = useDispatch();
+  const [deleteId, setDeleteId] = React.useState(0);
+  const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(new Set());
+  const [isBatch, setIsBatch] = React.useState<boolean>();
 
-  const [openMembers, setOpenMembers] = React.useState(false); 
+  const [rowSelectionModel, setRowSelectionModel] =
+    React.useState<GridRowSelectionModel>([]);
+
+  const [openMembers, setOpenMembers] = React.useState(false);
   const [projectId, setProjectId] = React.useState<number>(0);
+  const [dialogTitle, setDialogTitle] = React.useState("");
+  const [dialogContentText, setDialogContentText] = React.useState("");
 
   React.useEffect(() => {
     setRows(projectData);
   }, [projectData]);
 
   React.useEffect(() => {
-    console.log(rows)
+    console.log(rows);
   }, [rows]);
 
   const handleClickOpenMembers = (id: number) => {
     setProjectId(id);
-    setOpenMembers(true); 
+    setOpenMembers(true);
   };
 
   const handleCloseMembers = () => {
@@ -82,42 +99,96 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
     setPage(0);
   };
 
+  React.useEffect(() => {
+    dispatch(getProjectsFetch());
+  }, [dispatch]);
+
+  const proceedWithDelete = () => {
+    dispatch(deleteProject({ proj_id: deleteId }));
+    setRows(data);
+    setAsk(false);
+  };
+
+  const proceedWithDeleteBatch = async () => {
+    dispatch(deleteProjectBatch({ batchId: selectedId }));
+    setRows(data); // update rows
+    setRowSelectionModel([]); // clear selected rows
+    setSelectedId(new Set()); // clear selected IDs
+    setAsk(false); // close dialog
+    setActions({ ...actions, selecting: false });
+  };
+
+  const [confirmAction, setConfirmAction] = React.useState(false);
+  const [actions, setActions] = React.useState<{
+    editing: boolean;
+    selecting: boolean;
+    adding: boolean;
+    editingId: GridRowId;
+  }>({
+    editing: false,
+    selecting: false,
+    adding: false,
+    editingId: 0,
+  });
+  const [proceedAction, setProceedAction] = React.useState<() => void>(
+    () => {}
+  );
+
   const navigate = useNavigate();
 
-	const handleRowClick = (row: any) => {
-		console.log(row);
-		navigate(`/project/edit-project/${row.proj_name}`, { state: row.proj_id });
-	};
+  const handleRowClick = (row: any) => {
+    console.log(row);
+    navigate(`/project/edit-project/${row.proj_name}`, { state: row.proj_id });
+  };
 
   const durationDateFormatter = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
     day: "2-digit",
   });
+  const dataGridSlots = {
+    toolbar: DatagridToolbar,
+    columnUnsortedIcon: UnsortedIcon,
+    pagination: CustomPagination,
+    loadingOverlay: LinearProgress,
+  };
+  function DatagridToolbar() {
+    return (
+      <DataGridEditToolbar
+        setAsk={setAsk}
+        setIsBatch={setIsBatch}
+        setDialogContentText={setDialogContentText}
+        setDialogTitle={setDialogTitle}
+        selectedId={selectedId}
+      />
+    );
+  }
 
-  
-	// function DatagridToolbar() {
-	// 	return (
-	// 		<DataGridEditToolbar
-	// 			setAsk={setAsk}
-	// 			setIsBatch={setIsBatch}
-	// 			setDialogContentText={setDialogContentText}
-	// 			setDialogTitle={setDialogTitle}
-	// 			selectedId={selectedId}
-	// 		/>
-	// 	);
-	// }
-
+  const handleDeleteClick = (id: GridRowId) => () => {
+    setSelectedId(new Set([])); // clear set of selectedID to disable the Delete Batch button
+    setAsk(true);
+    setIsBatch(false);
+    setDialogContentText(
+      "Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+    );
+    setDialogTitle("Delete this record?");
+    setDeleteId(id as number);
+  };
 
   const columns: GridColDef[] = [
-    { field: "proj_id", headerName: "No.", headerAlign: "center",
-    align: "center", flex:1, },
+    {
+      field: "proj_id",
+      headerName: "No.",
+      headerAlign: "center",
+      align: "center",
+      flex: 1,
+    },
     {
       field: "proj_name",
       headerName: "Project Name",
       headerAlign: "center",
       align: "center",
-      flex:2,
+      flex: 2,
       renderCell: (params: GridCellParams) => (
         <span
           onClick={() => handleRowClick(params.row)}
@@ -127,31 +198,41 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
             color: "blue",
           }}
         >
-         {params.value as React.ReactNode}
+          {params.value as React.ReactNode}
         </span>
       ),
     },
-    { field: "client_name", headerName: "Client", headerAlign: "center",
-    align: "center", flex:2,},
+    {
+      field: "client_name",
+      headerName: "Client",
+      headerAlign: "center",
+      align: "center",
+      flex: 2,
+    },
     {
       field: "duration",
       headerName: "Duration",
       headerAlign: "center",
       align: "center",
-      flex:2,
+      flex: 2,
       valueGetter: (params: GridValueGetterParams) =>
         `${durationDateFormatter.format(
           new Date(params.row.start_date)
         )} - ${durationDateFormatter.format(new Date(params.row.end_date))}`,
     },
-    { field: "dev_type_name", headerName: "Development Type", headerAlign: "center",
-    align: "center", flex:2, },
+    {
+      field: "dev_type_name",
+      headerName: "Development Type",
+      headerAlign: "center",
+      align: "center",
+      flex: 2,
+    },
     {
       field: "members",
       headerName: "Member(s)",
       headerAlign: "center",
       align: "center",
-      flex:1,
+      flex: 1,
       renderCell: (params: GridCellParams) => (
         <span
           style={{
@@ -165,11 +246,31 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
         </span>
       ),
     },
-    
-    { field: "proj_status_name", headerName: "Status", headerAlign: "center",
-    align: "center", flex:1,},
 
-
+    {
+      field: "proj_status_name",
+      headerName: "Status",
+      headerAlign: "center",
+      align: "center",
+      flex: 1,
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      minWidth: 200,
+      cellClassName: "actions",
+      getActions: ({ id }) => {
+        return [
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
   ];
   return (
     <div className={ProjectTableStyle.tableMainContainer}>
@@ -177,6 +278,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
         <div style={{ height: "100%", width: "100%" }}>
           <DataGrid
           sx={datagridStyle}
+          style={{height:"100%"}}
             rows={rows} 
             getRowId={(row) => row.proj_id} 
             columns={columns}
@@ -184,50 +286,67 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
             pageSizeOptions={[5, 25, 50, 100]}
             slots={dataGridSlots}
             loading={isLoading}
+            checkboxSelection
+            onRowSelectionModelChange={(newModel) => {
+              setRowSelectionModel(newModel);
+              setSelectedId(new Set(newModel));
+            }}
+          />
+
+          <DataGridDialog
+            ask={ask}
+            setAsk={setAsk}
+            dialogTitle={dialogTitle}
+            dialogContentText={dialogContentText}
+            isBatch={isBatch}
+            proceedWithDelete={proceedWithDelete}
+            proceedWithDeleteBatch={proceedWithDeleteBatch}
+          />
+          <DataGridActionDialog
+            open={confirmAction}
+            handleClose={setConfirmAction}
+            dialogTitle={dialogTitle}
+            dialogContentText={dialogContentText}
+            confirmAction={proceedAction}
           />
         </div>
 
         <Dialog
-					open={openMembers}
-					onClose={handleCloseMembers}
-					aria-describedby="alert-dialog-slide-description"
-					maxWidth="xl"
-				>
-					<DialogTitle>
-						<div
-							style={{
-								width: "100%",
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "flex-start",
-								gap: "1vw",
-							}}
-						>
-							<div>
-								<FontAwesomeIcon
-									icon={faUser}
-									size="1x"
-									color="black"
-								/>
-							</div>
-							<div
-								style={{
-									fontSize: "2vh",
-									fontWeight: "600",
-								}}
-							>
-								{"Member(s)"}
-							</div>
-						</div>
-					</DialogTitle>
-					<DialogContent>
-						<MembersTable projectId={projectId} />
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={handleCloseMembers}>Close</Button>
-					</DialogActions>
-				</Dialog>
-       
+          open={openMembers}
+          onClose={handleCloseMembers}
+          aria-describedby="alert-dialog-slide-description"
+          maxWidth="xl"
+        >
+          <DialogTitle>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                gap: "1vw",
+              }}
+            >
+              <div>
+                <FontAwesomeIcon icon={faUser} size="1x" color="black" />
+              </div>
+              <div
+                style={{
+                  fontSize: "2vh",
+                  fontWeight: "600",
+                }}
+              >
+                {"Member(s)"}
+              </div>
+            </div>
+          </DialogTitle>
+          <DialogContent>
+            <MembersTable projectId={projectId} />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseMembers}>Close</Button>
+          </DialogActions>
+        </Dialog>
       </Paper>
     </div>
   );
@@ -244,7 +363,6 @@ function handleRowClick(
 }
 
 export default ProjectTable;
-
 
 // import * as React from "react";
 // import {
@@ -292,7 +410,7 @@ export default ProjectTable;
 // 	const [page, setPage] = React.useState(0);
 // 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-// 	const [openMembers, setOpenMembers] = React.useState(false); 
+// 	const [openMembers, setOpenMembers] = React.useState(false);
 // 	const [projectId, setProjectId] = React.useState<number>(0);
 
 // 	React.useEffect(() => {
@@ -301,11 +419,11 @@ export default ProjectTable;
 
 // 	const handleClickOpenMembers = (id: number) => {
 // 		setProjectId(id);
-// 		setOpenMembers(true); 
+// 		setOpenMembers(true);
 // 	};
 
 // 	const handleCloseMembers = () => {
-// 		setOpenMembers(false); 
+// 		setOpenMembers(false);
 // 	};
 
 // 	const handleChangePage = (event: unknown, newPage: number) => {
@@ -337,7 +455,7 @@ export default ProjectTable;
 // 			<Paper className={ProjectTableStyle.paperTable}>
 // 				<TableContainer className={ProjectTableStyle.tableContainer}>
 // 					<Table stickyHeader aria-label="sticky table">
-					
+
 // 						<TableHead className={ProjectTableStyle.tableHead}>
 // 							<TableRow>
 // 								{[

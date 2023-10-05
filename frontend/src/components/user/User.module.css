@@ -96,6 +96,7 @@
 /* Attributes of UserTable */
 .userTableContainer{ 
   height: 100%;
+  /* border: 1px solid red; */
 }
 
 .tableMainContainer{
@@ -107,7 +108,7 @@
 }
 .paperTable{
   width: 100%;
-  height: 81%;
+  height: 92%;
 
 }
 
