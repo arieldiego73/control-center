@@ -9,7 +9,7 @@ import { GraphsData, RecentProjects } from "../../../redux/state/graphState";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store/store";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function createData(
@@ -44,24 +44,24 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
     palette: {
       //Finished
       success: {
-        main: '#f28500',
-        contrastText: '#FFFFFF'
+        main: "#f28500",
+        contrastText: "#FFFFFF",
       },
       //Ongoing
       info: {
-        main: '#e2725b',
-        contrastText: '#FFFFFF',
+        main: "#e2725b",
+        contrastText: "#FFFFFF",
       },
       //Pending
       primary: {
-        main: '#464d77',
-        contrastText: '#FFFFFF',
+        main: "#464d77",
+        contrastText: "#FFFFFF",
       },
       //Closed
       secondary: {
-        main: '#800020',
-        contrastText: '#FFFFFF',
-      }
+        main: "#800020",
+        contrastText: "#FFFFFF",
+      },
     },
   });
 
@@ -125,7 +125,7 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
           </Typography>
         </div>
 
-        <div style={{height: "80%", width: "100%" }}>
+        <div style={{ height: "80%", width: "100%" }}>
           <Grid container spacing={1}>
             {data.map((item, index) => (
               <Grid item xs={12} sm={6} key={index}>
@@ -153,23 +153,23 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
                         </ListItemText>
                       </Grid>
                       <Grid item sx={{}}>
-                      <ThemeProvider theme={theme}>
-                        <Badge
-                        badgeContent={item.proj_status_name}
-                        color={
-                          item.proj_status_name === "Pending"
-                            ? "primary"
-                            : item.proj_status_name === "Ongoing"
-                            ? "info"
-                            : item.proj_status_name === "Finished"
-                            ? "success"
-                            : item.proj_status_name === "Closed"
-                            ? "secondary"
-                            : "warning"
-                        }
-                      />
-                      </ThemeProvider>
-                      {/* <Badge
+                        <ThemeProvider theme={theme}>
+                          <Badge
+                            badgeContent={item.proj_status_name}
+                            color={
+                              item.proj_status_name === "Pending"
+                                ? "primary"
+                                : item.proj_status_name === "Ongoing"
+                                ? "info"
+                                : item.proj_status_name === "Finished"
+                                ? "success"
+                                : item.proj_status_name === "Closed"
+                                ? "secondary"
+                                : "warning"
+                            }
+                          />
+                        </ThemeProvider>
+                        {/* <Badge
                           badgeContent={item.proj_status_name}
                           color={
                             item.proj_status_name === "Pending"
