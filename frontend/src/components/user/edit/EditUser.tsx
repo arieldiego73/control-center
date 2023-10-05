@@ -26,7 +26,7 @@ import {
   updateUserInfo,
 } from "../../../redux/saga/userSaga";
 import {
-  Alert, 
+  Alert,
   AlertColor,
   Checkbox,
   Dialog,
@@ -45,8 +45,10 @@ import {
   Typography,
   InputLabel,
   FormHelperText,
+  IconButton,
 } from "@mui/material";
 import { getEmployeeStatusFetch } from "../../../redux/state/employeeStatusState";
+import { VisibilityOff, Visibility } from "@mui/icons-material";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -211,12 +213,11 @@ export default function EditUser() {
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [position, setPosition] = useState(0);
-  // for role
   const [email, setEmail] = useState("");
   const [businessUnit, setBusinessUnit] = useState(0);
   const [department, setDepartment] = useState(0);
   const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState(0);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
@@ -252,7 +253,7 @@ export default function EditUser() {
     const data = {
       emp_id: assocID,
       username: username,
-      password: password,
+      password: password.trim(),
       fname: firstName.trim(),
       mname: middleName.trim(),
       lname: lastName.trim(),
@@ -300,12 +301,19 @@ export default function EditUser() {
       empStatus !== "0" &&
       selectedRoles.length > 0
     ) {
-      setAsk(true);
-      setDialogTitle("Save the record?");
-      setDialogContentText(
-        "Upon proceeding, the modifications on the record \nmade will be saved."
-      );
-      setIsSaving(true);
+      if (password === confirmPassword) {
+        setAsk(true);
+        setDialogTitle("Save the record?");
+        setDialogContentText(
+          "Upon proceeding, the modifications on the record \nmade will be saved."
+        );
+        setIsSaving(true);
+      } else {
+        handleClickSnackpack(
+          "Password fields do not match!",
+          "error"
+        )();
+      }
     } else {
       handleClickSnackpack(
         "All fields are required. Please, try again.",
@@ -314,7 +322,28 @@ export default function EditUser() {
     }
   };
 
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+  const handleMouseDownConfirmPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+
+
+
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+    }
+  }
 
   const handleCancel = () => {
     setAsk(true);
@@ -347,7 +376,7 @@ export default function EditUser() {
                         alt="Placeholder"
                         className={EditUserStyle.imgSize}
                       />
-                      
+
                     )}
                     <div
                       style={{
@@ -388,6 +417,12 @@ export default function EditUser() {
                             padding: 0,
                           }}
                         />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          style={{ display: 'none' }}
+                          onChange={handleImageChange}
+                        />
                         <VisuallyHiddenInput type="file" />
                       </Button>
                     </div>
@@ -417,7 +452,7 @@ export default function EditUser() {
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
-                              <AssignmentIndOutlinedIcon sx={{color: "rgba(0, 0, 0, 0.38)"}}/>
+                              <AssignmentIndOutlinedIcon sx={{ color: "rgba(0, 0, 0, 0.38)" }} />
                             </InputAdornment>
                           ),
                         }}
@@ -628,18 +663,18 @@ export default function EditUser() {
                       </FormControl>
 
                       <FormControl
-                      variant="outlined"
-                      size="small"
-                      sx={{
-                        width: "27.5%",
-                        "@media (max-width: 850px)": {
-                          width: "100%",
-                        },
-                      }}
-                      error={formSubmitted && selectedRoles.length === 0}
-                    >
-                   
-                  
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                        error={formSubmitted && selectedRoles.length === 0}
+                      >
+
+
                         <InputLabel id="demo-controlled-open-select-label">
                           Role
                         </InputLabel>
@@ -807,46 +842,133 @@ export default function EditUser() {
 
                     {/* Start of Password and Confirm Password Form */}
                     <div className={EditUserStyle.formHolder}>
-                      {/* <FormControl>
-                      <FormLabel>Password</FormLabel>
-                      <TextField
+                      <FormControl
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
+                        <TextField
+                          label="Password"
+                          type={showPassword ? 'text' : 'password'}
+                          error={formSubmitted && password === ""}
+                          helperText={
+                            (formSubmitted && password === "" ? "Password required" : "")
+                            // ||
+                            // (formSubmitted && password.toString().length < 5 ? "password too short" : "")
+                          }
+                          variant="outlined"
+                          size="small"
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+
+                              </InputAdornment>
+                            ),
+                            // endAdornment: (
+                            //   <InputAdornment position="end">
+                            //     <IconButton
+                            //       aria-label="toggle password visibility"
+                            //       onClick={handleClickShowPassword}
+                            //       onMouseDown={handleMouseDownPassword}
+                            //       edge="end"
+                            //     >
+                            //       {showPassword ? <VisibilityOff /> : <Visibility />}
+                            //     </IconButton>
+                            //   </InputAdornment>
+                            // ),
+                          }}
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                      </FormControl>
+
+                      <FormControl
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
+                        }}
+                      >
+                        <TextField
+                          label="Confirm password"
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          error={formSubmitted && confirmPassword === ""}
+                          helperText={
+                            formSubmitted && confirmPassword === "" ? "Password confirmation required" : ""
+                          }
+                          variant="outlined"
+                          size="small"
+                          sx={{ flex: 1, display: "flex", width: "100%" }}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+
+                              </InputAdornment>
+                            ),
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowConfirmPassword}
+                                  onMouseDown={handleMouseDownConfirmPassword}
+                                  edge="end"
+                                >
+                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                      </FormControl>
+
+                      {/* <FormControl
                         variant="outlined"
                         size="small"
-                        placeholder="Password"
-                        className={EditUserStyle.textField}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <PermIdentityOutlinedIcon />
-                            </InputAdornment>
-                          ),
+                        sx={{
+                          width: "27.5%",
+                          "@media (max-width: 850px)": {
+                            width: "100%",
+                          },
                         }}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </FormControl>
+                        error={formSubmitted && department === 0}
+                      >
+                        <TextField
+                          label="Confirm Password"
+                          type={showPassword ? 'text' : 'password'}
+                          error={formSubmitted && assocID === ""}
+                          helperText={
+                            formSubmitted && assocID === "" ? "Password is required" : ""
+                          }
+                          variant="outlined"
+                          size="small"
+                          className={EditUserStyle.textFieldProfile}
+                          InputProps={{
+                            sx: { height: 40 },
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </FormControl> */}
 
-                    <FormControl>
-                      <FormLabel>Confirm Password</FormLabel>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Confirm Password"
-                        className={EditUserStyle.textField}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <PermIdentityOutlinedIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-
-                        
-                      />
-                    </FormControl> */}
                     </div>
+
                   </div>
                 </div>
 
@@ -866,7 +988,7 @@ export default function EditUser() {
                     variant="text"
                     className={EditUserStyle.cancelButton}
                     onClick={handleCancel}
-                    sx={{ backgroundColor: "#e0e0e0", "&:hover": { backgroundColor: "#c0c0c0" }}}
+                    sx={{ backgroundColor: "#e0e0e0", "&:hover": { backgroundColor: "#c0c0c0" } }}
                   >
                     CANCEL
                   </Button>
