@@ -16,26 +16,22 @@ const data = [
 		value: 345,
 		color: "hsl(61, 70%, 50%)",
 	},
-	{
-		id: "Cancelled",
-		label: "Cancelled",
-		value: 486,
-		color: "hsl(56, 70%, 50%)",
-	},
+
 	{
 		id: "Pending",
-		label: "Cancelled",
+		label: "Pending",
 		value: 400,
 		color: "hsl(56, 70%, 50%)",
 	},
 	{
 		id: "Finished",
-		label: "Cancelled",
+		label: "Finished",
 		value: 185,
 		color: "hsl(56, 70%, 50%)",
 	},
 ];
 
+const customColor = [  "#e2725b", "#800020", "	#464d77",  "#f28500"];
 const customTheme = {
 	axis: {
 		legend: {
@@ -98,17 +94,19 @@ export default function ProjectGraph() {
 					<ResponsivePie
 						data={data}
 						margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
-						padAngle={1}
-						activeOuterRadiusOffset={3}
-						colors={{ scheme: "paired" }}
-						borderWidth={4}
+						// padAngle={1}	
+						activeInnerRadiusOffset={50}
+						activeOuterRadiusOffset={8}
+						borderWidth={1}
+						colors={customColor}
+				
 						borderColor={{ theme: "background" }}
 						arcLinkLabelsSkipAngle={1}
-						arcLinkLabelsTextOffset={8}
+						arcLinkLabelsTextOffset={10}
 						arcLinkLabelsTextColor="#ffffff"
-						arcLinkLabelsOffset={-16}
-						arcLinkLabelsDiagonalLength={18}
-						arcLinkLabelsStraightLength={9}
+						arcLinkLabelsOffset={-10}
+						arcLinkLabelsDiagonalLength={30}
+						arcLinkLabelsStraightLength={30}
 						arcLinkLabelsThickness={2}
 						arcLinkLabelsColor={{ from: "color", modifiers: [] }}
 						arcLabelsRadiusOffset={0.75}
