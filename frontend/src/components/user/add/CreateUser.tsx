@@ -264,6 +264,8 @@ export default function CreateUser() {
       selectedRoles.length > 0
     ) {
       if (password === confirmPassword) {
+        console.log("pass"+password)
+        console.log("conf pass"+confirmPassword)
         setAsk(true);
         setDialogTitle("Save the record?");
         setDialogContentText(
