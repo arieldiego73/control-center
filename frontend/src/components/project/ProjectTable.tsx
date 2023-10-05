@@ -177,6 +177,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
         <div style={{ height: "100%", width: "100%" }}>
           <DataGrid
           sx={datagridStyle}
+          style={{height:"100%"}}
             rows={rows} 
             getRowId={(row) => row.proj_id} 
             columns={columns}
@@ -184,6 +185,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
             pageSizeOptions={[5, 25, 50, 100]}
             slots={dataGridSlots}
             loading={isLoading}
+          
           />
         </div>
 

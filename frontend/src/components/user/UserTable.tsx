@@ -175,7 +175,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   return (
     <div className={UserTableStyle.tableMainContainer}>
       <Paper className={UserTableStyle.paperTable}>
-        <div style={{ height: 400, width: "100%" }}>
+        <div style={{ height: "100%", width: "100%" }}>
           <DataGrid 
             initialState={{
               pagination: {
