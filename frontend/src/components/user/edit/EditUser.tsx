@@ -220,6 +220,7 @@ export default function EditUser() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
@@ -344,7 +345,12 @@ export default function EditUser() {
   };
 
 
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+    }
+  }
 
   const handleCancel = () => {
     setAsk(true);
@@ -417,6 +423,12 @@ export default function EditUser() {
                             margin: 0,
                             padding: 0,
                           }}
+                        />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          style={{ display: 'none' }}
+                          onChange={handleImageChange}
                         />
                         <VisuallyHiddenInput type="file" />
                       </Button>

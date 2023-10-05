@@ -14,14 +14,14 @@ import axios from "axios";
 
 interface Data {
 	emp_id: string;
-	username: string;
+	username: string; 
 	password: string;
 	fname: string;
 	mname: string;
 	lname: string;
 	position_id: number;
 	email: string;
-	section_id: number;
+	section_id: number; 
 	dept_id: number;
 	selectedRoles: number[];
 	status_code: string;
@@ -191,22 +191,22 @@ function* updateSaga(action: ReturnType<typeof updateUserInfo>): any {
 // DELETE
 const apiDelete = async (user_id: number): Promise<any> => {
 	try {
-		const url = "http://localhost:8080/role/delete/" + user_id;
+		const url = "http://localhost:8080/user/delete/" + user_id;
 		return axios.put(url);
 	} catch (error) {
 		return error;
 	}
 };
 
-export const deleteProject = createAction<{
+export const deleteUser = createAction<{
 	user_id: number;
-}>("projects/deleteProject");
+}>("users/deleteUser");
 
 export function* userSagaDelete() {
-	yield takeEvery(deleteProject.type, deleteSaga);
+	yield takeEvery(deleteUser.type, deleteSaga);
 }
 
-function* deleteSaga(action: ReturnType<typeof deleteProject>): any {
+function* deleteSaga(action: ReturnType<typeof deleteUser>): any {
 	try {
 		yield put(setIsLoading(true))
 		const response = yield call(apiDelete, action.payload.user_id);
@@ -223,7 +223,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 		batchId.forEach((id) => {
 			params.append("id", id.toString());
 		});
-		const url = `http://localhost:8080/role/delete-multiple?${params}`
+		const url = `http://localhost:8080/user/delete-multiple?${params}`
 		return axios.put(url);
 	} catch (error) {
 		return error;

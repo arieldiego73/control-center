@@ -14,7 +14,7 @@ import { Dayjs } from "dayjs";
 import { GridRowId } from "@mui/x-data-grid"
 
 import { createAction } from "@reduxjs/toolkit";
-
+ 
 export interface Data {
 	proj_name: string;
 	proj_code: string;
@@ -216,7 +216,7 @@ function* updateSaga(action: ReturnType<typeof updateProject>): any {
 // DELETE
 const apiDelete = async (proj_id: number): Promise<any> => {
 	try {
-		const url = "http://localhost:8080/role/delete/" + proj_id;
+		const url = "http://localhost:8080/project/delete/" + proj_id;
 		return axios.put(url);
 	} catch (error) {
 		return error;
@@ -248,7 +248,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 		batchId.forEach((id) => {
 			params.append("id", id.toString());
 		});
-		const url = `http://localhost:8080/role/delete-multiple?${params}`
+		const url = `http://localhost:8080/project/delete-multiple?${params}`
 		return axios.put(url);
 	} catch (error) {
 		return error;
