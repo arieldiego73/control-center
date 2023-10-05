@@ -196,7 +196,7 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
               height: "100%",
             }}
           >
-            <CircularProgress color="success" value={progressValue} />
+            <CircularProgress color="error" value={progressValue} />
           </div>
         </div>
       </div>
