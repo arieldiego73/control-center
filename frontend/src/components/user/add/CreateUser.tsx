@@ -178,6 +178,7 @@ export default function CreateUser() {
   const [department, setDepartment] = useState(0);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
@@ -303,9 +304,7 @@ export default function CreateUser() {
     event.preventDefault();
   };
 
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedImage(file);
