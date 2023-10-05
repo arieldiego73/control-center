@@ -9,6 +9,7 @@ import { GraphsData, RecentProjects } from "../../../redux/state/graphState";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store/store";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CircularProgress from "@mui/material/CircularProgress";
 
 function createData(
@@ -38,6 +39,31 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
+
+  const theme = createTheme({
+    palette: {
+      //Finished
+      success: {
+        main: '#f28500',
+        contrastText: '#FFFFFF'
+      },
+      //Ongoing
+      info: {
+        main: '#e2725b',
+        contrastText: '#FFFFFF',
+      },
+      //Pending
+      primary: {
+        main: '#464d77',
+        contrastText: '#FFFFFF',
+      },
+      //Closed
+      secondary: {
+        main: '#800020',
+        contrastText: '#FFFFFF',
+      }
+    },
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -127,7 +153,23 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
                         </ListItemText>
                       </Grid>
                       <Grid item sx={{}}>
+                      <ThemeProvider theme={theme}>
                         <Badge
+                        badgeContent={item.proj_status_name}
+                        color={
+                          item.proj_status_name === "Pending"
+                            ? "primary"
+                            : item.proj_status_name === "Ongoing"
+                            ? "info"
+                            : item.proj_status_name === "Finished"
+                            ? "success"
+                            : item.proj_status_name === "Closed"
+                            ? "secondary"
+                            : "warning"
+                        }
+                      />
+                      </ThemeProvider>
+                      {/* <Badge
                           badgeContent={item.proj_status_name}
                           color={
                             item.proj_status_name === "Pending"
@@ -138,7 +180,7 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
                               ? "primary"
                               : "warning"
                           }
-                        />
+                        /> */}
                       </Grid>
                     </Grid>
                   </Grid>
