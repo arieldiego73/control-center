@@ -49,4 +49,6 @@ public interface ProjectDao {
     void deleteMultipleProject(@Param("ids") List<Long> ids);
 
     void restoreProject(String id);
+
+    
 }

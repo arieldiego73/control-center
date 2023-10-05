@@ -44,5 +44,7 @@ public interface UserDao {
 
   //batch delete
    void deleteMultipleUser(@Param("ids") List<String> ids);
+
+   List<UserInfoOutput> getAllPossibleManager();
   
 }

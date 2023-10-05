@@ -12,7 +12,7 @@
               tproj.start_date,
               tproj.end_date, 
               devtype.dev_type_name,
-              (SELECT COUNT(*) FROM tbl_user_project AS tup WHERE tup.proj_id = tproj.proj_id) AS members,
+              (SELECT COUNT(*) FROM tbl_user_project AS tup WHERE tup.proj_id = tproj.proj_id AND tup.emp_id != 100) AS members,
               ps.proj_status_name
          FROM tbl_project_mst AS tproj
               INNER JOIN tbl_proj_info AS tpi 

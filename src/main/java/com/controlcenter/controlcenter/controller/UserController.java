@@ -199,4 +199,13 @@ public class UserController {
   public ResponseEntity<List<Map<Long, Object>>> getAllRolesOfUser(@PathVariable String emp_id) {
     return userService.getAllRolesOfUser(emp_id);
   }
+
+  @GetMapping("/managers")
+  public ResponseEntity<List<UserInfoOutput>> getAllPossibleManager() {
+    try {
+      return userService.getAllPossibleManager();
+    } catch (Exception e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
 }
