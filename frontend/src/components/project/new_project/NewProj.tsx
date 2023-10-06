@@ -15,7 +15,7 @@ import {
   Paper,
   Typography,
   List,
-  ListItem,  
+  ListItem,
   ListItemAvatar,
   ListItemText,
   OutlinedInput,
@@ -268,7 +268,7 @@ export default function NewProj() {
       setStartDateError(false)
       setEndDateError(false)
     }
-    
+
     if (type === "start") {
       if (selectedEndDate && e) {
         if (e.isBefore(selectedEndDate)) {
@@ -378,9 +378,9 @@ export default function NewProj() {
       devTypeId: devType,
       clientId: selectedClientId,
       selectedManagers: projectManager as number[],
-      selectedMembers: projectMembers 
-      ? (projectManager as number[])
-      : [DEFAULT_MEMBER_ID],
+      selectedMembers: projectMembers
+        ? (projectManager as number[])
+        : [DEFAULT_MEMBER_ID],
       selectedDevPhase: projectDevPhase,
       selectedTechnologies: projectTechnologies,
     };
@@ -390,7 +390,18 @@ export default function NewProj() {
     setDialogContentText("");
   };
 
+  // const handleCancel = () => {
+  //   navigate("/projects");
+  // };
+
   const handleCancel = () => {
+    setAsk(true);
+    setDialogTitle("Cancel the edit?");
+    setDialogContentText("The record will be discarded and will not be saved.");
+    setIsSaving(false);
+  };
+
+  const proceedWithCancel = () => {
     navigate("/projects");
   };
 
@@ -420,6 +431,7 @@ export default function NewProj() {
                   }}
                 >
                   <div style={{ display: "flex", width: "100%" }}>
+
                     <List sx={{}}>
                       <ListItem>
                         <ListItemText secondary="Client name">
@@ -428,12 +440,15 @@ export default function NewProj() {
                             style={{
                               fontWeight: 900,
                               whiteSpace: "nowrap",
-                            }}
-                          >
+                            }}>
                             {clientName === "" ? "Select a client" : clientName}
                           </Typography>
                         </ListItemText>
+
                       </ListItem>
+                      {formSubmitted && clientName === "" && (
+                            <div style={{ color: "red", marginBottom:"10px", paddingLeft:"10px", fontSize:"14px" }}>Client Name required</div>
+                          )}
                     </List>
                     <List
                       sx={{
@@ -444,11 +459,10 @@ export default function NewProj() {
                       }}
                     >
                       <Button
-                        className={`${NewProjectStyle.editClientButton} ${
-                          clientName === ""
-                            ? NewProjectStyle.chooseClient
-                            : NewProjectStyle.changeClient
-                        }`}
+                        className={`${NewProjectStyle.editClientButton} ${clientName === ""
+                          ? NewProjectStyle.chooseClient
+                          : NewProjectStyle.changeClient
+                          }`}
                         style={buttonStyle}
                         sx={{
                           width: "64px",
@@ -472,6 +486,7 @@ export default function NewProj() {
                         </svg>
                       </Button>
                     </List>
+
                   </div>
                 </FormControl>
               </div>
@@ -513,7 +528,7 @@ export default function NewProj() {
                       error={formSubmitted && status === 0}
                     >
                       <InputLabel>
-                          Project Status
+                        Project Status
                       </InputLabel>
                       <Select
                         label="Project Status"
@@ -547,9 +562,9 @@ export default function NewProj() {
               </div>
 
               <div className={NewProjectStyle.formRow3}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <FormControl error={startDateError}>
-                
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <FormControl error={startDateError}>
+
                     <DatePicker
                       label="Start Date"
                       value={selectedStartDate}
@@ -561,18 +576,18 @@ export default function NewProj() {
                       }}
                       onChange={(e) => handleProjectDurationChange(e, "start")}
                     />
-                
-                  {startDateError && (
+
+                    {startDateError && (
                       <FormHelperText>
                         The start date cannot be later than the end
                       </FormHelperText>
                     )}
-                </FormControl>
+                  </FormControl>
                 </LocalizationProvider>
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <FormControl error={endDateError}>
-                 
+                  <FormControl error={endDateError}>
+
                     <DatePicker
                       label="End Date"
                       value={selectedEndDate}
@@ -584,13 +599,13 @@ export default function NewProj() {
                       }}
                       onChange={(e) => handleProjectDurationChange(e, "end")}
                     />
-                  
-                  {endDateError && (
+
+                    {endDateError && (
                       <FormHelperText>
                         The end date cannot be earlier than the start
                       </FormHelperText>
                     )}
-                </FormControl>
+                  </FormControl>
                 </LocalizationProvider>
               </div>
 
@@ -600,7 +615,7 @@ export default function NewProj() {
                     <FormControl
                       variant="outlined"
                       size="small"
-                      // error={formSubmitted && devType === 1}
+                    // error={formSubmitted && devType === 1}
                     >
                       <InputLabel id="demo-controlled-open-select-label">
                         {"Development Type (optional)"}
@@ -848,13 +863,13 @@ export default function NewProj() {
                     <FormLabel
                       sx={{
                         color: "black",
-                        fontWeight: "400", 
+                        fontWeight: "400",
                       }}
                     >
                       Project Description
                     </FormLabel>
                     <ReactQuillEditor
-                     className={NewProjectStyle.qlContainer}
+                      className={NewProjectStyle.qlContainer}
                       theme="snow"
                       value={projectDescription}
                       onChange={(e) => setProjectDescription(e)}
@@ -950,10 +965,10 @@ export default function NewProj() {
             >
               SAVE AND GO BACK
             </Button>
-            <Button 
-            variant="text" 
-            onClick={handleCancel}
-            sx={{ backgroundColor: "#e0e0e0", "&:hover": { backgroundColor: "#c0c0c0" }}}
+            <Button
+              variant="text"
+              onClick={handleCancel}
+              sx={{ backgroundColor: "#e0e0e0", "&:hover": { backgroundColor: "#c0c0c0" } }}
             >
               CANCEL
             </Button>
@@ -999,7 +1014,7 @@ export default function NewProj() {
         <DialogActions>
           <Button
             variant="contained"
-            onClick={isSaving ? proceedToSaveProject : handleCancel}
+            onClick={isSaving ? proceedToSaveProject : proceedWithCancel}
             autoFocus
           >
             {isSaving ? "Save" : "Cancel"}
