@@ -1,4 +1,5 @@
 import * as React from "react";
+import Tooltip from "@mui/material/Tooltip";
 import {
   DataGrid,
   GridActionsCellItem,
@@ -12,7 +13,8 @@ import UserTableStyle from "./User.module.css";
 import { useNavigate } from "react-router-dom";
 import CustomPagination from "../custom_pagination/pagination";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
-import { Divider, LinearProgress } from "@mui/material";
+import { LinearProgress } from "@mui/material";
+import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { getUsersFetch } from "../../redux/state/userState";
@@ -21,6 +23,22 @@ import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
+import PasswordOutlinedIcon from '@mui/icons-material/PasswordOutlined';
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+
+
+import passwordIcon from "../../Assets/icons/passwordIcon.png";
+import trashIcon from "../../Assets/icons/trashIcon.png"
+
+import { Image } from "@mui/icons-material";
+
 
 export interface RowData {
   emp_id: number;
@@ -38,8 +56,49 @@ interface UserTableProps {
   data: RowData[];
 }
 
+const PasswordIcon = () => (
+  <img src={passwordIcon} alt="Password" style={{ height: "20px", width: "20px", color: "red" }} />
+);
+const TrashIcon = () => (
+  <img src={trashIcon} alt="Delete" style={{ height: "20px", width: "20px" }} />
+);
+
 const UserTable: React.FC<UserTableProps> = (props) => {
   const data = useSelector((state: RootState) => state.userReducer.users);
+
+  const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
+  const [newPassword, setNewPassword] = React.useState(""); // State to store the new password
+
+
+
+  // const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
+  // const [newPassword, setNewPassword] = React.useState(""); // State to store the new password
+
+
+  // const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
+  // const [newPassword, setNewPassword] = React.useState(""); // State to store the new password
+
+
+
+
+  // Function to open the change password modal
+  const handleOpenChangePassword = (id: GridRowId) => {
+    setChangePasswordOpen(true);
+  };
+
+  // Function to close the change password modal
+  const handleCloseChangePassword = () => {
+    setChangePasswordOpen(false);
+    setNewPassword(""); // Clear the password field
+  };
+
+  // Function to handle changing the password
+  const handleChangePassword = () => {
+    // Implement the logic to change the password here.
+    // After changing the password, close the modal.
+    handleCloseChangePassword();
+  };
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -94,7 +153,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     editingId: 0,
   });
   const [proceedAction, setProceedAction] = React.useState<() => void>(
-    () => {}
+    () => { }
   );
 
   const dataGridSlots = {
@@ -138,12 +197,12 @@ const UserTable: React.FC<UserTableProps> = (props) => {
         <span
           onClick={() =>
             params.row.emp_id &&
-            params.row.username &&
-            params.row.username.length > 0 &&
-            params.row.username.trim() !== ""
+              params.row.username &&
+              params.row.username.length > 0 &&
+              params.row.username.trim() !== ""
               ? navigate(`/user/edit-user/${params.row.username}`, {
-                  state: params.row.emp_id,
-                })
+                state: params.row.emp_id,
+              })
               : undefined
           }
           style={{
@@ -223,12 +282,29 @@ const UserTable: React.FC<UserTableProps> = (props) => {
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+          <>
+            <Tooltip title="Delete User">
+              <GridActionsCellItem
+                icon={<TrashIcon />}
+                // style={{ height: "20px", width: "12px" }}
+                label="Delete"
+                onClick={handleDeleteClick(id)}
+                color="inherit"
+              />
+            </Tooltip>
+
+            <Divider orientation="vertical" variant="middle" flexItem />
+
+            <Tooltip title="Change Password">
+              <GridActionsCellItem
+                icon={<PasswordIcon />}
+                // style={{ height: "20px", width: "12px" }}
+                label="Change Password"
+                onClick={() => handleOpenChangePassword(id)}
+                color="inherit"
+              />
+            </Tooltip>
+          </>
         ];
       },
     },
@@ -236,9 +312,9 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 
   return (
     <div className={UserTableStyle.tableMainContainer}>
-      <Paper className={UserTableStyle.paperTable}> 
+      <Paper className={UserTableStyle.paperTable}>
         <div style={{ height: "100%", width: "100%" }}>
-          <DataGrid 
+          <DataGrid
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 5 },
@@ -271,6 +347,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
             proceedWithDeleteBatch={proceedWithDeleteBatch}
           />
           <DataGridActionDialog
+
             open={confirmAction}
             handleClose={setConfirmAction}
             dialogTitle={dialogTitle}
@@ -279,6 +356,51 @@ const UserTable: React.FC<UserTableProps> = (props) => {
           />
         </div>
       </Paper>
+      {/* Change Password Modal */}
+      <Dialog open={changePasswordOpen} onClose={handleCloseChangePassword}>
+        <DialogTitle>Change Password</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Enter the new password:</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="currentPassword"
+            label="Current Password"
+            type="password"
+            fullWidth
+          // value={currentPassword}
+          // onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="newPassword"
+            label="New Password"
+            type="password"
+            fullWidth
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="confirmNewPassword"
+            label="Confirm New Password"
+            type="password"
+            fullWidth
+          // value={confirmNewPassword}
+          // onChange={(e) => setConfirmNewPassword(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleChangePassword} color="primary">
+            Change Password
+          </Button>
+          <Button onClick={handleCloseChangePassword} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
