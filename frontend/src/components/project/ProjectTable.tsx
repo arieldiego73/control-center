@@ -38,6 +38,19 @@ import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
 
+
+import Tooltip from "@mui/material/Tooltip";
+import trashIcon from "../../Assets/icons/trashIcon.png"
+
+
+const TrashIcon = () => (
+  <img src={trashIcon} alt="Delete" style={{ height: "20px", width: "20px" }} />
+);
+
+
+
+
+
 interface ProjectTableProps {
   projectData: any[];
 }
@@ -131,7 +144,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
     editingId: 0,
   });
   const [proceedAction, setProceedAction] = React.useState<() => void>(
-    () => {}
+    () => { }
   );
 
   const navigate = useNavigate();
@@ -190,16 +203,18 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
       align: "center",
       flex: 2,
       renderCell: (params: GridCellParams) => (
-        <span
-          onClick={() => handleRowClick(params.row)}
-          style={{
-            textDecoration: "underline",
-            cursor: "pointer",
-            color: "blue",
-          }}
-        >
-          {params.value as React.ReactNode}
-        </span>
+        <Tooltip title="View/Edit Project Details">
+          <span
+            onClick={() => handleRowClick(params.row)}
+            style={{
+              textDecoration: "underline",
+              cursor: "pointer",
+              color: "blue",
+            }}
+          >
+            {params.value as React.ReactNode}
+          </span>
+        </Tooltip>
       ),
     },
     {
@@ -234,16 +249,18 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
       align: "center",
       flex: 1,
       renderCell: (params: GridCellParams) => (
-        <span
-          style={{
-            color: "blue",
-            textDecoration: "underline",
-            cursor: "pointer",
-          }}
-          onClick={() => handleClickOpenMembers(params.row.proj_id)}
-        >
-          {params.value as React.ReactNode}
-        </span>
+        <Tooltip title="View Member(s)">
+          <span
+            style={{
+              color: "blue",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+            onClick={() => handleClickOpenMembers(params.row.proj_id)}
+          >
+            {params.value as React.ReactNode}
+          </span>
+        </Tooltip>
       ),
     },
 
@@ -262,12 +279,16 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+          <>
+            <Tooltip title="Delete">
+              <GridActionsCellItem
+                icon={<TrashIcon />}
+                label="Delete"
+                onClick={handleDeleteClick(id)}
+                color="inherit"
+              />
+            </Tooltip>
+          </>
         ];
       },
     },
@@ -277,10 +298,10 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
       <Paper className={ProjectTableStyle.paperTable}>
         <div style={{ height: "100%", width: "100%" }}>
           <DataGrid
-          sx={datagridStyle}
-          style={{height:"100%"}}
-            rows={rows} 
-            getRowId={(row) => row.proj_id} 
+            sx={datagridStyle}
+            style={{ height: "100%" }}
+            rows={rows}
+            getRowId={(row) => row.proj_id}
             columns={columns}
             pagination
             pageSizeOptions={[5, 25, 50, 100]}

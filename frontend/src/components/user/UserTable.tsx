@@ -194,25 +194,27 @@ const UserTable: React.FC<UserTableProps> = (props) => {
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
-        <span
-          onClick={() =>
-            params.row.emp_id &&
-              params.row.username &&
-              params.row.username.length > 0 &&
-              params.row.username.trim() !== ""
-              ? navigate(`/user/edit-user/${params.row.username}`, {
-                state: params.row.emp_id,
-              })
-              : undefined
-          }
-          style={{
-            textDecoration: "underline",
-            cursor: "pointer",
-            color: "blue",
-          }}
-        >
-          {params.value}
-        </span>
+        <Tooltip title="View/Edit User Details">
+          <span
+            onClick={() =>
+              params.row.emp_id &&
+                params.row.username &&
+                params.row.username.length > 0 &&
+                params.row.username.trim() !== ""
+                ? navigate(`/user/edit-user/${params.row.username}`, {
+                  state: params.row.emp_id,
+                })
+                : undefined
+            }
+            style={{
+              textDecoration: "underline",
+              cursor: "pointer",
+              color: "blue",
+            }}
+          >
+            {params.value}
+          </span>
+        </Tooltip>
       ),
     },
     {
