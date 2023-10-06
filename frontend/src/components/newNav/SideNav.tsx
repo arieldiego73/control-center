@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PersonIcon from "@mui/icons-material/Person";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import PersonSearchIcon from "@mui/icons-material/PersonSearch";
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import smallLogo from "../../Assets/small logo.png";
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';import smallLogo from "../../Assets/small logo.png";
 import BurgerMenu from "./BurgerMenu";
+import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import {
   Box,
   Divider,
@@ -20,6 +19,7 @@ import {
   createTheme,
   styled,
 } from "@mui/material";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   People,
   Dns,
@@ -28,8 +28,8 @@ import {
   KeyboardArrowDown,
 }
   from "@mui/icons-material";
-  import { useDispatch } from "react-redux"
-  
+import { useDispatch } from "react-redux"
+
 // for dropdown in others 
 const othersDropDownData = [
   { label: "Development Phase", path: "/development-phase" },
@@ -88,11 +88,94 @@ const FireNav = styled(List)<{ component?: React.ElementType }>({
   },
 });
 
+const AnimatedStyle = styled(List)<{ component?: React.ElementType }>({
+  width: "100%",
+  "&:hover": {
+    backgroundColor: "white",
+    "& .MuiListItemText-primary": {
+      fontWeight: 600,
+
+      WebkitAnimationName: "pulse",
+      animationName: "pulse",
+      WebkitAnimationDuration: "1s",
+      animationDuration: "1s",
+      WebkitAnimationFillMode: "both",
+      animationFillMode: "both",
+      "@-webkit-keyframes pulse": {
+        "0%": {
+          WebkitTransform: "scale3d(1, 1, 1)",
+          transform: "scale3d(1, 1, 1)",
+        },
+        "50%": {
+          WebkitTransform: "scale3d(1.05, 1.05, 1.05)",
+          transform: "scale3d(1.05, 1.05, 1.05)",
+        },
+        "100%": {
+          WebkitTransform: "scale3d(1, 1, 1)",
+          transform: "scale3d(1, 1, 1)",
+        },
+      },
+      "@keyframes pulse": {
+        "0%": {
+          WebkitTransform: "scale3d(1, 1, 1)",
+          transform: "scale3d(1, 1, 1)",
+        },
+        "50%": {
+          WebkitTransform: "scale3d(1.05, 1.05, 1.05)",
+          transform: "scale3d(1.05, 1.05, 1.05)",
+        },
+        "100%": {
+          WebkitTransform: "scale3d(1, 1, 1)",
+          transform: "scale3d(1, 1, 1)",
+        },
+      },
+    },
+    "& .MuiSvgIcon-root": {
+      color: "#ec610b",
+      // Add the animation properties here
+      WebkitAnimationName: "pulse",
+      animationName: "pulse",
+      WebkitAnimationDuration: "1s",
+      animationDuration: "1s",
+      WebkitAnimationFillMode: "both",
+      animationFillMode: "both",
+      "@-webkit-keyframes pulse": {
+        "0%": {
+          WebkitTransform: "scale3d(1, 1, 1)",
+          transform: "scale3d(1, 1, 1)",
+        },
+        "50%": {
+          WebkitTransform: "scale3d(1.05, 1.05, 1.05)",
+          transform: "scale3d(1.05, 1.05, 1.05)",
+        },
+        "100%": {
+          WebkitTransform: "scale3d(1, 1, 1)",
+          transform: "scale3d(1, 1, 1)",
+        },
+      },
+      "@keyframes pulse": {
+        "0%": {
+          WebkitTransform: "scale3d(1, 1, 1)",
+          transform: "scale3d(1, 1, 1)",
+        },
+        "50%": {
+          WebkitTransform: "scale3d(1.05, 1.05, 1.05)",
+          transform: "scale3d(1.05, 1.05, 1.05)",
+        },
+        "100%": {
+          WebkitTransform: "scale3d(1, 1, 1)",
+          transform: "scale3d(1, 1, 1)",
+        },
+      },
+    },
+  },
+},
+);
+
 export default function SideNav() {
 
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(false);
-
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   // Add an event listener to update the screenWidth state when the window is resized
@@ -131,17 +214,19 @@ export default function SideNav() {
 
   const dispatch = useDispatch();
 
+
+
   return (
 
     <div style={sidenavContainerStyle}>
       {/* Conditionally render the burgerMenuContainer */}
       {isScreenSmall && (
-        <div style={{ display: "flex" , height:"100%", width:"100%", alignItems:"center", justifyContent:"center"}}>
+        <div style={{ display: "flex", height: "100%", width: "100%", alignItems: "center", justifyContent: "center" }}>
           <BurgerMenu />
         </div>
       )}
       {!isScreenSmall && (
-        <div style={{display:"flex", height:"100%", width:"100%"}}>
+        <div style={{ display: "flex", height: "100%", width: "100%" }}>
           <ThemeProvider
             theme={createTheme({
               components: {
@@ -186,123 +271,125 @@ export default function SideNav() {
                   }}
                 />
 
-                <Link to="/dashboard" style={{ textDecoration: "none" }}>
+                <Link to="/dashboard" style={{ textDecoration: "none" }} >
                   <ListItem component="div" disablePadding>
-                    <ListItemButton
-                      sx={{
-                        height: 56,
-                        "&:hover": {
-                          backgroundColor: "white",
-                          "& .MuiListItemText-primary": {
-                            fontWeight: 900,
-                            color: "#ec610b",
-                          },
-                          "& .MuiSvgIcon-root": {
-                            color: "#ec610b",
-                          },
-                        },
-                      }}
-                    >
-                      <ListItemIcon>
-                        <DashboardIcon style={{ color: "#ec610b" }} />
-                      </ListItemIcon>
+                    <AnimatedStyle>
+                      <ListItemButton
+                        sx={{
+                          height: 56,
+                          "&:hover": {
+                            backgroundColor: "white",
+                            "& .MuiListItemText-primary": {
+                              fontWeight: 600,
+                              color: "#ec610b",
+                            }
+                          }
+                        }}>
+                        <ListItemIcon>
+                          <DashboardOutlinedIcon style={{ color: "#ec610b" }} />
+                        </ListItemIcon>
 
-                      <ListItemText
-                        primary="Dashboard"
-                        primaryTypographyProps={{
-                          color: "black",
-                          fontWeight: "medium",
-                          variant: "body2",
-                        }}
-                      />
-                    </ListItemButton>
+                        <ListItemText
+                          primary="Dashboard"
+                          primaryTypographyProps={{
+                            color: "black",
+                            fontWeight: "medium",
+                            variant: "body2",
+                          }}
+                        />
+                      </ListItemButton>
+                    </AnimatedStyle>
                   </ListItem>
                 </Link>
 
                 <Link to="/users" style={{ textDecoration: "none" }}>
                   <ListItem component="div" disablePadding>
-                    <ListItemButton
-                      sx={{
-                        height: 56,
-                        "&:hover": {
-                          backgroundColor: "white",
-                          "& .MuiListItemText-primary": {
-                            fontWeight: 900,
-                            color: "#5fb663",
-                          },
-                        },
-                      }}
-                    >
-                      <ListItemIcon>
-                        <PersonIcon style={{ color: "#5fb663" }} />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary="User"
-                        primaryTypographyProps={{
-                          color: "black",
-                          fontWeight: "medium",
-                          variant: "body2",
-                        }}
-                      />
-                    </ListItemButton>
+                    <AnimatedStyle>
+                      <ListItemButton
+                        sx={{
+                          height: 56,
+                          "&:hover": {
+                            backgroundColor: "white",
+                            "& .MuiListItemText-primary": {
+                              fontWeight: 600,
+                              color: "#5fb663",
+                            }
+                          }
+                        }}>
+                        <ListItemIcon>
+                          <PersonOutlineOutlinedIcon style={{ color: "#5fb663" }} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="User"
+                          primaryTypographyProps={{
+                            color: "black",
+                            fontWeight: "medium",
+                            variant: "body2",
+                          }}
+                        />
+                      </ListItemButton>
+                    </AnimatedStyle>
                   </ListItem>
                 </Link>
+
                 {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
                 <Link to="/projects" style={{ textDecoration: "none" }}>
                   <ListItem component="div" disablePadding>
-                    <ListItemButton
-                      sx={{
-                        height: 56,
-                        "&:hover": {
-                          backgroundColor: "white",
-                          "& .MuiListItemText-primary": {
-                            fontWeight: 900,
-                            color: "#549ccf",
-                          },
-                        },
-                      }}
-                    >
-                      <ListItemIcon>
-                        <AccountTreeIcon style={{ color: "#549ccf" }} />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary="Project"
-                        primaryTypographyProps={{
-                          color: "black",
-                          fontWeight: "medium",
-                          variant: "body2",
-                        }}
-                      />
-                    </ListItemButton>
+                    <AnimatedStyle>
+                      <ListItemButton
+                        sx={{
+                          height: 56,
+                          "&:hover": {
+                            backgroundColor: "white",
+                            "& .MuiListItemText-primary": {
+                              fontWeight: 600,
+                              color: "#549ccf",
+                            }
+                          }
+                        }}>
+                        <ListItemIcon>
+                          <AccountTreeOutlinedIcon style={{ color: "#549ccf" }} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Project"
+                          primaryTypographyProps={{
+                            color: "black",
+                            fontWeight: "medium",
+                            variant: "body2",
+                          }}
+                        />
+                      </ListItemButton>
+                    </AnimatedStyle>
                   </ListItem>
                 </Link>
                 {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
                 <Link to="/roles" style={{ textDecoration: "none" }}>
                   <ListItem component="div" disablePadding>
-                    <ListItemButton
-                      sx={{
-                        height: 56,
-                        "&:hover": {
-                          backgroundColor: "white",
-                          "& .MuiListItemText-primary": {
-                            fontWeight: 900,
-                            color: "#5900b3",
-                          },
-                        },
-                      }}
-                    >
-                      <ListItemIcon>
-                        <PersonSearchIcon style={{ color: "#5900b3" }} />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary="Role"
-                        primaryTypographyProps={{
-                          color: "black",
-                          fontWeight: "medium",
-                          variant: "body2",
-                        }}
-                      />
-                    </ListItemButton>
+                    <AnimatedStyle>
+                      <ListItemButton
+                        sx={{
+                          height: 56,
+                          "&:hover": {
+                            backgroundColor: "white",
+                            "& .MuiListItemText-primary": {
+                              fontWeight: 600,
+                              color: "#5900b3",
+                            }
+                          }
+                        }}>
+                        <ListItemIcon>
+                          <PersonSearchOutlinedIcon style={{ color: "#5900b3" }} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Role"
+                          primaryTypographyProps={{
+                            color: "black",
+                            fontWeight: "medium",
+                            variant: "body2",
+                          }}
+                        />
+                      </ListItemButton>
+                    </AnimatedStyle>
                   </ListItem>
                 </Link>
                 {/* <Divider sx={{ backgroundColor: 'rgb(102, 157, 246)' }} /> */}
@@ -312,6 +399,7 @@ export default function SideNav() {
                     flexDirection: "column", // Stack the containers vertically
                   }}
                 >
+
                   <Box
                     sx={{
                       bgcolor: open ? "rgba(71, 98, 130, 0.2)" : null,
@@ -331,19 +419,48 @@ export default function SideNav() {
                         px: 3,
                         pt: 2.5,
                         pb: 2.5, // Keep consistent padding for both active and inactive states
+
                         "&:hover": {
-                          "& svg": {
-                            color: "#595959",
-                          },
-                          backgroundColor: active
-                            ? "rgba(71, 98, 130, 0.2)"
-                            : "white",
+                          backgroundColor: "white",
                           "& .MuiListItemText-primary": {
-                            fontWeight: active ? "bold" : "bold",
-                            color: "#595959",
-                            border: "0 solid transparent",
+                            fontWeight: 600,
+
+                            WebkitAnimationName: "pulse",
+                            animationName: "pulse",
+                            WebkitAnimationDuration: "1s",
+                            animationDuration: "1s",
+                            WebkitAnimationFillMode: "both",
+                            animationFillMode: "both",
+                            "@-webkit-keyframes pulse": {
+                              "0%": {
+                                WebkitTransform: "scale3d(1, 1, 1)",
+                                transform: "scale3d(1, 1, 1)",
+                              },
+                              "50%": {
+                                WebkitTransform: "scale3d(1.05, 1.05, 1.05)",
+                                transform: "scale3d(1.05, 1.05, 1.05)",
+                              },
+                              "100%": {
+                                WebkitTransform: "scale3d(1, 1, 1)",
+                                transform: "scale3d(1, 1, 1)",
+                              },
+                            },
+                            "@keyframes pulse": {
+                              "0%": {
+                                WebkitTransform: "scale3d(1, 1, 1)",
+                                transform: "scale3d(1, 1, 1)",
+                              },
+                              "50%": {
+                                WebkitTransform: "scale3d(1.05, 1.05, 1.05)",
+                                transform: "scale3d(1.05, 1.05, 1.05)",
+                              },
+                              "100%": {
+                                WebkitTransform: "scale3d(1, 1, 1)",
+                                transform: "scale3d(1, 1, 1)",
+                              },
+                            },
                           },
-                        },
+                        }
                       }}
                     >
                       <ListItemIcon style={{ margin: "0" }}>
@@ -376,6 +493,7 @@ export default function SideNav() {
                       />
                     </ListItemButton>
                   </Box>
+
                   {open && (
                     <Box>
                       {othersDropDownData.map((item) => (
@@ -395,6 +513,40 @@ export default function SideNav() {
                                 "& .MuiListItemText-primary": {
                                   fontWeight: 900,
                                   color: "#595959",
+                                },
+                                WebkitAnimationName: "pulse",
+                                animationName: "pulse",
+                                WebkitAnimationDuration: "1s",
+                                animationDuration: "1s",
+                                WebkitAnimationFillMode: "both",
+                                animationFillMode: "both",
+                                "@-webkit-keyframes pulse": {
+                                  "0%": {
+                                    WebkitTransform: "scale3d(1, 1, 1)",
+                                    transform: "scale3d(1, 1, 1)",
+                                  },
+                                  "50%": {
+                                    WebkitTransform: "scale3d(1.05, 1.05, 1.05)",
+                                    transform: "scale3d(1.05, 1.05, 1.05)",
+                                  },
+                                  "100%": {
+                                    WebkitTransform: "scale3d(1, 1, 1)",
+                                    transform: "scale3d(1, 1, 1)",
+                                  },
+                                },
+                                "@keyframes pulse": {
+                                  "0%": {
+                                    WebkitTransform: "scale3d(1, 1, 1)",
+                                    transform: "scale3d(1, 1, 1)",
+                                  },
+                                  "50%": {
+                                    WebkitTransform: "scale3d(1.05, 1.05, 1.05)",
+                                    transform: "scale3d(1.05, 1.05, 1.05)",
+                                  },
+                                  "100%": {
+                                    WebkitTransform: "scale3d(1, 1, 1)",
+                                    transform: "scale3d(1, 1, 1)",
+                                  },
                                 },
                               },
                             }}
@@ -417,7 +569,8 @@ export default function SideNav() {
             </Paper>
           </ThemeProvider>
         </div>
-      )}
+      )
+      }
       <Routes>
         <Route path="/DevelopmentPhase" element={<DevelopmentPhase />} />
         <Route path="/projectStatus" element={<ProjectStatus />} />
@@ -430,7 +583,7 @@ export default function SideNav() {
         <Route path="/client" element={<ClientHandler />} />
 
       </Routes>
-    </div>
+    </div >
 
 
   );
