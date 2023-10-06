@@ -162,6 +162,10 @@ public class UserServiceImpl implements UserService {
         }
       }
 
+      if(!account.getPassword().equals(account.getConfirm_password())) {
+        return ResponseEntity.badRequest().body("Password and confirm password do not match");
+      }
+
       UserInput user = new UserInput();
       PersonalInfoInput personalInfo = new PersonalInfoInput();
       // initializing the value of user.

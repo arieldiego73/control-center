@@ -257,6 +257,7 @@ export default function EditUser() {
       emp_id: assocID,
       username: username,
       password: password,
+      confirm_password: currentPassword,
       fname: firstName.trim(),
       mname: middleName.trim(),
       lname: lastName.trim(),
