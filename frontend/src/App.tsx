@@ -172,7 +172,7 @@ function App() {
 	  },
 	];
   
-	const defaultUserId = 3;
+	const defaultUserId = 1;
   
 	const currentUser = dummyUsers.find((user) => user.id === defaultUserId);
   

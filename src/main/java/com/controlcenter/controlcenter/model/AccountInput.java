@@ -39,8 +39,6 @@ public class AccountInput {
     @Size(max = 255, message = "The Password is invalid, it should be up to 255 characters long.")
     private String password;
 
-    @NotBlank(message = "Confirm password should not be empty.")
-    @Size(max = 255, message = "The confirm password is invalid, it should be up to 255 characters long.")
     private String confirm_password;
 
     @NotNull(message = "Position ID should not be empty.")
