@@ -1,4 +1,5 @@
 import * as React from "react";
+import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,7 +12,7 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import PersonFourIcon from "@mui/icons-material/Person4";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { getRolesFetch } from "../../redux/state/roleState"; 
+import { getRolesFetch } from "../../redux/state/roleState";
 import { Divider, LinearProgress } from "@mui/material";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
@@ -48,7 +49,21 @@ import {
 	GridRowSelectionModel,
 	GridValidRowModel,
 } from "@mui/x-data-grid";
+
+
 import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
+
+import editIconPencil from "../../Assets/icons/editIcon.png"
+import trashIcon from "../../Assets/icons/trashIcon.png"
+
+
+const EditIconPencil = () => (
+	<img src={editIconPencil} alt="Edit" style={{ height: "20px", width: "20px", color: "red" }} />
+);
+const TrashIcon = () => (
+	<img src={trashIcon} alt="Delete" style={{ height: "20px", width: "20px" }} />
+);
+
 
 const RoleTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
@@ -130,7 +145,7 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 		editingId: 0,
 	});
 	const [proceedAction, setProceedAction] = React.useState<() => void>(
-		() => {}
+		() => { }
 	);
 
 	function DatagridToolbar() {
@@ -331,19 +346,28 @@ const RoleTable: React.FC<DataGridProps> = (props) => {
 				}
 
 				return [
-					<GridActionsCellItem
-						icon={<EditIcon />}
-						label="Edit"
-						className="textPrimary"
-						onClick={handleEditButtonClick(id)}
-						color="inherit"
-					/>,
-					<GridActionsCellItem
-						icon={<DeleteIcon />}
-						label="Delete"
-						onClick={handleDeleteClick(id)}
-						color="inherit"
-					/>,
+					<>
+						<Tooltip title="Edit">
+							<GridActionsCellItem
+								icon={<EditIconPencil />}
+								label="Edit"
+								className="textPrimary"
+								onClick={handleEditButtonClick(id)}
+								color="inherit"
+							/>
+						</Tooltip>
+
+						<Divider orientation="vertical" variant="middle" flexItem />
+
+						<Tooltip title="Delete">
+							<GridActionsCellItem
+								icon={<TrashIcon />}
+								label="Delete"
+								onClick={handleDeleteClick(id)}
+								color="inherit"
+							/>
+						</Tooltip>
+					</>
 				];
 			},
 		},
