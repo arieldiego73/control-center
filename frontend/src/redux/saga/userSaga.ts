@@ -263,6 +263,7 @@ function* validate(res: any, action?: string) {
 					})
 				);
 				yield put(addUserSuccess()); // if the action is Add User, change the state of isAddSuccess to true
+				yield put(setIsLoading(false)); // if the action is Add User, change the state of isAddSuccess to true
 				break;
 			case "info":
 				yield put(getUserInfoSuccess(res?.data));
@@ -279,6 +280,7 @@ function* validate(res: any, action?: string) {
 				);
 				yield put(getUsersFetch());
 				yield put(addUserSuccess());
+				yield put(setIsLoading(false)); //eto -CHA
 				break;
 			default:
 				yield put(

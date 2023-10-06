@@ -16,7 +16,7 @@ function createData(status_name: string, total: number): Datum {
 
 const customTheme = {
   axis: {
-    legend: {
+    legend: { 
       text: {
         fill: "white", 
       },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CreateUserStyle from "./CreateUser.module.css";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
@@ -19,18 +19,17 @@ import { getRolesFetch } from "../../../redux/state/roleState";
 import { getPositionFetch } from "../../../redux/state/positionState";
 import { addUserInfo } from "../../../redux/saga/userSaga";
 import { addUserReset } from "../../../redux/state/userState";
-import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import defaultProfile from "../../../Assets/userImage/MaleDefaultProfile.jpg";
 
-
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
-import FilledInput from '@mui/material/FilledInput';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import FilledInput from "@mui/material/FilledInput";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import {
   Alert,
@@ -52,6 +51,7 @@ import {
   Typography,
   FormHelperText,
   InputLabel,
+  Backdrop,
 } from "@mui/material";
 import { getEmployeeStatusFetch } from "../../../redux/state/employeeStatusState";
 
@@ -81,6 +81,14 @@ export interface State {
 export default function CreateUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const loadingState = useSelector(
+    (state: RootState) => state.userReducer.isLoading
+  );
+
+  useEffect(() => {
+    setIsLoading(loadingState);
+  }, [loadingState]);
 
   const [selectedRoles, setSelectedRoles] = React.useState<number[]>([]);
   const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
@@ -182,7 +190,6 @@ export default function CreateUser() {
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
-  const [isSaving, setIsSaving] = React.useState(false);
 
   //FOR DROPDOWN CONFIG (BUSINESS UNIT)
   const depts = useSelector((state: RootState) => state.deptReducer.department);
@@ -230,6 +237,7 @@ export default function CreateUser() {
   };
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSave = () => {
     setFormSubmitted(true);
@@ -247,10 +255,7 @@ export default function CreateUser() {
       !empStatus ||
       selectedRoles.length === 0
     ) {
-      handleClickSnackpack(
-        "Please fill in the required fields.",
-        "error"
-      )();
+      handleClickSnackpack("Please fill in the required fields.", "error")();
     } else if (
       assocID &&
       username &&
@@ -265,19 +270,13 @@ export default function CreateUser() {
       selectedRoles.length > 0
     ) {
       if (password === confirmPassword) {
-        console.log("pass"+password)
-        console.log("conf pass"+confirmPassword)
         setAsk(true);
         setDialogTitle("Save the record?");
         setDialogContentText(
           "Upon proceeding, the modifications on the record \nmade will be saved."
         );
-        setIsSaving(true);
       } else {
-        handleClickSnackpack(
-          "Password fields do not match!",
-          "error"
-        )();
+        handleClickSnackpack("Password fields do not match!", "error")();
       }
     } else {
       handleClickSnackpack(
@@ -285,35 +284,37 @@ export default function CreateUser() {
         "error"
       )();
     }
-
-
   };
 
   const handleCancel = () => {
     setAsk(true);
     setDialogTitle("Cancel the edit?");
     setDialogContentText("The record will be discarded and will not be saved.");
-    setIsSaving(false);
   };
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
   };
 
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
-  const handleMouseDownConfirmPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword((show) => !show);
+  const handleMouseDownConfirmPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
   };
 
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedImage(file);
     }
-  }
+  };
   return (
     <>
       <div className={CreateUserStyle.mainContainer}>
@@ -336,9 +337,19 @@ export default function CreateUser() {
                         alt="Placeholder"
                         className={CreateUserStyle.imgSize}
                       />
-
                     )}
-                    <div style={{ height: "80px", width: "80px", position: "absolute", right: "0", top: "70%", display: "grid", placeItems: "center", overflow: "hidden", }}>
+                    <div
+                      style={{
+                        height: "80px",
+                        width: "80px",
+                        position: "absolute",
+                        right: "0",
+                        top: "70%",
+                        display: "grid",
+                        placeItems: "center",
+                        overflow: "hidden",
+                      }}
+                    >
                       <Button
                         component="label"
                         sx={{
@@ -347,21 +358,29 @@ export default function CreateUser() {
                           height: "60px",
                           width: "54px",
                           background: "rgba(200, 200, 200, 0.75)",
-                          margin: 0, padding: 0,
-                          boxShadow: "rgba(60, 64, 67, 0.7) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+                          margin: 0,
+                          padding: 0,
+                          boxShadow:
+                            "rgba(60, 64, 67, 0.7) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
                           "&:hover": {
                             background: "rgba( 237, 249, 255, 0.75 )",
-                            transform: "scale(1.1)"
-
-                          }
+                            transform: "scale(1.1)",
+                          },
                         }}
                         className={CreateUserStyle.updateImageButton}
                       >
-                        <CameraAltOutlinedIcon sx={{ height: "30px", width: "30px", margin: 0, padding: 0 }} />
+                        <CameraAltOutlinedIcon
+                          sx={{
+                            height: "30px",
+                            width: "30px",
+                            margin: 0,
+                            padding: 0,
+                          }}
+                        />
                         <input
                           type="file"
                           accept="image/*"
-                          style={{ display: 'none' }}
+                          style={{ display: "none" }}
                           onChange={handleImageChange}
                         />
                         <VisuallyHiddenInput type="file" />
@@ -383,7 +402,9 @@ export default function CreateUser() {
                         label="Associate ID"
                         error={formSubmitted && assocID === ""}
                         helperText={
-                          formSubmitted && assocID === "" ? "Associate ID required" : ""
+                          formSubmitted && assocID === ""
+                            ? "Associate ID required"
+                            : ""
                         }
                         variant="outlined"
                         size="small"
@@ -473,18 +494,18 @@ export default function CreateUser() {
                         ))}
                       </Select>
                       {formSubmitted && empStatus === "0" && (
-                        <FormHelperText>Employee Status required</FormHelperText>
+                        <FormHelperText>
+                          Employee Status required
+                        </FormHelperText>
                       )}
                     </FormControl>
                   </div>
                 </div>
               </div>
-
               {/* Start of other Form */}
               <div className={CreateUserStyle.otherFormContainer}>
                 <div className={CreateUserStyle.otherFormPlaceholder}>
                   <div className={CreateUserStyle.form}>
-
                     {/* Start of Name Form  */}
                     <div className={CreateUserStyle.nameForm}>
                       <FormControl sx={{ width: "100%" }}>
@@ -506,7 +527,6 @@ export default function CreateUser() {
                                 <PermIdentityOutlinedIcon />
                               </InputAdornment>
                             ),
-
                           }}
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
@@ -682,7 +702,9 @@ export default function CreateUser() {
                           label="Email"
                           error={formSubmitted && email === ""}
                           helperText={
-                            formSubmitted && email === "" ? "Email required" : ""
+                            formSubmitted && email === ""
+                              ? "Email required"
+                              : ""
                           }
                           variant="outlined"
                           size="small"
@@ -788,7 +810,9 @@ export default function CreateUser() {
                           ))}
                         </Select>
                         {formSubmitted && businessUnit === 0 && (
-                          <FormHelperText>Business Unit required</FormHelperText>
+                          <FormHelperText>
+                            Business Unit required
+                          </FormHelperText>
                         )}
                       </FormControl>
                     </div>
@@ -805,24 +829,29 @@ export default function CreateUser() {
                       >
                         <TextField
                           label="Password"
-                          type={showPassword ? 'text' : 'password'}
+                          type={showPassword ? "text" : "password"}
                           error={
-                            (formSubmitted && password === "") || 
-                            (formSubmitted && password.toString().length < 5) || 
-                            (formSubmitted && password !== confirmPassword)}
+                            (formSubmitted && password === "") ||
+                            (formSubmitted && password.toString().length < 5) ||
+                            (formSubmitted && password !== confirmPassword)
+                          }
                           helperText={
-                            (formSubmitted && password === "" ? "Password required" : "") || 
-                            (formSubmitted && password.toString().length < 5 ? "password too short" : "") ||
-                            (formSubmitted && password !== confirmPassword ? "Password fields do not match" : "")
+                            (formSubmitted && password === ""
+                              ? "Password required"
+                              : "") ||
+                            (formSubmitted && password.toString().length < 5
+                              ? "password too short"
+                              : "") ||
+                            (formSubmitted && password !== confirmPassword
+                              ? "Password fields do not match"
+                              : "")
                           }
                           variant="outlined"
                           size="small"
                           sx={{ flex: 1, display: "flex", width: "100%" }}
                           InputProps={{
                             startAdornment: (
-                              <InputAdornment position="start">
-
-                              </InputAdornment>
+                              <InputAdornment position="start"></InputAdornment>
                             ),
                             // endAdornment: (
                             //   <InputAdornment position="end">
@@ -852,23 +881,25 @@ export default function CreateUser() {
                       >
                         <TextField
                           label="Confirm password"
-                          type={showConfirmPassword ? 'text' : 'password'}
+                          type={showConfirmPassword ? "text" : "password"}
                           error={
                             (formSubmitted && confirmPassword === "") ||
                             (formSubmitted && password !== confirmPassword)
                           }
                           helperText={
-                            (formSubmitted && confirmPassword === "" ? "Password confirmation required" : "") ||
-                            (formSubmitted && password !== confirmPassword ? "Password fields do not match" : "")
+                            (formSubmitted && confirmPassword === ""
+                              ? "Password confirmation required"
+                              : "") ||
+                            (formSubmitted && password !== confirmPassword
+                              ? "Password fields do not match"
+                              : "")
                           }
                           variant="outlined"
                           size="small"
                           sx={{ flex: 1, display: "flex", width: "100%" }}
                           InputProps={{
                             startAdornment: (
-                              <InputAdornment position="start">
-
-                              </InputAdornment>
+                              <InputAdornment position="start"></InputAdornment>
                             ),
                             endAdornment: (
                               <InputAdornment position="end">
@@ -878,7 +909,11 @@ export default function CreateUser() {
                                   onMouseDown={handleMouseDownConfirmPassword}
                                   edge="end"
                                 >
-                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                  {showPassword ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
                                 </IconButton>
                               </InputAdornment>
                             ),
@@ -926,9 +961,7 @@ export default function CreateUser() {
                           }}
                         />
                       </FormControl> */}
-
                     </div>
-
                   </div>
                 </div>
                 {/* Start of Button*/}
@@ -947,66 +980,73 @@ export default function CreateUser() {
                     variant="text"
                     className={CreateUserStyle.cancelButton}
                     onClick={handleCancel}
-                    sx={{ backgroundColor: "#e0e0e0", "&:hover": { backgroundColor: "#c0c0c0" } }}
+                    sx={{
+                      backgroundColor: "#e0e0e0",
+                      "&:hover": { backgroundColor: "#c0c0c0" },
+                    }}
                   >
                     CANCEL
                   </Button>
                 </div>
               </div>
-              {/*Dialog of Edit Confirmation */}
-              <Dialog
-                open={ask}
-                onClose={() => {
-                  setAsk(false);
-                }}
-                aria-labelledby="responsive-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="responsive-dialog-title">
-                  <Typography
-                    fontWeight={700}
-                    fontSize={20}
-                    display={"flex"}
-                    alignItems={"center"}
-                    gap={1}
-                  >
-                    <HelpIcon
-                      accentHeight={100}
-                      color="error"
-                      fontSize="large"
-                      alignmentBaseline="middle"
-                    />
-                    {dialogTitle}
-                  </Typography>
-                </DialogTitle>
+              <div>
+                <Dialog
+                  open={ask}
+                  onClose={() => {
+                    setAsk(false);
+                  }}
+                  aria-labelledby="responsive-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                
+                  <DialogTitle id="responsive-dialog-title">
+                    <Typography
+                      fontWeight={700}
+                      fontSize={20}
+                      display={"flex"}
+                      alignItems={"center"}
+                      gap={1}
+                    >
+                      <HelpIcon
+                        accentHeight={100}
+                        color="error"
+                        fontSize="large"
+                        alignmentBaseline="middle"
+                      />
+                      {dialogTitle}
+                    </Typography>
+                  </DialogTitle>
 
-                <DialogContent>
-                  <DialogContentText
-                    whiteSpace={"pre-line"}
-                    id="alert-dialog-description"
-                  >
-                    {dialogContentText}
-                  </DialogContentText>
-                </DialogContent>
+                 
 
-                <DialogActions>
-                  <Button
-                    variant="contained"
-                    onClick={isSaving ? proceedWithSaving : proceedWithCancel}
-                    autoFocus
-                  >
-                    {isSaving ? "Save" : "Cancel"}
-                  </Button>
+                  <DialogContent>
+                    <DialogContentText
+                      whiteSpace={"pre-line"}
+                      id="alert-dialog-description"
+                    >
+                      {dialogContentText}
+                    </DialogContentText>
+                  </DialogContent>
 
-                  <Button
-                    onClick={() => {
-                      setAsk(false);
-                    }}
-                  >
-                    Continue editing
-                  </Button>
-                </DialogActions>
-              </Dialog>
+                  <DialogActions>
+                    <Button
+                      variant="contained"
+                      onClick={proceedWithSaving}
+                      autoFocus
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setAsk(false);
+                      }}
+                    >
+                      Continue editing
+                    </Button>
+                  </DialogActions>
+      
+                </Dialog>
+              </div>
             </div>
           </div>
         </div>
@@ -1027,6 +1067,13 @@ export default function CreateUser() {
           {messageInfo ? messageInfo.message : undefined}
         </Alert>
       </Snackbar>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 }
