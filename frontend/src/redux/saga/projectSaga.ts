@@ -287,6 +287,7 @@ function* validate(res: any, action?: string) {
 					})
 				);
 				yield put(addProjectSuccess());
+				yield put(setIsLoading(false)); //eto -CHA
 				break;
 			case "info":
 				yield put(getProjectInfoSuccess(res?.data));
@@ -303,6 +304,7 @@ function* validate(res: any, action?: string) {
 				);
 				yield put(getProjectsFetch());
 				yield put(addProjectSuccess());
+				yield put(setIsLoading(false)); //eto -CHA
 				break;
 			default:
 				yield put(

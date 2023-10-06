@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditUserStyle from "./EditUser.module.css";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
@@ -46,9 +46,12 @@ import {
   InputLabel,
   FormHelperText,
   IconButton,
+  Backdrop,
 } from "@mui/material";
 import { getEmployeeStatusFetch } from "../../../redux/state/employeeStatusState";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
+// import { CircularProgress } from "@material-ui/core";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -89,6 +92,14 @@ export default function EditUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+
+  const loadingState = useSelector(
+    (state: RootState) => state.userReducer.isLoading
+  );
+
+  useEffect(() => {
+    setIsLoading(loadingState);
+  }, [loadingState]);
 
   const userId = location.state;
 
@@ -224,7 +235,6 @@ export default function EditUser() {
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
-  const [isSaving, setIsSaving] = React.useState(false);
 
   //FOR DROPDOWN CONFIG (BUSINESS UNIT)
   const depts = useSelector((state: RootState) => state.deptReducer.department);
@@ -276,6 +286,8 @@ export default function EditUser() {
   };
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSave = () => {
     setFormSubmitted(true);
     if (
@@ -292,10 +304,8 @@ export default function EditUser() {
       !empStatus ||
       selectedRoles.length === 0
     ) {
-      handleClickSnackpack(
-        "Please fill in the required fields.",
-        "error"
-      )();
+      handleClickSnackpack("Please fill in the required fields.", "error")();
+
     } else if (
       assocID &&
       username &&
@@ -315,12 +325,9 @@ export default function EditUser() {
       setDialogContentText(
         "Upon proceeding, the modifications on the record \nmade will be saved."
       );
-      setIsSaving(true);
     } else {
-      handleClickSnackpack(
-        "All fields are required. Please, try again.",
-        "error"
-      )();
+      handleClickSnackpack("Password fields do not match!", "error")();
+
     }
   };
 
@@ -362,7 +369,6 @@ export default function EditUser() {
     setDialogContentText(
       "Modifications made with the record will be \nlost forever."
     );
-    setIsSaving(false);
   };
 
   return (
@@ -1121,10 +1127,10 @@ export default function EditUser() {
                 <DialogActions>
                   <Button
                     variant="contained"
-                    onClick={isSaving ? proceedWithSaving : proceedWithCancel}
+                    onClick={proceedWithSaving}
                     autoFocus
                   >
-                    {isSaving ? "Save" : "Cancel"}
+                    Save
                   </Button>
 
                   <Button
@@ -1157,6 +1163,12 @@ export default function EditUser() {
           {messageInfo ? messageInfo.message : undefined}
         </Alert>
       </Snackbar>
+         <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 }
