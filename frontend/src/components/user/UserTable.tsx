@@ -35,6 +35,7 @@ import Button from "@mui/material/Button";
 
 
 import passwordIcon from "../../Assets/icons/passwordIcon.png";
+import passwordIcon64px from "../../Assets/icons/passwordIcon64px.png";
 import trashIcon from "../../Assets/icons/trashIcon.png"
 
 import { Image } from "@mui/icons-material";
@@ -58,6 +59,9 @@ interface UserTableProps {
 
 const PasswordIcon = () => (
   <img src={passwordIcon} alt="Password" style={{ height: "20px", width: "20px", color: "red" }} />
+);
+const PasswordIcon64px = () => (
+  <img src={passwordIcon64px} alt="Password" style={{ height: "20px", width: "20px", color: "red" }} />
 );
 const TrashIcon = () => (
   <img src={trashIcon} alt="Delete" style={{ height: "20px", width: "20px" }} />
@@ -299,7 +303,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 
             <Tooltip title="Change Password">
               <GridActionsCellItem
-                icon={<PasswordIcon />}
+                icon={<PasswordIcon64px />}
                 // style={{ height: "20px", width: "12px" }}
                 label="Change Password"
                 onClick={() => handleOpenChangePassword(id)}
@@ -360,7 +364,10 @@ const UserTable: React.FC<UserTableProps> = (props) => {
       </Paper>
       {/* Change Password Modal */}
       <Dialog open={changePasswordOpen} onClose={handleCloseChangePassword}>
-        <DialogTitle>Change Password</DialogTitle>
+        <DialogTitle style={{display:"flex", gap:"10px"}}>
+          <img src={passwordIcon64px} alt="change password icon" style={{ height:"30px", width:"30px"}} />
+          <span>Change Password</span>
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>Enter the new password:</DialogContentText>
           <TextField
