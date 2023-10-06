@@ -49,6 +49,21 @@ import {
 } from "@mui/x-data-grid";
 import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
 
+
+import Tooltip from "@mui/material/Tooltip";
+import editIconPencil from "../../Assets/icons/editIcon.png"
+import trashIcon from "../../Assets/icons/trashIcon.png"
+
+
+const EditIconPencil = () => (
+	<img src={editIconPencil} alt="Edit" style={{ height: "20px", width: "20px", color: "red" }} />
+);
+const TrashIcon = () => (
+	<img src={trashIcon} alt="Delete" style={{ height: "20px", width: "20px" }} />
+);
+
+
+
 const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	const dispatch = useDispatch();
 
@@ -308,19 +323,28 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 				}
 
 				return [
-					<GridActionsCellItem
-						icon={<EditIcon />}
-						label="Edit"
-						className="textPrimary"
-						onClick={handleEditButtonClick(id)}
-						color="inherit"
-					/>,
-					<GridActionsCellItem
-						icon={<DeleteIcon />}
-						label="Delete"
-						onClick={handleDeleteClick(id)}
-						color="inherit"
-					/>,
+					<>
+						<Tooltip title="Edit">
+							<GridActionsCellItem
+								icon={<EditIconPencil />}
+								label="Edit"
+								className="textPrimary"
+								onClick={handleEditButtonClick(id)}
+								color="inherit"
+							/>
+						</Tooltip>
+
+						<Divider orientation="vertical" variant="middle" flexItem />
+
+						<Tooltip title="Delete">
+							<GridActionsCellItem
+								icon={<TrashIcon />}
+								label="Delete"
+								onClick={handleDeleteClick(id)}
+								color="inherit"
+							/>
+						</Tooltip>
+					</>
 				];
 			},
 		},
