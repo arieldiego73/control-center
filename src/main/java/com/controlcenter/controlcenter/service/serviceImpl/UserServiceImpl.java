@@ -82,6 +82,10 @@ public class UserServiceImpl implements UserService {
     }
   }
 
+  public ResponseEntity<List<UserInfoOutput>> getAllPossibleManager() {
+    return ResponseEntity.ok(userDao.getAllPossibleManager());
+  }
+
   @Override
   public ResponseEntity<UserInfoOutput> getUserById(String id) {
     try {
@@ -156,6 +160,10 @@ public class UserServiceImpl implements UserService {
         } else if (account.getEmail().equals(perUser.getEmail())) {
           return ResponseEntity.badRequest().body("The Email of " + account.getEmail() + " is already taken.");
         }
+      }
+
+      if(!account.getPassword().equals(account.getConfirm_password())) {
+        return ResponseEntity.badRequest().body("Password and confirm password do not match");
       }
 
       UserInput user = new UserInput();

@@ -78,6 +78,7 @@ export interface State {
 
 const GLOBAL_TIMEOUT = 5000;
 const DEFAULT_MANAGER_ID = 100;
+const DEFAULT_MEMBER_ID = 100;
 
 export default function NewProj() {
   const dispatch = useDispatch();
@@ -143,7 +144,7 @@ export default function NewProj() {
       !selectedEndDate ||
       !selectedClientId ||
       !status ||
-      !projectMembers ||
+      !projectManager ||
       !projectDevPhase ||
       projectTechnologies.length === 0
     ) {
@@ -159,7 +160,7 @@ export default function NewProj() {
       selectedEndDate &&
       selectedClientId &&
       status &&
-      projectMembers &&
+      projectManager &&
       projectDevPhase &&
       projectTechnologies
     ) {
@@ -376,10 +377,10 @@ export default function NewProj() {
       projectStatusId: status,
       devTypeId: devType,
       clientId: selectedClientId,
-      selectedManagers: projectManager
-        ? (projectManager as number[])
-        : [DEFAULT_MANAGER_ID],
-      selectedMembers: projectMembers as number[],
+      selectedManagers: projectManager as number[],
+      selectedMembers: projectMembers 
+      ? (projectManager as number[])
+      : [DEFAULT_MEMBER_ID],
       selectedDevPhase: projectDevPhase,
       selectedTechnologies: projectTechnologies,
     };
