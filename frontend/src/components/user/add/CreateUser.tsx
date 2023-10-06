@@ -178,6 +178,9 @@ export default function CreateUser() {
   const [department, setDepartment] = useState(0);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
@@ -215,6 +218,9 @@ export default function CreateUser() {
       username: username,
       password: password,
       confirm_password: confirmPassword,
+      current_password: currentPassword,
+      new_password: newPassword,
+      confirm_new_password: confirmNewPassword,
       fname: firstName.trim(),
       mname: middleName.trim(),
       lname: lastName.trim(),

@@ -37,6 +37,12 @@ public class AccountOutput {
     @Size(max = 255, message = "The Password is invalid, it should be up to 255 characters long.")
     private String password;
 
+    private String current_password;
+
+    private String new_password;
+
+    private String confirm_new_password;
+
     @NotNull(message = "Position ID should not be empty.")
     @Digits(integer = 9, fraction = 0, message = "The Position ID is invalid, it should be up to 9 digits long.")
     private Long position_id;
