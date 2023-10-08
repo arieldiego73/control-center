@@ -859,18 +859,18 @@ export default function CreateUser() {
                             startAdornment: (
                               <InputAdornment position="start"></InputAdornment>
                             ),
-                            // endAdornment: (
-                            //   <InputAdornment position="end">
-                            //     <IconButton
-                            //       aria-label="toggle password visibility"
-                            //       onClick={handleClickShowPassword}
-                            //       onMouseDown={handleMouseDownPassword}
-                            //       edge="end"
-                            //     >
-                            //       {showPassword ? <VisibilityOff /> : <Visibility />}
-                            //     </IconButton>
-                            //   </InputAdornment>
-                            // ),
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
                           }}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}

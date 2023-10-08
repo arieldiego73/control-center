@@ -228,9 +228,9 @@ export default function EditUser() {
   const [businessUnit, setBusinessUnit] = useState(0);
   const [department, setDepartment] = useState(0);
   const [password, setPassword] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  // const [currentPassword, setCurrentPassword] = useState("");
+  // const [newPassword, setNewPassword] = useState("");
+  // const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
@@ -267,10 +267,10 @@ export default function EditUser() {
       emp_id: assocID,
       username: username,
       password: password,
-      confirm_password: currentPassword,
-      current_password: currentPassword,
-      new_password: newPassword,
-      confirm_new_password: confirmNewPassword,
+      // confirm_password: currentPassword,
+      // current_password: currentPassword,
+      // new_password: newPassword,
+      // confirm_new_password: confirmNewPassword,
       fname: firstName.trim(),
       mname: middleName.trim(),
       lname: lastName.trim(),
@@ -327,32 +327,7 @@ export default function EditUser() {
       );
     } else {
       handleClickSnackpack("Password fields do not match!", "error")();
-
     }
-  };
-
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-
-  const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
-  const handleClickShowCurrentPassword = () => setShowCurrentPassword((show) => !show);
-  const handleMouseDownCurrentPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-
-  const [showNewPassword, setShowNewPassword] = React.useState(false);
-  const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
-  const handleMouseDownNewPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-
-  const [showConfirmNewPassword, setShowConfirmNewPassword] = React.useState(false);
-  const handleClickShowConfirmNewPassword = () => setShowConfirmNewPassword((show) => !show);
-  const handleMouseDownConfirmNewPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
   };
 
 
@@ -446,40 +421,6 @@ export default function EditUser() {
                   </div>
                 </div>
                 <div className={EditUserStyle.formProfileContainer}>
-
-                  {/* Hidden password field */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <FormControl
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        width: "95%",
-                      }}
-                    >
-                      <TextField
-                        label="Password"
-                        error={formSubmitted && password === ""}
-                        helperText={
-                          formSubmitted && password === ""
-                            ? "Password required"
-                            : ""
-                        }
-                        variant="outlined"
-                        size="small"
-                        placeholder="Password"
-                        className={EditUserStyle.textFieldProfile}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <PermIdentityOutlinedIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </FormControl>
-                  </div>
 
                   {/* Start of Assoc id form */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
@@ -890,176 +831,6 @@ export default function EditUser() {
                           <FormHelperText>Business Unit required</FormHelperText>
                         )}
                       </FormControl>
-                    </div>
-
-                    {/* Start of Password Form */}
-                    <div className={EditUserStyle.formHolder}>
-                      <FormControl
-                        sx={{
-                          width: "27.5%",
-                          "@media (max-width: 850px)": {
-                            width: "100%",
-                          },
-                        }}
-                      >
-                        <TextField
-                          label="Current Password"
-                          type={showCurrentPassword ? 'text' : 'password'}
-                          // error={formSubmitted && password === ""}
-                          // helperText={
-                          //   (formSubmitted && password === "" ? "Password required" : "")
-                          // }
-                          variant="outlined"
-                          size="small"
-                          sx={{ flex: 1, display: "flex", width: "100%" }}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-
-                              </InputAdornment>
-                            ),
-                            // endAdornment: (
-                            //   <InputAdornment position="end">
-                            //     <IconButton
-                            //       aria-label="toggle password visibility"
-                            //       onClick={handleClickShowPassword}
-                            //       onMouseDown={handleMouseDownPassword}
-                            //       edge="end"
-                            //     >
-                            //       {showPassword ? <VisibilityOff /> : <Visibility />}
-                            //     </IconButton>
-                            //   </InputAdornment>
-                            // ),
-                          }}
-                          value={currentPassword}
-                          onChange={(e) => setCurrentPassword(e.target.value)}
-                        />
-                      </FormControl>
-
-                      <FormControl
-                        sx={{
-                          width: "27.5%",
-                          "@media (max-width: 850px)": {
-                            width: "100%",
-                          },
-                        }}
-                      >
-                        <TextField
-                          label="New password"
-                          type={showNewPassword ? 'text' : 'password'}
-                          // error={formSubmitted && confirmNewPassword === ""}
-                          // helperText={
-                          //   formSubmitted && confirmNewPassword === "" ? "Password confirmation required" : ""
-                          // }
-                          variant="outlined"
-                          size="small"
-                          sx={{ flex: 1, display: "flex", width: "100%" }}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-
-                              </InputAdornment>
-                            ),
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={handleClickShowNewPassword}
-                                  onMouseDown={handleMouseDownNewPassword}
-                                  edge="end"
-                                >
-                                  {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={newPassword}
-                          onChange={(e) => setNewPassword(e.target.value)}
-                        />
-                      </FormControl>
-
-                      <FormControl
-                        sx={{
-                          width: "27.5%",
-                          "@media (max-width: 850px)": {
-                            width: "100%",
-                          },
-                        }}
-                      >
-                        <TextField
-                          label="Confirm New password"
-                          type={showConfirmNewPassword ? 'text' : 'password'}
-                          // error={formSubmitted && confirmNewPassword === ""}
-                          // helperText={
-                          //   formSubmitted && confirmNewPassword === "" ? "Password confirmation required" : ""
-                          // }
-                          variant="outlined"
-                          size="small"
-                          sx={{ flex: 1, display: "flex", width: "100%" }}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-
-                              </InputAdornment>
-                            ),
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={handleClickShowConfirmNewPassword}
-                                  onMouseDown={handleMouseDownConfirmNewPassword}
-                                  edge="end"
-                                >
-                                  {showConfirmNewPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={confirmNewPassword}
-                          onChange={(e) => setConfirmNewPassword(e.target.value)}
-                        />
-                      </FormControl>
-
-
-                      {/* <FormControl
-                        variant="outlined"
-                        size="small"
-                        sx={{
-                          width: "27.5%",
-                          "@media (max-width: 850px)": {
-                            width: "100%",
-                          },
-                        }}
-                        error={formSubmitted && department === 0}
-                      >
-                        <TextField
-                          label="Confirm Password"
-                          type={showPassword ? 'text' : 'password'}
-                          error={formSubmitted && assocID === ""}
-                          helperText={
-                            formSubmitted && assocID === "" ? "Password is required" : ""
-                          }
-                          variant="outlined"
-                          size="small"
-                          className={EditUserStyle.textFieldProfile}
-                          InputProps={{
-                            sx: { height: 40 },
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={handleClickShowPassword}
-                                  onMouseDown={handleMouseDownPassword}
-                                  edge="end"
-                                >
-                                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                      </FormControl> */}
-
                     </div>
 
                   </div>

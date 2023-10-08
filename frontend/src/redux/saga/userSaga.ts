@@ -16,10 +16,10 @@ interface Data {
 	emp_id: string;
 	username: string; 
 	password: string;
-	confirm_password: string;
-	current_password: string;
-	new_password: string;
-	confirm_new_password: string;
+	// confirm_password: string;
+	// current_password: string;
+	// new_password: string;
+	// confirm_new_password: string;
 	fname: string;
 	mname: string;
 	lname: string;
@@ -114,7 +114,7 @@ const apiAdd = async (data: Data): Promise<any> => {
 			emp_id: data.emp_id,
 			username: data.username,
 			password: data.password,
-			confirm_password: data.confirm_password,
+			// confirm_password: data.confirm_password,
 			fname: data.fname,
 			mname: data.mname,
 			lname: data.lname,
@@ -160,9 +160,9 @@ const apiUpdate = async (data: Data): Promise<any> => {
 			emp_id: data.emp_id,
 			username: data.username,
 			password: data.password,
-			current_password: data.current_password,
-			new_password: data.new_password,
-			confirm_new_password: data.confirm_new_password,
+			// current_password: data.current_password,
+			// new_password: data.new_password,
+			// confirm_new_password: data.confirm_new_password,
 			fname: data.fname,
 			mname: data.mname,
 			lname: data.lname,
