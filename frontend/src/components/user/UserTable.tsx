@@ -89,11 +89,15 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 
   // Function to open the change password modal
   const handleOpenChangePassword = (id: GridRowId) => {
+    const newUrl = `/user/password-change/${id}`;
+    window.history.pushState(null, '', newUrl);
     setChangePasswordOpen(true);
   };
 
   // Function to close the change password modal
   const handleCloseChangePassword = () => {
+    // window.location.href = "/users";
+    navigate("/users")
     setChangePasswordOpen(false);
     setNewPassword(""); // Clear the password field
   };
@@ -105,7 +109,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     handleCloseChangePassword();
   };
 
-
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [rows, setRows] = React.useState<GridRowsProp>(data);
