@@ -331,7 +331,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
           disableRowSelectionOnClick
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+                paginationModel: { page: 0, pageSize: 10 },
               },
               sorting: {
                 sortModel: [{ field: "reg_id", sort: "desc" }],
@@ -341,7 +341,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
             getRowId={(row) => row.emp_id}
             columns={columns}
             pagination
-            pageSizeOptions={[5, 25, 50, 100]}
+            pageSizeOptions={[10, 25, 50, 100]}
             slots={dataGridSlots}
             loading={isLoading}
             checkboxSelection

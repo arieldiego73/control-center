@@ -693,7 +693,7 @@ export default function NewProj() {
                         label={phase.dev_phase_sh_name}
                       />
                     ))}
-                  </FormGroup>
+                  </FormGroup> 
                   {formSubmitted && projectDevPhase.length === 0 && (
                     <FormHelperText>Development Phase required</FormHelperText>
                   )}
