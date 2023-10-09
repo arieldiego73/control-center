@@ -295,7 +295,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
     },
   ];
   return (
-    <Box sx={datagridBoxStyle}>
+    <Box sx={userDataGridStyle}>
     <div className={ProjectTableStyle.tableMainContainer}>
       <Paper className={ProjectTableStyle.paperTable}>
         <div style={{ height: "100%", width: "100%" }}>
