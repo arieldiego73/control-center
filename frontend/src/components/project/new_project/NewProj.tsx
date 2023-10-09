@@ -1025,7 +1025,7 @@ export default function NewProj() {
           <Button
             variant="contained"
             // onClick={isSaving ? proceedToSaveProject : proceedWithCancel}
-            onClick={proceedToSaveProject}
+            onClick={proceedWithCancel}
             autoFocus
           >
             {/* {isSaving ? "Save" : "Cancel"} */}
