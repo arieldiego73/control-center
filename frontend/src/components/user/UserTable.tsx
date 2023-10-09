@@ -32,8 +32,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-
-
+import {
+	datagridBoxStyle, userDataGridStyle,
+} from "../datagrid_customs/DataGridStyle";
+import Box from "@mui/material/Box";
 import passwordIcon from "../../Assets/icons/passwordIcon.png";
 import passwordIcon64px from "../../Assets/icons/passwordIcon64px.png";
 import trashIcon from "../../Assets/icons/trashIcon.png"
@@ -284,7 +286,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      minWidth: 200,
+      // minWidth: 200,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
@@ -317,10 +319,12 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   ];
 
   return (
+    <Box sx={userDataGridStyle}>
     <div className={UserTableStyle.tableMainContainer}>
       <Paper className={UserTableStyle.paperTable}>
         <div style={{ height: "100%", width: "100%" }}>
           <DataGrid
+          disableRowSelectionOnClick
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 5 },
@@ -411,6 +415,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
         </DialogActions>
       </Dialog>
     </div>
+    </Box>
   );
 };
 

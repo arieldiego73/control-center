@@ -48,3 +48,43 @@ export const datagridBoxStyle = {
 export const datagridStyle = {
 	height: "92%",
 }
+
+export const userDataGridStyle = {
+	height: "100%",
+	width: "100%",
+	"& .actions": {
+		color: "text.secondary",
+	},
+
+	"& .MuiDataGrid-root .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader:focus":
+		{
+			outline: "none !important",
+		},
+	"& .MuiDataGrid-root .MuiInputBase-input": {
+		textAlign: "center",
+		backgroundColor: "#fff",
+	},
+	"& .MuiDataGrid-root .MuiDataGrid-editInputCell": {
+		padding: "0 0.8vw",
+		height: "60%",
+	},
+	"& .MuiDataGrid-root .MuiDataGrid-row--editing .MuiDataGrid-cell": {
+		backgroundColor: "#cbbdbd2e",
+	},
+	"& .textPrimary": {
+		color: "text.primary",
+	},
+
+	".MuiDataGrid-sortIcon": {
+		opacity: "inherit !important",
+	},
+	".MuiTablePagination-displayedRows": {
+		display: "none",
+	},
+	".MuiInputBase-root": {
+		marginRight: 0,
+	},
+	// ".MuiDataGrid-cellContent": {
+	// 	fontWeight: "500",
+	// },
+};

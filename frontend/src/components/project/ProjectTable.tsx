@@ -9,6 +9,7 @@ import {
   GridRowSelectionModel,
 } from "@mui/x-data-grid";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -16,7 +17,7 @@ import {
   DialogTitle,
   Paper,
 } from "@mui/material";
-import { datagridStyle } from "../datagrid_customs/DataGridStyle";
+import { datagridBoxStyle, datagridStyle, userDataGridStyle } from "../datagrid_customs/DataGridStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
@@ -294,10 +295,12 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
     },
   ];
   return (
+    <Box sx={datagridBoxStyle}>
     <div className={ProjectTableStyle.tableMainContainer}>
       <Paper className={ProjectTableStyle.paperTable}>
         <div style={{ height: "100%", width: "100%" }}>
           <DataGrid
+          disableRowSelectionOnClick
             sx={datagridStyle}
             style={{ height: "100%" }}
             rows={rows}
@@ -370,6 +373,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
         </Dialog>
       </Paper>
     </div>
+    </Box>
   );
 };
 function handleRowClick(
