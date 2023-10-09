@@ -170,18 +170,6 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
                             }
                           />
                         </ThemeProvider>
-                        {/* <Badge
-                          badgeContent={item.proj_status_name}
-                          color={
-                            item.proj_status_name === "Pending"
-                              ? "success"
-                              : item.proj_status_name === "Ongoing"
-                              ? "info"
-                              : item.proj_status_name === "Finished"
-                              ? "primary"
-                              : "warning"
-                          }
-                        /> */}
                       </Grid>
                     </Grid>
                   </Grid>
