@@ -196,7 +196,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     {
       field: "username",
       headerName: "Username",
-      flex: 1,
+      flex: 0.5,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => (
@@ -240,7 +240,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     {
       field: "position_sh_name",
       headerName: "Position",
-      flex: 1,
+      flex: 0.5,
       headerAlign: "center",
       align: "center",
     },
@@ -373,7 +373,6 @@ const UserTable: React.FC<UserTableProps> = (props) => {
           <span>Change Password</span>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>Enter the new password:</DialogContentText>
           <TextField
             autoFocus
             margin="dense"

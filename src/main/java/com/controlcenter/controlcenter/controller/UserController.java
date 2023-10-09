@@ -208,4 +208,14 @@ public class UserController {
       return ResponseEntity.notFound().build();
     }
   }
+
+  @PutMapping("/password-change/{user_id}")
+  public ResponseEntity<String> changePassword(
+    @PathVariable String user_id, 
+    @RequestParam String admin_password, 
+    @RequestParam String new_password, 
+    @RequestParam String confirm_new_password) {
+
+      return userService.changePassword(user_id, admin_password, new_password, confirm_new_password);
+  }
 }

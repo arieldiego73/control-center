@@ -100,7 +100,7 @@ export default function Project() {
             color="primary"
             startIcon={<Add />}
             className={ProjectStyle.button}
-            // onClick={performSearch}
+          // onClick={performSearch}
           >
             Add Project
           </Button>
@@ -171,17 +171,19 @@ export default function Project() {
                 </FormControl>
 
                 {/* Start of Status Dropdown */}
-                <FormControl
+                {/* <FormControl
                   sx={{
                     display: "flex",
                     flexDirection: "row",
-                    alignItems: "flex-end",
+                    alignItems: "center",
                     flex: 1,
                     gap: "10px",
-                    justifyContent: "flex-end",
+                    justifyContent: "center",
+                    border:"1px solid red",
+                    
                   }}
-                >
-                  <InputLabel id="demo-controlled-open-select-label">
+                >  
+                  <InputLabel id="demo-controlled-open-select-label" sx={{border:"1px solid blue", alignSelf:"center"}}>
                     Status
                   </InputLabel>
                   <Select
@@ -212,8 +214,45 @@ export default function Project() {
                       </MenuItem>
                     ))}
                   </Select>
-                </FormControl>
+                </FormControl> */}
+                <FormControl
+                  size="small"
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "flex-end",
+                    flex: 1,
+                    gap: "10px",
+                    justifyContent: "flex-end",
 
+                  }}>
+                  <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                  <Select
+
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="proj_status_name"
+                    value={searchQuery.proj_status_name}
+                    label="Status"
+                    onChange={handleSelectInputChange}
+                    inputProps={{
+                      classes: {
+                        root: ProjectStyle.projSelectRoot,
+                        outlined: ProjectStyle.projSelectOutlined,
+                      },
+                    }}
+                    sx={{ width: "100%" }}
+                  >
+                    {statuses.map((status: any) => (
+                      <MenuItem
+                        key={status.proj_status_id}
+                        value={status.proj_status_name}
+                      >
+                        {status.proj_status_name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <Button
                   variant="contained"
                   color="inherit"

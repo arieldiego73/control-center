@@ -256,10 +256,10 @@
     </update>
     
 <!-- change password of user -->
-    <update id="changePassword" parameterType="java.lang.String">
+    <update id="changePassword">
         UPDATE tbl_user
-           SET password=#{user.password}
-         WHERE emp_id = #{user_id};
+           SET password = #{new_password}
+        WHERE emp_id = #{user_id};
     </update>
 
     <!-- <insert id="addAccount" parameterType="map">

@@ -716,10 +716,33 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public ResponseEntity<String> changePassword(String user_id) {
+  public ResponseEntity<String> changePassword(String user_id, String admin_password, String new_password, String confirm_new_password) {
     UserInfoOutput user = userDao.getUserById(user_id);
 
-    return ResponseEntity.ok("Password Changed Successfully.");
-  }
+    //dummy data for admin password. It should be the password of the currently logged in user.
+    boolean isMatched = admin_password.equals("admin123");
 
+    if(user == null) {
+      return ResponseEntity.notFound().build();
+    } else {
+    if(admin_password == "" && new_password == "" && confirm_new_password == "") {
+      return ResponseEntity.badRequest().body("Password fields are empty");
+    } else {
+      if(!isMatched) {
+          return ResponseEntity.badRequest().body("Admin password incorrect");
+        } else {
+          if(new_password == "" || confirm_new_password == "") {
+            return ResponseEntity.badRequest().body("New password or confirm password are empty");
+          } else {
+            if(!new_password.equals(confirm_new_password)) {
+            return ResponseEntity.badRequest().body("New password and confirm password do not match");
+            } else {
+              userDao.changePassword(user_id, passEnc.encode(new_password));
+              return ResponseEntity.ok("Password Changed Successfully.");
+            }
+          }
+        }
+      }
+    }
+  }
 }
