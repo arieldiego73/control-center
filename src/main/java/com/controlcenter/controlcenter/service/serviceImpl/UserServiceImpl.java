@@ -259,24 +259,24 @@ public class UserServiceImpl implements UserService {
     } else {
 
       // if old and current doesn't match, it will return bad request.
-      boolean isOldAndCurrentPasswordMatch = passEnc.matches(accountBody.getCurrent_password(),
-          userBodyChecker.getPassword());
-      if (!isOldAndCurrentPasswordMatch) {
-        return ResponseEntity.status(401).body("Old password and current password doesn't match");
-      } else {
-        //if new and confirm password are empty it returns bad request.
-        if(accountBody.getNew_password() == "" && accountBody.getConfirm_new_password() == "") {
-          return ResponseEntity.badRequest().body("New password field is empty and confirm password field are empty.");
-        } else if(accountBody.getNew_password() == "") {
-            return ResponseEntity.badRequest().body("New password field is empty.");
-        } else if(accountBody.getCurrent_password() == "") {
-            return ResponseEntity.badRequest().body("Confirm new password field is empty.");
-        }
-        // if new and confirm new doesn't match, it will return bad request.
-        boolean isNewAndConfirmNewMatch = accountBody.getNew_password().equals(accountBody.getConfirm_new_password());
-        if (!isNewAndConfirmNewMatch) {
-          return ResponseEntity.status(401).body("New password and confirm new password doesn't match");
-        } else {
+      // boolean isOldAndCurrentPasswordMatch = passEnc.matches(accountBody.getCurrent_password(),
+      //     userBodyChecker.getPassword());
+      // if (!isOldAndCurrentPasswordMatch) {
+      //   return ResponseEntity.status(401).body("Old password and current password doesn't match");
+      // } else {
+      //   //if new and confirm password are empty it returns bad request.
+      //   if(accountBody.getNew_password() == "" && accountBody.getConfirm_new_password() == "") {
+      //     return ResponseEntity.badRequest().body("New password field is empty and confirm password field are empty.");
+      //   } else if(accountBody.getNew_password() == "") {
+      //       return ResponseEntity.badRequest().body("New password field is empty.");
+      //   } else if(accountBody.getCurrent_password() == "") {
+      //       return ResponseEntity.badRequest().body("Confirm new password field is empty.");
+      //   }
+      //   // if new and confirm new doesn't match, it will return bad request.
+      //   boolean isNewAndConfirmNewMatch = accountBody.getNew_password().equals(accountBody.getConfirm_new_password());
+      //   if (!isNewAndConfirmNewMatch) {
+      //     return ResponseEntity.status(401).body("New password and confirm new password doesn't match");
+      //   } else {
 
           user.setEmp_id(accountBody.getEmp_id());
           user.setUsername(accountBody.getUsername());
@@ -517,8 +517,8 @@ public class UserServiceImpl implements UserService {
           // activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
           // activityLogDao.addActivityLog(activityLogInputForRoles);
           // }
-        }
-      }
+      //   }
+      // }
     }
     return ResponseEntity.ok("Account '" + user.getUsername() + "' edited successfully.");
   }

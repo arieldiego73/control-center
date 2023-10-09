@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditProjectStyle from "./EditProjectStyle.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -24,9 +24,10 @@ import {
   Snackbar,
   Alert,
   DialogContentText,
-  IconButton,
+  IconButton, 
   FormHelperText,
   InputLabel,
+  Backdrop,
 } from "@mui/material";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
@@ -71,6 +72,8 @@ import {
 } from "../../../redux/state/projectState";
 import stringAvatar from "../../custom_color/avatar_custom_color";
 import ProjectTableDialog from "../dialogs/ProjectTableDialog";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 export interface SnackbarMessage {
   message: string;
@@ -91,6 +94,14 @@ export default function EditProject() {
   const navigate = useNavigate();
   const location = useLocation();
   const PROJECT_ID = location.state;
+
+  const loadingState = useSelector(
+    (state: RootState) => state.projectReducer.isLoading
+  );
+
+  useEffect(() => {
+    setIsLoading(loadingState);
+  }, [loadingState]);
 
   React.useEffect(() => {
     if (PROJECT_ID) {
@@ -152,7 +163,6 @@ export default function EditProject() {
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
-  const [isSaving, setIsSaving] = React.useState(false);
 
   const handleCancelDialog = () => {
     setAsk(true);
@@ -160,7 +170,7 @@ export default function EditProject() {
     setDialogContentText(
       "Modifications made with the record will be \nlost forever."
     );
-    setIsSaving(false);
+
   };
 
   // const handleSaveDialog = () => {
@@ -190,6 +200,7 @@ export default function EditProject() {
   // };
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleSaveDialog = () => {
     setFormSubmitted(true);
     if (
@@ -225,7 +236,6 @@ export default function EditProject() {
       setDialogContentText(
         "Upon proceeding, the modifications made on the record \nwill be saved."
       );
-      setIsSaving(true);
     } else {
       handleClickSnackpack(
         "Only Development Type and Managers are optional. Please, fill out all the required fields.",
@@ -1155,10 +1165,12 @@ export default function EditProject() {
         <DialogActions>
           <Button
             variant="contained"
-            onClick={isSaving ? proceedToSaveProject : handleCancel}
+            // onClick={isSaving ? proceedToSaveProject : handleCancel}
+            onClick={proceedToSaveProject}
             autoFocus
           >
-            {isSaving ? "Save" : "Cancel"}
+            {/* {isSaving ? "Save" : "Cancel"} */}
+            Save
           </Button>
 
           <Button
@@ -1187,6 +1199,12 @@ export default function EditProject() {
           {messageInfo ? messageInfo.message : undefined}
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 }

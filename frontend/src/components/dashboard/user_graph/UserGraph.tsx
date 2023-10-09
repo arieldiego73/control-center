@@ -24,6 +24,31 @@ function createData(
   };
 }
 
+const theme = createTheme({
+  palette: {
+    //Finished
+    success: {
+      main: "#f28500",
+      contrastText: "#FFFFFF",
+    },
+    //Ongoing
+    info: {
+      main: "#e2725b",
+      contrastText: "#FFFFFF",
+    },
+    //Pending
+    primary: {
+      main: "#464d77",
+      contrastText: "#FFFFFF",
+    },
+    //Closed
+    secondary: {
+      main: "#800020",
+      contrastText: "#FFFFFF",
+    },
+  },
+});
+
 interface UserGraphProps {
   graphData: GraphsData[];
 }
@@ -40,30 +65,6 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
 
-  const theme = createTheme({
-    palette: {
-      //Finished
-      success: {
-        main: "#f28500",
-        contrastText: "#FFFFFF",
-      },
-      //Ongoing
-      info: {
-        main: "#e2725b",
-        contrastText: "#FFFFFF",
-      },
-      //Pending
-      primary: {
-        main: "#464d77",
-        contrastText: "#FFFFFF",
-      },
-      //Closed
-      secondary: {
-        main: "#800020",
-        contrastText: "#FFFFFF",
-      },
-    },
-  });
 
   useEffect(() => {
     const fetchData = async () => {

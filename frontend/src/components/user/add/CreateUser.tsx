@@ -21,7 +21,7 @@ import { addUserInfo } from "../../../redux/saga/userSaga";
 import { addUserReset } from "../../../redux/state/userState";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import defaultProfile from "../../../Assets/userImage/MaleDefaultProfile.jpg";
-
+  
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
@@ -186,7 +186,7 @@ export default function CreateUser() {
   const [department, setDepartment] = useState(0);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -225,7 +225,7 @@ export default function CreateUser() {
       username: username,
       password: password,
       confirm_password: confirmPassword,
-      current_password: currentPassword,
+      admin_password: adminPassword,
       new_password: newPassword,
       confirm_new_password: confirmNewPassword,
       fname: firstName.trim(),

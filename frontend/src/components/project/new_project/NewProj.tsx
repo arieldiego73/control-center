@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NewProjectStyle from "./NewProject.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -15,7 +15,7 @@ import {
   Paper,
   Typography,
   List,
-  ListItem,
+  ListItem, 
   ListItemAvatar,
   ListItemText,
   OutlinedInput,
@@ -27,6 +27,7 @@ import {
   IconButton,
   FormHelperText,
   InputLabel,
+  Backdrop,
 } from "@mui/material";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Add } from "@mui/icons-material";
@@ -64,6 +65,8 @@ import { getDevTypeFetch } from "../../../redux/state/devTypeState";
 import stringAvatar from "../../custom_color/avatar_custom_color";
 import ProjectTableDialog from "../../project/dialogs/ProjectTableDialog";
 import AddProjManagerTable from "../AddProjManagerTable";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 export interface SnackbarMessage {
   message: string;
@@ -83,6 +86,14 @@ const DEFAULT_MEMBER_ID = 100;
 export default function NewProj() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const loadingState = useSelector(
+    (state: RootState) => state.projectReducer.isLoading
+  );
+
+  useEffect(() => {
+    setIsLoading(loadingState);
+  }, [loadingState]);
 
   const notice = useSelector((state: RootState) => state.projectReducer.notice);
   const isInitialAmount = React.useRef(true);
@@ -131,9 +142,9 @@ export default function NewProj() {
   const [ask, setAsk] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
-  const [isSaving, setIsSaving] = React.useState(false);
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleSaveDialog = () => {
     setFormSubmitted(true);
     if (
@@ -169,7 +180,6 @@ export default function NewProj() {
       setDialogContentText(
         "Upon proceeding, the modifications made on the record \nwill be saved."
       );
-      setIsSaving(true);
     } else {
       handleClickSnackpack(
         "Only Development Type and Managers are optional. Please, fill out all the required fields.",
@@ -398,7 +408,7 @@ export default function NewProj() {
     setAsk(true);
     setDialogTitle("Cancel the edit?");
     setDialogContentText("The record will be discarded and will not be saved.");
-    setIsSaving(false);
+    // setIsSaving(false);
   };
 
   const proceedWithCancel = () => {
@@ -1014,10 +1024,12 @@ export default function NewProj() {
         <DialogActions>
           <Button
             variant="contained"
-            onClick={isSaving ? proceedToSaveProject : proceedWithCancel}
+            // onClick={isSaving ? proceedToSaveProject : proceedWithCancel}
+            onClick={proceedToSaveProject}
             autoFocus
           >
-            {isSaving ? "Save" : "Cancel"}
+            {/* {isSaving ? "Save" : "Cancel"} */}
+            Save
           </Button>
 
           <Button
@@ -1046,6 +1058,12 @@ export default function NewProj() {
           {messageInfo ? messageInfo.message : undefined}
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 }

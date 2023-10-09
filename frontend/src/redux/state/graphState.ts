@@ -14,16 +14,24 @@ export type RecentProjects = {
 	proj_status_name: string;
 }
 
+// export type ProjectStatus = {
+// 	status_id: number;
+// 	status_name: string;
+// 	total_project_status: number;
+// }
+
 export type ProjectStatus = {
-	status_id: number;
+	total: number;
 	status_name: string;
-	total_project_status: number;
+	// total_project_status: number;
 }
 
+
 export type GraphsData = {
-	user_status: UserStatus[];
+	user_status: UserStatus[]; //emp status
 	project_status: ProjectStatus[]; 
-	recent_projects: RecentProjects[];
+	recent_projects: RecentProjects[]; //usergraph 
+
 }
 
 const initState: GraphsData[] = []

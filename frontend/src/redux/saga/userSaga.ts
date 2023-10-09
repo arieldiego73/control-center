@@ -17,7 +17,7 @@ interface Data {
 	username: string; 
 	password: string;
 	confirm_password: string;
-	current_password: string;
+	admin_password: string;
 	new_password: string;
 	confirm_new_password: string;
 	fname: string;
@@ -160,7 +160,7 @@ const apiUpdate = async (data: Data): Promise<any> => {
 			emp_id: data.emp_id,
 			username: data.username,
 			password: data.password,
-			current_password: data.current_password,
+			admin_password: data.admin_password,
 			new_password: data.new_password,
 			confirm_new_password: data.confirm_new_password,
 			fname: data.fname,
@@ -254,6 +254,52 @@ export const deleteUserBatch = createAction<{
 
 export function* userSagaDeleteBatch() {
 	yield takeEvery(deleteUserBatch.type, deleteBatchSaga);
+}
+
+//PASSWORD
+const apiPassword = async (data: Data): Promise<any> => {
+	try {
+		const params = new URLSearchParams();
+		data.selectedRoles.forEach((id) => {
+			params.append("role_ids", id.toString());
+		});
+		const url = `http://localhost:8080/user/create-account?${params}`;
+		return axios.post(url, {
+			emp_id: data.emp_id,
+			username: data.username,
+			password: data.password,
+			confirm_password: data.confirm_password,
+			fname: data.fname,
+			mname: data.mname,
+			lname: data.lname,
+			position_id: data.position_id,
+			email: data.email,
+			section_id: data.section_id,
+			dept_id: data.dept_id,
+			status_code: data.status_code,
+			img_src: "sample_img",
+		});
+	} catch (error) {
+		return error;
+	}
+};
+
+export const addPassword = createAction<{
+	data: Data;
+}>("users/addUserInfo");
+
+export function* userSagaPass() {
+	yield takeEvery(addUserInfo.type, passwordSaga);
+}
+
+function* passwordSaga(action: ReturnType<typeof addUserInfo>): any {
+	try {
+		yield put(setIsLoading(true))
+		const response = yield call(apiPassword, action.payload.data);
+		yield call(validate, response, "add");
+	} catch (error) {
+		yield call(catchErr, error);
+	}
 }
 
 

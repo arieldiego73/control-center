@@ -41,7 +41,7 @@ export const Dashboard = () => {
         <div className={DashboardStyle.contentHolder}>
           <div className={DashboardStyle.graphHolder}>
             <div style={{height:"100%", width:"50%", display:"flex", justifyContent:"center", }}>
-              <ProjectGraph />
+              <ProjectGraph  graphData={graphsData} />
             </div>
             
             <div style={{display:'flex', height:"100%", width:"50%", justifyContent:"center", }}>

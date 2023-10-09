@@ -228,7 +228,8 @@ export default function EditUser() {
   const [businessUnit, setBusinessUnit] = useState(0);
   const [department, setDepartment] = useState(0);
   const [password, setPassword] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -267,8 +268,8 @@ export default function EditUser() {
       emp_id: assocID,
       username: username,
       password: password,
-      confirm_password: currentPassword,
-      current_password: currentPassword,
+      confirm_password: confirmPassword,
+      admin_password: adminPassword,
       new_password: newPassword,
       confirm_new_password: confirmNewPassword,
       fname: firstName.trim(),
@@ -931,8 +932,8 @@ export default function EditUser() {
                             //   </InputAdornment>
                             // ),
                           }}
-                          value={currentPassword}
-                          onChange={(e) => setCurrentPassword(e.target.value)}
+                          value={adminPassword}
+                          onChange={(e) => setAdminPassword(e.target.value)}
                         />
                       </FormControl>
 
