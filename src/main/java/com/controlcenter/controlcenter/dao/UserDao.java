@@ -47,6 +47,6 @@ public interface UserDao {
 
    List<UserInfoOutput> getAllPossibleManager();
 
-   void changePassword(String user_id);
+   void changePassword(String user_id, String new_password);
   
 }
