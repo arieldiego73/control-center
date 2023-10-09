@@ -307,7 +307,7 @@ const ProjectTable: React.FC<ProjectTableProps> = (props) => {
             getRowId={(row) => row.proj_id}
             columns={columns}
             pagination
-            pageSizeOptions={[5, 25, 50, 100]}
+            pageSizeOptions={[10, 25, 50, 100]}
             slots={dataGridSlots}
             loading={isLoading}
             checkboxSelection

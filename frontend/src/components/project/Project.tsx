@@ -17,7 +17,7 @@ import {
   SelectChangeEvent,
   Box,
   InputLabel,
-} from "@mui/material";
+} from "@mui/material"; 
 import {
   addProjectReset,
   getProjectsFetch,
@@ -185,7 +185,7 @@ export default function Project() {
                     Status
                   </InputLabel>
                   <Select
-                    label="Status"
+                    label="Status" 
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     name="proj_status_name"
@@ -198,8 +198,11 @@ export default function Project() {
                         root: ProjectStyle.projSelectRoot,
                         outlined: ProjectStyle.projSelectOutlined,
                       },
-                    }}
+                    }} 
                   >
+                        <MenuItem key={0} value={""}>
+                            {"<None>"}
+                          </MenuItem>
                     {statuses.map((status: any) => (
                       <MenuItem
                         key={status.proj_status_id}

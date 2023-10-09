@@ -760,9 +760,9 @@ export default function EditProject() {
                   </div>
                 </div>
               </div>
-
+ 
               {/* DEVELOPMENT PHASE */}
-              <div className={EditProjectStyle.formRow6}>
+              <div>
                 <InputLabel id="demo-controlled-open-select-label">
                   Development Phase
                 </InputLabel>
