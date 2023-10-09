@@ -15,7 +15,14 @@ function createData(id: string, label: string, value: number, color: String) {
   };
 }
 
-const customColor = ["#e2725b", "#800020", "	#464d77", "#f28500"];
+const customColor = ["#464d77", "#e2725b", "#f28500", "#800020"];
+//pending - "#464d77",
+//ongoing - "#e2725b",
+//finished  - "#f28500",
+//closed - "#800020"
+
+
+
 const customTheme = {
   axis: {
     legend: {
