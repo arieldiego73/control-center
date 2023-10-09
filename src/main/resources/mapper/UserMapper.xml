@@ -255,6 +255,12 @@
          WHERE emp_id = #{id};
     </update>
     
+<!-- change password of user -->
+    <update id="changePassword" parameterType="java.lang.String">
+        UPDATE tbl_user
+           SET password=#{user.password}
+         WHERE emp_id = #{user_id};
+    </update>
 
     <!-- <insert id="addAccount" parameterType="map">
         INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id)

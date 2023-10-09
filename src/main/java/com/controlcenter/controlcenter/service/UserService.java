@@ -48,4 +48,7 @@ public interface UserService {
   public String deleteMultipleUser(List<String> ids, String emp_id);
 
   public ResponseEntity<List<UserInfoOutput>> getAllPossibleManager();
+
+  //change the password of a user
+  public ResponseEntity<String> changePassword(String user_id);
 }

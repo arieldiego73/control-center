@@ -75,7 +75,7 @@ public class UserController {
   // }
 
   @PostMapping("/create-account")
-  public ResponseEntity<String> addAccount(@RequestBody AccountInput account, @RequestParam List<Long> role_ids) {
+  public ResponseEntity<String> addAccount(@RequestBody AccountInput account, @RequestParam(required = false) List<Long> role_ids) {
     //For Validation
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();

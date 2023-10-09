@@ -715,4 +715,11 @@ public class UserServiceImpl implements UserService {
     return ResponseEntity.ok(allRoles);
   }
 
+  @Override
+  public ResponseEntity<String> changePassword(String user_id) {
+    UserInfoOutput user = userDao.getUserById(user_id);
+
+    return ResponseEntity.ok("Password Changed Successfully.");
+  }
+
 }

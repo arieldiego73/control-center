@@ -46,5 +46,7 @@ public interface UserDao {
    void deleteMultipleUser(@Param("ids") List<String> ids);
 
    List<UserInfoOutput> getAllPossibleManager();
+
+   void changePassword(String user_id);
   
 }
