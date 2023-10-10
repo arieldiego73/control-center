@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.ActivityLogDao;
@@ -63,35 +64,39 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public String editClient(String id, ClientInput client, String emp_id) {
+    public ResponseEntity<String> editClient(String id, ClientInput client, String emp_id) {
         ClientOutput data = clientDao.getClientById(id);
 
         if(data != null) {
             if( data.getDel_flag() == 1) {
-                return "Client with the ID " + id + " has already been deleted.";
+                return ResponseEntity.badRequest().body("Client with the ID " + id + " has already been deleted.");
             } else {
-                Map<String, Object> paramMap = new HashMap<>();
+                if (client.getClient_name().equals(data.getClient_name())
+                && client.getClient_sh_name().equals(data.getClient_sh_name())){
+                    return ResponseEntity.ok().body("No changes has been made");
+                } else {
+                    Map<String, Object> paramMap = new HashMap<>();
+                    paramMap.put("id", id);
+                    paramMap.put("client", client);
+                    clientDao.editClient(paramMap);
 
-                paramMap.put("id", id);
-                paramMap.put("client", client);
+                    //Acivitylog
+                    ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                clientDao.editClient(paramMap);
+                    activityLogInput.setEmp_id(emp_id); //current logged user dapat
+                    activityLogInput.setLog_desc("Edited '" + client.getClient_name() + "' client.");
 
-                //Acivitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
-
-                activityLogInput.setEmp_id(emp_id); //current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + client.getClient_name() + "' client.");
-
-                Long currentTimeMillis = System.currentTimeMillis();
-                //add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
-
-                return "Client '" + client.getClient_name() + "'edited successfully.";
+                    Long currentTimeMillis = System.currentTimeMillis();
+                    //add the activity log
+                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                    activityLogDao.addActivityLog(activityLogInput);
+                    
+                    return ResponseEntity.ok().body("Client '" + client.getClient_name() + "'edited successfully.");
+                }
+            
             }
         } else {
-            return "Client with the ID " + id + " cannot be found.";
+            return ResponseEntity.badRequest().body( "Client with the ID " + id + " cannot be found.");
         }
     }
 

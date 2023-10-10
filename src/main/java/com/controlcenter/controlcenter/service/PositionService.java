@@ -15,7 +15,7 @@ public interface PositionService {
 
     public String addPosition(PositionInput position, String emp_id);
 
-    public String editPositionInfo(String id, PositionInput position, String emp_id);
+    public ResponseEntity<String> editPositionInfo(String id, PositionInput position, String emp_id);
 
     public String logicalDeletePosition(String id, String emp_id);
 
@@ -23,3 +23,4 @@ public interface PositionService {
 
     public String restorePosition(String id);
 }
+ 

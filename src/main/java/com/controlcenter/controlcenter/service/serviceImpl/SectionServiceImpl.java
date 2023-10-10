@@ -64,34 +64,43 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public String editSectionInfo(String id, SectionInput section, String emp_id) {
+    public ResponseEntity<String> editSectionInfo(String id, SectionInput section, String emp_id) {
         SectionOutput data = sectionDao.getSectionById(id);
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Section with the ID " + id + " has already been deleted.";
+                return ResponseEntity.badRequest().body("Section with the ID " + id + " has already been deleted.");
             } else {
-                Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("id", id);
-                paramMap.put("section", section);
 
-                sectionDao.editSectionInfo(paramMap);
+                if (section.getSection_name().equals(data.getSection_name())
+                && section.getSection_sh_name().equals(data.getSection_sh_name())
+                && section.getDept_id() == data.getDept_id()
+                && section.getSection_desc().equals(data.getSection_desc())){
+                    return ResponseEntity.ok().body("No changes has been made");
+                } else {
+                    Map<String, Object> paramMap = new HashMap<>();
+                    paramMap.put("id", id);
+                    paramMap.put("section", section);
 
-                // Avtivitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
+                    sectionDao.editSectionInfo(paramMap);
 
-                activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + section.getSection_name() + "' section.");
+                    // Avtivitylog
+                    ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                Long currentTimeMillis = System.currentTimeMillis();
-                // add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                    activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                    activityLogInput.setLog_desc("Edited '" + section.getSection_name() + "' section.");
 
-                return "Section '" + section.getSection_name() + "' edited successfully.";
+                    Long currentTimeMillis = System.currentTimeMillis();
+                    // add the activity log
+                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                    activityLogDao.addActivityLog(activityLogInput);
+
+                    return ResponseEntity.ok().body("Section '" + section.getSection_name() + "' edited successfully.");
+                }
+              
             }
         } else {
-            return "Section with the ID " + id + " cannot be found.";
+            return ResponseEntity.badRequest().body( "Section with the ID " + id + " cannot be found.");
         }
     }
 

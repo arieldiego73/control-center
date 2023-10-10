@@ -20,7 +20,7 @@ import com.controlcenter.controlcenter.shared.TimeFormatter;
 @Service
 public class StatusServiceImpl implements StatusService {
 
-    @Autowired
+    @Autowired 
     public StatusDao statusDao;
 
     @Autowired
@@ -64,14 +64,20 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public String editStatusInfo(String code, StatusOutput status, String emp_id) {
+    public ResponseEntity<String> editStatusInfo(String code, StatusOutput status, String emp_id) {
 
         StatusOutput statusById = statusDao.getStatusById(code);
 
         if (statusById != null) {
             if (statusById.getDel_flag() == 1) {
-                return "Status with the code " + code + " has already been deleted.";
+                return ResponseEntity.badRequest().body("Status with the code " + code + " has already been deleted.") ;
             } else {
+                if(status.getStatus_name().equals(statusById.getStatus_name())
+                && status.getStatus_desc().equals(statusById.getStatus_desc()))
+                {
+                    return ResponseEntity.ok().body("No changes has been done");
+                }
+                
                 Map<String, Object> paramMap = new HashMap<>();
                 statusById.setStatus_code(statusById.getStatus_code());
                 status.setStatus_code(statusById.getStatus_code());
@@ -92,10 +98,11 @@ public class StatusServiceImpl implements StatusService {
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Status '" + status.getStatus_name() + "' edited successfully.";
+                return ResponseEntity.ok().body( "Status '" + status.getStatus_name() + "' edited successfully.") ;
+            
             }
         } else {
-            return "Status with the code " + code + " cannot be found.";
+            return ResponseEntity.badRequest().body("Status with the code " + code + " cannot be found.") ;
         }
     }
 

@@ -14,7 +14,7 @@ public interface RoleService {
 
   public String addRole(RoleInput role, String emp_id);
 
-  public String editRoleInfo(String id, RoleInput role, String emp_id);
+  public ResponseEntity<String> editRoleInfo(String id, RoleInput role, String emp_id);
 
   public String logicalDeleteRole(String id, String emp_id);
 

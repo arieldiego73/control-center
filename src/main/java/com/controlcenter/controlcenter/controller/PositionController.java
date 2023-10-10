@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.PositionInput;
 import com.controlcenter.controlcenter.model.PositionOutput;
-import com.controlcenter.controlcenter.service.PositionService;
+import com.controlcenter.controlcenter.service.PositionService; 
 import com.controlcenter.controlcenter.shared.ErrorHandler;
 
 @RestController
@@ -90,7 +90,7 @@ public class PositionController {
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
                     String emp_id = "101"; //httpSession.getAttribute("session").toString();
-                    return ResponseEntity.status(200).body(positionService.editPositionInfo(id, position, emp_id));
+                    return positionService.editPositionInfo(id, position, emp_id);
                 }
         // } else {
         //     // User is not authenticated 

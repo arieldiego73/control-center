@@ -15,7 +15,7 @@ public interface TechnologyService {
 
     public String addTechnology(TechnologyInput technology, String emp_id);
 
-    public String editTechnology(String id, TechnologyInput technology, String emp_id);
+    public ResponseEntity<String> editTechnology(String id, TechnologyInput technology, String emp_id);
 
     public String logicalDeleteTechnology(String id, String emp_id);
 

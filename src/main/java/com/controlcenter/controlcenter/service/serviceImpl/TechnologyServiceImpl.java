@@ -64,33 +64,41 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
-    public String editTechnology(String id, TechnologyInput technology, String emp_id) {
+    public ResponseEntity<String> editTechnology(String id, TechnologyInput technology, String emp_id) {
         TechnologyOutput data = technologyDao.getTechnologyById(id);
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Technology with the ID " + id + " has already been deleted.";
+                return ResponseEntity.badRequest().body("Technology with the ID " + id + " has already been deleted.");
             } else {
-                Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("id", id);
-                paramMap.put("technology", technology);
-                technologyDao.editTechnology(paramMap);
 
-                // Activitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
+                if (technology.getTech_name().equals(data.getTech_name())
+                && technology.getTech_sh_name().equals(data.getTech_sh_name())){
+                    return ResponseEntity.ok().body("No changes has been made");
+                } else {
+                    Map<String, Object> paramMap = new HashMap<>();
+                    paramMap.put("id", id);
+                    paramMap.put("technology", technology);
+                    technologyDao.editTechnology(paramMap);
 
-                activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
+                    // Activitylog
+                    ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                Long currentTimeMillis = System.currentTimeMillis();
-                // add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                    activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                    activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
 
-                return "Technology '" + technology.getTech_name() + "' edited successfully.";
+                    Long currentTimeMillis = System.currentTimeMillis();
+                    // add the activity log
+                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                    activityLogDao.addActivityLog(activityLogInput);
+
+                    return ResponseEntity.ok().body("Technology '" + technology.getTech_name() + "' edited successfully.");
+                }
             }
         } else {
-            return "Technology with the ID " + id + " cannot be found.";
+            return ResponseEntity.badRequest().body("Technology with the ID " + id + " cannot be found.");
+
+            
         }
     }
 
