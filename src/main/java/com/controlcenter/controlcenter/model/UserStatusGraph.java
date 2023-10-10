@@ -8,4 +8,5 @@ import lombok.Setter;
 public class UserStatusGraph {
     private String status_name;
     private Integer total;
+    private String month;
 }
