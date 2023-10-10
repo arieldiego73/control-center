@@ -366,6 +366,12 @@ public class ProjectServiceImpl implements ProjectService {
             if (project.getDel_flag() == 1) {
                 return ResponseEntity.status(400).body("Project with the ID " + id + " has already been deleted.");
             } else {
+
+                //check if value of information on project have been changed.
+                if(project.getProj_name().equals(projectBody.getProj_name())) {
+                    return ResponseEntity.ok().body("No changes were made");
+                }
+
                 // initializing the value of project
                 Map<String, Object> projectMap = new HashMap<>();
 

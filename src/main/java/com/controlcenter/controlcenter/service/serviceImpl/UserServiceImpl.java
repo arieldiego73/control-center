@@ -170,6 +170,10 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.badRequest().body("Associate ID should only be a number");
       }
 
+      if(!formatChecker.isValidEmail(account.getEmail())) {
+        return ResponseEntity.badRequest().body("Invalid Email");
+      }
+
       if (!account.getPassword().equals(account.getConfirm_password())) {
         return ResponseEntity.badRequest().body("Password and confirm password do not match");
       }
@@ -736,6 +740,19 @@ public class UserServiceImpl implements UserService {
     if(admin_password == "" && new_password == "" && confirm_new_password == "") {
       return ResponseEntity.badRequest().body("Password fields are empty");
     } else {
+
+      if(admin_password == "") {
+        return ResponseEntity.badRequest().body("Admin password field is empty");
+      }
+
+      if(new_password == "") {
+        return ResponseEntity.badRequest().body("New password field is empty");
+      }
+
+      if(confirm_new_password == "") {
+        return ResponseEntity.badRequest().body("Confirm new password field is empty");
+      }
+
       if(!isMatched) {
           return ResponseEntity.badRequest().body("Admin password incorrect");
         } else {
