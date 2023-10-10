@@ -18,7 +18,7 @@ import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { getUsersFetch } from "../../redux/state/userState";
-import { deleteUser, deleteUserBatch } from "../../redux/saga/userSaga";
+import { changePassword, deleteUser, deleteUserBatch } from "../../redux/saga/userSaga";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
@@ -33,7 +33,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
-	datagridBoxStyle, userDataGridStyle,
+  datagridBoxStyle, userDataGridStyle,
 } from "../datagrid_customs/DataGridStyle";
 import Box from "@mui/material/Box";
 import passwordIcon from "../../Assets/icons/passwordIcon.png";
@@ -41,6 +41,7 @@ import passwordIcon64px from "../../Assets/icons/passwordIcon64px.png";
 import trashIcon from "../../Assets/icons/trashIcon.png"
 
 import { Image } from "@mui/icons-material";
+import { setError, clearError } from '../../redux/state/userState';
 
 
 export interface RowData {
@@ -73,51 +74,95 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   const data = useSelector((state: RootState) => state.userReducer.users);
 
   const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
-  const [newPassword, setNewPassword] = React.useState(""); // State to store the new password
+  const [error, setErrorMsg] = React.useState<string | undefined>('');
+  const [changePassId, setChangePassId] = React.useState(0);
+  const [adminPass, setAdminPass] = React.useState("");
+  const [newPass, setNewPass] = React.useState(""); // State to store the new password
+  const [confirmNewPass, setConfirmNewPass] = React.useState(""); // State to store the new password
 
+  // const handleOpenChangePassword = (id: GridRowId) => {
 
+  //   setChangePassId(id as number);
+  //   console.log("idddd = " + id);
 
-  // const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
-  // const [newPassword, setNewPassword] = React.useState(""); // State to store the new password
+  //   // Clear previous errors, if any
+  //   dispatch(clearError());
 
+  //   const newUrl = `/user/password-change/${id}`;
+  //   window.history.pushState(null, '', newUrl);
+  //   setChangePasswordOpen(true);
+  // };
 
-  // const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
-  // const [newPassword, setNewPassword] = React.useState(""); // State to store the new password
-
-
-
-
-  // Function to open the change password modal
+  // Function to handle changing the password
+  
   const handleOpenChangePassword = (id: GridRowId) => {
+    setChangePassId(id as number);
+    console.log("idddd = " + id);
+  
+    // Clear previous errors, if any
+    setErrorMsg('');
+  
     const newUrl = `/user/password-change/${id}`;
     window.history.pushState(null, '', newUrl);
     setChangePasswordOpen(true);
+  
+    // Clear input fields when opening the dialog
+    setAdminPass('');
+    setNewPass('');
+    setConfirmNewPass('');
+  };
+
+
+  const handleChangePassword = async () => {
+    // Validate new password and confirm password
+    if (newPass !== confirmNewPass) {
+      setErrorMsg('New password and confirm password do not match');
+      return;
+    }
+
+    dispatch(changePassword({
+      data: { adminPass, newPass, confirmNewPass, assocId: changePassId }
+    }));
+    // Make the API call to change the password
+    try {
+      handleCloseChangePassword();
+    } catch (error) {
+      // Handle API errors, dispatch the error message to Redux
+      dispatch(setError(error)); // Assuming the error message is sent in the response body
+    }
   };
 
   // Function to close the change password modal
+  // const handleCloseChangePassword = () => {
+  //   // window.location.href = "/users";
+  //   navigate("/users")
+  //   setChangePasswordOpen(false);
+  //   dispatch(clearError());
+  //   setNewPass(''); // Clear the password field
+  //   setAdminPass('');
+  //   setConfirmNewPass('');
+  // };
+
   const handleCloseChangePassword = () => {
-    // window.location.href = "/users";
-    navigate("/users")
-    setChangePasswordOpen(false);
-    setNewPassword(""); // Clear the password field
-  };
-
-  // Function to handle changing the password
-  const handleChangePassword = () => {
-    // Implement the logic to change the password here.
-    // After changing the password, close the modal.
-    handleCloseChangePassword();
-  };
-
+    // Clear the error message and input fields
+    dispatch(clearError());
+    setErrorMsg('');
+    setAdminPass('');
+    setNewPass('');
+    setConfirmNewPass('');
   
+    // Close the dialog
+    navigate("/users");
+    setChangePasswordOpen(false);
+  };
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [rows, setRows] = React.useState<GridRowsProp>(data);
   const [ask, setAsk] = React.useState(false);
   const [deleteId, setDeleteId] = React.useState(0);
   const [isBatch, setIsBatch] = React.useState<boolean>();
-  const [rowSelectionModel, setRowSelectionModel] =
-    React.useState<GridRowSelectionModel>([]);
+  const [rowSelectionModel, setRowSelectionModel] = React.useState<GridRowSelectionModel>([]);
   const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(new Set());
 
   const [dialogTitle, setDialogTitle] = React.useState("");
@@ -324,100 +369,103 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 
   return (
     <Box sx={userDataGridStyle}>
-    <div className={UserTableStyle.tableMainContainer}>
-      <Paper className={UserTableStyle.paperTable}>
-        <div style={{ height: "100%", width: "100%" }}>
-          <DataGrid
-          disableRowSelectionOnClick
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-              },
-              sorting: {
-                sortModel: [{ field: "reg_id", sort: "desc" }],
-              },
-            }}
-            rows={props.data}
-            getRowId={(row) => row.emp_id}
-            columns={columns}
-            pagination
-            pageSizeOptions={[10, 25, 50, 100]}
-            slots={dataGridSlots}
-            loading={isLoading}
-            checkboxSelection
-            onRowSelectionModelChange={(newModel) => {
-              setRowSelectionModel(newModel);
-              setSelectedId(new Set(newModel));
-            }}
-          />
+      <div className={UserTableStyle.tableMainContainer}>
+        <Paper className={UserTableStyle.paperTable}>
+          <div style={{ height: "100%", width: "100%" }}>
+            <DataGrid
+              disableRowSelectionOnClick
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 10 },
+                },
+                sorting: {
+                  sortModel: [{ field: "reg_id", sort: "desc" }],
+                },
+              }}
+              rows={props.data}
+              getRowId={(row) => row.emp_id}
+              columns={columns}
+              pagination
+              pageSizeOptions={[10, 25, 50, 100]}
+              slots={dataGridSlots}
+              loading={isLoading}
+              checkboxSelection
+              onRowSelectionModelChange={(newModel) => {
+                setRowSelectionModel(newModel);
+                setSelectedId(new Set(newModel));
+              }}
+            />
 
-          <DataGridDialog
-            ask={ask}
-            setAsk={setAsk}
-            dialogTitle={dialogTitle}
-            dialogContentText={dialogContentText}
-            isBatch={isBatch}
-            proceedWithDelete={proceedWithDelete}
-            proceedWithDeleteBatch={proceedWithDeleteBatch}
-          />
-          <DataGridActionDialog
+            <DataGridDialog
+              ask={ask}
+              setAsk={setAsk}
+              dialogTitle={dialogTitle}
+              dialogContentText={dialogContentText}
+              isBatch={isBatch}
+              proceedWithDelete={proceedWithDelete}
+              proceedWithDeleteBatch={proceedWithDeleteBatch}
+            />
+            <DataGridActionDialog
 
-            open={confirmAction}
-            handleClose={setConfirmAction}
-            dialogTitle={dialogTitle}
-            dialogContentText={dialogContentText}
-            confirmAction={proceedAction}
-          />
-        </div>
-      </Paper>
-      {/* Change Password Modal */}
-      <Dialog open={changePasswordOpen} onClose={handleCloseChangePassword}>
-        <DialogTitle style={{display:"flex", gap:"10px"}}>
-          <img src={passwordIcon64px} alt="change password icon" style={{ height:"30px", width:"30px"}} />
-          <span>Change Password</span>
-        </DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="currentPassword"
-            label="Current Password"
-            type="password"
-            fullWidth
-          // value={currentPassword}
-          // onChange={(e) => setCurrentPassword(e.target.value)}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="newPassword"
-            label="New Password"
-            type="password"
-            fullWidth
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="confirmNewPassword"
-            label="Confirm New Password"
-            type="password"
-            fullWidth
-          // value={confirmNewPassword}
-          // onChange={(e) => setConfirmNewPassword(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleChangePassword} color="primary">
-            Change Password
-          </Button>
-          <Button onClick={handleCloseChangePassword} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+              open={confirmAction}
+              handleClose={setConfirmAction}
+              dialogTitle={dialogTitle}
+              dialogContentText={dialogContentText}
+              confirmAction={proceedAction}
+            />
+          </div>
+        </Paper>
+        {/* Change Password Modal */}
+        <Dialog open={changePasswordOpen} onClose={handleCloseChangePassword}>
+          <DialogTitle style={{ display: "flex", gap: "10px" }}>
+            <img src={passwordIcon64px} alt="change password icon" style={{ height: "30px", width: "30px" }} />
+            <span>Change Password</span>
+          </DialogTitle>
+          <DialogContent>
+            {error && (
+              <div style={{ color: 'red', marginBottom: "10px" }}>{error}</div>
+            )}
+            <TextField
+              margin="dense"
+              id="adminPassword"
+              label="Admin Password"
+              type="password"
+              fullWidth
+              value={adminPass}
+              onChange={(e) => setAdminPass(e.target.value)}
+            />
+
+            <Divider sx={{ margin: "10px 0 8px 0" }} />
+
+            <TextField
+              margin="dense"
+              id="newPassword"
+              label="New Password"
+              type="password"
+              fullWidth
+              value={newPass}
+              onChange={(e) => setNewPass(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              id="confirmNewPassword"
+              label="Confirm New Password"
+              type="password"
+              fullWidth
+              value={confirmNewPass}
+              onChange={(e) => setConfirmNewPass(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleChangePassword} color="primary">
+              Change Password
+            </Button>
+            <Button onClick={handleCloseChangePassword} color="primary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </Box>
   );
 };
