@@ -18,6 +18,7 @@ import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
+import com.controlcenter.controlcenter.shared.FormatChecker;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 import java.util.ArrayList;
@@ -57,6 +58,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   public RoleDao roleDao;
+
+  @Autowired
+  public FormatChecker formatChecker;
 
   @Autowired
   public PasswordEncoder passEnc;
@@ -160,6 +164,14 @@ public class UserServiceImpl implements UserService {
         } else if (account.getEmail().equals(perUser.getEmail())) {
           return ResponseEntity.badRequest().body("The Email of " + account.getEmail() + " is already taken.");
         }
+      }
+
+      if(formatChecker.containsLetters(account.getEmp_id())) {
+        return ResponseEntity.badRequest().body("Associate ID should only be a number");
+      }
+
+      if(!formatChecker.isValidEmail(account.getEmail())) {
+        return ResponseEntity.badRequest().body("Invalid Email");
       }
 
       if (!account.getPassword().equals(account.getConfirm_password())) {
@@ -728,6 +740,19 @@ public class UserServiceImpl implements UserService {
     if(admin_password == "" && new_password == "" && confirm_new_password == "") {
       return ResponseEntity.badRequest().body("Password fields are empty");
     } else {
+
+      if(admin_password == "") {
+        return ResponseEntity.badRequest().body("Admin password field is empty");
+      }
+
+      if(new_password == "") {
+        return ResponseEntity.badRequest().body("New password field is empty");
+      }
+
+      if(confirm_new_password == "") {
+        return ResponseEntity.badRequest().body("Confirm new password field is empty");
+      }
+
       if(!isMatched) {
           return ResponseEntity.badRequest().body("Admin password incorrect");
         } else {

@@ -161,16 +161,16 @@ export default function EditProject() {
   };
 
   const [ask, setAsk] = React.useState(false);
+  const [askSave, setAskSave] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
+  const [dialogTitleSave, setDialogTitleSave] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
+  const [dialogContentTextSave, setDialogContentTextSave] = React.useState("");
 
   const handleCancelDialog = () => {
     setAsk(true);
     setDialogTitle("Cancel the edit?");
-    setDialogContentText(
-      "Modifications made with the record will be \nlost forever."
-    );
-
+    setDialogContentText("The record will be discarded and will not be saved. \n Are you sure you want to leave this page?");
   };
 
   // const handleSaveDialog = () => {
@@ -231,10 +231,15 @@ export default function EditProject() {
       projectDevPhase &&
       projectTechnologies
     ) {
-      setAsk(true);
-      setDialogTitle("Save the record?");
-      setDialogContentText(
-        "Upon proceeding, the modifications made on the record \nwill be saved."
+      // setAsk(true);
+      // setDialogTitle("Save the record?");
+      // setDialogContentText(
+      //   "Upon proceeding, the modifications made on the record \nwill be saved."
+      // );
+      setAskSave(true);
+      setDialogTitleSave("Save the record?");
+      setDialogContentTextSave(
+        "Do you want to save changes you made?"
       );
     } else {
       handleClickSnackpack(
@@ -974,33 +979,6 @@ export default function EditProject() {
                   </FormControl>
                 </div>
 
-                {/* PROJECT DESCRIPTION */}
-                {/* <div className={EditProjectStyle.col2}>
-				<FormControl
-                    className={EditProjectStyle.qlContainer}
-                    error={formSubmitted && projectDescription === ""}
-                  >
-                    <FormLabel
-                      sx={{
-                        color: "black",
-                        fontWeight: "400",
-                      }}
-                    >
-                      Project Description
-                    </FormLabel>
-                  <ReactQuillEditor      
-                    className={EditProjectStyle.qlContainer}
-                    theme="snow"
-                    value={projectDescription}
-                    onChange={(e) => setProjectDescription(e)}
-                    modules={modules}
-                    placeholder="Project description..."
-                  />
-				   {formSubmitted && projectDescription === "" && (
-                      <FormHelperText>Select a status</FormHelperText>
-                    )}
-                  </FormControl>
-                </div> */}
 
                 <div className={EditProjectStyle.col2}>
                   <FormControl
@@ -1115,7 +1093,7 @@ export default function EditProject() {
               }}
               onClick={handleSaveDialog}
             >
-              SAVE AND GO BACK
+              UPDATE
             </Button>
             <Button 
             variant="text" 
@@ -1165,12 +1143,10 @@ export default function EditProject() {
         <DialogActions>
           <Button
             variant="contained"
-            // onClick={isSaving ? proceedToSaveProject : handleCancel}
-            onClick={proceedToSaveProject}
+            onClick={handleCancel}
             autoFocus
           >
-            {/* {isSaving ? "Save" : "Cancel"} */}
-            Save
+            Cancel
           </Button>
 
           <Button
@@ -1182,6 +1158,64 @@ export default function EditProject() {
           </Button>
         </DialogActions>
       </Dialog>
+
+
+      <Dialog
+        open={askSave}
+        onClose={() => {
+          setAskSave(false);
+        }}
+        aria-labelledby="responsive-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          <Typography
+            fontWeight={700}
+            fontSize={20}
+            display={"flex"}
+            alignItems={"center"}
+            gap={1}
+          >
+            <HelpIcon
+              accentHeight={100}
+              color="error"
+              fontSize="large"
+              alignmentBaseline="middle"
+            />
+            {dialogTitleSave}
+          </Typography>
+        </DialogTitle>
+
+        <DialogContent>
+          <DialogContentText
+            whiteSpace={"pre-line"}
+            id="alert-dialog-description"
+          >
+            {dialogContentTextSave}
+          </DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={proceedToSaveProject}
+            autoFocus 
+          >
+            Save
+          </Button>
+
+          <Button
+            onClick={() => {
+              setAskSave(false);
+            }}
+          >
+            Continue editing
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
       <Snackbar
         key={messageInfo ? messageInfo.key : undefined}
         open={open}

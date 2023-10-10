@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapper for tbl project   -->
+<mapper namespace="com.controlcenter.controlcenter.dao.ProfileDao">
+
+    <select id="getUserById" resultType="com.controlcenter.controlcenter.model.UserOutput">
+        SELECT * 
+          FROM tbl_user
+         WHERE emp_id = #{emp_id} AND del_flag = 0
+    </select>
+
+    <update id="updateUserPicture" parameterType="com.controlcenter.controlcenter.model.UserOutput">
+        UPDATE tbl_user
+        <set>
+            img_src = #{img_src},
+        </set>
+        WHERE emp_id = #{emp_id}
+    </update>
+</mapper>
