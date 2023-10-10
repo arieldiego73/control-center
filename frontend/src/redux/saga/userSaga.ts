@@ -6,7 +6,8 @@ import {
 	getUsersFetch,
 	getUsersSuccess,
 	setMessage,
-	setIsLoading
+	setIsLoading,
+	setError
 } from "../state/userState";
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId } from "@mui/x-data-grid"
@@ -257,48 +258,47 @@ export function* userSagaDeleteBatch() {
 }
 
 //PASSWORD
-const apiPassword = async (data: Data): Promise<any> => {
+const apiPassword = async (data: {
+	adminPass: string,
+	newPass: string,
+	confirmNewPass: string,
+	assocId: number,
+}): Promise<any> => {
 	try {
 		const params = new URLSearchParams();
-		data.selectedRoles.forEach((id) => {
-			params.append("role_ids", id.toString());
-		});
-		const url = `http://localhost:8080/user/create-account?${params}`;
-		return axios.post(url, {
-			emp_id: data.emp_id,
-			username: data.username,
-			password: data.password,
-			confirm_password: data.confirm_password,
-			fname: data.fname,
-			mname: data.mname,
-			lname: data.lname,
-			position_id: data.position_id,
-			email: data.email,
-			section_id: data.section_id,
-			dept_id: data.dept_id,
-			status_code: data.status_code,
-			img_src: "sample_img",
-		});
+		params.append("user_id", data.assocId.toString());
+		params.append("admin_password", data.adminPass);
+		params.append("new_password", data.newPass);
+		params.append("confirm_new_password", data.confirmNewPass);
+
+		const url = `http://localhost:8080/user/password-change/${data.assocId}?${params}`;
+		return axios.put(url); 
 	} catch (error) {
 		return error;
 	}
 };
 
-export const addPassword = createAction<{
-	data: Data;
-}>("users/addUserInfo");
+export const changePassword = createAction<{
+	data: {
+		adminPass: string,
+		newPass: string,
+		confirmNewPass: string,
+		assocId: number,
+	};
+}>("users/change-password");
 
 export function* userSagaPass() {
-	yield takeEvery(addUserInfo.type, passwordSaga);
+	yield takeEvery(changePassword.type, passwordSaga);
 }
 
-function* passwordSaga(action: ReturnType<typeof addUserInfo>): any {
+function* passwordSaga(action: ReturnType<typeof changePassword>): any {
 	try {
 		yield put(setIsLoading(true))
 		const response = yield call(apiPassword, action.payload.data);
-		yield call(validate, response, "add");
-	} catch (error) {
-		yield call(catchErr, error);
+	} catch (error: any) {
+		// yield call(catchErr, error);
+		yield put(setError(error?.response.data));
+
 	}
 }
 
