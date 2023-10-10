@@ -528,7 +528,8 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 							setAsk(true);
 							setIsBatch(false);
 							setDialogContentText(
-								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+												"Are you sure you want to delete this record? \nPlease, proceed with caution."
+
 							);
 							setDialogTitle("Delete this record?");
 							setDeleteId(id as number);
@@ -551,7 +552,8 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 							setAsk(true);
 							setIsBatch(false);
 							setDialogContentText(
-								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+												"Are you sure you want to delete this record? \nPlease, proceed with caution."
+
 							);
 							setDialogTitle("Delete this record?");
 							setDeleteId(id as number);
@@ -573,7 +575,8 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 							setAsk(true);
 							setIsBatch(false);
 							setDialogContentText(
-								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+												"Are you sure you want to delete this record? \nPlease, proceed with caution."
+
 							);
 							setDialogTitle("Delete this record?");
 							setDeleteId(id as number);
@@ -663,7 +666,8 @@ const DepartmentTable: React.FC<DataGridProps> = (props) => {
 					setAsk(true);
 					setIsBatch(false);
 					setDialogContentText(
-						"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+										"Are you sure you want to delete this record? \nPlease, proceed with caution."
+
 					);
 					setDialogTitle("Delete this record?");
 					setDeleteId(id as number);
