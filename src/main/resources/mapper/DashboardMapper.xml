@@ -151,7 +151,8 @@
     <select id="getAllProjectCountByStatus">
         SELECT
             proj_status.proj_status_name AS status_name,
-            COUNT(tpi.proj_status_id) AS total
+            COUNT(tpi.proj_status_id) AS total,
+            MONTHNAME(CURRENT_DATE) AS month
         FROM
             tbl_proj_status_mst AS proj_status
         LEFT JOIN
@@ -219,7 +220,8 @@
     <select id="getAllUserStatusCountPerYearAndMonth" resultType="com.controlcenter.controlcenter.model.UserStatusGraph">
         SELECT
                 user_status.status_name AS status_name,
-                COUNT(tuser.status_code) AS total
+                COUNT(tuser.status_code) AS total,
+                MONTHNAME(CURRENT_DATE) AS month
             FROM
                 tbl_status_mst AS user_status
             LEFT JOIN

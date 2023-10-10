@@ -75,23 +75,43 @@ public class ClientServiceImpl implements ClientService{
                 && client.getClient_sh_name().equals(data.getClient_sh_name())){
                     return ResponseEntity.ok().body("No changes has been made");
                 } else {
-                    Map<String, Object> paramMap = new HashMap<>();
-                    paramMap.put("id", id);
-                    paramMap.put("client", client);
-                    clientDao.editClient(paramMap);
+                    if(!client.getClient_name().equals(data.getClient_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("client", client);
+                        clientDao.editClient(paramMap);
 
-                    //Acivitylog
-                    ActivityLogInput activityLogInput = new ActivityLogInput();
+                        //Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                    activityLogInput.setEmp_id(emp_id); //current logged user dapat
-                    activityLogInput.setLog_desc("Edited '" + client.getClient_name() + "' client.");
+                        activityLogInput.setEmp_id(emp_id); //current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + client.getClient_name() + "' client.");
 
-                    Long currentTimeMillis = System.currentTimeMillis();
-                    //add the activity log
-                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                    activityLogDao.addActivityLog(activityLogInput);
-                    
-                    return ResponseEntity.ok().body("Client '" + client.getClient_name() + "'edited successfully.");
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        //add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+                        
+                        return ResponseEntity.ok().body("Edited '" + client.getClient_name() + "' Successfully.");
+                    } else {
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("client", client);
+                        clientDao.editClient(paramMap);
+
+                        //Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); //current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + client.getClient_name() + "' client.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        //add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+                        
+                        return ResponseEntity.ok().body("Edited a short name '" + client.getClient_sh_name() + "' of the Client '" + client.getClient_name() + "' successfully.");
+                    }
                 }
             
             }

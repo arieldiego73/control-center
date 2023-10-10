@@ -23,6 +23,7 @@ export type RecentProjects = {
 export type ProjectStatus = {
 	total: number;
 	status_name: string;
+	month: string;
 	// total_project_status: number;
 }
 

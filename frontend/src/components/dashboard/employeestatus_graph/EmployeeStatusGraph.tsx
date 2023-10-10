@@ -59,12 +59,28 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
   const { graphData } = props;
   const [data, setData] = useState<Datum[]>();
   const [keys, setKeys] = useState<string[]>([]);
+  const [userCount, setUserCount] = useState(100); 
 
   const loadingState = useSelector(
     (state: RootState) => state.graphsData.isLoading
   );
   const [isLoading, setIsLoading] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
+
+  useEffect(() => {
+    const fetchUserCount = async () => {
+      const response = await fetch('/api/user-count'); // Replace with your API endpoint
+      const data = await response.json();
+      setUserCount(data.userCount);
+    };
+
+    const interval = setInterval(fetchUserCount, 60000); // Fetch user count every minute
+
+    // Clean up the interval on unmount
+    return () => clearInterval(interval);
+  }, []);
+
+  const increase = 1;
 
   useEffect(() => { 
     const fetchData = async () => {
@@ -113,7 +129,7 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
               {"EMPLOYEE STATUS"}
             </text>
             <text className={EmpStatGraphStyle.textSubtitle}>
-              {"+15% increase than last month"}
+            {`+${increase}% increase for ${userCount} users`}
             </text>
           </div>
         </div>

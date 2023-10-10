@@ -74,24 +74,47 @@ public class DevTypeServiceImpl implements DevTypeService {
                 && devType.getDev_type_sh_name().equals(data.getDev_type_sh_name())){
                     return ResponseEntity.ok().body("No changes has been made");
                 } else {
-                    Map<String, Object> paramMap = new HashMap<>();
-                    paramMap.put("id", id);
-                    paramMap.put("devType", devType);
 
-                    devTypeDao.editDevTypeInfo(paramMap);
+                    if (!devType.getDev_type_name().equals(data.getDev_type_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("devType", devType);
 
-                    // Acivitylog
-                    ActivityLogInput activityLogInput = new ActivityLogInput();
+                        devTypeDao.editDevTypeInfo(paramMap);
 
-                    activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                    activityLogInput.setLog_desc("Edited '" + devType.getDev_type_name() + "' development type.");
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                    Long currentTimeMillis = System.currentTimeMillis();
-                    // add the activity log
-                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                    activityLogDao.addActivityLog(activityLogInput);
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + devType.getDev_type_name() + "' development type.");
 
-                    return ResponseEntity.ok().body("Development Type edited successfully.");
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited '" + devType.getDev_type_name() + "' Successfully ");
+                    } else  {
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("devType", devType);
+
+                        devTypeDao.editDevTypeInfo(paramMap);
+
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + devType.getDev_type_name() + "' development type.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited a short name '" + devType.getDev_type_sh_name() + "' of the Development Type '"+ devType.getDev_type_name()+"' Successfully ");
+                    }
+                 
                 }  
             }
         } else {
