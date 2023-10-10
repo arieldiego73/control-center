@@ -23,7 +23,7 @@ const DataGridEditToolbar: React.FC<EditToolbarProps> = (props) => {
 		setAsk(true);
 		setIsBatch(true);
 		setDialogContentText(
-			"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+			"Are you sure you want to delete the selected items? \nPlease, proceed with caution."
 		);
 		setDialogTitle(
 			`Delete ${

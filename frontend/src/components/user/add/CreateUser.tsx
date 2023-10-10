@@ -191,8 +191,12 @@ export default function CreateUser() {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [ask, setAsk] = React.useState(false);
+  const [askSave, setAskSave] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState("");
+  const [dialogTitleSave, setDialogTitleSave] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
+  const [dialogContentTextSave, setDialogContentTextSave] = React.useState("");
+
 
   //FOR DROPDOWN CONFIG (BUSINESS UNIT)
   const depts = useSelector((state: RootState) => state.deptReducer.department);
@@ -239,7 +243,7 @@ export default function CreateUser() {
       status_code: empStatus,
     };
     dispatch(addUserInfo({ data }));
-    setAsk(false);
+    setAskSave(false);
   };
 
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -276,9 +280,14 @@ export default function CreateUser() {
       selectedRoles.length > 0
     ) {
       if (password === confirmPassword) {
-        setAsk(true);
-        setDialogTitle("Save the record?");
-        setDialogContentText(
+        // setAsk(true);
+        // setDialogTitle("Save the record?");
+        // setDialogContentText(
+        //   "Upon proceeding, the modifications on the record \nmade will be saved."
+        // );
+        setAskSave(true);
+        setDialogTitleSave("Save the record?");
+        setDialogContentTextSave(
           "Upon proceeding, the modifications on the record \nmade will be saved."
         );
       } else {
@@ -295,7 +304,7 @@ export default function CreateUser() {
   const handleCancel = () => {
     setAsk(true);
     setDialogTitle("Cancel the edit?");
-    setDialogContentText("The record will be discarded and will not be saved.");
+    setDialogContentText("The record will be discarded and will not be saved. \n Are you sure you want to leave this page?");
   };
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -976,10 +985,9 @@ export default function CreateUser() {
                     variant="contained"
                     color="primary"
                     startIcon={<SaveOutlinedIcon />}
-                    // className={CreateUserStyle.saveButton}
                     onClick={handleSave}
                   >
-                    SAVE
+                    SAVE??
                   </Button>
 
                   <Button
@@ -1004,7 +1012,6 @@ export default function CreateUser() {
                   aria-labelledby="responsive-dialog-title"
                   aria-describedby="alert-dialog-description"
                 >
-                
                   <DialogTitle id="responsive-dialog-title">
                     <Typography
                       fontWeight={700}
@@ -1023,8 +1030,6 @@ export default function CreateUser() {
                     </Typography>
                   </DialogTitle>
 
-                 
-
                   <DialogContent>
                     <DialogContentText
                       whiteSpace={"pre-line"}
@@ -1039,20 +1044,79 @@ export default function CreateUser() {
                       variant="contained"
                       onClick={proceedWithSaving}
                       autoFocus
-                    >
-                      Save
+                    > 
+                      Leave this page
                     </Button>
                     <Button
                       onClick={() => {
                         setAsk(false);
                       }}
                     >
-                      Continue editing
+                      Cancel
                     </Button>
                   </DialogActions>
-      
+                </Dialog>
+
+                 <Dialog
+                  open={askSave}
+                  onClose={() => {
+                    setAskSave(false);
+                  }}
+                  aria-labelledby="responsive-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                
+                  <DialogTitle id="responsive-dialog-title">
+                    <Typography
+                      fontWeight={700}
+                      fontSize={20}
+                      display={"flex"}
+                      alignItems={"center"}
+                      gap={1}
+                    >
+                      <HelpIcon
+                        accentHeight={100}
+                        color="error"
+                        fontSize="large"
+                        alignmentBaseline="middle"
+                      />
+                      {dialogTitleSave}
+                    </Typography>
+                  </DialogTitle>
+
+                  <DialogContent>
+                    <DialogContentText
+                      whiteSpace={"pre-line"}
+                      id="alert-dialog-description"
+                    >
+                      {dialogContentTextSave}
+                    </DialogContentText>
+                  </DialogContent>
+
+        
+                    <DialogActions>
+                    <Button
+                      variant="contained"
+                      onClick={proceedWithSaving}
+                      autoFocus
+                    > 
+                      Save
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setAskSave(false);
+                      }}
+                    >
+                      Continue Editing
+                    </Button>
+                  </DialogActions>
+
                 </Dialog>
               </div>
+
+
+
+         
             </div>
           </div>
         </div>
