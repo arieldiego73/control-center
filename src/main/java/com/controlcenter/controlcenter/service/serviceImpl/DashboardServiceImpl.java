@@ -192,14 +192,14 @@ public class DashboardServiceImpl implements DashboardService{
         //     graphInfo.put("user_per_year", userPerYear);
         //     return graphInfo;
         // })
-        projectStatusPerMonth.put("month", monthName);
-        projectStatusPerMonth.put("data", projectStatusGraph);
+        // projectStatusPerMonth.put("month", monthName);
+        // projectStatusPerMonth.put("data", projectStatusGraph);
 
-        userStatusPerMonth.put("month", monthName);
-        userStatusPerMonth.put("data", userStatusGraph);
+        // userStatusPerMonth.put("month", monthName);
+        // userStatusPerMonth.put("data", userStatusGraph);
         
-        graphData.put("project_status", projectStatusPerMonth);
-        graphData.put("user_status", userStatusPerMonth);
+        graphData.put("project_status", projectStatusGraph);
+        graphData.put("user_status", userStatusGraph);
         graphData.put("recent_projects", recentProjectGraph);
         // graphData.put("user_per_year", userPerYear);
 
