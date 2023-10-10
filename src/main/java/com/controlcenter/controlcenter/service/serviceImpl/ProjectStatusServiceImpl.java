@@ -72,29 +72,52 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
         if (data != null) {
             if (data.getDel_flag() == 1) {
                 return ResponseEntity.badRequest().body("Project Status with the ID " + id + " has already been deleted.");
-            } else {
+            } else { 
                 if (projectStatus.getProj_status_name().equals(data.getProj_status_name())
                 && projectStatus.getProj_status_description().equals(data.getProj_status_description())){
                     return ResponseEntity.ok().body("No changes has been made");
                 } else {
-                     Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("id", id);
-                paramMap.put("projectStatus", projectStatus);
 
-                projectStatusDao.editProjectStatus(paramMap);
+                    if(!projectStatus.getProj_status_name().equals(data.getProj_status_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("projectStatus", projectStatus);
 
-                // Activitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
+                        projectStatusDao.editProjectStatus(paramMap);
 
-                activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + projectStatus.getProj_status_name() + "' project status.");
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                Long currentTimeMillis = System.currentTimeMillis();
-                // add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + projectStatus.getProj_status_name() + "' sucessfully.");
 
-                return ResponseEntity.ok().body("Project Status '" + projectStatus.getProj_status_name() + "' edited successfully.");
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited '" + projectStatus.getProj_status_name() + "' successfully.");
+                    } else {
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("projectStatus", projectStatus);
+
+                        projectStatusDao.editProjectStatus(paramMap);
+
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + projectStatus.getProj_status_name() + "' project status.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited Description '" + projectStatus.getProj_status_description() + "' of the Project Status '" +  projectStatus.getProj_status_name()+ "' successfully.");
+                    }
+                   
                 }
                
             }

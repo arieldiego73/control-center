@@ -13,7 +13,7 @@ import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.DevPhaseDao;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.DevPhaseInput;
-import com.controlcenter.controlcenter.model.DevPhaseOutput;
+import com.controlcenter.controlcenter.model.DevPhaseOutput; 
 import com.controlcenter.controlcenter.service.DevPhaseService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
@@ -80,28 +80,52 @@ public class DevPhaseServiceImpl implements DevPhaseService {
                     && devPhase.getDev_phase_sh_name().equals(data.getDev_phase_sh_name())) {
                     return ResponseEntity.ok().body("No changes has been made");
                 } else {
-                    Map<String, Object> paramMap = new HashMap<>();
-                    paramMap.put("id", id);
-                    paramMap.put("devPhase", devPhase);
 
-                    devPhaseDao.editDevPhaseInfo(paramMap);
+                    if (!devPhase.getDev_phase_name().equals(data.getDev_phase_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("devPhase", devPhase);
 
-                    devPhaseList = devPhaseDao.getAllDevPhase();
+                        devPhaseDao.editDevPhaseInfo(paramMap);
 
-                    // Acivitylog
-                    ActivityLogInput activityLogInput = new ActivityLogInput();
+                        devPhaseList = devPhaseDao.getAllDevPhase();
 
-                    activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                    activityLogInput.setLog_desc("Edited '" + devPhase.getDev_phase_name() + "' development phase.");
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                    Long currentTimeMillis = System.currentTimeMillis();
-                    // add the activity log
-                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                    activityLogDao.addActivityLog(activityLogInput);
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + devPhase.getDev_phase_name() + "' development phase.");
 
-                    return ResponseEntity.ok().body("Development Phase '" + devPhase.getDev_phase_name() + "' edited successfully.");
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited '" + devPhase.getDev_phase_name() + "' successfully.");
+                    } else { 
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("devPhase", devPhase);
+
+                        devPhaseDao.editDevPhaseInfo(paramMap);
+
+                        devPhaseList = devPhaseDao.getAllDevPhase();
+
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + devPhase.getDev_phase_name() + "' development phase.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited a short name '" + devPhase.getDev_phase_sh_name() +"' of the Development Phase '" + devPhase.getDev_phase_name() + "' successfully.");
+                    }
+                   
                 }
-
             }
         } else {
             return ResponseEntity.badRequest().body("Development Phase with the ID " + id + " cannot be found.");
