@@ -239,7 +239,7 @@ export default function EditProject() {
       setAskSave(true);
       setDialogTitleSave("Save the record?");
       setDialogContentTextSave(
-        "Upon proceeding, the modifications made on the record \nwill be saved."
+        "Do you want to save changes you made?"
       );
     } else {
       handleClickSnackpack(
@@ -1198,8 +1198,8 @@ export default function EditProject() {
         <DialogActions>
           <Button
             variant="contained"
-            onClick={handleCancel}
-            autoFocus
+            onClick={proceedToSaveProject}
+            autoFocus 
           >
             Save
           </Button>

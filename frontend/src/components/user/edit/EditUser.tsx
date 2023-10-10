@@ -346,7 +346,7 @@ export default function EditUser() {
     setAsk(true);
     setDialogTitle("Cancel the edit?");
     setDialogContentText(
-      "Modifications made with the record will be \nlost forever."
+      " The record will be discarded and will not be saved. \nAre you sure you want to leave this page?"
     );
   };
 
