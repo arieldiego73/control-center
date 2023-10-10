@@ -1037,7 +1037,7 @@ export default function CreateUser() {
                   <DialogActions>
                     <Button
                       variant="contained"
-                      onClick={proceedWithCancel}
+                      onClick={proceedWithSaving}
                       autoFocus
                     >
                       Save
