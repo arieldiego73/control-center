@@ -257,50 +257,50 @@ export function* userSagaDeleteBatch() {
 }
 
 //PASSWORD
-const apiPassword = async (data: Data): Promise<any> => {
-	try {
-		const params = new URLSearchParams();
-		data.selectedRoles.forEach((id) => {
-			params.append("role_ids", id.toString());
-		});
-		const url = `http://localhost:8080/user/create-account?${params}`;
-		return axios.post(url, {
-			emp_id: data.emp_id,
-			username: data.username,
-			password: data.password,
-			confirm_password: data.confirm_password,
-			fname: data.fname,
-			mname: data.mname,
-			lname: data.lname,
-			position_id: data.position_id,
-			email: data.email,
-			section_id: data.section_id,
-			dept_id: data.dept_id,
-			status_code: data.status_code,
-			img_src: "sample_img",
-		});
-	} catch (error) {
-		return error;
-	}
-};
+// const apiPassword = async (data: Data): Promise<any> => {
+// 	try {
+// 		const params = new URLSearchParams();
+// 		data.selectedRoles.forEach((id) => {
+// 			params.append("role_ids", id.toString());
+// 		});
+// 		const url = `http://localhost:8080/user/create-account?${params}`;
+// 		return axios.post(url, {
+// 			emp_id: data.emp_id,
+// 			username: data.username,
+// 			password: data.password,
+// 			confirm_password: data.confirm_password,
+// 			fname: data.fname,
+// 			mname: data.mname,
+// 			lname: data.lname,
+// 			position_id: data.position_id,
+// 			email: data.email,
+// 			section_id: data.section_id,
+// 			dept_id: data.dept_id,
+// 			status_code: data.status_code,
+// 			img_src: "sample_img",
+// 		});
+// 	} catch (error) {
+// 		return error;
+// 	}
+// };
 
-export const addPassword = createAction<{
-	data: Data;
-}>("users/addUserInfo");
+// export const addPassword = createAction<{
+// 	data: Data;
+// }>("users/addUserInfo");
 
-export function* userSagaPass() {
-	yield takeEvery(addUserInfo.type, passwordSaga);
-}
+// export function* userSagaPass() {
+// 	yield takeEvery(addUserInfo.type, passwordSaga);
+// }
 
-function* passwordSaga(action: ReturnType<typeof addUserInfo>): any {
-	try {
-		yield put(setIsLoading(true))
-		const response = yield call(apiPassword, action.payload.data);
-		yield call(validate, response, "add");
-	} catch (error) {
-		yield call(catchErr, error);
-	}
-}
+// function* passwordSaga(action: ReturnType<typeof addUserInfo>): any {
+// 	try {
+// 		yield put(setIsLoading(true))
+// 		const response = yield call(apiPassword, action.payload.data);
+// 		yield call(validate, response, "add");
+// 	} catch (error) {
+// 		yield call(catchErr, error);
+// 	}
+// }
 
 
 // VALIDATE THE RESPONSE

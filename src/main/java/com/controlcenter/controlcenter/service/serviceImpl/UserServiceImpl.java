@@ -18,6 +18,7 @@ import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.model.UserRoles;
 import com.controlcenter.controlcenter.model.UserTable;
 import com.controlcenter.controlcenter.service.UserService;
+import com.controlcenter.controlcenter.shared.FormatChecker;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 import java.util.ArrayList;
@@ -57,6 +58,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   public RoleDao roleDao;
+
+  @Autowired
+  public FormatChecker formatChecker;
 
   @Autowired
   public PasswordEncoder passEnc;
@@ -160,6 +164,10 @@ public class UserServiceImpl implements UserService {
         } else if (account.getEmail().equals(perUser.getEmail())) {
           return ResponseEntity.badRequest().body("The Email of " + account.getEmail() + " is already taken.");
         }
+      }
+
+      if(formatChecker.containsLetters(account.getEmp_id())) {
+        return ResponseEntity.badRequest().body("Associate ID should only be a number");
       }
 
       if (!account.getPassword().equals(account.getConfirm_password())) {
