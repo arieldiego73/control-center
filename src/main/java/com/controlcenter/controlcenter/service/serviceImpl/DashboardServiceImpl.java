@@ -1,5 +1,7 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -168,6 +170,15 @@ public class DashboardServiceImpl implements DashboardService{
         List<Map<String, Object>> graphList = new ArrayList<>();
         Map<String, Object> graphData = new HashMap<>();
         // List<Map<String, Object>> userStatusGraph = dashboardDao.getAllUserCountByStatus();
+        LocalDate currentDate = LocalDate.now();
+
+        // Extract the current month
+        Month currentMonth = currentDate.getMonth();
+
+        // Print the current month as a string (full name)
+        String monthName = currentMonth.toString();
+        Map<String, Object> projectStatusPerMonth = new HashMap<>();
+        Map<String, Object> userStatusPerMonth = new HashMap<>();
         List<Map<String, Object>> projectStatusGraph = dashboardDao.getAllProjectCountByStatus();
         List<UserStatusGraph> userStatusGraph = dashboardDao.getAllUserStatusCountPerYearAndMonth();
         List<RecentProjects> recentProjectGraph = dashboardDao.getRecentProjects();
@@ -181,9 +192,14 @@ public class DashboardServiceImpl implements DashboardService{
         //     graphInfo.put("user_per_year", userPerYear);
         //     return graphInfo;
         // })
+        projectStatusPerMonth.put("month", monthName);
+        projectStatusPerMonth.put("data", projectStatusGraph);
+
+        userStatusPerMonth.put("month", monthName);
+        userStatusPerMonth.put("data", userStatusGraph);
         
-        graphData.put("project_status", projectStatusGraph);
-        graphData.put("user_status", userStatusGraph);
+        graphData.put("project_status", projectStatusPerMonth);
+        graphData.put("user_status", userStatusPerMonth);
         graphData.put("recent_projects", recentProjectGraph);
         // graphData.put("user_per_year", userPerYear);
 
