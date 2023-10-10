@@ -84,24 +84,66 @@ public class RoleServiceImpl implements RoleService {
         && role.getRole_user_level() == data.getRole_user_level()){
           return ResponseEntity.ok().body("No changes has been made");
         } else {
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("id", id);
-            paramMap.put("role", role);
 
-            roleDao.editRoleInfo(paramMap);
- 
-            // Activitylog
-            ActivityLogInput activityLogInput = new ActivityLogInput();
+          if (!role.getTitle().equals(data.getTitle())){
+              Map<String, Object> paramMap = new HashMap<>();
+              paramMap.put("id", id);
+              paramMap.put("role", role);
 
-            activityLogInput.setEmp_id(emp_id); // current logged user dapat
-            activityLogInput.setLog_desc("Edited a Role.");
+              roleDao.editRoleInfo(paramMap);
+  
+              // Activitylog
+              ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            Long currentTimeMillis = System.currentTimeMillis();
-            // add the activity log
-            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-            activityLogDao.addActivityLog(activityLogInput);
+              activityLogInput.setEmp_id(emp_id); // current logged user dapat
+              activityLogInput.setLog_desc("Edited a Role.");
 
-            return  ResponseEntity.ok().body("Role edited successfully");
+              Long currentTimeMillis = System.currentTimeMillis();
+              // add the activity log
+              activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInput);
+            
+              return  ResponseEntity.ok().body("Edited Role '" + role.getTitle() + "' successfully");
+          } else if(!role.getRole_sh_name().equals(data.getRole_sh_name())) {
+              Map<String, Object> paramMap = new HashMap<>();
+              paramMap.put("id", id);
+              paramMap.put("role", role);
+
+              roleDao.editRoleInfo(paramMap);
+  
+              // Activitylog
+              ActivityLogInput activityLogInput = new ActivityLogInput();
+
+              activityLogInput.setEmp_id(emp_id); // current logged user dapat
+              activityLogInput.setLog_desc("Edited a Role.");
+
+              Long currentTimeMillis = System.currentTimeMillis();
+              // add the activity log
+              activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInput);
+            
+              return  ResponseEntity.ok().body("Edited a Short Name  '"+ role.getRole_sh_name() +"' of the Role '"+  role.getTitle() + "' successfully");
+          } else {
+              Map<String, Object> paramMap = new HashMap<>();
+              paramMap.put("id", id);
+              paramMap.put("role", role);
+
+              roleDao.editRoleInfo(paramMap);
+  
+              // Activitylog
+              ActivityLogInput activityLogInput = new ActivityLogInput();
+
+              activityLogInput.setEmp_id(emp_id); // current logged user dapat
+              activityLogInput.setLog_desc("Edited a Role.");
+
+              Long currentTimeMillis = System.currentTimeMillis();
+              // add the activity log
+              activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInput);
+            
+              return  ResponseEntity.ok().body("Edited a user Level  '"+ role.getRole_user_level() +"' of the Role '"+  role.getTitle() + "' successfully");
+          }
+          
         }
 
       

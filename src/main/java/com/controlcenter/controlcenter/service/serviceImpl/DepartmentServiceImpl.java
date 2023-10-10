@@ -82,25 +82,68 @@ public class DepartmentServiceImpl implements DepartmentService {
                 && department.getDept_desc().equals(data.getDept_desc())){
                     return ResponseEntity.ok().body("No changes has been made");
                 } else {
-                    Map<String, Object> paramMap = new HashMap<>();
 
-                    paramMap.put("id", id);
-                    paramMap.put("department", department);
+                    if(!department.getDept_name().equals(data.getDept_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
 
-                    departmentDao.editDepartmentInfo(paramMap);
+                        paramMap.put("id", id);
+                        paramMap.put("department", department);
 
-                    // Acivitylog
-                    ActivityLogInput activityLogInput = new ActivityLogInput();
+                        departmentDao.editDepartmentInfo(paramMap);
 
-                    activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                    activityLogInput.setLog_desc("Edited the Business Unit '" + data.getDept_name() + "'.");
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                    Long currentTimeMillis = System.currentTimeMillis();
-                    // add the activity log
-                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                    activityLogDao.addActivityLog(activityLogInput);
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited the Business Unit '" + data.getDept_name() + "'.");
 
-                    return ResponseEntity.ok().body("Business Unit edited successfully.");
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited '" + department.getDept_name() + "' successfully.");
+                    } else if(!department.getDept_sh_name().equals(data.getDept_sh_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+
+                        paramMap.put("id", id);
+                        paramMap.put("department", department);
+
+                        departmentDao.editDepartmentInfo(paramMap);
+
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited the Business Unit '" + data.getDept_name() + "'.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited a short name '" + department.getDept_sh_name() + "' of the Business Unit '" + department.getDept_name() + "' successfully.");
+                    } else {
+                        Map<String, Object> paramMap = new HashMap<>();
+
+                        paramMap.put("id", id);
+                        paramMap.put("department", department);
+
+                        departmentDao.editDepartmentInfo(paramMap);
+
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited the Business Unit '" + data.getDept_name() + "'.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited description '" + department.getDept_desc() + "' of the Business Unit '" + department.getDept_name()+ "' successfully.");
+                    } 
                 }
                
             }
