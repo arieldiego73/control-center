@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.controlcenter.controlcenter.dao.DashboardDao;
 import com.controlcenter.controlcenter.model.RecentProjects;
 import com.controlcenter.controlcenter.model.TotalUser;
+import com.controlcenter.controlcenter.model.UserPerMonth;
 import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
@@ -182,7 +183,7 @@ public class DashboardServiceImpl implements DashboardService{
         Map<String, Object> projectStatusPerMonth = new HashMap<>();
         Map<String, Object> userStatusPerMonth = new HashMap<>();
         TotalUser totalUserCount = dashboardDao.countAllUser();
-        TotalUser userPerYearAndMonth = dashboardDao.countAllUserPerYearAndMonth();
+        UserPerMonth userPerYearAndMonth = dashboardDao.countAllUserPerYearAndMonth();
         List<Map<String, Object>> projectStatusGraph = dashboardDao.getAllProjectCountByStatus();
         List<UserStatusGraph> userStatusGraph = dashboardDao.getAllUserStatusCountPerYearAndMonth();
         List<RecentProjects> recentProjectGraph = dashboardDao.getRecentProjects();
@@ -234,7 +235,7 @@ public class DashboardServiceImpl implements DashboardService{
     }
 
     @Override
-    public ResponseEntity<TotalUser> countAllUserPerYearAndMonth() {
+    public ResponseEntity<UserPerMonth> countAllUserPerYearAndMonth() {
         return ResponseEntity.ok(dashboardDao.countAllUserPerYearAndMonth());
     }
 

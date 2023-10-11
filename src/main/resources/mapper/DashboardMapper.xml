@@ -251,9 +251,9 @@
         LIMIT 6;
     </select>
 
-    <select id="countAllUserPerYearAndMonth" resultType="com.controlcenter.controlcenter.model.TotalUser">
+    <select id="countAllUserPerYearAndMonth" resultType="com.controlcenter.controlcenter.model.UserPerMonth">
        SELECT
-            COUNT(*) AS total_user
+            COUNT(*) AS user_per_month
         FROM tbl_user AS tuser
         WHERE tuser.del_flag = 0
             AND tuser.emp_id != 100
