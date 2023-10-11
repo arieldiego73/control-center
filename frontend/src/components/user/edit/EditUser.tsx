@@ -286,6 +286,7 @@ export default function EditUser() {
       status_code: empStatus,
     };
     dispatch(updateUserInfo({ data }));
+    setAskSave(false);
     setAsk(false);
   };
 
@@ -838,7 +839,7 @@ export default function EditUser() {
                     </div>
 
                 
-                
+                 
 
                   </div>
                 </div>
@@ -849,7 +850,7 @@ export default function EditUser() {
                     variant="contained"
                     color="primary"
                     startIcon={<SaveOutlinedIcon />}
-                    className={EditUserStyle.saveButton}
+                    // className={EditUserStyle.saveButton}
                     onClick={handleSave}
                   >
                     Update
@@ -905,7 +906,7 @@ export default function EditUser() {
                 <DialogActions>
                   <Button
                     variant="contained"
-                    onClick={proceedWithCancel}
+                    onClick={proceedWithSaving}
                     autoFocus
                   >
                     Cancel

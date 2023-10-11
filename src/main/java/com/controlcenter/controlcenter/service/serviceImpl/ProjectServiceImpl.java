@@ -348,7 +348,12 @@ public class ProjectServiceImpl implements ProjectService {
     public ResponseEntity<String> editProjectInfo(String id, ProjectInput projectBody, String emp_id,
             List<String> manager_ids, Long client_id, Long type_id, List<Long> phase_ids, List<Long> tech_ids,
             Long project_status_id, List<String> member_ids) {
+
+
         ProjectOutput project = projectDao.getProjectById(id);
+        ProjInfoOutput projectInfoFromDB = projInfoDao.getProjInfoById(id);
+        // UserInfoOutput projectManagersFromDB = projectDao.getAllManagersOfProject(id);
+
 
         ProjInfoInput projectInfo = new ProjInfoInput();
 
@@ -370,7 +375,7 @@ public class ProjectServiceImpl implements ProjectService {
                 //check if value of information on project have been changed.
                 if(project.getProj_name().equals(projectBody.getProj_name())) {
                     return ResponseEntity.ok().body("No changes were made");
-                }
+                } 
 
                 // initializing the value of project
                 Map<String, Object> projectMap = new HashMap<>();

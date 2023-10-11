@@ -506,6 +506,7 @@ export default function EditProject() {
       selectedTechnologies: projectTechnologies,
     };
     dispatch(updateProject({ data: projectInfo, projectId: PROJECT_ID }));
+    setAskSave(false);
     setAsk(false);
   };
 
@@ -730,7 +731,7 @@ export default function EditProject() {
                     <FormControl
                       variant="outlined"
                       size="small"
-                      error={formSubmitted && devType === 1}
+                      // error={formSubmitted && devType === 1}
                     >
                       <InputLabel id="demo-controlled-open-select-label">
                         {"Development Type (optional)"}
@@ -758,9 +759,9 @@ export default function EditProject() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {formSubmitted && devType === 1 && (
+                      {/* {formSubmitted && devType === 1 && (
                         <FormHelperText>Select a status</FormHelperText>
-                      )}
+                      )} */}
                     </FormControl>
                   </div>
                 </div>

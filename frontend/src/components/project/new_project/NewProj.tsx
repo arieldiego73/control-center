@@ -295,7 +295,7 @@ export default function NewProj() {
         } else {
           // handleClickSnackpack(
           //   "The start date cannot be later than the end. Please, try again.",
-          //   "error"
+          //   "error" 
           // )();
           setStartDateError(true)
           // setSelectedStartDate(dayjs());
@@ -403,6 +403,7 @@ export default function NewProj() {
       selectedTechnologies: projectTechnologies,
     };
     dispatch(addProject({ data: projectInfo }));
+    setAskSave(false);
     setAsk(false);
     setDialogTitle("");
     setDialogContentText("");
