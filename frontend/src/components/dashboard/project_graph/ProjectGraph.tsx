@@ -119,8 +119,10 @@ useEffect(() => {
         <div className={ProjGraphStyle.card}>
           <div className={ProjGraphStyle.textHolder}>
             {/* Text Title */}
-            <text className={ProjGraphStyle.textTitle}> PROJECT STATUS </text>
-            <text className={ProjGraphStyle.textSubtitle}>January 1</text>
+            <text className={ProjGraphStyle.textTitle}>PROJECT STATUS</text>
+            <text className={ProjGraphStyle.textSubtitle}>{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</text>
+
+
           </div>
         </div>
 

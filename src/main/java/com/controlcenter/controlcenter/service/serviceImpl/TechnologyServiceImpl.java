@@ -76,23 +76,45 @@ public class TechnologyServiceImpl implements TechnologyService {
                 && technology.getTech_sh_name().equals(data.getTech_sh_name())){
                     return ResponseEntity.ok().body("No changes has been made");
                 } else {
-                    Map<String, Object> paramMap = new HashMap<>();
-                    paramMap.put("id", id);
-                    paramMap.put("technology", technology);
-                    technologyDao.editTechnology(paramMap);
 
-                    // Activitylog
-                    ActivityLogInput activityLogInput = new ActivityLogInput();
+                    if(!technology.getTech_name().equals(data.getTech_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("technology", technology);
+                        technologyDao.editTechnology(paramMap);
 
-                    activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                    activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                    Long currentTimeMillis = System.currentTimeMillis();
-                    // add the activity log
-                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                    activityLogDao.addActivityLog(activityLogInput);
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
 
-                    return ResponseEntity.ok().body("Technology '" + technology.getTech_name() + "' edited successfully.");
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited '" + technology.getTech_name() + "'  successfully.");
+                    } else {
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("technology", technology);
+                        technologyDao.editTechnology(paramMap);
+
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited a short name  '" + technology.getTech_sh_name() + "' of the Technology '"+ technology.getTech_name() +"' edited successfully.");
+                    }
+                   
                 }
             }
         } else {
