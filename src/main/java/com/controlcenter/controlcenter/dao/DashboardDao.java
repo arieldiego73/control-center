@@ -38,5 +38,5 @@ public interface DashboardDao {
     List<UserStatusGraph> getAllUserStatusCountPerYearAndMonth();
     List<RecentProjects> getRecentProjects();
 
-    List<UserPerYearAndMonth> countAllUserPerYearAndMonth();
+    TotalUser countAllUserPerYearAndMonth();
 }

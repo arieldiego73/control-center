@@ -182,6 +182,7 @@ public class DashboardServiceImpl implements DashboardService{
         Map<String, Object> projectStatusPerMonth = new HashMap<>();
         Map<String, Object> userStatusPerMonth = new HashMap<>();
         TotalUser totalUserCount = dashboardDao.countAllUser();
+        TotalUser userPerYearAndMonth = dashboardDao.countAllUserPerYearAndMonth();
         List<Map<String, Object>> projectStatusGraph = dashboardDao.getAllProjectCountByStatus();
         List<UserStatusGraph> userStatusGraph = dashboardDao.getAllUserStatusCountPerYearAndMonth();
         List<RecentProjects> recentProjectGraph = dashboardDao.getRecentProjects();
@@ -201,6 +202,7 @@ public class DashboardServiceImpl implements DashboardService{
         // userStatusPerMonth.put("month", monthName);
         // userStatusPerMonth.put("data", userStatusGraph);
         
+        graphData.put("user_per_month", userPerYearAndMonth);
         graphData.put("total_user_count", totalUserCount);
         graphData.put("project_status", projectStatusGraph);
         graphData.put("user_status", userStatusGraph);
@@ -232,7 +234,7 @@ public class DashboardServiceImpl implements DashboardService{
     }
 
     @Override
-    public ResponseEntity<List<UserPerYearAndMonth>> countAllUserPerYearAndMonth() {
+    public ResponseEntity<TotalUser> countAllUserPerYearAndMonth() {
         return ResponseEntity.ok(dashboardDao.countAllUserPerYearAndMonth());
     }
 

@@ -36,5 +36,5 @@ public interface DashboardService {
 
     public ResponseEntity<List<RecentProjects>> getRecentProjects();
 
-    public ResponseEntity<List<UserPerYearAndMonth>> countAllUserPerYearAndMonth();
+    public ResponseEntity<TotalUser> countAllUserPerYearAndMonth();
 }

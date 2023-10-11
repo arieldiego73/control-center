@@ -177,7 +177,7 @@ public class DashboardController {
     }
 
     @GetMapping("/user-count")
-    public ResponseEntity<List<UserPerYearAndMonth>> countAllUserPerYearAndMonth(){
+    public ResponseEntity<TotalUser> countAllUserPerYearAndMonth(){
         return dashboardService.countAllUserPerYearAndMonth();
     }
 }
