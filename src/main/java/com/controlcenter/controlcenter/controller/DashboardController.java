@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.RecentProjects;
+import com.controlcenter.controlcenter.model.TotalUser;
 import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
@@ -103,10 +104,10 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/user-count/{user_status_code}")
-    public ResponseEntity<Integer> countAllUserByStatus(@PathVariable String user_status_code) {
+    @GetMapping("/total-user-count")
+    public ResponseEntity<TotalUser> countAllUser() {
         try {
-            return dashboardService.countAllUserByStatus(user_status_code);
+            return dashboardService.countAllUser();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

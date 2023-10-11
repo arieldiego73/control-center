@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.controlcenter.controlcenter.model.RecentProjects;
+import com.controlcenter.controlcenter.model.TotalUser;
 import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 
@@ -25,7 +26,7 @@ public interface DashboardDao {
 
     Integer countAllProjectByStatus(String proj_status_id);
 
-    Integer countAllUserByStatus(String user_status_code);
+    TotalUser countAllUser();
     List<Map<String, Object>> getAllProjectCountByStatus();
 
     List<Map<String, Object>> getAllUserCountByStatus();
