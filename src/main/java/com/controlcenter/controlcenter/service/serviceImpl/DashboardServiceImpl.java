@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DashboardDao;
 import com.controlcenter.controlcenter.model.RecentProjects;
+import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
 
@@ -226,4 +227,10 @@ public class DashboardServiceImpl implements DashboardService{
     public ResponseEntity<List<RecentProjects>> getRecentProjects() {
         return ResponseEntity.ok(dashboardDao.getRecentProjects());
     }
+
+    @Override
+    public ResponseEntity<List<UserPerYearAndMonth>> countAllUserPerYearAndMonth() {
+        return ResponseEntity.ok(dashboardDao.countAllUserPerYearAndMonth());
+    }
+
 }
