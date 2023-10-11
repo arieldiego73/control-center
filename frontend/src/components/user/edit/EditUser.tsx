@@ -906,7 +906,7 @@ export default function EditUser() {
                 <DialogActions>
                   <Button
                     variant="contained"
-                    onClick={proceedWithSaving}
+                    onClick={proceedWithCancel}
                     autoFocus
                   >
                     Cancel

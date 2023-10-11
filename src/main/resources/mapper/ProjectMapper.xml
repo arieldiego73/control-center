@@ -119,6 +119,7 @@
             LEFT JOIN tbl_personal_info AS tpi
                 ON tpi.emp_id = tmanager.emp_id
         WHERE tmanager.proj_id = #{proj_id} AND tmanager.del_flag = 0;
+        <!-- AND tup.emp_id != 100 -->
     </select>
 
 <!-- Select all development phases of a project -->
@@ -149,6 +150,7 @@
             LEFT JOIN tbl_position_mst AS tposition
                 ON tposition.position_id = tuser.position_id
         WHERE tup.proj_id = #{proj_id} AND tup.del_flag = 0;
+        <!-- AND tup.emp_id != 100 -->
     </select>
 
 <!-- Select all development technologies of a project -->
