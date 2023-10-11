@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.controlcenter.controlcenter.model.RecentProjects;
+import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 
 @Mapper
@@ -35,4 +36,6 @@ public interface DashboardDao {
 
     List<UserStatusGraph> getAllUserStatusCountPerYearAndMonth();
     List<RecentProjects> getRecentProjects();
+
+    List<UserPerYearAndMonth> countAllUserPerYearAndMonth();
 }
