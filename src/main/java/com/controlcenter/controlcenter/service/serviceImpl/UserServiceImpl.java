@@ -284,15 +284,15 @@ public class UserServiceImpl implements UserService {
         // String newFilename = timeStamp + "." + extension;
         String newFilename = "user " + user_id + "." + extension;
 
-        // String targetDirectory = "C:\\Storage\\Profile";
+        String targetDirectory = "C:\\Storage\\Profile";
         // String targetDirectory = "C:\\Users\\sfabre\\Desktop\\Control Center
         // Project\\control-center\\frontend\\src\\Assets\\userImage";
         // String targetDirectory = "../../../Assets/userImage/";
         // String targetDirectory = targetDirectoryPath;
-        String userHomeDirectory = System.getProperty("user.home");
-        String targetDirectory = userHomeDirectory + File.separator + "Desktop" + File.separator
-            + "Control Center Project" + File.separator + "control-center" + File.separator + "frontend"
-            + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
+        // String userHomeDirectory = System.getProperty("user.home");
+        // String targetDirectory = userHomeDirectory + File.separator + "Desktop" + File.separator
+        //     + "Control Center Project" + File.separator + "control-center" + File.separator + "frontend"
+        //     + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
 
         File directory = new File(targetDirectory);
 

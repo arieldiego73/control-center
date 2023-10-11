@@ -207,7 +207,6 @@ export default function EditUser() {
       setBusinessUnit(userData.dept_id ? userData.dept_id : 0);
       setDepartment(userData.section_id ? userData.section_id : 0);
       setEmpStatus(userData.status_code);
-      setImgSrc(userData.img_src);
     }
   }, [userData]);
 
@@ -374,7 +373,7 @@ export default function EditUser() {
                       // Display the user's image if available, otherwise show the default profile
                       userData?.img_src ? (
                         <img
-                        src={require(`../../../Assets/userImage/${userData.img_src}`)} // Construct the image source
+                        src={require(`C:/Storage/Profile/${userData.img_src}`)} // Construct the image source
                           alt="User Profile"
                           className={EditUserStyle.imgSize}
                         />
