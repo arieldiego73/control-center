@@ -29,7 +29,7 @@ public interface ProjectService {
     public ResponseEntity<List<Map<Long, Object>>> getClientOfProject(String proj_id);
 
     // get the development type of a project
-    public ResponseEntity<List<Map<Long, Object>>> getDevelopmentOfProject(String proj_id);
+    public ResponseEntity<List<Map<Long, Object>>> getDevelopmentTypeOfProject(String proj_id);
 
     // get the status of a project
     public ResponseEntity<List<Map<Long, Object>>> getStatusOfProject(String proj_id);

@@ -84,7 +84,7 @@ public class ProjectController {
     //get the development type of a project
     @GetMapping("/development-type/{proj_id}")
     public ResponseEntity<List<Map<Long, Object>>> getDevelopmentOfProject(@PathVariable String proj_id) {
-        return projectService.getDevelopmentOfProject(proj_id);
+        return projectService.getDevelopmentTypeOfProject(proj_id);
     }
 
     //get the status of a project

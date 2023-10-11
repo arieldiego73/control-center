@@ -63,34 +63,62 @@ public class DevTypeServiceImpl implements DevTypeService {
     }
 
     @Override
-    public String editDevTypeInfo(String id, DevTypeInput devType, String emp_id) {
+    public ResponseEntity<String> editDevTypeInfo(String id, DevTypeInput devType, String emp_id) {
         DevTypeOutput data = devTypeDao.getDevTypeById(id);
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Development Type with the ID " + id + " has already been deleted.";
+                return ResponseEntity.badRequest().body("Development Type with the ID " + id + " has already been deleted.");
             } else {
-                Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("id", id);
-                paramMap.put("devType", devType);
+                if (devType.getDev_type_name().equals(data.getDev_type_name())
+                && devType.getDev_type_sh_name().equals(data.getDev_type_sh_name())){
+                    return ResponseEntity.ok().body("No changes has been made");
+                } else {
 
-                devTypeDao.editDevTypeInfo(paramMap);
+                    if (!devType.getDev_type_name().equals(data.getDev_type_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("devType", devType);
 
-                // Acivitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
+                        devTypeDao.editDevTypeInfo(paramMap);
 
-                activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + devType.getDev_type_name() + "' development type.");
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                Long currentTimeMillis = System.currentTimeMillis();
-                // add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + devType.getDev_type_name() + "' development type.");
 
-                return "Development Type edited successfully.";
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited '" + devType.getDev_type_name() + "' Successfully ");
+                    } else  {
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("devType", devType);
+
+                        devTypeDao.editDevTypeInfo(paramMap);
+
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + devType.getDev_type_name() + "' development type.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited a short name '" + devType.getDev_type_sh_name() + "' of the Development Type '"+ devType.getDev_type_name()+"' Successfully ");
+                    }
+                 
+                }  
             }
         } else {
-            return "Development Type with the ID " + id + " cannot be found.";
+            return ResponseEntity.badRequest().body("Development Type with the ID " + id + " cannot be found.");
         }
     }
 

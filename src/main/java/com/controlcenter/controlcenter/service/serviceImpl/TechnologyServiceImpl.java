@@ -64,33 +64,63 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
-    public String editTechnology(String id, TechnologyInput technology, String emp_id) {
+    public ResponseEntity<String> editTechnology(String id, TechnologyInput technology, String emp_id) {
         TechnologyOutput data = technologyDao.getTechnologyById(id);
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Technology with the ID " + id + " has already been deleted.";
+                return ResponseEntity.badRequest().body("Technology with the ID " + id + " has already been deleted.");
             } else {
-                Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("id", id);
-                paramMap.put("technology", technology);
-                technologyDao.editTechnology(paramMap);
 
-                // Activitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
+                if (technology.getTech_name().equals(data.getTech_name())
+                && technology.getTech_sh_name().equals(data.getTech_sh_name())){
+                    return ResponseEntity.ok().body("No changes has been made");
+                } else {
 
-                activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
+                    if(!technology.getTech_name().equals(data.getTech_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("technology", technology);
+                        technologyDao.editTechnology(paramMap);
 
-                Long currentTimeMillis = System.currentTimeMillis();
-                // add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                return "Technology '" + technology.getTech_name() + "' edited successfully.";
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited '" + technology.getTech_name() + "'  successfully.");
+                    } else {
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("technology", technology);
+                        technologyDao.editTechnology(paramMap);
+
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited a short name  '" + technology.getTech_sh_name() + "' of the Technology '"+ technology.getTech_name() +"' edited successfully.");
+                    }
+                   
+                }
             }
         } else {
-            return "Technology with the ID " + id + " cannot be found.";
+            return ResponseEntity.badRequest().body("Technology with the ID " + id + " cannot be found.");
+
+            
         }
     }
 

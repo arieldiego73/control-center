@@ -103,7 +103,7 @@ public class StatusController {
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
                 String emp_id = "101"; //httpSession.getAttribute("session").toString();
-                return ResponseEntity.status(200).body(statusService.editStatusInfo(code, status, emp_id));
+                return statusService.editStatusInfo(code, status, emp_id);
             }
         // } else {
         //     // User is not authenticated 

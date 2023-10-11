@@ -759,11 +759,15 @@ public class UserServiceImpl implements UserService {
           if(new_password == "" || confirm_new_password == "") {
             return ResponseEntity.badRequest().body("New password or confirm password are empty");
           } else {
-            if(!new_password.equals(confirm_new_password)) {
-            return ResponseEntity.badRequest().body("New password and confirm password do not match");
+            if(new_password.length() < 6) {
+              return ResponseEntity.badRequest().body("New password is too short");
             } else {
-              userDao.changePassword(user_id, passEnc.encode(new_password));
-              return ResponseEntity.ok("Password Changed Successfully.");
+              if(!new_password.equals(confirm_new_password)) {
+              return ResponseEntity.badRequest().body("New password and confirm password do not match");
+              } else {
+                userDao.changePassword(user_id, passEnc.encode(new_password));
+                return ResponseEntity.ok("Password Changed Successfully.");
+              }
             }
           }
         }

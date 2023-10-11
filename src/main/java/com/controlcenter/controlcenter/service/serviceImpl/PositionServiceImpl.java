@@ -21,7 +21,7 @@ import com.controlcenter.controlcenter.shared.TimeFormatter;
 @Service
 public class PositionServiceImpl implements PositionService {
 
-    @Autowired
+    @Autowired 
     public PositionDao positionDao;
 
     @Autowired
@@ -65,34 +65,86 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public String editPositionInfo(String id, PositionInput position, String emp_id) {
+    public ResponseEntity<String> editPositionInfo(String id, PositionInput position, String emp_id) {
         PositionOutput data = positionDao.getPositionById(id);
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Position with the ID " + id + " has already been deleted.";
+                return ResponseEntity.badRequest().body("Position with the ID " + id + " has already been deleted.");
             } else {
-                Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("id", id);
-                paramMap.put("position", position);
+                if( position.getPosition_name().equals(data.getPosition_name())
+                && position.getPosition_sh_name().equals(data.getPosition_sh_name())
+                && position.getPosition_desc().equals(data.getPosition_desc())){
+                    return ResponseEntity.ok().body("No changes has been made");
+                } else {
 
-                positionDao.editPositionInfo(paramMap);
+                    if(!position.getPosition_name().equals(data.getPosition_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("position", position);
 
-                // Activitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
+                        positionDao.editPositionInfo(paramMap);
 
-                activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + position.getPosition_name() + "' postion.");
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                Long currentTimeMillis = System.currentTimeMillis();
-                // add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + position.getPosition_name() + "' sucessfully.");
 
-                return "Position '" + position.getPosition_name() + "' edited successfully.";
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("edited '" + position.getPosition_name() + "' successfully.");
+                    } else if (!position.getPosition_sh_name().equals(data.getPosition_sh_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("position", position);
+
+                        positionDao.editPositionInfo(paramMap);
+
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + position.getPosition_name() + "' postion.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited a short name '" + position.getPosition_sh_name() +"' of the Employee Position '" +  position.getPosition_name() + "' successfully.");
+                    } else {
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("position", position);
+
+                        positionDao.editPositionInfo(paramMap);
+
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + position.getPosition_name() + "' postion.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited description '" + position.getPosition_desc() + "' of the Employee Position'" + position.getPosition_name() + "' successfully.");
+                    }
+                        
+                        
+                   
+                }
+              
             }
         } else {
-            return "Position with the ID " + id + " cannot be found.";
+            return ResponseEntity.badRequest().body("Position with the ID " + id + " cannot be found.");
+       
         }
     }
 

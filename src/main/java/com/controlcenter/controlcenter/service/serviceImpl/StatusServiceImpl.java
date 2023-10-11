@@ -20,7 +20,7 @@ import com.controlcenter.controlcenter.shared.TimeFormatter;
 @Service
 public class StatusServiceImpl implements StatusService {
 
-    @Autowired
+    @Autowired 
     public StatusDao statusDao;
 
     @Autowired
@@ -64,38 +64,68 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public String editStatusInfo(String code, StatusOutput status, String emp_id) {
+    public ResponseEntity<String> editStatusInfo(String code, StatusOutput status, String emp_id) {
 
         StatusOutput statusById = statusDao.getStatusById(code);
 
         if (statusById != null) {
             if (statusById.getDel_flag() == 1) {
-                return "Status with the code " + code + " has already been deleted.";
+                return ResponseEntity.badRequest().body("Status with the code " + code + " has already been deleted.") ;
             } else {
-                Map<String, Object> paramMap = new HashMap<>();
-                statusById.setStatus_code(statusById.getStatus_code());
-                status.setStatus_code(statusById.getStatus_code());
-                System.out.println(status);
-                paramMap.put("code", code);
-                paramMap.put("status", status);
+                if(status.getStatus_name().equals(statusById.getStatus_name())
+                && status.getStatus_desc().equals(statusById.getStatus_desc()))
+                {
+                    return ResponseEntity.ok().body("No changes has been done");
+                } else {
+                    if (!status.getStatus_name().equals(statusById.getStatus_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        statusById.setStatus_code(statusById.getStatus_code());
+                        status.setStatus_code(statusById.getStatus_code());
+                        System.out.println(status);
+                        paramMap.put("code", code);
+                        paramMap.put("status", status);
 
-                statusDao.editStatusInfo(paramMap);
+                        statusDao.editStatusInfo(paramMap);
 
-                // Activitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + status.getStatus_name() + "' status.");
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + status.getStatus_name() + "' status.");
 
-                Long currentTimeMillis = System.currentTimeMillis();
-                // add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
 
-                return "Status '" + status.getStatus_name() + "' edited successfully.";
+                        return ResponseEntity.ok().body( "Edited Short name '" + status.getStatus_name() +"' of the Employee Status '"+ status.getStatus_code() + "' successfully.") ;
+                    } else {
+                        Map<String, Object> paramMap = new HashMap<>();
+                        statusById.setStatus_code(statusById.getStatus_code());
+                        status.setStatus_code(statusById.getStatus_code());
+                        System.out.println(status);
+                        paramMap.put("code", code);
+                        paramMap.put("status", status);
+
+                        statusDao.editStatusInfo(paramMap);
+
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + status.getStatus_name() + "' status.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body( "Edited Decription '" + status.getStatus_desc() +"' of the Employee Status '"+ status.getStatus_code() +"' successfully.") ;
+                    }
+                }
             }
         } else {
-            return "Status with the code " + code + " cannot be found.";
+            return ResponseEntity.badRequest().body("Status with the code " + code + " cannot be found.") ;
         }
     }
 

@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserStatusGraph {
-    private String status_name;
+public class UserPerYearAndMonth {
     private Integer total;
-    private String month;
+    private Integer year;
+    private Integer month;
 }

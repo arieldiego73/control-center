@@ -72,34 +72,86 @@ public class RoleServiceImpl implements RoleService {
   // }
 
   @Override
-  public String editRoleInfo(String id, RoleInput role, String emp_id) {
+  public ResponseEntity<String> editRoleInfo(String id, RoleInput role, String emp_id) {
     RoleOutput data = roleDao.getRoleById(id);
 
     if (data != null) {
       if (data.getDel_flag() == 1) {
-        return "Role with the ID " + id + " has already been deleted.";
+        return ResponseEntity.badRequest().body("Role with the ID " + id + " has already been deleted.");
       } else {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("id", id);
-        paramMap.put("role", role);
+        if(role.getTitle().equals(data.getTitle()) 
+        && role.getRole_sh_name().equals(data.getRole_sh_name()) 
+        && role.getRole_user_level() == data.getRole_user_level()){
+          return ResponseEntity.ok().body("No changes has been made");
+        } else {
 
-        roleDao.editRoleInfo(paramMap);
+          if (!role.getTitle().equals(data.getTitle())){
+              Map<String, Object> paramMap = new HashMap<>();
+              paramMap.put("id", id);
+              paramMap.put("role", role);
 
-        // Activitylog
-        ActivityLogInput activityLogInput = new ActivityLogInput();
+              roleDao.editRoleInfo(paramMap);
+  
+              // Activitylog
+              ActivityLogInput activityLogInput = new ActivityLogInput();
 
-        activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Edited a Role.");
+              activityLogInput.setEmp_id(emp_id); // current logged user dapat
+              activityLogInput.setLog_desc("Edited a Role.");
 
-        Long currentTimeMillis = System.currentTimeMillis();
-        // add the activity log
-        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-        activityLogDao.addActivityLog(activityLogInput);
+              Long currentTimeMillis = System.currentTimeMillis();
+              // add the activity log
+              activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInput);
+            
+              return  ResponseEntity.ok().body("Edited Role '" + role.getTitle() + "' successfully");
+          } else if(!role.getRole_sh_name().equals(data.getRole_sh_name())) {
+              Map<String, Object> paramMap = new HashMap<>();
+              paramMap.put("id", id);
+              paramMap.put("role", role);
 
-        return "Role edited successfully";
+              roleDao.editRoleInfo(paramMap);
+  
+              // Activitylog
+              ActivityLogInput activityLogInput = new ActivityLogInput();
+
+              activityLogInput.setEmp_id(emp_id); // current logged user dapat
+              activityLogInput.setLog_desc("Edited a Role.");
+
+              Long currentTimeMillis = System.currentTimeMillis();
+              // add the activity log
+              activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInput);
+            
+              return  ResponseEntity.ok().body("Edited a Short Name  '"+ role.getRole_sh_name() +"' of the Role '"+  role.getTitle() + "' successfully");
+          } else {
+              Map<String, Object> paramMap = new HashMap<>();
+              paramMap.put("id", id);
+              paramMap.put("role", role);
+
+              roleDao.editRoleInfo(paramMap);
+  
+              // Activitylog
+              ActivityLogInput activityLogInput = new ActivityLogInput();
+
+              activityLogInput.setEmp_id(emp_id); // current logged user dapat
+              activityLogInput.setLog_desc("Edited a Role.");
+
+              Long currentTimeMillis = System.currentTimeMillis();
+              // add the activity log
+              activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInput);
+            
+              return  ResponseEntity.ok().body("Edited a user Level  '"+ role.getRole_user_level() +"' of the Role '"+  role.getTitle() + "' successfully");
+          }
+          
+        }
+
+      
+        
       }
     } else {
-      return "Role with the ID " + id + " cannot be found.";
+    return  ResponseEntity.badRequest().body("Role with the ID " + id + " cannot be found.");
+
     }
   }
   // try {

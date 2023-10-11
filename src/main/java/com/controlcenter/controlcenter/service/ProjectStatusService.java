@@ -15,11 +15,11 @@ public interface ProjectStatusService {
 
     public String addProjectStatus(ProjectStatusInput projectStatus, String emp_id);
 
-    public String editProjectStatus(String id, ProjectStatusInput projectStatus, String emp_id);
+    public ResponseEntity<String> editProjectStatus(String id, ProjectStatusInput projectStatus, String emp_id);
 
     public String logicalDeleteProjectStatus(String id, String emp_id);
 
     public String deleteMultipleProjectStatus(@RequestParam List<Long> ids, String emp_id);
-
+ 
     public String restoreProjectStatus(String id);
 }

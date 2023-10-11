@@ -70,35 +70,85 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public String editDepartmentInfo(String id, DepartmentInput department, String emp_id) {
+    public ResponseEntity<String> editDepartmentInfo(String id, DepartmentInput department, String emp_id) {
         DepartmentOutput data = departmentDao.getDepartmentById(id);
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Business Unit with the ID " + id + " has already been deleted.";
+                return ResponseEntity.badRequest().body("Business Unit with the ID " + id + " has already been deleted.");
             } else {
-                Map<String, Object> paramMap = new HashMap<>();
+                if (department.getDept_name().equals(data.getDept_name())
+                && department.getDept_sh_name().equals(data.getDept_sh_name())
+                && department.getDept_desc().equals(data.getDept_desc())){
+                    return ResponseEntity.ok().body("No changes has been made");
+                } else {
 
-                paramMap.put("id", id);
-                paramMap.put("department", department);
+                    if(!department.getDept_name().equals(data.getDept_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
 
-                departmentDao.editDepartmentInfo(paramMap);
+                        paramMap.put("id", id);
+                        paramMap.put("department", department);
 
-                // Acivitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
+                        departmentDao.editDepartmentInfo(paramMap);
 
-                activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited the Business Unit '" + data.getDept_name() + "'.");
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                Long currentTimeMillis = System.currentTimeMillis();
-                // add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited the Business Unit '" + data.getDept_name() + "'.");
 
-                return "Business Unit edited successfully.";
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited '" + department.getDept_name() + "' successfully.");
+                    } else if(!department.getDept_sh_name().equals(data.getDept_sh_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+
+                        paramMap.put("id", id);
+                        paramMap.put("department", department);
+
+                        departmentDao.editDepartmentInfo(paramMap);
+
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited the Business Unit '" + data.getDept_name() + "'.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited a short name '" + department.getDept_sh_name() + "' of the Business Unit '" + department.getDept_name() + "' successfully.");
+                    } else {
+                        Map<String, Object> paramMap = new HashMap<>();
+
+                        paramMap.put("id", id);
+                        paramMap.put("department", department);
+
+                        departmentDao.editDepartmentInfo(paramMap);
+
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited the Business Unit '" + data.getDept_name() + "'.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited description '" + department.getDept_desc() + "' of the Business Unit '" + department.getDept_name()+ "' successfully.");
+                    } 
+                }
+               
             }
         } else {
-            return "Business Unit with the ID " + id + " cannot be found.";
+            return ResponseEntity.badRequest().body("Business Unit with the ID " + id + " cannot be found.");
         }
 
     }
@@ -155,23 +205,23 @@ public class DepartmentServiceImpl implements DepartmentService {
         List<String> businessUnits = new ArrayList<>();
         StringBuilder formattedList = new StringBuilder();
 
-        for(Long id : ids) {
+        for (Long id : ids) {
             String toString = String.valueOf(id);
             DepartmentOutput department = departmentDao.getDepartmentById(toString);
             businessUnits.add(department.getDept_name());
         }
 
-        for(String element : businessUnits) {
+        for (String element : businessUnits) {
             formattedList.append("'").append(element).append("', ");
         }
 
-        if(formattedList.length() > 0) {
+        if (formattedList.length() > 0) {
             formattedList.delete(formattedList.length() - 2, formattedList.length());
         }
 
         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple Business Units: " + formattedList.toString() + "."); 
-        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));   
+        activityLogInput.setLog_desc("Deleted multiple Business Units: " + formattedList.toString() + ".");
+        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         // add the activity log
         activityLogDao.addActivityLog(activityLogInput);
         return "Records are successfully deleted.";

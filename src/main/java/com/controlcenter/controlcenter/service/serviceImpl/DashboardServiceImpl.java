@@ -1,5 +1,7 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DashboardDao;
 import com.controlcenter.controlcenter.model.RecentProjects;
+import com.controlcenter.controlcenter.model.TotalUser;
+import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
 
@@ -124,8 +128,8 @@ public class DashboardServiceImpl implements DashboardService{
     }
 
     @Override
-    public ResponseEntity<Integer> countAllUserByStatus(String user_status_code) {
-        Integer totalCountOfUserByStatus = dashboardDao.countAllUserByStatus(user_status_code);
+    public ResponseEntity<TotalUser> countAllUser() {
+        TotalUser totalCountOfUserByStatus = dashboardDao.countAllUser();
 
         if(totalCountOfUserByStatus != null) {
             return ResponseEntity.ok(totalCountOfUserByStatus);
@@ -168,6 +172,15 @@ public class DashboardServiceImpl implements DashboardService{
         List<Map<String, Object>> graphList = new ArrayList<>();
         Map<String, Object> graphData = new HashMap<>();
         // List<Map<String, Object>> userStatusGraph = dashboardDao.getAllUserCountByStatus();
+        LocalDate currentDate = LocalDate.now();
+
+        // Extract the current month
+        Month currentMonth = currentDate.getMonth();
+
+        // Print the current month as a string (full name)
+        String monthName = currentMonth.toString();
+        Map<String, Object> projectStatusPerMonth = new HashMap<>();
+        Map<String, Object> userStatusPerMonth = new HashMap<>();
         List<Map<String, Object>> projectStatusGraph = dashboardDao.getAllProjectCountByStatus();
         List<UserStatusGraph> userStatusGraph = dashboardDao.getAllUserStatusCountPerYearAndMonth();
         List<RecentProjects> recentProjectGraph = dashboardDao.getRecentProjects();
@@ -181,6 +194,11 @@ public class DashboardServiceImpl implements DashboardService{
         //     graphInfo.put("user_per_year", userPerYear);
         //     return graphInfo;
         // })
+        // projectStatusPerMonth.put("month", monthName);
+        // projectStatusPerMonth.put("data", projectStatusGraph);
+
+        // userStatusPerMonth.put("month", monthName);
+        // userStatusPerMonth.put("data", userStatusGraph);
         
         graphData.put("project_status", projectStatusGraph);
         graphData.put("user_status", userStatusGraph);
@@ -210,4 +228,10 @@ public class DashboardServiceImpl implements DashboardService{
     public ResponseEntity<List<RecentProjects>> getRecentProjects() {
         return ResponseEntity.ok(dashboardDao.getRecentProjects());
     }
+
+    @Override
+    public ResponseEntity<List<UserPerYearAndMonth>> countAllUserPerYearAndMonth() {
+        return ResponseEntity.ok(dashboardDao.countAllUserPerYearAndMonth());
+    }
+
 }

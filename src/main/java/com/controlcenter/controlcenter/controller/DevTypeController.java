@@ -89,7 +89,7 @@ public class DevTypeController {
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
                     String emp_id = "101"; //httpSession.getAttribute("session").toString();
-                    return ResponseEntity.status(200).body(devTypeService.editDevTypeInfo(id, devType, emp_id));
+                    return devTypeService.editDevTypeInfo(id, devType, emp_id);
                 }
         // } else {
         //     // User is not authenticated 

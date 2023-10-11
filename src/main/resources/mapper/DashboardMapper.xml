@@ -136,22 +136,20 @@
     </select>
 
 <!-- Count all user by status -->
-    <select id="countAllUserByStatus" resultType="java.lang.Integer">
-        SELECT SUM(user_count) AS total_user_count
+    <select id="countAllUser" resultType="com.controlcenter.controlcenter.model.TotalUser">
+        SELECT SUM(user_count) AS total_user
                 FROM (
                     SELECT COUNT(*) AS user_count
                     FROM tbl_user AS tuser
-                    INNER JOIN tbl_status_mst AS user_status 
-                        ON tuser.status_code = user_status.status_code
                     WHERE tuser.del_flag = 0 AND tuser.emp_id != 100
-                    AND user_status.status_code = #{user_status_code}
                 ) AS counts;
     </select>
 
     <select id="getAllProjectCountByStatus">
         SELECT
             proj_status.proj_status_name AS status_name,
-            COUNT(tpi.proj_status_id) AS total
+            COUNT(tpi.proj_status_id) AS total,
+            MONTHNAME(CURRENT_DATE) AS month
         FROM
             tbl_proj_status_mst AS proj_status
         LEFT JOIN
@@ -219,7 +217,8 @@
     <select id="getAllUserStatusCountPerYearAndMonth" resultType="com.controlcenter.controlcenter.model.UserStatusGraph">
         SELECT
                 user_status.status_name AS status_name,
-                COUNT(tuser.status_code) AS total
+                COUNT(tuser.status_code) AS total,
+                MONTHNAME(CURRENT_DATE) AS month
             FROM
                 tbl_status_mst AS user_status
             LEFT JOIN
@@ -250,5 +249,22 @@
         ORDER BY project.proj_id DESC, 
                  project.reg_date DESC
         LIMIT 6;
+    </select>
+
+    <select id="countAllUserPerYearAndMonth">
+       SELECT
+            COUNT(tuser.status_code) AS total,
+            EXTRACT(YEAR FROM tuser.reg_date) AS year,
+            EXTRACT(MONTH FROM tuser.reg_date) AS month
+        FROM
+            tbl_user AS tuser
+        WHERE
+            tuser.del_flag = 0
+            AND tuser.emp_id != 100
+            AND EXTRACT(YEAR FROM tuser.reg_date) = EXTRACT(YEAR FROM CURRENT_DATE)
+            AND EXTRACT(MONTH FROM tuser.reg_date) = EXTRACT(MONTH FROM CURRENT_DATE)
+        GROUP BY
+            year, month;
+
     </select>
 </mapper>

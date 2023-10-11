@@ -89,7 +89,7 @@ public class TechnologyController {
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
                     String emp_id = "101"; //httpSession.getAttribute("session").toString();
-                    return ResponseEntity.status(200).body(technologyService.editTechnology(id, technology, emp_id));
+                    return technologyService.editTechnology(id, technology, emp_id);
                 }
         // } else {
         //     // User is not authenticated 

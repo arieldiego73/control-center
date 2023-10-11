@@ -18,7 +18,7 @@ import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import DataGridProps from "../datagrid_customs/DataGridProps";
 import {
 	datagridBoxStyle,
-	datagridStyle,
+	datagridStyle, 
 } from "../datagrid_customs/DataGridStyle";
 import CustomPagination from "../custom_pagination/pagination";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
@@ -480,7 +480,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 							setAsk(true);
 							setIsBatch(false);
 							setDialogContentText(
-								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+								"Are you sure you want to delete this record? \nPlease, proceed with caution."
 							);
 							setDialogTitle("Delete this record?");
 							setDeleteId(id as number);
@@ -503,7 +503,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 							setAsk(true);
 							setIsBatch(false);
 							setDialogContentText(
-								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+								"Are you sure you want to delete this record? \nPlease, proceed with caution."
 							);
 							setDialogTitle("Delete this record?");
 							setDeleteId(id as number);
@@ -525,7 +525,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 							setAsk(true);
 							setIsBatch(false);
 							setDialogContentText(
-								"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
+								"Are you sure you want to delete this record? \nPlease, proceed with caution."
 							);
 							setDialogTitle("Delete this record?");
 							setDeleteId(id as number);
@@ -615,8 +615,8 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 					setAsk(true);
 					setIsBatch(false);
 					setDialogContentText(
-						"Be warned that deleting records is irreversible. \nPlease, proceed with caution."
-					);
+						"Are you sure you want to delete this record? \nPlease, proceed with caution."
+						);
 					setDialogTitle("Delete this record?");
 					setDeleteId(id as number);
 					break;

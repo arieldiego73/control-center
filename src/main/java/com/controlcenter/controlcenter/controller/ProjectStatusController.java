@@ -90,7 +90,7 @@ public class ProjectStatusController {
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
                 String emp_id = "101"; //httpSession.getAttribute("session").toString();
-                return ResponseEntity.status(200).body(projectStatusService.editProjectStatus(id, projectStatus, emp_id));
+                return projectStatusService.editProjectStatus(id, projectStatus, emp_id);
             }
         // } else {
         //     // User is not authenticated 
@@ -102,7 +102,7 @@ public class ProjectStatusController {
     public ResponseEntity<String> logicalDeleteProjectStatus(@PathVariable String id) {
          // Check if the user is authenticated
         //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
-
+ 
         // if (isAuthenticated != null && isAuthenticated) {
             try {
                 String emp_id = "101"; //httpSession.getAttribute("session").toString();

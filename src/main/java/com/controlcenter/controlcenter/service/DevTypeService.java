@@ -15,7 +15,7 @@ public interface DevTypeService {
     public ResponseEntity<List<DevTypeOutput>> getAllDevType();
     public DevTypeOutput getDevTypeById(String id);
     public String addDevType(DevTypeInput devType, String emp_id);
-    public String editDevTypeInfo(String id, DevTypeInput devType, String emp_id);
+    public ResponseEntity<String> editDevTypeInfo(String id, DevTypeInput devType, String emp_id);
     public String logicalDeleteDevType(String id, String emp_id);
     public String deleteMultipleDevType(@RequestParam List<Long> ids, String emp_id);
     public String restoreDevType(String id);

@@ -172,7 +172,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     // get the development type of a project
     @Override
-    public ResponseEntity<List<Map<Long, Object>>> getDevelopmentOfProject(String proj_id) {
+    public ResponseEntity<List<Map<Long, Object>>> getDevelopmentTypeOfProject(String proj_id) {
         List<DevTypeOutput> developmentTypeOfProject = projectDao.getDevelopmentTypeOfProject(proj_id);
         List<Map<Long, Object>> allDevelopmentType = developmentTypeOfProject.stream()
                 .map(developmentType -> {
@@ -348,7 +348,10 @@ public class ProjectServiceImpl implements ProjectService {
     public ResponseEntity<String> editProjectInfo(String id, ProjectInput projectBody, String emp_id,
             List<String> manager_ids, Long client_id, Long type_id, List<Long> phase_ids, List<Long> tech_ids,
             Long project_status_id, List<String> member_ids) {
+
+
         ProjectOutput project = projectDao.getProjectById(id);
+        ProjInfoOutput projectInfoFromDB = projInfoDao.getProjInfoById(id);
 
         ProjInfoInput projectInfo = new ProjInfoInput();
 
@@ -367,11 +370,47 @@ public class ProjectServiceImpl implements ProjectService {
                 return ResponseEntity.status(400).body("Project with the ID " + id + " has already been deleted.");
             } else {
 
+                //gets all the id of the managers, development phase, development technology, and members to compare to the request params.
+                List<String> manager_ids_list = projectDao.getAllManagersOfProject(id)
+                .stream()
+                .map(manager -> {
+                    return manager.getEmp_id();
+                }).collect(Collectors.toList());
+//anakin skywalker
+                List<Long> phase_id_list = projectDao.getAllPhasesOfProject(id)
+                .stream()
+                .map(phase -> {
+                    return phase.getDev_phase_id();
+                }).collect(Collectors.toList());
+
+                List<Long> tech_id_list = projectDao.getAllTechnologiesOfProject(id)
+                .stream()
+                .map(technology -> {
+                    return technology.getTech_id();
+                }).collect(Collectors.toList());
+
+                List<String> member_ids_list = projectDao.getAllMembersOfProject(id)
+                .stream()
+                .map(member -> {
+                    return member.getEmp_id();
+                }).collect(Collectors.toList());
+                //gets all the id of the managers, development phase, development technology, and members to compare to the request params.
+
                 //check if value of information on project have been changed.
-                if(project.getProj_name().equals(projectBody.getProj_name())) {
+                if(project.getProj_name().equals(projectBody.getProj_name())
+                   && project.getProj_description().equals(projectBody.getProj_description())
+                   && project.getStart_date().equals(projectBody.getStart_date())
+                   && project.getEnd_date().equals(projectBody.getEnd_date())
+                   && projectInfoFromDB.getClient_id() == client_id
+                   && projectInfoFromDB.getDev_type_id() == type_id
+                   && projectInfoFromDB.getProj_status_id() == project_status_id
+                   && manager_ids_list.equals(manager_ids)
+                   && phase_id_list.equals(phase_ids)
+                   && tech_id_list.equals(tech_ids)
+                   && member_ids_list.equals(member_ids)
+                ) {
                     return ResponseEntity.ok().body("No changes were made");
                 }
-
                 // initializing the value of project
                 Map<String, Object> projectMap = new HashMap<>();
 
@@ -445,7 +484,6 @@ public class ProjectServiceImpl implements ProjectService {
                     projectMember.setEmp_id(member_id);
                     userProjectDao.addUserProject(projectMember);
                 }
-
                 // saving the new value of the project
                 projectDao.editProjectInfo(projectMap);
 
@@ -464,6 +502,7 @@ public class ProjectServiceImpl implements ProjectService {
                 activityLogDao.addActivityLog(activityLogInput);
 
                 return ResponseEntity.status(200).body("Project '" + project.getProj_name() + "' edited successfully.");
+                
             }
         } else {
             return ResponseEntity.status(404).body("Project with the ID " + id + " cannot be found.");

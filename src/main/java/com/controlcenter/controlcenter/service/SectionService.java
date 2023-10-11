@@ -15,7 +15,7 @@ public interface SectionService {
 
     public String addSection(SectionInput section, String emp_id);
 
-    public String editSectionInfo(String id, SectionInput section, String emp_id);
+    public ResponseEntity<String> editSectionInfo(String id, SectionInput section, String emp_id);
 
     public String logicalDeleteSection(String id, String emp_id);
 

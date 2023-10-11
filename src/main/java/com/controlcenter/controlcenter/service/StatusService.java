@@ -16,11 +16,11 @@ public interface StatusService {
 
     public String addStatus(StatusInput status, String emp_id);
 
-    public String editStatusInfo(String code, StatusOutput status, String emp_id);
+    public ResponseEntity<String> editStatusInfo(String code, StatusOutput status, String emp_id);
 
     public String logicalDeleteStatus(String code, String emp_id);
 
     public String deleteMultipleStatus(@RequestParam List<String> ids, String emp_id);
 
     public String restoreStatus(String code);
-}
+} 

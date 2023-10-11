@@ -242,7 +242,9 @@ export default function Project() {
                       },
                     }}
                     sx={{ width: "100%" }}
-                  >
+                  >   <MenuItem key={0} value={""}>
+                  {"<None>"}
+                </MenuItem>
                     {statuses.map((status: any) => (
                       <MenuItem
                         key={status.proj_status_id}

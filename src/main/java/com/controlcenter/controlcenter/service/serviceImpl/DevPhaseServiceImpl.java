@@ -13,17 +13,17 @@ import com.controlcenter.controlcenter.dao.ActivityLogDao;
 import com.controlcenter.controlcenter.dao.DevPhaseDao;
 import com.controlcenter.controlcenter.model.ActivityLogInput;
 import com.controlcenter.controlcenter.model.DevPhaseInput;
-import com.controlcenter.controlcenter.model.DevPhaseOutput;
+import com.controlcenter.controlcenter.model.DevPhaseOutput; 
 import com.controlcenter.controlcenter.service.DevPhaseService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
 @Service
 public class DevPhaseServiceImpl implements DevPhaseService {
-    
+
     @Autowired
     public DevPhaseDao devPhaseDao;
 
-    @Autowired 
+    @Autowired
     public TimeFormatter timeFormatter;
 
     @Autowired
@@ -33,32 +33,32 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     List<DevPhaseOutput> nullDevPhase = new ArrayList<>();
 
     @Override
-    public DevPhaseOutput getDevPhaseById(String id){
+    public DevPhaseOutput getDevPhaseById(String id) {
         return devPhaseDao.getDevPhaseById(id);
     }
 
     @Override
-    public ResponseEntity<List<DevPhaseOutput>> getAllDevPhase(){
+    public ResponseEntity<List<DevPhaseOutput>> getAllDevPhase() {
         try {
             return ResponseEntity.ok(devPhaseDao.getAllDevPhase());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(nullDevPhase);
         }
     }
-    
+
     @Override
     public String addDevPhase(DevPhaseInput devPhase, String emp_id) {
         try {
             devPhaseDao.addDevPhase(devPhase);
 
-            //Acivitylog
+            // Acivitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id(emp_id); //current logged user dapat
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
             activityLogInput.setLog_desc("Added '" + devPhase.getDev_phase_name() + "' development phase.");
 
             Long currentTimeMillis = System.currentTimeMillis();
-            //add the activity log
+            // add the activity log
             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInput);
 
@@ -68,37 +68,68 @@ public class DevPhaseServiceImpl implements DevPhaseService {
         }
     }
 
-    @Override 
-    public String editDevPhaseInfo(String id, DevPhaseInput devPhase, String emp_id) {
+    @Override
+    public ResponseEntity<String> editDevPhaseInfo(String id, DevPhaseInput devPhase, String emp_id) {
         DevPhaseOutput data = devPhaseDao.getDevPhaseById(id);
 
-        if(data != null){
-            if(data.getDel_flag() == 1){
-                return "Development Phase with the ID " + id + " has already been deleted.";
-            } else{
-                Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("id", id);
-                paramMap.put("devPhase", devPhase);
+        if (data != null) {
+            if (data.getDel_flag() == 1) {
+                return ResponseEntity.badRequest().body("Development Phase with the ID " + id + " has already been deleted.");
+            } else {
+                if (devPhase.getDev_phase_name().equals(data.getDev_phase_name())
+                    && devPhase.getDev_phase_sh_name().equals(data.getDev_phase_sh_name())) {
+                    return ResponseEntity.ok().body("No changes has been made");
+                } else {
 
-                devPhaseDao.editDevPhaseInfo(paramMap);
+                    if (!devPhase.getDev_phase_name().equals(data.getDev_phase_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("devPhase", devPhase);
 
-                devPhaseList = devPhaseDao.getAllDevPhase();
+                        devPhaseDao.editDevPhaseInfo(paramMap);
 
-                //Acivitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
+                        devPhaseList = devPhaseDao.getAllDevPhase();
 
-                activityLogInput.setEmp_id(emp_id); //current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + devPhase.getDev_phase_name() + "' development phase.");
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                Long currentTimeMillis = System.currentTimeMillis();
-                //add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + devPhase.getDev_phase_name() + "' development phase.");
 
-                return "Development Phase '" + devPhase.getDev_phase_name() + "' edited successfully.";
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited '" + devPhase.getDev_phase_name() + "' successfully.");
+                    } else { 
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("devPhase", devPhase);
+
+                        devPhaseDao.editDevPhaseInfo(paramMap);
+
+                        devPhaseList = devPhaseDao.getAllDevPhase();
+
+                        // Acivitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + devPhase.getDev_phase_name() + "' development phase.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited a short name '" + devPhase.getDev_phase_sh_name() +"' of the Development Phase '" + devPhase.getDev_phase_name() + "' successfully.");
+                    }
+                   
+                }
             }
-        } else{
-            return "Development Phase with the ID " + id + " cannot be found.";
+        } else {
+            return ResponseEntity.badRequest().body("Development Phase with the ID " + id + " cannot be found.");
+
         }
     }
 
@@ -106,27 +137,27 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     public String logicalDeleteDevPhase(String id, String emp_id) {
         DevPhaseOutput devPhase = devPhaseDao.getDevPhaseById(id);
 
-        if(devPhase != null){
-            if(devPhase.getDel_flag() == 1){
+        if (devPhase != null) {
+            if (devPhase.getDel_flag() == 1) {
                 return "Development Phase with the ID " + id + " has already been deleted.";
-            } else{ 
+            } else {
                 devPhaseDao.logicalDeleteDevPhase(id);
                 devPhaseList = devPhaseDao.getAllDevPhase();
 
-                //Acivitylog
+                // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id(emp_id); //current logged user dapat
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
                 activityLogInput.setLog_desc("Deleted '" + devPhase.getDev_phase_name() + "' development phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
-                //add the activity log
+                // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
                 return "Development Phase '" + devPhase.getDev_phase_name() + "' deleted successfully.";
             }
-        } else{
+        } else {
             return "Development Phase with the ID " + id + " cannot be found.";
         }
     }
@@ -135,11 +166,11 @@ public class DevPhaseServiceImpl implements DevPhaseService {
     public String deleteMultipleDevPhase(List<Long> ids, String emp_id) {
         devPhaseList = devPhaseDao.getAllDevPhase();
 
-        for(Long id : ids) {
+        for (Long id : ids) {
             String toString = String.valueOf(id);
             DevPhaseOutput devPhase = devPhaseDao.getDevPhaseById(toString);
-            if(devPhase != null) {
-                if(devPhase.getDel_flag() == 1) {
+            if (devPhase != null) {
+                if (devPhase.getDel_flag() == 1) {
                     return "Development Phase with the ID " + id + " has already been deleted.";
                 }
             } else {
@@ -148,20 +179,20 @@ public class DevPhaseServiceImpl implements DevPhaseService {
         }
         devPhaseDao.deleteMultipleDevPhase(ids);
 
-        //Acivitylog
+        // Acivitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
         Long currentTimeMillis = System.currentTimeMillis();
 
         List<String> devPhases = new ArrayList<>();
         StringBuilder formattedList = new StringBuilder();
 
-        for(Long id : ids) {
+        for (Long id : ids) {
             String toString = String.valueOf(id);
             DevPhaseOutput devPhase = devPhaseDao.getDevPhaseById(toString);
             devPhases.add(devPhase.getDev_phase_name());
         }
 
-        for(String element : devPhases) {
+        for (String element : devPhases) {
             formattedList.append("'").append(element).append("', ");
         }
 
@@ -169,42 +200,40 @@ public class DevPhaseServiceImpl implements DevPhaseService {
             formattedList.delete(formattedList.length() - 2, formattedList.length());
         }
 
-        activityLogInput.setEmp_id(emp_id); //current logged user dapat
+        activityLogInput.setEmp_id(emp_id); // current logged user dapat
         activityLogInput.setLog_desc("Deleted multiple Development Phases: " + formattedList.toString() + ".");
 
-        //add the activity log
+        // add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
 
         return "Records are successfully deleted.";
     }
 
-        
-
     @Override
     public String restoreDevPhase(String id) {
         DevPhaseOutput devPhase = devPhaseDao.getDevPhaseById(id);
-        
-        if(devPhase != null){
-            if(devPhase.getDel_flag() == 0){
+
+        if (devPhase != null) {
+            if (devPhase.getDel_flag() == 0) {
                 return "Development Phase with the ID " + id + " is not yet deleted.";
-            } else{
+            } else {
                 devPhaseDao.restoreDevPhase(id);
 
-                //Acivitylog
+                // Acivitylog
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                activityLogInput.setEmp_id("101"); //current logged user dapat
+                activityLogInput.setEmp_id("101"); // current logged user dapat
                 activityLogInput.setLog_desc("Restored '" + devPhase.getDev_phase_name() + "' development phase.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
-                //add the activity log
+                // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
                 return "Development Phase restored successfully.";
             }
-        } else{
+        } else {
             return "Development Phase with the ID " + id + " cannot be found.";
         }
     }

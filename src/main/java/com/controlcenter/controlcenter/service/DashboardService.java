@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
 import com.controlcenter.controlcenter.model.RecentProjects;
+import com.controlcenter.controlcenter.model.TotalUser;
+import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 
 public interface DashboardService {
@@ -20,7 +22,7 @@ public interface DashboardService {
     public ResponseEntity<Integer> countAllUserWithStatusOfTrainee();
 
     public ResponseEntity<Integer> countAllProjectByStatus(String proj_status_id);
-    public ResponseEntity<Integer> countAllUserByStatus(String user_status_code);
+    public ResponseEntity<TotalUser> countAllUser();
     public ResponseEntity<List<Map<String, Object>>> getAllProjectCountByStatus();
     public ResponseEntity<List<Map<String, Object>>> getAllUserCountByStatus();
 
@@ -33,4 +35,6 @@ public interface DashboardService {
     public ResponseEntity<List<UserStatusGraph>> getAllUserStatusCountPerYearAndMonth();
 
     public ResponseEntity<List<RecentProjects>> getRecentProjects();
+
+    public ResponseEntity<List<UserPerYearAndMonth>> countAllUserPerYearAndMonth();
 }

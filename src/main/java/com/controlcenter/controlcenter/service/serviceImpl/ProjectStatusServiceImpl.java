@@ -18,6 +18,8 @@ import com.controlcenter.controlcenter.model.ProjectStatusOutput;
 import com.controlcenter.controlcenter.service.ProjectStatusService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
+import net.bytebuddy.asm.Advice.Return;
+
 @Service
 public class ProjectStatusServiceImpl implements ProjectStatusService {
     @Autowired
@@ -64,34 +66,64 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     }
 
     @Override
-    public String editProjectStatus(String id, ProjectStatusInput projectStatus, String emp_id) {
+    public ResponseEntity<String> editProjectStatus(String id, ProjectStatusInput projectStatus, String emp_id) {
         ProjectStatusOutput data = projectStatusDao.getProjectStatusById(id);
 
         if (data != null) {
             if (data.getDel_flag() == 1) {
-                return "Project Status with the ID " + id + " has already been deleted.";
-            } else {
-                Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("id", id);
-                paramMap.put("projectStatus", projectStatus);
+                return ResponseEntity.badRequest().body("Project Status with the ID " + id + " has already been deleted.");
+            } else { 
+                if (projectStatus.getProj_status_name().equals(data.getProj_status_name())
+                && projectStatus.getProj_status_description().equals(data.getProj_status_description())){
+                    return ResponseEntity.ok().body("No changes has been made");
+                } else {
 
-                projectStatusDao.editProjectStatus(paramMap);
+                    if(!projectStatus.getProj_status_name().equals(data.getProj_status_name())){
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("projectStatus", projectStatus);
 
-                // Activitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
+                        projectStatusDao.editProjectStatus(paramMap);
 
-                activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + projectStatus.getProj_status_name() + "' project status.");
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                Long currentTimeMillis = System.currentTimeMillis();
-                // add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + projectStatus.getProj_status_name() + "' sucessfully.");
 
-                return "Project Status '" + projectStatus.getProj_status_name() + "' edited successfully.";
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited '" + projectStatus.getProj_status_name() + "' successfully.");
+                    } else {
+                        Map<String, Object> paramMap = new HashMap<>();
+                        paramMap.put("id", id);
+                        paramMap.put("projectStatus", projectStatus);
+
+                        projectStatusDao.editProjectStatus(paramMap);
+
+                        // Activitylog
+                        ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                        activityLogInput.setLog_desc("Edited '" + projectStatus.getProj_status_name() + "' project status.");
+
+                        Long currentTimeMillis = System.currentTimeMillis();
+                        // add the activity log
+                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                        activityLogDao.addActivityLog(activityLogInput);
+
+                        return ResponseEntity.ok().body("Edited Description '" + projectStatus.getProj_status_description() + "' of the Project Status '" +  projectStatus.getProj_status_name()+ "' successfully.");
+                    }
+                   
+                }
+               
             }
         } else {
-            return "Project Status with the ID " + id + " cannot be found.";
+            return ResponseEntity.badRequest().body("Project Status with the ID " + id + " cannot be found.");
+
         }
     }
 
@@ -148,19 +180,19 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
         List<String> projectStatuses = new ArrayList<>();
         StringBuilder formattedList = new StringBuilder();
 
-        for(Long id : ids) {
+        for (Long id : ids) {
             String toString = String.valueOf(id);
             ProjectStatusOutput projectStatus = projectStatusDao.getProjectStatusById(toString);
             projectStatuses.add(projectStatus.getProj_status_name());
         }
 
-        for(String element : projectStatuses) {
+        for (String element : projectStatuses) {
             formattedList.append("'").append(element).append("', ");
         }
 
         if (formattedList.length() > 0) {
             formattedList.delete(formattedList.length() - 2, formattedList.length());
-        } 
+        }
 
         activityLogInput.setEmp_id(emp_id); // current logged user dapat
         activityLogInput.setLog_desc("Deleted multiple Project Status: " + formattedList.toString() + ".");
