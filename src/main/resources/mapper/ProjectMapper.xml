@@ -138,7 +138,7 @@
         SELECT tup.emp_id,
                tpi.fname,
                tpi.lname,
-               tposition.position_sh_name
+               tposition.position_sh_namez
           FROM tbl_project_mst AS tproj
             INNER JOIN tbl_user_project AS tup
                 ON tproj.proj_id = tup.proj_id
