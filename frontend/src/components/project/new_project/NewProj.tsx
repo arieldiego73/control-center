@@ -1036,7 +1036,7 @@ export default function NewProj() {
         <DialogActions>
           <Button
             variant="contained"
-            onClick={proceedToSaveProject}
+            onClick={proceedWithCancel}
             autoFocus
           >
             Leave this Page
