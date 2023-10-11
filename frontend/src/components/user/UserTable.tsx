@@ -76,7 +76,6 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   const saved = useSelector((state: RootState) => state.userReducer.saved);
   const errorMessage = useSelector((state: RootState) => state.userReducer.error);
   const [error, setErrorMsg] = React.useState<string | undefined>('');
-  // const hasErrorMessage = errorMessage !== undefined && errorMessage.trim() !== '';
   const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
   const [changePassId, setChangePassId] = React.useState(0);
   const [adminPass, setAdminPass] = React.useState("");
@@ -94,6 +93,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
   const [username, setUsername] = React.useState("");
+  // const [confirmCancelDialogOpen, setConfirmCancelDialogOpen] = React.useState(false);
 
 
   const loadingState = useSelector(
@@ -132,15 +132,32 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     dispatch(getUsersFetch());
   }, [dispatch]);
 
+  // React.useEffect(() => {
+  //   const handleOutsideClick = (e: MouseEvent) => {
+  //     const target = e.target as HTMLElement; // Cast e.target to HTMLElement
+  //     if (changePasswordOpen && target && !target.closest('.dialog-container')) {
+  //       setConfirmCancelDialogOpen(true);
+  //     }
+  //   };    
+  
+  //   if (changePasswordOpen) {
+  //     document.addEventListener('mousedown', handleOutsideClick);
+  //   } else {
+  //     document.removeEventListener('mousedown', handleOutsideClick);
+  //   }
+  
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleOutsideClick);
+  //   };
+  // }, [changePasswordOpen]);
+  
+
   const handleOpenChangePassword = (id: GridRowId, username: string) => {
     setChangePasswordOpen(true);
     setChangePassId(id as number);
-
     const newUrl = `/user/password-change/${id}`;
     window.history.pushState(null, '', newUrl);
-
     setUsername(username);
-
   };
 
   const handleChangePassword = () => {
@@ -448,6 +465,24 @@ const UserTable: React.FC<UserTableProps> = (props) => {
             </Button>
           </DialogActions>
         </Dialog>
+
+        {/* Confirmation Dialog */}
+        {/* <Dialog open={confirmCancelDialogOpen}>
+          <DialogTitle>Do you really want to cancel/discard your changes?</DialogTitle>
+          <DialogContent>
+
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setConfirmCancelDialogOpen(false)}>No</Button>
+            <Button onClick={() => {
+              setConfirmCancelDialogOpen(false);
+              // Handle cancel action here
+            }}>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog> */}
+
       </div>
     </Box>
   );
