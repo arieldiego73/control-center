@@ -27,11 +27,16 @@ export type ProjectStatus = {
 	// total_project_status: number;
 }
 
+export type TotalUserCount = {
+	total_user: number;
+}
+
 
 export type GraphsData = {
 	user_status: UserStatus[]; //emp status
 	project_status: ProjectStatus[]; 
 	recent_projects: RecentProjects[]; //usergraph 
+	total_user_count: TotalUserCount;
 
 }
 
@@ -51,7 +56,7 @@ export const graphsDataSlice = createSlice({
 			state.graphsData = action.payload;
 			state.isLoading = false;
 		},
-		setIsLoading: (state, action) => {
+		setIsLoading: (state, action) => { 
 			state.isLoading = action.payload
 		}
 	},
