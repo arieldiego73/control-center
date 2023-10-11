@@ -241,6 +241,7 @@ export default function CreateUser() {
       dept_id: businessUnit,
       selectedRoles: selectedRoles,
       status_code: empStatus,
+      img_src: selectedImage
     };
     dispatch(addUserInfo({ data }));
     setAskSave(false);

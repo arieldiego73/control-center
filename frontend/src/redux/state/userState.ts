@@ -24,6 +24,7 @@ export const userSlice = createSlice({
 			dept_id: 0,
 			section_id: 0,
 			status_code: "",
+      img_src: "",
 		},
 		userRoles: [],
 		isLoading: false,
@@ -81,6 +82,7 @@ export const userSlice = createSlice({
 				dept_id: 0,
 				section_id: 0,
 				status_code: "",
+        img_src: "",
 			};
 			state.userRoles = [];
 		},

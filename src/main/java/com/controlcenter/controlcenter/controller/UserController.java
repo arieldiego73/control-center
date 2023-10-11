@@ -23,6 +23,7 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user")
@@ -117,7 +119,7 @@ public class UserController {
   // }
 
   @PutMapping("/edit-account/{id}")
-  public ResponseEntity<String> editAccount(@PathVariable String id, @RequestBody AccountOutput accountBody, @RequestParam List<Long> role_ids) {
+  public ResponseEntity<String> editAccount(@PathVariable String id, @ModelAttribute AccountOutput accountBody, @RequestParam List<Long> role_ids, @RequestParam(value = "photo",required = false) MultipartFile photo) {
     //For Validation
     ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
     Validator validator = validatorFactory.getValidator();
@@ -127,7 +129,7 @@ public class UserController {
         return ResponseEntity.status(400).body(errorHandler.getErrors(error));
       }else{
         String emp_id = "101"; // httpSession.getAttribute("session").toString();
-        return userService.editAccount(id, accountBody, role_ids, emp_id);
+        return userService.editAccount(id, accountBody, role_ids, emp_id, photo);
       }
   }
 
