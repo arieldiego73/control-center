@@ -7,15 +7,18 @@ import {
 	getUsersSuccess,
 	setMessage,
 	setIsLoading,
-	setError
+	setError,
+	setSaved,
+	// changePasswordSuccess,
+	clearError,
 } from "../state/userState";
 import { createAction } from "@reduxjs/toolkit";
-import { GridRowId } from "@mui/x-data-grid"
+import { GridRowId } from "@mui/x-data-grid";
 import axios from "axios";
 
 interface Data {
 	emp_id: string;
-	username: string; 
+	username: string;
 	password: string;
 	confirm_password: string;
 	admin_password: string;
@@ -26,7 +29,7 @@ interface Data {
 	lname: string;
 	position_id: number;
 	email: string;
-	section_id: number; 
+	section_id: number;
 	dept_id: number;
 	selectedRoles: number[];
 	status_code: string;
@@ -46,7 +49,7 @@ function* userSaga() {
 // FETCH A SINGLE USER
 function* fetchUserInfoSaga(action: ReturnType<typeof getUserInfo>): any {
 	try {
-		yield put(setIsLoading(true))
+		yield put(setIsLoading(true));
 		const responseUserInfo = yield call(
 			apiFetchUserInfo,
 			action.payload.userId
@@ -76,7 +79,7 @@ export const getUserInfo = createAction<{
 // FETCH A SINGLE USER'S ROLES
 function* fetchUserRolesSaga(action: ReturnType<typeof getUserRoles>): any {
 	try {
-		yield put(setIsLoading(true))
+		yield put(setIsLoading(true));
 		const responseUserRoles = yield call(
 			apiFetchUserRoles,
 			action.payload.userId
@@ -141,7 +144,7 @@ export function* userSagaAdd() {
 
 function* addSaga(action: ReturnType<typeof addUserInfo>): any {
 	try {
-		yield put(setIsLoading(true))
+		yield put(setIsLoading(true));
 		const response = yield call(apiAdd, action.payload.data);
 		yield call(validate, response, "add");
 	} catch (error) {
@@ -189,7 +192,7 @@ export function* userSagaUpdate() {
 
 function* updateSaga(action: ReturnType<typeof updateUserInfo>): any {
 	try {
-		yield put(setIsLoading(true))
+		yield put(setIsLoading(true));
 		const response = yield call(apiUpdate, action.payload.data);
 		yield call(validate, response, "update");
 	} catch (error) {
@@ -217,7 +220,7 @@ export function* userSagaDelete() {
 
 function* deleteSaga(action: ReturnType<typeof deleteUser>): any {
 	try {
-		yield put(setIsLoading(true))
+		yield put(setIsLoading(true));
 		const response = yield call(apiDelete, action.payload.user_id);
 		yield call(validate, response);
 	} catch (error) {
@@ -232,7 +235,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 		batchId.forEach((id) => {
 			params.append("ids", id.toString());
 		});
-		const url = `http://localhost:8080/user/delete-multiple?${params}`
+		const url = `http://localhost:8080/user/delete-multiple?${params}`;
 		return axios.put(url);
 	} catch (error) {
 		return error;
@@ -241,7 +244,7 @@ const apiBatchDelete = async (batchId: Set<GridRowId>): Promise<any> => {
 
 function* deleteBatchSaga(action: ReturnType<typeof deleteUserBatch>): any {
 	try {
-		yield put(setIsLoading(true))
+		yield put(setIsLoading(true));
 		const response = yield call(apiBatchDelete, action.payload.batchId);
 		yield call(validate, response);
 	} catch (error) {
@@ -259,10 +262,10 @@ export function* userSagaDeleteBatch() {
 
 //PASSWORD
 const apiPassword = async (data: {
-	adminPass: string,
-	newPass: string,
-	confirmNewPass: string,
-	assocId: number,
+	adminPass: string;
+	newPass: string;
+	confirmNewPass: string;
+	assocId: number;
 }): Promise<any> => {
 	try {
 		const params = new URLSearchParams();
@@ -272,7 +275,7 @@ const apiPassword = async (data: {
 		params.append("confirm_new_password", data.confirmNewPass);
 
 		const url = `http://localhost:8080/user/password-change/${data.assocId}?${params}`;
-		return axios.put(url); 
+		return axios.put(url);
 	} catch (error) {
 		return error;
 	}
@@ -280,28 +283,34 @@ const apiPassword = async (data: {
 
 export const changePassword = createAction<{
 	data: {
-		adminPass: string,
-		newPass: string,
-		confirmNewPass: string,
-		assocId: number,
+		adminPass: string;
+		newPass: string;
+		confirmNewPass: string;
+		assocId: number;
 	};
 }>("users/change-password");
 
 export function* userSagaPass() {
 	yield takeEvery(changePassword.type, passwordSaga);
 }
-
 function* passwordSaga(action: ReturnType<typeof changePassword>): any {
 	try {
-		yield put(setIsLoading(true))
+		yield put(setIsLoading(true));
 		const response = yield call(apiPassword, action.payload.data);
-	} catch (error: any) {
-		// yield call(catchErr, error);
-		yield put(setError(error?.response.data));
 
+		if (response?.status === 200) {
+			yield put(clearError());
+			yield put(setSaved(true)); 
+			yield put(setIsLoading(false));
+		} else {
+			yield put(clearError());
+			yield put(setError(response?.data));
+		}
+	} catch (error: any) {
+		yield put(clearError());
+		yield put(setError(error?.response.data));
 	}
 }
-
 
 // VALIDATE THE RESPONSE
 function* validate(res: any, action?: string) {

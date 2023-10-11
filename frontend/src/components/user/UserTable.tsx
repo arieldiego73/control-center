@@ -72,90 +72,18 @@ const TrashIcon = () => (
 
 const UserTable: React.FC<UserTableProps> = (props) => {
   const data = useSelector((state: RootState) => state.userReducer.users);
+  const saved = useSelector((state: RootState) => state.userReducer.saved);
 
-  const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
+  const errorMessage = useSelector((state: RootState) => state.userReducer.error);
   const [error, setErrorMsg] = React.useState<string | undefined>('');
+  // const hasErrorMessage = errorMessage !== undefined && errorMessage.trim() !== '';
+  const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
   const [changePassId, setChangePassId] = React.useState(0);
   const [adminPass, setAdminPass] = React.useState("");
   const [newPass, setNewPass] = React.useState(""); // State to store the new password
   const [confirmNewPass, setConfirmNewPass] = React.useState(""); // State to store the new password
-
-  // const handleOpenChangePassword = (id: GridRowId) => {
-
-  //   setChangePassId(id as number);
-  //   console.log("idddd = " + id);
-
-  //   // Clear previous errors, if any
-  //   dispatch(clearError());
-
-  //   const newUrl = `/user/password-change/${id}`;
-  //   window.history.pushState(null, '', newUrl);
-  //   setChangePasswordOpen(true);
-  // };
-
-  // Function to handle changing the password
+  const [isClosable, setIsClosable] = React.useState(true)
   
-  const handleOpenChangePassword = (id: GridRowId) => {
-    setChangePassId(id as number);
-    console.log("idddd = " + id);
-  
-    // Clear previous errors, if any
-    setErrorMsg('');
-  
-    const newUrl = `/user/password-change/${id}`;
-    window.history.pushState(null, '', newUrl);
-    setChangePasswordOpen(true);
-  
-    // Clear input fields when opening the dialog
-    setAdminPass('');
-    setNewPass('');
-    setConfirmNewPass('');
-  };
-
-
-  const handleChangePassword = async () => {
-    // Validate new password and confirm password
-    if (newPass !== confirmNewPass) {
-      setErrorMsg('New password and confirm password do not match');
-      return;
-    }
-
-    dispatch(changePassword({
-      data: { adminPass, newPass, confirmNewPass, assocId: changePassId }
-    }));
-    // Make the API call to change the password
-    try {
-      handleCloseChangePassword();
-    } catch (error) {
-      // Handle API errors, dispatch the error message to Redux
-      dispatch(setError(error)); // Assuming the error message is sent in the response body
-    }
-  };
-
-  // Function to close the change password modal
-  // const handleCloseChangePassword = () => {
-  //   // window.location.href = "/users";
-  //   navigate("/users")
-  //   setChangePasswordOpen(false);
-  //   dispatch(clearError());
-  //   setNewPass(''); // Clear the password field
-  //   setAdminPass('');
-  //   setConfirmNewPass('');
-  // };
-
-  const handleCloseChangePassword = () => {
-    // Clear the error message and input fields
-    dispatch(clearError());
-    setErrorMsg('');
-    setAdminPass('');
-    setNewPass('');
-    setConfirmNewPass('');
-  
-    // Close the dialog
-    navigate("/users");
-    setChangePasswordOpen(false);
-  };
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -172,13 +100,63 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     (state: RootState) => state.userReducer.isLoading
   );
   const [isLoading, setIsLoading] = React.useState(loadingState);
+
   React.useEffect(() => {
     setIsLoading(() => loadingState);
   }, [loadingState]);
 
+
+  React.useEffect(() => {
+    if (errorMessage === "") {
+      setErrorMsg("");
+      setIsClosable(true);
+      dispatch(clearError());
+    }
+    else {
+      setErrorMsg(errorMessage)
+      setIsClosable(false);
+    }
+  }, [dispatch, errorMessage, isClosable, adminPass])
+
+  React.useEffect(() => {
+    if (isClosable && saved) {
+      dispatch(clearError());
+      setAdminPass('');
+      setNewPass('');
+      setConfirmNewPass('');
+      setChangePasswordOpen(false);
+      navigate("/users");
+    }
+  }, [dispatch, isClosable, navigate, saved])
+
   React.useEffect(() => {
     dispatch(getUsersFetch());
   }, [dispatch]);
+
+  const handleOpenChangePassword = (id: GridRowId) => {
+    setChangePasswordOpen(true);
+    setChangePassId(id as number);
+    const newUrl = `/user/password-change/${id}`;
+    window.history.pushState(null, '', newUrl);
+  };
+
+  const handleChangePassword = () => {
+    dispatch(changePassword({
+      data: { adminPass, newPass, confirmNewPass, assocId: changePassId }
+    }));
+  };
+
+  const handleCloseChangePassword = () => {
+    dispatch(clearError());
+    // Clear the input fields
+    setAdminPass('');
+    setNewPass('');
+    setConfirmNewPass('');
+    // Close the dialog
+    navigate("/users");
+    setChangePasswordOpen(false);
+
+  };
 
   const proceedWithDelete = () => {
     dispatch(deleteUser({ user_id: deleteId }));
@@ -423,7 +401,9 @@ const UserTable: React.FC<UserTableProps> = (props) => {
           </DialogTitle>
           <DialogContent>
             {error && (
-              <div style={{ color: 'red', marginBottom: "10px" }}>{error}</div>
+              <div style={{ color: 'red', marginBottom: "10px" }}>
+                {error}
+              </div>
             )}
             <TextField
               margin="dense"
