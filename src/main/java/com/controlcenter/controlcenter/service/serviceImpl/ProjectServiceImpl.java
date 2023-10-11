@@ -376,7 +376,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(manager -> {
                     return manager.getEmp_id();
                 }).collect(Collectors.toList());
-//sa
+//anakin skywalker
                 List<Long> phase_id_list = projectDao.getAllPhasesOfProject(id)
                 .stream()
                 .map(phase -> {
