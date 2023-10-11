@@ -5,6 +5,7 @@ import {
   GridActionsCellItem,
   GridColDef,
   GridRowId,
+  GridRowParams,
   GridRowSelectionModel,
   GridRowsProp,
 } from "@mui/x-data-grid";
@@ -73,7 +74,6 @@ const TrashIcon = () => (
 const UserTable: React.FC<UserTableProps> = (props) => {
   const data = useSelector((state: RootState) => state.userReducer.users);
   const saved = useSelector((state: RootState) => state.userReducer.saved);
-
   const errorMessage = useSelector((state: RootState) => state.userReducer.error);
   const [error, setErrorMsg] = React.useState<string | undefined>('');
   // const hasErrorMessage = errorMessage !== undefined && errorMessage.trim() !== '';
@@ -83,7 +83,6 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   const [newPass, setNewPass] = React.useState(""); // State to store the new password
   const [confirmNewPass, setConfirmNewPass] = React.useState(""); // State to store the new password
   const [isClosable, setIsClosable] = React.useState(true)
-  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -92,9 +91,10 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   const [isBatch, setIsBatch] = React.useState<boolean>();
   const [rowSelectionModel, setRowSelectionModel] = React.useState<GridRowSelectionModel>([]);
   const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(new Set());
-
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
+  const [username, setUsername] = React.useState("");
+
 
   const loadingState = useSelector(
     (state: RootState) => state.userReducer.isLoading
@@ -104,7 +104,6 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   React.useEffect(() => {
     setIsLoading(() => loadingState);
   }, [loadingState]);
-
 
   React.useEffect(() => {
     if (errorMessage === "") {
@@ -133,11 +132,15 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     dispatch(getUsersFetch());
   }, [dispatch]);
 
-  const handleOpenChangePassword = (id: GridRowId) => {
+  const handleOpenChangePassword = (id: GridRowId, username: string) => {
     setChangePasswordOpen(true);
     setChangePassId(id as number);
+
     const newUrl = `/user/password-change/${id}`;
     window.history.pushState(null, '', newUrl);
+
+    setUsername(username);
+
   };
 
   const handleChangePassword = () => {
@@ -315,7 +318,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
       headerName: "Actions",
       // minWidth: 200,
       cellClassName: "actions",
-      getActions: ({ id }) => {
+      getActions: (params: GridRowParams<any>) => {
         return [
           <>
             <Tooltip title="Delete User">
@@ -323,7 +326,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
                 icon={<TrashIcon />}
                 // style={{ height: "20px", width: "12px" }}
                 label="Delete"
-                onClick={handleDeleteClick(id)}
+                onClick={handleDeleteClick(params.id)}
                 color="inherit"
               />
             </Tooltip>
@@ -335,7 +338,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
                 icon={<PasswordIcon64px />}
                 // style={{ height: "20px", width: "12px" }}
                 label="Change Password"
-                onClick={() => handleOpenChangePassword(id)}
+                onClick={() => handleOpenChangePassword(params.id, params.row?.username)}
                 color="inherit"
               />
             </Tooltip>
@@ -397,7 +400,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
         <Dialog open={changePasswordOpen} onClose={handleCloseChangePassword}>
           <DialogTitle style={{ display: "flex", gap: "10px" }}>
             <img src={passwordIcon64px} alt="change password icon" style={{ height: "30px", width: "30px" }} />
-            <span>Change Password</span>
+            <span>Change Password of {username} </span>
           </DialogTitle>
           <DialogContent>
             {error && (
