@@ -1,6 +1,6 @@
 // rootSaga.js
 import { all } from "redux-saga/effects";
-import userSaga, { userSagaAdd, userSagaDelete, userSagaDeleteBatch, userSagaFetchUserInfo, userSagaFetchUserRoles, userSagaUpdate } from "./userSaga";
+import userSaga, { userSagaAdd, userSagaDelete, userSagaDeleteBatch, userSagaFetchUserInfo, userSagaFetchUserRoles, userSagaPass, userSagaUpdate } from "./userSaga";
 import {
 	roleSagaUpdate,
 	roleSaga,
@@ -32,7 +32,7 @@ export default function* rootSaga() {
 		userSagaUpdate(),
 		userSagaDeleteBatch(),
 		userSagaDelete(), 
-		// userSagaPass(),
+		userSagaPass(),
 
 		projectSaga(),
 		projectSagaAdd(),

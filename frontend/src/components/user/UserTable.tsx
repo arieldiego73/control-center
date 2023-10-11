@@ -5,6 +5,7 @@ import {
   GridActionsCellItem,
   GridColDef,
   GridRowId,
+  GridRowParams,
   GridRowSelectionModel,
   GridRowsProp,
 } from "@mui/x-data-grid";
@@ -72,90 +73,15 @@ const TrashIcon = () => (
 
 const UserTable: React.FC<UserTableProps> = (props) => {
   const data = useSelector((state: RootState) => state.userReducer.users);
-
-  const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
+  const saved = useSelector((state: RootState) => state.userReducer.saved);
+  const errorMessage = useSelector((state: RootState) => state.userReducer.error);
   const [error, setErrorMsg] = React.useState<string | undefined>('');
+  const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
   const [changePassId, setChangePassId] = React.useState(0);
   const [adminPass, setAdminPass] = React.useState("");
   const [newPass, setNewPass] = React.useState(""); // State to store the new password
   const [confirmNewPass, setConfirmNewPass] = React.useState(""); // State to store the new password
-
-  // const handleOpenChangePassword = (id: GridRowId) => {
-
-  //   setChangePassId(id as number);
-  //   console.log("idddd = " + id);
-
-  //   // Clear previous errors, if any
-  //   dispatch(clearError());
-
-  //   const newUrl = `/user/password-change/${id}`;
-  //   window.history.pushState(null, '', newUrl);
-  //   setChangePasswordOpen(true);
-  // };
-
-  // Function to handle changing the password
-  
-  const handleOpenChangePassword = (id: GridRowId) => {
-    setChangePassId(id as number);
-    console.log("idddd = " + id);
-  
-    // Clear previous errors, if any
-    setErrorMsg('');
-  
-    const newUrl = `/user/password-change/${id}`;
-    window.history.pushState(null, '', newUrl);
-    setChangePasswordOpen(true);
-  
-    // Clear input fields when opening the dialog
-    setAdminPass('');
-    setNewPass('');
-    setConfirmNewPass('');
-  };
-
-
-  const handleChangePassword = async () => {
-    // Validate new password and confirm password
-    if (newPass !== confirmNewPass) {
-      setErrorMsg('New password and confirm password do not match');
-      return;
-    }
-
-    dispatch(changePassword({
-      data: { adminPass, newPass, confirmNewPass, assocId: changePassId }
-    }));
-    // Make the API call to change the password
-    try {
-      handleCloseChangePassword();
-    } catch (error) {
-      // Handle API errors, dispatch the error message to Redux
-      dispatch(setError(error)); // Assuming the error message is sent in the response body
-    }
-  };
-
-  // Function to close the change password modal
-  // const handleCloseChangePassword = () => {
-  //   // window.location.href = "/users";
-  //   navigate("/users")
-  //   setChangePasswordOpen(false);
-  //   dispatch(clearError());
-  //   setNewPass(''); // Clear the password field
-  //   setAdminPass('');
-  //   setConfirmNewPass('');
-  // };
-
-  const handleCloseChangePassword = () => {
-    // Clear the error message and input fields
-    dispatch(clearError());
-    setErrorMsg('');
-    setAdminPass('');
-    setNewPass('');
-    setConfirmNewPass('');
-  
-    // Close the dialog
-    navigate("/users");
-    setChangePasswordOpen(false);
-  };
-
+  const [isClosable, setIsClosable] = React.useState(true)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [rows, setRows] = React.useState<GridRowsProp>(data);
@@ -164,21 +90,93 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   const [isBatch, setIsBatch] = React.useState<boolean>();
   const [rowSelectionModel, setRowSelectionModel] = React.useState<GridRowSelectionModel>([]);
   const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(new Set());
-
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  // const [confirmCancelDialogOpen, setConfirmCancelDialogOpen] = React.useState(false);
+
 
   const loadingState = useSelector(
     (state: RootState) => state.userReducer.isLoading
   );
   const [isLoading, setIsLoading] = React.useState(loadingState);
+
   React.useEffect(() => {
     setIsLoading(() => loadingState);
   }, [loadingState]);
 
   React.useEffect(() => {
+    if (errorMessage === "") {
+      setErrorMsg("");
+      setIsClosable(true);
+      dispatch(clearError());
+    }
+    else {
+      setErrorMsg(errorMessage)
+      setIsClosable(false);
+    }
+  }, [dispatch, errorMessage, isClosable, adminPass])
+
+  React.useEffect(() => {
+    if (isClosable && saved) {
+      dispatch(clearError());
+      setAdminPass('');
+      setNewPass('');
+      setConfirmNewPass('');
+      setChangePasswordOpen(false);
+      navigate("/users");
+    }
+  }, [dispatch, isClosable, navigate, saved])
+
+  React.useEffect(() => {
     dispatch(getUsersFetch());
   }, [dispatch]);
+
+  // React.useEffect(() => {
+  //   const handleOutsideClick = (e: MouseEvent) => {
+  //     const target = e.target as HTMLElement; // Cast e.target to HTMLElement
+  //     if (changePasswordOpen && target && !target.closest('.dialog-container')) {
+  //       setConfirmCancelDialogOpen(true);
+  //     }
+  //   };    
+  
+  //   if (changePasswordOpen) {
+  //     document.addEventListener('mousedown', handleOutsideClick);
+  //   } else {
+  //     document.removeEventListener('mousedown', handleOutsideClick);
+  //   }
+  
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleOutsideClick);
+  //   };
+  // }, [changePasswordOpen]);
+  
+
+  const handleOpenChangePassword = (id: GridRowId, username: string) => {
+    setChangePasswordOpen(true);
+    setChangePassId(id as number);
+    const newUrl = `/user/password-change/${id}`;
+    window.history.pushState(null, '', newUrl);
+    setUsername(username);
+  };
+
+  const handleChangePassword = () => {
+    dispatch(changePassword({
+      data: { adminPass, newPass, confirmNewPass, assocId: changePassId }
+    }));
+  };
+
+  const handleCloseChangePassword = () => {
+    dispatch(clearError());
+    // Clear the input fields
+    setAdminPass('');
+    setNewPass('');
+    setConfirmNewPass('');
+    // Close the dialog
+    navigate("/users");
+    setChangePasswordOpen(false);
+
+  };
 
   const proceedWithDelete = () => {
     dispatch(deleteUser({ user_id: deleteId }));
@@ -337,7 +335,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
       headerName: "Actions",
       // minWidth: 200,
       cellClassName: "actions",
-      getActions: ({ id }) => {
+      getActions: (params: GridRowParams<any>) => {
         return [
           <>
             <Tooltip title="Delete User">
@@ -345,7 +343,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
                 icon={<TrashIcon />}
                 // style={{ height: "20px", width: "12px" }}
                 label="Delete"
-                onClick={handleDeleteClick(id)}
+                onClick={handleDeleteClick(params.id)}
                 color="inherit"
               />
             </Tooltip>
@@ -357,7 +355,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
                 icon={<PasswordIcon64px />}
                 // style={{ height: "20px", width: "12px" }}
                 label="Change Password"
-                onClick={() => handleOpenChangePassword(id)}
+                onClick={() => handleOpenChangePassword(params.id, params.row?.username)}
                 color="inherit"
               />
             </Tooltip>
@@ -419,11 +417,13 @@ const UserTable: React.FC<UserTableProps> = (props) => {
         <Dialog open={changePasswordOpen} onClose={handleCloseChangePassword}>
           <DialogTitle style={{ display: "flex", gap: "10px" }}>
             <img src={passwordIcon64px} alt="change password icon" style={{ height: "30px", width: "30px" }} />
-            <span>Change Password</span>
+            <span>Change Password of {username} </span>
           </DialogTitle>
           <DialogContent>
             {error && (
-              <div style={{ color: 'red', marginBottom: "10px" }}>{error}</div>
+              <div style={{ color: 'red', marginBottom: "10px" }}>
+                {error}
+              </div>
             )}
             <TextField
               margin="dense"
@@ -465,6 +465,24 @@ const UserTable: React.FC<UserTableProps> = (props) => {
             </Button>
           </DialogActions>
         </Dialog>
+
+        {/* Confirmation Dialog */}
+        {/* <Dialog open={confirmCancelDialogOpen}>
+          <DialogTitle>Do you really want to cancel/discard your changes?</DialogTitle>
+          <DialogContent>
+
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setConfirmCancelDialogOpen(false)}>No</Button>
+            <Button onClick={() => {
+              setConfirmCancelDialogOpen(false);
+              // Handle cancel action here
+            }}>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog> */}
+
       </div>
     </Box>
   );

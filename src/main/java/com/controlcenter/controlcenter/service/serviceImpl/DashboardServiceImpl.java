@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DashboardDao;
 import com.controlcenter.controlcenter.model.RecentProjects;
+import com.controlcenter.controlcenter.model.TotalUser;
 import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
@@ -127,8 +128,8 @@ public class DashboardServiceImpl implements DashboardService{
     }
 
     @Override
-    public ResponseEntity<Integer> countAllUserByStatus(String user_status_code) {
-        Integer totalCountOfUserByStatus = dashboardDao.countAllUserByStatus(user_status_code);
+    public ResponseEntity<TotalUser> countAllUser() {
+        TotalUser totalCountOfUserByStatus = dashboardDao.countAllUser();
 
         if(totalCountOfUserByStatus != null) {
             return ResponseEntity.ok(totalCountOfUserByStatus);
@@ -180,6 +181,7 @@ public class DashboardServiceImpl implements DashboardService{
         String monthName = currentMonth.toString();
         Map<String, Object> projectStatusPerMonth = new HashMap<>();
         Map<String, Object> userStatusPerMonth = new HashMap<>();
+        TotalUser totalUserCount = dashboardDao.countAllUser();
         List<Map<String, Object>> projectStatusGraph = dashboardDao.getAllProjectCountByStatus();
         List<UserStatusGraph> userStatusGraph = dashboardDao.getAllUserStatusCountPerYearAndMonth();
         List<RecentProjects> recentProjectGraph = dashboardDao.getRecentProjects();
@@ -199,6 +201,7 @@ public class DashboardServiceImpl implements DashboardService{
         // userStatusPerMonth.put("month", monthName);
         // userStatusPerMonth.put("data", userStatusGraph);
         
+        graphData.put("total_user_count", totalUserCount);
         graphData.put("project_status", projectStatusGraph);
         graphData.put("user_status", userStatusGraph);
         graphData.put("recent_projects", recentProjectGraph);
