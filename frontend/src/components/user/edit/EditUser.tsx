@@ -20,6 +20,7 @@ import { getPositionFetch } from "../../../redux/state/positionState";
 import { addUserReset, clearUserInfo } from "../../../redux/state/userState";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import defaultProfile from "../../../Assets/userImage/MaleDefaultProfile.jpg";
+
 import {
   getUserInfo,
   getUserRoles,
@@ -206,6 +207,7 @@ export default function EditUser() {
       setBusinessUnit(userData.dept_id ? userData.dept_id : 0);
       setDepartment(userData.section_id ? userData.section_id : 0);
       setEmpStatus(userData.status_code);
+      setImgSrc(userData.img_src);
     }
   }, [userData]);
 
@@ -228,6 +230,7 @@ export default function EditUser() {
   const [businessUnit, setBusinessUnit] = useState(0);
   const [department, setDepartment] = useState(0);
   const [password, setPassword] = useState("");
+  const [imgSrc, setImgSrc] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -284,6 +287,7 @@ export default function EditUser() {
       dept_id: businessUnit,
       selectedRoles: selectedRoles,
       status_code: empStatus,
+      img_src: selectedImage
     };
     dispatch(updateUserInfo({ data }));
     setAskSave(false);
@@ -291,7 +295,7 @@ export default function EditUser() {
   };
 
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);  
 
   const handleSave = () => {
     setFormSubmitted(true);
@@ -350,7 +354,6 @@ export default function EditUser() {
       " The record will be discarded and will not be saved. \nAre you sure you want to leave this page?"
     );
   };
-
   return (
     <>
       <div className={EditUserStyle.mainContainer}>
@@ -368,12 +371,20 @@ export default function EditUser() {
                         className={EditUserStyle.imgSize}
                       />
                     ) : (
-                      <img
-                        src={defaultProfile}
-                        alt="Placeholder"
-                        className={EditUserStyle.imgSize}
-                      />
-
+                      // Display the user's image if available, otherwise show the default profile
+                      userData?.img_src ? (
+                        <img
+                        src={require(`../../../Assets/userImage/${userData.img_src}`)} // Construct the image source
+                          alt="User Profile"
+                          className={EditUserStyle.imgSize}
+                        />
+                      ) : (
+                        <img
+                          src={defaultProfile}
+                          alt="Default Profile"
+                          className={EditUserStyle.imgSize}
+                        />
+                      )
                     )}
                     <div
                       style={{

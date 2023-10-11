@@ -30,6 +30,7 @@ interface Data {
 	dept_id: number;
 	selectedRoles: number[];
 	status_code: string;
+	img_src: File | null;
 }
 
 function* workGetUsersFetch(): any {
@@ -152,32 +153,49 @@ function* addSaga(action: ReturnType<typeof addUserInfo>): any {
 // UPDATE
 const apiUpdate = async (data: Data): Promise<any> => {
 	try {
-		const params = new URLSearchParams();
-		data.selectedRoles.forEach((id) => {
-			params.append("role_ids", id.toString());
-		});
-		const url = `http://localhost:8080/user/edit-account/${data.emp_id}?${params}`;
-		return axios.put(url, {
-			emp_id: data.emp_id,
-			username: data.username,
-			password: data.password,
-			admin_password: data.admin_password,
-			new_password: data.new_password,
-			confirm_new_password: data.confirm_new_password,
-			fname: data.fname,
-			mname: data.mname,
-			lname: data.lname,
-			position_id: data.position_id,
-			email: data.email,
-			section_id: data.section_id,
-			dept_id: data.dept_id,
-			status_code: data.status_code,
-			img_src: "sample_img",
-		});
+	  const url = `http://localhost:8080/user/edit-account/${data.emp_id}`;
+	  const formData = new FormData();
+  
+	  // Append image file if provided
+	  if (data.img_src) {
+		formData.append("photo", data.img_src as File);
+	  }
+  
+	  // Append role_ids
+	  data.selectedRoles.forEach((id) => {
+		formData.append("role_ids", id.toString());
+	  });
+  
+	  // Append other data fields to the formData object
+	  formData.append("emp_id", data.emp_id);
+	  formData.append("username", data.username);
+	  formData.append("password", data.password);
+	  formData.append("confirm_password", data.confirm_password);
+	  formData.append("admin_password", data.admin_password);
+	  formData.append("new_password", data.new_password);
+	  formData.append("confirm_new_password", data.confirm_new_password);
+	  formData.append("fname", data.fname);
+	  formData.append("mname", data.mname);
+	  formData.append("lname", data.lname);
+	  formData.append("position_id", data.position_id.toString());
+	  formData.append("email", data.email);
+	  formData.append("section_id", data.section_id.toString());
+	  formData.append("dept_id", data.dept_id.toString());
+	  formData.append("status_code", data.status_code);
+  
+	  // Make the PUT request with the FormData containing the data
+	  const response = await axios.put(url, formData, {
+		headers: {
+		  "Content-Type": "multipart/form-data",
+		  Accept : "multipart/form-data"
+		},
+	  });
+  
+	  return response;
 	} catch (error) {
-		return error;
+	  return error;
 	}
-};
+  };
 
 export const updateUserInfo = createAction<{
 	data: Data;
@@ -192,8 +210,10 @@ function* updateSaga(action: ReturnType<typeof updateUserInfo>): any {
 		yield put(setIsLoading(true))
 		const response = yield call(apiUpdate, action.payload.data);
 		yield call(validate, response, "update");
+		console.log("response: ", response)
 	} catch (error) {
 		yield call(catchErr, error);
+		console.log("error: ", error)
 	}
 }
 

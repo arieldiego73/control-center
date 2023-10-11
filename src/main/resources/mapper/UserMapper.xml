@@ -262,6 +262,15 @@
         WHERE emp_id = #{user_id};
     </update>
 
+<!-- change the profile of the user -->
+    <update id="updateUserPicture" parameterType="com.controlcenter.controlcenter.model.UserInfoOutput">
+        UPDATE tbl_user
+        <set>
+            img_src = #{img_src},
+        </set>
+        WHERE emp_id = #{id}
+    </update>
+
     <!-- <insert id="addAccount" parameterType="map">
         INSERT INTO tbl_user(emp_id, username, password, position_id, dept_id, section_id, status_code, img_src, reg_id, update_id)
              VALUES (#{account.emp_id}, #{account.username}, #{account.password}, #{account.position_id}, #{account.dept_id}, #{account.section_id}, #{account.status_code}, #{account.img_src}, #{account.reg_id}, #{account.update_id});
