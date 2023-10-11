@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.controlcenter.controlcenter.dao.DashboardDao;
 import com.controlcenter.controlcenter.model.RecentProjects;
+import com.controlcenter.controlcenter.model.TotalUser;
 import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
@@ -127,8 +128,8 @@ public class DashboardServiceImpl implements DashboardService{
     }
 
     @Override
-    public ResponseEntity<Integer> countAllUserByStatus(String user_status_code) {
-        Integer totalCountOfUserByStatus = dashboardDao.countAllUserByStatus(user_status_code);
+    public ResponseEntity<TotalUser> countAllUser() {
+        TotalUser totalCountOfUserByStatus = dashboardDao.countAllUser();
 
         if(totalCountOfUserByStatus != null) {
             return ResponseEntity.ok(totalCountOfUserByStatus);
