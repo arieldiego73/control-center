@@ -750,6 +750,9 @@ export default function EditProject() {
                           maxWidth: 560,
                         }}
                       >
+                           <MenuItem key={0} value={""}>
+                            {"<None>"}
+                          </MenuItem>
                         {devTypes.map((devType: any) => (
                           <MenuItem
                             key={devType?.dev_type_id}
