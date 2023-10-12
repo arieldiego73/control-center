@@ -25,6 +25,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -307,13 +308,16 @@ public class UserServiceImpl implements UserService {
 
         // sameImage = formatChecker.isSameImage(newFilename,
         // userBodyChecker.getImg_src());
+        
         userBodyChecker.setImg_src(newFilename);
         user.setImg_src(newFilename);
-
-        Files.copy(photo.getInputStream(), targetPath);
+        
+        Files.copy(photo.getInputStream(), targetPath); //, StandardCopyOption.REPLACE_EXISTING)
         userDao.updateUserPicture(userBodyChecker);
         
         return ResponseEntity.status(200).body("Picture upload successful");
+      } else {
+        user.setImg_src(userBodyChecker.getImg_src());
       }
 
     } catch (Exception e) {
