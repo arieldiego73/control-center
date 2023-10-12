@@ -21,7 +21,8 @@ import { addUserInfo } from "../../../redux/saga/userSaga";
 import { addUserReset } from "../../../redux/state/userState";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import defaultProfile from "../../../Assets/userImage/MaleDefaultProfile.jpg";
-  
+import { ChangeEvent } from 'react';
+
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
@@ -196,6 +197,17 @@ export default function CreateUser() {
   const [dialogTitleSave, setDialogTitleSave] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
   const [dialogContentTextSave, setDialogContentTextSave] = React.useState("");
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i;
+  const isEmailValid = emailRegex.test(email);
+  //REGEX explanation
+  // ^ asserts the start of the string.
+  // [A-Za-z0-9._%+-]+ matches one or more characters that are either letters, digits, or any of the following special characters: ._%+-.
+  // @ matches the @ symbol.
+  // [A-Za-z0-9.-]+ matches one or more characters that are either letters, digits, or a hyphen -.
+  // \. matches a period . character.
+  // [A-Za-z]{2,} matches two or more characters that are letters.
+  // $ asserts the end of the string.
+  // The /i at the end of the regex makes it case-insensitive. Therefore, it will match email addresses regardless of whether they are in uppercase or lowercase.
 
 
   //FOR DROPDOWN CONFIG (BUSINESS UNIT)
@@ -280,19 +292,30 @@ export default function CreateUser() {
       empStatus !== "0" &&
       selectedRoles.length > 0
     ) {
-      if (password === confirmPassword) {
-        // setAsk(true);
-        // setDialogTitle("Save the record?");
-        // setDialogContentText(
-        //   "Upon proceeding, the modifications on the record \nmade will be saved."
-        // );
-        setAskSave(true);
-        setDialogTitleSave("Save the record?");
-        setDialogContentTextSave(
-          "Upon proceeding, the modifications on the record \nmade will be saved."
-        );
-      } else {
-        handleClickSnackpack("Password fields do not match!", "error")();
+      if (password.length > 5) {
+        if (password === confirmPassword) {
+          // setAsk(true);
+          // setDialogTitle("Save the record?");
+          // setDialogContentText(
+          //   "Upon proceeding, the modifications on the record \nmade will be saved."
+          // );
+          if (isEmailValid) {
+            setAskSave(true);
+            setDialogTitleSave("Save the record?");
+            setDialogContentTextSave(
+              "Upon proceeding, the modifications on the record \nmade will be saved."
+            );
+          }
+          else {
+            handleClickSnackpack("Please enter a valid information.", "error")();
+          }
+        }
+        else {
+          handleClickSnackpack("Please enter a valid information.", "error")();
+        }
+      }
+      else {
+        handleClickSnackpack("Please enter a valid information.", "error")();
       }
     } else {
       handleClickSnackpack(
@@ -331,6 +354,7 @@ export default function CreateUser() {
       setSelectedImage(file);
     }
   };
+
   return (
     <>
       <div className={CreateUserStyle.mainContainer}>
@@ -716,11 +740,15 @@ export default function CreateUser() {
                       >
                         <TextField
                           label="Email"
-                          error={formSubmitted && email === ""}
+                          // error={
+                          //   (formSubmitted && email === "") 
+                          //   // || 
+                          //   // (formSubmitted && !isEmailValid)
+                          // }
+                          error={formSubmitted && (email === "" || !isEmailValid)}
                           helperText={
-                            formSubmitted && email === ""
-                              ? "Email required"
-                              : ""
+                            (formSubmitted && email === "" ? "Email required" : "") ||
+                            (formSubmitted && !isEmailValid ? "Please enter a valid email 2" : "")
                           }
                           variant="outlined"
                           size="small"
@@ -848,15 +876,15 @@ export default function CreateUser() {
                           type={showPassword ? "text" : "password"}
                           error={
                             (formSubmitted && password === "") ||
-                            (formSubmitted && password.toString().length < 5) ||
+                            (formSubmitted && password.toString().length < 6) ||
                             (formSubmitted && password !== confirmPassword)
                           }
                           helperText={
                             (formSubmitted && password === ""
                               ? "Password required"
                               : "") ||
-                            (formSubmitted && password.toString().length < 5
-                              ? "password too short"
+                            (formSubmitted && password.toString().length < 6
+                              ? "Password should be 6 or more characters"
                               : "") ||
                             (formSubmitted && password !== confirmPassword
                               ? "Password fields do not match"
@@ -900,11 +928,15 @@ export default function CreateUser() {
                           type={showConfirmPassword ? "text" : "password"}
                           error={
                             (formSubmitted && confirmPassword === "") ||
+                            (formSubmitted && password.toString().length < 6) ||
                             (formSubmitted && password !== confirmPassword)
                           }
                           helperText={
                             (formSubmitted && confirmPassword === ""
                               ? "Password confirmation required"
+                              : "") ||
+                            (formSubmitted && password.toString().length < 6
+                              ? "Password should be 6 or more characters"
                               : "") ||
                             (formSubmitted && password !== confirmPassword
                               ? "Password fields do not match"
@@ -1045,7 +1077,7 @@ export default function CreateUser() {
                       variant="contained"
                       onClick={proceedWithCancel}
                       autoFocus
-                    > 
+                    >
                       Leave this page
                     </Button>
                     <Button
@@ -1058,7 +1090,7 @@ export default function CreateUser() {
                   </DialogActions>
                 </Dialog>
 
-                 <Dialog
+                <Dialog
                   open={askSave}
                   onClose={() => {
                     setAskSave(false);
@@ -1066,7 +1098,7 @@ export default function CreateUser() {
                   aria-labelledby="responsive-dialog-title"
                   aria-describedby="alert-dialog-description"
                 >
-                
+
                   <DialogTitle id="responsive-dialog-title">
                     <Typography
                       fontWeight={700}
@@ -1094,13 +1126,13 @@ export default function CreateUser() {
                     </DialogContentText>
                   </DialogContent>
 
-        
-                    <DialogActions>
+
+                  <DialogActions>
                     <Button
                       variant="contained"
                       onClick={proceedWithSaving}
                       autoFocus
-                    > 
+                    >
                       Save
                     </Button>
                     <Button
@@ -1114,10 +1146,6 @@ export default function CreateUser() {
 
                 </Dialog>
               </div>
-
-
-
-         
             </div>
           </div>
         </div>

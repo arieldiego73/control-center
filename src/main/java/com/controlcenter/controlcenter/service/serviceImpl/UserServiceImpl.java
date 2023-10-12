@@ -182,9 +182,9 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.badRequest().body("Associate ID should only be a number");
       }
 
-      if (!formatChecker.isValidEmail(account.getEmail())) {
-        return ResponseEntity.badRequest().body("Invalid Email");
-      }
+      // if (!formatChecker.isValidEmail(account.getEmail())) {
+      //   return ResponseEntity.badRequest().body("Invalid Email");
+      // }
 
       if (!account.getPassword().equals(account.getConfirm_password())) {
         return ResponseEntity.badRequest().body("Password and confirm password do not match");
