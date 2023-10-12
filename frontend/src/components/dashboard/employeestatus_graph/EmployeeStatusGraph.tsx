@@ -82,35 +82,34 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
     (state: RootState) => state.graphsData.isLoading
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [progressValue, setProgressValue] = useState(0);
+  // const [progressValue, setProgressValue] = useState(0);
 
   useEffect(() => {
     // Calculate the percentage increase when both userCount and totalCount are available
     if (userCount.total_user && userMonth.user_per_month) {
-      const increase =
-        (userMonth.user_per_month / userCount.total_user) *100; // Corrected the formula for percentage increase
+      const increase = (userMonth.user_per_month / userCount.total_user) * 100; // Corrected the formula for percentage increase
       setPercentageIncrease(increase);
     }
   }, [userCount, userMonth]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Simulate an asynchronous task that takes 3 seconds
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Simulate an asynchronous task that takes 3 seconds
+  //       await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        // Update progressValue when the task is complete
-        setProgressValue(100);
-        setIsLoading(false);
-      } catch (error) {
-        // Handle errors
-        setIsLoading(false);
-      }
-    };
+  //       // Update progressValue when the task is complete
+  //       setProgressValue(100);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       // Handle errors
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-    // Start the data fetching task
-    fetchData();
-  }, []);
+  //   // Start the data fetching task
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     setIsLoading(loadingState);
@@ -218,16 +217,18 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
               theme={customTheme} // Apply the custom theme
             />
           ) : (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
-              <CircularProgress color="success" value={progressValue} />
-            </div>
+            isLoading && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <CircularProgress color="success" />
+              </div>
+            )
           )}
         </div>
       </div>

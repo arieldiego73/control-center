@@ -59,7 +59,7 @@ export const graphsDataSlice = createSlice({
 		getGraphsDataSuccess: (state, action) => {
 			state.graphsData = action.payload;
 			state.isLoading = false;
-		},
+		}, 
 		setIsLoading: (state, action) => { 
 			state.isLoading = action.payload
 		}
