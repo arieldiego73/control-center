@@ -190,16 +190,16 @@ export default function SideNav() {
   }, []);
 
 
-  const isScreenSmall = screenWidth <= 1200;
-
+  const isScreenLessThan1200 = screenWidth <= 1200;
+  const isScreenLessThan750 = screenWidth <= 750;
 
   const sidenavContainerStyle: React.CSSProperties = {
-    height: isScreenSmall ? "50px" : "100%",
-    width: isScreenSmall ? "50px" : "100%",
+    height: isScreenLessThan1200 ? "50px" : "100%",
+    width: isScreenLessThan1200 ? "50px" : "100%",
     display: "flex", // Display as flex
     flexDirection: "column", // Stack items vertically
-    alignItems: isScreenSmall ? "center" : "stretch", // Center items if small screen, otherwise stretch
-    justifyContent: isScreenSmall ? "center" : "stretch", // Center items if small screen, otherwise stretch
+    alignItems: isScreenLessThan1200 ? "center" : "stretch", // Center items if small screen, otherwise stretch
+    justifyContent: isScreenLessThan1200 ? "center" : "stretch", // Center items if small screen, otherwise stretch
     borderRadius: "10px",
     overflow: "hidden",
     gap: "2%",
@@ -207,25 +207,22 @@ export default function SideNav() {
     // boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
     // backdropFilter: "blur( 25px )",
     boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
-    position: isScreenSmall ? "fixed" : "relative",
-
-    // top: isScreenSmall ? "4vh" : "4vh",
+    position: isScreenLessThan1200 ? "fixed" : "relative",
+    top: isScreenLessThan750 ? "" : isScreenLessThan1200 ? "20px" : "",
   };
 
   const dispatch = useDispatch();
-
-
 
   return (
 
     <div style={sidenavContainerStyle}>
       {/* Conditionally render the burgerMenuContainer */}
-      {isScreenSmall && (
+      {isScreenLessThan1200 && (
         <div style={{ display: "flex", height: "100%", width: "100%", alignItems: "center", justifyContent: "center" }}>
           <BurgerMenu />
         </div>
       )}
-      {!isScreenSmall && (
+      {!isScreenLessThan1200 && (
         <div style={{ display: "flex", height: "100%", width: "100%" }}>
           <ThemeProvider
             theme={createTheme({
