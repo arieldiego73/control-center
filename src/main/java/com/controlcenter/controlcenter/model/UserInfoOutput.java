@@ -1,5 +1,7 @@
 package com.controlcenter.controlcenter.model;
 
+import org.hibernate.mapping.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,4 +25,5 @@ public class UserInfoOutput {
   private int section_id;
   private int dept_id;
   private int position_id;
+  // private List user_role_level;
 }
