@@ -9,7 +9,7 @@
   width: 14%;
 }
 .topNavMainContainer{
-  height: 8vh;
+  height: 70px;
   width: 85%;
 }
 
@@ -19,8 +19,8 @@
     width: 95%;
   }
   .sideNavMainContainer{
-    height: 9%;
-    width: 6%;
+    height: 50px;
+    width: 50px;
   }
   .navigationsContainer{
     gap: 20px;

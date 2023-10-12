@@ -294,11 +294,6 @@ export default function CreateUser() {
     ) {
       if (password.length > 5) {
         if (password === confirmPassword) {
-          // setAsk(true);
-          // setDialogTitle("Save the record?");
-          // setDialogContentText(
-          //   "Upon proceeding, the modifications on the record \nmade will be saved."
-          // );
           if (isEmailValid) {
             setAskSave(true);
             setDialogTitleSave("Save the record?");
@@ -706,7 +701,7 @@ export default function CreateUser() {
                               <GroupsOutlinedIcon />
                             </InputAdornment>
                           }
-                        >
+                        > 
                           {/* <MenuItem key={0} value={0}>
                             {"<Select a role>"}
                           </MenuItem> */}
@@ -740,11 +735,6 @@ export default function CreateUser() {
                       >
                         <TextField
                           label="Email"
-                          // error={
-                          //   (formSubmitted && email === "") 
-                          //   // || 
-                          //   // (formSubmitted && !isEmailValid)
-                          // }
                           error={formSubmitted && (email === "" || !isEmailValid)}
                           helperText={
                             (formSubmitted && email === "" ? "Email required" : "") ||

@@ -241,6 +241,9 @@ export default function EditUser() {
   const [dialogTitleSave, setDialogTitleSave] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
   const [dialogContentTextSave, setDialogContentTextSave] = React.useState("");
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i;
+  const isEmailValid = emailRegex.test(email);
+
 
   //FOR DROPDOWN CONFIG (BUSINESS UNIT)
   const depts = useSelector((state: RootState) => state.deptReducer.department);
@@ -302,7 +305,6 @@ export default function EditUser() {
       !assocID ||
       !username ||
       !password ||
-      // !currentPassword ||
       !firstName ||
       !lastName ||
       !position ||
@@ -313,12 +315,10 @@ export default function EditUser() {
       selectedRoles.length === 0
     ) {
       handleClickSnackpack("Please fill in the required fields.", "error")();
-
     } else if (
       assocID &&
       username &&
       password &&
-      // currentPassword &&
       firstName &&
       lastName &&
       position &&
@@ -328,13 +328,26 @@ export default function EditUser() {
       empStatus !== "0" &&
       selectedRoles.length > 0
     ) {
-      setAskSave(true);
-      setDialogTitleSave("Save the record?");
-      setDialogContentTextSave(
-        "Do you want to save changes you made?"
-      );
+      if (password.length > 5) {
+          if (isEmailValid) {
+            setAskSave(true);
+            setDialogTitleSave("Save the record?");
+            setDialogContentTextSave(
+              "Upon proceeding, the modifications on the record \nmade will be saved."
+            );
+          }
+          else {
+            handleClickSnackpack("Please enter a valid information. 1", "error")();
+          }
+      }
+      else {
+        handleClickSnackpack("Please enter a valid information. 3", "error")();
+      }
     } else {
-      handleClickSnackpack("Password fields do not match!", "error")();
+      handleClickSnackpack(
+        "All fields are required. Please, try again.",
+        "error"
+      )();
     }
   };
 
@@ -738,9 +751,10 @@ export default function EditUser() {
                       >
                         <TextField
                           label="Email"
-                          error={formSubmitted && email === ""}
+                          error={formSubmitted && (email === "" || !isEmailValid)}
                           helperText={
-                            formSubmitted && email === "" ? "Email required" : ""
+                            (formSubmitted && email === "" ? "Email required" : "") ||
+                            (formSubmitted && !isEmailValid ? "Please enter a valid email." : "")
                           }
                           variant="outlined"
                           size="small"
