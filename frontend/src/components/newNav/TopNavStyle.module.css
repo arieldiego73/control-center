@@ -266,11 +266,3 @@
       display: none;
     }
   } 
-
-
-
-  @media screen and (max-height: 650px) {
-    .topnavContainer{
-      height: 50px;
-    }  
-  }

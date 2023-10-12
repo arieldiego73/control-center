@@ -106,8 +106,22 @@ public class UserServiceImpl implements UserService {
   public ResponseEntity<UserInfoOutput> getUserById(String id) {
     try {
       UserInfoOutput user = userDao.getUserById(id);
+
+      // List<String> userRoleLevelList = new ArrayList<>();
+
+      // for(String userRoleLevel : user.getRole_user_level()) {
+      //   userRoleLevelList.add(userRoleLevel);
+      // }
+
+      // user.setRole_user_level(userRoleLevelList);
+
+      System.out.println("User" + user);
+      System.out.println("User Role Level: " + user.getRole_user_level());
+
       return ResponseEntity.ok(user);
     } catch (Exception e) {
+      System.out.println("User" + e.getMessage());
+      System.out.println("User Role Level: " + e.getMessage());
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
   }
