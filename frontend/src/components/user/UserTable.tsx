@@ -14,18 +14,27 @@ import UserTableStyle from "./User.module.css";
 import { useNavigate } from "react-router-dom";
 import CustomPagination from "../custom_pagination/pagination";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
-import { LinearProgress } from "@mui/material";
-import Divider from '@mui/material/Divider';
+import {
+  Backdrop,
+  CircularProgress,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
+import Divider from "@mui/material/Divider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { getUsersFetch } from "../../redux/state/userState";
-import { changePassword, deleteUser, deleteUserBatch } from "../../redux/saga/userSaga";
+import {
+  changePassword,
+  deleteUser,
+  deleteUserBatch,
+} from "../../redux/saga/userSaga";
 import DataGridEditToolbar from "../datagrid_customs/DataGridToolbar";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import DataGridDialog from "../datagrid_customs/DataGridDialog";
 import DataGridActionDialog from "../datagrid_customs/DataGridActionDialog";
-import PasswordOutlinedIcon from '@mui/icons-material/PasswordOutlined';
-
+import PasswordOutlinedIcon from "@mui/icons-material/PasswordOutlined";
+import HelpIcon from "@mui/icons-material/Help";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -34,16 +43,16 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
-  datagridBoxStyle, userDataGridStyle,
+  datagridBoxStyle,
+  userDataGridStyle,
 } from "../datagrid_customs/DataGridStyle";
 import Box from "@mui/material/Box";
 import passwordIcon from "../../Assets/icons/passwordIcon.png";
 import passwordIcon64px from "../../Assets/icons/passwordIcon64px.png";
-import trashIcon from "../../Assets/icons/trashIcon.png"
+import trashIcon from "../../Assets/icons/trashIcon.png";
 
 import { Image } from "@mui/icons-material";
-import { setError, clearError } from '../../redux/state/userState';
-
+import { setError, clearError } from "../../redux/state/userState";
 
 export interface RowData {
   emp_id: number;
@@ -62,10 +71,18 @@ interface UserTableProps {
 }
 
 const PasswordIcon = () => (
-  <img src={passwordIcon} alt="Password" style={{ height: "20px", width: "20px", color: "red" }} />
+  <img
+    src={passwordIcon}
+    alt="Password"
+    style={{ height: "20px", width: "20px", color: "red" }}
+  />
 );
 const PasswordIcon64px = () => (
-  <img src={passwordIcon64px} alt="Password" style={{ height: "20px", width: "20px", color: "red" }} />
+  <img
+    src={passwordIcon64px}
+    alt="Password"
+    style={{ height: "20px", width: "20px", color: "red" }}
+  />
 );
 const TrashIcon = () => (
   <img src={trashIcon} alt="Delete" style={{ height: "20px", width: "20px" }} />
@@ -74,27 +91,32 @@ const TrashIcon = () => (
 const UserTable: React.FC<UserTableProps> = (props) => {
   const data = useSelector((state: RootState) => state.userReducer.users);
   const saved = useSelector((state: RootState) => state.userReducer.saved);
-  const errorMessage = useSelector((state: RootState) => state.userReducer.error);
-  const [error, setErrorMsg] = React.useState<string | undefined>('');
+  const errorMessage = useSelector(
+    (state: RootState) => state.userReducer.error
+  );
+  const [error, setErrorMsg] = React.useState<string | undefined>("");
   const [changePasswordOpen, setChangePasswordOpen] = React.useState(false); // State to control the password change modal
   const [changePassId, setChangePassId] = React.useState(0);
   const [adminPass, setAdminPass] = React.useState("");
   const [newPass, setNewPass] = React.useState(""); // State to store the new password
   const [confirmNewPass, setConfirmNewPass] = React.useState(""); // State to store the new password
-  const [isClosable, setIsClosable] = React.useState(true)
+  const [isClosable, setIsClosable] = React.useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [rows, setRows] = React.useState<GridRowsProp>(data);
   const [ask, setAsk] = React.useState(false);
   const [deleteId, setDeleteId] = React.useState(0);
   const [isBatch, setIsBatch] = React.useState<boolean>();
-  const [rowSelectionModel, setRowSelectionModel] = React.useState<GridRowSelectionModel>([]);
+  const [rowSelectionModel, setRowSelectionModel] =
+    React.useState<GridRowSelectionModel>([]);
   const [selectedId, setSelectedId] = React.useState<Set<GridRowId>>(new Set());
   const [dialogTitle, setDialogTitle] = React.useState("");
   const [dialogContentText, setDialogContentText] = React.useState("");
   const [username, setUsername] = React.useState("");
   // const [confirmCancelDialogOpen, setConfirmCancelDialogOpen] = React.useState(false);
-
+  const [passwordSave, setPasswordSave] = React.useState(false);
+  const [passwordDialog, setPasswordDialog] = React.useState("");
+  const [passwordContent, setPasswordContent] = React.useState("");
 
   const loadingState = useSelector(
     (state: RootState) => state.userReducer.isLoading
@@ -105,28 +127,37 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     setIsLoading(() => loadingState);
   }, [loadingState]);
 
+  const loadingStateDialog = useSelector(
+    (state: RootState) => state.userReducer.isLoadingDialog
+  );
+  const [isLoadingDialog, setIsLoadingDialog] =
+    React.useState(loadingStateDialog);
+
+  React.useEffect(() => {
+    setIsLoadingDialog(() => loadingStateDialog);
+  }, [loadingStateDialog]);
+
   React.useEffect(() => {
     if (errorMessage === "") {
       setErrorMsg("");
       setIsClosable(true);
       dispatch(clearError());
-    }
-    else {
-      setErrorMsg(errorMessage)
+    } else {
+      setErrorMsg(errorMessage);
       setIsClosable(false);
     }
-  }, [dispatch, errorMessage, isClosable, adminPass])
+  }, [dispatch, errorMessage, isClosable, adminPass]);
 
   React.useEffect(() => {
     if (isClosable && saved) {
       dispatch(clearError());
-      setAdminPass('');
-      setNewPass('');
-      setConfirmNewPass('');
+      setAdminPass("");
+      setNewPass("");
+      setConfirmNewPass("");
       setChangePasswordOpen(false);
       navigate("/users");
     }
-  }, [dispatch, isClosable, navigate, saved])
+  }, [dispatch, isClosable, navigate, saved]);
 
   React.useEffect(() => {
     dispatch(getUsersFetch());
@@ -138,44 +169,52 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   //     if (changePasswordOpen && target && !target.closest('.dialog-container')) {
   //       setConfirmCancelDialogOpen(true);
   //     }
-  //   };    
-  
+  //   };
+
   //   if (changePasswordOpen) {
   //     document.addEventListener('mousedown', handleOutsideClick);
   //   } else {
   //     document.removeEventListener('mousedown', handleOutsideClick);
   //   }
-  
+
   //   return () => {
   //     document.removeEventListener('mousedown', handleOutsideClick);
   //   };
   // }, [changePasswordOpen]);
-  
+  const handlePasswordDialog = () => {
+    setPasswordSave(true);
+    setPasswordDialog("Are you sure you want to change your password");
+    setPasswordContent(
+      "This will change the password you use for sign in from now on."
+    );
+  };
 
   const handleOpenChangePassword = (id: GridRowId, username: string) => {
     setChangePasswordOpen(true);
     setChangePassId(id as number);
     const newUrl = `/user/password-change/${id}`;
-    window.history.pushState(null, '', newUrl);
+    window.history.pushState(null, "", newUrl);
     setUsername(username);
   };
 
   const handleChangePassword = () => {
-    dispatch(changePassword({
-      data: { adminPass, newPass, confirmNewPass, assocId: changePassId }
-    }));
+    dispatch(
+      changePassword({
+        data: { adminPass, newPass, confirmNewPass, assocId: changePassId },
+      })
+    );
+    setPasswordSave(false)
   };
 
   const handleCloseChangePassword = () => {
     dispatch(clearError());
     // Clear the input fields
-    setAdminPass('');
-    setNewPass('');
-    setConfirmNewPass('');
+    setAdminPass("");
+    setNewPass("");
+    setConfirmNewPass("");
     // Close the dialog
     navigate("/users");
     setChangePasswordOpen(false);
-
   };
 
   const proceedWithDelete = () => {
@@ -206,7 +245,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     editingId: 0,
   });
   const [proceedAction, setProceedAction] = React.useState<() => void>(
-    () => { }
+    () => {}
   );
 
   const dataGridSlots = {
@@ -251,12 +290,12 @@ const UserTable: React.FC<UserTableProps> = (props) => {
           <span
             onClick={() =>
               params.row.emp_id &&
-                params.row.username &&
-                params.row.username.length > 0 &&
-                params.row.username.trim() !== ""
+              params.row.username &&
+              params.row.username.length > 0 &&
+              params.row.username.trim() !== ""
                 ? navigate(`/user/edit-user/${params.row.username}`, {
-                  state: params.row.emp_id,
-                })
+                    state: params.row.emp_id,
+                  })
                 : undefined
             }
             style={{
@@ -355,11 +394,13 @@ const UserTable: React.FC<UserTableProps> = (props) => {
                 icon={<PasswordIcon64px />}
                 // style={{ height: "20px", width: "12px" }}
                 label="Change Password"
-                onClick={() => handleOpenChangePassword(params.id, params.row?.username)}
+                onClick={() =>
+                  handleOpenChangePassword(params.id, params.row?.username)
+                }
                 color="inherit"
               />
             </Tooltip>
-          </>
+          </>,
         ];
       },
     },
@@ -404,7 +445,6 @@ const UserTable: React.FC<UserTableProps> = (props) => {
               proceedWithDeleteBatch={proceedWithDeleteBatch}
             />
             <DataGridActionDialog
-
               open={confirmAction}
               handleClose={setConfirmAction}
               dialogTitle={dialogTitle}
@@ -414,16 +454,19 @@ const UserTable: React.FC<UserTableProps> = (props) => {
           </div>
         </Paper>
         {/* Change Password Modal */}
+
         <Dialog open={changePasswordOpen} onClose={handleCloseChangePassword}>
           <DialogTitle style={{ display: "flex", gap: "10px" }}>
-            <img src={passwordIcon64px} alt="change password icon" style={{ height: "30px", width: "30px" }} />
+            <img
+              src={passwordIcon64px}
+              alt="change password icon"
+              style={{ height: "30px", width: "30px" }}
+            />
             <span>Change Password of {username} </span>
           </DialogTitle>
           <DialogContent>
             {error && (
-              <div style={{ color: 'red', marginBottom: "10px" }}>
-                {error}
-              </div>
+              <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>
             )}
             <TextField
               margin="dense"
@@ -456,12 +499,74 @@ const UserTable: React.FC<UserTableProps> = (props) => {
               onChange={(e) => setConfirmNewPass(e.target.value)}
             />
           </DialogContent>
+
           <DialogActions>
-            <Button onClick={handleChangePassword} color="primary">
+            <Button onClick={handlePasswordDialog} color="primary">
               Change Password
             </Button>
             <Button onClick={handleCloseChangePassword} color="primary">
               Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoadingDialog}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+ */}
+
+        <Dialog
+          open={passwordSave}
+          onClose={() => {
+            setPasswordSave(false);
+          }}
+          aria-labelledby="responsive-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="responsive-dialog-title">
+            <Typography
+              fontWeight={700}
+              fontSize={20}
+              display={"flex"}
+              alignItems={"center"}
+              gap={1}
+            >
+              <HelpIcon
+                accentHeight={100}
+                color="error"
+                fontSize="large"
+                alignmentBaseline="middle"
+              />
+              {passwordDialog}
+            </Typography>
+          </DialogTitle>
+
+          <DialogContent>
+            <DialogContentText
+              whiteSpace={"pre-line"}
+              id="alert-dialog-description"
+            >
+              {passwordContent}
+            </DialogContentText>
+          </DialogContent>
+
+          <DialogActions>
+            <Button
+              variant="contained"
+              onClick={handleChangePassword}
+              autoFocus
+            >
+              Save
+            </Button>
+            <Button
+              onClick={() => {
+                setPasswordSave(false);
+              }}
+            >
+              Continue Editing
             </Button>
           </DialogActions>
         </Dialog>
@@ -482,173 +587,9 @@ const UserTable: React.FC<UserTableProps> = (props) => {
             </Button>
           </DialogActions>
         </Dialog> */}
-
       </div>
     </Box>
   );
 };
 
 export default UserTable;
-
-// import * as React from "react";
-// import { DataGrid, GridColDef } from "@mui/x-data-grid";
-// import Paper from "@mui/material/Paper";
-// import UserTableStyle from "./User.module.css";
-// import { useNavigate } from "react-router-dom";
-// import CustomPagination from "../custom_pagination/pagination";
-// import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
-// import { Divider, LinearProgress } from "@mui/material";
-// import { useSelector } from "react-redux";
-// import { RootState } from "../../redux/store/store";
-
-// export interface RowData {
-//   emp_id: number;
-//   username: string;
-//   fname: string;
-//   lname: string;
-//   position_sh_name: string;
-//   email: string;
-//   section_name: string;
-//   dept_name: string;
-//   reg_date: Date;
-// }
-
-// interface UserTableProps {
-//   data: RowData[];
-// }
-
-// const UserTable: React.FC<UserTableProps> = (props) => {
-//   const navigate = useNavigate();
-
-//   const loadingState = useSelector(
-// 		(state: RootState) => state.userReducer.isLoading
-// 	);
-// 	const [isLoading, setIsLoading] = React.useState(loadingState);
-// 	React.useEffect(() => {
-// 		setIsLoading(() => loadingState);
-// 	}, [loadingState]);
-
-//   const dataGridSlots = {
-// 		columnUnsortedIcon: UnsortedIcon,
-// 		pagination: CustomPagination,
-// 		loadingOverlay: LinearProgress,
-// 	};
-
-//   const columns: GridColDef[] = [
-//     {
-//       field: "username",
-//       headerName: "Username",
-//       flex: 1,
-//       headerAlign: "center",
-//       align: "center",
-//       renderCell: (params) => (
-//         <span
-//           onClick={() =>
-//             params.row.emp_id &&
-//             params.row.username &&
-//             params.row.username.length > 0 &&
-//             params.row.username.trim() !== ""
-//               ? navigate(`/user/edit-user/${params.row.username}`, {
-//                   state: params.row.emp_id,
-//                 })
-//               : undefined
-//           }
-//           style={{
-//             textDecoration: "underline",
-//             cursor: "pointer",
-//             color: "blue",
-//           }}
-//         >
-//           {params.value}
-//         </span>
-//       ),
-//     },
-//     {
-//       field: "fname",
-//       headerName: "First Name",
-//       flex: 1,
-//       headerAlign: "center",
-//       align: "center",
-//     },
-//     {
-//       field: "lname",
-//       headerName: "Last Name",
-//       flex: 1,
-//       headerAlign: "center",
-//       align: "center",
-//     },
-//     {
-//       field: "position_sh_name",
-//       headerName: "Position",
-//       flex: 1,
-//       headerAlign: "center",
-//       align: "center",
-//     },
-//     {
-//       field: "email",
-//       headerName: "Email",
-//       flex: 1,
-//       headerAlign: "center",
-//       align: "center",
-//     },
-//     {
-//       field: "dept_name",
-//       headerName: "Business Unit",
-//       flex: 1,
-//       headerAlign: "center",
-//       align: "center",
-//     },
-//     {
-//       field: "section_name",
-//       headerName: "Department",
-//       flex: 1,
-//       headerAlign: "center",
-//       align: "center",
-//     },
-//     {
-//       field: "reg_date",
-//       headerName: "Created",
-//       flex: 1,
-//       headerAlign: "center",
-//       align: "center",
-//       valueFormatter(params) {
-//         return new Intl.DateTimeFormat("en-US", {
-//           year: "numeric",
-//           month: "short",
-//           day: "2-digit",
-//           hour: "2-digit",
-//           minute: "2-digit",
-//           hour12: true,
-//         }).format(new Date(params.value));
-//       },
-//     },
-//   ];
-
-//   return (
-//     <div className={UserTableStyle.tableMainContainer}>
-//       <Paper className={UserTableStyle.paperTable}>
-//         <div style={{ height: 400, width: "100%" }}>
-//           <DataGrid
-//             initialState={{
-//               pagination: {
-//                 paginationModel: { page: 0, pageSize: 5 },
-//               },
-//               sorting: {
-//                 sortModel: [{ field: "reg_id", sort: "desc" }],
-//               },
-//             }}
-//             rows={props.data}
-//             getRowId={(row) => row.emp_id}
-//             columns={columns}
-//             pagination
-//             pageSizeOptions={[5, 25, 50, 100]}
-//             slots={dataGridSlots}
-//             loading={isLoading}
-//           />
-//         </div>
-//       </Paper>
-//     </div>
-//   );
-// };
-
-// export default UserTable;

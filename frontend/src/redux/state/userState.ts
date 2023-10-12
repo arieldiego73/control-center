@@ -28,6 +28,7 @@ export const userSlice = createSlice({
 		},
 		userRoles: [],
 		isLoading: false,
+		isLoadingDialog: false, 
 		error: "", // used to fetch error message for change password verification
 		notice: {
 			message: "",
@@ -89,6 +90,9 @@ export const userSlice = createSlice({
 		setIsLoading: (state, action) => {
 			state.isLoading = action.payload;
 		},
+		setIsLoadingDialog: (state, action) => {
+			state.isLoadingDialog = action.payload;
+		},
 		setError: (state, action) => {
 			state.error = action.payload;
 			state.isLoading = false;
@@ -115,6 +119,7 @@ export const {
 	setError,
 	clearError,
 	setSaved,
+	setIsLoadingDialog,
 	// changePasswordSuccess,
 } = userSlice.actions;
 
