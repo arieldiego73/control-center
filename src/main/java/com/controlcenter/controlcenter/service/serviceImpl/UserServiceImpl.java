@@ -278,6 +278,8 @@ public class UserServiceImpl implements UserService {
 
     boolean areEqueal = userRoleIds.equals(role_ids);
 
+      
+
     try {
       // UserOutput existingUser = profileDao.getUserById(emp_id);
       if (userBodyChecker == null) {
@@ -299,10 +301,13 @@ public class UserServiceImpl implements UserService {
         // String newFilename = "user " + user_id + "." + extension;
 
         //String targetDirectory = "C:\\Storage\\Profile";
-        String userHomeDirectory = System.getProperty("user.home");
-        String targetDirectory = userHomeDirectory + File.separator + "Desktop" + File.separator
-            + "Control Center Project" + File.separator + "control-center" + File.separator + "frontend"
-            + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
+        // String userHomeDirectory = System.getProperty("user.home");
+        // String targetDirectory = userHomeDirectory + File.separator + "Desktop" + File.separator
+        //     + "Control Center Project" + File.separator + "control-center" + File.separator + "frontend"
+        //     + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
+        String projectBaseDirectory = System.getProperty("user.dir"); // Get the base directory of your project
+        String targetDirectory = projectBaseDirectory + File.separator + "frontend"
+        + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
 
         File directory = new File(targetDirectory);
 
@@ -323,7 +328,7 @@ public class UserServiceImpl implements UserService {
         // sameImage = formatChecker.isSameImage(newFilename,
         // userBodyChecker.getImg_src());
         
-        userBodyChecker.setImg_src(newFilename);
+        // userBodyChecker.setImg_src(newFilename);
         user.setImg_src(newFilename);
         
         Files.copy(photo.getInputStream(), targetPath); //, StandardCopyOption.REPLACE_EXISTING)
@@ -348,6 +353,7 @@ public class UserServiceImpl implements UserService {
         && accountBody.getMname().equals(userBodyChecker.getMname())
         && accountBody.getLname().equals(userBodyChecker.getLname())
         && accountBody.getEmail().equals(userBodyChecker.getEmail())
+        && user.getImg_src().equals(userBodyChecker.getImg_src())
         && isPasswordEqual
         && accountBody.getPosition_id() == userBodyChecker.getPosition_id()
         && accountBody.getDept_id() == userBodyChecker.getDept_id()
