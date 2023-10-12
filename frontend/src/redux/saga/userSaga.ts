@@ -128,7 +128,7 @@ const apiAdd = async (data: Data): Promise<any> => {
 			section_id: data.section_id,
 			dept_id: data.dept_id,
 			status_code: data.status_code,
-			img_src: "sample_img",
+			img_src: null
 		});
 	} catch (error) {
 		return error;

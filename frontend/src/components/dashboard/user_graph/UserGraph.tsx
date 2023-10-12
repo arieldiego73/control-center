@@ -58,32 +58,33 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
   // const [data, setData] = useState<String>();
   const { graphData } = props;
   const [data, setData] = useState<RecentProjects[]>([]);
-
+  const [isLoading, setIsLoading] = useState(false);
+  
   const loadingState = useSelector(
     (state: RootState) => state.graphsData.isLoading
   );
-  const [isLoading, setIsLoading] = useState(false);
-  const [progressValue, setProgressValue] = useState(0);
+
+  // const [progressValue, setProgressValue] = useState(0);
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Simulate an asynchronous task that takes 3 seconds
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Simulate an asynchronous task that takes 3 seconds
+  //       await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        // Update progressValue when the task is complete
-        setProgressValue(100);
-        setIsLoading(false);
-      } catch (error) {
-        // Handle errors
-        setIsLoading(false);
-      }
-    };
+  //       // Update progressValue when the task is complete
+  //       setProgressValue(100);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       // Handle errors
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-    // Start the data fetching task
-    fetchData();
-  }, []);
+  //   // Start the data fetching task
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     setIsLoading(loadingState);
@@ -151,7 +152,7 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
                           <Typography variant="h6" fontWeight={800}>
                             {item.proj_name}
                           </Typography>
-                        </ListItemText>
+                        </ListItemText>          
                       </Grid>
                       <Grid item sx={{}}>
                         <ThemeProvider theme={theme}>
@@ -177,16 +178,21 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
               </Grid>
             ))}
           </Grid>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-            }}
-          >
-            <CircularProgress color="error" value={progressValue} />
-          </div>
+      
+          {isLoading && (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100%",
+    }}
+  >
+    <CircularProgress color="error" />
+  </div>
+)}
+
+      
         </div>
       </div>
     </div>

@@ -21,8 +21,6 @@ const customColor = ["#464d77", "#e2725b", "#f28500", "#800020"];
 //finished  - "#f28500",
 //closed - "#800020"
 
-
-
 const customTheme = {
   axis: {
     legend: {
@@ -71,47 +69,46 @@ const ProjectGraph: React.FC<ProjectGraphProps> = (props) => {
     (state: RootState) => state.graphsData.isLoading
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [progressValue, setProgressValue] = useState(0);
+  // const [progressValue, setProgressValue] = useState(0);
+
+  // useEffect(() => {
+  // const fetchData = async () => {
+  // try {
+  //       while (true) {
+  //         await new Promise((resolve) => setTimeout(resolve, 10000));
+
+  //         setProgressValue(100);
+  //       }
+  //     } catch (error) {
+
+  // } finally {
+  //       setIsLoading(false);
+  //     }
+  // };
+  // fetchData();
+  // }, []);
 
   useEffect(() => {
-	const fetchData = async () => {
-	try {
-        while (true) {
-          await new Promise((resolve) => setTimeout(resolve, 10000));
-          
-          setProgressValue(100);
-        }
-      } catch (error) {
-
-	} finally {
-        setIsLoading(false); 
-      }
-	};
-	fetchData();
-  }, []);
-
-
-  useEffect(() => {
-	setIsLoading(loadingState);
+    setIsLoading(loadingState);
   }, [loadingState]);
 
-useEffect(() => {
-	if (graphData) {
-	  graphData.map((data) =>
-		setData(
-		  data.project_status.map((projCount) =>
-			createData(
-			  projCount.status_name,
-			  projCount.status_name,
-			  projCount.total,
-			  "dfd"
-			)
-		  )
-		)
-	  );
-	}
+  useEffect(() => {
+    if (graphData) {
+      graphData.map((data) =>
+        setData(
+          data.project_status.map((projCount) =>
+            createData(
+              projCount.status_name,
+              projCount.status_name,
+              projCount.total,
+              "dfd"
+            )
+          )
+        )
+      );
+    }
   }, [graphData]);
-  
+
   return (
     <div className={ProjGraphStyle.ProjGraphContainer}>
       <div className={ProjGraphStyle.projGraphHolder}>
@@ -120,27 +117,30 @@ useEffect(() => {
           <div className={ProjGraphStyle.textHolder}>
             {/* Text Title */}
             <text className={ProjGraphStyle.textTitle}>PROJECT STATUS</text>
-            <text className={ProjGraphStyle.textSubtitle}>{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</text>
-
-
+            <text className={ProjGraphStyle.textSubtitle}>
+              {new Date().toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+              })}
+            </text>
           </div>
         </div>
 
         {/* Graph */}
         <div className={ProjGraphStyle.graphContainer}>
-		{isLoading && (
-        <div
-          style={{
-			display: "flex",
-			justifyContent: "center",
-			alignItems: "center",
-			height: "100%",
-          }}
-        >
-          <CircularProgress color="primary" value={progressValue} />
-        </div>
-      )}
-	
+          {isLoading && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              <CircularProgress color="primary"/>
+            </div>
+          )}
+
           <ResponsivePie
             data={data}
             margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
@@ -188,11 +188,8 @@ useEffect(() => {
                 ],
               },
             ]}
-            theme={customTheme} 
+            theme={customTheme}
           />
-		 
-
-	
         </div>
       </div>
     </div>
