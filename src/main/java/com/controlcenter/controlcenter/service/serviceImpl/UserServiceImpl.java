@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.security.core.userdetails.User;
@@ -278,21 +277,17 @@ public class UserServiceImpl implements UserService {
         }
 
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String user_id = userBodyChecker.getEmp_id().toString();
+        // String user_id = userBodyChecker.getEmp_id().toString();
         String originalFileName = photo.getOriginalFilename();
         String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-        // String newFilename = timeStamp + "." + extension;
-        String newFilename = "user " + user_id + "." + extension;
+        String newFilename = timeStamp + "." + extension;
+        // String newFilename = "user " + user_id + "." + extension;
 
-        String targetDirectory = "C:\\Storage\\Profile";
-        // String targetDirectory = "C:\\Users\\sfabre\\Desktop\\Control Center
-        // Project\\control-center\\frontend\\src\\Assets\\userImage";
-        // String targetDirectory = "../../../Assets/userImage/";
-        // String targetDirectory = targetDirectoryPath;
-        // String userHomeDirectory = System.getProperty("user.home");
-        // String targetDirectory = userHomeDirectory + File.separator + "Desktop" + File.separator
-        //     + "Control Center Project" + File.separator + "control-center" + File.separator + "frontend"
-        //     + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
+        //String targetDirectory = "C:\\Storage\\Profile";
+        String userHomeDirectory = System.getProperty("user.home");
+        String targetDirectory = userHomeDirectory + File.separator + "Desktop" + File.separator
+            + "Control Center Project" + File.separator + "control-center" + File.separator + "frontend"
+            + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
 
         File directory = new File(targetDirectory);
 
@@ -317,6 +312,7 @@ public class UserServiceImpl implements UserService {
 
         Files.copy(photo.getInputStream(), targetPath);
         userDao.updateUserPicture(userBodyChecker);
+        
         return ResponseEntity.status(200).body("Picture upload successful");
       }
 
