@@ -4,7 +4,11 @@ import { ResponsiveBar } from "@nivo/bar";
 import EmpStatGraphStyle from "./EmployeeStatusGraph.module.css";
 import { RootState } from "../../../redux/store/store";
 import { useSelector } from "react-redux";
-import { GraphsData, TotalUserCount } from "../../../redux/state/graphState";
+import {
+  GraphsData,
+  TotalUserCount,
+  UserPerMonth,
+} from "../../../redux/state/graphState";
 
 type Datum = {
   [key: string]: number | string;
@@ -66,9 +70,12 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
   const [data, setData] = useState<Datum[]>();
   const [keys, setKeys] = useState<string[]>([]);
   const [userCount, setUserCount] = useState<TotalUserCount>({ total_user: 0 });
-
-  const [totalCount, setTotalCount] = useState(0);
-  const [percentageIncrease, setPercentageIncrease] = useState<number>(0);
+  const [userMonth, setUserMonth] = useState<UserPerMonth>({
+    user_per_month: 0,
+  });
+  const [percentageIncrease, setPercentageIncrease] = useState<number | null>(
+    null
+  );
   const legend = `${new Date().toLocaleDateString("en-US", { month: "long" })}`;
 
   const loadingState = useSelector(
@@ -77,51 +84,14 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
 
-  // useEffect(() => {
-  //   const fetchTotalCount = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:8080/dashboard/total-user-count');
-  //       if (!response.ok) {
-  //         throw new Error(`Request failed with status: ${response.status}`);
-  //       }
-  //       const data = await response.json();
-  //       console.log('Total Count:', data.total);
-  //       setTotalCount(data.total);
-  //     } catch (error) {
-  //       console.error("Error fetching total count:", error);
-  //     }
-  //   };
-
-  // const fetchUserCount = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:8080/dashboard/user-count');
-  //     if (!response.ok) {
-  //       throw new Error(`Request failed with status: ${response.status}`);
-  //     }
-  //     const data = await response.json();
-  //     console.log('User Count:', data.userCount);
-  //     setUserCount(data.userCount);
-  //   } catch (error) {
-  //     console.error("Error fetching user count:", error);
-  //   }
-  // };
-
-  //   const interval1 = setInterval(fetchTotalCount, 60000);
-  //   const interval2 = setInterval(fetchUserCount, 60000);
-
-  //   return () => {
-  //     clearInterval(interval1);
-  //     clearInterval(interval2);
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   // Calculate the percentage increase when both userCount and totalCount are available
-  //   if (userCount > 0 && totalCount > 0) {
-  //     const increase = ((totalCount - userCount) / userCount) * 100;
-  //     setPercentageIncrease(increase);
-  //   }
-  // }, [userCount, totalCount]);
+  useEffect(() => {
+    // Calculate the percentage increase when both userCount and totalCount are available
+    if (userCount.total_user && userMonth.user_per_month) {
+      const increase =
+        (userMonth.user_per_month / userCount.total_user) *100; // Corrected the formula for percentage increase
+      setPercentageIncrease(increase);
+    }
+  }, [userCount, userMonth]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -155,7 +125,8 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
           )
         );
         setKeys(data.user_status.map((userStat) => userStat.status_name));
-        setUserCount({total_user: data.total_user_count.total_user})
+        setUserCount({ total_user: data.total_user_count.total_user });
+        setUserMonth({ user_per_month: data.user_per_month.user_per_month });
       });
     }
   }, [graphData]);
@@ -165,19 +136,20 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
       <div className={EmpStatGraphStyle.empGraphHolder}>
         {/* Main Container */}
         <div className={EmpStatGraphStyle.card}>
-            <div className={EmpStatGraphStyle.textHolder}>
-              {/* Text Title */}
-              <text className={EmpStatGraphStyle.textTitle}>
-                {"EMPLOYEE STATUS"}
-              </text>
+          <div className={EmpStatGraphStyle.textHolder}>
+            {/* Text Title */}
+            <text className={EmpStatGraphStyle.textTitle}>
+              {"EMPLOYEE STATUS"}
+            </text>
 
-              <text className={EmpStatGraphStyle.textSubtitle}>Total User Count: {userCount.total_user}</text>
-
-                  {/* // <p>User Count: {userCount}</p>
-                  // {percentageIncrease !== null && (
-                  //   <p>{`+${percentageIncrease.toFixed(2)}% increase than the last month`}</p>
-                  // )} */}
-            </div>
+            <span className={EmpStatGraphStyle.textSubtitle}>
+              {percentageIncrease !== null
+                ? `+${percentageIncrease.toFixed(
+                    2
+                  )}% increase than the last month`
+                : "No data available"}
+            </span>
+          </div>
         </div>
 
         {/* Graph */}
