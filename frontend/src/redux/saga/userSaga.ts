@@ -7,6 +7,7 @@ import {
 	getUsersSuccess,
 	setMessage,
 	setIsLoading,
+	setIsLoadingDialog,
 	setError,
 	setSaved,
 	// changePasswordSuccess,
@@ -15,6 +16,7 @@ import {
 import { createAction } from "@reduxjs/toolkit";
 import { GridRowId } from "@mui/x-data-grid";
 import axios from "axios";
+
 
 interface Data {
 	emp_id: string;
@@ -315,13 +317,13 @@ export function* userSagaPass() {
 }
 function* passwordSaga(action: ReturnType<typeof changePassword>): any {
 	try {
-		yield put(setIsLoading(true));
+		yield put(setIsLoadingDialog(true));
 		const response = yield call(apiPassword, action.payload.data);
 
 		if (response?.status === 200) {
 			yield put(clearError());
 			yield put(setSaved(true)); 
-			yield put(setIsLoading(false));
+			yield put(setIsLoadingDialog(false));
 		} else {
 			yield put(clearError());
 			yield put(setError(response?.data));
