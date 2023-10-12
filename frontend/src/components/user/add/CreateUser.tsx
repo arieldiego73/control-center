@@ -748,7 +748,7 @@ export default function CreateUser() {
                           error={formSubmitted && (email === "" || !isEmailValid)}
                           helperText={
                             (formSubmitted && email === "" ? "Email required" : "") ||
-                            (formSubmitted && !isEmailValid ? "Please enter a valid email 2" : "")
+                            (formSubmitted && !isEmailValid ? "Please enter a valid email." : "")
                           }
                           variant="outlined"
                           size="small"
