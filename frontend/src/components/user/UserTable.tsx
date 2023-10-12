@@ -369,7 +369,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     <Box sx={userDataGridStyle}>
       <div className={UserTableStyle.tableMainContainer}>
         <Paper className={UserTableStyle.paperTable}>
-          <div style={{ height: "100%", width: "100%" }}>
+          <div style={{ height: "100%", width: "100%", }}>
             <DataGrid
               disableRowSelectionOnClick
               initialState={{
