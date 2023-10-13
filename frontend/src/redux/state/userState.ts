@@ -24,10 +24,11 @@ export const userSlice = createSlice({
 			dept_id: 0,
 			section_id: 0,
 			status_code: "",
-      img_src: "",
+      		img_src: "",
 		},
 		userRoles: [],
 		isLoading: false,
+		isLoadingDialog: false, 
 		error: "", // used to fetch error message for change password verification
 		notice: {
 			message: "",
@@ -82,12 +83,15 @@ export const userSlice = createSlice({
 				dept_id: 0,
 				section_id: 0,
 				status_code: "",
-        img_src: "",
+        		img_src: "",
 			};
 			state.userRoles = [];
 		},
 		setIsLoading: (state, action) => {
 			state.isLoading = action.payload;
+		},
+		setIsLoadingDialog: (state, action) => {
+			state.isLoadingDialog = action.payload;
 		},
 		setError: (state, action) => {
 			state.error = action.payload;
@@ -115,6 +119,7 @@ export const {
 	setError,
 	clearError,
 	setSaved,
+	setIsLoadingDialog,
 	// changePasswordSuccess,
 } = userSlice.actions;
 

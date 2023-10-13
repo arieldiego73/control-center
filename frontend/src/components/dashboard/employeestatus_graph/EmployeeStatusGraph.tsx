@@ -4,7 +4,11 @@ import { ResponsiveBar } from "@nivo/bar";
 import EmpStatGraphStyle from "./EmployeeStatusGraph.module.css";
 import { RootState } from "../../../redux/store/store";
 import { useSelector } from "react-redux";
-import { GraphsData } from "../../../redux/state/graphState";
+import {
+  GraphsData,
+  TotalUserCount,
+  UserPerMonth,
+} from "../../../redux/state/graphState";
 
 type Datum = {
   [key: string]: number | string;
@@ -14,11 +18,17 @@ function createData(status_name: string, total: number): Datum {
   return { empStatus: status_name, [status_name]: total };
 }
 
+function createDataTotal(total_user: number) {
+  return {
+    total_user,
+  };
+}
+
 const customTheme = {
   axis: {
-    legend: { 
+    legend: {
       text: {
-        fill: "white", 
+        fill: "white",
       },
     },
     ticks: {
@@ -29,24 +39,24 @@ const customTheme = {
   },
   grid: {
     line: {
-      stroke: "white", 
+      stroke: "white",
     },
   },
   tooltip: {
     container: {
       fontSize: "12px",
-      background: "black", 
-      color: "white", 
+      background: "black",
+      color: "white",
     },
   },
   labels: {
     text: {
-      fill: "white", 
+      fill: "white",
     },
   },
   legends: {
     text: {
-      fill: "white", 
+      fill: "white",
     },
   },
 };
@@ -59,47 +69,47 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
   const { graphData } = props;
   const [data, setData] = useState<Datum[]>();
   const [keys, setKeys] = useState<string[]>([]);
-  const [userCount, setUserCount] = useState(100); 
+  const [userCount, setUserCount] = useState<TotalUserCount>({ total_user: 0 });
+  const [userMonth, setUserMonth] = useState<UserPerMonth>({
+    user_per_month: 0,
+  });
+  const [percentageIncrease, setPercentageIncrease] = useState<number | null>(
+    null
+  );
+  const legend = `${new Date().toLocaleDateString("en-US", { month: "long" })}`;
 
   const loadingState = useSelector(
     (state: RootState) => state.graphsData.isLoading
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [progressValue, setProgressValue] = useState(0);
+  // const [progressValue, setProgressValue] = useState(0);
 
   useEffect(() => {
-    const fetchUserCount = async () => {
-      const response = await fetch('/api/user-count'); // Replace with your API endpoint
-      const data = await response.json();
-      setUserCount(data.userCount);
-    };
+    // Calculate the percentage increase when both userCount and totalCount are available
+    if (userCount.total_user && userMonth.user_per_month) {
+      const increase = (userMonth.user_per_month / userCount.total_user) * 100; // Corrected the formula for percentage increase
+      setPercentageIncrease(increase);
+    }
+  }, [userCount, userMonth]);
 
-    const interval = setInterval(fetchUserCount, 60000); // Fetch user count every minute
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Simulate an asynchronous task that takes 3 seconds
+  //       await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    // Clean up the interval on unmount
-    return () => clearInterval(interval);
-  }, []);
+  //       // Update progressValue when the task is complete
+  //       setProgressValue(100);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       // Handle errors
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-  const increase = 1;
-
-  useEffect(() => { 
-    const fetchData = async () => {
-      try {
-        // Simulate an asynchronous task that takes 3 seconds
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-
-        // Update progressValue when the task is complete
-        setProgressValue(100);
-        setIsLoading(false); 
-      } catch (error) {
-        // Handle errors
-        setIsLoading(false);
-      }
-    };
-
-    // Start the data fetching task
-    fetchData();
-  }, []);
+  //   // Start the data fetching task
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     setIsLoading(loadingState);
@@ -114,6 +124,8 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
           )
         );
         setKeys(data.user_status.map((userStat) => userStat.status_name));
+        setUserCount({ total_user: data.total_user_count.total_user });
+        setUserMonth({ user_per_month: data.user_per_month.user_per_month });
       });
     }
   }, [graphData]);
@@ -128,9 +140,14 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
             <text className={EmpStatGraphStyle.textTitle}>
               {"EMPLOYEE STATUS"}
             </text>
-            <text className={EmpStatGraphStyle.textSubtitle}>
-            {`+${increase}% increase for ${userCount} users`}
-            </text>
+
+            <span className={EmpStatGraphStyle.textSubtitle}>
+              {percentageIncrease !== null
+                ? `+${percentageIncrease.toFixed(
+                    2
+                  )}% increase than the last month`
+                : "No data available"}
+            </span>
           </div>
         </div>
 
@@ -177,7 +194,7 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: "country",
+                legend: legend,
                 legendPosition: "middle",
                 legendOffset: 50,
               }}
@@ -200,16 +217,18 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
               theme={customTheme} // Apply the custom theme
             />
           ) : (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
-              <CircularProgress color="success" value={progressValue} />
-            </div>
+            isLoading && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <CircularProgress color="success" />
+              </div>
+            )
           )}
         </div>
       </div>

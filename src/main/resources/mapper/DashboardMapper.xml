@@ -251,20 +251,13 @@
         LIMIT 6;
     </select>
 
-    <select id="countAllUserPerYearAndMonth">
+    <select id="countAllUserPerYearAndMonth" resultType="com.controlcenter.controlcenter.model.UserPerMonth">
        SELECT
-            COUNT(tuser.status_code) AS total,
-            EXTRACT(YEAR FROM tuser.reg_date) AS year,
-            EXTRACT(MONTH FROM tuser.reg_date) AS month
-        FROM
-            tbl_user AS tuser
-        WHERE
-            tuser.del_flag = 0
+            COUNT(*) AS user_per_month
+        FROM tbl_user AS tuser
+        WHERE tuser.del_flag = 0
             AND tuser.emp_id != 100
-            AND EXTRACT(YEAR FROM tuser.reg_date) = EXTRACT(YEAR FROM CURRENT_DATE)
-            AND EXTRACT(MONTH FROM tuser.reg_date) = EXTRACT(MONTH FROM CURRENT_DATE)
-        GROUP BY
-            year, month;
-
+            AND (YEAR(tuser.reg_date) = YEAR(CURRENT_DATE)
+            AND MONTH(tuser.reg_date) = MONTH(CURRENT_DATE));
     </select>
 </mapper>

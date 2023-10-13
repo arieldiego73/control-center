@@ -25,6 +25,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +36,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.security.core.userdetails.User;
@@ -106,8 +106,22 @@ public class UserServiceImpl implements UserService {
   public ResponseEntity<UserInfoOutput> getUserById(String id) {
     try {
       UserInfoOutput user = userDao.getUserById(id);
+
+      // List<String> userRoleLevelList = new ArrayList<>();
+
+      // for(String userRoleLevel : user.getRole_user_level()) {
+      //   userRoleLevelList.add(userRoleLevel);
+      // }
+
+      // user.setRole_user_level(userRoleLevelList);
+
+      System.out.println("User" + user);
+      System.out.println("User Role Level: " + user.getRole_user_level());
+
       return ResponseEntity.ok(user);
     } catch (Exception e) {
+      System.out.println("User" + e.getMessage());
+      System.out.println("User Role Level: " + e.getMessage());
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
   }
@@ -182,9 +196,9 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.badRequest().body("Associate ID should only be a number");
       }
 
-      if (!formatChecker.isValidEmail(account.getEmail())) {
-        return ResponseEntity.badRequest().body("Invalid Email");
-      }
+      // if (!formatChecker.isValidEmail(account.getEmail())) {
+      //   return ResponseEntity.badRequest().body("Invalid Email");
+      // }
 
       if (!account.getPassword().equals(account.getConfirm_password())) {
         return ResponseEntity.badRequest().body("Password and confirm password do not match");
@@ -264,6 +278,8 @@ public class UserServiceImpl implements UserService {
 
     boolean areEqueal = userRoleIds.equals(role_ids);
 
+      
+
     try {
       // UserOutput existingUser = profileDao.getUserById(emp_id);
       if (userBodyChecker == null) {
@@ -278,21 +294,20 @@ public class UserServiceImpl implements UserService {
         }
 
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String user_id = userBodyChecker.getEmp_id().toString();
+        // String user_id = userBodyChecker.getEmp_id().toString();
         String originalFileName = photo.getOriginalFilename();
         String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-        // String newFilename = timeStamp + "." + extension;
-        String newFilename = "user " + user_id + "." + extension;
+        String newFilename = timeStamp + "." + extension;
+        // String newFilename = "user " + user_id + "." + extension;
 
-        String targetDirectory = "C:\\Storage\\Profile";
-        // String targetDirectory = "C:\\Users\\sfabre\\Desktop\\Control Center
-        // Project\\control-center\\frontend\\src\\Assets\\userImage";
-        // String targetDirectory = "../../../Assets/userImage/";
-        // String targetDirectory = targetDirectoryPath;
+        //String targetDirectory = "C:\\Storage\\Profile";
         // String userHomeDirectory = System.getProperty("user.home");
         // String targetDirectory = userHomeDirectory + File.separator + "Desktop" + File.separator
         //     + "Control Center Project" + File.separator + "control-center" + File.separator + "frontend"
         //     + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
+        String projectBaseDirectory = System.getProperty("user.dir"); // Get the base directory of your project
+        String targetDirectory = projectBaseDirectory + File.separator + "frontend"
+        + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
 
         File directory = new File(targetDirectory);
 
@@ -312,12 +327,16 @@ public class UserServiceImpl implements UserService {
 
         // sameImage = formatChecker.isSameImage(newFilename,
         // userBodyChecker.getImg_src());
-        userBodyChecker.setImg_src(newFilename);
+        
+        // userBodyChecker.setImg_src(newFilename);
         user.setImg_src(newFilename);
-
-        Files.copy(photo.getInputStream(), targetPath);
+        
+        Files.copy(photo.getInputStream(), targetPath); //, StandardCopyOption.REPLACE_EXISTING)
         userDao.updateUserPicture(userBodyChecker);
+        
         return ResponseEntity.status(200).body("Picture upload successful");
+      } else {
+        user.setImg_src(userBodyChecker.getImg_src());
       }
 
     } catch (Exception e) {
@@ -334,6 +353,7 @@ public class UserServiceImpl implements UserService {
         && accountBody.getMname().equals(userBodyChecker.getMname())
         && accountBody.getLname().equals(userBodyChecker.getLname())
         && accountBody.getEmail().equals(userBodyChecker.getEmail())
+        && user.getImg_src().equals(userBodyChecker.getImg_src())
         && isPasswordEqual
         && accountBody.getPosition_id() == userBodyChecker.getPosition_id()
         && accountBody.getDept_id() == userBodyChecker.getDept_id()

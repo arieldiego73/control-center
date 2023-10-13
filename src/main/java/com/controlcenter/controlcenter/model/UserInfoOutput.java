@@ -1,5 +1,8 @@
 package com.controlcenter.controlcenter.model;
 
+
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,4 +26,5 @@ public class UserInfoOutput {
   private int section_id;
   private int dept_id;
   private int position_id;
+  private String role_user_level;
 }
