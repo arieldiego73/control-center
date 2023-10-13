@@ -113,7 +113,7 @@
 
 
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import Userhandler from "./pages/Userhandler";
 import CreateUserHandler from "./pages/CreateUserHandler";
@@ -148,89 +148,132 @@ import { showDialog } from "./redux/state/dialogSlice";
 
 // ... (other imports and component definitions)
 
+// function App() {
+// 	const dummyUsers = [
+// 	  {
+// 		id: 1,
+// 		username: "admin",
+// 		role: "System Administrator",
+// 	  },
+// 	  {
+// 		id: 2,
+// 		username: "acct_manager",
+// 		role: "Account Manager",
+// 	  },
+// 	  {
+// 		id: 3,
+// 		username: "proj_manager",
+// 		role: "Project Manager",
+// 	  },
+// 	  {
+// 		id: 4,
+// 		username: "normal_user",
+// 		role: "Normal User",
+// 	  },
+// 	];
+  
+// 	const defaultUserId = 1;
+  
+// 	const currentUser = dummyUsers.find((user) => user.id === defaultUserId);
+  
+// 	return (
+// 	  <BrowserRouter>
+// 		<Routes>
+// 		  {/* Allow access based on user role */}
+// 		  {currentUser && currentUser.role === "System Administrator" && (
+// 			<>
+// 			 	<Route path="/" Component={LoginPage} />
+//  				<Route path="/dashboard" Component={DashboardHandler} />
+//  				<Route path="/users/*" Component={Userhandler} />
+//  				<Route path="/user/add-new-user" Component={CreateUserHandler} />
+//  				<Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
+//  				<Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
+//  				<Route path="/projects" Component={ProjectHandler} />
+//  				<Route path="/roles" Component={RoleHandler} />
+//  				<Route path="/project/add-new-project" Component={NewProjHandler} />
+//  				<Route path="/development-phase" Component={DevelopmentPhaseHandler} />
+//  				<Route path="/clients" Component={ClientHandler} />
+//  				<Route path="/project-status" Component={ProjectStatusHandler} />
+//  				<Route path="/dashboard-table" Component={ActivityLogDashboardTable} />
+//  				<Route path="/employee-status" Component={EmployeeStatusHandler} />
+//  				<Route path="/employee-position" Component={EmployeePositionHandler} />
+//  				<Route path="/business-unit" Component={BusinessUnitHandler} />
+//  				<Route path="/department" Component={DepartmentHandler} />
+//  				<Route path="/technology" Component={TechnologyHandler} />
+//  				<Route path="/navigations" Component={Navigations} />
+//  				<Route path="/development-type" Component={DevelopmentTypeHandler} />
+//  				<Route path="/TestHandler" Component={TestHandler} />
+//  				<Route path="/viewImg" Component={ImagePreview} />			
+// 			</>
+// 		  )}
+// 		  {currentUser && currentUser.role === "Account Manager" && (
+// 			<>
+// 			  <Route path="/" Component={LoginPage} />
+// 			  <Route path="/dashboard" Component={DashboardHandler} />
+// 			  <Route path="/users/*" Component={Userhandler} />
+// 			  <Route path="/user/add-new-user" element={<CreateUserHandler />} />
+// 			  <Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
+// 			</>
+// 		  )}
+// 		  {currentUser && currentUser.role === "Project Manager" && (
+// 			<>
+// 			  <Route path="/" Component={LoginPage} />
+//  			  <Route path="/dashboard" Component={DashboardHandler} />
+// 			  <Route path="/projects" Component={ProjectHandler} />
+// 			  <Route path="/project/add-new-project" element={<NewProjHandler />} />
+// 			  <Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
+// 			</>
+// 		  )}
+// 		  {!currentUser && (
+// 			<p>Normal User - Restrict access to all pages</p>
+// 		  )}
+// 		</Routes>
+// 	  </BrowserRouter>
+// 	);
+//   }
+  
+//   export default App;
+
 function App() {
-	const dummyUsers = [
-	  {
-		id: 1,
-		username: "admin",
-		role: "System Administrator",
-	  },
-	  {
-		id: 2,
-		username: "acct_manager",
-		role: "Account Manager",
-	  },
-	  {
-		id: 3,
-		username: "proj_manager",
-		role: "Project Manager",
-	  },
-	  {
-		id: 4,
-		username: "normal_user",
-		role: "Normal User",
-	  },
-	];
-  
-	const defaultUserId = 1;
-  
-	const currentUser = dummyUsers.find((user) => user.id === defaultUserId);
-  
+const isAuthenticated = useSelector((state: RootState) => state.sessionReducer.isAuthenticated);
+
+
 	return (
-	  <BrowserRouter>
-		<Routes>
-		  {/* Allow access based on user role */}
-		  {currentUser && currentUser.role === "System Administrator" && (
-			<>
-			 	<Route path="/" Component={LoginPage} />
- 				<Route path="/dashboard" Component={DashboardHandler} />
- 				<Route path="/users/*" Component={Userhandler} />
- 				<Route path="/user/add-new-user" Component={CreateUserHandler} />
- 				<Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
- 				<Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
- 				<Route path="/projects" Component={ProjectHandler} />
- 				<Route path="/roles" Component={RoleHandler} />
- 				<Route path="/project/add-new-project" Component={NewProjHandler} />
- 				<Route path="/development-phase" Component={DevelopmentPhaseHandler} />
- 				<Route path="/clients" Component={ClientHandler} />
- 				<Route path="/project-status" Component={ProjectStatusHandler} />
- 				<Route path="/dashboard-table" Component={ActivityLogDashboardTable} />
- 				<Route path="/employee-status" Component={EmployeeStatusHandler} />
- 				<Route path="/employee-position" Component={EmployeePositionHandler} />
- 				<Route path="/business-unit" Component={BusinessUnitHandler} />
- 				<Route path="/department" Component={DepartmentHandler} />
- 				<Route path="/technology" Component={TechnologyHandler} />
- 				<Route path="/navigations" Component={Navigations} />
- 				<Route path="/development-type" Component={DevelopmentTypeHandler} />
- 				<Route path="/TestHandler" Component={TestHandler} />
- 				<Route path="/viewImg" Component={ImagePreview} />			
-			</>
-		  )}
-		  {currentUser && currentUser.role === "Account Manager" && (
-			<>
-			  <Route path="/" Component={LoginPage} />
-			  <Route path="/dashboard" Component={DashboardHandler} />
-			  <Route path="/users/*" Component={Userhandler} />
-			  <Route path="/user/add-new-user" element={<CreateUserHandler />} />
-			  <Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
-			</>
-		  )}
-		  {currentUser && currentUser.role === "Project Manager" && (
-			<>
-			  <Route path="/" Component={LoginPage} />
- 			  <Route path="/dashboard" Component={DashboardHandler} />
-			  <Route path="/projects" Component={ProjectHandler} />
-			  <Route path="/project/add-new-project" element={<NewProjHandler />} />
-			  <Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
-			</>
-		  )}
-		  {!currentUser && (
-			<p>Normal User - Restrict access to all pages</p>
-		  )}
-		</Routes>
-	  </BrowserRouter>
+		<BrowserRouter>
+			<Routes>
+			{isAuthenticated ? (
+				<>
+				<Route path="/dashboard" Component={DashboardHandler} />
+  				<Route path="/users/*" Component={Userhandler} />
+  				<Route path="/user/add-new-user" Component={CreateUserHandler} />
+  				<Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
+  				<Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
+  				<Route path="/projects" Component={ProjectHandler} />
+  				<Route path="/roles" Component={RoleHandler} />
+  				<Route path="/project/add-new-project" Component={NewProjHandler} />
+  				<Route path="/development-phase" Component={DevelopmentPhaseHandler} />
+  				<Route path="/clients" Component={ClientHandler} />
+  				<Route path="/project-status" Component={ProjectStatusHandler} />
+  				<Route path="/dashboard-table" Component={ActivityLogDashboardTable} />
+  				<Route path="/employee-status" Component={EmployeeStatusHandler} />
+  				<Route path="/employee-position" Component={EmployeePositionHandler} />
+  				<Route path="/business-unit" Component={BusinessUnitHandler} />
+  				<Route path="/department" Component={DepartmentHandler} />
+  				<Route path="/technology" Component={TechnologyHandler} />
+  				<Route path="/navigations" Component={Navigations} />
+  				<Route path="/development-type" Component={DevelopmentTypeHandler} />
+  				<Route path="/TestHandler" Component={TestHandler} />
+  				<Route path="/viewImg" Component={ImagePreview} />			
+				</>
+			) : (
+				<>
+				<Route index element={<LoginPage />} />
+				<Route path="/*" element={<Navigate to="/" replace />} />
+				</>
+			)}
+			</Routes>
+		</BrowserRouter>
 	);
-  }
-  
-  export default App;
-  
+}
+
+export default App;

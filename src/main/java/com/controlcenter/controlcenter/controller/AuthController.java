@@ -2,10 +2,11 @@ package com.controlcenter.controlcenter.controller;
 
 import javax.servlet.http.HttpSession;
 
-import java.util.HashMap; 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,47 +15,65 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.model.UserOutput;
-import com.controlcenter.controlcenter.service.AuthService;
+import com.controlcenter.controlcenter.service.serviceImpl.AuthServiceImpl;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
-    private AuthService authService;
+    private AuthServiceImpl authServiceImpl;
 
-    //Login session
+    // Login session
     @PostMapping("/login")
-    public Map<String, String> authUser(@RequestBody UserOutput userOutput, HttpSession http){
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<Map<String, String>> authUser(@RequestBody UserOutput userOutput, HttpSession http, HttpServletResponse response) {
+        Map<String, String> authResponse = new HashMap<>();
         String username = userOutput.getUsername();
         String password = userOutput.getPassword();
 
-        UserOutput authUser = authService.authUser(username, password);
+        UserOutput authUser = authServiceImpl.authUser(username, password);
 
         if (authUser != null) {
             http.setAttribute("session", authUser.getEmp_id());
-            response.put("Status", "success");
-            
-            // Set a flag in the session to indicate that the user is authenticated
             http.setAttribute("isAuthenticated", true);
+
+            // // Set a cookie for session-based authentication
+            // Cookie authCookie = new Cookie("sessionID", "CookieCutie");
+            // authCookie.setPath("/"); // Set the path to '/' to make the cookie available site-wide
+            // authCookie.setMaxAge(3600); // Set the cookie to expire after 1 hour (adjust as needed)
+
+            // response.addCookie(authCookie);
+
+            authResponse.put("status", "active");
+            authResponse.put("username", authUser.getUsername());
+            authResponse.put("Employee ID", authUser.getEmp_id());
             
+            return ResponseEntity.ok(authResponse);
         } else {
-            response.put("Status", "error");
-            http.setAttribute("isAuthenticated", false); // Set isAuthenticated to false if authentication fails
+            authResponse.put("status", "error");
+            http.setAttribute("isAuthenticated", false);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(authResponse);
         }
-        return response;
     }
 
     // Logout remove httpsession
     @GetMapping("/logout")
-    public Map<String, String> logout() { //HttpSession session
-        String emp_id = "101";
-        return authService.logout(emp_id);
+    public ResponseEntity<Map<String, String>> logout(HttpSession session) {
+        Map<String, String> response = new HashMap<>();
+
+        if (session != null) {
+            session.invalidate();
+        }
+        
+        response.put("status", "logout success");
+
+        return ResponseEntity.ok(response);
     }
 
-
-    //Checker session
+    // Checker session
     @GetMapping("/check")
     public ResponseEntity<Map<String, Object>> checkSession(HttpSession httpSession) {
         Map<String, Object> response = new HashMap<>();
@@ -69,7 +88,4 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-
-
-    
 }
