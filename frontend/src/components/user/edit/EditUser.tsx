@@ -190,6 +190,7 @@ export default function EditUser() {
       dispatch(addUserReset());
       setTimeout(() => {
         navigate("/users");
+        dispatch(clearUserInfo());
       }, GLOBAL_TIMEOUT);
     }
   });
