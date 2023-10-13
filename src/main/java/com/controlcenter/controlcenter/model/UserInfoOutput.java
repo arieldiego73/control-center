@@ -2,6 +2,7 @@ package com.controlcenter.controlcenter.model;
 
 
 import java.util.List;
+import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,5 +27,6 @@ public class UserInfoOutput {
   private int section_id;
   private int dept_id;
   private int position_id;
-  private String role_user_level;
+  // private String role_user_level_string;
+  // private Map<String, Object> role_user_level;
 }
