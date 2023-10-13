@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -36,25 +37,25 @@ public class DevTypeController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<DevTypeOutput>> getAllDevType() {
+    public ResponseEntity<List<DevTypeOutput>> getAllDevType(HttpSession httpSession) {
         // Check if the user is authenticated 
-        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        // if (isAuthenticated != null && isAuthenticated) {
+        if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated
             return devTypeService.getAllDevType();
-        // } else {
-        //     // User is not authenticated
-        //     return ResponseEntity.status(401).body(new ArrayList<DevTypeOutput>());
-        // }
+        } else {
+            // User is not authenticated
+            return ResponseEntity.status(401).body(new ArrayList<DevTypeOutput>());
+        }
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addDevType(@RequestBody DevTypeInput devType){
+    public ResponseEntity<String> addDevType(@RequestBody DevTypeInput devType, HttpSession httpSession){
         // Check if the user is authenticated
-        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        // if (isAuthenticated != null && isAuthenticated) {
+        if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -67,18 +68,18 @@ public class DevTypeController {
                     String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(devTypeService.addDevType(devType, emp_id));
                 }
-        // } else {
-        //      // is not authenticated
-        //      return ResponseEntity.status(401).body("Unauthorized");
-        // }
+        } else {
+             // is not authenticated
+             return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editDevTypeInfo(@PathVariable String id, @RequestBody DevTypeInput devType) {
+    public ResponseEntity<String> editDevTypeInfo(@PathVariable String id, @RequestBody DevTypeInput devType, HttpSession httpSession) {
          // Check if the user is authenticated
-        //  Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+         Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        //  if (isAuthenticated != null && isAuthenticated){
+         if (isAuthenticated != null && isAuthenticated){
              // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -91,60 +92,60 @@ public class DevTypeController {
                     String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return devTypeService.editDevTypeInfo(id, devType, emp_id);
                 }
-        // } else {
-        //     // User is not authenticated 
-        //     return ResponseEntity.status(401).body("Unauthorized");
-        // }
+        } else {
+            // User is not authenticated 
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteDevType(@PathVariable String id) {
+    public ResponseEntity<String> logicalDeleteDevType(@PathVariable String id, HttpSession httpSession) {
         // Check if the user is authenticated
-        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        // if (isAuthenticated != null && isAuthenticated) {
+        if (isAuthenticated != null && isAuthenticated) {
             try {
                 String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(devTypeService.logicalDeleteDevType(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        // } else {
-        //      // User is not authenticated
-        //      return ResponseEntity.status(401).body("Unauthorized");
-        // }
+        } else {
+             // User is not authenticated
+             return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 
     @PutMapping("/delete-multiple")
-    public ResponseEntity<String> deleteMultipleDevType(@RequestParam List<Long> ids) {
+    public ResponseEntity<String> deleteMultipleDevType(@RequestParam List<Long> ids, HttpSession httpSession) {
         // Check uf the user is authenticated
-        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        // if (isAuthenticated != null && isAuthenticated){
+        if (isAuthenticated != null && isAuthenticated){
             try {
                 String emp_id = "101"; //httpSession.getAttribute("session").toString();
             return ResponseEntity.ok().body(devTypeService.deleteMultipleDevType(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");
             }
-        // } else {
-        //     // User is not authenticated
-        //     return ResponseEntity.status(401).body("Unauthorized");
-        // }
+        } else {
+            // User is not authenticated
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 
     @PutMapping("/restore/{id}")
     public ResponseEntity<String> restoreDevType(@PathVariable String id, HttpSession httpSession) {
-        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        // if (isAuthenticated != null && isAuthenticated){
+        if (isAuthenticated != null && isAuthenticated){
             try {
                 return ResponseEntity.ok().body(devTypeService.restoreDevType(id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        // } else {
-        //     return ResponseEntity.status(401).body("Unauthorized");
-        // }     
+        } else {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }     
     }
 }
