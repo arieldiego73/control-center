@@ -8,6 +8,8 @@ import { Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
 import { red } from "@mui/material/colors";
 import defaultProfile from "../../Assets/userImage/MaleDefaultProfile.jpg"
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/saga/sessionSaga"; // Import the logout action
 
 export interface TopNavProps {
   pageTitle?: string; // Make pageTitle optional with '?'
@@ -38,6 +40,15 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  // Redux dispatch to trigger logout action
+  const dispatch = useDispatch();
+
+  // Handle logout when the button is clicked
+  const handleLogout = () => {
+    // Dispatch the logout action
+    dispatch(logout());
   };
 
   return (
@@ -179,14 +190,14 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                       </div>
                     </Link>
 
-                    <div className={TopNavStyle.logout}>
+                    <button className={TopNavStyle.logout} onClick={handleLogout}>
                       <div className={TopNavStyle.logoutSpanContainer}>
                         <span className={TopNavStyle.logoutIcon}>
                           <LogoutIcon />
                         </span>
                         <span className={TopNavStyle.logoutText}>Log out</span>
                       </div>
-                    </div>
+                    </button>
                   </div>
                 </MenuItem>
               </div>
