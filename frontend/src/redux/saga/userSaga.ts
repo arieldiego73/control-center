@@ -323,7 +323,6 @@ function* passwordSaga(action: ReturnType<typeof changePassword>): any {
 		if (response?.status === 200) {
 			yield put(clearError());
 			yield put(setSaved(true)); 
-			yield put(setIsLoadingDialog(false));
 		} else {
 			yield put(clearError());
 			yield put(setError(response?.data));
@@ -331,6 +330,8 @@ function* passwordSaga(action: ReturnType<typeof changePassword>): any {
 	} catch (error: any) {
 		yield put(clearError());
 		yield put(setError(error?.response.data));
+	} finally {
+		yield put(setIsLoadingDialog(false));
 	}
 }
 
