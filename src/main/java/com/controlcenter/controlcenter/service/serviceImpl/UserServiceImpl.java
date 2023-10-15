@@ -25,7 +25,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,14 +108,34 @@ public class UserServiceImpl implements UserService {
 
       // List<String> userRoleLevelList = new ArrayList<>();
 
-      // for(String userRoleLevel : user.getRole_user_level()) {
-      //   userRoleLevelList.add(userRoleLevel);
+      // Map<String, Object> role_user_level = new HashMap<>();
+
+      // String[] parts = user.getRole_user_level_string().split(",");
+        
+      // // Create a list to store the objects
+      // List<String> objectList = new ArrayList<>();
+      
+      // // Convert the substrings to integers and add them to the list
+      // for (String part : parts) {
+      //     try {
+      //         objectList.add(part);
+      //     } catch (NumberFormatException e) {
+      //         // Handle parsing errors if necessary
+      //         System.err.println("Failed to parse: " + part);
+      //     }
       // }
 
-      // user.setRole_user_level(userRoleLevelList);
+      // role_user_level.put("role_user_level", objectList);
+      // // for(String userRoleLevel : user.getRole_user_level()) {
+      // //   userRoleLevelList.add(userRoleLevel);
+      // // }
 
-      System.out.println("User" + user);
-      System.out.println("User Role Level: " + user.getRole_user_level());
+      // // user.setRole_user_level(userRoleLevelList);
+      // user.setRole_user_level(role_user_level);
+
+      // System.out.println("User" + user);
+      // System.out.println("User Role Level String: " + user.getRole_user_level_string());
+      // System.out.println("User Role Level: " + user.getRole_user_level());
 
       return ResponseEntity.ok(user);
     } catch (Exception e) {
@@ -278,6 +297,8 @@ public class UserServiceImpl implements UserService {
 
     boolean areEqueal = userRoleIds.equals(role_ids);
 
+      
+
     try {
       // UserOutput existingUser = profileDao.getUserById(emp_id);
       if (userBodyChecker == null) {
@@ -299,10 +320,13 @@ public class UserServiceImpl implements UserService {
         // String newFilename = "user " + user_id + "." + extension;
 
         //String targetDirectory = "C:\\Storage\\Profile";
-        String userHomeDirectory = System.getProperty("user.home");
-        String targetDirectory = userHomeDirectory + File.separator + "Desktop" + File.separator
-            + "Control Center Project" + File.separator + "control-center" + File.separator + "frontend"
-            + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
+        // String userHomeDirectory = System.getProperty("user.home");
+        // String targetDirectory = userHomeDirectory + File.separator + "Desktop" + File.separator
+        //     + "Control Center Project" + File.separator + "control-center" + File.separator + "frontend"
+        //     + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
+        String projectBaseDirectory = System.getProperty("user.dir"); // Get the base directory of your project
+        String targetDirectory = projectBaseDirectory + File.separator + "frontend"
+        + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
 
         File directory = new File(targetDirectory);
 
@@ -323,7 +347,7 @@ public class UserServiceImpl implements UserService {
         // sameImage = formatChecker.isSameImage(newFilename,
         // userBodyChecker.getImg_src());
         
-        userBodyChecker.setImg_src(newFilename);
+        // userBodyChecker.setImg_src(newFilename);
         user.setImg_src(newFilename);
         
         Files.copy(photo.getInputStream(), targetPath); //, StandardCopyOption.REPLACE_EXISTING)
@@ -348,6 +372,7 @@ public class UserServiceImpl implements UserService {
         && accountBody.getMname().equals(userBodyChecker.getMname())
         && accountBody.getLname().equals(userBodyChecker.getLname())
         && accountBody.getEmail().equals(userBodyChecker.getEmail())
+        && user.getImg_src().equals(userBodyChecker.getImg_src())
         && isPasswordEqual
         && accountBody.getPosition_id() == userBodyChecker.getPosition_id()
         && accountBody.getDept_id() == userBodyChecker.getDept_id()

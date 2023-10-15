@@ -11,6 +11,7 @@ import { FormHelperText, InputAdornment } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store/store";
 import { Error, Info } from "@mui/icons-material";
+import React from "react";
 
 const userStyle = makeStyles({
 	background: {
@@ -84,37 +85,46 @@ const LoginBox = () => {
 		return state.sessionReducer.user;
 	});
 
-	/* VALIDATE IF A USER IS LOGGED IN */
-	useEffect(() => {
-		if (loggedUser !== null) {
-			navigate("/dashboard");
-		}
-	});
+	React.useEffect(() => {
+		// Remove this entire useEffect block
+	  }, []);
 
 	const handleLogin = (event: React.FormEvent) => {
 		event.preventDefault();
-		if (username && password) {
-			dispatch(login({ username, password }));
-			if (loggedUser === null) {
-				setHelperText("Incorrect username or password.");
-				setPassword("");
-				setIsValid(false);
-				setErrorIcon(
-					<InputAdornment position="end">
-						<Error sx={{ color: "red" }} />
-					</InputAdornment>
-				);
-			}
-		} else {
-			setIsValid(false);
-			setHelperText("Both fields are required");
-			setErrorIcon(
-				<InputAdornment position="end">
-					<Error sx={{ color: "red" }} />
-				</InputAdornment>
-			);
-		}
+		dispatch(login({ username, password }));
 	};
+
+	// /* VALIDATE IF A USER IS LOGGED IN */
+	// useEffect(() => {
+	// 	if (loggedUser !== null) {
+	// 		navigate("/dashboard");
+	// 	}
+	// });
+
+	// const handleLogin = (event: React.FormEvent) => {
+	// 	event.preventDefault();
+	// 	if (username && password) {
+	// 		dispatch(login({ username, password }));
+	// 		if (loggedUser === null) {
+	// 			setHelperText("Incorrect username or password.");
+	// 			setPassword("");
+	// 			setIsValid(false);
+	// 			setErrorIcon(
+	// 				<InputAdornment position="end">
+	// 					<Error sx={{ color: "red" }} />
+	// 				</InputAdornment>
+	// 			);
+	// 		}
+	// 	} else {
+	// 		setIsValid(false);
+	// 		setHelperText("Both fields are required");
+	// 		setErrorIcon(
+	// 			<InputAdornment position="end">
+	// 				<Error sx={{ color: "red" }} />
+	// 			</InputAdornment>
+	// 		);
+	// 	}
+	// };
 
 	return (
 		<Box component="div" className={classes.background}>

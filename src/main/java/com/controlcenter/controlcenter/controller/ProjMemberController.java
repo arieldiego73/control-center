@@ -1,5 +1,6 @@
 package com.controlcenter.controlcenter.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -35,25 +36,25 @@ public class ProjMemberController {
     private ErrorHandler errorHandler;
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProjMemberOutput>> getAllProjMember() {
+    public ResponseEntity<List<ProjMemberOutput>> getAllProjMember(HttpSession httpSession) {
         // Check if the user is authenticated 
-        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        // if (isAuthenticated != null && isAuthenticated) {
+        if (isAuthenticated != null && isAuthenticated) {
             // User is authenticated
             return projMemberService.getAllProjMember();
-        // } else {
-        //     // User is not authenticated
-        //     return ResponseEntity.status(401).body(new ArrayList<ProjMemberOutput>());
-        // }
+        } else {
+            // User is not authenticated
+            return ResponseEntity.status(401).body(new ArrayList<ProjMemberOutput>());
+        }
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProjMember(@RequestBody ProjMemberInput projMember){
+    public ResponseEntity<String> addProjMember(@RequestBody ProjMemberInput projMember, HttpSession httpSession){
        // Check if the user is authenticated
-    //    Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+       Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-    //    if (isAuthenticated != null && isAuthenticated) {
+       if (isAuthenticated != null && isAuthenticated) {
            // User is authenticated,  proceed with adding
            //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -66,18 +67,18 @@ public class ProjMemberController {
                     String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(projMemberService.addProjMember(projMember, emp_id));
                 }
-        // } else {
-        //     // is not authenticated
-        //     return ResponseEntity.status(401).body("Unauthorized");
-        // }
+        } else {
+            // is not authenticated
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editProjMemberInfo(@PathVariable String id, @RequestBody ProjMemberInput projMember) {
+    public ResponseEntity<String> editProjMemberInfo(@PathVariable String id, @RequestBody ProjMemberInput projMember, HttpSession httpSession) {
         // Check if the user is authenticated
-        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        // if (isAuthenticated != null && isAuthenticated){
+        if (isAuthenticated != null && isAuthenticated){
             // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -90,44 +91,44 @@ public class ProjMemberController {
                     String emp_id = "101"; //httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(projMemberService.editProjMemberInfo(id, projMember, emp_id));
                 }
-        // } else {
-        //     // User is not authenticated 
-        //     return ResponseEntity.status(401).body("Unauthorized");
-        // }
+        } else {
+            // User is not authenticated 
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<String> logicalDeleteProjMember(@PathVariable String id) {
+    public ResponseEntity<String> logicalDeleteProjMember(@PathVariable String id, HttpSession httpSession) {
         // Check if the user is authenticated
-        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        // if (isAuthenticated != null && isAuthenticated){
+        if (isAuthenticated != null && isAuthenticated){
             try {
                 String emp_id = "101"; //httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(projMemberService.logicalDeleteProjMember(id, emp_id));
             }catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        // } else {
-        //     // User is not authenticated
-        //     return ResponseEntity.status(401).body("Unauthorized");
-        // }
+        } else {
+            // User is not authenticated
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
     
     @PutMapping("/restore/{id}")
     public ResponseEntity<String> restoreProjMember(@PathVariable String id, HttpSession httpSession) {
-        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-        // if (isAuthenticated != null && isAuthenticated){
+        if (isAuthenticated != null && isAuthenticated){
             try {
                 return ResponseEntity.ok().body(projMemberService.restoreProjMember(id));
             }catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
             }
-        // } else {
-        //     // User is not authenticated
-        //     return ResponseEntity.status(401).body("Unauthorized");
-        // }
+        } else {
+            // User is not authenticated
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 }
 
