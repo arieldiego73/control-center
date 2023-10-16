@@ -25,7 +25,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,14 +108,34 @@ public class UserServiceImpl implements UserService {
 
       // List<String> userRoleLevelList = new ArrayList<>();
 
-      // for(String userRoleLevel : user.getRole_user_level()) {
-      //   userRoleLevelList.add(userRoleLevel);
+      // Map<String, Object> role_user_level = new HashMap<>();
+
+      // String[] parts = user.getRole_user_level_string().split(",");
+        
+      // // Create a list to store the objects
+      // List<String> objectList = new ArrayList<>();
+      
+      // // Convert the substrings to integers and add them to the list
+      // for (String part : parts) {
+      //     try {
+      //         objectList.add(part);
+      //     } catch (NumberFormatException e) {
+      //         // Handle parsing errors if necessary
+      //         System.err.println("Failed to parse: " + part);
+      //     }
       // }
 
-      // user.setRole_user_level(userRoleLevelList);
+      // role_user_level.put("role_user_level", objectList);
+      // // for(String userRoleLevel : user.getRole_user_level()) {
+      // //   userRoleLevelList.add(userRoleLevel);
+      // // }
 
-      System.out.println("User" + user);
-      System.out.println("User Role Level: " + user.getRole_user_level());
+      // // user.setRole_user_level(userRoleLevelList);
+      // user.setRole_user_level(role_user_level);
+
+      // System.out.println("User" + user);
+      // System.out.println("User Role Level String: " + user.getRole_user_level_string());
+      // System.out.println("User Role Level: " + user.getRole_user_level());
 
       return ResponseEntity.ok(user);
     } catch (Exception e) {
