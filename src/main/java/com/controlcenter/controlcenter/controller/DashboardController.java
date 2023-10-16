@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controlcenter.controlcenter.model.RecentProjects;
 import com.controlcenter.controlcenter.model.TotalUser;
 import com.controlcenter.controlcenter.model.UserPerMonth;
-import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
 
@@ -50,15 +49,6 @@ public class DashboardController {
             return ResponseEntity.internalServerError().build();
         }
     }
-
-    // @GetMapping("/user-count")
-    // public ResponseEntity<List<Map<String, Object>>> countAllRegisteredUserPerYear() {
-    //     try {
-    //         return dashboardService.countAllRegisteredUserPerYear();
-    //     } catch (Exception e) {
-    //         return ResponseEntity.internalServerError().build();
-    //     }
-    // }
 
     @GetMapping("/business-partner")
     public ResponseEntity<Integer> countAllUserWithStatusOfBusinessPartner() {
