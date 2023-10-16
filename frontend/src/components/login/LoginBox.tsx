@@ -85,6 +85,11 @@ const LoginBox = () => {
 		return state.sessionReducer.user;
 	});
 
+	/* THIS LINE IS USED TO FETCHED THE AUTHENTICATION STATUS */
+	const isAuthenticated = useSelector((state: RootState) => {
+		return state.sessionReducer.isAuthenticated;
+	});
+
 	React.useEffect(() => {
 		// Remove this entire useEffect block
 	  }, []);

@@ -235,7 +235,7 @@ import { showDialog } from "./redux/state/dialogSlice";
 //   export default App;
 
 function App() {
-const isAuthenticated = useSelector((state: RootState) => state.sessionReducer.isAuthenticated);
+	const isAuthenticated = useSelector((state: RootState) => state.sessionReducer.isAuthenticated);
 
 
 	return (
@@ -243,27 +243,28 @@ const isAuthenticated = useSelector((state: RootState) => state.sessionReducer.i
 			<Routes>
 			{isAuthenticated ? (
 				<>
-				<Route path="/dashboard" Component={DashboardHandler} />
-  				<Route path="/users/*" Component={Userhandler} />
-  				<Route path="/user/add-new-user" Component={CreateUserHandler} />
-  				<Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
-  				<Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
-  				<Route path="/projects" Component={ProjectHandler} />
-  				<Route path="/roles" Component={RoleHandler} />
-  				<Route path="/project/add-new-project" Component={NewProjHandler} />
-  				<Route path="/development-phase" Component={DevelopmentPhaseHandler} />
-  				<Route path="/clients" Component={ClientHandler} />
-  				<Route path="/project-status" Component={ProjectStatusHandler} />
-  				<Route path="/dashboard-table" Component={ActivityLogDashboardTable} />
-  				<Route path="/employee-status" Component={EmployeeStatusHandler} />
-  				<Route path="/employee-position" Component={EmployeePositionHandler} />
-  				<Route path="/business-unit" Component={BusinessUnitHandler} />
-  				<Route path="/department" Component={DepartmentHandler} />
-  				<Route path="/technology" Component={TechnologyHandler} />
-  				<Route path="/navigations" Component={Navigations} />
-  				<Route path="/development-type" Component={DevelopmentTypeHandler} />
-  				<Route path="/TestHandler" Component={TestHandler} />
-  				<Route path="/viewImg" Component={ImagePreview} />			
+				<Route path="/" element={<Navigate to="/dashboard" />} />
+            	<Route path="/dashboard/*" element={<DashboardHandler />} />
+				<Route path="/users/*" Component={Userhandler} />
+				<Route path="/user/add-new-user/*" Component={CreateUserHandler} />
+				<Route path="/user/edit-user/:name" element={<EditUserHandler />} />
+			    <Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
+				<Route path="/projects/*" Component={ProjectHandler} />
+				<Route path="/roles/*" Component={RoleHandler} />
+				<Route path="/project/add-new-project" Component={NewProjHandler} />
+				<Route path="/development-phase/*" Component={DevelopmentPhaseHandler} />
+				<Route path="/clients/*" Component={ClientHandler} />
+				<Route path="/project-status/*" Component={ProjectStatusHandler} />
+				<Route path="/dashboard-table" Component={ActivityLogDashboardTable} />
+				<Route path="/employee-status/*" Component={EmployeeStatusHandler} />
+				<Route path="/employee-position/*" Component={EmployeePositionHandler} />
+				<Route path="/business-unit/*" Component={BusinessUnitHandler} />
+				<Route path="/department/*" Component={DepartmentHandler} />
+				<Route path="/technology/*" Component={TechnologyHandler} />
+				<Route path="/navigations/*" Component={Navigations} />
+				<Route path="/development-type/*" Component={DevelopmentTypeHandler} />
+				<Route path="/TestHandler" Component={TestHandler} />
+				<Route path="/viewImg" Component={ImagePreview} />		
 				</>
 			) : (
 				<>
