@@ -67,10 +67,8 @@ public class AuthController {
         if (session != null) {
             session.invalidate();
         }
-        
-        response.put("status", "logout success");
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(authServiceImpl.logout("101"));
     }
 
     // Checker session
