@@ -55,6 +55,7 @@ import trashIcon from "../../Assets/icons/trashIcon.png";
 
 import { Image } from "@mui/icons-material";
 import { setError, clearError } from "../../redux/state/userState";
+import { setSaved } from "../../redux/state/userState";
 
 export interface RowData {
   emp_id: number;
@@ -140,7 +141,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   }, [loadingStateDialog]);
 
   React.useEffect(() => {
-    if (errorMessage === "") {
+    if (changePasswordOpen && errorMessage === "") {
       setErrorMsg("");
       setIsClosable(true);
       dispatch(clearError());
@@ -148,18 +149,19 @@ const UserTable: React.FC<UserTableProps> = (props) => {
       setErrorMsg(errorMessage);
       setIsClosable(false);
     }
-  }, [dispatch, errorMessage, isClosable, adminPass]);
+  }, [dispatch, errorMessage, isClosable, changePasswordOpen]);
 
   React.useEffect(() => {
-    if (isClosable && saved) {
+    if (isClosable && changePasswordOpen && saved) {
       dispatch(clearError());
       setAdminPass("");
       setNewPass("");
       setConfirmNewPass("");
       setChangePasswordOpen(false);
       navigate("/users");
+      dispatch(setSaved(false));
     }
-  }, [dispatch, isClosable, navigate, saved]);
+  }, [changePasswordOpen, dispatch, isClosable, navigate, saved]);
 
   React.useEffect(() => {
     dispatch(getUsersFetch());
@@ -197,6 +199,8 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     const newUrl = `/user/password-change/${id}`;
     window.history.pushState(null, "", newUrl);
     setUsername(username);
+    console.log(saved, '1');
+    
   };
 
   const handleChangePassword = () => {
@@ -205,18 +209,17 @@ const UserTable: React.FC<UserTableProps> = (props) => {
         data: { adminPass, newPass, confirmNewPass, assocId: changePassId },
       })
     );
-    setPasswordSave(false)
+    console.log(saved, '2');
   };
 
   const handleCloseChangePassword = () => {
     dispatch(clearError());
-    // Clear the input fields
     setAdminPass("");
     setNewPass("");
     setConfirmNewPass("");
-    // Close the dialog
     navigate("/users");
     setChangePasswordOpen(false);
+    console.log(saved, '3');
   };
 
   const proceedWithDelete = () => {

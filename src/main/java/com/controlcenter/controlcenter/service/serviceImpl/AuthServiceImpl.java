@@ -61,10 +61,7 @@ public class AuthServiceImpl implements AuthService {
     public Map<String, String> logout(String emp_id) {
         Map<String, String> response = new HashMap<>();
 
-        // if (session != null) {
-        // session.invalidate();
-        // }
-        response.put("Status", "success");
+        response.put("status", "logout success");
 
         // Activitylog
         ActivityLogInput activityLogInput = new ActivityLogInput();
