@@ -113,29 +113,70 @@ export const getUserRoles = createAction<{
 // ADD
 const apiAdd = async (data: Data): Promise<any> => {
 	try {
-		const params = new URLSearchParams();
+		const url = `http://localhost:8080/user/create-account?${data.emp_id}`;
+		const formData = new FormData();
+	
+		// Append image file if provided
+		if (data.img_src) {
+		  formData.append("photo", data.img_src as File);
+		}
+	
+		// Append role_ids
 		data.selectedRoles.forEach((id) => {
-			params.append("role_ids", id.toString());
+		  formData.append("role_ids", id.toString());
 		});
-		const url = `http://localhost:8080/user/create-account?${params}`;
-		return axios.post(url, {
-			emp_id: data.emp_id,
-			username: data.username,
-			password: data.password,
-			confirm_password: data.confirm_password,
-			fname: data.fname,
-			mname: data.mname,
-			lname: data.lname,
-			position_id: data.position_id,
-			email: data.email,
-			section_id: data.section_id,
-			dept_id: data.dept_id,
-			status_code: data.status_code,
-			img_src: null
+	
+		// Append other data fields to the formData object
+		formData.append("emp_id", data.emp_id);
+		formData.append("username", data.username);
+		formData.append("password", data.password);
+		formData.append("confirm_password", data.confirm_password);
+		formData.append("admin_password", data.admin_password);
+		formData.append("fname", data.fname);
+		formData.append("mname", data.mname);
+		formData.append("lname", data.lname);
+		formData.append("position_id", data.position_id.toString());
+		formData.append("email", data.email);
+		formData.append("section_id", data.section_id.toString());
+		formData.append("dept_id", data.dept_id.toString());
+		formData.append("status_code", data.status_code);
+	
+		// Make the PUT request with the FormData containing the data
+		const response = await axios.post(url, formData, {
+		  headers: {
+			"Content-Type": "multipart/form-data",
+			Accept : "multipart/form-data"
+		  },
 		});
-	} catch (error) {
+	
+		return response;
+	  } catch (error) {
 		return error;
-	}
+	  }
+	// try {
+	// 	const params = new URLSearchParams();
+	// 	data.selectedRoles.forEach((id) => {
+	// 		params.append("role_ids", id.toString());
+	// 	});
+	// 	const url = `http://localhost:8080/user/create-account?${params}`;
+	// 	return axios.post(url, {
+	// 		emp_id: data.emp_id,
+	// 		username: data.username,
+	// 		password: data.password,
+	// 		confirm_password: data.confirm_password,
+	// 		fname: data.fname,
+	// 		mname: data.mname,
+	// 		lname: data.lname,
+	// 		position_id: data.position_id,
+	// 		email: data.email,
+	// 		section_id: data.section_id,
+	// 		dept_id: data.dept_id,
+	// 		status_code: data.status_code,
+	// 		img_src: null
+	// 	});
+	// } catch (error) {
+	// 	return error;
+	// }
 };
 
 export const addUserInfo = createAction<{
