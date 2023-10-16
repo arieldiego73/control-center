@@ -41,11 +41,11 @@ public class AuthController {
             http.setAttribute("isAuthenticated", true);
 
             // // Set a cookie for session-based authentication
-            // Cookie authCookie = new Cookie("sessionID", "CookieCutie");
-            // authCookie.setPath("/"); // Set the path to '/' to make the cookie available site-wide
-            // authCookie.setMaxAge(3600); // Set the cookie to expire after 1 hour (adjust as needed)
+            Cookie authCookie = new Cookie("sessionID", "CookieCutie");
+            authCookie.setPath("/"); // Set the path to '/' to make the cookie available site-wide
+            authCookie.setMaxAge(86400); // Set the cookie to expire after 1 day (86,400 seconds)
 
-            // response.addCookie(authCookie);
+            response.addCookie(authCookie);
 
             authResponse.put("status", "active");
             authResponse.put("username", authUser.getUsername());
@@ -62,15 +62,12 @@ public class AuthController {
     // Logout remove httpsession
     @GetMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(HttpSession session) {
-        Map<String, String> response = new HashMap<>();
 
         if (session != null) {
             session.invalidate();
         }
-        
-        response.put("status", "logout success");
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(authServiceImpl.logout("101"));
     }
 
     // Checker session
