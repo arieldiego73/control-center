@@ -1,5 +1,7 @@
 import * as React from "react";
 import Tooltip from "@mui/material/Tooltip";
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -134,7 +136,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     React.useState(loadingStateDialog);
 
   React.useEffect(() => {
-    setIsLoadingDialog(() => loadingStateDialog);
+    setIsLoadingDialog(loadingStateDialog);
   }, [loadingStateDialog]);
 
   React.useEffect(() => {
@@ -181,13 +183,13 @@ const UserTable: React.FC<UserTableProps> = (props) => {
   //     document.removeEventListener('mousedown', handleOutsideClick);
   //   };
   // }, [changePasswordOpen]);
-  const handlePasswordDialog = () => {
-    setPasswordSave(true);
-    setPasswordDialog("Are you sure you want to change your password");
-    setPasswordContent(
-      "This will change the password you use for sign in from now on."
-    );
-  };
+  // const handlePasswordDialog = () => {
+  //   setPasswordSave(true);
+  //   setPasswordDialog("Are you sure you want to change your password");
+  //   setPasswordContent(
+  //     "This will change the password you use for sign in from now on."
+  //   );
+  // };
 
   const handleOpenChangePassword = (id: GridRowId, username: string) => {
     setChangePasswordOpen(true);
@@ -454,7 +456,8 @@ const UserTable: React.FC<UserTableProps> = (props) => {
           </div>
         </Paper>
         {/* Change Password Modal */}
-
+            
+        
         <Dialog open={changePasswordOpen} onClose={handleCloseChangePassword}>
           <DialogTitle style={{ display: "flex", gap: "10px" }}>
             <img
@@ -501,9 +504,10 @@ const UserTable: React.FC<UserTableProps> = (props) => {
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={handlePasswordDialog} color="primary">
+            <LoadingButton loading={isLoadingDialog} onClick={handleChangePassword} color="primary" loadingPosition="start"
+        startIcon={<SaveIcon />} variant="contained">
               Change Password
-            </Button>
+            </LoadingButton>
             <Button onClick={handleCloseChangePassword} color="primary">
               Cancel
             </Button>
@@ -511,82 +515,14 @@ const UserTable: React.FC<UserTableProps> = (props) => {
         </Dialog>
 
         {/* <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 99999 }}
         open={isLoadingDialog}
       >
         <CircularProgress color="inherit" />
-      </Backdrop>
- */}
+      </Backdrop> */}
 
-        <Dialog
-          open={passwordSave}
-          onClose={() => {
-            setPasswordSave(false);
-          }}
-          aria-labelledby="responsive-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="responsive-dialog-title">
-            <Typography
-              fontWeight={700}
-              fontSize={20}
-              display={"flex"}
-              alignItems={"center"}
-              gap={1}
-            >
-              <HelpIcon
-                accentHeight={100}
-                color="error"
-                fontSize="large"
-                alignmentBaseline="middle"
-              />
-              {passwordDialog}
-            </Typography>
-          </DialogTitle>
 
-          <DialogContent>
-            <DialogContentText
-              whiteSpace={"pre-line"}
-              id="alert-dialog-description"
-            >
-              {passwordContent}
-            </DialogContentText>
-          </DialogContent>
-
-          <DialogActions>
-            <Button
-              variant="contained"
-              onClick={handleChangePassword}
-              autoFocus
-            >
-              Save
-            </Button>
-            <Button
-              onClick={() => {
-                setPasswordSave(false);
-              }}
-            >
-              Continue Editing
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        {/* Confirmation Dialog */}
-        {/* <Dialog open={confirmCancelDialogOpen}>
-          <DialogTitle>Do you really want to cancel/discard your changes?</DialogTitle>
-          <DialogContent>
-
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setConfirmCancelDialogOpen(false)}>No</Button>
-            <Button onClick={() => {
-              setConfirmCancelDialogOpen(false);
-              // Handle cancel action here
-            }}>
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog> */}
+  
       </div>
     </Box>
   );

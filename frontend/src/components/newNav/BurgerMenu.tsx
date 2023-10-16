@@ -73,7 +73,7 @@ export default function MenuPopupState() {
 								to="/dashboard"
 								style={{ textDecoration: "none" }}
 							>
-								<ListItemButton style={{ height: "65px" }}>
+								<ListItemButton style={{ height: "65px", color: "white", }}>
 									<img
 										src={smallLogo}
 										alt="Small Logo"
@@ -98,6 +98,7 @@ export default function MenuPopupState() {
 								<ListItem component="div" disablePadding>
 									<ListItemButton
 										sx={{
+											color: "white",
 											height: 56,
 											"&:hover": {
 												backgroundColor: "white",
@@ -136,6 +137,7 @@ export default function MenuPopupState() {
 								<ListItem component="div" disablePadding>
 									<ListItemButton
 										sx={{
+											color: "white",
 											height: 56,
 											"&:hover": {
 												backgroundColor: "white",
@@ -170,6 +172,7 @@ export default function MenuPopupState() {
 								<ListItem component="div" disablePadding>
 									<ListItemButton
 										sx={{
+											color: "white",
 											height: 56,
 											"&:hover": {
 												backgroundColor: "white",
@@ -204,6 +207,7 @@ export default function MenuPopupState() {
 								<ListItem component="div" disablePadding>
 									<ListItemButton
 										sx={{
+											color: "white",
 											height: 56,
 											"&:hover": {
 												backgroundColor: "white",
