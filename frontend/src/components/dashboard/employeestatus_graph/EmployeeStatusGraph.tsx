@@ -163,6 +163,7 @@ const EmpStatusGraph: React.FC<EmpStatusGraphProps> = (props) => {
               indexBy="empStatus"
               margin={{ top: 30, right: 50, bottom: 80, left: 80 }}
               padding={0.3}
+             
               innerPadding={2}
               valueScale={{ type: "linear" }}
               indexScale={{ type: "band", round: true }}
