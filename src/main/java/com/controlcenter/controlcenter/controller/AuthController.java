@@ -62,7 +62,6 @@ public class AuthController {
     // Logout remove httpsession
     @GetMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(HttpSession session) {
-        Map<String, String> response = new HashMap<>();
 
         if (session != null) {
             session.invalidate();
