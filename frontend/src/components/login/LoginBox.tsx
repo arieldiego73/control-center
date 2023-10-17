@@ -85,6 +85,8 @@ const LoginBox = () => {
 		return state.sessionReducer.user;
 	});
 
+	let isAuth = localStorage.getItem("isAuthenticated");
+
 	/* THIS LINE IS USED TO FETCHED THE AUTHENTICATION STATUS */
 	const isAuthenticated = useSelector((state: RootState) => {
 		return state.sessionReducer.isAuthenticated;

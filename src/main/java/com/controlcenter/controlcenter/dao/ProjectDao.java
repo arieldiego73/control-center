@@ -25,6 +25,7 @@ public interface ProjectDao {
     List<DevPhaseOutput> getAllPhasesOfProject(String proj_id);
     //get all members of a project
     List<UserInfoOutput> getAllMembersOfProject(String proj_id);
+    List<UserInfoOutput> getAllMembersOfProjectForTable(String proj_id);
     //get all development technologies of a project
     List<TechnologyOutput> getAllTechnologiesOfProject(String proj_id);
     //get the client of a project

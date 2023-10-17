@@ -397,7 +397,7 @@ export default function NewProj() {
       clientId: selectedClientId,
       selectedManagers: projectManager as number[],
       selectedMembers: projectMembers
-        ? (projectManager as number[])
+        ? (projectMembers as number[])
         : [DEFAULT_MEMBER_ID],
       selectedDevPhase: projectDevPhase,
       selectedTechnologies: projectTechnologies,

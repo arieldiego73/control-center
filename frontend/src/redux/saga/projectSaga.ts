@@ -91,8 +91,12 @@ function* addSaga(action: ReturnType<typeof addProject>): any {
 		yield put(setIsLoading(true))
 		const response = yield call(apiAdd, action.payload.data);
 		yield call(validate, response, "add");
+		console.log("Response", response);
+		
 	} catch (error) {
 		yield call(catchErr, error);
+		console.log("Error", error);
+
 	}
 }
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -114,8 +118,12 @@ function* fetchProjectInfoSaga(action: ReturnType<typeof getProjectInfo>): any {
 			action.payload.projectId
 		);
 		yield call(validate, responseProjectInfo, "info");
+		console.log("Response", responseProjectInfo);
+		
 	} catch (error) {
 		yield call(catchErr, error);
+		console.log("Error", error);
+		
 	}
 }
 
@@ -205,10 +213,14 @@ function* updateSaga(action: ReturnType<typeof updateProject>): any {
 		yield put(setIsLoading(true))
 		const response = yield call(apiUpdate, action.payload.data, action.payload.projectId);
 		// console.log("response", response)
+		console.log("Response", response);
+
 		yield call(validate, response, "update");
 	} catch (error) {
 		// console.log("error", error)
 		yield call(catchErr, error);
+		console.log("Error", error);
+		
 	}
 }
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

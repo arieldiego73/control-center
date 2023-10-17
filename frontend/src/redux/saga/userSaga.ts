@@ -365,6 +365,8 @@ function* passwordSaga(action: ReturnType<typeof changePassword>): any {
 		if (response?.status === 200) {
 			yield put(clearError());
 			yield put(setSaved(true)); 
+			console.log("---password saved----");
+			
 		} else {
 			yield put(clearError());
 			yield put(setError(response?.data));
