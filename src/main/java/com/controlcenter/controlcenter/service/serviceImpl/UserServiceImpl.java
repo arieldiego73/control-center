@@ -368,7 +368,12 @@ public class UserServiceImpl implements UserService {
 
         return ResponseEntity.status(200).body("Picture upload successful");
       } else {
-        user.setImg_src(userBodyChecker.getImg_src());
+        if(userBodyChecker.getImg_src() == null) {
+          user.setImg_src("");
+          userBodyChecker.setImg_src("");
+        } else {
+          user.setImg_src(userBodyChecker.getImg_src());
+        }
       }
 
     } catch (Exception e) {
@@ -382,7 +387,7 @@ public class UserServiceImpl implements UserService {
         && accountBody.getMname().equals(userBodyChecker.getMname())
         && accountBody.getLname().equals(userBodyChecker.getLname())
         && accountBody.getEmail().equals(userBodyChecker.getEmail())
-        && user.getImg_src().equals(userBodyChecker.getImg_src())
+        && (user.getImg_src().equals(userBodyChecker.getImg_src()) || user.getImg_src().equals("") && userBodyChecker.getImg_src().equals(""))
         && isPasswordEqual
         && accountBody.getPosition_id() == userBodyChecker.getPosition_id()
         && accountBody.getDept_id() == userBodyChecker.getDept_id()
