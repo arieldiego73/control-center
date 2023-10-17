@@ -28,6 +28,7 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
           username: response.data.username,
           fullName: response.data.fullName,
           email: response.data.email, // Retrieve the email from the server response
+          img: response.data.img,
         };
   
         // Store authentication status in localStorage and Redux state

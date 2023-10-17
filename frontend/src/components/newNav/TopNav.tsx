@@ -97,12 +97,29 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
             >
               <div >
                 <div className={TopNavStyle.userProfilePic}>
-                  <img
+                  {/* <img
                     src={defaultProfile}
                     alt="User"
                     style={{ height: "100%", width: "100%", borderRadius: "100%", }}
                     className={TopNavStyle.mainImage}
-                  />
+                  /> */}
+                  {/* Display the selected image */}
+                  {user?.img ? (
+                      <img
+                        src={require(`../../Assets/userImage/${user.img}`)}
+                        alt="Selected"
+                        style={{ height: "100%", width: "100%", borderRadius: "100%", }}
+                          className={TopNavStyle.mainImage}
+                      />
+                    ) : (
+                      // Display the user's image if available, otherwise show the default profile
+                      <img
+                          src={defaultProfile}
+                          alt="Default Profile"
+                          style={{ height: "100%", width: "100%", borderRadius: "100%", }}
+                          className={TopNavStyle.mainImage}
+                        />
+                      )}
                 </div>
                 <div className={TopNavStyle.mainName}>{user ? `${user.fullName}` : ' '}</div>
               </div>
@@ -167,12 +184,20 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                 >
                   <div className={TopNavStyle.profileInfoHolder}>
                     <div className={TopNavStyle.imageHolder}>
+                      {user?.img ? (
                       <img
+                        src={require(`../../Assets/userImage/${user.img}`)}
                         alt=""
                         className={TopNavStyle.imgSize}
-                        src={SampleUserImage}
-                        onClick={handleClose}
                       />
+                    ) : (
+                      // Display the user's image if available, otherwise show the default profile
+                      <img
+                          src={defaultProfile}
+                          alt=""
+                          className={TopNavStyle.imgSize}
+                        />
+                      )}
                     </div>
 
                     <text style={{ fontSize: "20px", fontWeight: "bold" }}>

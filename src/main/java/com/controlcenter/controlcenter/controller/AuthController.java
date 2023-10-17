@@ -61,7 +61,7 @@ public class AuthController {
             authResponse.put("Employee ID", currentLoggedUser.getEmp_id());
             authResponse.put("fullName", currentLoggedUser.getFname() + " " + currentLoggedUser.getMname() + " " + currentLoggedUser.getLname());
             authResponse.put("email", currentLoggedUser.getEmail());
-            // authResponse.put("img", currentLoggedUser.getImg_src());
+            authResponse.put("img", currentLoggedUser.getImg_src());
 
             
             return ResponseEntity.ok(authResponse);
