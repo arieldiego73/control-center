@@ -114,7 +114,7 @@ public class ProjectController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProject(@RequestBody ProjectOutput project, @RequestParam List<String> manager_ids, @RequestParam Long client_id, @RequestParam(required = false) Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam Long project_status_id, 
+    public ResponseEntity<String> addProject(@RequestBody ProjectOutput project, @RequestParam(required = false) List<String> manager_ids, @RequestParam Long client_id, @RequestParam(required = false) Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam Long project_status_id, 
     @RequestParam(required = false) List<String> member_ids){
        // Check if the user is authenticated
        //Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
@@ -140,7 +140,7 @@ public class ProjectController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editProjectInfo(@PathVariable String id, @RequestBody ProjectInput project, @RequestParam List<String> manager_ids, @RequestParam Long client_id, @RequestParam(required = false) Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam Long project_status_id, @RequestParam(required = false) List<String> member_ids) {
+    public ResponseEntity<String> editProjectInfo(@PathVariable String id, @RequestBody ProjectInput project, @RequestParam(required = false) List<String> manager_ids, @RequestParam Long client_id, @RequestParam(required = false) Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam Long project_status_id, @RequestParam(required = false) List<String> member_ids) {
         // Check if the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
