@@ -18,8 +18,6 @@ import com.controlcenter.controlcenter.model.ProjectStatusOutput;
 import com.controlcenter.controlcenter.service.ProjectStatusService;
 import com.controlcenter.controlcenter.shared.TimeFormatter;
 
-import net.bytebuddy.asm.Advice.Return;
-
 @Service
 public class ProjectStatusServiceImpl implements ProjectStatusService {
     @Autowired

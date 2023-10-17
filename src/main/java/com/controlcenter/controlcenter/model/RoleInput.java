@@ -21,6 +21,6 @@ public class RoleInput {
     private String role_sh_name;
 
     @NotNull(message = "Role user level should not be empty.")
-    @Digits(integer = 1, fraction = 0, message = "The Role user level is invalid, it should be up to 1 digit long.")
+    @Digits(integer = 2, fraction = 0, message = "The Role user level is invalid, it should be up to 1 digit long.")
     private int role_user_level;
 }

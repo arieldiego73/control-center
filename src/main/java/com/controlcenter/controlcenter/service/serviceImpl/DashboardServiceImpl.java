@@ -1,7 +1,5 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +14,6 @@ import com.controlcenter.controlcenter.dao.DashboardDao;
 import com.controlcenter.controlcenter.model.RecentProjects;
 import com.controlcenter.controlcenter.model.TotalUser;
 import com.controlcenter.controlcenter.model.UserPerMonth;
-import com.controlcenter.controlcenter.model.UserPerYearAndMonth;
 import com.controlcenter.controlcenter.model.UserStatusGraph;
 import com.controlcenter.controlcenter.service.DashboardService;
 
@@ -172,43 +169,19 @@ public class DashboardServiceImpl implements DashboardService{
 
         List<Map<String, Object>> graphList = new ArrayList<>();
         Map<String, Object> graphData = new HashMap<>();
-        // List<Map<String, Object>> userStatusGraph = dashboardDao.getAllUserCountByStatus();
-        LocalDate currentDate = LocalDate.now();
-
-        // Extract the current month
-        Month currentMonth = currentDate.getMonth();
 
         // Print the current month as a string (full name)
-        String monthName = currentMonth.toString();
-        Map<String, Object> projectStatusPerMonth = new HashMap<>();
-        Map<String, Object> userStatusPerMonth = new HashMap<>();
         TotalUser totalUserCount = dashboardDao.countAllUser();
         UserPerMonth userPerYearAndMonth = dashboardDao.countAllUserPerYearAndMonth();
         List<Map<String, Object>> projectStatusGraph = dashboardDao.getAllProjectCountByStatus();
         List<UserStatusGraph> userStatusGraph = dashboardDao.getAllUserStatusCountPerYearAndMonth();
         List<RecentProjects> recentProjectGraph = dashboardDao.getRecentProjects();
-        // List<Map<String, Object>> userPerYear = dashboardDao.countAllRegisteredUserPerYear();
-
-        // graphData.stream()
-        // .map(data -> {
-        //     Map<String, Object> graphInfo = new HashMap<>();
-        //     graphInfo.put("project_status", projectStatusGraph);
-        //     graphInfo.put("user_status", userStatusGraph);
-        //     graphInfo.put("user_per_year", userPerYear);
-        //     return graphInfo;
-        // })
-        // projectStatusPerMonth.put("month", monthName);
-        // projectStatusPerMonth.put("data", projectStatusGraph);
-
-        // userStatusPerMonth.put("month", monthName);
-        // userStatusPerMonth.put("data", userStatusGraph);
         
         graphData.put("user_per_month", userPerYearAndMonth);
         graphData.put("total_user_count", totalUserCount);
         graphData.put("project_status", projectStatusGraph);
         graphData.put("user_status", userStatusGraph);
         graphData.put("recent_projects", recentProjectGraph);
-        // graphData.put("user_per_year", userPerYear);
 
         graphList.add(graphData);
         return ResponseEntity.ok(graphList);

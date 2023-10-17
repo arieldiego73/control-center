@@ -18,7 +18,7 @@ import { getSectionFetch } from "../../../redux/state/sectionState";
 import { getRolesFetch } from "../../../redux/state/roleState";
 import { getPositionFetch } from "../../../redux/state/positionState";
 import { addUserInfo } from "../../../redux/saga/userSaga";
-import { addUserReset } from "../../../redux/state/userState";
+import { addUserReset, clearUserInfo } from "../../../redux/state/userState";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import defaultProfile from "../../../Assets/userImage/MaleDefaultProfile.jpg";
 import { ChangeEvent } from 'react';
@@ -159,6 +159,7 @@ export default function CreateUser() {
       dispatch(addUserReset());
       setTimeout(() => {
         navigate("/users");
+        dispatch(clearUserInfo());
       }, GLOBAL_TIMEOUT);
     }
   });

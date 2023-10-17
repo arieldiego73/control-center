@@ -113,7 +113,7 @@
 
 
 import "./App.css";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import Userhandler from "./pages/Userhandler";
 import CreateUserHandler from "./pages/CreateUserHandler";
@@ -235,7 +235,9 @@ import { showDialog } from "./redux/state/dialogSlice";
 //   export default App;
 
 function App() {
+
 	const isAuthenticated = useSelector((state: RootState) => state.sessionReducer.isAuthenticated);
+	console.log("isAuthenticated",isAuthenticated );
 
 
 	return (
@@ -247,7 +249,7 @@ function App() {
             	<Route path="/dashboard/*" element={<DashboardHandler />} />
 				<Route path="/users/*" Component={Userhandler} />
 				<Route path="/user/add-new-user/*" Component={CreateUserHandler} />
-				<Route path="/user/edit-user/:name" element={<EditUserHandler />} />
+				<Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
 			    <Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
 				<Route path="/projects/*" Component={ProjectHandler} />
 				<Route path="/roles/*" Component={RoleHandler} />
@@ -268,8 +270,9 @@ function App() {
 				</>
 			) : (
 				<>
-				<Route index element={<LoginPage />} />
-				<Route path="/*" element={<Navigate to="/" replace />} />
+				 <Route index element={<LoginPage />} />
+				 <Route path="/" element={<Navigate to="/login" />} />
+        	     <Route path="*" element={<Navigate to="/" />} />
 				</>
 			)}
 			</Routes>

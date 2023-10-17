@@ -63,60 +63,20 @@ public class UserController {
     return userService.getMultipleUserById(emp_ids);
   }
 
-  // @PostMapping("/create")
-  // public String createUser(@RequestBody UserInput user) {
-  //   UserInput userHashed = user;
-  //   userHashed.setPassword(passEnc.encode(user.getPassword()));
-
-  //   try {
-  //     userService.insertUser(userHashed);
-  //     return "User created successfully";
-  //   } catch (Exception e) {
-  //     return e.getMessage();
-  //   }
-  // }
-
   @PostMapping("/create-account")
-  public ResponseEntity<String> addAccount(@RequestBody AccountInput account, @RequestParam List<Long> role_ids) {
+  public ResponseEntity<String> addAccount(@ModelAttribute AccountInput account, @RequestParam List<Long> role_ids, @RequestParam(value = "photo",required = false) MultipartFile photo) {
     //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<AccountInput>> errors = validator.validate(account);
-            //Error Handling
-            if (errors.size() > 0) { //checks the errors from validator
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            }else{
-              String emp_id = "101"; //httpSession.getAttribute("session").toString();
-                return userService.addAccount(account, role_ids, emp_id);
-            }
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    Validator validator = validatorFactory.getValidator();
+    Set<ConstraintViolation<AccountInput>> errors = validator.validate(account);
+      //Error Handling
+      if (errors.size() > 0) { //checks the errors from validator
+          return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+      } else{
+        String emp_id = "101"; //httpSession.getAttribute("session").toString();
+          return userService.addAccount(account, role_ids, emp_id, photo);
+      }
   }
-  // @PostMapping("/createBatch")
-  // public String createUser(@RequestBody List<User> user) {
-  //   userService.insertUserBatch(user);
-  //   return "Multiple users created successfully";
-  // }
-
-  // @PostMapping("/login")
-  // public ResponseEntity<UserOutput> getUserByUsernameAndPassword(
-  //   @RequestBody UserOutput user
-  // ) {
-  //   UserOutput userFromDB = userService.getUserByUsername(user);
-  //   UserOutput nullUser = new UserOutput(); // for incorrect input
-  //   if (userFromDB != null) {
-  //     boolean isMatched = passEnc.matches(
-  //       user.getPassword(),
-  //       userFromDB.getPassword()
-  //     );
-
-  //     if (isMatched) {
-  //       return ResponseEntity.ok(userFromDB);
-  //     } else {
-  //       return ResponseEntity.badRequest().body(nullUser);
-  //     }
-  //   } else {
-  //     return ResponseEntity.badRequest().body(nullUser);
-  //   }
-  // }
 
   @PutMapping("/edit-account/{id}")
   public ResponseEntity<String> editAccount(@PathVariable String id, @ModelAttribute AccountOutput accountBody, @RequestParam List<Long> role_ids, @RequestParam(value = "photo",required = false) MultipartFile photo) {
@@ -173,15 +133,15 @@ public class UserController {
   @PostMapping("/login")
   public ResponseEntity<String> getLoggedInUser(@RequestBody UserOutput user) {
     //For Validation
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<UserOutput>> errors = validator.validate(user);
-            //Error Handling
-            if (errors.size() > 0) { //checks the errors from validator
-                return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
-            }else{
-                return ResponseEntity.status(200).body(userService.getLoggedInUser(user));
-            }
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    Validator validator = validatorFactory.getValidator();
+    Set<ConstraintViolation<UserOutput>> errors = validator.validate(user);
+      //Error Handling
+      if (errors.size() > 0) { //checks the errors from validator
+          return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
+      }else{
+          return ResponseEntity.status(200).body(userService.getLoggedInUser(user));
+      }
   }
 
   @GetMapping("/username")

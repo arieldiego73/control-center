@@ -20,7 +20,7 @@ public class ProjectInput {
     @Size(max = 15, message = "The Project code is invalid, it should be up to 15 characters long.")
     private String proj_code;
 
-    @NotBlank(message = "Project description should not be empty.")
+    // @NotBlank(message = "Project description should not be empty.")
     @Size(max = 1000, message = "The Project description is invalid, it should be up to 1000 characters long.")
     private String proj_description;
 
