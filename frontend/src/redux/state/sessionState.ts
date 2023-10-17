@@ -17,14 +17,12 @@ interface SessionState {
   user: User | null;
   // isSuccess: boolean;
   isAuthenticated: boolean;
-  username: string | null; // Add the username property
 }
 
 const initialState: SessionState = {
   user: null,
   // isSuccess: false,
   isAuthenticated: localStorage.getItem('isAuthenticated') === "true" , // Read from localStorage or cookies
-  username: null
 };
 
 const sessionSlice = createSlice({
@@ -34,7 +32,6 @@ const sessionSlice = createSlice({
     setUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
       state.isAuthenticated = true;
-      state.username = action.payload?.username || null; // Store the username
       cookies.set('isAuthenticated', 'true'); // Set the 'isAuthenticated' cookie
     },
     clearUser: (state) => {

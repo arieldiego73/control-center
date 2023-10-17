@@ -8,7 +8,7 @@ import {
 	roleSagaDelete,
 	roleSagaDeleteBatch,
 } from "./roleSaga";
-import { sessionSaga, sessionSagaStatus, sessionSagaUsername } from "./sessionSaga";
+import { sessionSaga } from "./sessionSaga";
 import { devPhaseSaga, devPhaseSagaAdd, devPhaseSagaDelete, devPhaseSagaDeleteBatch, devPhaseSagaUpdate } from "./devPhaseSaga"
 import {devTypeSaga, devTypeSagaAdd, devTypeSagaDelete, devTypeSagaDeleteBatch, devTypeSagaUpdate } from "./devTypeSaga";
 import { positionSaga, positionSagaAdd, positionSagaUpdate, positionSagaDelete, positionSagaDeleteBatch } from "./positionSaga";
@@ -43,9 +43,6 @@ export default function* rootSaga() {
 		projectSagaDelete(), 
 
 		sessionSaga(),
-		sessionSagaStatus(),
-  		sessionSagaUsername(), // Add this line to initialize the username from cookies
-
 
 		roleSaga(),
 		roleSagaUpdate(),

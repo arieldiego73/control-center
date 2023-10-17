@@ -1,3 +1,4 @@
+
 import { put, takeLatest, call, takeEvery, Effect } from "redux-saga/effects";
 import {
 	clearUser,
@@ -58,11 +59,6 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
         // Set the 'isAuthenticated' cookie and localStorage value
         cookies.set('isAuthenticated', 'true', { path: '/' });
         localStorage.setItem('isAuthenticated', 'true');
-
-        // Set the username in the cookies
-        if (user.username) {
-          cookies.set('username', user.username, { path: '/' });
-        }
   
         // Dispatch the authentication status as true
         yield put(setAuthenticationStatus(true));
@@ -77,26 +73,6 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
       // Handle any error that occurred during the API call
     }
   }
-
-  // Function to get the username from cookies
-const getUsernameFromCookies = () => {
-  return cookies.get('username');
-};
-
-function* setUsernameFromCookies(): any {
-  const username = yield call(getUsernameFromCookies);
-
-  if (username) {
-    // Set the username in the state
-    yield put(setUsername(username));
-  }
-}
-
-export const setUsername = createAction<string>("session/setUsername");
-
-export function* sessionSagaUsername() {
-  yield call(setUsernameFromCookies);
-}
 
 
 // Function for making a logout API call
