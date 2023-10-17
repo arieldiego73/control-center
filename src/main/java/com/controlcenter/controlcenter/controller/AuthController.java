@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.controlcenter.controlcenter.dao.UserDao;
+import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.service.serviceImpl.AuthServiceImpl;
 
@@ -26,6 +28,9 @@ public class AuthController {
 
     @Autowired
     private AuthServiceImpl authServiceImpl;
+
+    @Autowired 
+    private UserDao userDao;
 
     // Login session
     @PostMapping("/login")
@@ -47,9 +52,17 @@ public class AuthController {
 
             response.addCookie(authCookie);
 
+            UserInfoOutput currentLoggedUser = userDao.getUserById(authUser.getEmp_id());
+
+            System.out.println(currentLoggedUser.getImg_src());
+
             authResponse.put("status", "active");
-            authResponse.put("username", authUser.getUsername());
-            authResponse.put("Employee ID", authUser.getEmp_id());
+            authResponse.put("username", currentLoggedUser.getUsername());
+            authResponse.put("Employee ID", currentLoggedUser.getEmp_id());
+            authResponse.put("fullName", currentLoggedUser.getFname() + " " + currentLoggedUser.getMname() + " " + currentLoggedUser.getLname());
+            authResponse.put("email", currentLoggedUser.getEmail());
+            // authResponse.put("img", currentLoggedUser.getImg_src());
+
             
             return ResponseEntity.ok(authResponse);
         } else {

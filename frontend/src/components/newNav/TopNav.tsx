@@ -8,8 +8,9 @@ import { Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
 import { red } from "@mui/material/colors";
 import defaultProfile from "../../Assets/userImage/MaleDefaultProfile.jpg"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/saga/sessionSaga"; // Import the logout action
+import { RootState } from "../../redux/store/store";
 
 export interface TopNavProps {
   pageTitle?: string; // Make pageTitle optional with '?'
@@ -50,6 +51,8 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
     // Dispatch the logout action
     dispatch(logout());
   };
+
+  const user = useSelector((state: RootState) => state.session.user);
 
   return (
     <div className={TopNavStyle.topnavContainer}>
@@ -101,7 +104,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                     className={TopNavStyle.mainImage}
                   />
                 </div>
-                <div className={TopNavStyle.mainName}>Shernan Jenesis Mateo</div>
+                <div className={TopNavStyle.mainName}>{user ? `${user.fullName}` : ' '}</div>
               </div>
             </Tooltip>
 
@@ -173,9 +176,9 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                     </div>
 
                     <text style={{ fontSize: "20px", fontWeight: "bold" }}>
-                      Hi, Shernan Jenesis!
+                       {user ? `${user.fullName}` : ' '}
                     </text>
-                    <text style={{ fontSize: "12px" }}>smateo@tspi.com.ph</text>
+                    <text style={{ fontSize: "12px" }}>{user ? user.email : ' '}</text>
                   </div>
 
                   <div className={TopNavStyle.manageButtonContainer}>
