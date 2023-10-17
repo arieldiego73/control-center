@@ -1,6 +1,7 @@
 package com.controlcenter.controlcenter.service.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -288,11 +289,18 @@ public class ProjectServiceImpl implements ProjectService {
             Long projectToBeSaved = project.getProj_id();
 
             // initializing the value of project info before saving.
-            projectInfo.setDev_type_id(type_id);
-            projectInfo.setClient_id(client_id);
-            projectInfo.setProj_status_id(project_status_id);
-            projectInfo.setProj_id(project.getProj_id());
-
+            if(type_id == null) {
+                projectInfo.setDev_type_id(1L);
+                projectInfo.setClient_id(client_id);
+                projectInfo.setProj_status_id(project_status_id);
+                projectInfo.setProj_id(project.getProj_id());
+            } else {
+                projectInfo.setDev_type_id(type_id);
+                projectInfo.setClient_id(client_id);
+                projectInfo.setProj_status_id(project_status_id);
+                projectInfo.setProj_id(project.getProj_id());
+            }
+            
             // saving of project info on tbl_proj_info table
             projInfoDao.addProjInfo(projectInfo);
 
@@ -433,6 +441,19 @@ public class ProjectServiceImpl implements ProjectService {
                 // putting the values into hashmap
                 projectInfoMap.put("id", id);
                 projectInfoMap.put("projInfo", projectInfo);
+
+                if(manager_ids == null) {
+                    return ResponseEntity.status(400).body("Select a manager");
+                }
+
+                Date start_date = projectBody.getStart_date();
+                Date end_date = projectBody.getEnd_date();
+
+                Integer compareTo = start_date.compareTo(end_date);
+
+                if(compareTo > 0) {
+                    return ResponseEntity.status(400).body("Invalid start date and end date.");
+                }
 
                 // deleting all records from composite table tbl_proj_manager
                 for (UserOutput manager : listOfManagers) {
