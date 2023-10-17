@@ -236,8 +236,6 @@ import { showDialog } from "./redux/state/dialogSlice";
 
 function App() {
 
-
-	
 	const isAuthenticated = useSelector((state: RootState) => state.sessionReducer.isAuthenticated);
 	console.log("isAuthenticated",isAuthenticated );
 
