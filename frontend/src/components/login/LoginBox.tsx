@@ -80,21 +80,21 @@ const LoginBox = () => {
 
 	const navigate = useNavigate();
 
-	/* THIS LINE IS USED TO FETCHED THE LOGGED IN USER'S INFO */
-	const loggedUser = useSelector((state: RootState) => {
-		return state.sessionReducer.user;
-	});
+	// /* THIS LINE IS USED TO FETCHED THE LOGGED IN USER'S INFO */
+	// const loggedUser = useSelector((state: RootState) => {
+	// 	return state.sessionReducer.user;
+	// });
 
-	let isAuth = localStorage.getItem("isAuthenticated");
+	// let isAuth = localStorage.getItem("isAuthenticated");
 
-	/* THIS LINE IS USED TO FETCHED THE AUTHENTICATION STATUS */
-	const isAuthenticated = useSelector((state: RootState) => {
-		return state.sessionReducer.isAuthenticated;
-	});
+	// /* THIS LINE IS USED TO FETCHED THE AUTHENTICATION STATUS */
+	// const isAuthenticated = useSelector((state: RootState) => {
+	// 	return state.sessionReducer.isAuthenticated;
+	// });
 
 	React.useEffect(() => {
 		// Remove this entire useEffect block
-	  }, []);
+	  }, [dispatch]);
 
 	const handleLogin = (event: React.FormEvent) => {
 		event.preventDefault();
