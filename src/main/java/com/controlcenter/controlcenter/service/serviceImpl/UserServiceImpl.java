@@ -397,7 +397,7 @@ public class UserServiceImpl implements UserService {
     } else {
           user.setEmp_id(accountBody.getEmp_id());
           user.setUsername(accountBody.getUsername());
-          user.setPassword(passEnc.encode(accountBody.getPassword()));
+          user.setPassword(userBodyChecker.getPassword());
           user.setPosition_id(accountBody.getPosition_id());
           user.setDept_id(accountBody.getDept_id());
           user.setSection_id(accountBody.getSection_id());

@@ -7,6 +7,9 @@ const cookies = new Cookies();
 interface User {
   id: number;
   username: string;
+  fullName: string;
+  email: string;
+  
 }
 
 interface SessionState {
@@ -46,6 +49,12 @@ const sessionSlice = createSlice({
       state.user = null;
       cookies.set('isAuthenticated', 'false');
 	  },
+    setUserNameAndEmail: (state, action: PayloadAction<{ fullName: string; email: string }>) => {
+      if (state.user) {
+        state.user.fullName = action.payload.fullName;
+        state.user.email = action.payload.email;
+      }
+    },
   },
 });
 
@@ -56,6 +65,7 @@ export const {
 	setAuthenticationStatus, 
 	getAuthStatus,
 	logoutUser,
+  setUserNameAndEmail,
 } =
   sessionSlice.actions;
 

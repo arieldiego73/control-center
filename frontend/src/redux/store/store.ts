@@ -22,6 +22,7 @@ import dialogSlice from "../state/dialogSlice";
 const saga = createSagaMiddleware();
 const store = configureStore({
 	reducer: {
+		session: sessionReducer,
 		userReducer: userReducer,
 		projectReducer: projectReducer,
 		sessionReducer: sessionReducer,

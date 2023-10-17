@@ -1,5 +1,5 @@
 
-import { put, takeLatest, call, takeEvery } from "redux-saga/effects";
+import { put, takeLatest, call, takeEvery, Effect } from "redux-saga/effects";
 import {
 	clearUser,
   setAuthenticationStatus,
@@ -15,63 +15,63 @@ const cookies = new Cookies(); // Initialize the Cookies instance
 const apiLogin = async (username: string, password: string): Promise<any> => {
   try {
     axios.defaults.withCredentials = true;
-    return axios
-      .post(
-        "http://localhost:8080/auth/login",
-        { username, password },
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-      .then((res) => {
-          if (res.data.status === "active") {
-            // Store authentication status in localStorage
-            localStorage.setItem("isAuthenticated", "true");
-            return { username: res.data.username };
-          } else {
-            return null;
-        }
-      });
-  } catch (error) {
-    console.error("An error occurred:", error);
-    throw error; // Rethrow the error so it can be caught in the loginSaga
-  }
-};
-
-function* loginSaga(action: ReturnType<typeof login>): any {
-  try {
-    const user = yield call(
-      apiLogin,
-      action.payload.username,
-      action.payload.password
+    const response = await axios.post(
+      "http://localhost:8080/auth/login",
+      { username, password },
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
     );
-    if (user) {
-      yield put(setUser(user));
-
-      // Set the 'isAuthenticated' cookie to 'true' upon successful login
-      cookies.set('isAuthenticated', 'true');
-      
-      // Set the localStorage value
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("Cookies", "Placed");
-
-		  yield put(setAuthenticationStatus(true)); // Pass true to setAuthenticationStatus
-    } else {
-      // Handle login failure
-      // Set the 'isAuthenticated' cookie to 'false' upon login failure
-      cookies.set('isAuthenticated', 'false');
-
-      // Set the localStorage value
-      localStorage.setItem("isAuthenticated", "false");
-      // Dispatch the authentication status as false
-      yield put(setAuthenticationStatus(false)); // Pass false to setAuthenticationStatus
+      if (response.data.status === "active") {
+        const user = {
+          username: response.data.username,
+          fullName: response.data.fullName,
+          email: response.data.email, // Retrieve the email from the server response
+        };
+  
+        // Store authentication status in localStorage and Redux state
+        cookies.set('isAuthenticated', 'true', { path: '/' });
+        localStorage.setItem('isAuthenticated', 'true');
+  
+        return user;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      throw error;
     }
-  } catch (error) {
-    console.log(error);
-    // Handle any error that occurred during the API call
+  };
+
+  function* loginSaga(action: ReturnType<typeof login>): any {
+    try {
+      const user = yield call(
+        apiLogin,
+        action.payload.username,
+        action.payload.password
+      );
+  
+      if (user) {
+        yield put(setUser(user));
+  
+        // Set the 'isAuthenticated' cookie and localStorage value
+        cookies.set('isAuthenticated', 'true', { path: '/' });
+        localStorage.setItem('isAuthenticated', 'true');
+  
+        // Dispatch the authentication status as true
+        yield put(setAuthenticationStatus(true));
+      } else {
+        // Handle login failure
+        cookies.set('isAuthenticated', 'false');
+        localStorage.setItem('isAuthenticated', 'false');
+        yield put(setAuthenticationStatus(false));
+      }
+    } catch (error) {
+      console.log(error);
+      // Handle any error that occurred during the API call
+    }
   }
-}
 
 
 // Function for making a logout API call
@@ -126,11 +126,24 @@ const fetchStatus = async () => {
 		return res.data.status;
 	  });
   };
+
+  function* checkStatusSaga(): Generator<Effect, void, any> {
+    try {
+      const status = yield call(fetchStatus);
+      if (status === 'active') {
+        yield put(setAuthenticationStatus(true));
+      } else {
+        yield put(setAuthenticationStatus(false));
+      }
+    } catch (error) {
+      console.error('Error during status check:', error);
+    }
+  }
   
   export const checkStatus = createAction("session/checkStatus");
   
   export function* sessionSagaStatus() {
-	yield takeEvery(checkStatus.type, fetchStatus);
+	  yield takeEvery(checkStatus.type, checkStatusSaga);
   }
 
 // import { put, takeLatest, call, takeEvery } from "redux-saga/effects";
