@@ -260,6 +260,44 @@ public class UserServiceImpl implements UserService {
           // add the activity log
           activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
           activityLogDao.addActivityLog(activityLogInput);
+        } else {
+          // initializing the value of user.
+          user.setEmp_id(account.getEmp_id());
+          user.setUsername(account.getUsername());
+          user.setPassword(passEnc.encode(account.getPassword()));
+          user.setPosition_id(account.getPosition_id());
+          user.setDept_id(account.getDept_id());
+          user.setSection_id(account.getSection_id());
+          user.setStatus_code(account.getStatus_code());
+
+          // initializing the value of personal info.
+          personalInfo.setEmp_id(account.getEmp_id());
+          personalInfo.setFname(account.getFname());
+          personalInfo.setLname(account.getLname());
+          personalInfo.setMname(account.getMname());
+          personalInfo.setEmail(account.getEmail());
+
+          try {
+            userDao.insertUser(user);
+            personalInfoDao.addPersonalInfo(personalInfo);
+          } catch (Exception e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+          }
+
+          for (Long id : role_ids) {
+            multiRoleDao.addMultiRole(account.getEmp_id(), id);
+          }
+
+          // Activitylog
+          ActivityLogInput activityLogInput = new ActivityLogInput();
+
+          activityLogInput.setEmp_id(emp_id); // current logged user dapat
+          activityLogInput.setLog_desc("Added '" + user.getUsername() + "' account.");
+
+          Long currentTimeMillis = System.currentTimeMillis();
+          // add the activity log
+          activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+          activityLogDao.addActivityLog(activityLogInput);
         }
         
       } catch (Exception e) {
@@ -330,7 +368,12 @@ public class UserServiceImpl implements UserService {
 
         return ResponseEntity.status(200).body("Picture upload successful");
       } else {
-        user.setImg_src(userBodyChecker.getImg_src());
+        if(userBodyChecker.getImg_src() == null) {
+          user.setImg_src("");
+          userBodyChecker.setImg_src("");
+        } else {
+          user.setImg_src(userBodyChecker.getImg_src());
+        }
       }
 
     } catch (Exception e) {
@@ -344,7 +387,7 @@ public class UserServiceImpl implements UserService {
         && accountBody.getMname().equals(userBodyChecker.getMname())
         && accountBody.getLname().equals(userBodyChecker.getLname())
         && accountBody.getEmail().equals(userBodyChecker.getEmail())
-        && user.getImg_src().equals(userBodyChecker.getImg_src())
+        && (user.getImg_src().equals(userBodyChecker.getImg_src()) || user.getImg_src().equals("") && userBodyChecker.getImg_src().equals(""))
         && isPasswordEqual
         && accountBody.getPosition_id() == userBodyChecker.getPosition_id()
         && accountBody.getDept_id() == userBodyChecker.getDept_id()
