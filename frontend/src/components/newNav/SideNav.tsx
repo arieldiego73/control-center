@@ -3,7 +3,8 @@ import { Link, Routes, Route } from "react-router-dom";
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';import smallLogo from "../../Assets/small logo.png";
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
+import smallLogo from "../../Assets/small logo.png";
 import BurgerMenu from "./BurgerMenu";
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import {
