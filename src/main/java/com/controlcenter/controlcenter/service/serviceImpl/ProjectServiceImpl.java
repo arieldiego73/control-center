@@ -394,6 +394,10 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(member -> {
                     return member.getEmp_id();
                 }).collect(Collectors.toList());
+
+                if(type_id == null) {
+                    type_id = 1L;
+                }
                 
                 //gets all the id of the managers, development phase, development technology, and members to compare to the request params.
 
