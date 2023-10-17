@@ -63,3 +63,6 @@ src/main/resources/application.properties
 frontend/package-lock.json
 frontend/yarn.lock
 frontend/yarn.lock
+frontend/package-lock.json
+.gitignore
+frontend/yarn.lock
