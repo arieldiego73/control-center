@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-// import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,9 +74,6 @@ public class UserServiceImpl implements UserService {
 
   List<UserOutput> userList = new ArrayList<>();
 
-  // @Value("${image.upload.directory}")
-  // private String targetDirectoryPath;
-
   @Override
   public ResponseEntity<List<UserTable>> userTable() {
     try {
@@ -111,30 +107,31 @@ public class UserServiceImpl implements UserService {
       // Map<String, Object> role_user_level = new HashMap<>();
 
       // String[] parts = user.getRole_user_level_string().split(",");
-        
+
       // // Create a list to store the objects
       // List<String> objectList = new ArrayList<>();
-      
+
       // // Convert the substrings to integers and add them to the list
       // for (String part : parts) {
-      //     try {
-      //         objectList.add(part);
-      //     } catch (NumberFormatException e) {
-      //         // Handle parsing errors if necessary
-      //         System.err.println("Failed to parse: " + part);
-      //     }
+      // try {
+      // objectList.add(part);
+      // } catch (NumberFormatException e) {
+      // // Handle parsing errors if necessary
+      // System.err.println("Failed to parse: " + part);
+      // }
       // }
 
       // role_user_level.put("role_user_level", objectList);
       // // for(String userRoleLevel : user.getRole_user_level()) {
-      // //   userRoleLevelList.add(userRoleLevel);
+      // // userRoleLevelList.add(userRoleLevel);
       // // }
 
       // // user.setRole_user_level(userRoleLevelList);
       // user.setRole_user_level(role_user_level);
 
       // System.out.println("User" + user);
-      // System.out.println("User Role Level String: " + user.getRole_user_level_string());
+      // System.out.println("User Role Level String: " +
+      // user.getRole_user_level_string());
       // System.out.println("User Role Level: " + user.getRole_user_level());
 
       return ResponseEntity.ok(user);
@@ -149,18 +146,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public ResponseEntity<List<UserInfoOutput>> getMultipleUserById(List<String> emp_ids) {
     List<UserInfoOutput> listOfInfo = new ArrayList<>();
-    // for(String emp_id : emp_ids) {
-    // List<UserInfoOutput> multipleUsers = userDao.getMultipleUserById(emp_id);
-    // List<Map<String, Object>> allUsers = multipleUsers.stream()
-    // .map(user -> {
-    // Map<String, Object> currentUsers = new HashMap<>();
-    // currentUsers.put(user.getEmp_id(), userDao.getUserById(user.getEmp_id()));
-    // return currentUsers;
-    // }).collect(Collectors.toList());
-    // }
-    // for(String emp_id : emp_ids) {
-    // allUsers.put(emp_id, userDao.getUserById(emp_id));
-    // }
+  
     for (String emp_id : emp_ids) {
       listOfInfo.add(userDao.getUserById(emp_id));
     }
@@ -180,23 +166,14 @@ public class UserServiceImpl implements UserService {
     return "User edited successfully.";
   }
 
-  // @Override
-  // public String insertUser(UserInput user) {
-  // UserInput userHashed = user;
-  // userHashed.setPassword(passEnc.encode(user.getPassword()));
-
-  // try {
-  // userDao.insertUser(userHashed);
-  // return "User created successfully";
-  // } catch (Exception e) {
-  // return e.getMessage();
-  // }
-  // }
-
   @Override
-  public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids, String emp_id) {
+  public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids, String emp_id,
+      @RequestParam(value = "photo", required = false) MultipartFile photo) {
 
     UserInfoOutput userById = userDao.getUserById(account.getEmp_id());
+
+    UserInput user = new UserInput();
+    PersonalInfoInput personalInfo = new PersonalInfoInput();
 
     if (userById != null) {
       return ResponseEntity.badRequest().body("The Emplyee ID of " + account.getEmp_id() + " is already taken.");
@@ -215,66 +192,117 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.badRequest().body("Associate ID should only be a number");
       }
 
-      // if (!formatChecker.isValidEmail(account.getEmail())) {
-      //   return ResponseEntity.badRequest().body("Invalid Email");
-      // }
-
       if (!account.getPassword().equals(account.getConfirm_password())) {
         return ResponseEntity.badRequest().body("Password and confirm password do not match");
       }
 
-      UserInput user = new UserInput();
-      PersonalInfoInput personalInfo = new PersonalInfoInput();
-      // initializing the value of user.
-      user.setEmp_id(account.getEmp_id());
-      user.setUsername(account.getUsername());
-      user.setPassword(passEnc.encode(account.getPassword()));
-      user.setPosition_id(account.getPosition_id());
-      user.setDept_id(account.getDept_id());
-      user.setSection_id(account.getSection_id());
-      user.setStatus_code(account.getStatus_code());
-      // user.setRole_id(account.getRole_id());
-      user.setImg_src(account.getImg_src());
-
-      // initializing the value of personal info.
-      personalInfo.setEmp_id(account.getEmp_id());
-      personalInfo.setFname(account.getFname());
-      personalInfo.setLname(account.getLname());
-      personalInfo.setMname(account.getMname());
-      personalInfo.setEmail(account.getEmail());
-
       try {
-        userDao.insertUser(user);
-        personalInfoDao.addPersonalInfo(personalInfo);
+        long maxFileSize = 5 * 1024 * 1024;
 
-        // ActivityLogInput activityLogInput = new ActivityLogInput();
+        if (photo != null && !photo.isEmpty()) {
+          if (photo.getSize() > maxFileSize) {
+            return ResponseEntity.badRequest().body("File size exceeds the maximum limit.");
+          }
 
-        // activityLogInput.setEmp_id("101"); //current logged user dapat
-        // activityLogInput.setLog_desc("Added a User.");
+          String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+          String originalFileName = photo.getOriginalFilename();
+          String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+          String newFilename = timeStamp + "." + extension;
+          
+          String projectBaseDirectory = System.getProperty("user.dir"); // Get the base directory of your project
+          String targetDirectory = projectBaseDirectory + File.separator + "frontend"
+          + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
+          
+          File directory = new File(targetDirectory);
+          
+          if (!directory.exists()) {
+            directory.mkdirs();
+          }
+        
+          Path targetPath = Paths.get(targetDirectory, newFilename);
+          // initializing the value of user.
+          user.setEmp_id(account.getEmp_id());
+          user.setUsername(account.getUsername());
+          user.setPassword(passEnc.encode(account.getPassword()));
+          user.setPosition_id(account.getPosition_id());
+          user.setDept_id(account.getDept_id());
+          user.setSection_id(account.getSection_id());
+          user.setStatus_code(account.getStatus_code());
+          user.setImg_src(newFilename);
 
-        // Long currentTimeMillis = System.currentTimeMillis();
-        // //add the activity log
-        // activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-        // activityLogDao.addActivityLog(activityLogInput);
+          // initializing the value of personal info.
+          personalInfo.setEmp_id(account.getEmp_id());
+          personalInfo.setFname(account.getFname());
+          personalInfo.setLname(account.getLname());
+          personalInfo.setMname(account.getMname());
+          personalInfo.setEmail(account.getEmail());
+
+          Files.copy(photo.getInputStream(), targetPath);
+
+          try {
+            userDao.insertUser(user);
+            personalInfoDao.addPersonalInfo(personalInfo);
+          } catch (Exception e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+          }
+
+          for (Long id : role_ids) {
+            multiRoleDao.addMultiRole(account.getEmp_id(), id);
+          }
+
+          // Activitylog
+          ActivityLogInput activityLogInput = new ActivityLogInput();
+
+          activityLogInput.setEmp_id(emp_id); // current logged user dapat
+          activityLogInput.setLog_desc("Added '" + user.getUsername() + "' account.");
+
+          Long currentTimeMillis = System.currentTimeMillis();
+          // add the activity log
+          activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+          activityLogDao.addActivityLog(activityLogInput);
+        } else {
+          // initializing the value of user.
+          user.setEmp_id(account.getEmp_id());
+          user.setUsername(account.getUsername());
+          user.setPassword(passEnc.encode(account.getPassword()));
+          user.setPosition_id(account.getPosition_id());
+          user.setDept_id(account.getDept_id());
+          user.setSection_id(account.getSection_id());
+          user.setStatus_code(account.getStatus_code());
+
+          // initializing the value of personal info.
+          personalInfo.setEmp_id(account.getEmp_id());
+          personalInfo.setFname(account.getFname());
+          personalInfo.setLname(account.getLname());
+          personalInfo.setMname(account.getMname());
+          personalInfo.setEmail(account.getEmail());
+
+          try {
+            userDao.insertUser(user);
+            personalInfoDao.addPersonalInfo(personalInfo);
+          } catch (Exception e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+          }
+
+          for (Long id : role_ids) {
+            multiRoleDao.addMultiRole(account.getEmp_id(), id);
+          }
+
+          // Activitylog
+          ActivityLogInput activityLogInput = new ActivityLogInput();
+
+          activityLogInput.setEmp_id(emp_id); // current logged user dapat
+          activityLogInput.setLog_desc("Added '" + user.getUsername() + "' account.");
+
+          Long currentTimeMillis = System.currentTimeMillis();
+          // add the activity log
+          activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+          activityLogDao.addActivityLog(activityLogInput);
+        }
+        
       } catch (Exception e) {
-        return ResponseEntity.status(404).body(e.getMessage());
       }
-
-      for (Long id : role_ids) {
-        multiRoleDao.addMultiRole(account.getEmp_id(), id);
-      }
-
-      // Activitylog
-      ActivityLogInput activityLogInput = new ActivityLogInput();
-
-      activityLogInput.setEmp_id(emp_id); // current logged user dapat
-      activityLogInput.setLog_desc("Added '" + user.getUsername() + "' account.");
-
-      Long currentTimeMillis = System.currentTimeMillis();
-      // add the activity log
-      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-      activityLogDao.addActivityLog(activityLogInput);
-      return ResponseEntity.ok("Account '" + user.getUsername() + "' Created Successfully");
+      return ResponseEntity.ok("Account '" + user.getUsername() + "' created successfully");
     }
   }
 
@@ -297,10 +325,7 @@ public class UserServiceImpl implements UserService {
 
     boolean areEqueal = userRoleIds.equals(role_ids);
 
-      
-
     try {
-      // UserOutput existingUser = profileDao.getUserById(emp_id);
       if (userBodyChecker == null) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
       }
@@ -313,20 +338,13 @@ public class UserServiceImpl implements UserService {
         }
 
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        // String user_id = userBodyChecker.getEmp_id().toString();
         String originalFileName = photo.getOriginalFilename();
         String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
         String newFilename = timeStamp + "." + extension;
-        // String newFilename = "user " + user_id + "." + extension;
 
-        //String targetDirectory = "C:\\Storage\\Profile";
-        // String userHomeDirectory = System.getProperty("user.home");
-        // String targetDirectory = userHomeDirectory + File.separator + "Desktop" + File.separator
-        //     + "Control Center Project" + File.separator + "control-center" + File.separator + "frontend"
-        //     + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
         String projectBaseDirectory = System.getProperty("user.dir"); // Get the base directory of your project
         String targetDirectory = projectBaseDirectory + File.separator + "frontend"
-        + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
+            + File.separator + "src" + File.separator + "Assets" + File.separator + "userImage";
 
         File directory = new File(targetDirectory);
 
@@ -343,27 +361,24 @@ public class UserServiceImpl implements UserService {
             Files.delete(existingFilePath);
           }
         }
-
-        // sameImage = formatChecker.isSameImage(newFilename,
-        // userBodyChecker.getImg_src());
-        
-        // userBodyChecker.setImg_src(newFilename);
         user.setImg_src(newFilename);
-        
-        Files.copy(photo.getInputStream(), targetPath); //, StandardCopyOption.REPLACE_EXISTING)
+
+        Files.copy(photo.getInputStream(), targetPath); // , StandardCopyOption.REPLACE_EXISTING)
         userDao.updateUserPicture(userBodyChecker);
-        
+
         return ResponseEntity.status(200).body("Picture upload successful");
       } else {
-        user.setImg_src(userBodyChecker.getImg_src());
+        if(userBodyChecker.getImg_src() == null) {
+          user.setImg_src("");
+          userBodyChecker.setImg_src("");
+        } else {
+          user.setImg_src(userBodyChecker.getImg_src());
+        }
       }
 
     } catch (Exception e) {
     }
 
-    // for(Long role_id : role_ids) {
-    // roleChecker.add(role_id);
-    // }
     boolean isPasswordEqual = accountBody.getPassword().equals(userBodyChecker.getPassword());
 
     if (accountBody.getUsername().equals(userBodyChecker.getUsername())
@@ -372,7 +387,7 @@ public class UserServiceImpl implements UserService {
         && accountBody.getMname().equals(userBodyChecker.getMname())
         && accountBody.getLname().equals(userBodyChecker.getLname())
         && accountBody.getEmail().equals(userBodyChecker.getEmail())
-        && user.getImg_src().equals(userBodyChecker.getImg_src())
+        && (user.getImg_src().equals(userBodyChecker.getImg_src()) || user.getImg_src().equals("") && userBodyChecker.getImg_src().equals(""))
         && isPasswordEqual
         && accountBody.getPosition_id() == userBodyChecker.getPosition_id()
         && accountBody.getDept_id() == userBodyChecker.getDept_id()
@@ -380,275 +395,247 @@ public class UserServiceImpl implements UserService {
         && areEqueal) {
       return ResponseEntity.ok().body("No changes were made.");
     } else {
+          user.setEmp_id(accountBody.getEmp_id());
+          user.setUsername(accountBody.getUsername());
+          user.setPassword(passEnc.encode(accountBody.getPassword()));
+          user.setPosition_id(accountBody.getPosition_id());
+          user.setDept_id(accountBody.getDept_id());
+          user.setSection_id(accountBody.getSection_id());
+          user.setStatus_code(accountBody.getStatus_code());
+          // user.setRole_id(accountBody.getRole_id());
+          // user.setImg_src(accountBody.getImg_src());
 
-      // if old and current doesn't match, it will return bad request.
-      // boolean isOldAndCurrentPasswordMatch =
-      // passEnc.matches(accountBody.getCurrent_password(),
-      // userBodyChecker.getPassword());
-      // if (!isOldAndCurrentPasswordMatch) {
-      // return ResponseEntity.status(401).body("Old password and current password
-      // doesn't match");
-      // } else {
-      // //if new and confirm password are empty it returns bad request.
-      // if(accountBody.getNew_password() == "" &&
-      // accountBody.getConfirm_new_password() == "") {
-      // return ResponseEntity.badRequest().body("New password field is empty and
-      // confirm password field are empty.");
-      // } else if(accountBody.getNew_password() == "") {
-      // return ResponseEntity.badRequest().body("New password field is empty.");
-      // } else if(accountBody.getCurrent_password() == "") {
-      // return ResponseEntity.badRequest().body("Confirm new password field is
-      // empty.");
-      // }
-      // // if new and confirm new doesn't match, it will return bad request.
-      // boolean isNewAndConfirmNewMatch =
-      // accountBody.getNew_password().equals(accountBody.getConfirm_new_password());
-      // if (!isNewAndConfirmNewMatch) {
-      // return ResponseEntity.status(401).body("New password and confirm new password
-      // doesn't match");
-      // } else {
+          personalInfo.setEmp_id(accountBody.getEmp_id());
+          personalInfo.setFname(accountBody.getFname());
+          personalInfo.setLname(accountBody.getLname());
+          personalInfo.setMname(accountBody.getMname());
+          personalInfo.setEmail(accountBody.getEmail());
 
-      user.setEmp_id(accountBody.getEmp_id());
-      user.setUsername(accountBody.getUsername());
-      user.setPassword(passEnc.encode(accountBody.getPassword()));
-      user.setPosition_id(accountBody.getPosition_id());
-      user.setDept_id(accountBody.getDept_id());
-      user.setSection_id(accountBody.getSection_id());
-      user.setStatus_code(accountBody.getStatus_code());
-      // user.setRole_id(accountBody.getRole_id());
-      // user.setImg_src(accountBody.getImg_src());
+          userMap.put("id", id);
+          userMap.put("user", user);
 
-      personalInfo.setEmp_id(accountBody.getEmp_id());
-      personalInfo.setFname(accountBody.getFname());
-      personalInfo.setLname(accountBody.getLname());
-      personalInfo.setMname(accountBody.getMname());
-      personalInfo.setEmail(accountBody.getEmail());
+          personalInfoMap.put("id", id);
+          personalInfoMap.put("personalInfo", personalInfo);
 
-      userMap.put("id", id);
-      userMap.put("user", user);
+          userDao.editUser(userMap);
+          personalInfoDao.editPersonalInfo(personalInfoMap);
 
-      personalInfoMap.put("id", id);
-      personalInfoMap.put("personalInfo", personalInfo);
+          // Activitylog
+          ActivityLogInput activityLogInput = new ActivityLogInput();
 
-      userDao.editUser(userMap);
-      personalInfoDao.editPersonalInfo(personalInfoMap);
+          activityLogInput.setEmp_id(emp_id); // current logged user dapat
+          activityLogInput.setLog_desc("Edited '" + user.getUsername() + "' account.");
 
-      // Activitylog
-      ActivityLogInput activityLogInput = new ActivityLogInput();
+          Long currentTimeMillis = System.currentTimeMillis();
+          // add the activity log
+          activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+          activityLogDao.addActivityLog(activityLogInput);
 
-      activityLogInput.setEmp_id(emp_id); // current logged user dapat
-      activityLogInput.setLog_desc("Edited '" + user.getUsername() + "' account.");
+          if (role_ids.size() > userRoleIds.size()) {
+            List<String> roleNames = new ArrayList<>();
+            StringBuilder formattedList = new StringBuilder();
+            RoleOutput role = new RoleOutput();
 
-      Long currentTimeMillis = System.currentTimeMillis();
-      // add the activity log
-      activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-      activityLogDao.addActivityLog(activityLogInput);
+            for (Long role_id : role_ids) {
+              if (!userRoleIds.contains(role_id)) {
+                multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
+                role = roleDao.getRoleById(String.valueOf(role_id));
+                roleNames.add(role.getTitle());
+              }
+            }
 
-      if (role_ids.size() > userRoleIds.size()) {
-        List<String> roleNames = new ArrayList<>();
-        StringBuilder formattedList = new StringBuilder();
-        RoleOutput role = new RoleOutput();
+            for (String element : roleNames) {
+              formattedList.append("'").append(element).append("', ");
+            }
 
-        for (Long role_id : role_ids) {
-          if (!userRoleIds.contains(role_id)) {
-            multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
-            role = roleDao.getRoleById(String.valueOf(role_id));
-            roleNames.add(role.getTitle());
+            if (formattedList.length() > 0) {
+              formattedList.delete(formattedList.length() - 2, formattedList.length());
+            }
+
+            if (roleNames.size() > 1) {
+              ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+
+              activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+              activityLogInputForRoles.setLog_desc(
+                  "Added multiple roles: " + formattedList.toString() + " on the account of '" + user.getUsername()
+                      + "'.");
+              // add the activity log
+              activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInputForRoles);
+            } else {
+              ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+
+              activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+              activityLogInputForRoles.setLog_desc(
+                  "Added " + formattedList.toString() + " role on the account of '" + user.getUsername() + "'.");
+              // add the activity log
+              activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInputForRoles);
+            }
+
+          } else if (role_ids.size() < userRoleIds.size()) {
+            List<String> roleNames = new ArrayList<>();
+            StringBuilder formattedList = new StringBuilder();
+            RoleOutput role = new RoleOutput();
+
+            for (Long role_id : userRoleIds) {
+              if (!role_ids.contains(role_id)) {
+                multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role_id);
+                role = roleDao.getRoleById(String.valueOf(role_id));
+                roleNames.add(role.getTitle());
+              }
+            }
+
+            for (String element : roleNames) {
+              formattedList.append("'").append(element).append("', ");
+            }
+
+            if (formattedList.length() > 0) {
+              formattedList.delete(formattedList.length() - 2, formattedList.length());
+            }
+
+            if (roleNames.size() > 1) {
+              ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+
+              activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+              activityLogInputForRoles.setLog_desc("Removed multiple roles: " + formattedList.toString()
+                  + " on the account of '" + user.getUsername() + "'.");
+              // add the activity log
+              activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInputForRoles);
+            } else {
+              ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+
+              activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+              activityLogInputForRoles.setLog_desc(
+                  "Removed " + formattedList.toString() + " role on the account of '" + user.getUsername() + "'.");
+              // add the activity log
+              activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInputForRoles);
+            }
+          } else {
+            List<String> removedNames = new ArrayList<>();
+            List<String> addedNames = new ArrayList<>();
+            StringBuilder addedListNames = new StringBuilder();
+            StringBuilder removedListNames = new StringBuilder();
+            RoleOutput role = new RoleOutput();
+
+            for (Long role_id : userRoleIds) {
+              if (!role_ids.contains(role_id)) {
+                multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role_id);
+                role = roleDao.getRoleById(String.valueOf(role_id));
+                removedNames.add(role.getTitle());
+              }
+            }
+
+            for (String element : removedNames) {
+              removedListNames.append("'").append(element).append("', ");
+            }
+
+            if (removedListNames.length() > 0) {
+              removedListNames.delete(removedListNames.length() - 2, removedListNames.length());
+            }
+
+            if (removedNames.size() > 1) {
+              ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+
+              activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+              activityLogInputForRoles.setLog_desc("Removed multiple roles: " + removedListNames.toString()
+                  + " on the account of '" + user.getUsername() + "'.");
+              // add the activity log
+              activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInputForRoles);
+            } else {
+              ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+
+              activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+              activityLogInputForRoles.setLog_desc(
+                  "Removed " + removedListNames.toString() + " role on the account of '" + user.getUsername() + "'.");
+              // add the activity log
+              activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInputForRoles);
+            }
+
+            for (Long role_id : role_ids) {
+              if (!userRoleIds.contains(role_id)) {
+                multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
+                role = roleDao.getRoleById(String.valueOf(role_id));
+                addedNames.add(role.getTitle());
+              }
+            }
+
+            for (String element : addedNames) {
+              addedListNames.append("'").append(element).append("', ");
+            }
+
+            if (addedListNames.length() > 0) {
+              addedListNames.delete(addedListNames.length() - 2, addedListNames.length());
+            }
+
+            if (addedNames.size() > 1) {
+              ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+
+              activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+              activityLogInputForRoles.setLog_desc("Added multiple roles: " + addedListNames.toString()
+                  + " on the account of '" + user.getUsername() + "'.");
+              // add the activity log
+              activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInputForRoles);
+            } else {
+              ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+
+              activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+              activityLogInputForRoles.setLog_desc(
+                  "Added " + addedListNames.toString() + " role on the account of '" + user.getUsername() + "'.");
+              // add the activity log
+              activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+              activityLogDao.addActivityLog(activityLogInputForRoles);
+            }
           }
-        }
+          // for(UserRoles userRole : rolesOfUser) {
+          // multiRoleDao.permaDeleteRoleOfUser(accountBody.getEmp_id(),
+          // userRole.getRole_id());
+          // }
 
-        for (String element : roleNames) {
-          formattedList.append("'").append(element).append("', ");
-        }
+          // List<String> roleNames = new ArrayList<>();
+          // StringBuilder formattedList = new StringBuilder();
+          // for(Long role_id : role_ids) {
+          // multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
+          // RoleOutput role = roleDao.getRoleById(String.valueOf(role_id));
+          // roleNames.add(role.getTitle());
+          // }
 
-        if (formattedList.length() > 0) {
-          formattedList.delete(formattedList.length() - 2, formattedList.length());
-        }
+          // for(String element : roleNames) {
+          // formattedList.append("'").append(element).append("', ");
+          // }
 
-        if (roleNames.size() > 1) {
-          ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+          // if(formattedList.length() > 0) {
+          // formattedList.delete(formattedList.length() - 2, formattedList.length());
+          // }
 
-          activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
-          activityLogInputForRoles.setLog_desc(
-              "Added multiple roles: " + formattedList.toString() + " on the account of '" + user.getUsername()
-                  + "'.");
-          // add the activity log
-          activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-          activityLogDao.addActivityLog(activityLogInputForRoles);
-        } else {
-          ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
+          // if(roleNames.size() > 1) {
+          // ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
 
-          activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
-          activityLogInputForRoles.setLog_desc(
-              "Added " + formattedList.toString() + " role on the account of '" + user.getUsername() + "'.");
-          // add the activity log
-          activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-          activityLogDao.addActivityLog(activityLogInputForRoles);
-        }
+          // activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+          // activityLogInputForRoles.setLog_desc("Added multiple roles " +
+          // formattedList.toString() + " on the account of '" + user.getUsername() +
+          // "'.");
+          // // add the activity log
+          // activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+          // activityLogDao.addActivityLog(activityLogInputForRoles);
+          // } else {
+          // ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
 
-      } else if (role_ids.size() < userRoleIds.size()) {
-        List<String> roleNames = new ArrayList<>();
-        StringBuilder formattedList = new StringBuilder();
-        RoleOutput role = new RoleOutput();
-
-        for (Long role_id : userRoleIds) {
-          if (!role_ids.contains(role_id)) {
-            multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role_id);
-            role = roleDao.getRoleById(String.valueOf(role_id));
-            roleNames.add(role.getTitle());
-          }
-        }
-
-        for (String element : roleNames) {
-          formattedList.append("'").append(element).append("', ");
-        }
-
-        if (formattedList.length() > 0) {
-          formattedList.delete(formattedList.length() - 2, formattedList.length());
-        }
-
-        if (roleNames.size() > 1) {
-          ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
-
-          activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
-          activityLogInputForRoles.setLog_desc("Removed multiple roles: " + formattedList.toString()
-              + " on the account of '" + user.getUsername() + "'.");
-          // add the activity log
-          activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-          activityLogDao.addActivityLog(activityLogInputForRoles);
-        } else {
-          ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
-
-          activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
-          activityLogInputForRoles.setLog_desc(
-              "Removed " + formattedList.toString() + " role on the account of '" + user.getUsername() + "'.");
-          // add the activity log
-          activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-          activityLogDao.addActivityLog(activityLogInputForRoles);
-        }
-      } else {
-        List<String> removedNames = new ArrayList<>();
-        List<String> addedNames = new ArrayList<>();
-        StringBuilder addedListNames = new StringBuilder();
-        StringBuilder removedListNames = new StringBuilder();
-        RoleOutput role = new RoleOutput();
-
-        for (Long role_id : userRoleIds) {
-          if (!role_ids.contains(role_id)) {
-            multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role_id);
-            role = roleDao.getRoleById(String.valueOf(role_id));
-            removedNames.add(role.getTitle());
-          }
-        }
-
-        for (String element : removedNames) {
-          removedListNames.append("'").append(element).append("', ");
-        }
-
-        if (removedListNames.length() > 0) {
-          removedListNames.delete(removedListNames.length() - 2, removedListNames.length());
-        }
-
-        if (removedNames.size() > 1) {
-          ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
-
-          activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
-          activityLogInputForRoles.setLog_desc("Removed multiple roles: " + removedListNames.toString()
-              + " on the account of '" + user.getUsername() + "'.");
-          // add the activity log
-          activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-          activityLogDao.addActivityLog(activityLogInputForRoles);
-        } else {
-          ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
-
-          activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
-          activityLogInputForRoles.setLog_desc(
-              "Removed " + removedListNames.toString() + " role on the account of '" + user.getUsername() + "'.");
-          // add the activity log
-          activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-          activityLogDao.addActivityLog(activityLogInputForRoles);
-        }
-
-        for (Long role_id : role_ids) {
-          if (!userRoleIds.contains(role_id)) {
-            multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
-            role = roleDao.getRoleById(String.valueOf(role_id));
-            addedNames.add(role.getTitle());
-          }
-        }
-
-        for (String element : addedNames) {
-          addedListNames.append("'").append(element).append("', ");
-        }
-
-        if (addedListNames.length() > 0) {
-          addedListNames.delete(addedListNames.length() - 2, addedListNames.length());
-        }
-
-        if (addedNames.size() > 1) {
-          ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
-
-          activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
-          activityLogInputForRoles.setLog_desc("Added multiple roles: " + addedListNames.toString()
-              + " on the account of '" + user.getUsername() + "'.");
-          // add the activity log
-          activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-          activityLogDao.addActivityLog(activityLogInputForRoles);
-        } else {
-          ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
-
-          activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
-          activityLogInputForRoles.setLog_desc(
-              "Added " + addedListNames.toString() + " role on the account of '" + user.getUsername() + "'.");
-          // add the activity log
-          activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-          activityLogDao.addActivityLog(activityLogInputForRoles);
-        }
-      }
-      // for(UserRoles userRole : rolesOfUser) {
-      // multiRoleDao.permaDeleteRoleOfUser(accountBody.getEmp_id(),
-      // userRole.getRole_id());
-      // }
-
-      // List<String> roleNames = new ArrayList<>();
-      // StringBuilder formattedList = new StringBuilder();
-      // for(Long role_id : role_ids) {
-      // multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
-      // RoleOutput role = roleDao.getRoleById(String.valueOf(role_id));
-      // roleNames.add(role.getTitle());
-      // }
-
-      // for(String element : roleNames) {
-      // formattedList.append("'").append(element).append("', ");
-      // }
-
-      // if(formattedList.length() > 0) {
-      // formattedList.delete(formattedList.length() - 2, formattedList.length());
-      // }
-
-      // if(roleNames.size() > 1) {
-      // ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
-
-      // activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
-      // activityLogInputForRoles.setLog_desc("Added multiple roles " +
-      // formattedList.toString() + " on the account of '" + user.getUsername() +
-      // "'.");
-      // // add the activity log
-      // activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-      // activityLogDao.addActivityLog(activityLogInputForRoles);
-      // } else {
-      // ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
-
-      // activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
-      // activityLogInputForRoles.setLog_desc("Added the role " +
-      // formattedList.toString() + " on the account of '" + user.getUsername() +
-      // "'.");
-      // // add the activity log
-      // activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-      // activityLogDao.addActivityLog(activityLogInputForRoles);
-      // }
-      // }
-      // }
+          // activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
+          // activityLogInputForRoles.setLog_desc("Added the role " +
+          // formattedList.toString() + " on the account of '" + user.getUsername() +
+          // "'.");
+          // // add the activity log
+          // activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+          // activityLogDao.addActivityLog(activityLogInputForRoles);
+          // }
+          // }
+          // }
     }
     return ResponseEntity.ok("Account '" + user.getUsername() + "' edited successfully.");
   }
@@ -742,40 +729,11 @@ public class UserServiceImpl implements UserService {
     multiRoleDao.restoreMultiRole(id);
     return ResponseEntity.ok("User '" + user.getUsername() + "' has been restored.");
   }
-  // @Override
-  // public String insertUserBatch(List<User> users) {
-  // try {
-  // userDao.insertUserBatch(users);
-  // return "ok";
-  // } catch (Exception e) {
-  // return e.getMessage();
-  // }
-  // }
-
-  // @Override
-  // public UserOutput getUserByUsername(UserOutput username) {
-  // return userDao.getUserByUsername(username);
-  // }
-
+  
   @Override
   public UserOutput getUsername(String username) {
     return userDao.getUsername(username);
   }
-
-  // @Override
-  // public UserDetails loadUserByUsername(String username) throws
-  // UsernameNotFoundException {
-  // UserOutput user = userDao.getUsername(username);
-
-  // if(user == null) {
-  // throw new UsernameNotFoundException(username + "not found.");
-  // }
-  // return new User(
-  // user.getUsername(),
-  // user.getPassword(),
-  // Collections.emptyList()
-  // );
-  // }
 
   @Override
   public String getLoggedInUser(UserOutput user) {
@@ -795,7 +753,6 @@ public class UserServiceImpl implements UserService {
         users.setDept_id(users.getDept_id());
         users.setSection_id(users.getSection_id());
         users.setStatus_code(users.getStatus_code());
-        // users.setRole_id(users.getRole_id());
         users.setImg_src(users.getImg_src());
 
         // Activitylog

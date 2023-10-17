@@ -153,7 +153,6 @@ export default function NewProj() {
     if (
       !clientName ||
       !projectName ||
-      !projectDescription ||
       !selectedStartDate ||
       !selectedEndDate ||
       !selectedClientId ||
@@ -169,7 +168,6 @@ export default function NewProj() {
     } else if (
       clientName &&
       projectName &&
-      projectDescription &&
       selectedStartDate &&
       selectedEndDate &&
       selectedClientId &&
@@ -397,7 +395,7 @@ export default function NewProj() {
       clientId: selectedClientId,
       selectedManagers: projectManager as number[],
       selectedMembers: projectMembers
-        ? (projectManager as number[])
+        ? (projectMembers as number[])
         : [DEFAULT_MEMBER_ID],
       selectedDevPhase: projectDevPhase,
       selectedTechnologies: projectTechnologies,
@@ -880,7 +878,6 @@ export default function NewProj() {
                 <div className={NewProjectStyle.col2}>
                   <FormControl
                     className={NewProjectStyle.qlContainer}
-                    error={formSubmitted && projectDescription === ""}
                   >
                     <FormLabel
                       sx={{
@@ -898,9 +895,7 @@ export default function NewProj() {
                       modules={modules}
                       placeholder="Project description..."
                     />
-                    {formSubmitted && projectDescription === "" && (
-                      <FormHelperText>Project description required</FormHelperText>
-                    )}
+            
                   </FormControl>
                 </div>
               </div>

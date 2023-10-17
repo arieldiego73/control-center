@@ -31,13 +31,9 @@ public interface UserService {
   //setting the del_flag of user to 0
   public ResponseEntity<String> restoreUser(String id);
 
-  // public String insertUser(UserInput user);
-
-  // public UserOutput getUserByUsername(UserOutput username);
-
   public UserOutput getUsername(String username);
 
-  public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids, String emp_id);
+  public ResponseEntity<String> addAccount(AccountInput account, List<Long> role_ids, String emp_id, @RequestParam(value = "photo",required = false) MultipartFile photo);
 
   public ResponseEntity<String> editAccount(String id, AccountOutput accountBody, List<Long> role_ids, String emp_id, @RequestParam(value = "photo",required = false) MultipartFile photo);
 
