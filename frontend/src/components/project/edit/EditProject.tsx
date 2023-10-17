@@ -88,6 +88,7 @@ export interface State {
 
 const GLOBAL_TIMEOUT = 3000;
 const DEFAULT_MANAGER_ID = 100;
+const DEFAULT_MEMBER_ID = 100;
 
 export default function EditProject() {
   const dispatch = useDispatch();
@@ -211,7 +212,7 @@ export default function EditProject() {
       !selectedEndDate ||
       !selectedClientId ||
       !status ||
-      !projectMembers ||
+      !projectManager ||
       !projectDevPhase ||
       projectTechnologies.length === 0
     ) {
@@ -227,7 +228,7 @@ export default function EditProject() {
       selectedEndDate &&
       selectedClientId &&
       status &&
-      projectMembers &&
+      projectManager &&
       projectDevPhase &&
       projectTechnologies
     ) {
@@ -498,10 +499,10 @@ export default function EditProject() {
       projectStatusId: status,
       devTypeId: devType,
       clientId: selectedClientId,
-      selectedManagers: projectManager
-        ? (projectManager as number[])
-        : [DEFAULT_MANAGER_ID],
-      selectedMembers: projectMembers as number[],
+      selectedManagers: projectManager as number[],
+      selectedMembers: projectMembers 
+      ? (projectMembers as number[])
+      : [DEFAULT_MEMBER_ID],
       selectedDevPhase: projectDevPhase,
       selectedTechnologies: projectTechnologies,
     };

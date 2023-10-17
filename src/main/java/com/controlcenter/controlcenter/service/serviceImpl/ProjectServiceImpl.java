@@ -242,7 +242,7 @@ public class ProjectServiceImpl implements ProjectService {
                     return technology.getTech_id();
                 }).collect(Collectors.toList());
 
-        List<UserInfoOutput> members = projectDao.getAllMembersOfProject(proj_id);
+        List<UserInfoOutput> members = projectDao.getAllMembersOfProjectForTable(proj_id);
 
         List<String> allMembers = members
                 .stream()
@@ -288,23 +288,13 @@ public class ProjectServiceImpl implements ProjectService {
             Long projectToBeSaved = project.getProj_id();
 
             // initializing the value of project info before saving.
-            if(type_id == null) {
-                projectInfo.setDev_type_id(null);
-                projectInfo.setClient_id(client_id);
-                projectInfo.setProj_status_id(project_status_id);
-                projectInfo.setProj_id(project.getProj_id());
+            projectInfo.setDev_type_id(type_id);
+            projectInfo.setClient_id(client_id);
+            projectInfo.setProj_status_id(project_status_id);
+            projectInfo.setProj_id(project.getProj_id());
 
-                // saving of project info on tbl_proj_info table
-                projInfoDao.addProjInfo(projectInfo);
-            } else {
-                projectInfo.setDev_type_id(type_id);
-                projectInfo.setClient_id(client_id);
-                projectInfo.setProj_status_id(project_status_id);
-                projectInfo.setProj_id(project.getProj_id());
-
-                // saving of project info on tbl_proj_info table
-                projInfoDao.addProjInfo(projectInfo);
-            }
+            // saving of project info on tbl_proj_info table
+            projInfoDao.addProjInfo(projectInfo);
 
             // iterating all manager_ids which are emp_id and saving them to be multiple
             // project manager
@@ -331,16 +321,10 @@ public class ProjectServiceImpl implements ProjectService {
             }
 
             // iterating all employee id before saving them as project members
-            if(member_ids == null) {
-                userProject.setEmp_id(null);
+            for (String member_id : member_ids) {
+                userProject.setEmp_id(member_id);
                 userProject.setProj_id(projectToBeSaved);
                 userProjectDao.addUserProject(userProject);
-            } else {
-                for (String member_id : member_ids) {
-                    userProject.setEmp_id(member_id);
-                    userProject.setProj_id(projectToBeSaved);
-                    userProjectDao.addUserProject(userProject);
-                }
             }
 
             // Activitylog
@@ -404,16 +388,13 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(technology -> {
                     return technology.getTech_id();
                 }).collect(Collectors.toList());
-                
+
                 List<String> member_ids_list = projectDao.getAllMembersOfProject(id)
                 .stream()
                 .map(member -> {
-                    if(member == null) {
-                        return null;
-                    } else {
-                        return member.getEmp_id();
-                    }
+                    return member.getEmp_id();
                 }).collect(Collectors.toList());
+                
                 //gets all the id of the managers, development phase, development technology, and members to compare to the request params.
 
                 //check if value of information on project have been changed.
@@ -427,7 +408,7 @@ public class ProjectServiceImpl implements ProjectService {
                    && manager_ids_list.equals(manager_ids)
                    && phase_id_list.equals(phase_ids)
                    && tech_id_list.equals(tech_ids)
-                   && member_ids_list.equals(member_ids)
+                   && (member_ids_list.equals(member_ids) || (member_ids_list.size() == 0 && member_ids == null))
                 ) {
                     return ResponseEntity.ok().body("No changes were made");
                 }
@@ -440,26 +421,14 @@ public class ProjectServiceImpl implements ProjectService {
 
                 // initializing the value of project info before saving.
                 Map<String, Object> projectInfoMap = new HashMap<>();
+                projectInfo.setDev_type_id(type_id);
+                projectInfo.setClient_id(client_id);
+                projectInfo.setProj_status_id(project_status_id);
+                projectInfo.setProj_id(project.getProj_id());
 
-                if(type_id == null) {
-                    projectInfo.setDev_type_id(null);
-                    projectInfo.setClient_id(client_id);
-                    projectInfo.setProj_status_id(project_status_id);
-                    projectInfo.setProj_id(project.getProj_id());
-                    
-                    // putting the values into hashmap
-                    projectInfoMap.put("id", id);
-                    projectInfoMap.put("projInfo", projectInfo);
-                } else {
-                    projectInfo.setDev_type_id(type_id);
-                    projectInfo.setClient_id(client_id);
-                    projectInfo.setProj_status_id(project_status_id);
-                    projectInfo.setProj_id(project.getProj_id());
-                    
-                    // putting the values into hashmap
-                    projectInfoMap.put("id", id);
-                    projectInfoMap.put("projInfo", projectInfo);
-                }
+                // putting the values into hashmap
+                projectInfoMap.put("id", id);
+                projectInfoMap.put("projInfo", projectInfo);
 
                 // deleting all records from composite table tbl_proj_manager
                 for (UserOutput manager : listOfManagers) {
@@ -503,23 +472,19 @@ public class ProjectServiceImpl implements ProjectService {
                     projectTechnologyDao.addProjectTechnology(projectTechnology);
                 }
 
-                if(member_ids == null) {
-                    // deleting all records from composite table tbl_proj_members
+                // deleting all records from composite table tbl_proj_members
+                for (UserOutput member : listOfMembers) {
                     projectMember.setProj_id(project.getProj_id());
-                    projectMember.setEmp_id(null);
+                    projectMember.setEmp_id(member.getEmp_id());
                     userProjectDao.permaDeleteProjectMember(projectMember);
+                }
+
+                if(member_ids == null) {
                     // adding records from composite table tbl_proj_members
                     projectMember.setProj_id(project.getProj_id());
-                    projectMember.setEmp_id(null);
+                    projectMember.setEmp_id("100");
                     userProjectDao.addUserProject(projectMember);
                 } else {
-                    // deleting all records from composite table tbl_proj_members
-                    for (UserOutput member : listOfMembers) {
-                        projectMember.setProj_id(project.getProj_id());
-                        projectMember.setEmp_id(member.getEmp_id());
-                        userProjectDao.permaDeleteProjectMember(projectMember);
-                    }
-
                     // adding records from composite table tbl_proj_members
                     for (String member_id : member_ids) {
                         projectMember.setProj_id(project.getProj_id());
@@ -528,6 +493,7 @@ public class ProjectServiceImpl implements ProjectService {
                     }
                 }
 
+                
                 // saving the new value of the project
                 projectDao.editProjectInfo(projectMap);
 

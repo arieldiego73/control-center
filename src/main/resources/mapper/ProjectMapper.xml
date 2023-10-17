@@ -12,7 +12,7 @@
               tproj.start_date,
               tproj.end_date, 
               devtype.dev_type_name,
-              (SELECT COUNT(*) FROM tbl_user_project AS tup WHERE tup.proj_id = tproj.proj_id) AS members,
+              (SELECT COUNT(*) FROM tbl_user_project AS tup WHERE tup.proj_id = tproj.proj_id AND tup.emp_id != 100) AS members,
               ps.proj_status_name
          FROM tbl_project_mst AS tproj
               INNER JOIN tbl_proj_info AS tpi 
@@ -149,7 +149,26 @@
                 ON tuser.emp_id = tup.emp_id
             LEFT JOIN tbl_position_mst AS tposition
                 ON tposition.position_id = tuser.position_id
-        WHERE tup.proj_id = #{proj_id} AND tup.del_flag = 0;
+        WHERE tup.proj_id = #{proj_id} AND tup.del_flag = 0 AND tup.emp_id != 100;
+        <!-- AND tup.emp_id != 100 -->
+    </select>
+
+<!-- Select all members of a project -->
+    <select id="getAllMembersOfProjectForTable" parameterType="java.lang.String" resultType="com.controlcenter.controlcenter.model.UserInfoOutput">
+        SELECT tup.emp_id,
+               tpi.fname,
+               tpi.lname,
+               tposition.position_sh_name
+          FROM tbl_project_mst AS tproj
+            INNER JOIN tbl_user_project AS tup
+                ON tproj.proj_id = tup.proj_id
+            LEFT JOIN tbl_personal_info AS tpi
+                ON tpi.emp_id = tup.emp_id
+            LEFT JOIN tbl_user AS tuser
+                ON tuser.emp_id = tup.emp_id
+            LEFT JOIN tbl_position_mst AS tposition
+                ON tposition.position_id = tuser.position_id
+        WHERE tup.proj_id = #{proj_id} AND tup.del_flag = 0 AND tup.emp_id != 100;
         <!-- AND tup.emp_id != 100 -->
     </select>
 
