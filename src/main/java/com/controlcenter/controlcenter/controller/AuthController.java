@@ -49,7 +49,8 @@ public class AuthController {
             Cookie authCookie = new Cookie("sessionID", "CookieCutie");
             authCookie.setPath("/"); // Set the path to '/' to make the cookie available site-wide
             authCookie.setMaxAge(86400); // Set the cookie to expire after 1 day (86,400 seconds)
-
+            authCookie.setHttpOnly(true);
+            authCookie.setSecure(true);
             response.addCookie(authCookie);
 
             UserInfoOutput currentLoggedUser = userDao.getUserById(authUser.getEmp_id());
@@ -62,6 +63,7 @@ public class AuthController {
             authResponse.put("fullName", currentLoggedUser.getFname() + " " + currentLoggedUser.getMname() + " " + currentLoggedUser.getLname());
             authResponse.put("email", currentLoggedUser.getEmail());
             authResponse.put("img", currentLoggedUser.getImg_src());
+            
 
             
             return ResponseEntity.ok(authResponse);

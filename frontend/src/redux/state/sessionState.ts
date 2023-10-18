@@ -15,14 +15,13 @@ interface User {
 
 interface SessionState {
   user: User | null;
-  // isSuccess: boolean;
   isAuthenticated: boolean;
-  username: string | null; // Add the username property
+  username: string | null;
+  
 }
 
 const initialState: SessionState = {
   user: null,
-  // isSuccess: false,
   isAuthenticated: localStorage.getItem('isAuthenticated') === "true" , // Read from localStorage or cookies
   username: null
 };
@@ -53,6 +52,9 @@ const sessionSlice = createSlice({
       state.user = null;
       cookies.set('isAuthenticated', 'false');
 	  },
+    clearUsername: (state) => {
+      state.username = null;
+    },
     setUserNameAndEmail: (state, action: PayloadAction<{ fullName: string; email: string; img: string }>) => {
       if (state.user) {
         state.user.fullName = action.payload.fullName;
@@ -67,6 +69,7 @@ const sessionSlice = createSlice({
 export const { 
 	setUser, 
 	clearUser, 
+  clearUsername,
 	setAuthenticationStatus, 
 	getAuthStatus,
 	logoutUser,
