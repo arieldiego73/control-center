@@ -59,13 +59,12 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
   const { graphData } = props;
   const [data, setData] = useState<RecentProjects[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const loadingState = useSelector(
     (state: RootState) => state.graphsData.isLoading
   );
 
   // const [progressValue, setProgressValue] = useState(0);
-
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -104,11 +103,9 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
         )
       );
     }
-    console.log("etooooooo", graphData);
   }, [graphData]);
 
   useEffect(() => {
-    console.log("USERRRRRRRRRR", data);
   }, [data]);
 
   return (
@@ -122,26 +119,29 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
             paddingLeft: "10px",
           }}
         >
-          <Typography variant="h5" fontWeight={600}>
+          <Typography variant="h5" fontWeight={"bolder"}>
             {" PROJECTS "}
           </Typography>
         </div>
 
-        <div style={{ height: "80%", width: "100%" }}>
-          <Grid container spacing={1}>
+        <div className={UserGraphStyle.holder}>
+          <Grid container >
             {data.map((item, index) => (
-              <Grid item xs={12} sm={6} key={index}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    margin: "auto",
-                    width: "87%",
-                    flexGrow: 1,
-                    backgroundColor: (theme) =>
-                      theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-                  }}
-                >
-                  <Grid container spacing={2} sx={{}}>
+              <Grid item xs={12} sm={6} key={index} style={{display:'flex', justifyContent:'center', }}>
+                <Grid className={UserGraphStyle.placeHolder} >
+                  <Paper
+                    sx={{
+                      p: 2,
+                      // margin: "auto",
+                      marginBottom: "10px",
+                      width: "87%",
+                      height:'50%',
+
+                      // border:'1px solid black',
+                      backgroundColor: (theme) =>
+                        theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                    }}
+                  >
                     <Grid item xs={12} sm container sx={{}}>
                       <Grid item xs container spacing={2} sx={{}}>
                         <ListItemText
@@ -152,7 +152,7 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
                           <Typography variant="h6" fontWeight={800}>
                             {item.proj_name}
                           </Typography>
-                        </ListItemText>          
+                        </ListItemText>
                       </Grid>
                       <Grid item sx={{}}>
                         <ThemeProvider theme={theme}>
@@ -173,26 +173,24 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
                         </ThemeProvider>
                       </Grid>
                     </Grid>
-                  </Grid>
-                </Paper>
+                  </Paper>
+                </Grid>
               </Grid>
             ))}
           </Grid>
-      
-          {isLoading && (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100%",
-    }}
-  >
-    <CircularProgress color="error" />
-  </div>
-)}
 
-      
+          {isLoading && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              <CircularProgress color="error" />
+            </div>
+          )}
         </div>
       </div>
     </div>
