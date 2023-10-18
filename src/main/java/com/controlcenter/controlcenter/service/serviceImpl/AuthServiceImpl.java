@@ -39,9 +39,9 @@ public class AuthServiceImpl implements AuthService {
         String hashedPassword = user.getPassword();
 
 
-        // if (user != null && password.equals(user.getPassword())) {
+        if (user != null && password.equals(user.getPassword())) {
 
-        if (user != null && bCryptPasswordEncoder.matches(password, hashedPassword)) {
+        // if (user != null && bCryptPasswordEncoder.matches(password, hashedPassword)) {
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();

@@ -7,9 +7,8 @@
   /* position: relative;
   top: 50%;
   left: 50%; */
-  width: 50%;
-  height: 50%;
-  /* height: ; */
+  width: 400px;
+  height: 500px;
   -webkit-transform: translate(0%, 0%);
   -moz-transform: translate(0%, 0%);
   -ms-transform: translate(0%, 0%);
