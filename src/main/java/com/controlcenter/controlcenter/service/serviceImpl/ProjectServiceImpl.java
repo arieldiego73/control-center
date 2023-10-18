@@ -284,6 +284,20 @@ public class ProjectServiceImpl implements ProjectService {
         UserProjectInput userProject = new UserProjectInput();
 
         try {
+
+            if(manager_ids == null) {
+                return ResponseEntity.status(400).body("Select a manager");
+            }
+
+            Date start_date = project.getStart_date();
+            Date end_date = project.getEnd_date();
+
+            Integer compareTo = start_date.compareTo(end_date);
+
+            if(compareTo > 0) {
+                return ResponseEntity.status(400).body("Invalid start date and end date.");
+            }
+            
             projectDao.addProject(project);
 
             Long projectToBeSaved = project.getProj_id();
