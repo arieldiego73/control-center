@@ -71,3 +71,63 @@
   z-index: 1;
   /* margin-top:1%; */
 }
+
+
+@media (max-width: 1800px) {
+  .card {  
+    height: 88%;
+  }
+  .graphContainer{
+    height: 50%;
+    width: 44%; 
+    margin-bottom: 4%;
+    /* border: 1px solid red; */
+  }
+}
+
+@media (max-width: 1700px) {
+  .graphContainer{
+    margin-bottom: 4.5%;
+    /* border: 1px solid red; */
+  }
+}
+
+@media (max-width: 1600px) {
+  .graphContainer{
+    margin-bottom: 4.8%;
+  }
+}
+
+@media (max-width: 1400px) {
+  .graphContainer{
+    margin-bottom: 5%;
+  }
+}
+
+@media (max-width: 1250px) {
+  .graphContainer{
+    margin-bottom: 5.5%;
+  }
+}
+
+@media (max-width: 1300px) {
+  .graphContainer{
+    margin-bottom: 6%;
+  }
+}
+@media (max-width: 1150px) {
+  .graphContainer{
+    margin-bottom: 5.5%;
+  }
+}
+@media (max-width: 1000px) {
+  .graphContainer{
+    margin-bottom: 6%;
+  }
+}
+
+@media (max-width: 900px) {
+  .graphContainer{
+    margin-bottom: 6.5%;
+  }
+}

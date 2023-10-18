@@ -32,7 +32,6 @@ export const Dashboard = () => {
   const graphsData = useSelector((state: RootState) => state.graphsData.graphsData)
 
   React.useEffect(() => {
-    console.log("dashboard graph data", graphsData)
   }, [graphsData])
 
   return (

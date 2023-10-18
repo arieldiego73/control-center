@@ -143,8 +143,11 @@ import ClientHandler from "./pages/ClientHandler";
 import ImagePreview from "./components/test/viewImg";
 import  { useDispatch, useSelector } from "react-redux"
 import { RootState } from "./redux/store/store";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { showDialog } from "./redux/state/dialogSlice";
+import { apiLogin } from "./redux/saga/sessionSaga";
+import { setAuthenticationStatus, setUser } from "./redux/state/sessionState";
+import Cookies from 'universal-cookie';
 
 // ... (other imports and component definitions)
 
@@ -235,12 +238,63 @@ import { showDialog } from "./redux/state/dialogSlice";
 //   export default App;
 
 function App() {
+	const dispatch = useDispatch(); // Get the dispatch function from Redux
 
 
-	
+
 	const isAuthenticated = useSelector((state: RootState) => state.sessionReducer.isAuthenticated);
 	console.log("isAuthenticated",isAuthenticated );
 
+	const cookies = new Cookies();
+
+	// useEffect(() => {
+    //     const checkAuthentication = async () => {
+    //         // Check if the user is authenticated in localStorage
+    //         const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+    //         if (isAuthenticated) {
+    //             // If the user is authenticated, call the login API to get user info
+    //             try {
+    //                 const userData = await apiLogin('username', 'password');
+    //                 if (userData) {
+    //                     // setUser(userData); // This line can be removed to fix the warning
+    //                 }
+    //             } catch (error) {
+    //                 console.error('Error while checking authentication:', error);
+    //             }
+    //         }
+    //     };
+
+    //     checkAuthentication();
+    // }, []);
+
+
+  useEffect(() => {
+    // Check if the user is authenticated in localStorage
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+	
+    if (isAuthenticated) {
+      // If the user is authenticated, call the login API to get user info
+      const username = cookies.get('username'); // Retrieve the username from localStorage
+      const password = cookies.get('password'); // Replace with the actual way you retrieve the password or token
+	  
+      if (isAuthenticated && username && password) {
+        apiLogin(username, password)
+          .then((userData) => {
+            if (userData) {
+              // Dispatch an action to update the user state
+              dispatch(setUser(userData)); // You should define the setUser action
+              // Dispatch an action to update the authentication status
+              dispatch(setAuthenticationStatus(true)); // You should define the setAuthenticationStatus action
+			  		  
+            }
+          })
+          .catch((error) => {
+            console.error('Error while checking authentication:', error);
+          });
+      }
+    }
+  }, [dispatch]);
 
 	return (
 		<BrowserRouter>
@@ -254,7 +308,7 @@ function App() {
 				<Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
 			    <Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
 				<Route path="/projects/*" Component={ProjectHandler} />
-				<Route path="/roles/*" Component={RoleHandler} />
+				<Route path="/roles/" Component={RoleHandler} />
 				<Route path="/project/add-new-project" Component={NewProjHandler} />
 				<Route path="/development-phase/*" Component={DevelopmentPhaseHandler} />
 				<Route path="/clients/*" Component={ClientHandler} />
@@ -273,7 +327,6 @@ function App() {
 			) : (
 				<>
 				 <Route index element={<LoginPage />} />
-				 <Route path="/" element={<Navigate to="/login" />} />
         	     <Route path="*" element={<Navigate to="/" />} />
 				</>
 			)}

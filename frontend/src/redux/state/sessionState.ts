@@ -1,28 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Cookies from 'universal-cookie';
 
-
 const cookies = new Cookies();
 
 interface User {
-  id: number;
+  id: string;
   username: string;
   fullName: string;
   email: string;
   img: string;
-  
 }
 
 interface SessionState {
   user: User | null;
-  // isSuccess: boolean;
   isAuthenticated: boolean;
+  username: string | null;
+  
 }
 
 const initialState: SessionState = {
   user: null,
-  // isSuccess: false,
   isAuthenticated: localStorage.getItem('isAuthenticated') === "true" , // Read from localStorage or cookies
+  username: null
 };
 
 const sessionSlice = createSlice({
@@ -32,6 +31,7 @@ const sessionSlice = createSlice({
     setUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
       state.isAuthenticated = true;
+      state.username = action.payload?.username || null; // Store the username
       cookies.set('isAuthenticated', 'true'); // Set the 'isAuthenticated' cookie
     },
     clearUser: (state) => {
@@ -50,6 +50,9 @@ const sessionSlice = createSlice({
       state.user = null;
       cookies.set('isAuthenticated', 'false');
 	  },
+    clearUsername: (state) => {
+      state.username = null;
+    },
     setUserNameAndEmail: (state, action: PayloadAction<{ fullName: string; email: string; img: string }>) => {
       if (state.user) {
         state.user.fullName = action.payload.fullName;
@@ -57,6 +60,9 @@ const sessionSlice = createSlice({
         state.user.img = action.payload.img;
       }
     },
+    setUserImg: (state, action) => {
+			state.user!.img = action.payload.img_src
+		},
   },
 });
 
@@ -64,10 +70,12 @@ const sessionSlice = createSlice({
 export const { 
 	setUser, 
 	clearUser, 
+  clearUsername,
 	setAuthenticationStatus, 
 	getAuthStatus,
 	logoutUser,
   setUserNameAndEmail,
+  setUserImg
 } =
   sessionSlice.actions;
 

@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -308,7 +310,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ResponseEntity<String> editAccount(String id, AccountOutput accountBody, List<Long> role_ids, String emp_id,
-      @RequestParam(value = "photo", required = false) MultipartFile photo) {
+      @RequestParam(value = "photo", required = false) MultipartFile photo, HttpSession httpSession) {
     HashMap<String, Object> userMap = new HashMap<>();
     HashMap<String, Object> personalInfoMap = new HashMap<>();
 
@@ -439,11 +441,9 @@ public class UserServiceImpl implements UserService {
           RoleOutput role = new RoleOutput();
 
           for (Long role_id : userRoleIds) {
-            if (!role_ids.contains(role_id)) {
               multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role_id);
               role = roleDao.getRoleById(String.valueOf(role_id));
               removedNames.add(role.getTitle());
-            }
           }
 
           for (String element : removedNames) {
@@ -475,11 +475,9 @@ public class UserServiceImpl implements UserService {
           }
 
           for (Long role_id : role_ids) {
-            if (!userRoleIds.contains(role_id)) {
-              multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
-              role = roleDao.getRoleById(String.valueOf(role_id));
-              addedNames.add(role.getTitle());
-            }
+            multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
+            role = roleDao.getRoleById(String.valueOf(role_id));
+            addedNames.add(role.getTitle());
           }
 
           for (String element : addedNames) {
@@ -509,6 +507,8 @@ public class UserServiceImpl implements UserService {
             activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInputForRoles);
           }
+
+        
           // for(UserRoles userRole : rolesOfUser) {
           // multiRoleDao.permaDeleteRoleOfUser(accountBody.getEmp_id(),
           // userRole.getRole_id());

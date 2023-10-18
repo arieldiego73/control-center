@@ -79,7 +79,7 @@ public class UserController {
   }
 
   @PutMapping("/edit-account/{id}")
-  public ResponseEntity<String> editAccount(@PathVariable String id, @ModelAttribute AccountOutput accountBody, @RequestParam List<Long> role_ids, @RequestParam(value = "photo",required = false) MultipartFile photo) {
+  public ResponseEntity<String> editAccount(@PathVariable String id, @ModelAttribute AccountOutput accountBody, @RequestParam List<Long> role_ids, @RequestParam(value = "photo",required = false) MultipartFile photo, HttpSession httpSession) {
     //For Validation
     ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
     Validator validator = validatorFactory.getValidator();
@@ -89,7 +89,7 @@ public class UserController {
         return ResponseEntity.status(400).body(errorHandler.getErrors(error));
       }else{
         String emp_id = "101"; // httpSession.getAttribute("session").toString();
-        return userService.editAccount(id, accountBody, role_ids, emp_id, photo);
+        return userService.editAccount(id, accountBody, role_ids, emp_id, photo, httpSession);
       }
   }
 
