@@ -19,8 +19,8 @@ code {
 .mainContainer {
   position: fixed;
   width: 83.65%;
-  height: 86.3%;
-  top: 11%;
+  height: 88.3%;
+  top: 90px;
   left: 15.5%;
   background-color: white;
   border-radius: 10px;
@@ -70,19 +70,42 @@ code {
     top: 70px;
   }
 }
+@media screen and (max-height: 1000px) {
+  .tableHolder {
+    height: 99%;
+  }
+}
+@media screen and (max-height: 900px) {
+  .tableHolder {
+    height: 98%;
+  }
+}
+ @media screen and (max-height: 850px) {
+  .mainContainer {
+    height: 86%;
+  }
+  .tableHolder {
+    height: 97%;
+  }
+}
 @media screen and (max-height: 650px) {
+  .tableHolder {
+    height: 96%;
+  }
+}
+
+@media (max-height: 690px) and (max-width: 1200px) {
   .mainContainer {
-    top: 70px;
+    height: 85%;
+  }
+}
+@media (max-height: 630px) and (max-width: 1200px) {
+  .mainContainer {
+    height: 83%;
+  }
+}
+@media (max-height: 690px) and (max-width: 1400px) {
+  .mainContainer {
     height: 84%;
-  }
-}
-@media screen and (max-height: 600px) {
-  .mainContainer {
-    height: 82%;
-  }
-}
-@media screen and (max-height: 530px) {
-  .mainContainer {
-    height: 80%;
   }
 }
