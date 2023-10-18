@@ -9,6 +9,7 @@ interface User {
   username: string;
   fullName: string;
   email: string;
+  img: string;
   
 }
 
@@ -49,10 +50,11 @@ const sessionSlice = createSlice({
       state.user = null;
       cookies.set('isAuthenticated', 'false');
 	  },
-    setUserNameAndEmail: (state, action: PayloadAction<{ fullName: string; email: string }>) => {
+    setUserNameAndEmail: (state, action: PayloadAction<{ fullName: string; email: string; img: string }>) => {
       if (state.user) {
         state.user.fullName = action.payload.fullName;
         state.user.email = action.payload.email;
+        state.user.img = action.payload.img;
       }
     },
   },
