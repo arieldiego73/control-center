@@ -7,7 +7,6 @@ function* fetchGraphsData(): any {
 	const graphsData: GraphsData[] = yield call(() =>
 		axios.get("http://localhost:8080/dashboard/graph-data").then((res) => res.data)
 	);
-	console.log("THE DATA FROM DB:", graphsData)
 	yield put(getGraphsDataSuccess(graphsData));
 }
 

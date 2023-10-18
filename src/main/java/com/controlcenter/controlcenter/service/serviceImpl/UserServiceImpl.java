@@ -439,11 +439,9 @@ public class UserServiceImpl implements UserService {
           RoleOutput role = new RoleOutput();
 
           for (Long role_id : userRoleIds) {
-            if (!role_ids.contains(role_id)) {
               multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role_id);
               role = roleDao.getRoleById(String.valueOf(role_id));
               removedNames.add(role.getTitle());
-            }
           }
 
           for (String element : removedNames) {
@@ -475,11 +473,9 @@ public class UserServiceImpl implements UserService {
           }
 
           for (Long role_id : role_ids) {
-            if (!userRoleIds.contains(role_id)) {
-              multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
-              role = roleDao.getRoleById(String.valueOf(role_id));
-              addedNames.add(role.getTitle());
-            }
+            multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
+            role = roleDao.getRoleById(String.valueOf(role_id));
+            addedNames.add(role.getTitle());
           }
 
           for (String element : addedNames) {

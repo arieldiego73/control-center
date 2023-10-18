@@ -103,11 +103,9 @@ const UserGraph: React.FC<UserGraphProps> = (props) => {
         )
       );
     }
-    console.log("etooooooo", graphData);
   }, [graphData]);
 
   useEffect(() => {
-    console.log("USERRRRRRRRRR", data);
   }, [data]);
 
   return (

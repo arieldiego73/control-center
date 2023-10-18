@@ -16,72 +16,8 @@ import AnimatedSvg from "../../Assets/backgrounds/animatedSvg.svg";
 import SplatterSvg from "../../Assets/backgrounds/depth6.jpg";
 import "./LoginCardStyle.css";
 
-const userStyle = makeStyles({
-	// background: {
-	// 	height: "100vh",
-	// 	width: "100vw",
-	// 	display: "flex !important",
-	// 	alignItems: "center",
-	// 	justifyContent: "space-around",
-	// 	backgroundColor: "white",
-	// 	position: "absolute",
-	// 	top: 0,
-	// 	left: 0,
-	// 	backgroundImage: `url(${SplatterSvg})`,
-	// 	backgroundSize: "cover",
-	// 	// backgroundPosition: "center",
-	// 	backgroundRepeat: "no-repeat",
-
-	// },
-	// loginCard: {
-	// 	/* From https://css.glass */
-	// 	// background: "rgba(255, 255, 255, 0.06)",
-	// 	borderRadius: '16px',
-	// 	boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-	// 	backdropFilter: 'blur(14px)',
-	// 	border: '1px solid rgba(255, 255, 255, 1)',
-	// 	display: "flex",
-	// 	//borderRadius: "20px",
-	// 	flexDirection: "column",
-	// 	alignItems: "center",
-	// 	//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
-	// 	//boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
-	// 	height: "50%",
-	// 	width: "40%",
-	// 	padding: "50px",
-	// 	backgroundColor: "#fff",
-	// 	//media query
-	// 	"@media (max-width: 380px)": {
-	// 		//border: "1px solid red",
-	// 		alignItems: "center",
-	// 		height: "350px",
-	// 		minWidth: "200px",
-	// 		backgroundColor: "#fff",
-	// 		margin: "auto 50px",
-	// 	},
-	// },
-	// logo: {
-	// 	width: "250px",
-	// 	marginBottom: "30px",
-	// 	//media query
-	// 	"@media (max-width: 380px)": {
-	// 		width: "250px",
-	// 		marginBottom: "30px",
-	// 	},
-	// },
-	loginForm: {
-		//height: "320px",
-		width: "300px",
-		//media query
-		"@media (max-width: 380px)": {
-			width: "250px",
-		},
-	},
-});
-
 
 export default function LoginCard() {
-	const classes = userStyle();
     const dispatch = useDispatch();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -154,11 +90,16 @@ export default function LoginCard() {
 						component="form"
 						noValidate
 						onSubmit={handleLogin}
-						className={classes.loginForm}
-					>
+						style={{
+							display:"flex",
+							flexDirection:"column",
+							alignItems:"center",
+							justifyContent:"center",
+							width:"80%",
+							gap:"20px"
+							}}
+>
 						<TextField
-							margin="normal"
-							fullWidth
 							id="username"
 							label="Username"
 							name="username"
@@ -169,10 +110,9 @@ export default function LoginCard() {
 							InputProps={{
 								endAdornment: errorIcon,
 							}}
+							sx={{width:"80%"}}
 						/>
 						<TextField
-							margin="none"
-							fullWidth
 							name="password"
 							label="Password"
 							type="password"
@@ -184,6 +124,7 @@ export default function LoginCard() {
 							InputProps={{
 								endAdornment: errorIcon,
 							}}
+							sx={{width:"80%"}}
 						/>
 						<FormHelperText
 							style={{
@@ -196,34 +137,16 @@ export default function LoginCard() {
 						</FormHelperText>
 						<Button
 							type="submit"
-							fullWidth
 							variant="contained"
 							sx={{
-								mt: 3,
-								mb: 2,
+								// mt: 3,
+								// mb: 2,
 								fontWeight: 700,
+								width:"80%"
 							}}
 						>
 							LOG IN
 						</Button>
-						{/* <Button
-							fullWidth
-							variant="text"
-							disableTouchRipple
-							size="small"
-							onMouseOver={(e) => {
-								e.currentTarget.style.backgroundColor =
-									"transparent";
-							}}
-							sx={{
-								mt: 3,
-								mb: 2,
-								color: "secondary",
-							}}
-							startIcon={<Info />}
-						>
-							About Us
-						</Button> */}
 					</Box>
                 </div>
 

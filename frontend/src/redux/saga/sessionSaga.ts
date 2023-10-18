@@ -2,6 +2,7 @@
 import { put, takeLatest, call, takeEvery, Effect } from "redux-saga/effects";
 import {
 	clearUser,
+  clearUsername,
   setAuthenticationStatus,
   setUser
 } from "../state/sessionState";
@@ -29,12 +30,16 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
           fullName: response.data.fullName,
           email: response.data.email, // Retrieve the email from the server response
           img: response.data.img,
+
+        
         };
   
         // Store authentication status in localStorage and Redux state
         cookies.set('isAuthenticated', 'true', { path: '/' });
         localStorage.setItem('isAuthenticated', 'true');
-  
+        cookies.set('username', username);
+        cookies.set('password', password);
+
         return user;
       } else {
         return null;
@@ -44,6 +49,8 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
       throw error;
     }
   };
+
+  export {apiLogin}
 
   function* loginSaga(action: ReturnType<typeof login>): any {
     try {
@@ -102,6 +109,10 @@ function* logoutSaga(): any {
 	  yield put(setAuthenticationStatus(false)); // Pass false to setAuthenticationStatus
 	  localStorage.setItem("isAuthenticated", "false");
     localStorage.setItem("Cookies", "Remove");
+
+    yield put(clearUsername());
+    cookies.remove('username');
+
 	} catch (error) {
 	  console.error("Error during logout:", error);
 	}
