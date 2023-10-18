@@ -38,10 +38,7 @@ public class AuthServiceImpl implements AuthService {
         UserOutput user = userDao.getByUsername(username);
         String hashedPassword = user.getPassword();
 
-
-        if (user != null && password.equals(user.getPassword())) {
-
-        // if (user != null && bCryptPasswordEncoder.matches(password, hashedPassword)) {
+        if (user != null && bCryptPasswordEncoder.matches(password, hashedPassword)) {
 
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
