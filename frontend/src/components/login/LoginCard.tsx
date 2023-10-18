@@ -16,8 +16,72 @@ import AnimatedSvg from "../../Assets/backgrounds/animatedSvg.svg";
 import SplatterSvg from "../../Assets/backgrounds/depth6.jpg";
 import "./LoginCardStyle.css";
 
-export default function LoginCard() {
+const userStyle = makeStyles({
+	// background: {
+	// 	height: "100vh",
+	// 	width: "100vw",
+	// 	display: "flex !important",
+	// 	alignItems: "center",
+	// 	justifyContent: "space-around",
+	// 	backgroundColor: "white",
+	// 	position: "absolute",
+	// 	top: 0,
+	// 	left: 0,
+	// 	backgroundImage: `url(${SplatterSvg})`,
+	// 	backgroundSize: "cover",
+	// 	// backgroundPosition: "center",
+	// 	backgroundRepeat: "no-repeat",
 
+	// },
+	// loginCard: {
+	// 	/* From https://css.glass */
+	// 	// background: "rgba(255, 255, 255, 0.06)",
+	// 	borderRadius: '16px',
+	// 	boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+	// 	backdropFilter: 'blur(14px)',
+	// 	border: '1px solid rgba(255, 255, 255, 1)',
+	// 	display: "flex",
+	// 	//borderRadius: "20px",
+	// 	flexDirection: "column",
+	// 	alignItems: "center",
+	// 	//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
+	// 	//boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
+	// 	height: "50%",
+	// 	width: "40%",
+	// 	padding: "50px",
+	// 	backgroundColor: "#fff",
+	// 	//media query
+	// 	"@media (max-width: 380px)": {
+	// 		//border: "1px solid red",
+	// 		alignItems: "center",
+	// 		height: "350px",
+	// 		minWidth: "200px",
+	// 		backgroundColor: "#fff",
+	// 		margin: "auto 50px",
+	// 	},
+	// },
+	// logo: {
+	// 	width: "250px",
+	// 	marginBottom: "30px",
+	// 	//media query
+	// 	"@media (max-width: 380px)": {
+	// 		width: "250px",
+	// 		marginBottom: "30px",
+	// 	},
+	// },
+	loginForm: {
+		//height: "320px",
+		width: "300px",
+		//media query
+		"@media (max-width: 380px)": {
+			width: "250px",
+		},
+	},
+});
+
+
+export default function LoginCard() {
+	const classes = userStyle();
     const dispatch = useDispatch();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -86,47 +150,84 @@ export default function LoginCard() {
                     <img src={logo} alt="" height="90px" width="80%" />
                 </div>
                 <div style={{  display: "flex", flexDirection:"column", alignItems: "center", justifyContent: "center" , gap:"20px", marginTop:"40px"}}>
-                    <TextField
-                        margin="normal"
-                        sx={{ width: "80%" }}
-                        id="username"
-                        label="Username"
-                        name="username"
-                        autoFocus
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        error={!isValid}
-                        InputProps={{
-                            endAdornment: errorIcon,
-                        }}
-                    />
-                    <TextField
-                        margin="none"
-                        sx={{ width: "80%" }}
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        error={!isValid}
-                        InputProps={{
-                            endAdornment: errorIcon,
-                        }}
-                    />
-                    <FormHelperText
-                        style={{
-                            textAlign: "center",
-                            fontSize: "13px",
-                        }}
-                        error={!isValid}
-                    >
-                        {helperText}
-                    </FormHelperText>
+				<Box
+						component="form"
+						noValidate
+						onSubmit={handleLogin}
+						className={classes.loginForm}
+					>
+						<TextField
+							margin="normal"
+							fullWidth
+							id="username"
+							label="Username"
+							name="username"
+							autoFocus
+							value={username}
+							onChange={(e) => setUsername(e.target.value)}
+							error={!isValid}
+							InputProps={{
+								endAdornment: errorIcon,
+							}}
+						/>
+						<TextField
+							margin="none"
+							fullWidth
+							name="password"
+							label="Password"
+							type="password"
+							id="password"
+							autoComplete="current-password"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							error={!isValid}
+							InputProps={{
+								endAdornment: errorIcon,
+							}}
+						/>
+						<FormHelperText
+							style={{
+								textAlign: "center",
+								fontSize: "13px",
+							}}
+							error={!isValid}
+						>
+							{helperText}
+						</FormHelperText>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							sx={{
+								mt: 3,
+								mb: 2,
+								fontWeight: 700,
+							}}
+						>
+							LOG IN
+						</Button>
+						{/* <Button
+							fullWidth
+							variant="text"
+							disableTouchRipple
+							size="small"
+							onMouseOver={(e) => {
+								e.currentTarget.style.backgroundColor =
+									"transparent";
+							}}
+							sx={{
+								mt: 3,
+								mb: 2,
+								color: "secondary",
+							}}
+							startIcon={<Info />}
+						>
+							About Us
+						</Button> */}
+					</Box>
                 </div>
 
-                <div style={{  display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {/* <div style={{  display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Button
                         type="submit"
                         variant="contained"
@@ -139,7 +240,7 @@ export default function LoginCard() {
                     >
                         LOG IN
                     </Button>
-                </div>
+                </div> */}
 
             </div>
         </div>
