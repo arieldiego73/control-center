@@ -32,9 +32,9 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
         };
   
         // Store authentication status in localStorage and Redux state
-        cookies.set('isAuthenticated', 'true', { path: '/' });
-        localStorage.setItem('isAuthenticated', 'true');
-  
+        // cookies.set('isAuthenticated', 'true', { path: '/' });
+        // localStorage.setItem('isAuthenticated', 'true');
+        // localStorage.setItem('username', 'username');
         return user;
       } else {
         return null;
