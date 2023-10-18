@@ -115,13 +115,13 @@ public class ProjectController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addProject(@RequestBody ProjectOutput project, @RequestParam(required = false) List<String> manager_ids, @RequestParam Long client_id, @RequestParam(required = false) Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam Long project_status_id, 
-    @RequestParam(required = false) List<String> member_ids){
-       // Check if the user is authenticated
-       //Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+    @RequestParam(required = false) List<String> member_ids, HttpSession httpSession){
+    //    Check if the user is authenticated
+       Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
-    //    if (isAuthenticated != null && isAuthenticated) {
-           // User is authenticated,  proceed with adding
-           //For Validation
+       if (isAuthenticated != null && isAuthenticated) {
+        //    User is authenticated,  proceed with adding
+        //    For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
             Validator validator = validatorFactory.getValidator();
             Set<ConstraintViolation<ProjectOutput>> errors = validator.validate(project);
@@ -133,18 +133,18 @@ public class ProjectController {
                     String emp_id = "101";
                     return projectService.addProject(project, emp_id, manager_ids, client_id, type_id, phase_ids, tech_ids, project_status_id, member_ids);   
                 }
-            // } else {
+            } else {
                 // is not authenticated
-            // return ResponseEntity.status(401).body("Unauthorized");
-        // }
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<String> editProjectInfo(@PathVariable String id, @RequestBody ProjectInput project, @RequestParam(required = false) List<String> manager_ids, @RequestParam Long client_id, @RequestParam(required = false) Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam Long project_status_id, @RequestParam(required = false) List<String> member_ids) {
+    public ResponseEntity<String> editProjectInfo(@PathVariable String id, @RequestBody ProjectInput project, @RequestParam(required = false) List<String> manager_ids, @RequestParam Long client_id, @RequestParam(required = false) Long type_id, @RequestParam List<Long> phase_ids, @RequestParam List<Long> tech_ids, @RequestParam Long project_status_id, @RequestParam(required = false) List<String> member_ids, HttpSession httpSession) {
         // Check if the user is authenticated
-        // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
+        Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
         
-        // if (isAuthenticated != null && isAuthenticated){
+        if (isAuthenticated != null && isAuthenticated){
             // User is authenticated,  proceed with adding
             //For Validation
             ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -158,10 +158,10 @@ public class ProjectController {
                     String emp_id = "101";
                     return projectService.editProjectInfo(id, project, emp_id, manager_ids, client_id, type_id, phase_ids, tech_ids, project_status_id, member_ids);
                 }
-            // } else {
-            //     // User is not authenticated 
-            //     return ResponseEntity.status(401).body("Unauthorized");
-            // }
+            } else {
+                // User is not authenticated 
+                return ResponseEntity.status(401).body("Unauthorized");
+            }
     }
 
     @PutMapping("/delete/{id}")

@@ -1,17 +1,10 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+
 import Box from "@mui/material/Box";
-import logo from "../../Assets/logo (blue).png";
-import bg from "../../Assets/bg4.png";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { login } from "../../redux/saga/sessionSaga";
 import { Card, makeStyles } from "@material-ui/core";
-import { FormHelperText, InputAdornment } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { RootState } from "../../redux/store/store";
-import { Error, Info } from "@mui/icons-material";
 import React from "react";
+import AnimatedSvg from "../../Assets/backgrounds/animatedSvg.svg";
+import SplatterSvg from "../../Assets/backgrounds/depth6.jpg"
+import LoginCard from "./LoginCard";
 
 const userStyle = makeStyles({
 	background: {
@@ -19,28 +12,34 @@ const userStyle = makeStyles({
 		width: "100vw",
 		display: "flex !important",
 		alignItems: "center",
-		justifyContent: "center",
-		backgroundImage: `url(${bg})`,
+		justifyContent: "space-around",
+		backgroundColor: "white",
+		position: "absolute",
+		top: 0,
+		left: 0,
+		backgroundImage: `url(${SplatterSvg})`,
 		backgroundSize: "cover",
-		backgroundPosition: "center",
+		// backgroundPosition: "center",
 		backgroundRepeat: "no-repeat",
-		//media query
-		"@media (max-width: 468px)": {
-			backgroundImage: "none",
-		},
+
 	},
 	loginCard: {
+		/* From https://css.glass */
+		// background: "rgba(255, 255, 255, 0.06)",
+		borderRadius: '16px',
+		boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+		backdropFilter: 'blur(14px)',
+		border: '1px solid rgba(255, 255, 255, 1)',
 		display: "flex",
 		//borderRadius: "20px",
 		flexDirection: "column",
 		alignItems: "center",
 		//boxShadow: "rgba(166, 223, 255, 0.5) 0px 7px 29px 0px"
 		//boxShadow: "rgba(100, 100, 111, 0.5) 0px 7px 29px 0px",
-		height: "350px",
-		width: "250px",
+		height: "50%",
+		width: "40%",
 		padding: "50px",
 		backgroundColor: "#fff",
-		margin: "auto",
 		//media query
 		"@media (max-width: 380px)": {
 			//border: "1px solid red",
@@ -71,150 +70,97 @@ const userStyle = makeStyles({
 });
 const LoginBox = () => {
 	const classes = userStyle();
-	const dispatch = useDispatch();
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
-	const [isValid, setIsValid] = useState(true);
-	const [errorIcon, setErrorIcon] = useState<JSX.Element>();
-	const [helperText, setHelperText] = useState("");
-
-	const navigate = useNavigate();
-
-	// /* THIS LINE IS USED TO FETCHED THE LOGGED IN USER'S INFO */
-	// const loggedUser = useSelector((state: RootState) => {
-	// 	return state.sessionReducer.user;
-	// });
-
-	// let isAuth = localStorage.getItem("isAuthenticated");
-
-	// /* THIS LINE IS USED TO FETCHED THE AUTHENTICATION STATUS */
-	// const isAuthenticated = useSelector((state: RootState) => {
-	// 	return state.sessionReducer.isAuthenticated;
-	// });
-
-	React.useEffect(() => {
-		// Remove this entire useEffect block
-	  }, [dispatch]);
-
-	const handleLogin = (event: React.FormEvent) => {
-		event.preventDefault();
-		dispatch(login({ username, password }));
-	};
-
-	// /* VALIDATE IF A USER IS LOGGED IN */
-	// useEffect(() => {
-	// 	if (loggedUser !== null) {
-	// 		navigate("/dashboard");
-	// 	}
-	// });
-
-	// const handleLogin = (event: React.FormEvent) => {
-	// 	event.preventDefault();
-	// 	if (username && password) {
-	// 		dispatch(login({ username, password }));
-	// 		if (loggedUser === null) {
-	// 			setHelperText("Incorrect username or password.");
-	// 			setPassword("");
-	// 			setIsValid(false);
-	// 			setErrorIcon(
-	// 				<InputAdornment position="end">
-	// 					<Error sx={{ color: "red" }} />
-	// 				</InputAdornment>
-	// 			);
-	// 		}
-	// 	} else {
-	// 		setIsValid(false);
-	// 		setHelperText("Both fields are required");
-	// 		setErrorIcon(
-	// 			<InputAdornment position="end">
-	// 				<Error sx={{ color: "red" }} />
-	// 			</InputAdornment>
-	// 		);
-	// 	}
-	// };
 
 	return (
 		<Box component="div" className={classes.background}>
-			<Card className={classes.loginCard}>
-				{/* Container of logo */}
-				<Box component="img" src={logo} className={classes.logo}></Box>
-				{/* Container of username, pass, login btn, about us */}
-				<Box
-					component="form"
-					noValidate
-					onSubmit={handleLogin}
-					className={classes.loginForm}
-				>
-					<TextField
-						margin="normal"
-						fullWidth
-						id="username"
-						label="Username"
-						name="username"
-						autoFocus
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-						error={!isValid}
-						InputProps={{
-							endAdornment: errorIcon,
-						}}
-					/>
-					<TextField
-						margin="none"
-						fullWidth
-						name="password"
-						label="Password"
-						type="password"
-						id="password"
-						autoComplete="current-password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						error={!isValid}
-						InputProps={{
-							endAdornment: errorIcon,
-						}}
-					/>
-					<FormHelperText
-						style={{
-							textAlign: "center",
-							fontSize: "13px",
-						}}
-						error={!isValid}
+			<div style={{height:"100%" , width:"50%",display:"flex", alignItems:"center", justifyContent:"center"}}>
+				<div style={{ height: "80%", width: "80%", }}>
+					<img src={AnimatedSvg} alt="" height="100%" width="100%" />
+				</div>
+			</div>
+			<div style={{height:"100%" , width:"50%", display:"flex", alignItems:"center", justifyContent:"flex-start", }}>
+				{/* <Card className={classes.loginCard}>
+					
+					<Box component="img" src={logo} className={classes.logo}></Box>
+					<Box
+						component="form"
+						noValidate
+						onSubmit={handleLogin}
+						className={classes.loginForm}
 					>
-						{helperText}
-					</FormHelperText>
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						sx={{
-							mt: 3,
-							mb: 2,
-							fontWeight: 700,
-						}}
-					>
-						LOG IN
-					</Button>
-					<Button
-						fullWidth
-						variant="text"
-						disableTouchRipple
-						size="small"
-						onMouseOver={(e) => {
-							e.currentTarget.style.backgroundColor =
-								"transparent";
-						}}
-						sx={{
-							mt: 3,
-							mb: 2,
-							color: "secondary",
-						}}
-						startIcon={<Info />}
-					>
-						About Us
-					</Button>
-				</Box>
-			</Card>
+						<TextField
+							margin="normal"
+							fullWidth
+							id="username"
+							label="Username"
+							name="username"
+							autoFocus
+							value={username}
+							onChange={(e) => setUsername(e.target.value)}
+							error={!isValid}
+							InputProps={{
+								endAdornment: errorIcon,
+							}}
+						/>
+						<TextField
+							margin="none"
+							fullWidth
+							name="password"
+							label="Password"
+							type="password"
+							id="password"
+							autoComplete="current-password"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							error={!isValid}
+							InputProps={{
+								endAdornment: errorIcon,
+							}}
+						/>
+						<FormHelperText
+							style={{
+								textAlign: "center",
+								fontSize: "13px",
+							}}
+							error={!isValid}
+						>
+							{helperText}
+						</FormHelperText>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							sx={{
+								mt: 3,
+								mb: 2,
+								fontWeight: 700,
+							}}
+						>
+							LOG IN
+						</Button>
+						<Button
+							fullWidth
+							variant="text"
+							disableTouchRipple
+							size="small"
+							onMouseOver={(e) => {
+								e.currentTarget.style.backgroundColor =
+									"transparent";
+							}}
+							sx={{
+								mt: 3,
+								mb: 2,
+								color: "secondary",
+							}}
+							startIcon={<Info />}
+						>
+							About Us
+						</Button>
+					</Box>
+				</Card> */}
+				<LoginCard />
+			</div>
+
 		</Box>
 	);
 };

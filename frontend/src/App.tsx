@@ -240,6 +240,8 @@ import Cookies from 'universal-cookie';
 function App() {
 	const dispatch = useDispatch(); // Get the dispatch function from Redux
 
+
+	
 	const isAuthenticated = useSelector((state: RootState) => state.sessionReducer.isAuthenticated);
 	console.log("isAuthenticated",isAuthenticated );
 
