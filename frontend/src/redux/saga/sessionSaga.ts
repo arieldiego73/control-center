@@ -47,6 +47,8 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
     }
   };
 
+  export{apiLogin}
+
   function* loginSaga(action: ReturnType<typeof login>): any {
     try {
       const user = yield call(
