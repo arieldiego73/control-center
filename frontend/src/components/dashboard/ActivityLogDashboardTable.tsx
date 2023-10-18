@@ -133,6 +133,7 @@ export default function ActivityLogDashboardTable() {
         style={{
           fontWeight: "bold",
           verticalAlign: "baseline",
+          fontSize:"20px",
         }}
         rowSpan={todayCount}
       >
@@ -143,6 +144,7 @@ export default function ActivityLogDashboardTable() {
         style={{
           fontWeight: "bold",
           verticalAlign: "baseline",
+          fontSize:"20px",
         }}
         rowSpan={yesterdayCount}
       >
@@ -154,13 +156,14 @@ export default function ActivityLogDashboardTable() {
         style={{
           fontWeight: "bold",
           verticalAlign: "baseline",
+          fontSize:"20px",
         }}
         rowSpan={otherDates.filter((date) => date === row.date).length}
       >
         {processOtherDates(row.date)}
       </TableCell>
     ) : (
-      <TableCell style={{ fontWeight: "bold" }}>{row.date}</TableCell>
+      <TableCell style={{ fontWeight: "bold",  fontSize:"20px", }}>{row.date}</TableCell>
     );
   }
 
@@ -178,11 +181,11 @@ export default function ActivityLogDashboardTable() {
               {rows.map((row) => (
                 <TableRow key={row.id}>
                   {determineHeader(row)}
-                  <TableCell align="left" width={150}>
+                  <TableCell align="left" width={150} style={{ fontSize:"20px",}}>
                     {row.time}
                   </TableCell>
 
-                  <TableCell align="left">
+                  <TableCell align="left"  style={{ fontSize:"20px",}}>
                     {row.user} - {row.action}
                   </TableCell>
                 </TableRow>

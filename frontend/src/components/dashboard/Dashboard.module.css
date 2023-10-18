@@ -52,6 +52,7 @@
     display: flex;
     justify-content: center;
     /* border: 1px solid red; */
+    
 }
 .paper{
     width: 100%;
@@ -68,3 +69,64 @@
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     /* border:1px solid brown; */
 }
+
+/* .time{
+  font-size: 10px;
+  border: 1px solid red;
+}
+.user{
+    border: 1px solid red;
+
+    font-size: 10px;
+} */
+
+@media (max-width: 2000px) {
+    .mainContainer {
+        top:7vh;
+        height: 90vh;
+    }  
+  }
+
+  @media (max-width: 1800px) {
+    .mainContainer {
+        top:6vh;
+        height: 91vh;
+        /* border: 1px solid red; */
+    }  
+  }
+
+  @media (max-width: 1700px) {
+    .mainContainer {
+        top:5vh;
+        height: 92vh;
+        /* border: 1px solid red; */
+    }  
+  }
+
+  
+  @media (max-width: 1400px) {
+    .mainContainer {
+        top:4.5vh;  
+        height: 92.5vh;
+    }  
+    /* .actLogTable {
+        overflow: scroll ;
+    } */
+  }
+
+  @media (max-width: 1150px) {
+    .mainContainer {
+        top:5vh;  
+        /* height: 92.5vh; */
+        left: 0;
+        width: 99.5%;
+    }  
+    .actLogTable {
+        overflow: scroll ;
+    }
+  }
+  @media (max-width: 900px) {
+    .mainContainer {
+        top:4.5vh;  
+    }  
+  } 
