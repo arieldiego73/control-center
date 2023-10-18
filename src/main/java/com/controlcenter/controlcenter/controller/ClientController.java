@@ -82,7 +82,7 @@ public class ClientController{
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             } else {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString(); 
                 return ResponseEntity.status(200).body(clientService.addClient(client, emp_id));
             } 
         } else {
@@ -106,7 +106,7 @@ public class ClientController{
                 if (errors.size() > 0) { //checks the errors from validator
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
-                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                    String emp_id = httpSession.getAttribute("session").toString();
                     return clientService.editClient(id, client, emp_id);
                 }
         } else {
@@ -121,7 +121,7 @@ public class ClientController{
 
         if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString(); 
                 return ResponseEntity.ok(clientService.logicalDeleteClient(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
@@ -138,7 +138,7 @@ public class ClientController{
 
         if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
             return ResponseEntity.ok().body(clientService.deleteMultipleClient(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");
