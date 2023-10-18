@@ -16,11 +16,14 @@ interface User {
 interface SessionState {
   user: User | null;
   isAuthenticated: boolean;
+  username: string | null;
+  
 }
 
 const initialState: SessionState = {
   user: null,
   isAuthenticated: localStorage.getItem('isAuthenticated') === "true" , // Read from localStorage or cookies
+  username: null
 };
 
 const sessionSlice = createSlice({
@@ -30,6 +33,7 @@ const sessionSlice = createSlice({
     setUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
       state.isAuthenticated = true;
+      state.username = action.payload?.username || null; // Store the username
       cookies.set('isAuthenticated', 'true'); // Set the 'isAuthenticated' cookie
     },
     clearUser: (state) => {
