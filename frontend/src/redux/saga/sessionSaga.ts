@@ -35,7 +35,7 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
         };
   
         // Store authentication status in localStorage and Redux state
-        cookies.set('isAuthenticated', 'true', { path: '/' });
+        cookies.set('isAuthenticated', 'true');
         localStorage.setItem('isAuthenticated', 'true');
         cookies.set('username', username);
         cookies.set('password', password);
@@ -64,7 +64,7 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
         yield put(setUser(user));
   
         // Set the 'isAuthenticated' cookie and localStorage value
-        cookies.set('isAuthenticated', 'true', { path: '/' });
+        cookies.set('isAuthenticated', 'true');
         localStorage.setItem('isAuthenticated', 'true');
   
         // Dispatch the authentication status as true
