@@ -272,15 +272,13 @@ function App() {
   useEffect(() => {
     // Check if the user is authenticated in localStorage
     const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-	console.log(isAuthenticated + "---------------");
 	
     if (isAuthenticated) {
       // If the user is authenticated, call the login API to get user info
       const username = cookies.get('username'); // Retrieve the username from localStorage
       const password = cookies.get('password'); // Replace with the actual way you retrieve the password or token
-	  console.log(isAuthenticated + "++++++++++");
+	  
       if (isAuthenticated && username && password) {
-		console.log(isAuthenticated + "[][][][][");
         apiLogin(username, password)
           .then((userData) => {
             if (userData) {
@@ -288,8 +286,7 @@ function App() {
               dispatch(setUser(userData)); // You should define the setUser action
               // Dispatch an action to update the authentication status
               dispatch(setAuthenticationStatus(true)); // You should define the setAuthenticationStatus action
-			  console.log("userData::::::" + userData);
-			  
+			  		  
             }
           })
           .catch((error) => {
@@ -298,8 +295,6 @@ function App() {
       }
     }
   }, [dispatch]);
-
-  console.log(isAuthenticated + "//////////");
 
 	return (
 		<BrowserRouter>
