@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
             // Activitylog
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
-            activityLogInput.setEmp_id("101"); // current logged user dapat
+            activityLogInput.setEmp_id(user.getEmp_id()); // current logged user dapat
             activityLogInput.setLog_desc("Has signed in.");
 
             Long currentTimeMillis = System.currentTimeMillis();

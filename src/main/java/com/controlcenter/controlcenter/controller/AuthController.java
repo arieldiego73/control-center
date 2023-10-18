@@ -78,12 +78,12 @@ public class AuthController {
     // Logout remove httpsession
     @GetMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(HttpSession session) {
-
+        String emp_id = session.getAttribute("session").toString();
         if (session != null) {
             session.invalidate();
         }
 
-        return ResponseEntity.ok(authServiceImpl.logout("101"));
+        return ResponseEntity.ok(authServiceImpl.logout(emp_id));
     }
 
     // Checker session
