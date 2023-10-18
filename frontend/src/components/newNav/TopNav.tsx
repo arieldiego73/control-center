@@ -11,6 +11,8 @@ import defaultProfile from "../../Assets/userImage/MaleDefaultProfile.jpg"
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/saga/sessionSaga"; // Import the logout action
 import { RootState } from "../../redux/store/store";
+import { getUserInfo } from "../../redux/saga/userSaga";
+import { setUserImg } from "../../redux/state/sessionState";
 
 export interface TopNavProps {
   pageTitle?: string; // Make pageTitle optional with '?'
@@ -52,7 +54,19 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
     dispatch(logout());
   };
 
-  const user = useSelector((state: RootState) => state.session.user);
+  const user = useSelector((state: RootState) => state.sessionReducer.user);
+  const updatedUserInfo = useSelector((state: RootState) => state.userReducer.userInfo)
+
+
+  React.useEffect(() => {
+    if (user?.img === "" && updatedUserInfo.img_src !== "") {
+      if(user?.id === updatedUserInfo.emp_id) {
+        dispatch(setUserImg(updatedUserInfo.img_src));
+        console.log("NALAGYAN NAAAAAAAA", user)
+        console.log("ito nilagay: ", updatedUserInfo.img_src)
+      }
+    }
+  }, [user])
 
   return (
     <div className={TopNavStyle.topnavContainer}>

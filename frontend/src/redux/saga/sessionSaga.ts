@@ -23,22 +23,23 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
         headers: { "Content-Type": "application/json" },
       }
     );
-      if (response.data.status === "active") {
-        const user = {
+    if (response.data.status === "active") {
+          const user = {
+          id: response.data.id,
           username: response.data.username,
           fullName: response.data.fullName,
           email: response.data.email, // Retrieve the email from the server response
           img: response.data.img,
         };
-  
+
         // Store authentication status in localStorage and Redux state
         cookies.set('isAuthenticated', 'true', { path: '/' });
         localStorage.setItem('isAuthenticated', 'true');
   
         return user;
-      } else {
-        return null;
-      }
+          } else {
+      return null;
+    }
     } catch (error) {
       console.error("An error occurred:", error);
       throw error;
@@ -52,7 +53,7 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
         action.payload.username,
         action.payload.password
       );
-  
+        
       if (user) {
         yield put(setUser(user));
   

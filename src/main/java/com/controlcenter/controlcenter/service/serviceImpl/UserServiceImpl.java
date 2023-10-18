@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -308,7 +310,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ResponseEntity<String> editAccount(String id, AccountOutput accountBody, List<Long> role_ids, String emp_id,
-      @RequestParam(value = "photo", required = false) MultipartFile photo) {
+      @RequestParam(value = "photo", required = false) MultipartFile photo, HttpSession httpSession) {
     HashMap<String, Object> userMap = new HashMap<>();
     HashMap<String, Object> personalInfoMap = new HashMap<>();
 
@@ -509,6 +511,8 @@ public class UserServiceImpl implements UserService {
             activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInputForRoles);
           }
+
+        
           // for(UserRoles userRole : rolesOfUser) {
           // multiRoleDao.permaDeleteRoleOfUser(accountBody.getEmp_id(),
           // userRole.getRole_id());
