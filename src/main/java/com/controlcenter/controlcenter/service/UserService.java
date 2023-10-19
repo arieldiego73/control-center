@@ -50,5 +50,5 @@ public interface UserService {
   public ResponseEntity<List<UserInfoOutput>> getAllPossibleManager();
 
   //change the password of a user
-  public ResponseEntity<String> changePassword(String user_id, String admin_password, String new_password, String confirm_new_password);
+  public ResponseEntity<String> changePassword(String user_id, String admin_password, String new_password, String confirm_new_password, String principal_id);
 }

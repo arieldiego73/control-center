@@ -65,7 +65,7 @@ public class DevTypeController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                    String emp_id = httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(devTypeService.addDevType(devType, emp_id));
                 }
         } else {
@@ -89,7 +89,7 @@ public class DevTypeController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                    String emp_id = httpSession.getAttribute("session").toString();
                     return devTypeService.editDevTypeInfo(id, devType, emp_id);
                 }
         } else {
@@ -105,7 +105,7 @@ public class DevTypeController {
 
         if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(devTypeService.logicalDeleteDevType(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
@@ -123,7 +123,7 @@ public class DevTypeController {
 
         if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
             return ResponseEntity.ok().body(devTypeService.deleteMultipleDevType(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");

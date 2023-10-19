@@ -479,7 +479,7 @@ export default function EditUser() {
                         helperText={
                           formSubmitted && assocID === "" ? "Associate ID required" : ""
                         }
-                        // disabled
+                        disabled
                         variant="outlined"
                         size="small"
                         placeholder="Associate ID"

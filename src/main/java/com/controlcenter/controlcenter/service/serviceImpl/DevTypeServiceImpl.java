@@ -105,14 +105,14 @@ public class DevTypeServiceImpl implements DevTypeService {
                         ActivityLogInput activityLogInput = new ActivityLogInput();
 
                         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + devType.getDev_type_name() + "' development type.");
+                        activityLogInput.setLog_desc("Edited the short name of '" + devType.getDev_type_name() + "' development type.");
 
                         Long currentTimeMillis = System.currentTimeMillis();
                         // add the activity log
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
 
-                        return ResponseEntity.ok().body("Edited a short name '" + devType.getDev_type_sh_name() + "' of the Development Type '"+ devType.getDev_type_name()+"' Successfully ");
+                        return ResponseEntity.ok().body("Edited '" + devType.getDev_type_name() + "' Successfully ");
                     }
                  
                 }  

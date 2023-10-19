@@ -6,8 +6,6 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
 import com.controlcenter.controlcenter.model.AuthResponse;
-import com.controlcenter.controlcenter.model.UserInfoOutput;
-import com.controlcenter.controlcenter.model.UserOutput;
 
 public interface AuthService {
     //authentication service
