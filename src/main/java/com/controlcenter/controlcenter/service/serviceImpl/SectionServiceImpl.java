@@ -234,7 +234,7 @@ public class SectionServiceImpl implements SectionService {
         } 
 
         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple departments: " + formattedList.toString() + ".");
+        activityLogInput.setLog_desc("Deleted multiple Departments: " + formattedList.toString() + ".");
 
         // add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
