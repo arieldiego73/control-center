@@ -50,5 +50,7 @@ public interface UserDao {
    void changePassword(String user_id, String new_password);
 
    void updateUserPicture(UserInfoOutput userOutput);
+
+   UserInfoOutput principalInfo(String emp_id);
   
 }
