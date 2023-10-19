@@ -186,21 +186,44 @@
 
 
 
-/* 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 2559px) {
+  .mainContainer {
+    top: 130px;
+    height: 84.5vh;
+  }
+}
+@media screen and (max-width: 1900px) {
+  .mainContainer {
+    top: 120px;
+    height: 84.5vh;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .mainContainer {
+    top: 110px;
+    height: 85vh;
+  }
+}
+ /* @media screen and (max-width: 1200px) {
   .mainContainer {
     width: 97.4%;
     left: 1.3%;
   }
-}
-
-
+}  */
+@media screen and (max-width: 1199px) {
+  .mainContainer {
+    position: fixed;
+    top: 100px;
+    left: 2vw;
+    width: 96vw;
+    height: 87vh;
+  }
+}  
 @media screen and (max-width: 750px) {
   .mainContainer {
     top: 70px;
   }
 }
-
 @media screen and (max-width: 850px) {
   .form,
   .nameForm,
@@ -226,19 +249,6 @@
     height: 95%;
   }
 }
-
-@media screen and (max-height: 850px) {
-  .mainContainer{
-    top: 85px;
-  }
-}
-@media screen and (max-height: 760px) {
-  .mainContainer{
-    top: 75px;
-  }
-} */
-
-/* 
 @media screen and (max-width: 650px) {
   .contentHolder{
     position: relative;
@@ -269,39 +279,24 @@
     gap: 10px;
   }
 } 
+@media screen and (max-height: 850px) {
+  .mainContainer{
+    top: 85px;
+  }
+}
 
+@media screen and (max-height: 760px) {
+  .mainContainer{
+    top: 75px;
+  }
+} 
 @media screen and (max-height: 650px) {
   .mainContainer {
     top: 70px;
   }
-} */
+} 
 
 
 
-/* @media screen and (max-width: 2559px) {
-  .mainContainer {
-    top: 130px;
-    height: 84.5vh;
-  }
-}
-@media screen and (max-width: 1900px) {
-  .mainContainer {
-    top: 120px;
-    height: 84.5vh;
-  }
-}
-@media screen and (max-width: 1400px) {
-  .mainContainer {
-    top: 110px;
-    height: 85vh;
-  }
-}
-@media screen and (max-width: 1199px) {
-  .mainContainer {
-    position: fixed;
-    top: 100px;
-    left: 2vw;
-    width: 96vw;
-    height: 87vh;
-  }
-} */
+
+

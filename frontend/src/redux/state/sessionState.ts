@@ -15,13 +15,15 @@ interface SessionState {
   user: User | null;
   isAuthenticated: boolean;
   username: string | null;
-  
+  error: string | null; 
 }
 
 const initialState: SessionState = {
   user: null,
   isAuthenticated: localStorage.getItem('isAuthenticated') === "true" , // Read from localStorage or cookies
-  username: null
+  username: null,
+  error: null, // Initialize error as null
+
 };
 
 const sessionSlice = createSlice({
@@ -63,6 +65,12 @@ const sessionSlice = createSlice({
     setUserImg: (state, action) => {
 			state.user!.img = action.payload.img_src
 		},
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
+    },
+    clearError: (state) => {
+			state.error = "";
+		},
   },
 });
 
@@ -75,7 +83,9 @@ export const {
 	getAuthStatus,
 	logoutUser,
   setUserNameAndEmail,
-  setUserImg
+  setUserImg,
+  setError, // Add this line to export the setError action
+  clearError,
 } =
   sessionSlice.actions;
 
