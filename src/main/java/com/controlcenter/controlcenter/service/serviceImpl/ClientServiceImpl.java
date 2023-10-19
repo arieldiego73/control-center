@@ -103,14 +103,14 @@ public class ClientServiceImpl implements ClientService{
                         ActivityLogInput activityLogInput = new ActivityLogInput();
 
                         activityLogInput.setEmp_id(emp_id); //current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + client.getClient_name() + "' client.");
+                        activityLogInput.setLog_desc("Edited the short name of '" + client.getClient_name() + "' client.");
 
                         Long currentTimeMillis = System.currentTimeMillis();
                         //add the activity log
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
                         
-                        return ResponseEntity.ok().body("Edited a short name '" + client.getClient_sh_name() + "' of the Client '" + client.getClient_name() + "' successfully.");
+                        return ResponseEntity.ok().body("Edited '" + client.getClient_name() + "' Successfully.");
                     }
                 }
             
@@ -187,7 +187,7 @@ public class ClientServiceImpl implements ClientService{
         }
 
         activityLogInput.setEmp_id(emp_id); //current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple clients: " + formattedList.toString() + ".");
+        activityLogInput.setLog_desc("Deleted multiple Clients: " + formattedList.toString() + ".");
 
         //add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
