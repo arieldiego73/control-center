@@ -49,7 +49,7 @@ public class RoleServiceImpl implements RoleService {
       ActivityLogInput activityLogInput = new ActivityLogInput();
 
       activityLogInput.setEmp_id(emp_id); // current logged user dapat
-      activityLogInput.setLog_desc("Added a role.");
+      activityLogInput.setLog_desc("Added '" + role.getTitle() + "' role.");
 
       Long currentTimeMillis = System.currentTimeMillis();
       // Add the activity log
@@ -96,7 +96,7 @@ public class RoleServiceImpl implements RoleService {
               ActivityLogInput activityLogInput = new ActivityLogInput();
 
               activityLogInput.setEmp_id(emp_id); // current logged user dapat
-              activityLogInput.setLog_desc("Edited a Role.");
+              activityLogInput.setLog_desc("Edited '" + role.getTitle() + "' role.");
 
               Long currentTimeMillis = System.currentTimeMillis();
               // add the activity log
@@ -115,7 +115,7 @@ public class RoleServiceImpl implements RoleService {
               ActivityLogInput activityLogInput = new ActivityLogInput();
 
               activityLogInput.setEmp_id(emp_id); // current logged user dapat
-              activityLogInput.setLog_desc("Edited a Role.");
+              activityLogInput.setLog_desc("Edited '" + role.getTitle() + "' role.");
 
               Long currentTimeMillis = System.currentTimeMillis();
               // add the activity log
@@ -134,7 +134,7 @@ public class RoleServiceImpl implements RoleService {
               ActivityLogInput activityLogInput = new ActivityLogInput();
 
               activityLogInput.setEmp_id(emp_id); // current logged user dapat
-              activityLogInput.setLog_desc("Edited a Role.");
+              activityLogInput.setLog_desc("Edited '" + role.getTitle() + "' role.");
 
               Long currentTimeMillis = System.currentTimeMillis();
               // add the activity log
@@ -182,14 +182,14 @@ public class RoleServiceImpl implements RoleService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted a Role.");
+        activityLogInput.setLog_desc("Deleted '" + data.getTitle() + "' role.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // Add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
 
-        return "Role deleted successfully.";
+        return "Role '" + data.getTitle() + "' deleted successfully.";
       }
     } else {
       return "Role with the ID " + id + " cannot be found.";
@@ -243,11 +243,28 @@ public class RoleServiceImpl implements RoleService {
 
     // Acivitylog
     ActivityLogInput activityLogInput = new ActivityLogInput();
+    Long currentTimeMillis = System.currentTimeMillis();
+
+        List<String> roles = new ArrayList<>();
+        StringBuilder formattedList = new StringBuilder();
+
+        for(Long id : ids) {
+            String toString = String.valueOf(id);
+            RoleOutput role = roleDao.getRoleById(toString);
+            roles.add(role.getTitle());
+        }
+
+        for(String element : roles) {
+            formattedList.append("'").append(element).append("', ");
+        }
+
+        if (formattedList.length() > 0) {
+            formattedList.delete(formattedList.length() - 2, formattedList.length());
+        }
 
     activityLogInput.setEmp_id(emp_id); // current logged user dapat
-    activityLogInput.setLog_desc("Deleted multiple Roles.");
+    activityLogInput.setLog_desc("Deleted multiple roles: " + formattedList.toString() + ".");
 
-    Long currentTimeMillis = System.currentTimeMillis();
     // add the activity log
     activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
     activityLogDao.addActivityLog(activityLogInput);
