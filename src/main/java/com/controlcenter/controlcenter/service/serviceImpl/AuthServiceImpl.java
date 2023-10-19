@@ -42,10 +42,10 @@ public class AuthServiceImpl implements AuthService {
         String hashedPassword = user.getPassword();
         AuthResponse response = new AuthResponse();
 
-        if (!bCryptPasswordEncoder.matches(password, hashedPassword)) {
-            response.setErrorMessage("Incorrect password.");
-            return ResponseEntity.status(400).body(response);
-        }
+        // if(username.equals(null) && password.equals(null) || username.equals("") && password.equals("")) {
+        //     response.setErrorMessage("Please enter a username and password.");
+        //     return ResponseEntity.status(400).body(response);
+        // }
 
         // if (user != null && password.equals(user.getPassword())) {
 
@@ -66,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
 
             return ResponseEntity.ok(response);
         } else {
-            response.setErrorMessage("Account not found!");
+            response.setErrorMessage("Incorrect password.");
             return ResponseEntity.status(400).body(response);
         }
     }

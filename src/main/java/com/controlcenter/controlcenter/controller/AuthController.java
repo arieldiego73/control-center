@@ -49,8 +49,23 @@ public class AuthController {
 
         UserOutput user = userDao.getByUsername(username);
 
-        if (user == null) {
-            errorMessage.put("error", "Incorrect username.");
+        if(userOutput.getUsername().equals("") && userOutput.getPassword().equals("")) {
+            errorMessage.put("error", "Please enter a username and password.");
+            return ResponseEntity.status(400).body(errorMessage);
+        }
+
+        if (userOutput.getUsername().equals("")) {
+            errorMessage.put("error", "Please enter a valid username.");
+            return ResponseEntity.status(400).body(errorMessage);
+        }
+
+        if(userOutput.getPassword().equals("")) {
+            errorMessage.put("error", "Please enter your password.");
+            return ResponseEntity.status(400).body(errorMessage);
+        }
+
+        if(user == null) {
+            errorMessage.put("error", "Account does not exist.");
             return ResponseEntity.status(400).body(errorMessage);
         }
 
