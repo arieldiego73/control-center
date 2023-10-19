@@ -64,7 +64,7 @@ public class UserController {
   }
 
   @PostMapping("/create-account")
-  public ResponseEntity<String> addAccount(@ModelAttribute AccountInput account, @RequestParam List<Long> role_ids, @RequestParam(value = "photo",required = false) MultipartFile photo) {
+  public ResponseEntity<String> addAccount(@ModelAttribute AccountInput account, @RequestParam List<Long> role_ids, @RequestParam(value = "photo",required = false) MultipartFile photo, HttpSession httpSession) {
     //For Validation
     ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
     Validator validator = validatorFactory.getValidator();
@@ -73,7 +73,7 @@ public class UserController {
       if (errors.size() > 0) { //checks the errors from validator
           return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
       } else{
-        String emp_id = "101"; //httpSession.getAttribute("session").toString();
+        String emp_id = httpSession.getAttribute("session").toString();
           return userService.addAccount(account, role_ids, emp_id, photo);
       }
   }
@@ -88,15 +88,15 @@ public class UserController {
       if (error.size() > 0) { //checks the errors from validator
         return ResponseEntity.status(400).body(errorHandler.getErrors(error));
       }else{
-        String emp_id = "101"; // httpSession.getAttribute("session").toString();
+        String emp_id = httpSession.getAttribute("session").toString();
         return userService.editAccount(id, accountBody, role_ids, emp_id, photo, httpSession);
       }
   }
 
   @PutMapping("/delete/{id}")
-  public ResponseEntity<String> logicalDeleteUser(@PathVariable String id) {
+  public ResponseEntity<String> logicalDeleteUser(@PathVariable String id, HttpSession httpSession) {
     try {
-      String emp_id = "101"; // httpSession.getAttribute("session").toString();
+      String emp_id = httpSession.getAttribute("session").toString();
       return userService.logicalDeleteUser(id, emp_id);
     } catch (Exception e) {
       return ResponseEntity.status(500).build();
@@ -104,13 +104,13 @@ public class UserController {
   }
 
   @PutMapping("/delete-multiple")
-    public ResponseEntity<String> deleteMultipleUser(@RequestParam List<String> ids) {
+    public ResponseEntity<String> deleteMultipleUser(@RequestParam List<String> ids, HttpSession httpSession) {
         // Check uf the user is authenticated
         // Boolean isAuthenticated = (Boolean) httpSession.getAttribute("isAuthenticated");
 
         // if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
               return ResponseEntity.ok().body(userService.deleteMultipleUser(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");
