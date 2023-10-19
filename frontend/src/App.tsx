@@ -12,7 +12,7 @@ import EditProjectHandler from "./pages/EditProjectHandler"
 import DevelopmentPhaseHandler from "./pages/DevelopmentPhaseHandler";
 import ProjectStatusHandler from "./pages/ProjectStatusHandler";
 import DashboardHandler from "./pages/DashboardHandler";
-import ActivityLogDashboardTable from "./components/dashboard/ActivityLogDashboardTable";
+// import ActivityLogDashboardTable from "./components/dashboard/ActivityLogDashboardTable";
 import EmployeeStatusHandler from "./pages/EmployeeStatusHandler";
 import EmployeePositionHandler from "./pages/EmployeePositionHandler";
 import DepartmentHandler from "./pages/DepartmentHandler";
@@ -86,7 +86,7 @@ function App() {
 						<Route path="/development-phase/*" Component={DevelopmentPhaseHandler} />
 						<Route path="/clients/*" Component={ClientHandler} />
 						<Route path="/project-status/*" Component={ProjectStatusHandler} />
-						<Route path="/dashboard-table" Component={ActivityLogDashboardTable} />
+						{/* <Route path="/dashboard-table" Component={ActivityLogDashboardTable} /> */}
 						<Route path="/employee-status/*" Component={EmployeeStatusHandler} />
 						<Route path="/employee-position/*" Component={EmployeePositionHandler} />
 						<Route path="/business-unit/*" Component={BusinessUnitHandler} />

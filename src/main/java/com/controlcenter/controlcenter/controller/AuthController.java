@@ -9,14 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.dao.UserDao;
+import com.controlcenter.controlcenter.model.AuthResponse;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
+import com.controlcenter.controlcenter.service.AuthService;
+import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.service.serviceImpl.AuthServiceImpl;
 
 import javax.servlet.http.Cookie;
@@ -32,17 +36,33 @@ public class AuthController {
     @Autowired 
     private UserDao userDao;
 
+    @Autowired
+    private AuthService authService;
+
     // Login session
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> authUser(@RequestBody UserOutput userOutput, HttpSession http, HttpServletResponse response) {
         Map<String, String> authResponse = new HashMap<>();
+        Map<String, String> errorMessage = new HashMap<>();
         String username = userOutput.getUsername();
         String password = userOutput.getPassword();
 
-        UserOutput authUser = authServiceImpl.authUser(username, password);
+        UserOutput user = userDao.getByUsername(username);
 
+        if (user == null) {
+            errorMessage.put("error", "Incorrect username.");
+            return ResponseEntity.status(400).body(errorMessage);
+        }
+
+        ResponseEntity<AuthResponse> authUser = authServiceImpl.authUser(username, password);
+
+        if(authUser.getStatusCode().value() > 200) {
+
+            errorMessage.put("error", authUser.getBody().getErrorMessage());
+            return ResponseEntity.status(400).body(errorMessage);
+        }
         if (authUser != null) {
-            http.setAttribute("session", authUser.getEmp_id());
+            http.setAttribute("session", authUser.getBody().getUserOutput().getEmp_id());
             http.setAttribute("isAuthenticated", true);
 
             // // Set a cookie for session-based authentication
@@ -53,16 +73,15 @@ public class AuthController {
             authCookie.setSecure(true);
             response.addCookie(authCookie);
 
-            UserInfoOutput currentLoggedUser = userDao.getUserById(authUser.getEmp_id());
+            UserInfoOutput currentLoggedUser = userDao.getUserById(authUser.getBody().getUserOutput().getEmp_id());
 
             System.out.println(currentLoggedUser.getImg_src());
 
             authResponse.put("status", "active");
             authResponse.put("username", currentLoggedUser.getUsername());
-            authResponse.put("id", currentLoggedUser.getEmp_id());
-            authResponse.put("fullName", currentLoggedUser.getFname() + " " + currentLoggedUser.getLname());
+            authResponse.put("Employee ID", currentLoggedUser.getEmp_id());
+            authResponse.put("fullName", currentLoggedUser.getFname() + " " + currentLoggedUser.getMname() + " " + currentLoggedUser.getLname());
             authResponse.put("email", currentLoggedUser.getEmail());
-
             authResponse.put("img", currentLoggedUser.getImg_src());
             
 
@@ -99,6 +118,18 @@ public class AuthController {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/principal")
+    public ResponseEntity<AuthResponse> principalInfo(HttpSession httpSession) {
+        AuthResponse response = new AuthResponse();
+        String emp_id = httpSession.getAttribute("session").toString();
+        try {
+            return authService.principalInfo(emp_id);
+        } catch (Exception e) {
+            response.setErrorMessage(e.getMessage());
+            return ResponseEntity.status(500).body(response);
+        }
     }
 
 }
