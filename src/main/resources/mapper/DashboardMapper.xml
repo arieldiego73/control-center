@@ -159,12 +159,10 @@
         LEFT JOIN tbl_project_mst as project
         ON tpi.proj_id = project.proj_id
         WHERE
-            project.del_flag = 0
-            AND EXTRACT(YEAR FROM project.reg_date) = EXTRACT(YEAR FROM CURRENT_DATE)
-            AND EXTRACT(MONTH FROM project.reg_date) = EXTRACT(MONTH FROM CURRENT_DATE)
-            AND (proj_status.proj_status_name = "Closed"
-            OR proj_status.proj_status_name = "Finished")
-            OR (proj_status.proj_status_name = 'Ongoing' OR proj_status.proj_status_name = 'Pending')
+              EXTRACT(YEAR FROM project.reg_date) = EXTRACT(YEAR FROM CURRENT_DATE)
+          AND EXTRACT(MONTH FROM project.reg_date) = EXTRACT(MONTH FROM CURRENT_DATE)
+          AND ((proj_status.proj_status_name = "Closed" OR proj_status.proj_status_name = "Finished") AND project.del_flag = 0)
+           OR ((proj_status.proj_status_name = 'Ongoing' OR proj_status.proj_status_name = 'Pending') AND project.del_flag = 0)
         GROUP BY
             proj_status.proj_status_id, proj_status.proj_status_name;
     </select>
