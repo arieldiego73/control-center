@@ -116,7 +116,7 @@ public class SectionServiceImpl implements SectionService {
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
 
-                        return ResponseEntity.ok().body("Edited a short name '" + section.getSection_sh_name() + "' of the Department '" + section.getSection_name() + "' successfully.");
+                        return ResponseEntity.ok().body("Edited '" + section.getSection_name() + "' successfully.");
                     } else if(!section.getDept_id().equals(data.getDept_id())){
                         Map<String, Object> paramMap = new HashMap<>();
                         paramMap.put("id", id);
@@ -135,7 +135,7 @@ public class SectionServiceImpl implements SectionService {
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
 
-                        return ResponseEntity.ok().body("Edited business unit '" + section.getDept_id() + "' of the Department '" + section.getSection_name() + "' successfully.");
+                        return ResponseEntity.ok().body("Edited '" + section.getSection_name() + "' successfully.");
                     } else {
                         Map<String, Object> paramMap = new HashMap<>();
                         paramMap.put("id", id);
@@ -154,7 +154,7 @@ public class SectionServiceImpl implements SectionService {
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
 
-                        return ResponseEntity.ok().body("Edited description '" + section.getSection_desc() + "' of the Department '" +  section.getSection_name() + "' successfully.");
+                        return ResponseEntity.ok().body("Edited '" + section.getSection_name() + "' successfully.");
                     }
                 
                 }
