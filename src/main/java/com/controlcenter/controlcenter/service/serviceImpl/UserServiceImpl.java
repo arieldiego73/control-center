@@ -721,12 +721,18 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ResponseEntity<String> changePassword(String user_id, String admin_password, String new_password,
-      String confirm_new_password) {
+      String confirm_new_password, String principal_id) {
+
+    //This is the user whose password will be modified.
     UserInfoOutput user = userDao.getUserById(user_id);
+
+    //Currently logged in user
+    UserInfoOutput principal = userDao.principalInfo(principal_id);
 
     // dummy data for admin password. It should be the password of the currently
     // logged in user.
-    boolean isMatched = admin_password.equals("admin123");
+    // boolean isMatched = admin_password.equals("admin123");
+    boolean isMatched = passEnc.matches(admin_password, principal.getPassword());
 
     if (user == null) {
       return ResponseEntity.notFound().build();
