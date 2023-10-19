@@ -325,7 +325,7 @@ public class UserServiceImpl implements UserService {
           return perRole.getRole_id();
         }).collect(Collectors.toList());
 
-    boolean areEqueal = userRoleIds.equals(role_ids);
+    boolean areRolesEqueal = userRoleIds.equals(role_ids);
 
     try {
       if (userBodyChecker == null) {
@@ -394,7 +394,7 @@ public class UserServiceImpl implements UserService {
         && accountBody.getPosition_id() == userBodyChecker.getPosition_id()
         && accountBody.getDept_id() == userBodyChecker.getDept_id()
         && accountBody.getSection_id() == userBodyChecker.getSection_id()
-        && areEqueal) {
+        && areRolesEqueal) {
       return ResponseEntity.ok().body("No changes were made.");
     } else {
           user.setEmp_id(accountBody.getEmp_id());
@@ -441,9 +441,11 @@ public class UserServiceImpl implements UserService {
           RoleOutput role = new RoleOutput();
 
           for (Long role_id : userRoleIds) {
+            if(!role_ids.contains(role_id)) {  
               multiRoleDao.permaDeleteRoleOfUser(user.getEmp_id(), role_id);
               role = roleDao.getRoleById(String.valueOf(role_id));
               removedNames.add(role.getTitle());
+            }
           }
 
           for (String element : removedNames) {
@@ -475,9 +477,11 @@ public class UserServiceImpl implements UserService {
           }
 
           for (Long role_id : role_ids) {
-            multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
-            role = roleDao.getRoleById(String.valueOf(role_id));
-            addedNames.add(role.getTitle());
+            if(!userRoleIds.contains(role_id)) {
+              multiRoleDao.addMultiRole(user.getEmp_id(), role_id);
+              role = roleDao.getRoleById(String.valueOf(role_id));
+              addedNames.add(role.getTitle());
+            }
           }
 
           for (String element : addedNames) {
