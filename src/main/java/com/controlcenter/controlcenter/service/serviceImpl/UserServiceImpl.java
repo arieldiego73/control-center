@@ -465,7 +465,7 @@ public class UserServiceImpl implements UserService {
             // add the activity log
             activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInputForRoles);
-          } else {
+          } else if (removedNames.size() == 1) {
             ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
 
             activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
@@ -501,7 +501,7 @@ public class UserServiceImpl implements UserService {
             // add the activity log
             activityLogInputForRoles.setLog_date(timeFormatter.formatTime(currentTimeMillis));
             activityLogDao.addActivityLog(activityLogInputForRoles);
-          } else {
+          } else if (addedNames.size() == 1) {
             ActivityLogInput activityLogInputForRoles = new ActivityLogInput();
 
             activityLogInputForRoles.setEmp_id(emp_id); // current logged user dapat
