@@ -50,7 +50,7 @@ public class SectionServiceImpl implements SectionService {
             ActivityLogInput activityLogInput = new ActivityLogInput();
 
             activityLogInput.setEmp_id(emp_id); // current logged user dapat
-            activityLogInput.setLog_desc("Added '" + section.getSection_name() + "' section.");
+            activityLogInput.setLog_desc("Added '" + section.getSection_name() + "' department.");
 
             Long currentTimeMillis = System.currentTimeMillis();
             // add the activity log
@@ -90,7 +90,7 @@ public class SectionServiceImpl implements SectionService {
                         ActivityLogInput activityLogInput = new ActivityLogInput();
 
                         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + section.getSection_name() + "' section.");
+                        activityLogInput.setLog_desc("Edited '" + section.getSection_name() + "' department.");
 
                         Long currentTimeMillis = System.currentTimeMillis();
                         // add the activity log
@@ -109,7 +109,7 @@ public class SectionServiceImpl implements SectionService {
                         ActivityLogInput activityLogInput = new ActivityLogInput();
 
                         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + section.getSection_name() + "' section.");
+                        activityLogInput.setLog_desc("Edited the short name of '" + section.getSection_name() + "' department.");
 
                         Long currentTimeMillis = System.currentTimeMillis();
                         // add the activity log
@@ -128,14 +128,14 @@ public class SectionServiceImpl implements SectionService {
                         ActivityLogInput activityLogInput = new ActivityLogInput();
 
                         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + section.getSection_name() + "' section.");
+                        activityLogInput.setLog_desc("Edited the business unit of '" + section.getSection_name() + "' department.");
 
                         Long currentTimeMillis = System.currentTimeMillis();
                         // add the activity log
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
 
-                        return ResponseEntity.ok().body("Edited business unit  '" + section.getDept_id() + "' of the Department '" + section.getSection_name() + "' successfully.");
+                        return ResponseEntity.ok().body("Edited business unit '" + section.getDept_id() + "' of the Department '" + section.getSection_name() + "' successfully.");
                     } else {
                         Map<String, Object> paramMap = new HashMap<>();
                         paramMap.put("id", id);
@@ -147,7 +147,7 @@ public class SectionServiceImpl implements SectionService {
                         ActivityLogInput activityLogInput = new ActivityLogInput();
 
                         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + section.getSection_name() + "' section.");
+                        activityLogInput.setLog_desc("Edited the description of '" + section.getSection_name() + "' department.");
 
                         Long currentTimeMillis = System.currentTimeMillis();
                         // add the activity log
@@ -185,14 +185,14 @@ public class SectionServiceImpl implements SectionService {
         ActivityLogInput activityLogInput = new ActivityLogInput();
 
         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted '" + section.getSection_name() + "' section.");
+        activityLogInput.setLog_desc("Deleted '" + section.getSection_name() + "' department.");
 
         Long currentTimeMillis = System.currentTimeMillis();
         // add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
         activityLogDao.addActivityLog(activityLogInput);
 
-        return "Section '" + section.getSection_name() + "' deleted successfully.";
+        return "Department '" + section.getSection_name() + "' deleted successfully.";
     }
 
     @Override
@@ -204,10 +204,10 @@ public class SectionServiceImpl implements SectionService {
             SectionOutput section = sectionDao.getSectionById(toString);
             if (section != null) {
                 if (section.getDel_flag() == 1) {
-                    return "Section with the ID " + id + " is already deleted.";
+                    return "Department with the ID " + id + " is already deleted.";
                 }
             } else {
-                return "Section with the ID " + id + " cannot be found.";
+                return "Department with the ID " + id + " cannot be found.";
             }
         }
         sectionDao.deleteMultipleSection(ids);
@@ -234,7 +234,7 @@ public class SectionServiceImpl implements SectionService {
         } 
 
         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple Sections: " + formattedList.toString() + ".");
+        activityLogInput.setLog_desc("Deleted multiple departments: " + formattedList.toString() + ".");
 
         // add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
@@ -249,7 +249,7 @@ public class SectionServiceImpl implements SectionService {
 
         if (section != null) {
             if (section.getDel_flag() == 0) {
-                return "Section with the ID " + id + " is not yet deleted.";
+                return "Department with the ID " + id + " is not yet deleted.";
             } else {
                 sectionDao.restoreSection(id);
 
@@ -257,17 +257,17 @@ public class SectionServiceImpl implements SectionService {
                 ActivityLogInput activityLogInput = new ActivityLogInput();
 
                 activityLogInput.setEmp_id("101"); // current logged user dapat
-                activityLogInput.setLog_desc("Restored '" + section.getSection_name() + "' section.");
+                activityLogInput.setLog_desc("Restored '" + section.getSection_name() + "' department.");
 
                 Long currentTimeMillis = System.currentTimeMillis();
                 // add the activity log
                 activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                 activityLogDao.addActivityLog(activityLogInput);
 
-                return "Section '" + section.getSection_name() + "' restored successfully.";
+                return "Department '" + section.getSection_name() + "' restored successfully.";
             }
         } else {
-            return "Section with the ID " + id + " cannot be found.";
+            return "Department with the ID " + id + " cannot be found.";
         }
     }
 }
