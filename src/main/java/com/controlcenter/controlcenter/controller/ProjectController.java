@@ -129,8 +129,7 @@ public class ProjectController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    // String emp_id = httpSession.getAttribute("session").toString();
-                    String emp_id = "101";
+                    String emp_id = httpSession.getAttribute("session").toString();
                     return projectService.addProject(project, emp_id, manager_ids, client_id, type_id, phase_ids, tech_ids, project_status_id, member_ids);   
                 }
             } else {
@@ -154,8 +153,7 @@ public class ProjectController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    // String emp_id = httpSession.getAttribute("session").toString();
-                    String emp_id = "101";
+                    String emp_id = httpSession.getAttribute("session").toString();
                     return projectService.editProjectInfo(id, project, emp_id, manager_ids, client_id, type_id, phase_ids, tech_ids, project_status_id, member_ids);
                 }
             } else {
@@ -171,7 +169,7 @@ public class ProjectController {
 
          if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(projectService.logicalDeleteProject(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
@@ -189,7 +187,7 @@ public class ProjectController {
 
         if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
             return ResponseEntity.ok().body(projectService.deleteMultipleProject(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");
