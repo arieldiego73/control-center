@@ -98,7 +98,7 @@ public class StatusServiceImpl implements StatusService {
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
 
-                        return ResponseEntity.ok().body( "Edited Short name '" + status.getStatus_name() +"' of the Employee Status '"+ status.getStatus_code() + "' successfully.") ;
+                        return ResponseEntity.ok().body("Edited '" + status.getStatus_name() + "' successfully.") ;
                     } else {
                         Map<String, Object> paramMap = new HashMap<>();
                         statusById.setStatus_code(statusById.getStatus_code());
@@ -113,14 +113,14 @@ public class StatusServiceImpl implements StatusService {
                         ActivityLogInput activityLogInput = new ActivityLogInput();
 
                         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + status.getStatus_name() + "' status.");
+                        activityLogInput.setLog_desc("Edited the description of '" + status.getStatus_name() + "' status.");
 
                         Long currentTimeMillis = System.currentTimeMillis();
                         // add the activity log
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
 
-                        return ResponseEntity.ok().body( "Edited Decription '" + status.getStatus_desc() +"' of the Employee Status '"+ status.getStatus_code() +"' successfully.") ;
+                        return ResponseEntity.ok().body("Edited '" + status.getStatus_name() + "' successfully.") ;
                     }
                 }
             }
@@ -196,7 +196,7 @@ public class StatusServiceImpl implements StatusService {
         } 
 
         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-        activityLogInput.setLog_desc("Deleted multiple Status: " + formattedList.toString() + ".");
+        activityLogInput.setLog_desc("Deleted multiple status: " + formattedList.toString() + ".");
 
         // add the activity log
         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));

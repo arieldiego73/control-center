@@ -291,16 +291,16 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 	const columns: GridColDef[] = [
 		{
 			field: "status_code",
-			headerName: "Name",
+			headerName: "Status Code",
 			minWidth: 300,
 			flex: 1,
-			editable: true,
+			editable: false,
 			headerAlign: "center",
 			align: "center",
 		},
 		{
 			field: "status_name",
-			headerName: "Short Name",
+			headerName: "Name",
 			minWidth: 300,
 			flex: 1,
 			editable: true,
@@ -689,7 +689,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 						<div style={addFormContainerStyles}>
 							<div style={addFormStyles}>
 								<DataGridAddTextField
-									inputLabel="Name"
+									inputLabel="Status Code"
 									inputValue={employeeStatusCode}
 									inputValueSetter={(
 										e: React.ChangeEvent<
@@ -702,7 +702,7 @@ const BusinessUnitTable: React.FC<DataGridProps> = (props) => {
 									autoFocus={true}
 								/>
 								<DataGridAddTextField
-									inputLabel="Short Name"
+									inputLabel="Name"
 									inputValue={employeeStatusName}
 									inputValueSetter={(
 										e: React.ChangeEvent<
