@@ -105,14 +105,14 @@ public class TechnologyServiceImpl implements TechnologyService {
                         ActivityLogInput activityLogInput = new ActivityLogInput();
 
                         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
+                        activityLogInput.setLog_desc("Edited the short name of '" + technology.getTech_name() + "' technology.");
 
                         Long currentTimeMillis = System.currentTimeMillis();
                         // add the activity log
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
 
-                        return ResponseEntity.ok().body("Edited a short name  '" + technology.getTech_sh_name() + "' of the Technology '"+ technology.getTech_name() +"' edited successfully.");
+                        return ResponseEntity.ok().body("Edited '" + technology.getTech_name() + "'  successfully.");
                     }
                    
                 }
