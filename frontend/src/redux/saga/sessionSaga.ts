@@ -27,6 +27,7 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
     );
       if (response.data.status === "active") {
         const user = {
+          id: response.data.id,
           username: response.data.username,
           fullName: response.data.fullName,
           email: response.data.email, // Retrieve the email from the server response

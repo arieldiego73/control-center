@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,6 @@ import com.controlcenter.controlcenter.model.AuthResponse;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
 import com.controlcenter.controlcenter.service.AuthService;
-import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.service.serviceImpl.AuthServiceImpl;
 
 import javax.servlet.http.Cookie;
@@ -94,7 +92,7 @@ public class AuthController {
 
             authResponse.put("status", "active");
             authResponse.put("username", currentLoggedUser.getUsername());
-            authResponse.put("Employee ID", currentLoggedUser.getEmp_id());
+            authResponse.put("id", currentLoggedUser.getEmp_id());
             authResponse.put("fullName", currentLoggedUser.getFname() + " " + currentLoggedUser.getMname() + " " + currentLoggedUser.getLname());
             authResponse.put("email", currentLoggedUser.getEmail());
             authResponse.put("img", currentLoggedUser.getImg_src());
