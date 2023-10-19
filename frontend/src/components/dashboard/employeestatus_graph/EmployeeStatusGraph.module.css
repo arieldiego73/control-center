@@ -1,16 +1,14 @@
 .EmpStatusGraphContainer {
-  height: 100%; 
+  height: 95%; 
   width: 98%;
 }
 .empGraphHolder{
   width: 100%;
-  height: 99%; 
+  height: 100%; 
   display: flex;
   justify-content: center;
   align-items: flex-end;
 }
-
-/* Attributes of Main Container */
 .card {  
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -29,8 +27,6 @@
   justify-content: end;
   width: 100%;
 }
-
-/* Attributes of Text Title */
 .textTitle{
   padding-left: 2%;
   font-weight: bold;
@@ -41,8 +37,6 @@
   font-size: 15px; 
   color: black;
 }
-
-/* Attributes of Information Container */
 .infoContainer{
   padding: 2%;
   flex-direction: row;
@@ -59,75 +53,224 @@
   font-size: 12px; 
   color: grey;
 }
-
-/* Attributes of Graph */
 .graphContainer{
   background: linear-gradient(#46a34a, #56af5a, #63b967);
-  height: 50%;
+  height: 45%;
   width: 45%; 
   border-radius: 15px;
   position: absolute;
-  margin-bottom: 4%;
   z-index: 1;
-  /* margin-top:1%; */
+  margin-bottom: 5%;
 }
 
+/* MEDIA QUERY */
 
-@media (max-width: 1800px) {
+@media (max-width: 2000px) {
   .card {  
-    height: 88%;
+    padding-bottom: 10px;
+    height: 93%;  
   }
   .graphContainer{
-    height: 50%;
-    width: 44%; 
     margin-bottom: 4%;
-    /* border: 1px solid red; */
+    height: 51%;
   }
 }
-
-@media (max-width: 1700px) {
+@media (max-width: 1800px) {
+  .EmpStatusGraphContainer {
+    height: 97%; 
+  }
+  .graphContainer{
+    height: 53%;
+  }
+}
+@media (max-width: 1600px) {
+  .card {  
+    height: 94%;  
+  }
   .graphContainer{
     margin-bottom: 4.5%;
-    /* border: 1px solid red; */
+    height: 53%;
   }
 }
-
-@media (max-width: 1600px) {
-  .graphContainer{
-    margin-bottom: 4.8%;
-  }
-}
-
-@media (max-width: 1400px) {
+@media (max-width: 1500px) {
   .graphContainer{
     margin-bottom: 5%;
   }
 }
-
-@media (max-width: 1250px) {
-  .graphContainer{
-    margin-bottom: 5.5%;
+@media (max-width: 1450px) {
+  .card {  
+    height: 95%;  
   }
 }
-
 @media (max-width: 1300px) {
   .graphContainer{
-    margin-bottom: 6%;
-  }
-}
-@media (max-width: 1150px) {
-  .graphContainer{
     margin-bottom: 5.5%;
   }
 }
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
+  .card {  
+    height: 92%;  
+  }
+  .graphContainer{
+    height: 51.5%;
+  }
+}
+@media (max-width: 1100px) {
+  .card {  
+    height: 93%;  
+  }
+  .graphContainer{
+    height: 52%;
+  }
+}
+@media (max-width: 1050px) {
   .graphContainer{
     margin-bottom: 6%;
   }
 }
-
-@media (max-width: 900px) {
+@media (max-width: 950px) {
   .graphContainer{
     margin-bottom: 6.5%;
   }
 }
+@media (max-width: 850px) {
+  .graphContainer{
+    margin-bottom: 7%;
+  }
+}
+
+/* MEDIA QUERY HEIGHT */
+@media (max-height: 1060px) {
+  .card {  
+    height: 90%;  
+  }
+  .graphContainer{
+    height: 50%;
+  }
+}
+@media (max-height: 980px) {
+  .card {  
+    height: 88%;  
+  }
+  .graphContainer{
+    height: 49%;
+  }
+}
+@media (max-height: 875px) {
+  .card {  
+    height: 86%;  
+  }
+  .graphContainer{
+    height: 48%;
+  }
+}
+@media (max-height: 800px) {
+  .card {  
+    height: 87%;  
+  }
+  .graphContainer{
+    height: 47%;
+  }
+}
+@media (max-height: 710px) {
+  .card {  
+    height: 86%;  
+  }
+  .graphContainer{
+    height: 46%;
+  }
+}
+@media (max-height: 650px) {
+  .card {  
+    height: 85%;  
+  }
+  .graphContainer{
+    height: 45%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+@media (max-width: 2000px) {
+  .card {  
+    padding-bottom: 10px;
+    height: 95%;  
+  }
+  .graphContainer{
+    margin-bottom: 4%;
+    height: 53%;
+  }
+}
+@media (max-width: 1800px) {
+  .graphContainer{
+    margin-bottom: 4.5%;
+  }
+}
+@media (max-width: 1600px) {
+  .graphContainer{
+    margin-bottom: 5%;
+  }
+}
+@media (max-width: 1400px) {
+  .EmpStatusGraphContainer {
+    height: 93%; 
+  }
+  .card {  
+    height: 90%;
+  }
+  .graphContainer{
+    height: 50%;
+  }
+}
+@media (max-width: 1300px) {
+  .graphContainer{
+    margin-bottom: 5.5%;
+  }
+} 
+@media (max-width: 1050px) {
+  .card {  
+    height: 87%;
+  }
+  .graphContainer{
+    height: 48%;
+    margin-bottom: 6%;
+  }
+} 
+@media (max-width: 950px) {
+  .card {  
+    height: 84%;
+  }
+  .graphContainer{
+    height: 45%;
+    margin-bottom: 6.5%;
+  }
+} 
+@media (max-width: 825px) {
+  .card {  
+    height: 80%;
+  }
+  .graphContainer{
+    height: 43%;
+    margin-bottom: 7.5%;
+  }
+} 
+@media (max-width: 750px) {
+  .card {  
+    height: 75%;
+  }
+  .graphContainer{
+    height: 40%;
+    margin-bottom: 7.5%;
+  }
+}  */
