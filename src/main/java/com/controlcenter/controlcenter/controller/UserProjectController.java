@@ -67,7 +67,7 @@ public class UserProjectController {
                 if (errors.size() > 0) { //checks the errors from validator
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 }else{
-                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                    String emp_id = httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(userProjectService.addUserProject(userProject, emp_id));
                 }
         } else {
@@ -91,7 +91,7 @@ public class UserProjectController {
             if (errors.size() > 0) { //checks the errors from validator
                 return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
             }else{
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
                 return ResponseEntity.status(200).body(userProjectService.editUserProjectInfo(id, userProject, emp_id));
             }
         } else {
@@ -106,7 +106,7 @@ public class UserProjectController {
 
         if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(userProjectService.logicalDeleteUserProject(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
@@ -124,7 +124,7 @@ public class UserProjectController {
 
         if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
             return ResponseEntity.ok().body(userProjectService.deleteMultipleUserProject(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");

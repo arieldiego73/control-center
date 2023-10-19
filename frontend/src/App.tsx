@@ -1,3 +1,116 @@
+import "./App.css";
+import { BrowserRouter, Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import Userhandler from "./pages/Userhandler";
+import CreateUserHandler from "./pages/CreateUserHandler";
+import ProjectHandler from "./pages/ProjectHandler";
+import RoleHandler from "./pages/RoleHandler";
+import NewProjHandler from "./pages/NewProjectHandler";
+import AddMemberTable from "./components/project/AddMemberTable";
+import EditUserHandler from "./pages/EditUserHandler";
+import EditProjectHandler from "./pages/EditProjectHandler"
+import DevelopmentPhaseHandler from "./pages/DevelopmentPhaseHandler";
+import ProjectStatusHandler from "./pages/ProjectStatusHandler";
+import DashboardHandler from "./pages/DashboardHandler";
+// import ActivityLogDashboardTable from "./components/dashboard/ActivityLogDashboardTable";
+import EmployeeStatusHandler from "./pages/EmployeeStatusHandler";
+import EmployeePositionHandler from "./pages/EmployeePositionHandler";
+import DepartmentHandler from "./pages/DepartmentHandler";
+import BusinessUnitHandler from "./pages/BusinessUnitHandler";
+import TechnologyHandler from "./pages/TechnologyHandler";
+import test2 from "./components/test/test2";
+import Sidenav from "./components/newNav/SideNav"
+import Topnav from "./components/newNav/Navigations"
+import Navigations from "./pages/NavigationHandler"
+import UserGraph from "./components/dashboard/user_graph/UserGraph";
+import DevelopmentTypeHandler from "./pages/DevelopmentTypeHandler";
+import TestHandler from "./pages/TestHandler";
+import ClientHandler from "./pages/ClientHandler";
+import ImagePreview from "./components/test/viewImg";
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "./redux/store/store";
+import React, { useEffect, useState } from "react";
+import { showDialog } from "./redux/state/dialogSlice";
+import { apiLogin } from "./redux/saga/sessionSaga";
+import { setAuthenticationStatus, setUser } from "./redux/state/sessionState";
+import Cookies from 'universal-cookie';
+
+function App() {
+
+	const isAuthenticated = useSelector((state: RootState) => state.sessionReducer.isAuthenticated);
+	console.log("isAuthenticated", isAuthenticated);
+	const cookies = new Cookies();
+	const dispatch = useDispatch(); // Get the dispatch function from Redux
+
+	useEffect(() => {
+		// Check if the user is authenticated in localStorage
+		const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+		if (isAuthenticated) {
+			// If the user is authenticated, call the login API to get user info
+			const username = cookies.get('username'); // Retrieve the username from localStorage
+			const password = cookies.get('password'); // Replace with the actual way you retrieve the password or token
+
+			if (isAuthenticated && username && password) {
+				apiLogin(username, password)
+					.then((userData) => {
+						if (userData) {
+							// Dispatch an action to update the user state
+							dispatch(setUser(userData)); // You should define the setUser action
+							// Dispatch an action to update the authentication status
+							dispatch(setAuthenticationStatus(true)); // You should define the setAuthenticationStatus action
+
+						}
+					})
+					.catch((error) => {
+						console.error('Error while checking authentication:', error);
+					});
+			}
+		}
+	}, [dispatch]);
+
+	return (
+		<BrowserRouter>
+			<Routes>
+				{isAuthenticated ? (
+					<>
+						<Route path="/" element={<Navigate to="/dashboard" />} />
+						<Route path="/dashboard/*" element={<DashboardHandler />} />
+						<Route path="/users/*" Component={Userhandler} />
+						<Route path="/user/add-new-user/*" Component={CreateUserHandler} />
+						<Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
+						<Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
+						<Route path="/projects/*" Component={ProjectHandler} />
+						<Route path="/roles/" Component={RoleHandler} />
+						<Route path="/project/add-new-project" Component={NewProjHandler} />
+						<Route path="/development-phase/*" Component={DevelopmentPhaseHandler} />
+						<Route path="/clients/*" Component={ClientHandler} />
+						<Route path="/project-status/*" Component={ProjectStatusHandler} />
+						{/* <Route path="/dashboard-table" Component={ActivityLogDashboardTable} /> */}
+						<Route path="/employee-status/*" Component={EmployeeStatusHandler} />
+						<Route path="/employee-position/*" Component={EmployeePositionHandler} />
+						<Route path="/business-unit/*" Component={BusinessUnitHandler} />
+						<Route path="/department/*" Component={DepartmentHandler} />
+						<Route path="/technology/*" Component={TechnologyHandler} />
+						<Route path="/navigations/*" Component={Navigations} />
+						<Route path="/development-type/*" Component={DevelopmentTypeHandler} />
+						<Route path="/TestHandler" Component={TestHandler} />
+						<Route path="/viewImg" Component={ImagePreview} />
+					</>
+				) : (
+					<>
+						<Route index element={<LoginPage />} />
+						<Route path="*" element={<Navigate to="/" />} />
+					</>
+				)}
+			</Routes>
+		</BrowserRouter>
+	);
+}
+
+export default App;
+
+
 // import "./App.css";
 // import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import LoginPage from "./pages/LoginPage";
@@ -109,45 +222,10 @@
 // 	);
 // }
 
+
+
+//for future developer who will add roles 
 // export default App;
-
-
-import "./App.css";
-import { BrowserRouter, Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import Userhandler from "./pages/Userhandler";
-import CreateUserHandler from "./pages/CreateUserHandler";
-import ProjectHandler from "./pages/ProjectHandler";
-import RoleHandler from "./pages/RoleHandler";
-import NewProjHandler from "./pages/NewProjectHandler";
-import AddMemberTable from "./components/project/AddMemberTable";
-import EditUserHandler from "./pages/EditUserHandler";
-import EditProjectHandler from "./pages/EditProjectHandler"
-import DevelopmentPhaseHandler from "./pages/DevelopmentPhaseHandler";
-import ProjectStatusHandler from "./pages/ProjectStatusHandler";
-import DashboardHandler from "./pages/DashboardHandler";
-import ActivityLogDashboardTable from "./components/dashboard/ActivityLogDashboardTable";
-import EmployeeStatusHandler from "./pages/EmployeeStatusHandler";
-import EmployeePositionHandler from "./pages/EmployeePositionHandler";
-import DepartmentHandler from "./pages/DepartmentHandler";
-import BusinessUnitHandler from "./pages/BusinessUnitHandler";
-import TechnologyHandler from "./pages/TechnologyHandler";
-import test2 from "./components/test/test2";
-import Sidenav from "./components/newNav/SideNav"
-import Topnav from "./components/newNav/Navigations"
-import Navigations from "./pages/NavigationHandler"
-import UserGraph from "./components/dashboard/user_graph/UserGraph";
-import DevelopmentTypeHandler from "./pages/DevelopmentTypeHandler";
-import TestHandler from "./pages/TestHandler";
-import ClientHandler from "./pages/ClientHandler";
-import ImagePreview from "./components/test/viewImg";
-import  { useDispatch, useSelector } from "react-redux"
-import { RootState } from "./redux/store/store";
-import React, { useEffect, useState } from "react";
-import { showDialog } from "./redux/state/dialogSlice";
-import { apiLogin } from "./redux/saga/sessionSaga";
-import { setAuthenticationStatus, setUser } from "./redux/state/sessionState";
-import Cookies from 'universal-cookie';
 
 // ... (other imports and component definitions)
 
@@ -174,11 +252,11 @@ import Cookies from 'universal-cookie';
 // 		role: "Normal User",
 // 	  },
 // 	];
-  
+
 // 	const defaultUserId = 1;
-  
+
 // 	const currentUser = dummyUsers.find((user) => user.id === defaultUserId);
-  
+
 // 	return (
 // 	  <BrowserRouter>
 // 		<Routes>
@@ -234,105 +312,7 @@ import Cookies from 'universal-cookie';
 // 	  </BrowserRouter>
 // 	);
 //   }
-  
+
 //   export default App;
 
-function App() {
-	const dispatch = useDispatch(); // Get the dispatch function from Redux
 
-
-	
-	const isAuthenticated = useSelector((state: RootState) => state.sessionReducer.isAuthenticated);
-	console.log("isAuthenticated",isAuthenticated );
-
-	const cookies = new Cookies();
-
-	// useEffect(() => {
-    //     const checkAuthentication = async () => {
-    //         // Check if the user is authenticated in localStorage
-    //         const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-
-    //         if (isAuthenticated) {
-    //             // If the user is authenticated, call the login API to get user info
-    //             try {
-    //                 const userData = await apiLogin('username', 'password');
-    //                 if (userData) {
-    //                     // setUser(userData); // This line can be removed to fix the warning
-    //                 }
-    //             } catch (error) {
-    //                 console.error('Error while checking authentication:', error);
-    //             }
-    //         }
-    //     };
-
-    //     checkAuthentication();
-    // }, []);
-
-
-  useEffect(() => {
-    // Check if the user is authenticated in localStorage
-    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-	
-    if (isAuthenticated) {
-      // If the user is authenticated, call the login API to get user info
-      const username = cookies.get('username'); // Retrieve the username from localStorage
-      const password = cookies.get('password'); // Replace with the actual way you retrieve the password or token
-	  
-      if (isAuthenticated && username && password) {
-        apiLogin(username, password)
-          .then((userData) => {
-            if (userData) {
-              // Dispatch an action to update the user state
-              dispatch(setUser(userData)); // You should define the setUser action
-              // Dispatch an action to update the authentication status
-              dispatch(setAuthenticationStatus(true)); // You should define the setAuthenticationStatus action
-			  		  
-            }
-          })
-          .catch((error) => {
-            console.error('Error while checking authentication:', error);
-          });
-      }
-    }
-  }, [dispatch]);
-
-	return (
-		<BrowserRouter>
-			<Routes>
-			{isAuthenticated ? (
-				<>
-				<Route path="/" element={<Navigate to="/dashboard" />} />
-            	<Route path="/dashboard/*" element={<DashboardHandler />} />
-				<Route path="/users/*" Component={Userhandler} />
-				<Route path="/user/add-new-user/*" Component={CreateUserHandler} />
-				<Route path="/user/edit-user/:name/*" element={<EditUserHandler />} />
-			    <Route path="/project/edit-project/:proj_name" element={<EditProjectHandler />} />
-				<Route path="/projects/*" Component={ProjectHandler} />
-				<Route path="/roles/" Component={RoleHandler} />
-				<Route path="/project/add-new-project" Component={NewProjHandler} />
-				<Route path="/development-phase/*" Component={DevelopmentPhaseHandler} />
-				<Route path="/clients/*" Component={ClientHandler} />
-				<Route path="/project-status/*" Component={ProjectStatusHandler} />
-				<Route path="/dashboard-table" Component={ActivityLogDashboardTable} />
-				<Route path="/employee-status/*" Component={EmployeeStatusHandler} />
-				<Route path="/employee-position/*" Component={EmployeePositionHandler} />
-				<Route path="/business-unit/*" Component={BusinessUnitHandler} />
-				<Route path="/department/*" Component={DepartmentHandler} />
-				<Route path="/technology/*" Component={TechnologyHandler} />
-				<Route path="/navigations/*" Component={Navigations} />
-				<Route path="/development-type/*" Component={DevelopmentTypeHandler} />
-				<Route path="/TestHandler" Component={TestHandler} />
-				<Route path="/viewImg" Component={ImagePreview} />		
-				</>
-			) : (
-				<>
-				 <Route index element={<LoginPage />} />
-        	     <Route path="*" element={<Navigate to="/" />} />
-				</>
-			)}
-			</Routes>
-		</BrowserRouter>
-	);
-}
-
-export default App;

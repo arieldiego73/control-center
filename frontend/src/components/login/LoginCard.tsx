@@ -15,6 +15,12 @@ import React from "react";
 import AnimatedSvg from "../../Assets/backgrounds/animatedSvg.svg";
 import SplatterSvg from "../../Assets/backgrounds/depth6.jpg";
 import "./LoginCardStyle.css";
+import { setError, clearError } from "../../redux/state/userState";
+
+
+
+
+
 
 
 export default function LoginCard() {
@@ -24,6 +30,11 @@ export default function LoginCard() {
     const [isValid, setIsValid] = useState(true);
     const [errorIcon, setErrorIcon] = useState<JSX.Element>();
     const [helperText, setHelperText] = useState("");
+
+    const errorMessage = useSelector((state: RootState) => state.sessionReducer.error);
+    const [error, setErrorMessage] = React.useState<string | undefined>("");
+
+
 
     const navigate = useNavigate();
 
@@ -44,110 +55,84 @@ export default function LoginCard() {
     const handleLogin = (event: React.FormEvent) => {
         event.preventDefault();
         dispatch(login({ username, password }));
+        dispatch(clearError());
     };
 
-    // /* VALIDATE IF A USER IS LOGGED IN */
-    // useEffect(() => {
-    // 	if (loggedUser !== null) {
-    // 		navigate("/dashboard");
-    // 	}
-    // });
-
-    // const handleLogin = (event: React.FormEvent) => {
-    // 	event.preventDefault();
-    // 	if (username && password) {
-    // 		dispatch(login({ username, password }));
-    // 		if (loggedUser === null) {
-    // 			setHelperText("Incorrect username or password.");
-    // 			setPassword("");
-    // 			setIsValid(false);
-    // 			setErrorIcon(
-    // 				<InputAdornment position="end">
-    // 					<Error sx={{ color: "red" }} />
-    // 				</InputAdornment>
-    // 			);
-    // 		}
-    // 	} else {
-    // 		setIsValid(false);
-    // 		setHelperText("Both fields are required");
-    // 		setErrorIcon(
-    // 			<InputAdornment position="end">
-    // 				<Error sx={{ color: "red" }} />
-    // 			</InputAdornment>
-    // 		);
-    // 	}
-    // };
-
+    React.useEffect(() => {
+        if (errorMessage === null) {
+            setErrorMessage(undefined);
+            dispatch(clearError());
+            console.log("there's no error", error)
+        } else {
+            setErrorMessage(errorMessage);
+            dispatch(clearError());
+            console.log("may error ka!", error)
+        }
+    }, [errorMessage, error, username, password, dispatch]);
 
     return (
         <div style={{ height: "100%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div className="mainLoginCard">
-                <div style={{  display: "flex", alignItems: "center", justifyContent: "center", marginTop:"30px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "30px" }}>
                     <img src={logo} alt="" height="90px" width="80%" />
                 </div>
-                <div style={{  display: "flex", flexDirection:"column", alignItems: "center", justifyContent: "center" , gap:"20px", marginTop:"40px"}}>
-				<Box
-						component="form"
-						noValidate
-						onSubmit={handleLogin}
-						style={{
-							display:"flex",
-							flexDirection:"column",
-							alignItems:"center",
-							justifyContent:"center",
-							width:"80%",
-							gap:"20px"
-							}}
->
-						<TextField
-							id="username"
-							label="Username"
-							name="username"
-							autoFocus
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
-							error={!isValid}
-							InputProps={{
-								endAdornment: errorIcon,
-							}}
-							sx={{width:"80%"}}
-						/>
-						<TextField
-							name="password"
-							label="Password"
-							type="password"
-							id="password"
-							autoComplete="current-password"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							error={!isValid}
-							InputProps={{
-								endAdornment: errorIcon,
-							}}
-							sx={{width:"80%"}}
-						/>
-						<FormHelperText
-							style={{
-								textAlign: "center",
-								fontSize: "13px",
-							}}
-							error={!isValid}
-						>
-							{helperText}
-						</FormHelperText>
-						<Button
-							type="submit"
-							variant="contained"
-							sx={{
-								// mt: 3,
-								// mb: 2,
-								fontWeight: 700,
-								width:"80%"
-							}}
-						>
-							LOG IN
-						</Button>
-					</Box>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "20px", marginTop: "40px" }}>
+                    <Box
+                        component="form"
+                        noValidate
+                        onSubmit={handleLogin}
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "80%",
+                            gap: "20px"
+                        }}
+                    >
+                        <TextField
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoFocus
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            error={!isValid}
+                            InputProps={{
+                                endAdornment: errorIcon,
+                            }}
+                            sx={{ width: "80%" }}
+                        />
+                        <TextField
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            error={!isValid}
+                            InputProps={{
+                                endAdornment: errorIcon,
+                            }}
+                            sx={{ width: "80%" }}
+                        />
+
+                        {error && (<div style={{ color: "red", marginBottom: "10px" }}>{error}</div>)}
+
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{
+                                // mt: 3,
+                                // mb: 2,
+                                fontWeight: 700,
+                                width: "80%"
+                            }}
+                        >
+                            LOG IN
+                        </Button>
+                    </Box>
                 </div>
 
                 {/* <div style={{  display: "flex", alignItems: "center", justifyContent: "center" }}>

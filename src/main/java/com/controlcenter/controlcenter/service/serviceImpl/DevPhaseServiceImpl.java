@@ -115,14 +115,14 @@ public class DevPhaseServiceImpl implements DevPhaseService {
                         ActivityLogInput activityLogInput = new ActivityLogInput();
 
                         activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + devPhase.getDev_phase_name() + "' development phase.");
+                        activityLogInput.setLog_desc("Edited the short name of '" + devPhase.getDev_phase_name() + "' development phase.");
 
                         Long currentTimeMillis = System.currentTimeMillis();
                         // add the activity log
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
 
-                        return ResponseEntity.ok().body("Edited a short name '" + devPhase.getDev_phase_sh_name() +"' of the Development Phase '" + devPhase.getDev_phase_name() + "' successfully.");
+                        return ResponseEntity.ok().body("Edited '" + devPhase.getDev_phase_name() + "' successfully.");
                     }
                    
                 }

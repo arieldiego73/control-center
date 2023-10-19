@@ -62,7 +62,7 @@ public class MultiRoleController {
 
         if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_ID = "101"; //httpSession.getAttribute("session").toString();
+                String emp_ID = httpSession.getAttribute("session").toString();
                 return ResponseEntity.status(200).body(multiRoleService.addMultiRole(emp_id, role_id, emp_ID));
             } catch (Exception e) {
                 return ResponseEntity.status(400).body(e.getMessage());
@@ -88,7 +88,7 @@ public class MultiRoleController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                    String emp_id = httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(multiRoleService.editMultiRoleInfo(id, multiRole, emp_id));
                 }
         } else {
@@ -104,7 +104,7 @@ public class MultiRoleController {
 
         if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(multiRoleService.logicalDeleteMultiRole(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
@@ -122,7 +122,7 @@ public class MultiRoleController {
 
         if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
               return ResponseEntity.ok().body(multiRoleService.deleteMultipleMultiRole(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");

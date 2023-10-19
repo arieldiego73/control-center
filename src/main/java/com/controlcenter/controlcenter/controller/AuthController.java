@@ -9,14 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controlcenter.controlcenter.dao.UserDao;
+import com.controlcenter.controlcenter.model.AuthResponse;
 import com.controlcenter.controlcenter.model.UserInfoOutput;
 import com.controlcenter.controlcenter.model.UserOutput;
+import com.controlcenter.controlcenter.service.AuthService;
+import com.controlcenter.controlcenter.service.UserService;
 import com.controlcenter.controlcenter.service.serviceImpl.AuthServiceImpl;
 
 import javax.servlet.http.Cookie;
@@ -32,17 +36,48 @@ public class AuthController {
     @Autowired 
     private UserDao userDao;
 
+    @Autowired
+    private AuthService authService;
+
     // Login session
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> authUser(@RequestBody UserOutput userOutput, HttpSession http, HttpServletResponse response) {
         Map<String, String> authResponse = new HashMap<>();
+        Map<String, String> errorMessage = new HashMap<>();
         String username = userOutput.getUsername();
         String password = userOutput.getPassword();
 
-        UserOutput authUser = authServiceImpl.authUser(username, password);
+        UserOutput user = userDao.getByUsername(username);
 
+        if(userOutput.getUsername().equals("") && userOutput.getPassword().equals("")) {
+            errorMessage.put("error", "Please enter a username and password.");
+            return ResponseEntity.status(400).body(errorMessage);
+        }
+
+        if (userOutput.getUsername().equals("")) {
+            errorMessage.put("error", "Please enter a valid username.");
+            return ResponseEntity.status(400).body(errorMessage);
+        }
+
+        if(userOutput.getPassword().equals("")) {
+            errorMessage.put("error", "Please enter your password.");
+            return ResponseEntity.status(400).body(errorMessage);
+        }
+
+        if(user == null) {
+            errorMessage.put("error", "Account does not exist.");
+            return ResponseEntity.status(400).body(errorMessage);
+        }
+
+        ResponseEntity<AuthResponse> authUser = authServiceImpl.authUser(username, password);
+
+        if(authUser.getStatusCode().value() > 200) {
+
+            errorMessage.put("error", authUser.getBody().getErrorMessage());
+            return ResponseEntity.status(400).body(errorMessage);
+        }
         if (authUser != null) {
-            http.setAttribute("session", authUser.getEmp_id());
+            http.setAttribute("session", authUser.getBody().getUserOutput().getEmp_id());
             http.setAttribute("isAuthenticated", true);
 
             // // Set a cookie for session-based authentication
@@ -53,7 +88,7 @@ public class AuthController {
             authCookie.setSecure(true);
             response.addCookie(authCookie);
 
-            UserInfoOutput currentLoggedUser = userDao.getUserById(authUser.getEmp_id());
+            UserInfoOutput currentLoggedUser = userDao.getUserById(authUser.getBody().getUserOutput().getEmp_id());
 
             System.out.println(currentLoggedUser.getImg_src());
 
@@ -77,12 +112,12 @@ public class AuthController {
     // Logout remove httpsession
     @GetMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(HttpSession session) {
-
+        String emp_id = session.getAttribute("session").toString();
         if (session != null) {
             session.invalidate();
         }
 
-        return ResponseEntity.ok(authServiceImpl.logout("101"));
+        return ResponseEntity.ok(authServiceImpl.logout(emp_id));
     }
 
     // Checker session
@@ -98,6 +133,18 @@ public class AuthController {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/principal")
+    public ResponseEntity<AuthResponse> principalInfo(HttpSession httpSession) {
+        AuthResponse response = new AuthResponse();
+        String emp_id = httpSession.getAttribute("session").toString();
+        try {
+            return authService.principalInfo(emp_id);
+        } catch (Exception e) {
+            response.setErrorMessage(e.getMessage());
+            return ResponseEntity.status(500).body(response);
+        }
     }
 
 }

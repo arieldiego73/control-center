@@ -1,29 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Cookies from 'universal-cookie';
 
-
 const cookies = new Cookies();
 
 interface User {
-  id: number;
+  id: string;
   username: string;
   fullName: string;
   email: string;
   img: string;
-  
 }
 
 interface SessionState {
   user: User | null;
   isAuthenticated: boolean;
   username: string | null;
-  
+  error: string | null; 
 }
 
 const initialState: SessionState = {
   user: null,
   isAuthenticated: localStorage.getItem('isAuthenticated') === "true" , // Read from localStorage or cookies
-  username: null
+  username: null,
+  error: null, // Initialize error as null
+
 };
 
 const sessionSlice = createSlice({
@@ -62,6 +62,15 @@ const sessionSlice = createSlice({
         state.user.img = action.payload.img;
       }
     },
+    setUserImg: (state, action) => {
+			state.user!.img = action.payload.img_src
+		},
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
+    },
+    clearError: (state) => {
+			state.error = "";
+		},
   },
 });
 
@@ -74,6 +83,9 @@ export const {
 	getAuthStatus,
 	logoutUser,
   setUserNameAndEmail,
+  setUserImg,
+  setError, // Add this line to export the setError action
+  clearError,
 } =
   sessionSlice.actions;
 

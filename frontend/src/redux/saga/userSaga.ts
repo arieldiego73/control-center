@@ -421,6 +421,7 @@ function* validate(res: any, action?: string) {
 				break;
 		}
 	} else if (res?.request?.status > 200) {
+		yield put(setIsLoading(false));
 		yield put(
 			setMessage({
 				message: res?.response?.data,
@@ -428,6 +429,7 @@ function* validate(res: any, action?: string) {
 			})
 		);
 	} else {
+		yield put(setIsLoading(false));
 		yield put(
 			setMessage({
 				message: res,

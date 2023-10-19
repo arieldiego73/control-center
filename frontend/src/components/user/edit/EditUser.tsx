@@ -53,6 +53,7 @@ import { getEmployeeStatusFetch } from "../../../redux/state/employeeStatusState
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 // import { CircularProgress } from "@material-ui/core";
 import CircularProgress from "@mui/material/CircularProgress";
+import { setUserImg } from "../../../redux/state/sessionState";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -93,6 +94,8 @@ export default function EditUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+
+  const loggedUserId = useSelector((state: RootState) => state.sessionReducer.user?.id);
 
   const loadingState = useSelector(
     (state: RootState) => state.userReducer.isLoading
@@ -182,6 +185,7 @@ export default function EditUser() {
     setMessageInfo(undefined);
   };
 
+  const user = useSelector((state: RootState) => state.sessionReducer.user);
   const isAddSuccess = useSelector(
     (state: RootState) => state.userReducer.isAddSuccess
   );
@@ -189,12 +193,12 @@ export default function EditUser() {
     if (isAddSuccess) {
       dispatch(addUserReset());
       setTimeout(() => {
+        
         navigate("/users");
         dispatch(clearUserInfo());
       }, GLOBAL_TIMEOUT);
     }
   });
-
   React.useEffect(() => {
     if (userData) {
       setAssocID(userData.emp_id);
@@ -244,6 +248,10 @@ export default function EditUser() {
   const [dialogContentTextSave, setDialogContentTextSave] = React.useState("");
   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i;
   const isEmailValid = emailRegex.test(email);
+
+  React.useEffect(() => {
+    console.log("logged: " + loggedUserId + " | " + "emp: " + assocID)
+  }, [loggedUserId, assocID])
 
 
   //FOR DROPDOWN CONFIG (BUSINESS UNIT)
@@ -295,6 +303,11 @@ export default function EditUser() {
     dispatch(updateUserInfo({ data }));
     setAskSave(false);
     setAsk(false);
+
+    if (loggedUserId === assocID) {
+      dispatch(setUserImg(""));
+      console.log("NA-CLEAR NAMAN")
+    }
   };
 
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -466,7 +479,7 @@ export default function EditUser() {
                         helperText={
                           formSubmitted && assocID === "" ? "Associate ID required" : ""
                         }
-                        // disabled
+                        disabled
                         variant="outlined"
                         size="small"
                         placeholder="Associate ID"

@@ -2,9 +2,10 @@
 import { put, takeLatest, call, takeEvery, Effect } from "redux-saga/effects";
 import {
 	clearUser,
-  clearUsername,
   setAuthenticationStatus,
-  setUser
+  setUser,
+  setError,
+  clearError,
 } from "../state/sessionState";
 import { createAction } from "@reduxjs/toolkit";
 import Cookies from 'universal-cookie'; // Import Cookies from 'universal-cookie'
@@ -30,12 +31,10 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
           fullName: response.data.fullName,
           email: response.data.email, // Retrieve the email from the server response
           img: response.data.img,
-
-        
         };
   
         // Store authentication status in localStorage and Redux state
-        cookies.set('isAuthenticated', 'true', { path: '/' });
+        cookies.set('isAuthenticated', 'true');
         localStorage.setItem('isAuthenticated', 'true');
         cookies.set('username', username);
         cookies.set('password', password);
@@ -50,7 +49,7 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
     }
   };
 
-  export {apiLogin}
+  export{apiLogin}
 
   function* loginSaga(action: ReturnType<typeof login>): any {
     try {
@@ -62,22 +61,25 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
   
       if (user) {
         yield put(setUser(user));
-  
+        yield put(clearError());
         // Set the 'isAuthenticated' cookie and localStorage value
-        cookies.set('isAuthenticated', 'true', { path: '/' });
+        cookies.set('isAuthenticated', 'true');
         localStorage.setItem('isAuthenticated', 'true');
-  
         // Dispatch the authentication status as true
         yield put(setAuthenticationStatus(true));
+
       } else {
         // Handle login failure
+        yield put(clearError());
         cookies.set('isAuthenticated', 'false');
         localStorage.setItem('isAuthenticated', 'false');
         yield put(setAuthenticationStatus(false));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      yield put(clearError());
+      console.log(error.response);
       // Handle any error that occurred during the API call
+      yield put(setError(error.response.data.error));
     }
   }
 
@@ -109,10 +111,6 @@ function* logoutSaga(): any {
 	  yield put(setAuthenticationStatus(false)); // Pass false to setAuthenticationStatus
 	  localStorage.setItem("isAuthenticated", "false");
     localStorage.setItem("Cookies", "Remove");
-
-    yield put(clearUsername());
-    cookies.remove('username');
-
 	} catch (error) {
 	  console.error("Error during logout:", error);
 	}

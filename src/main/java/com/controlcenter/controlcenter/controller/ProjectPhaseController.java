@@ -65,7 +65,7 @@ public class ProjectPhaseController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                    String emp_id = httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(projectPhaseService.addProjectPhase(projectPhase, emp_id));   
                 }
         } else {
@@ -89,7 +89,7 @@ public class ProjectPhaseController {
                 if(errors.size() > 0){
                     return ResponseEntity.status(400).body(errorHandler.getErrors(errors));
                 } else{
-                    String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                    String emp_id = httpSession.getAttribute("session").toString();
                     return ResponseEntity.status(200).body(projectPhaseService.editProjectPhase(id, projectPhase, emp_id));   
                 }
         } else {
@@ -105,7 +105,7 @@ public class ProjectPhaseController {
 
          if (isAuthenticated != null && isAuthenticated) {
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
                 return ResponseEntity.ok().body(projectPhaseService.logicalDeleteProjectPhase(id, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error.");
@@ -123,7 +123,7 @@ public class ProjectPhaseController {
 
         if (isAuthenticated != null && isAuthenticated){
             try {
-                String emp_id = "101"; //httpSession.getAttribute("session").toString();
+                String emp_id = httpSession.getAttribute("session").toString();
             return ResponseEntity.ok().body(projectPhaseService.deleteMultipleProjectPhase(ids, emp_id));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Server Side Error");
