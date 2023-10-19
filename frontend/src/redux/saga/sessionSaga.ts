@@ -3,7 +3,9 @@ import { put, takeLatest, call, takeEvery, Effect } from "redux-saga/effects";
 import {
 	clearUser,
   setAuthenticationStatus,
-  setUser
+  setUser,
+  setError,
+  clearError,
 } from "../state/sessionState";
 import { createAction } from "@reduxjs/toolkit";
 import Cookies from 'universal-cookie'; // Import Cookies from 'universal-cookie'
@@ -59,22 +61,25 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
   
       if (user) {
         yield put(setUser(user));
-  
+        yield put(clearError());
         // Set the 'isAuthenticated' cookie and localStorage value
         cookies.set('isAuthenticated', 'true');
         localStorage.setItem('isAuthenticated', 'true');
-  
         // Dispatch the authentication status as true
         yield put(setAuthenticationStatus(true));
+
       } else {
         // Handle login failure
+        yield put(clearError());
         cookies.set('isAuthenticated', 'false');
         localStorage.setItem('isAuthenticated', 'false');
         yield put(setAuthenticationStatus(false));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      yield put(clearError());
+      console.log(error.response);
       // Handle any error that occurred during the API call
+      yield put(setError(error.response.data.error));
     }
   }
 
