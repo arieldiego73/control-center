@@ -1,52 +1,28 @@
-
-
 .userGraphHolder{
   height: 100%; 
   width: 98%;
-  /* display: flex; */
+
   justify-content: center;
   background-color: white;
-  /* flex-direction: column; */
-  /* padding: 1%; */
   align-items: center;
-
 }
 .placeHolder{
   width: 95%;
-  /* border: 1px solid red; */
-
   display: flex;
 }
-
-
 .graphContainer{
-  /* background: linear-gradient(#46a34a, #56af5a, #63b967); */
   height: 99%;
   width: 100%; 
-  border-radius: 15px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column; 
-  /* gap: 5px; */
   background-color: white;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  padding-left: .50%;
-  padding-right: .50%;
 }
-
 .holder{
   height: 100%;
   width: 99%;
-  /* border: 1px solid black;  
-  align-self: center;
-  /* display: flex; */
-}
-@media (max-width: 950px) {
-  .holder{
-    height: 100%;
-    width: 99%;
-    display: flex;
-    flex-direction: column;
-    /* border:1px solid red; */
-  }
 }
 
+
+/* MEDIA QUERY */

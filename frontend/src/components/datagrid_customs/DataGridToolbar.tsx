@@ -53,7 +53,7 @@ const DataGridEditToolbar: React.FC<EditToolbarProps> = (props) => {
 					// }`,
 				}}
 			>
-				DELETE BATCH
+				DELETE
 			</Button>
 			<div>
 				<GridToolbar />
