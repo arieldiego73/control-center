@@ -27,6 +27,7 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
     );
       if (response.data.status === "active") {
         const user = {
+          id: response.data.id,
           username: response.data.username,
           fullName: response.data.fullName,
           email: response.data.email, // Retrieve the email from the server response
@@ -107,10 +108,12 @@ function* logoutSaga(): any {
 	  // Dispatch the clearUser action to reset the authentication state and user info
     yield put(clearUser());
     cookies.remove('isAuthenticated'); // Make sure the name and path match the login cookie
-
+    cookies.remove('username');
+    cookies.remove('password');
+    
 	  yield put(setAuthenticationStatus(false)); // Pass false to setAuthenticationStatus
 	  localStorage.setItem("isAuthenticated", "false");
-    localStorage.setItem("Cookies", "Remove");
+    
 	} catch (error) {
 	  console.error("Error during logout:", error);
 	}
