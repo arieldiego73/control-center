@@ -18,7 +18,7 @@ import CustomPagination from "../custom_pagination/pagination";
 import UnsortedIcon from "../datagrid_customs/UnsortedIcon";
 import {
   Backdrop,
-  CircularProgress,
+  CircularProgress, 
   LinearProgress,
   Typography,
 } from "@mui/material";
@@ -167,31 +167,6 @@ const UserTable: React.FC<UserTableProps> = (props) => {
     dispatch(getUsersFetch());
   }, [dispatch]);
 
-  // React.useEffect(() => {
-  //   const handleOutsideClick = (e: MouseEvent) => {
-  //     const target = e.target as HTMLElement; // Cast e.target to HTMLElement
-  //     if (changePasswordOpen && target && !target.closest('.dialog-container')) {
-  //       setConfirmCancelDialogOpen(true);
-  //     }
-  //   };
-
-  //   if (changePasswordOpen) {
-  //     document.addEventListener('mousedown', handleOutsideClick);
-  //   } else {
-  //     document.removeEventListener('mousedown', handleOutsideClick);
-  //   }
-
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleOutsideClick);
-  //   };
-  // }, [changePasswordOpen]);
-  // const handlePasswordDialog = () => {
-  //   setPasswordSave(true);
-  //   setPasswordDialog("Are you sure you want to change your password");
-  //   setPasswordContent(
-  //     "This will change the password you use for sign in from now on."
-  //   );
-  // };
 
   const handleOpenChangePassword = (id: GridRowId, username: string) => {
     setChangePasswordOpen(true);
@@ -516,13 +491,6 @@ const UserTable: React.FC<UserTableProps> = (props) => {
             </Button>
           </DialogActions>
         </Dialog>
-
-        {/* <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 99999 }}
-        open={isLoadingDialog}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop> */}
 
 
   
