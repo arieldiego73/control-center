@@ -108,10 +108,12 @@ function* logoutSaga(): any {
 	  // Dispatch the clearUser action to reset the authentication state and user info
     yield put(clearUser());
     cookies.remove('isAuthenticated'); // Make sure the name and path match the login cookie
-
+    cookies.remove('username');
+    cookies.remove('password');
+    
 	  yield put(setAuthenticationStatus(false)); // Pass false to setAuthenticationStatus
 	  localStorage.setItem("isAuthenticated", "false");
-    localStorage.setItem("Cookies", "Remove");
+    
 	} catch (error) {
 	  console.error("Error during logout:", error);
 	}
