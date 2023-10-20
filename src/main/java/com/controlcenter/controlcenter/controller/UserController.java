@@ -44,8 +44,12 @@ public class UserController {
   ErrorHandler errorHandler;
 
   @GetMapping("/user-table")
-  public ResponseEntity<List<UserTable>> userTable() {
-    return userService.userTable();
+  public ResponseEntity<List<UserTable>> userTable(HttpSession httpSession) {
+    // String principal_id = httpSession.getAttribute("session").toString();
+    ResponseEntity<List<UserTable>> userTable = userService.userTable();
+    // userTable.getBody().removeIf(user -> user.getEmp_id().equals(principal_id));
+
+    return userTable;
   }
 
   @GetMapping("/all")
