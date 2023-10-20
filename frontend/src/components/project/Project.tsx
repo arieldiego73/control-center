@@ -121,6 +121,7 @@ export default function Project() {
               {/* Start of first search bar */}
               <div className={ProjectStyle.searchBarCol}>
                 {/* Start of Project Name Search */}
+                <div className={ProjectStyle.searchbarHolder}>
                 <FormControl
                   sx={{
                     display: "flex",
@@ -169,52 +170,7 @@ export default function Project() {
                     }}
                   />
                 </FormControl>
-
-                {/* Start of Status Dropdown */}
-                {/* <FormControl
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    flex: 1,
-                    gap: "10px",
-                    justifyContent: "center",
-                    border:"1px solid red",
-                    
-                  }}
-                >  
-                  <InputLabel id="demo-controlled-open-select-label" sx={{border:"1px solid blue", alignSelf:"center"}}>
-                    Status
-                  </InputLabel>
-                  <Select
-                    label="Status" 
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="proj_status_name"
-                    value={searchQuery.proj_status_name}
-                    onChange={handleSelectInputChange}
-                    className={ProjectStyle.projStatus}
-                    size="small"
-                    inputProps={{
-                      classes: {
-                        root: ProjectStyle.projSelectRoot,
-                        outlined: ProjectStyle.projSelectOutlined,
-                      },
-                    }} 
-                  >
-                        <MenuItem key={0} value={""}>
-                            {"<None>"}
-                          </MenuItem>
-                    {statuses.map((status: any) => (
-                      <MenuItem
-                        key={status.proj_status_id}
-                        value={status.proj_status_name}
-                      >
-                        {status.proj_status_name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl> */}
+     
                 <FormControl
                   size="small"
                   sx={{
@@ -255,6 +211,9 @@ export default function Project() {
                     ))}
                   </Select>
                 </FormControl>
+                </div>
+           
+                <div className={ProjectStyle.searchBarColButton}>
                 <Button
                   variant="contained"
                   color="inherit"
@@ -264,6 +223,7 @@ export default function Project() {
                 >
                   Search
                 </Button>
+                </div>
               </div>
             </Box>
 
