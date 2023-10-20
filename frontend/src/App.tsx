@@ -67,7 +67,9 @@ function App() {
 					});
 			}
 		}
-	}, [dispatch]);
+	}, [cookies, dispatch]);
+
+	
 
 	return (
 		<BrowserRouter>

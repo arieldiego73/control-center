@@ -55,9 +55,8 @@ const sessionSlice = createSlice({
     clearUsername: (state) => {
       state.username = null;
     },
-    setUserNameAndEmail: (state, action: PayloadAction<{ id: string, fullName: string; email: string; img: string }>) => {
+    setUserNameAndEmail: (state, action: PayloadAction<{ fullName: string; email: string; img: string }>) => {
       if (state.user) {
-        state.user.id = action.payload.id;
         state.user.fullName = action.payload.fullName;
         state.user.email = action.payload.email;
         state.user.img = action.payload.img;
