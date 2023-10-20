@@ -11,7 +11,6 @@
   overflow: hidden;
   background: rgba(237, 249, 255, 0.35);
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border-radius: 10px;
@@ -21,23 +20,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100%;
   width: 100%;
+  overflow: hidden;
   border-radius: 15px;
 }
-
-/* Attributes of Form holder */
 .contentHolder {
-  height: 90%;
-  width: 97%;
+  margin-top: 10px;
+  height: 92%;
+  width: 99%;
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  overflow-x: auto;
-
 }
-
 .contentHolderLeft{
   height: 100%;
   width: 50%;
@@ -48,22 +42,18 @@
 
 .contentHolderRight{
   height: 100%;
+  width: 50%;
   display: flex;
   flex-direction: column;
-justify-content: flex-start;
-gap: 3%;
+  gap: 3%;
 }
 .contentHolderRightTop{
   display: flex;
   flex-direction: column;
   gap: 4%;
   height: 100%;
+  align-items: center ;
 }
-
-
-
-
-
 .heading {
   display: flex;
   align-items: center;
@@ -83,43 +73,19 @@ gap: 3%;
   gap: .5%;
   height: 100%;
 }
- 
 .mainForm {
   display: flex;
-    flex-direction: column;
-    gap: 3vh;
-    width: 95%;
-    padding: 2%;
-    /* border: 1px solid red; */
-    height: 90%;
-    overflow-y: scroll  ;
-    overflow-x: hidden;
-}
-.mainFormCol1,
-.mainFormCol2 {
-  display: flex;
   flex-direction: column;
-  gap: 2vh;
-}
-.mainFormCol1 {
-  width: 90%;
-}
-.mainFormCol2 {
-  width: 10%;
-  align-items: end;
-  justify-content: end;
-}
-.headCol{
-    display: flex;
-    gap: 9vw;
-}
-.col1{
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
+  gap: 3vh;
+  width: 95%;
+  padding: 2%;
+  height: 90%;
+  overflow-y: scroll  ;
+  overflow-x: hidden;
 }
 .col2{
-    margin-top: 1.5vh;
+  margin-top: 1.5vh;
+  width: 70%;
 }
 .mainForm .textField {
   width: 100%;
@@ -133,7 +99,6 @@ gap: 3%;
 .formRow1Col2 {
   margin-top: 2vh;
   width: 60%;
-
   align-self: start;
 }
 .formRow2,
@@ -150,9 +115,7 @@ gap: 3%;
 .formRow5 Button,
 .formRow7 Button {
   height: 2rem;
-  /* margin-top: 3.5vh; */
 }
-
 .formRow7 {
   align-self: flex-end;
 }
@@ -170,77 +133,43 @@ gap: 3%;
 .email .textField {
   width: 500px;
 }
-
-.flexRow {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.checkboxContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
 .projStatus {
-  /* border: 1px solid red; */
   width: 100%;
 }
 .projStatusContent {
   display: flex;
   flex-direction: column;
 }
-
-.midContent {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom:.5%;
-}
-
 .custom-link {
   text-decoration: underline;
 } 
-
 .custom-link:hover {
-  text-decoration: none; /* Remove underline on hover */
-}
-.gridContainer{
-  width: 50%;
-  padding-bottom: 2%;
+  text-decoration: none;
 }
 .qlContainer {
   height: 300px;
   width: 100%;
-  
 }
-
-
 
 .editClientButtonSvg {
   width: 17px;
   transition-duration: 1s;
 }
-
 .editClientButtonSvg path {
   fill: #1976d2;
 }
-
 .chooseClient::before {
   content: "Choose client";
   color: black;
   transition-duration: 1s;
   font-size: 2px;
 }
-
 .changeClient::before {
   content: "Change client";
   color: black;
   transition-duration: 1s;
   font-size: 2px;
 }
-
 .editClientButton:hover {
   width: 200px;
   border-radius: 50px;
@@ -248,7 +177,6 @@ gap: 3%;
   background-color: rgb(255, 69, 69);
   align-items: center;
 }
-
 .editClientButton:hover .editClientButtonSvg {
   width: 20px;
   transition-duration: 1s;
@@ -259,13 +187,11 @@ gap: 3%;
   -ms-transform: rotate(360deg);
   transform: rotate(360deg);
 }
-
 .editClientButton::before {
   display: none;
-  transition-duration: 1s;
+  transition-duration: 1s; 
   font-size: 2px;
 }
-
 .editClientButton:hover::before {
   display: block;
   padding-right: 10px;
@@ -273,4 +199,107 @@ gap: 3%;
   opacity: 1;
   transform: translateY(0px);
   transition-duration: 1s;
+}
+
+
+/* @media (max-height: 550px) and (max-width: 1160px) {
+  .paperTable{
+    height: 85%;
+  }
+} */
+
+
+@media (max-width: 2100px) {
+  .col2{
+    width: 65%;
+  }
+}
+@media (max-width: 1950px) {
+  .col2{
+    width: 70%;
+  }
+}
+@media (max-width: 1875px) {
+  .col2{
+    width: 73%;
+  }
+}
+@media (max-width: 1765px) {
+  .col2{
+    width: 75%;
+  }
+}
+@media (max-width: 1675px) {
+  .col2{
+    width: 80%;
+  }
+}
+@media (max-width: 1600px) {
+  .col2{
+    width: 85%;
+  }
+}
+@media (max-width: 1500px) {
+  .col2{
+    width: 90%;
+  }
+}
+
+
+@media (max-width: 1430px) {
+  .contentHolder {
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .contentHolderLeft{
+    width: 100%;
+    padding-right: 1%;
+    padding-left: 1%;
+    gap: 30px;
+  }
+  .contentHolderRight{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    padding-right: 1%;
+    padding-left: 1%;
+    gap: 50px;
+  }
+  .contentHolderRightTop{
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;   
+  }
+  .col2{
+    width: 48%;
+  }
+  .projManager{
+    flex-direction: column;
+    display: flex;
+  }
+} 
+@media (max-width: 1375px) {
+  .col2{
+    width: 49%;
+  }
+}
+@media (max-width: 1350px) {
+  .col2{
+    width: 51%;
+  }
+}
+@media (max-width: 1280px) {
+  .col2{
+    width: 53%;
+  }
+}
+@media (max-width: 1200px) {
+  .mainContainer { 
+    left: 10px;
+    width: 98%;
+    /* border: 1px solid red; */
+  }
 }

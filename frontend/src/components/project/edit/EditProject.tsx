@@ -7,7 +7,7 @@ import {
   FormLabel,
   InputAdornment,
   MenuItem,
-  Select,
+  Select, 
   SelectChangeEvent,
   Stack,
   Chip,
@@ -817,10 +817,7 @@ export default function EditProject() {
                 {/* PROJECT MANAGERS */}
                 <div className={EditProjectStyle.formRow5}>
                   <FormControl
-                    style={{
-                      flexDirection: "column",
-                      display: "flex",
-                    }}
+                    className={EditProjectStyle.projManager}
                     error={
                       formSubmitted && selectedProjectManagers.length === 0
                     }
