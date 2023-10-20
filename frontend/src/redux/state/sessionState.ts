@@ -20,7 +20,7 @@ interface SessionState {
 
 const initialState: SessionState = {
   user: null,
-  isAuthenticated: localStorage.getItem('isAuthenticated') === "false" , // Read from localStorage or cookies
+  isAuthenticated: false,
   username: null,
   error: null, // Initialize error as null
 
