@@ -1,6 +1,6 @@
 import TopNavStyle from "./TopNavStyle.module.css";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SampleUserImage from "../../Assets/userImage/SampleAvatar.png";
 import { ReactNode } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -17,6 +17,19 @@ import { setUserImg } from "../../redux/state/sessionState";
 export interface TopNavProps {
   pageTitle?: string; // Make pageTitle optional with '?'
   breadcrumbs?: Breadcrumb[]; // Add breadcrumbs prop
+  data?: CurrentUserData[];
+}
+
+export interface CurrentUserData{
+  emp_id: number;
+  username: string;
+  fname: string;
+  lname: string;
+  position_sh_name: string;
+  email: string;
+  section_name: string;
+  dept_name: string;
+  reg_date: Date;
 }
 
 export interface Breadcrumb {
@@ -26,8 +39,10 @@ export interface Breadcrumb {
 }
 
 export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
+    const data = useSelector((state: RootState) => state.userReducer.users);
   // Use pageTitle if provided, otherwise use a default value
   const title = pageTitle || "Default Title";
+  const navigate = useNavigate();
 
   //for clicking the main user name
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -221,16 +236,18 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                   </div>
 
                   <div className={TopNavStyle.manageButtonContainer}>
-                    <Link
-                      to="/user/edit-user/"
+                    <button
+                      onClick = {() => navigate(`/user/edit-user/${user?.username}`)}
                       className={TopNavStyle.manageAccButton}
                     >
-                      <div className={TopNavStyle.holder}>
+                      <div 
+                      className={TopNavStyle.holder}
+                      >
                         <text style={{ color: "black", fontSize: "15px" }}>
                           Manage your Account
                         </text>
                       </div>
-                    </Link>
+                    </button>
 
                     <button className={TopNavStyle.logout} onClick={handleLogout}>
                       <div className={TopNavStyle.logoutSpanContainer}>

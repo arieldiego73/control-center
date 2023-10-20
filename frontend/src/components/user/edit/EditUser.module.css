@@ -38,7 +38,7 @@
   justify-content: center;
   overflow-x: auto;
   margin-top: 15px;
-
+  border: 1px solid red;
 }
 .mainForm {
   display: flex;

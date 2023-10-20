@@ -379,6 +379,39 @@ function* passwordSaga(action: ReturnType<typeof changePassword>): any {
 	}
 }
 
+
+//CurrentUser
+function* currentUserSaga(action: ReturnType<typeof getUserInfo>): any {
+	try {
+		yield put(setIsLoading(true));
+		const responseCurrentUserInfo = yield call(
+			apiFetchCurrentUserInfo,
+			action.payload.userId,
+		);
+		console.log("inside try");
+		yield call(validate, responseCurrentUserInfo, "info");
+	} catch (error) {
+		yield call(catchErr, error);
+		console.log("inside catch");
+	}
+}
+
+export function* CurrentUserSagaFetchUserInfo() {
+	yield takeEvery(getUserInfo.type, currentUserSaga);
+	console.log("CurrentUserSagaFetchUserInfo");
+}
+
+const apiFetchCurrentUserInfo = async (userId: any): Promise<any> => {
+	try {
+		return axios.get(`http://localhost:8080/auth/principal`);
+	} catch (error) {
+		return error;
+	}
+};
+
+
+
+
 // VALIDATE THE RESPONSE
 function* validate(res: any, action?: string) {
 	if (res?.request?.status === 200) {

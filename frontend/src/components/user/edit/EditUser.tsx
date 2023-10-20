@@ -250,8 +250,8 @@ export default function EditUser() {
   const isEmailValid = emailRegex.test(email);
 
   React.useEffect(() => {
-    console.log("logged: " + loggedUserId + " | " + "emp: " + assocID)
-  }, [loggedUserId, assocID])
+    console.log("user", user);
+  }, [user])
 
 
   //FOR DROPDOWN CONFIG (BUSINESS UNIT)

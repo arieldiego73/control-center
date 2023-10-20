@@ -73,13 +73,6 @@ interface UserTableProps {
   data: RowData[];
 }
 
-const PasswordIcon = () => (
-  <img
-    src={passwordIcon}
-    alt="Password"
-    style={{ height: "20px", width: "20px", color: "red" }}
-  />
-);
 const PasswordIcon64px = () => (
   <img
     src={passwordIcon64px}
