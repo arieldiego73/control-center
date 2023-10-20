@@ -13,7 +13,7 @@ import axios from "axios";
 
 const cookies = new Cookies(); // Initialize the Cookies instance
 
-// FOR LOGIN
+// Function for login API call
 const apiLogin = async (username: string, password: string): Promise<any> => {
   try {
     axios.defaults.withCredentials = true;
@@ -30,13 +30,13 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
           id: response.data.id,
           username: response.data.username,
           fullName: response.data.fullName,
-          email: response.data.email, // Retrieve the email from the server response
+          email: response.data.email,
           img: response.data.img,
         };
   
         // Store authentication status in localStorage and Redux state
-        cookies.set('isAuthenticated', 'true');
         localStorage.setItem('isAuthenticated', 'true');
+        cookies.set('isAuthenticated', 'true');        
         cookies.set('username', username);
         cookies.set('password', password);
 
@@ -44,48 +44,50 @@ const apiLogin = async (username: string, password: string): Promise<any> => {
       } else {
         return null;
       }
-    } catch (error) {
-      console.error("An error occurred:", error);
-      throw error;
-    }
-  };
+  }catch (error) {
+    console.error("An error occurred:", error);
+    throw error;
+  }
+};
 
-  export{apiLogin}
+export{apiLogin}
 
-  function* loginSaga(action: ReturnType<typeof login>): any {
-    try {
-      const user = yield call(
-        apiLogin,
-        action.payload.username,
-        action.payload.password
+function* loginSaga(action: ReturnType<typeof login>): any {
+  try {
+    const user = yield call(
+      apiLogin,
+      action.payload.username,
+      action.payload.password
       );
-  
+      
       if (user) {
         yield put(setUser(user));
         yield put(clearError());
+
         // Set the 'isAuthenticated' cookie and localStorage value
-        cookies.set('isAuthenticated', 'true');
         localStorage.setItem('isAuthenticated', 'true');
+        cookies.set('isAuthenticated', 'true');
+        
         // Dispatch the authentication status as true
         yield put(setAuthenticationStatus(true));
-
       } else {
-        // Handle login failure
         yield put(clearError());
-        cookies.set('isAuthenticated', 'false');
+
+        // Set the 'isAuthenticated' cookie and localStorage value
         localStorage.setItem('isAuthenticated', 'false');
+        cookies.set('isAuthenticated', 'false');
         yield put(setAuthenticationStatus(false));
       }
     } catch (error:any) {
       yield put(clearError());
       console.log(error.response);
+
       // Handle any error that occurred during the API call
       yield put(setError(error.response.data.error));
     }
   }
-
-
-// Function for making a logout API call
+  
+// Function for logout API call
 const apiLogout = async (): Promise<void> => {
 	try {
 	  // Make a GET request to your backend's logout endpoint
