@@ -102,6 +102,7 @@ function App() {
 				) : (
 					<>
 						<Route index element={<LoginPage />} />
+						<Route path="/" element={<LoginPage />} />
 						<Route path="*" element={<Navigate to="/" />} />
 					</>
 				)}
