@@ -769,8 +769,12 @@ public class UserServiceImpl implements UserService {
               if (!new_password.equals(confirm_new_password)) {
                 return ResponseEntity.badRequest().body("New password and confirm password do not match");
               } else {
-                userDao.changePassword(user_id, passEnc.encode(new_password));
-                return ResponseEntity.ok("Password Changed Successfully.");
+                if(passEnc.matches(new_password, user.getPassword())) {
+                  return ResponseEntity.badRequest().body("Old password, please choose another one.");
+                } else {
+                  userDao.changePassword(user_id, passEnc.encode(new_password));
+                  return ResponseEntity.ok("Password Changed Successfully.");
+                }
               }
             }
           }
