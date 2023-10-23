@@ -81,18 +81,19 @@ public class ClientServiceImpl implements ClientService{
                         paramMap.put("client", client);
                         clientDao.editClient(paramMap);
 
-                        //Acivitylog
-                        ActivityLogInput activityLogInput = new ActivityLogInput();
+                        if (!data.getClient_name().equals(client.getClient_name())) {
+                            //Acivitylog
+                            ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                        activityLogInput.setEmp_id(emp_id); //current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + client.getClient_name() + "' client.");
+                            activityLogInput.setEmp_id(emp_id); //current logged user dapat
+                            activityLogInput.setLog_desc("Edited '" + data.getClient_name() + "' to '" + client.getClient_name() + "' client.");
 
-                        Long currentTimeMillis = System.currentTimeMillis();
-                        //add the activity log
-                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                        activityLogDao.addActivityLog(activityLogInput);
-                        
-                        return ResponseEntity.ok().body("Edited '" + client.getClient_name() + "' Successfully.");
+                            Long currentTimeMillis = System.currentTimeMillis();
+                            //add the activity log
+                            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                            activityLogDao.addActivityLog(activityLogInput);
+                        }
+                        return ResponseEntity.ok().body("Edited '" + client.getClient_name() + "' successfully.");
                     } else {
                         Map<String, Object> paramMap = new HashMap<>();
                         paramMap.put("id", id);
@@ -110,7 +111,7 @@ public class ClientServiceImpl implements ClientService{
                         activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                         activityLogDao.addActivityLog(activityLogInput);
                         
-                        return ResponseEntity.ok().body("Edited '" + client.getClient_name() + "' Successfully.");
+                        return ResponseEntity.ok().body("Edited '" + client.getClient_name() + "' successfully.");
                     }
                 }
             
