@@ -77,7 +77,7 @@ const MenuProps = {
     },
   },
 };
-const GLOBAL_TIMEOUT = 2000;
+const GLOBAL_TIMEOUT = 5000;
 
 export interface SnackbarMessage {
   message: string;

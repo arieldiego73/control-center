@@ -102,10 +102,10 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
   
 
   React.useEffect(() => {
-    if (user?.img === "" && updatedUserInfo.img_src !== "") {
-      if(user?.id === updatedUserInfo.emp_id) {
+    if (principal?.userInfoOutput?.img_src === "" && updatedUserInfo.img_src !== "") {
+      if(principal?.userInfoOutput?.emp_id === updatedUserInfo.emp_id) {
         dispatch(setUserImg(updatedUserInfo.img_src));
-        console.log("NALAGYAN NAAAAAAAA", user)
+        console.log("NALAGYAN NAAAAAAAA", principal?.userInfoOutput)
         console.log("ito nilagay: ", updatedUserInfo.img_src)
       }
     }
@@ -161,9 +161,9 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                     className={TopNavStyle.mainImage}
                   /> */}
                   {/* Display the selected image */}
-                  {user?.img ? (
+                  {principal?.userInfoOutput?.img_src ? (
                       <img
-                        src={require(`../../Assets/userImage/${user.img}`)}
+                        src={require(`../../Assets/userImage/${principal?.userInfoOutput?.img_src}`)}
                         alt="Selected"
                         style={{ height: "100%", width: "100%", borderRadius: "100%", }}
                           className={TopNavStyle.mainImage}
@@ -178,7 +178,7 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                         />
                       )}
                 </div>
-                <div className={TopNavStyle.mainName}>{user ? `${user.fullName}` : ' '}</div>
+                <div className={TopNavStyle.mainName}>{principal?.userInfoOutput ? `${principal?.userInfoOutput?.fname} ${principal?.userInfoOutput?.lname}` : ' '}</div>
               </div>
             </Tooltip>
 
@@ -241,9 +241,9 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                 >
                   <div className={TopNavStyle.profileInfoHolder}>
                     <div className={TopNavStyle.imageHolder}>
-                      {user?.img ? (
+                      {principal?.userInfoOutput?.img_src ? (
                       <img
-                        src={require(`../../Assets/userImage/${user.img}`)}
+                        src={require(`../../Assets/userImage/${principal?.userInfoOutput?.img_src}`)}
                         alt=""
                         className={TopNavStyle.imgSize}
                       />
@@ -258,15 +258,15 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
                     </div>
 
                     <text style={{ fontSize: "20px", fontWeight: "bold" }}>
-                       {user ? `${user.fullName}` : ' '}
+                       {principal?.userInfoOutput ? `${principal?.userInfoOutput?.fname} ${principal?.userInfoOutput?.lname}` : ' '}
                     </text>
-                    <text style={{ fontSize: "12px" }}>{user ? user.email : ' '}</text>
+                    <text style={{ fontSize: "12px" }}>{principal?.userInfoOutput ? principal?.userInfoOutput?.email : ' '}</text>
                   </div>
 
                   <div className={TopNavStyle.manageButtonContainer}>
                     <button
                       // onClick = {() => navigate(`/user/edit-user/${user?.username}`)}
-                      onClick = {() => navigate(`/user/edit-user/${user?.username}`, {state: user?.id,})}
+                      onClick = {() => navigate(`/user/edit-user/${principal?.userInfoOutput?.username}`, {state: principal?.userInfoOutput?.emp_id,})}
                       className={TopNavStyle.manageAccButton}
                     >
                       <div 
