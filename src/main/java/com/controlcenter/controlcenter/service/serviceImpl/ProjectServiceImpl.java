@@ -23,7 +23,7 @@ import com.controlcenter.controlcenter.dao.ProjectTechnologyDao;
 import com.controlcenter.controlcenter.dao.TechnologyDao;
 import com.controlcenter.controlcenter.dao.UserDao;
 import com.controlcenter.controlcenter.dao.UserProjectDao;
-import com.controlcenter.controlcenter.model.ActivityLogInput;
+import com.controlcenter.controlcenter.model.ActivityLogInput; 
 import com.controlcenter.controlcenter.model.ClientOutput;
 import com.controlcenter.controlcenter.model.DevPhaseOutput;
 import com.controlcenter.controlcenter.model.DevTypeOutput;
