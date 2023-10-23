@@ -119,7 +119,7 @@
   width: 200px;
   border-radius: 50px;
   transition-duration: 1s;
-  background-color: rgb(255, 69, 69);
+  /* background-color: rgb(255, 69, 69); */
   align-items: center;
 }
 .editClientButton:hover .editClientButtonSvg {
