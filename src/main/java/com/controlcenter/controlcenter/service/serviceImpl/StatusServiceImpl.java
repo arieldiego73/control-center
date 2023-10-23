@@ -86,17 +86,19 @@ public class StatusServiceImpl implements StatusService {
                         paramMap.put("status", status);
 
                         statusDao.editStatusInfo(paramMap);
-
-                        // Activitylog
-                        ActivityLogInput activityLogInput = new ActivityLogInput();
-
-                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + status.getStatus_name() + "' status.");
-
                         Long currentTimeMillis = System.currentTimeMillis();
-                        // add the activity log
-                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                        activityLogDao.addActivityLog(activityLogInput);
+
+                        if (!statusById.getStatus_name().equals(status.getStatus_name())) {
+                            // Activitylog
+                            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                            activityLogInput.setLog_desc("Edited '" + statusById.getStatus_name() + "' to '" + status.getStatus_name() + "' status.");
+
+                            // add the activity log
+                            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                            activityLogDao.addActivityLog(activityLogInput);
+                        }
 
                         return ResponseEntity.ok().body("Edited '" + status.getStatus_name() + "' successfully.") ;
                     } else {
