@@ -201,7 +201,7 @@ export default function SideNav() {
     alignItems: isScreenLessThan1200 ? "center" : "stretch", // Center items if small screen, otherwise stretch
     justifyContent: isScreenLessThan1200 ? "center" : "stretch", // Center items if small screen, otherwise stretch
     borderRadius: "10px",
-    overflow: "hidden",
+    // overflow: "hidden",
     gap: "2%",
     background: "rgba( 237, 249, 255, 0.35 )",
     // boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
@@ -251,7 +251,7 @@ export default function SideNav() {
               }}
             >
               {/* Updated styles */}
-              <FireNav component="nav" disablePadding>
+              <FireNav component="nav" disablePadding sx={{height:"100%", overflowY:"auto"}}>
                 <Link onClick={() => dispatch({ type: 'NAVIGATE' })} to="/dashboard" style={{ textDecoration: "none" }}>
                   <ListItemButton style={{ height: "65px" }}>
                     <img
@@ -492,7 +492,7 @@ export default function SideNav() {
                   </Box>
 
                   {open && (
-                    <Box>
+                    <Box >
                       {othersDropDownData.map((item) => (
                         <Link
                           key={item.label}
