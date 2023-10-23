@@ -539,18 +539,31 @@ public class ProjectServiceImpl implements ProjectService {
                 // saving of project info on tbl_proj_info table
                 projInfoDao.editProjInfo(projectInfoMap);
 
-                // Activitylog
-                ActivityLogInput activityLogInput = new ActivityLogInput();
-
-                activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                activityLogInput.setLog_desc("Edited '" + project.getProj_name() + "' project.");
-
                 Long currentTimeMillis = System.currentTimeMillis();
-                // add the activity log
-                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                activityLogDao.addActivityLog(activityLogInput);
+                if (!project.getProj_name().equals(projectBody.getProj_name())) {
+                    // Activitylog
+                    ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                return ResponseEntity.status(200).body("Project '" + project.getProj_name() + "' edited successfully.");
+                    activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                    activityLogInput.setLog_desc("Edited '" + project.getProj_name() + "' to '" + projectBody.getProj_name() + "' project.");
+
+                    // add the activity log
+                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                    activityLogDao.addActivityLog(activityLogInput);
+                } else {
+                    // Activitylog
+                    ActivityLogInput activityLogInput = new ActivityLogInput();
+    
+                    activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                    activityLogInput.setLog_desc("Edited '" + projectBody.getProj_name() + "' project.");
+    
+                    // add the activity log
+                    activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                    activityLogDao.addActivityLog(activityLogInput);
+                }
+
+
+                return ResponseEntity.status(200).body("Project '" + projectBody.getProj_name() + "' edited successfully.");
                 
             }
         } else {

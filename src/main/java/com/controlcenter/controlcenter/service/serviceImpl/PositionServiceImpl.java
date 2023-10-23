@@ -85,16 +85,18 @@ public class PositionServiceImpl implements PositionService {
 
                         positionDao.editPositionInfo(paramMap);
 
-                        // Activitylog
-                        ActivityLogInput activityLogInput = new ActivityLogInput();
+                        if (!data.getPosition_name().equals(position.getPosition_name())){
+                            // Activitylog
+                            ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + position.getPosition_name() + "' sucessfully.");
+                            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                            activityLogInput.setLog_desc("Edited '" + data.getPosition_name() + "' to '" + position.getPosition_name() + "' position.");
 
-                        Long currentTimeMillis = System.currentTimeMillis();
-                        // add the activity log
-                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                        activityLogDao.addActivityLog(activityLogInput);
+                            Long currentTimeMillis = System.currentTimeMillis();
+                            // add the activity log
+                            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                            activityLogDao.addActivityLog(activityLogInput);
+                        }
 
                         return ResponseEntity.ok().body("Edited '" + position.getPosition_name() + "' successfully.");
                     } else if (!position.getPosition_sh_name().equals(data.getPosition_sh_name())){

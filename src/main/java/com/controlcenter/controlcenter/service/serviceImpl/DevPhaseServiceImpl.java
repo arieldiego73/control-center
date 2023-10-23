@@ -89,18 +89,19 @@ public class DevPhaseServiceImpl implements DevPhaseService {
                         devPhaseDao.editDevPhaseInfo(paramMap);
 
                         devPhaseList = devPhaseDao.getAllDevPhase();
-
-                        // Acivitylog
-                        ActivityLogInput activityLogInput = new ActivityLogInput();
-
-                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + devPhase.getDev_phase_name() + "' development phase.");
-
                         Long currentTimeMillis = System.currentTimeMillis();
-                        // add the activity log
-                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                        activityLogDao.addActivityLog(activityLogInput);
 
+                        if (!data.getDev_phase_name().equals(devPhase.getDev_phase_name())) {
+                            // Acivitylog
+                            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                            activityLogInput.setLog_desc("Edited '" + data.getDev_phase_name() + "' to '" + devPhase.getDev_phase_name() + "' development phase.");
+
+                            // add the activity log
+                            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                            activityLogDao.addActivityLog(activityLogInput);
+                        }
                         return ResponseEntity.ok().body("Edited '" + devPhase.getDev_phase_name() + "' successfully.");
                     } else { 
                         Map<String, Object> paramMap = new HashMap<>();
