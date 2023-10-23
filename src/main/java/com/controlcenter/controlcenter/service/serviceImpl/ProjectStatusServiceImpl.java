@@ -94,16 +94,6 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
                             // add the activity log
                             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                             activityLogDao.addActivityLog(activityLogInput);
-                        } else {
-                            // Activitylog
-                            ActivityLogInput activityLogInput = new ActivityLogInput();
-
-                            activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                            activityLogInput.setLog_desc("Edited '" + projectStatus.getProj_status_name() + "' project status.");
-
-                            // add the activity log
-                            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                            activityLogDao.addActivityLog(activityLogInput);
                         }
 
                         return ResponseEntity.ok().body("Edited '" + projectStatus.getProj_status_name() + "' successfully.");

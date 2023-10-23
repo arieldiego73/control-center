@@ -101,16 +101,6 @@ public class DevPhaseServiceImpl implements DevPhaseService {
                             // add the activity log
                             activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
                             activityLogDao.addActivityLog(activityLogInput);
-                        } else {
-                            // Acivitylog
-                            ActivityLogInput activityLogInput = new ActivityLogInput();
-    
-                            activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                            activityLogInput.setLog_desc("Edited '" + devPhase.getDev_phase_name() + "' development phase.");
-    
-                            // add the activity log
-                            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                            activityLogDao.addActivityLog(activityLogInput);
                         }
                         return ResponseEntity.ok().body("Edited '" + devPhase.getDev_phase_name() + "' successfully.");
                     } else { 
