@@ -157,7 +157,6 @@ export default function ActivityLogDashboardTable() {
           fontWeight: "bold",
           verticalAlign: "baseline",
           fontSize:"15px",
-          border:'1px solid red'
         }}
         rowSpan={otherDates.filter((date) => date === row.date).length}
       >

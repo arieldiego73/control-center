@@ -264,7 +264,8 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
 
                   <div className={TopNavStyle.manageButtonContainer}>
                     <button
-                      onClick = {() => navigate(`/user/edit-user/${user?.username}`)}
+                      // onClick = {() => navigate(`/user/edit-user/${user?.username}`)}
+                      onClick = {() => navigate(`/user/edit-user/${user?.username}`, {state: user?.id,})}
                       className={TopNavStyle.manageAccButton}
                     >
                       <div 

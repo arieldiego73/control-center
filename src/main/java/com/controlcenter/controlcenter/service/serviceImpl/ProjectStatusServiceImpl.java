@@ -82,17 +82,19 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
                         paramMap.put("projectStatus", projectStatus);
 
                         projectStatusDao.editProjectStatus(paramMap);
-
-                        // Activitylog
-                        ActivityLogInput activityLogInput = new ActivityLogInput();
-
-                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + projectStatus.getProj_status_name() + "' sucessfully.");
-
                         Long currentTimeMillis = System.currentTimeMillis();
-                        // add the activity log
-                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                        activityLogDao.addActivityLog(activityLogInput);
+
+                        if (!data.getProj_status_name().equals(projectStatus.getProj_status_name())) {
+                            // Activitylog
+                            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                            activityLogInput.setLog_desc("Edited '" + data.getProj_status_name() + "' to '" + projectStatus.getProj_status_name() + "' project status.");
+
+                            // add the activity log
+                            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                            activityLogDao.addActivityLog(activityLogInput);
+                        }
 
                         return ResponseEntity.ok().body("Edited '" + projectStatus.getProj_status_name() + "' successfully.");
                     } else {
@@ -115,13 +117,11 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
 
                         return ResponseEntity.ok().body("Edited '" + projectStatus.getProj_status_name() + "' successfully.");
                     }
-                   
                 }
                
             }
         } else {
             return ResponseEntity.badRequest().body("Project Status with the ID " + id + " cannot be found.");
-
         }
     }
 

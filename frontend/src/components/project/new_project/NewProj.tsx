@@ -962,15 +962,7 @@ export default function NewProj() {
             />
           </div>
           {/* SAVING BUTTONS */}
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              justifyContent: "flex-end",
-              width: "97%",
-              marginRight: "10px",
-            }}
-          >
+          <div   className={NewProjectStyle.saveButton}>
             <Button
               variant="contained"
               color="primary"

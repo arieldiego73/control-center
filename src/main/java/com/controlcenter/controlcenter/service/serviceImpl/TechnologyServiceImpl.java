@@ -83,16 +83,18 @@ public class TechnologyServiceImpl implements TechnologyService {
                         paramMap.put("technology", technology);
                         technologyDao.editTechnology(paramMap);
 
-                        // Activitylog
-                        ActivityLogInput activityLogInput = new ActivityLogInput();
+                        if (!data.getTech_name().equals(technology.getTech_name())) {
+                            // Activitylog
+                            ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + technology.getTech_name() + "' technology.");
+                            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                            activityLogInput.setLog_desc("Edited '" + data.getTech_name() + "' to '" + technology.getTech_name() + "' technology.");
 
-                        Long currentTimeMillis = System.currentTimeMillis();
-                        // add the activity log
-                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                        activityLogDao.addActivityLog(activityLogInput);
+                            Long currentTimeMillis = System.currentTimeMillis();
+                            // add the activity log
+                            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                            activityLogDao.addActivityLog(activityLogInput);
+                        }
 
                         return ResponseEntity.ok().body("Edited '" + technology.getTech_name() + "'  successfully.");
                     } else {
@@ -114,13 +116,10 @@ public class TechnologyServiceImpl implements TechnologyService {
 
                         return ResponseEntity.ok().body("Edited '" + technology.getTech_name() + "'  successfully.");
                     }
-                   
                 }
             }
         } else {
             return ResponseEntity.badRequest().body("Technology with the ID " + id + " cannot be found.");
-
-            
         }
     }
 

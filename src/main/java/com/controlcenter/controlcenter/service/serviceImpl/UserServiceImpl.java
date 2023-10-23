@@ -421,17 +421,30 @@ public class UserServiceImpl implements UserService {
 
           userDao.editUser(userMap);
           personalInfoDao.editPersonalInfo(personalInfoMap);
-
-          // Activitylog
-          ActivityLogInput activityLogInput = new ActivityLogInput();
-
-          activityLogInput.setEmp_id(emp_id); // current logged user dapat
-          activityLogInput.setLog_desc("Edited '" + user.getUsername() + "' account.");
-
+          
           Long currentTimeMillis = System.currentTimeMillis();
-          // add the activity log
-          activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-          activityLogDao.addActivityLog(activityLogInput);
+
+          if (!userBodyChecker.getUsername().equals(accountBody.getUsername())) {
+            // Activitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+            activityLogInput.setLog_desc("Edited '" + userBodyChecker.getUsername() + "' to '" + accountBody.getUsername() + "' account.");
+
+            // add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+          } else {
+            // Activitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+  
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+            activityLogInput.setLog_desc("Edited '" + accountBody.getUsername() + "' account.");
+  
+            // add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+          }
 
           
           List<String> removedNames = new ArrayList<>();
