@@ -51,7 +51,7 @@ export const userSlice = createSlice({
 			state.isLoading = false;
 		},
 		getPrincipalInfoSuccess: (state, action) => {
-			state.userInfo = action.payload;
+			state.principal = action.payload;
 			state.isLoading = false;
 		},
 		getUserRolesSuccess: (state, action) => {

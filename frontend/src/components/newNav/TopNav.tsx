@@ -12,7 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/saga/sessionSaga"; // Import the logout action
 import { RootState } from "../../redux/store/store";
 import { setUserImg } from "../../redux/state/sessionState";
-import { getPrincipalInfoSuccess } from "../../redux/state/userState";
+// import { getPrincipalInfoSuccess } from "../../redux/state/userState";
+import { getUserPrincipalInfo } from "../../redux/saga/userSaga";
 
 export interface TopNavProps {
   pageTitle?: string; // Make pageTitle optional with '?'
@@ -75,15 +76,15 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
 
   const user = useSelector((state: RootState) => state.sessionReducer.user);
   const updatedUserInfo = useSelector((state: RootState) => state.userReducer.userInfo);
-  const principal = useSelector((state: RootState) => state.userReducer.userInfo);
+  const principal: any = useSelector((state: RootState) => state.userReducer.principal);
 
-  console.log("Eto yung current logged in user", principal);
+  console.log("Eto yung current logged in user", principal?.userInfoOutput);
   console.log("UpdatedUserInfo", updatedUserInfo);
   console.log("User", user);
 
   React.useEffect(() => {
     // Dispatch the getPrincipalInfo action with the userId as its payload
-    dispatch(getPrincipalInfoSuccess(principal));
+    dispatch(getUserPrincipalInfo());
   }, [dispatch]);
 
   // const user = useSelector((state: RootState) => state.sessionReducer.user);

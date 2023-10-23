@@ -58,9 +58,10 @@ function* workGetUsersFetch(): any {
 function* getPrincipalInfo(): any {
 	try {
 	  const response = yield call(() =>
-		fetch("http://localhost:8080/auth/principal").then((res) => res.json())
+		axios.get("http://localhost:8080/auth/principal").then((res) => res.data)
 	  );
-	  if (response && response.userInfoOutput) {
+	  console.log("princpal", response);
+	  if (response) {
 		yield put(getPrincipalInfoSuccess(response));
 	  } else {
 		console.error("Invalid response structure", response);
@@ -70,9 +71,14 @@ function* getPrincipalInfo(): any {
 	}
   }
 
+export function* userPrincipalSaga() {
+	yield takeEvery("users/getPrincipalInfo", getPrincipalInfo);
+}
+
+export const getUserPrincipalInfo = createAction("users/getPrincipalInfo");
+
 function* userSaga() {
 	yield takeEvery("users/getUsersFetch", workGetUsersFetch);
-	yield takeEvery("users/getPrincipalInfo", getPrincipalInfo);
 }
 
 // FETCH A SINGLE USER
