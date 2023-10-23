@@ -201,7 +201,7 @@ export default function SideNav() {
     alignItems: isScreenLessThan1200 ? "center" : "stretch", // Center items if small screen, otherwise stretch
     justifyContent: isScreenLessThan1200 ? "center" : "stretch", // Center items if small screen, otherwise stretch
     borderRadius: "10px",
-    // overflow: "hidden",
+    overflow: "hidden",
     gap: "2%",
     background: "rgba( 237, 249, 255, 0.35 )",
     // boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
