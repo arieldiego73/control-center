@@ -201,7 +201,7 @@ export default function SideNav() {
     alignItems: isScreenLessThan1200 ? "center" : "stretch", // Center items if small screen, otherwise stretch
     justifyContent: isScreenLessThan1200 ? "center" : "stretch", // Center items if small screen, otherwise stretch
     borderRadius: "10px",
-    // overflow: "hidden",
+    overflow: "hidden",
     gap: "2%",
     background: "rgba( 237, 249, 255, 0.35 )",
     // boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
@@ -223,7 +223,7 @@ export default function SideNav() {
         </div>
       )}
       {!isScreenLessThan1200 && (
-        <div style={{ display: "flex", height: "100%", width: "100%" }}>
+        <div style={{ display: "flex", height: "100%", width: "100%", overflow:"hidden" }}>
           <ThemeProvider
             theme={createTheme({
               components: {
@@ -248,10 +248,11 @@ export default function SideNav() {
                 boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
                 backdropFilter: "blur(5px)",
                 WebkitBackdropFilter: "blur(5px)",
+                overflow:"hidden"
               }}
             >
               {/* Updated styles */}
-              <FireNav component="nav" disablePadding sx={{height:"100%", overflowY:"auto"}}>
+              <FireNav component="nav" disablePadding sx={{height:"100%", overflowY:"auto", overflowX:"hidden"}}>
                 <Link onClick={() => dispatch({ type: 'NAVIGATE' })} to="/dashboard" style={{ textDecoration: "none" }}>
                   <ListItemButton style={{ height: "65px" }}>
                     <img
@@ -394,6 +395,7 @@ export default function SideNav() {
                   sx={{
                     display: "flex",
                     flexDirection: "column", // Stack the containers vertically
+                    overflow:"hidden"
                   }}
                 >
 
@@ -416,7 +418,6 @@ export default function SideNav() {
                         px: 3,
                         pt: 2.5,
                         pb: 2.5, // Keep consistent padding for both active and inactive states
-
                         "&:hover": {
                           backgroundColor: "white",
                           "& .MuiListItemText-primary": {
@@ -497,7 +498,7 @@ export default function SideNav() {
                         <Link
                           key={item.label}
                           to={item.path}
-                          style={{ textDecoration: "none", color: "inherit" }}
+                          style={{ textDecoration: "none", color: "inherit", }}
                         >
                           <ListItemButton
                             sx={{
