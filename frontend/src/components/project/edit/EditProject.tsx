@@ -11,7 +11,7 @@ import {
   SelectChangeEvent,
   Stack,
   Chip,
-  Avatar,
+  Avatar, 
   Paper,
   Typography,
   List,
@@ -1077,15 +1077,7 @@ export default function EditProject() {
             />
           </div>
           {/* SAVING BUTTONS */}
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              justifyContent: "flex-end",
-              width: "97%",
-              marginRight: "10px",
-            }}
-          >
+          <div  className={EditProjectStyle.saveButton}>
             <Button
               variant="contained"
               color="primary"
