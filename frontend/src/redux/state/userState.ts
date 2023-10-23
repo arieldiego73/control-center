@@ -26,6 +26,7 @@ export const userSlice = createSlice({
 			status_code: "",
       		img_src: "",
 		},
+		principal: {},
 		userRoles: [],
 		isLoading: false,
 		isLoadingDialog: false, 
@@ -46,6 +47,10 @@ export const userSlice = createSlice({
 			state.isLoading = false;
 		},
 		getUserInfoSuccess: (state, action) => {
+			state.userInfo = action.payload;
+			state.isLoading = false;
+		},
+		getPrincipalInfoSuccess: (state, action) => {
 			state.userInfo = action.payload;
 			state.isLoading = false;
 		},
@@ -110,6 +115,7 @@ export const {
 	getUsersFetch,
 	getUsersSuccess,
 	getUserInfoSuccess,
+	getPrincipalInfoSuccess,
 	getUserRolesSuccess,
 	setMessage,
 	addUserSuccess,

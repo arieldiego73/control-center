@@ -2,6 +2,7 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import {
 	addUserSuccess,
 	getUserInfoSuccess,
+	getPrincipalInfoSuccess,
 	getUserRolesSuccess,
 	getUsersFetch,
 	getUsersSuccess,
@@ -46,8 +47,32 @@ function* workGetUsersFetch(): any {
 	yield put(getUsersSuccess(users));
 }
 
+// function* getPrincipalInfo(): any {
+// 	const principal = yield call(() =>
+// 		fetch("http://localhost:8080/auth/principal").then((res) => res.json())
+// 	);
+// 	yield put(getPrincipalInfoSuccess(principal.data.userInfoOutput));
+// 	console.log("Principal",principal);
+// }
+
+function* getPrincipalInfo(): any {
+	try {
+	  const response = yield call(() =>
+		fetch("http://localhost:8080/auth/principal").then((res) => res.json())
+	  );
+	  if (response && response.userInfoOutput) {
+		yield put(getPrincipalInfoSuccess(response));
+	  } else {
+		console.error("Invalid response structure", response);
+	  }
+	} catch (error) {
+	  console.error("Error while fetching principal info", error);
+	}
+  }
+
 function* userSaga() {
 	yield takeEvery("users/getUsersFetch", workGetUsersFetch);
+	yield takeEvery("users/getPrincipalInfo", getPrincipalInfo);
 }
 
 // FETCH A SINGLE USER
@@ -79,6 +104,45 @@ const apiFetchUserInfo = async (userId: any): Promise<any> => {
 export const getUserInfo = createAction<{
 	userId: any;
 }>("users/getUserInfo");
+
+// FETCH THE CURRENT USER THAT'S LOGGED IN
+// function* fetchPrincipalInfo(action: ReturnType<typeof getPrincipalInfo>): any {
+// 	try {
+// 	  yield put(setIsLoading(true));
+// 	  const responsePrincipalInfo = yield call(apiFetchPrincipalInfo);
+// 	  yield call(validate, responsePrincipalInfo, "principal");
+// 	  console.log("Current Logged in user", responsePrincipalInfo);
+// 	} catch (error) {
+// 	  yield call(catchErr, error);
+// 	  console.log("Error", error);
+// 	}
+// 	// try {
+// 	// 	yield put(setIsLoading(true));
+// 	// 	const responsePrincipalInfo = yield call(apiFetchPrincipalInfo);
+// 	// 	yield put(getUserInfoSuccess(responsePrincipalInfo.data.userInfoOutput));
+// 	//   } catch (error) {
+// 	// 	yield put(setError(error));
+// 	//   } finally {
+// 	// 	yield put(setIsLoading(false));
+// 	//   }
+//   }
+  
+//   export function* userSagaFetchPrincipalInfo() {
+// 	yield takeEvery(getPrincipalInfo, fetchPrincipalInfo);
+//   }
+
+// const apiFetchPrincipalInfo = async (): Promise<any> => {
+// 	try {
+// 		const response = await axios.get(`http://localhost:8080/auth/principal`);
+// 		console.log("From api Current Logged in user", response.data);
+// 		return response.data;
+// 	} catch (error) {
+// 		console.log("From api Error", error);
+// 		return error;
+// 	}
+// };
+
+// export const getPrincipalInfo = createAction<{}>("users/principalInfo");
 
 // FETCH A SINGLE USER'S ROLES
 function* fetchUserRolesSaga(action: ReturnType<typeof getUserRoles>): any {
@@ -381,33 +445,33 @@ function* passwordSaga(action: ReturnType<typeof changePassword>): any {
 
 
 //CurrentUser
-function* currentUserSaga(action: ReturnType<typeof getUserInfo>): any {
-	try {
-		yield put(setIsLoading(true));
-		const responseCurrentUserInfo = yield call(
-			apiFetchCurrentUserInfo,
-			action.payload.userId,
-		);
-		console.log("inside try");
-		yield call(validate, responseCurrentUserInfo, "info");
-	} catch (error) {
-		yield call(catchErr, error);
-		console.log("inside catch");
-	}
-}
+// function* currentUserSaga(action: ReturnType<typeof getUserInfo>): any {
+// 	try {
+// 		yield put(setIsLoading(true));
+// 		const responseCurrentUserInfo = yield call(
+// 			apiFetchCurrentUserInfo,
+// 			action.payload.userId,
+// 		);
+// 		console.log("inside try");
+// 		yield call(validate, responseCurrentUserInfo, "info");
+// 	} catch (error) {
+// 		yield call(catchErr, error);
+// 		console.log("inside catch");
+// 	}
+// }
 
-export function* CurrentUserSagaFetchUserInfo() {
-	yield takeEvery(getUserInfo.type, currentUserSaga);
-	console.log("CurrentUserSagaFetchUserInfo");
-}
+// export function* CurrentUserSagaFetchUserInfo() {
+// 	yield takeEvery(getUserInfo.type, currentUserSaga);
+// 	console.log("CurrentUserSagaFetchUserInfo");
+// }
 
-const apiFetchCurrentUserInfo = async (userId: any): Promise<any> => {
-	try {
-		return axios.get(`http://localhost:8080/auth/principal`);
-	} catch (error) {
-		return error;
-	}
-};
+// const apiFetchCurrentUserInfo = async (userId: any): Promise<any> => {
+// 	try {
+// 		return axios.get(`http://localhost:8080/auth/principal`);
+// 	} catch (error) {
+// 		return error;
+// 	}
+// };
 
 
 
