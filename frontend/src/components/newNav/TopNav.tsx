@@ -11,8 +11,8 @@ import defaultProfile from "../../Assets/userImage/MaleDefaultProfile.jpg"
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/saga/sessionSaga"; // Import the logout action
 import { RootState } from "../../redux/store/store";
-import { getUserInfo } from "../../redux/saga/userSaga";
 import { setUserImg } from "../../redux/state/sessionState";
+import { getPrincipalInfoSuccess } from "../../redux/state/userState";
 
 export interface TopNavProps {
   pageTitle?: string; // Make pageTitle optional with '?'
@@ -69,9 +69,36 @@ export default function TopNav({ pageTitle, breadcrumbs }: TopNavProps) {
     dispatch(logout());
   };
 
-  const user = useSelector((state: RootState) => state.sessionReducer.user);
-  const updatedUserInfo = useSelector((state: RootState) => state.userReducer.userInfo)
+  
 
+  
+
+  const user = useSelector((state: RootState) => state.sessionReducer.user);
+  const updatedUserInfo = useSelector((state: RootState) => state.userReducer.userInfo);
+  const principal = useSelector((state: RootState) => state.userReducer.userInfo);
+
+  console.log("Eto yung current logged in user", principal);
+  console.log("UpdatedUserInfo", updatedUserInfo);
+  console.log("User", user);
+
+  React.useEffect(() => {
+    // Dispatch the getPrincipalInfo action with the userId as its payload
+    dispatch(getPrincipalInfoSuccess(principal));
+  }, [dispatch]);
+
+  // const user = useSelector((state: RootState) => state.sessionReducer.user);
+  // const updatedUserInfo = useSelector((state: RootState) => state.userReducer.userInfo);
+  // const principal = useSelector((state: RootState) => state.userReducer.principal);
+  // console.log("Eto yung current logged in user", principal.userInfoOutput);
+  // console.log("UpdatedUserInfo", updatedUserInfo);
+  // console.log("User", user);
+
+  // React.useEffect(() => {
+  //   dispatch(getPrincipalInfo(userId));
+  // }, [dispatch]);
+  
+  
+  
 
   React.useEffect(() => {
     if (user?.img === "" && updatedUserInfo.img_src !== "") {

@@ -91,7 +91,7 @@ public class AuthController {
             authResponse.put("status", "active");
             authResponse.put("username", currentLoggedUser.getUsername());
             authResponse.put("id", currentLoggedUser.getEmp_id());
-            authResponse.put("fullName", currentLoggedUser.getFname() + " " + currentLoggedUser.getMname() + " " + currentLoggedUser.getLname());
+            authResponse.put("fullName", currentLoggedUser.getFname() + " " + currentLoggedUser.getLname());
             authResponse.put("email", currentLoggedUser.getEmail());
             authResponse.put("img", currentLoggedUser.getImg_src());
             
