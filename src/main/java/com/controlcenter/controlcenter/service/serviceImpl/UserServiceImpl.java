@@ -421,17 +421,30 @@ public class UserServiceImpl implements UserService {
 
           userDao.editUser(userMap);
           personalInfoDao.editPersonalInfo(personalInfoMap);
-
-          // Activitylog
-          ActivityLogInput activityLogInput = new ActivityLogInput();
-
-          activityLogInput.setEmp_id(emp_id); // current logged user dapat
-          activityLogInput.setLog_desc("Edited '" + user.getUsername() + "' account.");
-
+          
           Long currentTimeMillis = System.currentTimeMillis();
-          // add the activity log
-          activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-          activityLogDao.addActivityLog(activityLogInput);
+
+          if (!userBodyChecker.getUsername().equals(accountBody.getUsername())) {
+            // Activitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+            activityLogInput.setLog_desc("Edited '" + userBodyChecker.getUsername() + "' to '" + accountBody.getUsername() + "' account.");
+
+            // add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+          } else {
+            // Activitylog
+            ActivityLogInput activityLogInput = new ActivityLogInput();
+  
+            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+            activityLogInput.setLog_desc("Edited '" + accountBody.getUsername() + "' account.");
+  
+            // add the activity log
+            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+            activityLogDao.addActivityLog(activityLogInput);
+          }
 
           
           List<String> removedNames = new ArrayList<>();
@@ -769,8 +782,12 @@ public class UserServiceImpl implements UserService {
               if (!new_password.equals(confirm_new_password)) {
                 return ResponseEntity.badRequest().body("New password and confirm password do not match");
               } else {
-                userDao.changePassword(user_id, passEnc.encode(new_password));
-                return ResponseEntity.ok("Password Changed Successfully.");
+                if(passEnc.matches(new_password, user.getPassword())) {
+                  return ResponseEntity.badRequest().body("Old password, please choose another one.");
+                } else {
+                  userDao.changePassword(user_id, passEnc.encode(new_password));
+                  return ResponseEntity.ok("Password Changed Successfully.");
+                }
               }
             }
           }

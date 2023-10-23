@@ -88,8 +88,6 @@ public class AuthController {
 
             UserInfoOutput currentLoggedUser = userDao.getUserById(authUser.getBody().getUserOutput().getEmp_id());
 
-            System.out.println(currentLoggedUser.getImg_src());
-
             authResponse.put("status", "active");
             authResponse.put("username", currentLoggedUser.getUsername());
             authResponse.put("id", currentLoggedUser.getEmp_id());

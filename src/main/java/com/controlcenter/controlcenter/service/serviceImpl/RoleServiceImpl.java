@@ -91,18 +91,29 @@ public class RoleServiceImpl implements RoleService {
               paramMap.put("role", role);
 
               roleDao.editRoleInfo(paramMap);
-  
-              // Activitylog
-              ActivityLogInput activityLogInput = new ActivityLogInput();
-
-              activityLogInput.setEmp_id(emp_id); // current logged user dapat
-              activityLogInput.setLog_desc("Edited '" + role.getTitle() + "' role.");
-
               Long currentTimeMillis = System.currentTimeMillis();
-              // add the activity log
-              activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-              activityLogDao.addActivityLog(activityLogInput);
-            
+
+              if (!data.getTitle().equals(role.getTitle())) {
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
+
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                activityLogInput.setLog_desc("Edited '" + data.getTitle() + "' to '" + role.getTitle() + "' role.");
+
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+              } else {
+                // Activitylog
+                ActivityLogInput activityLogInput = new ActivityLogInput();
+  
+                activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                activityLogInput.setLog_desc("Edited '" + role.getTitle() + "' role.");
+  
+                // add the activity log
+                activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                activityLogDao.addActivityLog(activityLogInput);
+              }
               return  ResponseEntity.ok().body("Edited Role '" + role.getTitle() + "' successfully");
           } else if(!role.getRole_sh_name().equals(data.getRole_sh_name())) {
               Map<String, Object> paramMap = new HashMap<>();
@@ -122,7 +133,7 @@ public class RoleServiceImpl implements RoleService {
               activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
               activityLogDao.addActivityLog(activityLogInput);
             
-              return  ResponseEntity.ok().body("Edited a Short Name  '"+ role.getRole_sh_name() +"' of the Role '"+  role.getTitle() + "' successfully");
+              return  ResponseEntity.ok().body("Edited a short name  '"+ role.getRole_sh_name() +"' of the Role '"+  role.getTitle() + "' successfully");
           } else {
               Map<String, Object> paramMap = new HashMap<>();
               paramMap.put("id", id);
@@ -143,11 +154,7 @@ public class RoleServiceImpl implements RoleService {
             
               return  ResponseEntity.ok().body("Edited a user Level  '"+ role.getRole_user_level() +"' of the Role '"+  role.getTitle() + "' successfully");
           }
-          
         }
-
-      
-        
       }
     } else {
     return  ResponseEntity.badRequest().body("Role with the ID " + id + " cannot be found.");
