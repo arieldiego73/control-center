@@ -86,16 +86,18 @@ public class SectionServiceImpl implements SectionService {
 
                         sectionDao.editSectionInfo(paramMap);
 
-                        // Avtivitylog
-                        ActivityLogInput activityLogInput = new ActivityLogInput();
+                        if (!data.getSection_name().equals(section.getSection_name())) {
+                            // Avtivitylog
+                            ActivityLogInput activityLogInput = new ActivityLogInput();
 
-                        activityLogInput.setEmp_id(emp_id); // current logged user dapat
-                        activityLogInput.setLog_desc("Edited '" + section.getSection_name() + "' department.");
+                            activityLogInput.setEmp_id(emp_id); // current logged user dapat
+                            activityLogInput.setLog_desc("Edited '" + data.getSection_name() + "' to '" + section.getSection_name() + "' department.");
 
-                        Long currentTimeMillis = System.currentTimeMillis();
-                        // add the activity log
-                        activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
-                        activityLogDao.addActivityLog(activityLogInput);
+                            Long currentTimeMillis = System.currentTimeMillis();
+                            // add the activity log
+                            activityLogInput.setLog_date(timeFormatter.formatTime(currentTimeMillis));
+                            activityLogDao.addActivityLog(activityLogInput);
+                        }
 
                         return ResponseEntity.ok().body("Edited '" + section.getSection_name() + "' successfully.");
                     } else if (!section.getSection_sh_name().equals(data.getSection_sh_name())){
